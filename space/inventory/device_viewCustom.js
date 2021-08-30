@@ -44,7 +44,7 @@
       }
     }
     //タブメニュー作成
-    tabMenu('tab_dev', ['在庫情報','原価情報']);
+    tabMenu('tab_inv', ['在庫情報','原価情報']);
     //タブ切り替え表示設定
      $('.tabMenu a').on('click', function(){
         var idName = $(this).attr('href');//タブ内のリンク名を取得  
