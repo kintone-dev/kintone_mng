@@ -30,7 +30,7 @@
     ];
   kintone.events.on(events_aType_show, function(event){
     var aType=event.record.application_type.value;
-    if(aType=='故障交換'){
+    if(aType.match(/故障交換/)){
       setFieldShown('device_info', false);
       setFieldShown('failure_sNum', true);
       setFieldShown('replacement_sNum', true);
@@ -45,7 +45,7 @@
   });
   kintone.events.on('app.record.create.change.application_type', function(event){
     var aType=event.record.application_type.value;
-    if(aType=='故障交換'){
+    if(aType.match(/故障交換/)){
       setFieldShown('device_info', false);
       setFieldShown('failure_sNum', true);
       setFieldShown('replacement_sNum', true);
