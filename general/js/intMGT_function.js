@@ -17,7 +17,7 @@ var sysid={
 		space_id: 19,
 		app_id:{
 			report: 112,
-			shipment: 113,
+			shipment:153,
 			device: 19,
 			unit: 21,
 			sNum: 149,
