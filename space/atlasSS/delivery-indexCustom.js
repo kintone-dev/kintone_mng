@@ -3,7 +3,6 @@
   kintone.events.on('app.record.index.show', function(event) {
     var del_records=setBtn_index('btn_del_records', '処理済みデータ削除');
     var sync_kintone=setBtn_index('btn_sync_kintone', '内部連携');
-    console.log(sysid.ASS.app.shipment);
     $('#'+sync_kintone.id).on('click', function(){
       var getReqBody={
         'app': kintone.app.getId(),
