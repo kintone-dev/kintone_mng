@@ -25,8 +25,6 @@
   });
   
   kintone.events.on(['app.record.create.show','app.record.detail.show','app.record.edit.show'],function(event){
-    //event.record.BMC.disabled=false;
-    //event.record.RRMC.disabled=false;
     event.record.prj_aNum.disabled=true;
     
     setFieldShown('bType', false);

@@ -11,11 +11,7 @@
     'app.record.edit.show',
     'app.record.create.show'
   ];
-  kintone.events.on(events_ced, function(event) {
-    //tmp
-    //setFieldShown('iCode', false);
-    
-    
+  kintone.events.on(events_ced, function(event) {    
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     //sti: subTable i
     for (var sti in event.record.hStockList.value){
@@ -74,7 +70,6 @@
       event.record.mImg.disabled = false;
       event.record.mCode.disabled = false;
       event.record.endservice.disabled = false;
-      // event.record.mVendor.disabled = false;
       event.record.iCode.disabled = false;
       event.record.mMemo.disabled = false;
     }else{
@@ -88,7 +83,6 @@
       event.record.mMemo.disabled = true;
       event.record.endservice.disabled = true;
     }
-    // console.log(event);
     return event;
   });
 

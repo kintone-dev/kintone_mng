@@ -19,7 +19,6 @@
       event.record.mStockList.value[sti].value.mCode.disabled = true;
       event.record.mStockList.value[sti].value.mStock.disabled = true;
     }
-    //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
 
     return event;
   });

@@ -14,7 +14,6 @@
         window.close();
     }, false);
     //反映したあとはsessionStorageの中身を削除
-    //sessionStorage.clear();
     sessionStorage.removeItem('prj_aNum');
     sessionStorage.removeItem('shipType');
     sessionStorage.removeItem('tarDate');
