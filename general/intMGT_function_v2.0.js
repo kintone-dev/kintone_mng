@@ -71,10 +71,10 @@ function setBtn_header(btnID, btnValue){
 }
 // 一覧画面のヘッダースペースにボタン設置
 function setBtn_index(btnID, btnValue){
-	var indexBtn = document.createElement('button');
-	indexBtn.id = btnID;
+	var indexBtn=document.createElement('button');
+	indexBtn.id=btnID;
 	indexBtn.classList.add('jsbtn_header');
-	indexBtn.innerText = btnValue;
+	indexBtn.innerText=btnValue;
 	indexBtn.addEventListener("mouseover", function(event){ indexBtn.classList.add('jsbtn_over'); }, false);
 	indexBtn.addEventListener("mouseleave", function(event){ indexBtn.classList.remove('jsbtn_over'); }, false);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(indexBtn);
@@ -97,7 +97,7 @@ function tabMenu(tabID, tabList){
 	}kintone.app.record.getSpaceElement(tabID).appendChild(tMenu); //指定スペースフィールドにtabメニュー追加
 	$('.'+tabID+' li:first-of-type').addClass("active"); //デフォルトで最初のli要素をアクティブ状態にする
 	$('.'+tabID+' a').on('click', function(){ //他のメニュークリック時アクション
-		var parentElm = $(this).parent(); //クリックされた要素を取得
+		var parentElm=$(this).parent(); //クリックされた要素を取得
 		$('.'+tabID+' li').removeClass("active"); //li要素のCSS設定を削除
 		$(parentElm).addClass("active"); //クリックした要素に改めてCSS設定を付与
 		return false;
