@@ -5,8 +5,8 @@ var sysid={
 		space_id: 11,
 		app_id:{
 			project: 133,
-			sNum: 115,
 			shipment: 113,
+			sNum: 115,
 			unit: 81,
 			device: 77,
 			installation: 76,
