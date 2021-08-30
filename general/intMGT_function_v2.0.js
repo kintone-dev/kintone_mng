@@ -9,7 +9,8 @@ var sysid={
 			shipment: 113,
 			project: 107,
 			sNum: 115,
-			device: 77
+			device: 77,
+			test: 1
 		}
 	},
 	// Inventory
