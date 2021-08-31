@@ -63,7 +63,6 @@
     event.record.deviceCost.disabled=true;
     event.record.importExpenses.disabled=true;
     event.record.developCost.disabled=true;
-    event.record.mTotalStockCost.disabled=true;
     return event;
   });
   
