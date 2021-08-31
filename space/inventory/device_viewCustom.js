@@ -15,8 +15,9 @@
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     //sti: subTable i
     for (var sti in event.record.hStockList.value){
-      event.record.hStockList.value[sti].value.hCode.disabled = true;
-      event.record.hStockList.value[sti].value.hStock.disabled = true;
+      event.record.hStockList.value[sti].value.hCode.disabled=true;
+      event.record.hStockList.value[sti].value.hName.disabled=true;
+      event.record.hStockList.value[sti].value.hStock.disabled=true;
     }
     //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     
