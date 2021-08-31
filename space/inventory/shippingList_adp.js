@@ -11,7 +11,7 @@
       var shipTable=event.record.deviceList.value;
       var shipInstName=event.record.instName.value;
       var shipShipment=event.record.shipment.value;
-
+      
       for (var i in shipTable){
         var ship_mcode=shipTable[i].value.mCode.value;
         var ship_shipnum=shipTable[i].value.shipNum.value;
@@ -31,25 +31,19 @@
           sNumInfo.records.push(snRecord);
         }
       }
-
+      
       if(shipShipment === '矢倉倉庫'){
         var setSNinfo= new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumInfo);
-        return setSNinfo.then(function(resp){
-          alert('post success');
-        }).catch(function(error){
-          alert('post error'+error.message);
-          console.log(error)
-        });
       }else{
         var setSNinfo= new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
-        return setSNinfo.then(function(resp){
-          alert('update success');
-        }).catch(function(error){
-          alert('update error'+error.message);
-          console.log(error)
-        });
       }
-      
+
+      return setSNinfo.then(function(resp){
+        alert('update success');
+      }).catch(function(error){
+        alert('update error'+error.message);
+        console.log(error)
+      });
     }
   });
 })();
