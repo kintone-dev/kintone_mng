@@ -34,6 +34,7 @@
         //kintone.app.record.set(eRecord);
       }
       //kintone.app.record.set(eRecord);
+      return event;
     }).catch(function(error){
       console.log(error);
       alert('拠点データを取得できませんでした。'+error.message);
