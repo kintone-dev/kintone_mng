@@ -137,7 +137,8 @@
           'mName': {'value': mname},
           'mCode': {'value': mcode},
           'mType': {'value': mtype},
-          'mVendor': {'value': mvendor}
+          'mVendor': {'value': mvendor},
+          'mNickname': {'value': mnickname}
         }
       };
       var supResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newSUPinfo);
@@ -222,7 +223,8 @@
         'record': {
           'mName': {'value': mname},
           'mType': {'value': mtype},
-          'mVendor': {'value': mvendor}
+          'mVendor': {'value': mvendor},
+          'mNickname': {'value': mnickname}
         }
       };
       var supResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updSUPinfo);
