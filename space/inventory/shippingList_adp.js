@@ -5,11 +5,13 @@
     if(nStatus==="集荷待ち"){
       
       //パラメータsNumInfoにjsonデータ作成
-      var sNumInfo={'app': sysID.DIPM.app.sn, 'records': []};
+      var sNumInfo={'app': sysid.DEV.app.sNum, 'records': []};
       
       var shipTable=event.record.deviceList.value;
       var shipInstName=event.record.instName.value;
       var shipShipment=event.record.shipment.value;
+
+      console.log(shipShipment);
       
       for (var i in shipTable){
         var ship_mcode=shipTable[i].value.mCode.value;
