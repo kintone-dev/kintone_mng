@@ -145,7 +145,7 @@
           setFieldShown('aboutDelivery', false);
           break;
       }
-    }tabSwitch('#品目情報');//tab初期表示設定
+    }tabSwitch('#出荷情報');//tab初期表示設定
     //タブメニュー作成
     tabMenu('tab_ship', ['出荷情報','宛先情報','品目情報','輸送情報']);
     //タブ切り替え表示設定
