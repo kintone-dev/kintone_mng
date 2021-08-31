@@ -16,11 +16,8 @@
       event.record.mStockList.value[sti].value.mCode.disabled = true;
       event.record.mStockList.value[sti].value.mStock.disabled = true;
     }
-
     return event;
   });
-  
-
   
   kintone.events.on('app.record.edit.show',function(event){
     // 編集画面は、全フィールド編集不可で表示する
@@ -28,7 +25,7 @@
     event.record.hType.disabled = true;
     event.record.hName.disabled = true;
     event.record.hCharge.disabled = true;
-    event.record.hZipcode.disabled = true;
+    event.record.zipcode.disabled = true;
     event.record.hPhoneNum.disabled = true;
     event.record.hAddress.disabled = true;
     event.record.hBuildingName.disabled = true;
@@ -46,7 +43,7 @@
     event.record.hType.disabled = false;
     event.record.hName.disabled = false;
     event.record.hCharge.disabled = false;
-    event.record.hZipcode.disabled = false;
+    event.record.zipcode.disabled = false;
     event.record.hPhoneNum.disabled = false;
     event.record.hAddress.disabled = false;
     event.record.hBuildingName.disabled = false;
@@ -56,7 +53,7 @@
     event.record.hType.disabled = true;
     event.record.hName.disabled = true;
     event.record.hCharge.disabled = true;
-    event.record.hZipcode.disabled = true;
+    event.record.zipcode.disabled = true;
     event.record.hPhoneNum.disabled = true;
     event.record.hAddress.disabled = true;
     event.record.hBuildingName.disabled = true;
