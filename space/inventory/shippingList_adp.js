@@ -4,9 +4,9 @@
   var getSNUMdata=api_getRecords(sysid.DEV.app.sNum);
 
   kintone.events.on('app.record.detail.show', function(event){//'app.record.detail.process.proceed',function(event){
-    var nStatus = event.nextStatus.value;
+    //var nStatus = event.nextStatus.value;
     
-    if(nStatus==="集荷待ち"){
+    //if(nStatus==="集荷待ち"){
       //パラメータsNumInfoにjsonデータ作成
       var sNumInfo={
         'app': sysid.DEV.app.sNum, 
@@ -79,6 +79,6 @@
         alert('update error'+error.message);
         console.log(error)
       });
-    }
+    //}
   });
 })();
