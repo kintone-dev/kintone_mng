@@ -11,8 +11,7 @@
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
       //最初の空白の1行目を削除
-      // event.record.mStockList.value.splice(1, 1);
-      console.log(tarRecords);
+      event.record.mStockList.value.splice(0, 1);
       //上から行を追加実行（参考：http://www.htmq.com/js/array_reverse.shtml）
       //aml: auto model list
       for(var aml in tarRecords){
@@ -42,7 +41,7 @@
   });
   
 
-
+  
   //新規保存時アクション
   kintone.events.on('app.record.create.submit.success', function(event) {
     //転送用データ取得
