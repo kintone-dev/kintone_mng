@@ -60,16 +60,19 @@
           
           for(var y in sNums){
             var updateKey={
+              'updateKey': {
                 'field': 'sNum',
-                'value': sNums[y]     
+                'value': sNums[y]
+              }
             }
+      
             var snRecord={
               'sNum':{'value':sNums[y]},
               'mCode':{'value':ship_mcode},
               'instName':{'value':shipInstName},
               'shipment':{'value':shipShipment}
             };
-            sNumInfo.push(updateKey);
+            sNumInfo.records.push(updateKey);
             sNumInfo.records.push(snRecord);
           }
         }
