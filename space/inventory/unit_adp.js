@@ -86,4 +86,47 @@
       alert('品目データ更新失敗'+error.message);
     });
   });
+
+    //編集保存時アクション
+    kintone.events.on('app.record.edit.submit.success', function(event) {
+      //転送用データ取得
+      var hcode=event.record.hCode.value;
+      var hname=event.record.hName.value;
+  
+      //品目情報を拠点リストに転送
+      getDEVdata.then(function(resp){
+        var tarRecords=resp.records;
+        
+        //商品管理アプリの拠点リストに上書きするデータ作成
+        var NewPrdInfo={
+          'app': sysid.INV.app_id.device,
+          'records':[]
+        };
+        //shd: set hub data
+        for (var shd in tarRecords){
+          var records_set={
+            'id': tarRecords[shd].$id.value,
+            'record': {
+              'hStockList': tarRecords[shd].hStockList
+            }
+          };
+          var addRowData={
+            'value': {
+              'hCode': {'value': hcode},
+              'hName': {'value': hname}
+            }
+          };
+          records_set.record.hStockList.value.push(addRowData);
+          NewPrdInfo.records.push(records_set);
+        }
+        return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
+      }).then(function(resp){
+        //転送成功
+        alert('put data to device is success');
+      }).catch(function(error){
+        //event error
+        console.log(error);
+        alert('品目データ更新失敗'+error.message);
+      });
+    });  
 })();
