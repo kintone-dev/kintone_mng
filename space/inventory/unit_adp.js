@@ -6,7 +6,9 @@
   //新規拠点作成画面表示アクション
   kintone.events.on('app.record.create.show', function(event) {
     //品目一覧を取得し、品目在庫一覧に格納
-    return getDEVdata.then(function(resp){
+    getDEVdata.then(function(resp){
+      var eRecord=kintone.app.record.get();
+      console.log(eRecord);
       //反転して格納
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
