@@ -173,3 +173,9 @@ var pw_generator=function (len){
 	}
 	return pw;
 };
+
+/* その他 */
+// 全レコード呼び出し
+function api_getRecords(appID){
+	return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', { 'app': appID, 'query': null });
+}

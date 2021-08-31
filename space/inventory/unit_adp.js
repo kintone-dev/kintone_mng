@@ -2,11 +2,11 @@
   'use strict';
   //商品管理アプリのレコード情報取得
   var getDEVrecord={
-    'app': sysID.DIPM.app.dev,
+    'app': sysid.INV.app_id.device,
     'query': null
   };
   //商品情報取得＆繰り返し利用
-  var getDEVdata=kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getDEVrecord);
+  var getDEVdata=api_getRecords(sysid.INV.app_id.device);//kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getDEVrecord);
   
   //新規拠点作成じアクション
   kintone.events.on('app.record.create.show', function(event) {
