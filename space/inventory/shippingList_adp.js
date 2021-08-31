@@ -74,10 +74,9 @@
       }
       
       return setSNinfo.then(function(resp){
-        alert('update success');
+        console.log(resp);
       }).catch(function(error){
-        alert('update error'+error.message);
-        console.log(error)
+        console.error(error)
       });
     //}
   });
