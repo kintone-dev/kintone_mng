@@ -18,7 +18,7 @@
       event.record.hStockList.value[sti].value.hCode.disabled = true;
       event.record.hStockList.value[sti].value.hStock.disabled = true;
     }
-    [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
+    //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     
     //tabメニューの選択肢による表示設定
     function tabSwitch(onSelect){
