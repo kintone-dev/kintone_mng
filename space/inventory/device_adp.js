@@ -15,7 +15,7 @@
       eRecord.record.hStockList.value.splice(0, 1);
       //ahl: auto hub list
       for(var ahl in tarRecords){
-        event.record.hStockList.value.push({
+        eRecord.record.hStockList.value.push({
           value: {
             hCode: {
               value: tarRecords[ahl].hCode.value,
