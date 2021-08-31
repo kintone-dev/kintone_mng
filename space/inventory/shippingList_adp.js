@@ -3,8 +3,7 @@
   //拠点情報取得＆繰り返し利用
   var getSNUMdata=api_getRecords(sysid.DEV.app.sNum);
 
-  kintone.events.on('app.record.detail.process.proceed',function(event){
-    var tarRecords=resp.records;
+  kintone.events.on('app.record.detail.show', function(event){//'app.record.detail.process.proceed',function(event){
     var nStatus = event.nextStatus.value;
     
     if(nStatus==="集荷待ち"){
