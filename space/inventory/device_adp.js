@@ -52,6 +52,7 @@
     var mcode=event.record.mCode.value;
     var mtype=event.record.mType.value;
     var mvendor=event.record.mVendor.value;
+    var mnickname=event.record.mNickname.value;
     
     //品目情報を拠点リストに転送
     getUNITdata.then(function(resp){
@@ -96,7 +97,8 @@
         'mName': {'value': mname},
         'mCode': {'value': mcode},
         'mType': {'value': mtype},
-        'mVendor': {'value': mvendor}
+        'mVendor': {'value': mvendor},
+        'mNickname': {'value': mnickname}
       }
     };
     var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newPMinfo);
@@ -117,8 +119,7 @@
           'mName': {'value': mname},
           'mCode': {'value': mcode},
           'mType': {'value': mtype},
-          'mVendor': {'value': mvendor},
-          'mNickname': {'value': mnickname}
+          'mVendor': {'value': mvendor}
         }
       };
       var assResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newASSinfo);
@@ -164,6 +165,7 @@
     var mname=event.record.mName.value;
     var mtype=event.record.mType.value;
     var mvendor=event.record.mVendor.value;
+    var mnickname=event.record.mNickname.value;
 
     //案件管理にデータ転送
     var newPMinfo = {
@@ -174,7 +176,6 @@
       },
       'record': {
         'mName': {'value': mname},
-        'mCode': {'value': mcode},
         'mType': {'value': mtype},
         'mVendor': {'value': mvendor},
         'mNickname': {'value': mnickname}
