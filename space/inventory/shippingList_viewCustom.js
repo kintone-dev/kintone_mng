@@ -61,24 +61,10 @@
           setFieldShown('postage', false);
           setFieldShown('tariff', false);
           break;
-        case '#その他原価':
-          setFieldShown('dstSelection', false);
-          setFieldShown('Contractor', false);
-          setFieldShown('instName', false);
-          setFieldShown('zipcode', false);
-          setFieldShown('phoneNum', false);
-          setFieldShown('address', false);
-          setFieldShown('buildingName', false);
-          setFieldShown('corpName', false);
-          setFieldShown('Receiver', false);
-          setFieldShown('deviceList', false);
-          setFieldShown('postage', true);
-          setFieldShown('tariff', true);
-          break;
       }
     }
     //タブメニュー作成
-    tabMenu('tab_ship', ['品目情報','宛先情報','その他原価']);
+    tabMenu('tab_ship', ['品目情報','宛先情報']);
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function(){
       var idName = $(this).attr('href');//タブ内のリンク名を取得  
