@@ -12,7 +12,7 @@
   kintone.events.on('app.record.create.show', function(event){
     //拠点データを取得し、拠点在庫一覧に格納
     
-    return getUNITdata.then(function(resp){
+    getUNITdata.then(function(resp){
       //反転して格納
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
@@ -43,6 +43,7 @@
       console.log(error);
       alert('拠点データを取得できませんでした。'+error.message);
     });
+    return event;
   });
   
   //新規保存時アクション
