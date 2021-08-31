@@ -169,7 +169,7 @@
     var mnickname=event.record.mNickname.value;
 
     //案件管理にデータ転送
-    var newPMinfo = {
+    var updPMinfo = {
       'app': sysid.PM.app_id.item,
       'updateKey': {
         'field': 'mCode',
@@ -182,7 +182,7 @@
         'mNickname': {'value': mnickname}
       }
     };
-    var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', newPMinfo);
+    var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updPMinfo);
     //更新結果
     pmResult.then(function(resp){
       alert('PM success');
