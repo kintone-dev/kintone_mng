@@ -60,7 +60,7 @@
           
           for(var y in sNums){      
             var snRecord={
-              'id': sNums[y].$id.value,
+              'id': kintone.app.record.getId(),
               'record':{
                 'sNum':{'value':sNums[y]},
                 'mCode':{'value':ship_mcode},
