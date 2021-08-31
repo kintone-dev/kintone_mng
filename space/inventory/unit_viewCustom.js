@@ -14,6 +14,7 @@
     //sti: subTable i
     for (var sti in event.record.mStockList.value){
       event.record.mStockList.value[sti].value.mCode.disabled = true;
+      event.record.mStockList.value[sti].value.mName.disabled = true;
       event.record.mStockList.value[sti].value.mStock.disabled = true;
     }
     return event;
@@ -27,9 +28,15 @@
     event.record.hCharge.disabled = true;
     event.record.zipcode.disabled = true;
     event.record.phoneNum.disabled = true;
+    event.record.prefectures.disabled = true;
+    event.record.city.disabled = true;
+    event.record.town.disabled = true;
     event.record.address.disabled = true;
     event.record.hBuildingName.disabled = true;
     event.record.receiver.disabled = true;
+    
+    
+    
     return event;
   });
 
@@ -45,6 +52,9 @@
     event.record.hCharge.disabled = false;
     event.record.zipcode.disabled = false;
     event.record.phoneNum.disabled = false;
+    event.record.prefectures.disabled = false;
+    event.record.city.disabled = false;
+    event.record.town.disabled = false;
     event.record.address.disabled = false;
     event.record.hBuildingName.disabled = false;
     event.record.receiver.disabled = false;
@@ -55,6 +65,9 @@
     event.record.hCharge.disabled = true;
     event.record.zipcode.disabled = true;
     event.record.phoneNum.disabled = true;
+    event.record.prefectures.disabled = true;
+    event.record.city.disabled = true;
+    event.record.town.disabled = true;
     event.record.address.disabled = true;
     event.record.hBuildingName.disabled = true;
     event.record.receiver.disabled = true;
