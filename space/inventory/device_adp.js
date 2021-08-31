@@ -117,7 +117,8 @@
           'mName': {'value': mname},
           'mCode': {'value': mcode},
           'mType': {'value': mtype},
-          'mVendor': {'value': mvendor}
+          'mVendor': {'value': mvendor},
+          'mNickname': {'value': mnickname}
         }
       };
       var assResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newASSinfo);
