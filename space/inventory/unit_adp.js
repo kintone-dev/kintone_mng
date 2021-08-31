@@ -114,6 +114,7 @@
           },    
           'records':[]
         };
+
         //shd: set hub data
         for (var shd in tarRecords){
           var records_set={
@@ -131,10 +132,11 @@
           records_set.record.hStockList.value.push(addRowData);
           updPrdInfo.records.push(records_set);
         }
-        return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', updPrdInfo);
+        // return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', updPrdInfo);
       }).then(function(resp){
         //転送成功
         alert('put data to device is success');
+        console.log(updPrdInfo)
       }).catch(function(error){
         //event error
         console.log(error);
