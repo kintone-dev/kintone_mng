@@ -58,7 +58,6 @@
                 'value':sNums[y]
               },
               'record':{
-                'sNum':{'value':sNums[y]},
                 'mCode':{'value':ship_mcode},
                 'instName':{'value':shipInstName},
                 'shipment':{'value':shipShipment}
