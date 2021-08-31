@@ -4,12 +4,10 @@
   'use strict';
 
   var events_ced=[
-    'mobile.app.record.create.show',
     'mobile.app.record.edit.show',
     'mobile.app.record.detail.show',
     'app.record.detail.show',
-    'app.record.edit.show',
-    'app.record.create.show'
+    'app.record.edit.show'
   ];
   kintone.events.on(events_ced, function(event) {    
     
