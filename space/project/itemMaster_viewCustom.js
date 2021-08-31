@@ -17,12 +17,14 @@
     $('.gaia-argoui-app-menu-add').remove();
     $('.recordlist-edit-gaia').remove();
     $('.recordlist-remove-gaia').remove();
+    $('.gaia-argoui-app-menu-edit').remove();
 
     return event;
   });
 
-
   kintone.events.on(['app.record.edit.show'], function(event){
+    $('.gaia-argoui-app-menu-edit').remove();
+    
     event.record.mName.disabled = true;
     event.record.mCode.disabled = true;
     event.record.mNickname.disabled = true;
