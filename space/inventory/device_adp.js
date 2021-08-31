@@ -167,15 +167,20 @@
     //案件管理にデータ転送
     var newPMinfo = {
       'app': sysid.PM.app_id.item,
+      'updateKey': {
+        'field': 'mCode',
+        'value': before_mCode
+      },
       'record': {
         'mName': {'value': mname},
         'mCode': {'value': mcode},
         'mType': {'value': mtype},
-        'mVendor': {'value': mvendor}
+        'mVendor': {'value': mvendor},
+        'mNickname': {'value': mnickname}
       }
     };
-    var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newPMinfo);
-    //転送結果
+    var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', newPMinfo);
+    //更新結果
     pmResult.then(function(resp){
       alert('PM success');
     }).catch(function(error){
