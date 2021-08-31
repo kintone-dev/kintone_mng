@@ -59,7 +59,7 @@
       
       //拠点管理アプリの品目リストに上書きするデータ作成
       var NewPrdInfo={
-        'app': sysID.DIPM.app.unit,
+        'app': sysid.INV.app_id.unit,
         'records':[]
       };
       //spd: set product data
