@@ -5,6 +5,7 @@
     'app': sysID.DIPM.app.unit,
     'query': null
   };
+  console.log(sysID.DIPM.app.unit);
   //拠点情報取得＆繰り返し利用
   var getUNITdata=kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getUNITrecord);
   
