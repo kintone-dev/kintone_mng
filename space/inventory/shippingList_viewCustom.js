@@ -92,7 +92,6 @@
   kintone.events.on('app.record.detail.process.proceed',function(event){
     var nStatus = event.nextStatus.value;
     /*
-    console.log(nStatus)
     if(nStatus === "受領待ち"){
       //作業者取得
       console.log(event.record.作業者)
@@ -105,7 +104,6 @@
         alert('所属組織取得時にエラーが発生しました。'+'\n'+error.message);
       });
     }else{
-      
     }
     */
   });
