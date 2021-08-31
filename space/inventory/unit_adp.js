@@ -7,8 +7,7 @@
   kintone.events.on('app.record.create.show', function(event) {
     //品目一覧を取得し、品目在庫一覧に格納
     getDEVdata.then(function(resp){
-      var eRecord=kintone.app.record.get();
-      console.log(eRecord);
+      kintone.app.record.get();
       //反転して格納
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
