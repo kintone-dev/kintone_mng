@@ -60,7 +60,6 @@
     event.record.mVendor.disabled=true;
     event.record.mNickname.disabled=true;
     event.record.mWarranty.disabled=true;
-    event.record.mMemo.disabled=true;
     event.record.totalStock.disabled=true;
     event.record.mCost.disabled=true;
     event.record.mCostUpdate.disabled=true;
@@ -77,7 +76,6 @@
       event.record.endservice.disabled=false;
       event.record.mNickname.disabled=false;
       event.record.mWarranty.disabled=false;
-      event.record.mMemo.disabled=false;
     }else{
       // チェックボックスがチェックされていない
       event.record.mName.disabled=true;
@@ -86,7 +84,6 @@
       event.record.mVendor.disabled=true;
       event.record.mNickname.disabled=true;
       event.record.mWarranty.disabled=true;
-      event.record.mMemo.disabled=true;
       event.record.endservice.disabled=true;
     }
     return event;
