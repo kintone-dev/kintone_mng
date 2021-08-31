@@ -4,21 +4,15 @@
   'use strict';
 
   var events_ced=[
+    'mobile.app.record.create.show',
     'mobile.app.record.edit.show',
     'mobile.app.record.detail.show',
+    'app.record.create.show',
     'app.record.detail.show',
     'app.record.edit.show'
   ];
   kintone.events.on(events_ced, function(event) {    
     
-    //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
-    //sti: subTable i
-    for (var sti in event.record.hStockList.value){
-      event.record.hStockList.value[sti].value.hCode.disabled=true;
-      event.record.hStockList.value[sti].value.hName.disabled=true;
-      event.record.hStockList.value[sti].value.hStock.disabled=true;
-    }
-    //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     
     //tabメニューの選択肢による表示設定
     function tabSwitch(onSelect){
@@ -53,38 +47,16 @@
     });tabSwitch('#在庫情報');//tab初期表示設定
     return event;
   });
-  kintone.events.on('app.record.create.show', function(event){
-    //tabメニューの選択肢による表示設定
-    function tabSwitch(onSelect){
-      switch(onSelect){
-        case '#在庫情報':
-          setFieldShown('mCost', false);
-          setFieldShown('mCostUpdate', false);
-          setFieldShown('deviceCost', false);
-          setFieldShown('importExpenses', false);
-          setFieldShown('developCost', false);
-          setFieldShown('totalStock', true);
-          setFieldShown('hStockList', true);
-          break;
-        case '#原価情報':
-          setFieldShown('mCost', true);
-          setFieldShown('mCostUpdate', true);
-          setFieldShown('deviceCost', true);
-          setFieldShown('importExpenses', true);
-          setFieldShown('developCost', true);
-          setFieldShown('totalStock', false);
-          setFieldShown('hStockList', false);
-          break;
-      }
+  kintone.events.on(['app.record.edit.show','app.record.detail.show'], function(event){
+    //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
+    //sti: subTable i
+    for (var sti in event.record.hStockList.value){
+      event.record.hStockList.value[sti].value.hCode.disabled=true;
+      event.record.hStockList.value[sti].value.hName.disabled=true;
+      event.record.hStockList.value[sti].value.hStock.disabled=true;
     }
-    //タブメニュー作成
-    tabMenu('tab_inv', ['在庫情報','原価情報']);
-    //タブ切り替え表示設定
-     $('.tabMenu a').on('click', function(){
-        var idName = $(this).attr('href');//タブ内のリンク名を取得  
-        tabSwitch(idName);//tabをクリックした時の表示設定
-        return false;//aタグを無効にする
-    });tabSwitch('#在庫情報');//tab初期表示設定
+    //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
+    
     return event;
   });
   
