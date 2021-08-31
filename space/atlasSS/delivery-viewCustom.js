@@ -30,7 +30,6 @@
     ];
   kintone.events.on(events_aType_show, function(event){
     var aType=event.record.application_type.value;
-    console.log(aType);
     if(aType.match(/故障交換/)){
       setFieldShown('device_info', false);
       setFieldShown('failure_sNum', true);
