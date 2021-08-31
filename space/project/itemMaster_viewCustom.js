@@ -1,6 +1,9 @@
 (function(){
   'use strict';
-  
+
+  $('.gaia-argoui-app-menu-add').remove();
+
+
   kintone.events.on(['app.record.edit.show'], function(event){
     event.record.mName.disabled = true;
     event.record.mCode.disabled = true;
@@ -12,9 +15,4 @@
     return event;
   });
 
-  kintone.events.on(['app.record.index.show'], function(event){
-    $('.gaia-argoui-app-menu-add').remove();
-
-    return event;
-  });
 })();
