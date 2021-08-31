@@ -31,6 +31,9 @@
             }
           }
         });
+        eRecord.record.hStockList.value[ahl].value.hCode.disabled=true;
+        eRecord.record.hStockList.value[ahl].value.hName.disabled=true;
+        eRecord.record.hStockList.value[ahl].value.hStock.disabled=true;
         kintone.app.record.set(eRecord);
       }
       kintone.app.record.set(eRecord);
@@ -38,14 +41,6 @@
       console.log(error);
       alert('拠点データを取得できませんでした。'+error.message);
     });
-    //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
-    //sti: subTable i
-    for (var sti in event.record.hStockList.value){
-      event.record.hStockList.value[sti].value.hCode.disabled=true;
-      event.record.hStockList.value[sti].value.hName.disabled=true;
-      event.record.hStockList.value[sti].value.hStock.disabled=true;
-    }
-    //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     return event;
   });
   
