@@ -61,6 +61,10 @@
     event.record.mNickname.disabled = true;
     event.record.mWarranty.disabled = true;
     event.record.mMemo.disabled = true;
+    event.record.totalStock.disabled = true;
+    event.record.mCost.disabled = true;
+    event.record.mCostUpdate.disabled = true;
+    event.record.mTotalStockCost.disabled = true;
     return event;
   });
   
@@ -99,5 +103,6 @@
     // レコード追加＆詳細閲覧時は「情報編集」フィールドは非表示
     kintone.app.record.setFieldShown('editinfo', false);
     kintone.app.record.setFieldShown('endservice', false);
+    return event;
   })
 })();
