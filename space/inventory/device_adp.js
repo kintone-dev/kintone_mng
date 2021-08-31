@@ -38,6 +38,7 @@
             }
           }
         });
+        kintone.app.record.set(eRecord);
       }
       kintone.app.record.set(eRecord);
     }).catch(function(error){
