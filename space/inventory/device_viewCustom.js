@@ -20,14 +20,18 @@
         case '#在庫情報':
           setFieldShown('mCost', false);
           setFieldShown('mCostUpdate', false);
-          setFieldShown('mTotalStockCost', false);
+          setFieldShown('deviceCost', false);
+          setFieldShown('importExpenses', false);
+          setFieldShown('developCost', false);
           setFieldShown('totalStock', true);
           setFieldShown('hStockList', true);
           break;
         case '#原価情報':
           setFieldShown('mCost', true);
           setFieldShown('mCostUpdate', true);
-          setFieldShown('mTotalStockCost', true);
+          setFieldShown('deviceCost', true);
+          setFieldShown('importExpenses', true);
+          setFieldShown('developCost', true);
           setFieldShown('totalStock', false);
           setFieldShown('hStockList', false);
           break;
@@ -56,6 +60,9 @@
     event.record.totalStock.disabled=true;
     event.record.mCost.disabled=true;
     event.record.mCostUpdate.disabled=true;
+    event.record.deviceCost.disabled=true;
+    event.record.importExpenses.disabled=true;
+    event.record.developCost.disabled=true;
     event.record.mTotalStockCost.disabled=true;
     return event;
   });
