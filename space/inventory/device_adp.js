@@ -6,13 +6,13 @@
   //新規品目作成時アクション
   kintone.events.on('app.record.create.show', function(event){
     //拠点データを取得し、拠点在庫一覧に格納
-    return getUNITdata.then(function(resp){
-      //var eRecord=kintone.app.record.get();
+    getUNITdata.then(function(resp){
+      var eRecord=kintone.app.record.get();
       //反転して格納
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
       //最初の空白の1行目を削除
-      event.record.hStockList.value.splice(0, 1);
+      eRecord.record.hStockList.value.splice(0, 1);
       //ahl: auto hub list
       for(var ahl in tarRecords){
         event.record.hStockList.value.push({
@@ -31,10 +31,9 @@
             }
           }
         });
-        //kintone.app.record.set(eRecord);
+        kintone.app.record.set(eRecord);
       }
-      //kintone.app.record.set(eRecord);
-      return event;
+      kintone.app.record.set(eRecord);
     }).catch(function(error){
       console.log(error);
       alert('拠点データを取得できませんでした。'+error.message);
