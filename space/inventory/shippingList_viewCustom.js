@@ -87,6 +87,7 @@
   //納品依頼に進めた場合、作業者から組織情報を取得し、「出荷ロケーション」に格納
   kintone.events.on('app.record.detail.process.proceed',function(event){
     var nStatus = event.nextStatus.value;
+    console.log(nStatus)
     if(nStatus==="受領待ち"){
       //作業者取得
       console.log(event.record.作業者)
@@ -98,6 +99,8 @@
       }).catch(function(error){
         alert('所属組織取得時にエラーが発生しました。'+'\n'+error.message);
       });
+    }else{
+      
     }
   });
   //輸送業者を「担当手渡し」にした場合、追跡番号を「none」にする
