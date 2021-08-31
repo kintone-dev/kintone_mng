@@ -157,9 +157,7 @@
   var before_mCode;
   kintone.events.on('app.record.edit.show', function(event){
     before_mCode=event.record.mCode.value;
-    var endservice=event.record.endservice.value;
-    console.log(endservice);
-    
+
     return event;
   });
   
@@ -172,8 +170,6 @@
     var mvendor=event.record.mVendor.value;
     var mnickname=event.record.mNickname.value;
     var endservice=event.record.endservice.value;
-
-
 
     //案件管理にデータ転送
     var updPMinfo = {
@@ -210,7 +206,9 @@
         'record': {
           'mName': {'value': mname},
           'mType': {'value': mtype},
-          'mVendor': {'value': mvendor}
+          'mVendor': {'value': mvendor},
+          'mNickname': {'value': mnickname},
+          'endservice': {'value': endservice}  
         }
       };
       var assResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updASSinfo);
@@ -232,7 +230,8 @@
           'mName': {'value': mname},
           'mType': {'value': mtype},
           'mVendor': {'value': mvendor},
-          'mNickname': {'value': mnickname}
+          'mNickname': {'value': mnickname},
+          'endservice': {'value': endservice}  
         }
       };
       var supResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updSUPinfo);
