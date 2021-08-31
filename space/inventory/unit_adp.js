@@ -31,6 +31,7 @@
             }
           }
         });
+        kintone.app.record.set(event);
       }
       return event;
     }).catch(function(error){
