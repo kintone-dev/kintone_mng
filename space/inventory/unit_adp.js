@@ -87,6 +87,14 @@
     });
   });
 
+    //編集詳細閲覧時アクション
+    var before_hCode;
+    kintone.events.on('app.record.edit.show', function(event){
+      before_hCode=event.record.hCode.value;
+  
+      return event;
+    });  
+
     //編集保存時アクション
     kintone.events.on('app.record.edit.submit.success', function(event) {
       //転送用データ取得
@@ -98,8 +106,12 @@
         var tarRecords=resp.records;
         
         //商品管理アプリの拠点リストに上書きするデータ作成
-        var NewPrdInfo={
+        var updPrdInfo={
           'app': sysid.INV.app_id.device,
+          'updateKey': {
+            'field': 'hCode',
+            'value': before_hCode
+          },    
           'records':[]
         };
         //shd: set hub data
@@ -117,9 +129,9 @@
             }
           };
           records_set.record.hStockList.value.push(addRowData);
-          NewPrdInfo.records.push(records_set);
+          updPrdInfo.records.push(records_set);
         }
-        return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
+        return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', updPrdInfo);
       }).then(function(resp){
         //転送成功
         alert('put data to device is success');
