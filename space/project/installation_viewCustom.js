@@ -2,7 +2,8 @@
   'use strict';
   kintone.events.on('app.record.detail.show', function(event){
     var test_tjason=event.record.sys_address.value;
-    console.log(JSON.parse(test_tjason));
+    var tobj=JSON.parse(test_tjason);
+    console.log(tobj.address);
   })
   kintone.events.on(['app.record.create.change.editMC','app.record.edit.change.editMC','app.record.create.show','app.record.edit.show'], function(event) {
     var editmc=event.record.editMC.value;
