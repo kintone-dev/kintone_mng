@@ -71,12 +71,6 @@
     event.record.mVendor.disabled=true;
     event.record.mNickname.disabled=true;
     event.record.mWarranty.disabled=true;
-    event.record.totalStock.disabled=true;
-    event.record.mCost.disabled=true;
-    event.record.mCostUpdate.disabled=true;
-    event.record.deviceCost.disabled=true;
-    event.record.importExpenses.disabled=true;
-    event.record.developCost.disabled=true;
     return event;
   });
   
