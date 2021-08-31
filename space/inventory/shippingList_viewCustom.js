@@ -43,9 +43,22 @@
           setFieldShown('buildingName', true);
           setFieldShown('corpName', true);
           setFieldShown('Receiver', true);
+
           setFieldShown('deviceList', false);
-          setFieldShown('postage', false);
-          setFieldShown('tariff', false);
+          //setFieldShown('postage', false);
+          //setFieldShown('tariff', false);
+
+          setFieldShown('deliveryComp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
+
+          setFieldShown('shipment', false);
+          setFieldShown('shipType', false);
+          setFieldShown('tarDate', false);
+          setFieldShown('instFile', false);
+          setFieldShown('shipNote', false);
+          setFieldShown('aboutDelivery', false);
           break;
         case '#品目情報':
           setFieldShown('dstSelection', false);
@@ -57,13 +70,79 @@
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
           setFieldShown('Receiver', false);
+
           setFieldShown('deviceList', true);
-          setFieldShown('postage', false);
-          setFieldShown('tariff', false);
+
+          //setFieldShown('postage', false);
+          //setFieldShown('tariff', false);
+
+          setFieldShown('deliveryComp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
+
+          setFieldShown('shipment', false);
+          setFieldShown('shipType', false);
+          setFieldShown('tarDate', false);
+          setFieldShown('instFile', false);
+          setFieldShown('shipNote', false);
+          setFieldShown('aboutDelivery', false);
           break;
-        case '#出荷情報':
+        case '#出荷関連':
+          setFieldShown('dstSelection', false);
+          setFieldShown('Contractor', false);
+          setFieldShown('instName', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('phoneNum', false);
+          setFieldShown('address', false);
+          setFieldShown('buildingName', false);
+          setFieldShown('corpName', false);
+          setFieldShown('Receiver', false);
+
+          setFieldShown('deviceList', false);
+
+          //setFieldShown('postage', false);
+          //setFieldShown('tariff', false);
+
+          setFieldShown('deliveryComp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
+
+          setFieldShown('shipment', true);
+          setFieldShown('shipType', true);
+          setFieldShown('tarDate', true);
+          setFieldShown('instFile', true);
+          setFieldShown('shipNote', true);
+          setFieldShown('aboutDelivery', false);
           break;
         case '#輸送情報':
+          setFieldShown('dstSelection', false);
+          setFieldShown('Contractor', false);
+          setFieldShown('instName', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('phoneNum', false);
+          setFieldShown('address', false);
+          setFieldShown('buildingName', false);
+          setFieldShown('corpName', false);
+          setFieldShown('Receiver', false);
+
+          setFieldShown('deviceList', false);
+
+          //setFieldShown('postage', false);
+          //setFieldShown('tariff', false);
+
+          setFieldShown('deliveryComp', true);
+          setFieldShown('trckNum', true);
+          setFieldShown('sendDate', true);
+          setFieldShown('expArrivalDate', true);
+
+          setFieldShown('shipment', false);
+          setFieldShown('shipType', false);
+          setFieldShown('tarDate', false);
+          setFieldShown('instFile', false);
+          setFieldShown('shipNote', false);
+          setFieldShown('aboutDelivery', false);
           break;
       }
     }
