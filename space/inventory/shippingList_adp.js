@@ -53,7 +53,7 @@
           for(var y in sNums){      
             var snRecord={
               // 'id': tarRecords[y].getId(),
-              'updatekey':{
+              'updateKey':{
                 'field':'sNum',
                 'value':sNums[y]
               },
