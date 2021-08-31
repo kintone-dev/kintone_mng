@@ -53,48 +53,48 @@
   
   kintone.events.on('app.record.edit.show',function(event){
     // 編集画面は、全フィールド編集不可で表示する
-    event.record.mName.disabled = true;
-    event.record.mImg.disabled = true;
-    event.record.mCode.disabled = true;
-    event.record.mType.disabled = true;
-    event.record.mVendor.disabled = true;
-    event.record.mNickname.disabled = true;
-    event.record.mWarranty.disabled = true;
-    event.record.mMemo.disabled = true;
-    event.record.totalStock.disabled = true;
-    event.record.mCost.disabled = true;
-    event.record.mCostUpdate.disabled = true;
-    event.record.mTotalStockCost.disabled = true;
+    event.record.mName.disabled=true;
+    event.record.mImg.disabled=true;
+    event.record.mCode.disabled=true;
+    event.record.mType.disabled=true;
+    event.record.mVendor.disabled=true;
+    event.record.mNickname.disabled=true;
+    event.record.mWarranty.disabled=true;
+    event.record.mMemo.disabled=true;
+    event.record.totalStock.disabled=true;
+    event.record.mCost.disabled=true;
+    event.record.mCostUpdate.disabled=true;
+    event.record.mTotalStockCost.disabled=true;
     return event;
   });
   
   kintone.events.on('app.record.edit.change.editinfo', function(event){
     // 情報編集チェックボックスが on でなければ、編集させない
-    if( event.record.editinfo.value[0] === '情報編集' ){
+    if( event.record.editinfo.value[0]==='情報編集' ){
       // チェックボックスがチェックされている
-      event.record.mName.disabled = false;
-      event.record.mImg.disabled = false;
-      event.record.endservice.disabled = false;
-      event.record.mNickname.disabled = false;
-      event.record.mWarranty.disabled = false;
-      event.record.mMemo.disabled = false;
+      event.record.mName.disabled=false;
+      event.record.mImg.disabled=false;
+      event.record.endservice.disabled=false;
+      event.record.mNickname.disabled=false;
+      event.record.mWarranty.disabled=false;
+      event.record.mMemo.disabled=false;
     }else{
       // チェックボックスがチェックされていない
-      event.record.mName.disabled = true;
-      event.record.mImg.disabled = true;
-      event.record.mType.disabled = true;
-      event.record.mVendor.disabled = true;
-      event.record.mNickname.disabled = true;
-      event.record.mWarranty.disabled = true;
-      event.record.mMemo.disabled = true;
-      event.record.endservice.disabled = true;
+      event.record.mName.disabled=true;
+      event.record.mImg.disabled=true;
+      event.record.mType.disabled=true;
+      event.record.mVendor.disabled=true;
+      event.record.mNickname.disabled=true;
+      event.record.mWarranty.disabled=true;
+      event.record.mMemo.disabled=true;
+      event.record.endservice.disabled=true;
     }
     return event;
   });
 
   kintone.events.on('app.record.edit.submit', function(event){
     // 保存ボタンが押されたら、情報編集チェックボックスをクリア
-    event.record.editinfo.value = [];
+    event.record.editinfo.value=[];
     return event;
   });
 
