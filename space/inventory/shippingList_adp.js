@@ -58,21 +58,19 @@
           //except Boolean
           var sNums=get_sNums.filter(Boolean);
           
-          for(var y in sNums){
-            var updateKey={
+          for(var y in sNums){      
+            var snRecord={
               'updateKey': {
                 'field': 'sNum',
                 'value': sNums[y]
+              },
+              'record':{
+                'sNum':{'value':sNums[y]},
+                'mCode':{'value':ship_mcode},
+                'instName':{'value':shipInstName},
+                'shipment':{'value':shipShipment}
               }
-            }
-      
-            var snRecord={
-              'sNum':{'value':sNums[y]},
-              'mCode':{'value':ship_mcode},
-              'instName':{'value':shipInstName},
-              'shipment':{'value':shipShipment}
             };
-            sNumInfo.records.push(updateKey);
             sNumInfo.records.push(snRecord);
           }
         }
