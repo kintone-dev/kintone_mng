@@ -44,6 +44,8 @@
       alert('拠点データを取得できませんでした。'+error.message);
     });
   });
+
+  console.log(sysID.SUP.app.dev);
   
   //新規保存時アクション
   kintone.events.on('app.record.create.submit.success', function(event) {
@@ -119,7 +121,8 @@
           'mName': {'value': mname},
           'mCode': {'value': mcode},
           'mType': {'value': mtype},
-          'mVendor': {'value': mvendor}
+          'mVendor': {'value': mvendor},
+          'mNickname': {'value': mnickname}
         }
       };
       var assResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newASSinfo);
