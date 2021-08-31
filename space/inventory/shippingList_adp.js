@@ -60,10 +60,7 @@
           
           for(var y in sNums){      
             var snRecord={
-              'updateKey': {
-                'field': 'sNum',
-                'value': sNums[y]
-              },
+              'id': sNums[y].$id.value,
               'record':{
                 'sNum':{'value':sNums[y]},
                 'mCode':{'value':ship_mcode},
