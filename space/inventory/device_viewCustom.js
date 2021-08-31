@@ -53,6 +53,40 @@
     });tabSwitch('#在庫情報');//tab初期表示設定
     return event;
   });
+  kintone.events.on('app.record.create.show', function(event){
+    //tabメニューの選択肢による表示設定
+    function tabSwitch(onSelect){
+      switch(onSelect){
+        case '#在庫情報':
+          setFieldShown('mCost', false);
+          setFieldShown('mCostUpdate', false);
+          setFieldShown('deviceCost', false);
+          setFieldShown('importExpenses', false);
+          setFieldShown('developCost', false);
+          setFieldShown('totalStock', true);
+          setFieldShown('hStockList', true);
+          break;
+        case '#原価情報':
+          setFieldShown('mCost', true);
+          setFieldShown('mCostUpdate', true);
+          setFieldShown('deviceCost', true);
+          setFieldShown('importExpenses', true);
+          setFieldShown('developCost', true);
+          setFieldShown('totalStock', false);
+          setFieldShown('hStockList', false);
+          break;
+      }
+    }
+    //タブメニュー作成
+    tabMenu('tab_inv', ['在庫情報','原価情報']);
+    //タブ切り替え表示設定
+     $('.tabMenu a').on('click', function(){
+        var idName = $(this).attr('href');//タブ内のリンク名を取得  
+        tabSwitch(idName);//tabをクリックした時の表示設定
+        return false;//aタグを無効にする
+    });tabSwitch('#在庫情報');//tab初期表示設定
+    return event;
+  });
   
   kintone.events.on('app.record.edit.show',function(event){
     // 編集画面は、全フィールド編集不可で表示する
