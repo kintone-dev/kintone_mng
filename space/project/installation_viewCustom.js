@@ -1,6 +1,9 @@
 (function() {
   'use strict';
-  
+  kintone.events.on('app.record.detail.show', function(event){
+    var test_tjason=event.record.sys_address.value;
+    console.log(test_tjason);
+  })
   kintone.events.on(['app.record.create.change.editMC','app.record.edit.change.editMC','app.record.create.show','app.record.edit.show'], function(event) {
     var editmc=event.record.editMC.value;
     if(!editmc[0]){
@@ -26,7 +29,7 @@
   
   kintone.events.on(['app.record.create.show','app.record.detail.show','app.record.edit.show'],function(event){
     event.record.prj_aNum.disabled=true;
-    
+    setFieldShown('sys_address', false);
     setFieldShown('bType', false);
     setFieldShown('bDivision', false);
     setFieldShown('ルックアップ_0', false);
