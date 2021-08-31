@@ -12,7 +12,7 @@
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
       //最初の空白の1行目を削除
-      eRecord.record.hStockList.value.splice(0, 1);
+      eRecord.record.mStockList.value.splice(0, 1);
       //上から行を追加実行（参考：http://www.htmq.com/js/array_reverse.shtml）
       //aml: auto model list
       for(var aml in tarRecords){
@@ -32,9 +32,9 @@
             }
           }
         });
-        eRecord.record.hStockList.value[ahl].value.mCode.disabled=true;
-        eRecord.record.hStockList.value[ahl].value.mName.disabled=true;
-        eRecord.record.hStockList.value[ahl].value.mStock.disabled=true;
+        eRecord.record.mStockList.value[ahl].value.mCode.disabled=true;
+        eRecord.record.mStockList.value[ahl].value.mName.disabled=true;
+        eRecord.record.mStockList.value[ahl].value.mStock.disabled=true;
         kintone.app.record.set(event);
       }
       kintone.app.record.set(eRecord);
