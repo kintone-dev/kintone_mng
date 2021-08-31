@@ -32,9 +32,9 @@
             }
           }
         });
-        eRecord.record.mStockList.value[ahl].value.mCode.disabled=true;
-        eRecord.record.mStockList.value[ahl].value.mName.disabled=true;
-        eRecord.record.mStockList.value[ahl].value.mStock.disabled=true;
+        eRecord.record.mStockList.value[aml].value.mCode.disabled=true;
+        eRecord.record.mStockList.value[aml].value.mName.disabled=true;
+        eRecord.record.mStockList.value[aml].value.mStock.disabled=true;
         kintone.app.record.set(event);
       }
       kintone.app.record.set(eRecord);
