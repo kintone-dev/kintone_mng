@@ -9,8 +9,7 @@
     'app.record.print.show',
     'app.report.show',
     'portal.show',
-    'space.portal.show',
-
+    'space.portal.show'
   ];
 
   kintone.events.on(events_ced, function(event){

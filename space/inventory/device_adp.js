@@ -53,6 +53,7 @@
     var mtype=event.record.mType.value;
     var mvendor=event.record.mVendor.value;
     var mnickname=event.record.mNickname.value;
+    var endservice=event.record.endservice.value;
     
     //品目情報を拠点リストに転送
     getUNITdata.then(function(resp){
@@ -98,7 +99,8 @@
         'mCode': {'value': mcode},
         'mType': {'value': mtype},
         'mVendor': {'value': mvendor},
-        'mNickname': {'value': mnickname}
+        'mNickname': {'value': mnickname},
+        'endservice': {'value': endservice}
       }
     };
     var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newPMinfo);
