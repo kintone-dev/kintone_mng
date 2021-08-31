@@ -1,12 +1,11 @@
 (function() {
   'use strict';
   //拠点情報取得＆繰り返し利用
-  var getSNUMdata=api_getRecords(sysid.DEV.app.sNum);
 
-  kintone.events.on('app.record.detail.show', function(event){//'app.record.detail.process.proceed',function(event){
-    //var nStatus = event.nextStatus.value;
+  kintone.events.on('app.record.detail.process.proceed',function(event){
+    var nStatus = event.nextStatus.value;
     
-    //if(nStatus==="集荷待ち"){
+    if(nStatus==="集荷待ち"){
       //パラメータsNumInfoにjsonデータ作成
       var sNumInfo={
         'app': sysid.DEV.app.sNum, 
@@ -52,7 +51,6 @@
           
           for(var y in sNums){      
             var snRecord={
-              // 'id': tarRecords[y].getId(),
               'updateKey':{
                 'field':'sNum',
                 'value':sNums[y]
@@ -77,6 +75,6 @@
       }).catch(function(error){
         console.error(error)
       });
-    //}
+    }
   });
 })();
