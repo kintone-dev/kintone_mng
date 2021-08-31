@@ -6,8 +6,46 @@
   //新規品目作成時アクション
   kintone.events.on('app.record.create.show', function(event){
     //拠点データを取得し、拠点在庫一覧に格納
-    
-    
+    return getUNITdata.then(function(resp){
+      //var eRecord=kintone.app.record.get();
+      //反転して格納
+      var tarRecords=resp.records.reverse();
+      //各拠点情報を当アプリの拠点リストに格納する
+      //最初の空白の1行目を削除
+      event.record.hStockList.value.splice(0, 1);
+      //ahl: auto hub list
+      for(var ahl in tarRecords){
+        event.record.hStockList.value.push({
+          value: {
+            hCode: {
+              value: tarRecords[ahl].hCode.value,
+              type: 'SINGLE_LINE_TEXT'
+            },
+            hName: {
+              value: tarRecords[ahl].hName.value,
+              type: 'SINGLE_LINE_TEXT'
+            },
+            hStock: {
+              value: '',
+              type: 'NUMBER'
+            }
+          }
+        });
+        //kintone.app.record.set(eRecord);
+      }
+      //kintone.app.record.set(eRecord);
+    }).catch(function(error){
+      console.log(error);
+      alert('拠点データを取得できませんでした。'+error.message);
+    });
+    //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
+    //sti: subTable i
+    for (var sti in event.record.hStockList.value){
+      event.record.hStockList.value[sti].value.hCode.disabled=true;
+      event.record.hStockList.value[sti].value.hName.disabled=true;
+      event.record.hStockList.value[sti].value.hStock.disabled=true;
+    }
+    //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     return event;
   });
   
