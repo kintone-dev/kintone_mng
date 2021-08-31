@@ -57,6 +57,7 @@
     event.record.mCode.disabled = true;
     event.record.mType.disabled = true;
     event.record.mVendor.disabled = true;
+    event.record.mNickname.disabled = true;
     // event.record.iCode.disabled = true;
     event.record.mMemo.disabled = true;
     return event;
@@ -70,6 +71,7 @@
       event.record.mImg.disabled = false;
       event.record.mCode.disabled = false;
       event.record.endservice.disabled = false;
+      event.record.mNickname.disabled = false;
       // event.record.iCode.disabled = false;
       event.record.mMemo.disabled = false;
     }else{
@@ -79,6 +81,7 @@
       event.record.mCode.disabled = true;
       event.record.mType.disabled = true;
       event.record.mVendor.disabled = true;
+      event.record.mNickname.disabled = true;
       // event.record.iCode.disabled = true;
       event.record.mMemo.disabled = true;
       event.record.endservice.disabled = true;
