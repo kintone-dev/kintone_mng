@@ -8,7 +8,7 @@
     console.log(test_tjson);
     //console.log(test2_tjson);
     //console.log(tobj.address);
-    console.log(test_tJson.address);
+    console.log(test_tjson.address);
   })
   kintone.events.on(['app.record.create.change.editMC','app.record.edit.change.editMC','app.record.create.show','app.record.edit.show'], function(event) {
     var editmc=event.record.editMC.value;
