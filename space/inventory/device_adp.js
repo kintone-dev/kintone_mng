@@ -157,6 +157,9 @@
   var before_mCode;
   kintone.events.on('app.record.edit.show', function(event){
     before_mCode=event.record.mCode.value;
+    var endservice=event.record.endservice.value;
+    console.log(endservice);
+    
     return event;
   });
   
@@ -169,6 +172,8 @@
     var mvendor=event.record.mVendor.value;
     var mnickname=event.record.mNickname.value;
     var endservice=event.record.endservice.value;
+
+
 
     //案件管理にデータ転送
     var updPMinfo = {
