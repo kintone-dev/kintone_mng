@@ -77,7 +77,6 @@
       // チェックボックスがチェックされていない
       event.record.mName.disabled = true;
       event.record.mImg.disabled = true;
-      event.record.mCode.disabled = true;
       event.record.mType.disabled = true;
       event.record.mVendor.disabled = true;
       event.record.mNickname.disabled = true;
