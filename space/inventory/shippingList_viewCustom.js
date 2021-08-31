@@ -61,10 +61,14 @@
           setFieldShown('postage', false);
           setFieldShown('tariff', false);
           break;
+        case '#出荷情報':
+          break;
+        case '#輸送情報':
+          break;
       }
     }
     //タブメニュー作成
-    tabMenu('tab_ship', ['品目情報','宛先情報']);
+    tabMenu('tab_ship', ['出荷情報','宛先情報','輸送情報','品目情報']);
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function(){
       var idName = $(this).attr('href');//タブ内のリンク名を取得  
@@ -87,6 +91,7 @@
   //納品依頼に進めた場合、作業者から組織情報を取得し、「出荷ロケーション」に格納
   kintone.events.on('app.record.detail.process.proceed',function(event){
     var nStatus = event.nextStatus.value;
+    /*
     console.log(nStatus)
     if(nStatus === "受領待ち"){
       //作業者取得
@@ -102,6 +107,7 @@
     }else{
       
     }
+    */
   });
   //輸送業者を「担当手渡し」にした場合、追跡番号を「none」にする
   kintone.events.on(['app.record.create.change.deliveryComp','app.record.edit.change.deliveryComp'], function(event){
