@@ -53,6 +53,12 @@
         tabSwitch(idName);//tabをクリックした時の表示設定
         return false;//aタグを無効にする
     });tabSwitch('#在庫情報');//tab初期表示設定
+    event.record.totalStock.disabled=true;
+    event.record.mCost.disabled=true;
+    event.record.mCostUpdate.disabled=true;
+    event.record.deviceCost.disabled=true;
+    event.record.importExpenses.disabled=true;
+    event.record.developCost.disabled=true;
     return event;
   });
   
