@@ -26,10 +26,10 @@
     event.record.hName.disabled = true;
     event.record.hCharge.disabled = true;
     event.record.zipcode.disabled = true;
-    event.record.hPhoneNum.disabled = true;
-    event.record.hAddress.disabled = true;
+    event.record.phoneNum.disabled = true;
+    event.record.address.disabled = true;
     event.record.hBuildingName.disabled = true;
-    event.record.hReceiver.disabled = true;
+    event.record.receiver.disabled = true;
     return event;
   });
 
@@ -44,20 +44,20 @@
     event.record.hName.disabled = false;
     event.record.hCharge.disabled = false;
     event.record.zipcode.disabled = false;
-    event.record.hPhoneNum.disabled = false;
-    event.record.hAddress.disabled = false;
+    event.record.phoneNum.disabled = false;
+    event.record.address.disabled = false;
     event.record.hBuildingName.disabled = false;
-    event.record.hReceiver.disabled = false;
+    event.record.receiver.disabled = false;
     }else{
       // チェックボックスがチェックされていない
     event.record.hType.disabled = true;
     event.record.hName.disabled = true;
     event.record.hCharge.disabled = true;
     event.record.zipcode.disabled = true;
-    event.record.hPhoneNum.disabled = true;
-    event.record.hAddress.disabled = true;
+    event.record.phoneNum.disabled = true;
+    event.record.address.disabled = true;
     event.record.hBuildingName.disabled = true;
-    event.record.hReceiver.disabled = true;
+    event.record.receiver.disabled = true;
     }
     return event;
   });
