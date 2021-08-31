@@ -2,13 +2,13 @@
   'use strict';
   kintone.events.on('app.record.detail.show', function(event){
     var test_tjson=event.record.sys_address.value;
-    var test2_tJson=JSON.parse(event.record.sys_address.value);
-    var tobj=JSON.parse(test_tjason);
-    console.log(tobj);
+    //var test2_tJson=JSON.parse(event.record.sys_address.value);
+    //var tobj=JSON.parse(test_tjason);
+    //console.log(tobj);
     console.log(test_tjson);
-    console.log(test2_tjson);
-    console.log(tobj.address);
-    console.log(test2_tJson.address);
+    //console.log(test2_tjson);
+    //console.log(tobj.address);
+    console.log(test_tJson.address);
   })
   kintone.events.on(['app.record.create.change.editMC','app.record.edit.change.editMC','app.record.create.show','app.record.edit.show'], function(event) {
     var editmc=event.record.editMC.value;
