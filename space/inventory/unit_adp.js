@@ -3,43 +3,46 @@
   //商品情報取得＆繰り返し利用
   var getDEVdata=api_getRecords(sysid.INV.app_id.device);
   
-  //新規拠点作成画面表示アクション
+  //新規拠点作成時アクション
   kintone.events.on('app.record.create.show', function(event) {
     //品目一覧を取得し、品目在庫一覧に格納
     getDEVdata.then(function(resp){
-      kintone.app.record.get();
+      var eRecord=kintone.app.record.get();
       //反転して格納
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
       //最初の空白の1行目を削除
-      event.record.mStockList.value.splice(0, 1);
+      eRecord.record.hStockList.value.splice(0, 1);
       //上から行を追加実行（参考：http://www.htmq.com/js/array_reverse.shtml）
       //aml: auto model list
       for(var aml in tarRecords){
-        event.record.mStockList.value.push({//unshift({
-          'value': {
-            'mCode': {
-              'value': tarRecords[aml].mCode.value,
-              'type': 'SINGLE_LINE_TEXT'
+        eRecord.record.mStockList.value.push({//unshift({
+          value: {
+            mCode: {
+              value: tarRecords[aml].mCode.value,
+              type: 'SINGLE_LINE_TEXT'
             },
-            'mName': {
-              'value': tarRecords[aml].mName.value,
-              'type': 'SINGLE_LINE_TEXT'
+            mName: {
+              value: tarRecords[aml].mName.value,
+              type: 'SINGLE_LINE_TEXT'
             },
-            'mStock': {
-              'value': '',
-              'type': 'NUMBER'
+            mStock: {
+              value: '',
+              type: 'NUMBER'
             }
           }
         });
+        eRecord.record.hStockList.value[ahl].value.hCode.disabled=true;
+        eRecord.record.hStockList.value[ahl].value.hName.disabled=true;
+        eRecord.record.hStockList.value[ahl].value.hStock.disabled=true;
         kintone.app.record.set(event);
       }
-      return event;
+      kintone.app.record.set(eRecord);
     }).catch(function(error){
-      //event error
       console.log(error);
       alert('品目データを取得できませんでした。'+error.message);
     });
+    return event;
   });
   
 
