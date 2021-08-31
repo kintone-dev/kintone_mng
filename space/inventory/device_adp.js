@@ -1,10 +1,5 @@
 (function() {
   'use strict';
-  //拠点管理アプリのレコード情報取得
-  var getUNITrecord={
-    'app': sysid.INV.app_id.unit,
-    'query': null
-  };
   //拠点情報取得＆繰り返し利用
   var getUNITdata=api_getRecords(sysid.INV.app_id.unit);
   
