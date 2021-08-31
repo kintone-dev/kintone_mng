@@ -12,19 +12,11 @@
   kintone.events.on(events_ced, function(event) {
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     //sti: subTable i
-    
     for (var sti in event.record.mStockList.value){
       event.record.mStockList.value[sti].value.mCode.disabled = true;
       event.record.mStockList.value[sti].value.mStock.disabled = true;
     }
 
-    return event;
-  });
-
-  kintone.events.on('app.record.create.show', function(event){
-    //自動採番
-    event.record.hCode.disabled=true;
-    autoNum('HUB_', 'hCode');
     return event;
   });
   
