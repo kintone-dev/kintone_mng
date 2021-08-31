@@ -91,7 +91,7 @@
     var before_hCode;
     kintone.events.on('app.record.edit.show', function(event){
       before_hCode=event.record.hCode.value;
-  
+      console.log(before_hCode);
       return event;
     });  
 
