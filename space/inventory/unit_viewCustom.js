@@ -23,17 +23,17 @@
   
   kintone.events.on('app.record.edit.show',function(event){
     // 編集画面は、全フィールド編集不可で表示する
-    event.record.hCode.disabled = true;
-    event.record.hType.disabled = true;
-    event.record.hName.disabled = true;
-    event.record.hCharge.disabled = true;
-    event.record.zipcode.disabled = true;
-    event.record.phoneNum.disabled = true;
-    event.record.prefectures.disabled = true;
-    event.record.city.disabled = true;
-    event.record.town.disabled = true;
-    event.record.address.disabled = true;
-    event.record.hBuildingName.disabled = true;
+    event.record.hCode.disabled=true;
+    event.record.hType.disabled=true;
+    event.record.hName.disabled=true;
+    event.record.hCharge.disabled=true;
+    event.record.zipcode.disabled=true;
+    event.record.phoneNum.disabled=true;
+    event.record.prefectures.disabled=true;
+    event.record.city.disabled=true;
+    event.record.town.disabled=true;
+    event.record.address.disabled=true;
+    event.record.hBuildingName.disabled=true;
     event.record.receiver.disabled = true;
     
     
