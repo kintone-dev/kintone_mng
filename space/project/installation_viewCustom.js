@@ -4,6 +4,9 @@
     var test_tjson=event.record.sys_address.value;
     var test2_tJson=JSON.parse(event.record.sys_address.value);
     var tobj=JSON.parse(test_tjason);
+    console.log(tobj);
+    console.log(test_tjson);
+    console.log(test2_tjson);
     console.log(tobj.address);
     console.log(test2_tJson.address);
   })
