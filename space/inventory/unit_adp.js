@@ -8,7 +8,6 @@
     //品目一覧を取得し、品目在庫一覧に格納
     getDEVdata.then(function(resp){
       kintone.app.record.get();
-      console.log(kintone.app.record.getId());
       //反転して格納
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
@@ -50,13 +49,14 @@
     //転送用データ取得
     var hcode=event.record.hCode.value;
     var hname=event.record.hName.value;
+
     //品目情報を拠点リストに転送
     getDEVdata.then(function(resp){
       var tarRecords=resp.records;
       
       //商品管理アプリの拠点リストに上書きするデータ作成
       var NewPrdInfo={
-        'app': sysID.DIPM.app.dev,
+        'app': sysid.INV.app_id.device,
         'records':[]
       };
       //shd: set hub data
