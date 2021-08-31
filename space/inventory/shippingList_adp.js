@@ -73,7 +73,7 @@
       return setSNinfo.then(function(resp){
         console.log(resp);
       }).catch(function(error){
-        console.error(error)
+        console.error(error);
       });
     }
   });
