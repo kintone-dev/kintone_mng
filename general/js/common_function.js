@@ -47,6 +47,14 @@ var sysid={
 			item: 109,
 			shipment: 104
 		}
+	},
+	DEV:{
+		space: 22,
+		app:{
+			malfunction: 161,
+			account_tc: 160,
+			sNum: 159
+		}
 	}
 }
 /* ボタン、タブメニュー */
