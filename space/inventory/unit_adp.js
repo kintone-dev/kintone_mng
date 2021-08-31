@@ -3,7 +3,7 @@
   //商品情報取得＆繰り返し利用
   var getDEVdata=api_getRecords(sysid.INV.app_id.device);
   
-  //新規拠点作成じアクション
+  //新規拠点作成画面表示アクション
   kintone.events.on('app.record.create.show', function(event) {
     //品目一覧を取得し、品目在庫一覧に格納
     return getDEVdata.then(function(resp){
@@ -11,7 +11,7 @@
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
       //最初の空白の1行目を削除
-      event.record.mStockList.value.splice(0, 1);
+      event.record.mStockList.value.splice(1, 1);
       //上から行を追加実行（参考：http://www.htmq.com/js/array_reverse.shtml）
       //aml: auto model list
       for(var aml in tarRecords){
@@ -40,6 +40,8 @@
     });
   });
   
+
+
   //新規保存時アクション
   kintone.events.on('app.record.create.submit.success', function(event) {
     //転送用データ取得
