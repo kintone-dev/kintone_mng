@@ -231,7 +231,7 @@
           'mType': {'value': mtype},
           'mVendor': {'value': mvendor},
           'mNickname': {'value': mnickname},
-          'endservice': {'value': endservice}  
+          'endservice': {'value': endservice}
         }
       };
       var supResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updSUPinfo);
