@@ -170,6 +170,9 @@
   //納品依頼に進めた場合、作業者から組織情報を取得し、「出荷ロケーション」に格納
   kintone.events.on('app.record.detail.process.proceed',function(event){
     var nStatus = event.nextStatus.value;
+    var loginUserCode = event.record.作業者.value[0].code;
+    console.log(event.record.作業者);
+    console.log(loginUserCode);
     /*
     if(nStatus === "受領待ち"){
       //作業者取得
