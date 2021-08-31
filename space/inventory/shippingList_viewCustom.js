@@ -88,7 +88,7 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           break;
-        case '#出荷関連':
+        case '#出荷情報':
           setFieldShown('dstSelection', false);
           setFieldShown('Contractor', false);
           setFieldShown('instName', false);
@@ -114,7 +114,7 @@
           setFieldShown('tarDate', true);
           setFieldShown('instFile', true);
           setFieldShown('shipNote', true);
-          setFieldShown('aboutDelivery', false);
+          setFieldShown('aboutDelivery', true);
           break;
         case '#輸送情報':
           setFieldShown('dstSelection', false);
@@ -145,15 +145,15 @@
           setFieldShown('aboutDelivery', false);
           break;
       }
-    }
+    }tabSwitch('#品目情報');//tab初期表示設定
     //タブメニュー作成
-    tabMenu('tab_ship', ['出荷情報','宛先情報','輸送情報','品目情報']);
+    tabMenu('tab_ship', ['出荷情報','宛先情報','品目情報','輸送情報']);
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function(){
       var idName = $(this).attr('href');//タブ内のリンク名を取得  
       tabSwitch(idName);//tabをクリックした時の表示設定
       return false;//aタグを無効にする
-    });tabSwitch('#品目情報');//tab初期表示設定
+    });
     return event;
   });
   
