@@ -13,15 +13,16 @@
     //拠点データを取得し、拠点在庫一覧に格納
     
     getUNITdata.then(function(resp){
+      var eRecord=kintone.app.record.get();
       //反転して格納
       var tarRecords=resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
       //最初の空白の1行目を削除
-      event.record.hStockList.value.splice(0, 1);
+      eRecord.record.hStockList.value.splice(0, 1);
       //上から行を追加実行（参考：http://www.htmq.com/js/array_reverse.shtml）
       //ahl: auto hub list
       for(var ahl in tarRecords){
-        event.record.hStockList.value.push({
+        eRecord.record.hStockList.value.push({
           value: {
             hCode: {
               value: tarRecords[ahl].hCode.value,
@@ -38,7 +39,7 @@
           }
         });
       }
-      return event;
+      kintone.app.record.set(eRecord);
     }).catch(function(error){
       console.log(error);
       alert('拠点データを取得できませんでした。'+error.message);
