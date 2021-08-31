@@ -44,8 +44,6 @@
       alert('拠点データを取得できませんでした。'+error.message);
     });
   });
-
-  console.log(sysID.SUP.app.dev);
   
   //新規保存時アクション
   kintone.events.on('app.record.create.submit.success', function(event) {
