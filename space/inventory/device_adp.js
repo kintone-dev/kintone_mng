@@ -2,10 +2,9 @@
   'use strict';
   //拠点管理アプリのレコード情報取得
   var getUNITrecord={
-    'app': sysID.DIPM.app.unit,
+    'app': sysid.INV.app_id.unit,
     'query': null
   };
-  console.log(sysid.INV.app_id.unit);
   //拠点情報取得＆繰り返し利用
   var getUNITdata=kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getUNITrecord);
   
