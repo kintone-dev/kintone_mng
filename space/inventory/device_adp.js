@@ -88,6 +88,24 @@
       console.log(error);
       alert('UNITにデータ更新失敗'+error.message);
     });
+
+    //案件管理にデータ転送
+    var newPMinfo = {
+      'app': sysid.PM.app_id.item,
+      'record': {
+        'mName': {'value': mname},
+        'mCode': {'value': mcode},
+        'mType': {'value': mtype},
+        'mVendor': {'value': mvendor}
+      }
+    };
+    var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newPMinfo);
+    //転送結果
+    pmResult.then(function(resp){
+      alert('PM success');
+    }).catch(function(error){
+      alert('PM'+error.message);
+    });
     
     //supportとtitanにデータ転送
     //品目区分が「仕掛品」の場合、転送しない
@@ -145,6 +163,24 @@
     var mname=event.record.mName.value;
     var mtype=event.record.mType.value;
     var mvendor=event.record.mVendor.value;
+
+    //案件管理にデータ転送
+    var newPMinfo = {
+      'app': sysid.PM.app_id.item,
+      'record': {
+        'mName': {'value': mname},
+        'mCode': {'value': mcode},
+        'mType': {'value': mtype},
+        'mVendor': {'value': mvendor}
+      }
+    };
+    var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newPMinfo);
+    //転送結果
+    pmResult.then(function(resp){
+      alert('PM success');
+    }).catch(function(error){
+      alert('PM'+error.message);
+    });
     
     //品目区分が「仕掛品」の場合、更新しない
     if(mtype!='仕掛品'){
