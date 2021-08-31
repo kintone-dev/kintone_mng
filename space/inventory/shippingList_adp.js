@@ -69,6 +69,7 @@
               'instName':{'value':shipInstName},
               'shipment':{'value':shipShipment}
             };
+            sNumInfo.push(updateKey);
             sNumInfo.records.push(snRecord);
           }
         }
