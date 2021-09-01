@@ -260,13 +260,13 @@ function hoge(defectiveNum, repairedNum){
 	getResult.then(function (resp) {
 		var respRecords = resp.records;
 
-		delete records[0].$id;
-		delete records[0].$revision;
-		delete records[0].sNum;
-		delete records[0].レコード番号;
-		delete records[0].作成日時;
-		delete records[0].作成者;
-		delete records[0].ステータス;
+		delete respRecords[0].$id;
+		delete respRecords[0].$revision;
+		delete respRecords[0].sNum;
+		delete respRecords[0].レコード番号;
+		delete respRecords[0].作成日時;
+		delete respRecords[0].作成者;
+		delete respRecords[0].ステータス;
 
 		var repInfo = {
 			'app': sysid.DEV.app.sNum,
