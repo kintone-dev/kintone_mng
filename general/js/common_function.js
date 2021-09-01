@@ -273,16 +273,9 @@ function hoge(defectiveNum, repairedNum){
 		var defRecord = {
 			'updateKey': {
 				'field': 'sNum',
-				'value': snDefective
+				'value': repairedNum
 			},
-			'record': {
-				'sState': {
-					'value': '故障品'
-				},
-				'sDstate': {
-					'value': '検証待ち'
-				}
-			}
+			'record': {}
 		};
 
 		defDevInfo.records.push(defRecord);
@@ -291,7 +284,7 @@ function hoge(defectiveNum, repairedNum){
 
 		// var putDefResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defDevInfo);
 		
-		console.log(records);
+		console.log(records[0]);
 	}).catch(function (error) {
 		console.log(error);
 		console.log(error.message);
