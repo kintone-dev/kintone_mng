@@ -59,7 +59,7 @@
 
     var queryBody = {
       'app': sysid.DEV.app.sNum,
-      'query': 'sNum="' + event.record.malfunction.value + '"',
+      'query': 'sNum="' + event.record.defective.value + '"',
     };
 
     var getresult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
