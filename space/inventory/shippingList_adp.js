@@ -79,11 +79,9 @@
   kintone.events.on(['app.record.edit.show','app.record.create.show'],function(event){
     setBtn('calBtn','計算');
 
-    var shipTable=event.record.deviceList.value;
-
-    console.log(shipTable);
+    console.log(event.record.deviceList.value);
     $('#calBtn').on('click', function() {
-      console.log(shipTable);
+      console.log(event.record.deviceList.value);
       // trtDY(1,2,3);
     });
 
