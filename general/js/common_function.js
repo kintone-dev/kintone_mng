@@ -281,7 +281,7 @@ function hoge(defectiveNum, repairedNum){
 			'record': {}
 		};
 
-		repRecord.record.push(records[0]);
+		repRecord.record = records[0];
 		repInfo.records.push(repRecord);
 
 		console.log(repInfo);
