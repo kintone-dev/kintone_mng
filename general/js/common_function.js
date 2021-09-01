@@ -307,7 +307,7 @@ function defective(defectiveNum, repairedNum){
 
 //入出荷管理、品目一覧計算
 function trtDY(length,open,attach){
-	console.log(kintone.app.record);
+	
 }
 
 /* その他 */
