@@ -85,7 +85,9 @@
       var shipTable = eRecord.record.deviceList.value;
   
       console.log(shipTable[0]);
-      console.log(shipTable[0].sNum.value);
+      console.log(shipTable[0].value.sNum.value);
+
+      var iLSpecs = (String(shipTable[0].sNum.valu)).split(/\r\n|\n/);
 
       // trtDY(1,2,3);
       kintone.app.record.set(eRecord);
