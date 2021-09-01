@@ -19,14 +19,14 @@
     if(editmc.length == 0){
       event.record.BMC.disabled = true;
       event.record.RRMC.disabled = true;
+    } else if(editmc[0] == '建物管理' && editmc[1] == '賃貸管理'){
+      event.record.BMC.disabled = false;
+      event.record.RRMC.disabled = false;
     } else if(editmc.includes('建物管理')){
       event.record.BMC.disabled = false;
       event.record.RRMC.disabled = true;
     } else if(editmc.includes('賃貸管理')){
       event.record.BMC.disabled = true;
-      event.record.RRMC.disabled = false;
-    } else if(editmc[0]=='建物管理' && editmc[1]=='賃貸管理'){
-      event.record.BMC.disabled = false;
       event.record.RRMC.disabled = false;
     }
 
