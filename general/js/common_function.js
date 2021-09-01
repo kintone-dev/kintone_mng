@@ -258,7 +258,7 @@ function hoge(defectiveNum, repairedNum){
 	var getResult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
 
 	getResult.then(function (resp) {
-		var records = resp.records;
+		var respRecords = resp.records;
 
 		delete records[0].$id;
 		delete records[0].$revision;
@@ -281,14 +281,18 @@ function hoge(defectiveNum, repairedNum){
 			'record': {}
 		};
 
-		repRecord.record = records[0];
+		repRecord.record = respRecords[0];
 		repInfo.records.push(repRecord);
 
-		console.log(repInfo);
+		var putRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', repInfo);
 
-		// var putDefResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defDevInfo);
+		putRepResult.then(function (resp) {
+			console.log("defective date put success");
+		}).catch(function (error) {
+			console.log("put error");
+			console.error(error);
+		});	
 		
-		console.log(records[0]);
 	}).catch(function (error) {
 		console.log(error);
 		console.log(error.message);
