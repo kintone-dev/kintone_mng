@@ -211,6 +211,92 @@ function autoNum(header, fieldCode){
 	});
 }
 
+//故障品管理とシリアル管理連携
+function hoge(defectiveNum, repairedNum){
+	var snDefective = defectiveNum;
+
+	//シリアル管理に挿入する情報の作成
+	var sNumInfo = {
+		'app': sysid.DEV.app.sNum,
+		'records': []
+	};
+
+	var snRecord = {
+		'updateKey': {
+			'field': 'sNum',
+			'value': snDefective
+		},
+		'record': {
+			'sState': {
+				'value': '故障品'
+			},
+			'sDstate': {
+				'value': '検証待ち'
+			}
+		}
+	};
+
+	sNumInfo.records.push(snRecord);
+
+	//シリアル管理に状態と状況を挿入
+	var putResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
+	putResult.then(function (resp) {
+		console.log("put success");
+	}).catch(function (error) {
+		console.log("put error");
+		console.error(error);
+	});
+
+	//故障品のデータ取得
+	var queryBody = {
+		'app': sysid.DEV.app.sNum,
+		'query': 'sNum="' + defectiveNum + '"',
+	};
+	var getResult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
+
+	getResult.then(function (resp) {
+		var records = resp.records[0];
+
+		delete records.$id;
+		delete records.$revision;
+		delete records.sNum;
+		delete records.レコード番号;
+		delete records.作成日時;
+		delete records.作成者;
+		delete records.ステータス;
+
+		// var defDevInfo = {
+		// 	'app': sysid.DEV.app.sNum,
+		// 	'records': []
+		// };
+	
+		// var defRecord = {
+		// 	'updateKey': {
+		// 		'field': 'sNum',
+		// 		'value': snDefective
+		// 	},
+		// 	'record': {
+		// 		'sState': {
+		// 			'value': '故障品'
+		// 		},
+		// 		'sDstate': {
+		// 			'value': '検証待ち'
+		// 		}
+		// 	}
+		// };
+
+		// defDevInfo.records.push(defRecord);
+
+		// var putDefResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defDevInfo);
+		
+		console.log(records);
+	}).catch(function (error) {
+		console.log(error);
+		console.log(error.message);
+	});
+
+}
+
 /* その他 */
 // 全レコード呼び出し
 function api_getRecords(appID) {
