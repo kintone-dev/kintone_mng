@@ -75,4 +75,8 @@
       });
     }
   });
+
+  kintone.events.on('app.record.edit.show',function(event){
+    setBtn('calBtn','計算');
+  });
 })();
