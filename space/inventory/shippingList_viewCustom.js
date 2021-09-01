@@ -170,10 +170,13 @@
 
   kintone.events.on(['app.record.edit.show','app.record.create.show'],function(event){
     setBtn('calBtn','計算');
+    console.log(event.record.sNum.value);
     $('#calBtn').on('click', function() {
       console.log(event.record.sNum.value);
-      trtDY(1,2,3);
+      // trtDY(1,2,3);
     });
+
+    return event;
   });
 
   
