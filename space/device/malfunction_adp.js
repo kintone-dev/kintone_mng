@@ -53,8 +53,7 @@
 
       console.log(records);
 
-      delete resp.records;
-      delete resp.records.$id;
+      delete records.$id;
       
       console.log(records);
     }).catch(function (error) {
