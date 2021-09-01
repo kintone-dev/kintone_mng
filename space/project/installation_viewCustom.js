@@ -1,5 +1,6 @@
 (function() {
   'use strict';
+
   kintone.events.on('app.record.detail.show', function(event){
     var test_tjson=event.record.sys_address.value;
     var test=test_tjson.split(',');
@@ -11,20 +12,31 @@
 
     console.log(editmc);
 
-    if(!editmc[0]){
+    //請求先は編集不可
+    event.record.cName.disabled=true;
+
+    //管理会社編集チェックボックス
+    if(editmc.length == 0){
       event.record.BMC.disabled=true;
       event.record.RRMC.disabled=true;
-    }else if(editmc[0]=='賃貸管理'){
-      event.record.BMC.disabled=true;
-      event.record.RRMC.disabled=false;
-    }else if(editmc[0]=='建物管理' && editmc[1]=='賃貸管理'){
+    } else if(editmc.includes('建物管理')){
       event.record.BMC.disabled=false;
-      event.record.RRMC.disabled=false;
-      event.record.cName.disabled=false;
-    }else{
-      event.record.BMC.disabled=false;
+    } else if(editmc.includes('賃貸管理')){
       event.record.RRMC.disabled=true;
     }
+
+    // if(!editmc[0]){
+    //   event.record.RRMC.disabled=true;
+    // }else if(editmc[0]=='賃貸管理'){
+    //   event.record.BMC.disabled=true;
+    //   event.record.RRMC.disabled=false;
+    // }else if(editmc[0]=='建物管理' && editmc[1]=='賃貸管理'){
+    //   event.record.BMC.disabled=false;
+    //   event.record.RRMC.disabled=false;
+    // }else{
+    //   event.record.BMC.disabled=false;
+    //   event.record.RRMC.disabled=true;
+    // }
     return event;
 
   });
