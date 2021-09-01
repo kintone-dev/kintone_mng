@@ -43,14 +43,13 @@
 
     var queryBody = {
       'app': sysid.DEV.app.sNum,
-      'sNum': event.record.defective.value
-      // 'query': 'sNum="' + event.record.defective.value + '"',
+      'query': 'sNum="' + event.record.defective.value + '"',
     };
 
-    var getresult = kintone.api(kintone.api.url('/k/v1/record', true), 'GET', queryBody);
+    var getresult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
 
     getresult.then(function (resp) {
-      var records = resp.record;
+      var records = resp.records[0];
 
       console.log(resp);
       console.log(records);
