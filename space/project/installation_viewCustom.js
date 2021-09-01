@@ -17,14 +17,16 @@
 
     //チェックボックス条件
     if(editmc.length == 0){
-      event.record.BMC.disabled=true;
-      event.record.RRMC.disabled=true;
+      event.record.BMC.disabled = true;
+      event.record.RRMC.disabled = true;
     } else if(editmc.includes('建物管理')){
-      event.record.BMC.disabled=false;
+      event.record.BMC.disabled = false;
+      event.record.RRMC.disabled = true;
     } else if(editmc.includes('賃貸管理')){
-      event.record.RRMC.disabled=false;
-    } else if(editmc.includes('管理対象外')){
-      console.log('管理対象外');
+      event.record.BMC.disabled = true;
+      event.record.RRMC.disabled = false;
+    } else if(editmc.includes('建物管理') && editmc.includes('賃貸管理')){
+      console.log('二つ');
     }
 
     // if(!editmc[0]){
