@@ -1,10 +1,10 @@
 //スペース＆アプリ情報
-var sysid={
+var sysid = {
 	// Project Management
-	PM:{
+	PM: {
 		space_id: 11,
-		app_id:{
-			item:165,
+		app_id: {
+			item: 165,
 			project: 133,
 			shipment: 113,
 			sNum: 115,
@@ -15,21 +15,21 @@ var sysid={
 		}
 	},
 	// Inventory
-	INV:{
+	INV: {
 		space_id: 19,
-		app_id:{
+		app_id: {
 			unit: 156,
 			device: 155,
 			report: 154,
-			shipment:153,
+			shipment: 153,
 			sNum: 149,
 			account_tc: 141
 		}
 	},
 	// Support
-	SUP:{
+	SUP: {
 		space_id: 13,
-		app:{
+		app: {
 			item: 111,
 			inquiry: 95,
 			onsite: 108,
@@ -39,18 +39,18 @@ var sysid={
 		}
 	},
 	// ATLAS Smart Security
-	ASS:{
+	ASS: {
 		space: 14,
-		app:{
+		app: {
 			member: 139,
 			cancellation: 135,
 			item: 109,
 			shipment: 104
 		}
 	},
-	DEV:{
+	DEV: {
 		space: 22,
-		app:{
+		app: {
 			malfunction: 161,
 			account_tc: 160,
 			sNum: 159
@@ -59,131 +59,152 @@ var sysid={
 }
 /* ボタン、タブメニュー */
 // スペースフィールドにボタンを設置
-function setBtn(btnID, btnValue){
-	var contsBtn=document.createElement('button');　//ボタン作成
-	contsBtn.id=btnID;　//ボタンにID追加
-	contsBtn.classList.add('jsbtn_conts');　//ボタンにCSS追加
-	contsBtn.innerText=btnValue;　//ボタンの表示名
-	contsBtn.addEventListener("mouseover", function(event){ contsBtn.classList.add('jsbtn_over'); }, false); //マウスを乗せた時の処理
-	contsBtn.addEventListener("mouseleave", function(event){ contsBtn.classList.remove('jsbtn_over'); }, false); //マウスを離した時の処理
+function setBtn(btnID, btnValue) {
+	var contsBtn = document.createElement('button'); //ボタン作成
+	contsBtn.id = btnID; //ボタンにID追加
+	contsBtn.classList.add('jsbtn_conts'); //ボタンにCSS追加
+	contsBtn.innerText = btnValue; //ボタンの表示名
+	contsBtn.addEventListener("mouseover", function (event) {
+		contsBtn.classList.add('jsbtn_over');
+	}, false); //マウスを乗せた時の処理
+	contsBtn.addEventListener("mouseleave", function (event) {
+		contsBtn.classList.remove('jsbtn_over');
+	}, false); //マウスを離した時の処理
 	kintone.app.record.getSpaceElement(btnID).appendChild(contsBtn); //指定スペースフィールドにボタン設置
 	return contsBtn;
 }
 // 詳細画面のヘッダースペースにボタン設置
-function setBtn_header(btnID, btnValue){
-	var headerBtn=document.createElement('button');
-	headerBtn.id=btnID;
+function setBtn_header(btnID, btnValue) {
+	var headerBtn = document.createElement('button');
+	headerBtn.id = btnID;
 	headerBtn.classList.add('jsbtn_header');
-	headerBtn.innerText=btnValue;
-	headerBtn.addEventListener("mouseover", function(event){ headerBtn.classList.add('jsbtn_over'); }, false);
-	headerBtn.addEventListener("mouseleave", function(event){ headerBtn.classList.remove('jsbtn_over'); }, false);
+	headerBtn.innerText = btnValue;
+	headerBtn.addEventListener("mouseover", function (event) {
+		headerBtn.classList.add('jsbtn_over');
+	}, false);
+	headerBtn.addEventListener("mouseleave", function (event) {
+		headerBtn.classList.remove('jsbtn_over');
+	}, false);
 	kintone.app.record.getHeaderMenuSpaceElement().appendChild(headerBtn);
 	return headerBtn;
 }
 // 一覧画面のヘッダースペースにボタン設置
-function setBtn_index(btnID, btnValue){
+function setBtn_index(btnID, btnValue) {
 	var indexBtn = document.createElement('button');
 	indexBtn.id = btnID;
 	indexBtn.classList.add('jsbtn_header');
 	indexBtn.innerText = btnValue;
-	indexBtn.addEventListener("mouseover", function(event){ indexBtn.classList.add('jsbtn_over'); }, false);
-	indexBtn.addEventListener("mouseleave", function(event){ indexBtn.classList.remove('jsbtn_over'); }, false);
+	indexBtn.addEventListener("mouseover", function (event) {
+		indexBtn.classList.add('jsbtn_over');
+	}, false);
+	indexBtn.addEventListener("mouseleave", function (event) {
+		indexBtn.classList.remove('jsbtn_over');
+	}, false);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(indexBtn);
 	return indexBtn;
 }
 
 // tabメニューをULで作成
-function tabMenu(tabID, tabList){
-	var tMenu=document.createElement('ul'); //ul要素作成
-	tMenu.id=tabID; //リストにID追加
+function tabMenu(tabID, tabList) {
+	var tMenu = document.createElement('ul'); //ul要素作成
+	tMenu.id = tabID; //リストにID追加
 	tMenu.classList.add(tabID); //リストにCSS追加
 	tMenu.classList.add('tabMenu'); //リストにCSS追加
-	for (var tl in tabList){ //繰り返しli要素とその中身を作成
-		var tList=document.createElement('li'); //li要素作成
-		var aLink=document.createElement('a'); //a要素作成
-		aLink.setAttribute('href', '#'+tabList[tl]); //a要素に詳細を追加
-		aLink.innerText=tabList[tl]; //a要素の表示名
+	for (var tl in tabList) { //繰り返しli要素とその中身を作成
+		var tList = document.createElement('li'); //li要素作成
+		var aLink = document.createElement('a'); //a要素作成
+		aLink.setAttribute('href', '#' + tabList[tl]); //a要素に詳細を追加
+		aLink.innerText = tabList[tl]; //a要素の表示名
 		tList.appendChild(aLink); //li要素にa要素追加
-	   tMenu.appendChild(tList); //ul要素にli要素追加
-	}kintone.app.record.getSpaceElement(tabID).appendChild(tMenu); //指定スペースフィールドにtabメニュー追加
-	$('.'+tabID+' li:first-of-type').addClass("active"); //デフォルトで最初のli要素をアクティブ状態にする
-	$('.'+tabID+' a').on('click', function(){ //他のメニュークリック時アクション
+		tMenu.appendChild(tList); //ul要素にli要素追加
+	}
+	kintone.app.record.getSpaceElement(tabID).appendChild(tMenu); //指定スペースフィールドにtabメニュー追加
+	$('.' + tabID + ' li:first-of-type').addClass("active"); //デフォルトで最初のli要素をアクティブ状態にする
+	$('.' + tabID + ' a').on('click', function () { //他のメニュークリック時アクション
 		var parentElm = $(this).parent(); //クリックされた要素を取得
-		$('.'+tabID+' li').removeClass("active"); //li要素のCSS設定を削除
+		$('.' + tabID + ' li').removeClass("active"); //li要素のCSS設定を削除
 		$(parentElm).addClass("active"); //クリックした要素に改めてCSS設定を付与
 		return false;
 	});
 }
-		/* 使い方
-		*function tabSwitch(onSelect){ //タブメニュー選択肢
-		*	switch(onSelect){
-		*		case '#menu1'
-		*	}
-		*}tabSwitch('#お問い合わせ詳細'); //tab初期表示設定
+/* 使い方
+*function tabSwitch(onSelect){ //タブメニュー選択肢
+*	switch(onSelect){
+*		case '#menu1'
+*	}
+*}tabSwitch('#お問い合わせ詳細'); //tab初期表示設定
 
-		*tabMenu('tabID', ['menu1','menu2']); //タブメニュー作成
-		*$('.tabMenu a').on('click', function(){ //タブメニュークリック時アクション
-		*	var idName = $(this).attr('href'); //タブ内のリンク名を取得  
-		*	tabSwitch(idName); //tabをクリックした時の表示設定
-		*	return false;
-		*});
-		*/
+*tabMenu('tabID', ['menu1','menu2']); //タブメニュー作成
+*$('.tabMenu a').on('click', function(){ //タブメニュークリック時アクション
+*	var idName = $(this).attr('href'); //タブ内のリンク名を取得  
+*	tabSwitch(idName); //tabをクリックした時の表示設定
+*	return false;
+*});
+*/
 
 
 /* 表示関連 */
 //フィールド表示設定
-function setFieldShown(fieldCode, isShown){
-   kintone.app.record.setFieldShown(fieldCode, isShown);
-   kintone.mobile.app.record.setFieldShown(Element, isShown);
+function setFieldShown(fieldCode, isShown) {
+	kintone.app.record.setFieldShown(fieldCode, isShown);
+	kintone.mobile.app.record.setFieldShown(Element, isShown);
 }
-function setSpaceShown(Element, option, parm){
-   var elTag = kintone.app.record.getSpaceElement(Element); //スペースフィールドの要素を取得
-   if(option=='line') elTag.parentNode.parentNode.style.display = parm; //上記で取得した要素の二つ前の要素のdisplayオプション設定
-   else if(option=='individual') elTag.parentNode.style.display = parm;
+
+function setSpaceShown(Element, option, parm) {
+	var elTag = kintone.app.record.getSpaceElement(Element); //スペースフィールドの要素を取得
+	if (option == 'line') elTag.parentNode.parentNode.style.display = parm; //上記で取得した要素の二つ前の要素のdisplayオプション設定
+	else if (option == 'individual') elTag.parentNode.style.display = parm;
 }
 
 /* ツール */
 //sessionStorageにデータ格納
-function createNewREC(tarAPP_id, copy_fCode, copy_value){
-	if(Array.isArray(copy_fCode)){ //配列の場合のアクション
-		for(var fi in copy_fCode){ //ループさせデータ格納
+function createNewREC(tarAPP_id, copy_fCode, copy_value) {
+	if (Array.isArray(copy_fCode)) { //配列の場合のアクション
+		for (var fi in copy_fCode) { //ループさせデータ格納
 			sessionStorage.removeItem(copy_fCode[fi]); //同じ名称のSessionStorageを削除
 			sessionStorage.setItem(copy_fCode[fi], copy_value[fi]); //値をSessionStorageに格納する
 		}
-	}else{ //配列以外の場合のアクション
+	} else { //配列以外の場合のアクション
 		sessionStorage.removeItem(copy_fCode); //同じ名称のSessionStorageを削除
 		sessionStorage.setItem(copy_fCode, copy_value); //値をSessionStorageに格納する
 	}
 	window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', '_blank'); //該当アプリの新規レコード作成画面を開く
 
-	if(Array.isArray(copy_fCode)){ //配列の場合のアクション
-		for(var fr in copy_fCode){ sessionStorage.removeItem(copy_fCode[fr]); } //同じ名称のSessionStorageを削除
-	}else{
+	if (Array.isArray(copy_fCode)) { //配列の場合のアクション
+		for (var fr in copy_fCode) {
+			sessionStorage.removeItem(copy_fCode[fr]);
+		} //同じ名称のSessionStorageを削除
+	} else {
 		sessionStorage.removeItem(copy_fCode); //同じ名称のSessionStorageを削除
 	}
 }
 
 // パスワードジェネレーター
-var pw_generator=function (len){
-	var letters='abcdefghjklmnpqrstuvwxyz'; //パスワードに使用する文字列群
-	var numbers='0123456789'; //パスワードに使用する数字群
-	var symbols='~!@#$%^&*()_+={}[:;<>,.?';　//パスワードに使用する記号群
-	var string =letters + letters.toUpperCase() + numbers + symbols;　//小文字を大文字に変換
+var pw_generator = function (len) {
+	var letters = 'abcdefghjklmnpqrstuvwxyz'; //パスワードに使用する文字列群
+	var numbers = '0123456789'; //パスワードに使用する数字群
+	var symbols = '~!@#$%^&*()_+={}[:;<>,.?'; //パスワードに使用する記号群
+	var string = letters + letters.toUpperCase() + numbers + symbols; //小文字を大文字に変換
 
-	var pw_req=new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+={}[:;<>,.?])[a-zA-Z0-9~!@#$%^&*()_+={}[:;<>,.?]+$/);　//パスワード条件
-	
+	var pw_req = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+={}[:;<>,.?])[a-zA-Z0-9~!@#$%^&*()_+={}[:;<>,.?]+$/); //パスワード条件
+
 	var pw;
-	while(true){//条件を果たすまでパスワードを繰り返し作成
-		pw='';//パスワードをクリア
-		for (var i=0; i<len; i++){ pw+=string.charAt(Math.floor(Math.random()*string.length)); } //パスワード生成
+	while (true) { //条件を果たすまでパスワードを繰り返し作成
+		pw = ''; //パスワードをクリア
+		for (var i = 0; i < len; i++) {
+			pw += string.charAt(Math.floor(Math.random() * string.length));
+		} //パスワード生成
 		var ck_pw_req = pw_req.exec(pw); //生成したパスワードが条件を満たすか確認
-		if(ck_pw_req) break; //生成したパスワードが条件を満たす場合のみ繰り返し中止
+		if (ck_pw_req) break; //生成したパスワードが条件を満たす場合のみ繰り返し中止
 	}
 	return pw;
 };
 
 /* その他 */
 // 全レコード呼び出し
-function api_getRecords(appID){
-	return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', { 'app': appID, 'query': null });
+function api_getRecords(appID) {
+	return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', {
+		'app': appID,
+		'query': null
+	});
 }
