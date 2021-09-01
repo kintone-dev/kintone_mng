@@ -46,10 +46,10 @@
       'query': 'sNum="' + event.record.defective.value + '"',
     };
 
-    var getresult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
+    var getresult = kintone.api(kintone.api.url('/k/v1/record', true), 'GET', queryBody);
 
     getresult.then(function (resp) {
-      var records = resp.records;
+      var records = resp.record;
 
       console.log(resp);
       console.log(records);
