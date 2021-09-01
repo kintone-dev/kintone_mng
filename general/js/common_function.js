@@ -212,7 +212,7 @@ function autoNum(header, fieldCode){
 }
 
 //故障品管理とシリアル管理連携
-function hoge(defectiveNum, repairedNum){
+function defective(defectiveNum, repairedNum){
 	var snDefective = defectiveNum;
 
 	//シリアル管理に挿入する情報の作成
