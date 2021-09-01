@@ -86,7 +86,7 @@
 
       var lengthStr = '0';
       var openType = 'O';
-      var mounterType = 'O';
+      var methodType = 'O';
 
       var lengthRegExp = new RegExp(/^[1-9][0-9]+[SW]$/);
       var methodRegExp = new RegExp(/壁|天井/);
@@ -99,12 +99,12 @@
           openType = railSpecs[z].substring( railSpecs[z].length - 1 );
         }
         if( methodRegExp.test( railSpecs[z] ) === true ){
-          if( railSpecs[z].match('壁') === true ){
+          if( railSpecs[z].match('壁づけ') === true ){
             // 壁付け
-            mounterType = 'W';
+            methodType = '壁づけ';
           }else{
             // 天井またはボックスt付け
-            mounterType = 'S';
+            methodType = '天井';
           }
         }
       }
