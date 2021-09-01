@@ -50,22 +50,19 @@
     getresult.then(function (resp) {
 
       var records = resp.records;
-      var paramPut = {
-        'app': kintone.app.getId(),
-        'records': []
-      };
+
+      var paramPut;
 
       for (var si in records) {
-        var mBody = {};
-
-        mBody={
-          'mCode_defective': {'value': records[si].mCode.value },
-          'mName_defective': {'value': records[si].mName.value }
+        paramPut = {
+          'app': kintone.app.getId(),
+          'record': {
+            'mCode_defective': {'value': records[si].mCode.value },
+            'mName_defective': {'value': records[si].mName.value }
+          }
         };
-
-        paramPut.records.push(mBody);
       };
-
+      
       console.log(paramPut);
 
       kintone.api(kintone.api.url('/k/v1/records', true), 'POST', paramPut);
