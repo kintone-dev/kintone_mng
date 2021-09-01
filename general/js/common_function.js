@@ -51,7 +51,7 @@ var sysid = {
 	DEV: {
 		space: 22,
 		app: {
-			malfunction: 161,
+			defective: 161,
 			account_tc: 160,
 			sNum: 159
 		}

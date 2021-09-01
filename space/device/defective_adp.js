@@ -24,7 +24,7 @@
         'sState': {
           'value': '故障品'
         },
-        'sProgress': {
+        'sDstate': {
           'value': '検証待ち'
         }
       }
