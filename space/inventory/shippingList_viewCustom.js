@@ -183,7 +183,7 @@
         event.record.shipment.value=resp.organizationTitles[0].organization.name;
         return event;
       }).catch(function(error){
-        alert('所属組織取得時にエラーが発生しました。'+'\n'+error.message);
+        console.log('所属組織取得時にエラーが発生しました。'+'\n'+error.message);
       });
     }else{
     }

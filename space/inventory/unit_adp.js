@@ -40,7 +40,7 @@
       kintone.app.record.set(eRecord);
     }).catch(function(error){
       console.log(error);
-      alert('品目データを取得できませんでした。'+error.message);
+      console.log('品目データを取得できませんでした。'+error.message);
     });
     return event;
   });
@@ -82,11 +82,11 @@
       return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
     }).then(function(resp){
       //転送成功
-      alert('put data to device is success');
+      console.log('put data to device is success');
     }).catch(function(error){
       //event error
       console.log(error);
-      alert('品目データ更新失敗'+error.message);
+      console.log('品目データ更新失敗'+error.message);
     });
   });
 })();

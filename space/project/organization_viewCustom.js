@@ -9,9 +9,9 @@
     copy_cName.onclick = function () {
       var clientName = (event.record.cName.value);
       if (execCopy(clientName)) {
-        alert('顧客名をコピーしました。\n案件管理の「請求先検索」に貼り付けてください。');
+        console.log('顧客名をコピーしました。\n案件管理の「請求先検索」に貼り付けてください。');
       } else {
-        alert('このブラウザでは対応していません。\n手動で顧客名をコピーするか、案件管理で請求先をもう一度検索してください。');
+        console.log('このブラウザでは対応していません。\n手動で顧客名をコピーするか、案件管理で請求先をもう一度検索してください。');
       }
     };
     

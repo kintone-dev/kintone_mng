@@ -92,9 +92,9 @@
       }
       var setSNinfo= new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
       return setSNinfo.then(function(resp){
-        alert('update success');
+        console.log('update success');
       }).catch(function(error){
-        alert('update error'+error.message);
+        console.log('update error'+error.message);
         console.log(error);
       });
     }

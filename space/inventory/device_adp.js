@@ -39,7 +39,7 @@
       kintone.app.record.set(eRecord);
     }).catch(function (error) {
       console.log(error);
-      alert('拠点データを取得できませんでした。' + error.message);
+      console.log('拠点データを取得できませんでした。' + error.message);
     });
     return event;
   });
@@ -86,11 +86,11 @@
       return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
     }).then(function (resp) {
       //転送成功
-      alert('put data to UNIT is success');
+      console.log('put data to UNIT is success');
     }).catch(function (error) {
       //event error
       console.log(error);
-      alert('UNITにデータ更新失敗' + error.message);
+      console.log('UNITにデータ更新失敗' + error.message);
     });
 
     //案件管理にデータ転送
@@ -117,9 +117,9 @@
     var pmResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newPMinfo);
     //転送結果
     pmResult.then(function (resp) {
-      alert('PM success');
+      console.log('PM success');
     }).catch(function (error) {
-      alert('PM' + error.message);
+      console.log('PM' + error.message);
     });
 
     //supportとtitanにデータ転送
@@ -149,9 +149,9 @@
       var assResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newASSinfo);
       //転送結果
       assResult.then(function (resp) {
-        alert('Titan success');
+        console.log('Titan success');
       }).catch(function (error) {
-        alert('Titan' + error.message);
+        console.log('Titan' + error.message);
       });
 
       //Support
@@ -178,9 +178,9 @@
       var supResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newSUPinfo);
       //転送結果
       supResult.then(function (resp) {
-        alert('Support success');
+        console.log('Support success');
       }).catch(function (error) {
-        alert('Support' + error.message);
+        console.log('Support' + error.message);
       });
     }
     return event;
@@ -232,9 +232,9 @@
     var pmResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updPMinfo);
     //更新結果
     pmResult.then(function (resp) {
-      alert('PM success');
+      console.log('PM success');
     }).catch(function (error) {
-      alert('PM' + error.message);
+      console.log('PM' + error.message);
     });
 
     //品目区分が「仕掛品」の場合、更新しない
@@ -267,9 +267,9 @@
       var assResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updASSinfo);
       //更新結果
       assResult.then(function (resp) {
-        alert('Titan success');
+        console.log('Titan success');
       }).catch(function (error) {
-        alert('Titan' + error.message);
+        console.log('Titan' + error.message);
       });
 
       //supportを更新
@@ -297,14 +297,14 @@
           }
         }
       };
-      
+
       var supResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updSUPinfo);
 
       //更新結果
       supResult.then(function (resp) {
-        alert('Support success');
+        console.log('Support success');
       }).catch(function (error) {
-        alert('Support' + error.message);
+        console.log('Support' + error.message);
       });
     }
     return event;

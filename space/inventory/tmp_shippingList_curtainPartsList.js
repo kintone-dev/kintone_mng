@@ -239,7 +239,7 @@
         j++;
       } // end-if
     } // end-for
-    alert("コンソール確認");
+    console.log("コンソール確認");
     return event;
   });
 
@@ -421,7 +421,7 @@
       } // end-if
     } // end-for
 
-    alert("コンソール確認");
+    console.log("コンソール確認");
 	  return event;
   });
 })();
