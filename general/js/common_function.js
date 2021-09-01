@@ -200,6 +200,17 @@ var pw_generator = function (len) {
 	return pw;
 };
 
+// Auto Numbering 自動採番
+function autoNum(header, fieldCode){
+	$.ajax({type: 'GET'}).done(function(data, status, xhr) {
+		var serverDate = new Date(xhr.getResponseHeader('Date')).getTime(); //サーバー時刻を代入
+		var utcNum=Math.floor(serverDate/5000); //5秒の幅を持って、切り上げる
+		var eRecord = kintone.app.record.get(); //レコード値を取得
+		eRecord.record[fieldCode].value=header+utcNum; //フィールドに値をセット
+		kintone.app.record.set(eRecord); //変更内容を反映
+	});
+}
+
 /* その他 */
 // 全レコード呼び出し
 function api_getRecords(appID) {
