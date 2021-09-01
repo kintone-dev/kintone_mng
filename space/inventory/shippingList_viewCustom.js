@@ -171,7 +171,7 @@
   kintone.events.on(['app.record.edit.show','app.record.create.show'],function(event){
     setBtn('calBtn','計算');
     $('#calBtn').on('click', function() {
-      console.log('on');
+      trtDY(1,2,3);
     });
   });
 
