@@ -5,15 +5,19 @@
     var test=test_tjson.split(',');
     console.log(test);
   })
+
   kintone.events.on(['app.record.create.change.editMC','app.record.edit.change.editMC','app.record.create.show','app.record.edit.show'], function(event) {
-    var editmc=event.record.editMC.value;
+    var editmc = event.record.editMC.value;
+
+    console.log(editmc);
+
     if(!editmc[0]){
       event.record.BMC.disabled=true;
       event.record.RRMC.disabled=true;
     }else if(editmc[0]=='賃貸管理'){
       event.record.BMC.disabled=true;
       event.record.RRMC.disabled=false;
-    }else if(editmc[0]=='建物管理'&&editmc[1]=='賃貸管理'){
+    }else if(editmc[0]=='建物管理' && editmc[1]=='賃貸管理'){
       event.record.BMC.disabled=false;
       event.record.RRMC.disabled=false;
       event.record.cName.disabled=false;
@@ -22,7 +26,9 @@
       event.record.RRMC.disabled=true;
     }
     return event;
+
   });
+
   kintone.events.on('app.record.detail.show', function(event) {
     setFieldShown('editMC', false);
     return event;
