@@ -1,20 +1,20 @@
-(function() {
+(function () {
   'use strict';
   //拠点情報取得＆繰り返し利用
-  var getUNITdata=api_getRecords(sysid.INV.app_id.unit);
-  
+  var getUNITdata = api_getRecords(sysid.INV.app_id.unit);
+
   //新規品目作成時アクション
-  kintone.events.on('app.record.create.show', function(event){
+  kintone.events.on('app.record.create.show', function (event) {
     //拠点データを取得し、拠点在庫一覧に格納
-    getUNITdata.then(function(resp){
-      var eRecord=kintone.app.record.get();
+    getUNITdata.then(function (resp) {
+      var eRecord = kintone.app.record.get();
       //反転して格納
-      var tarRecords=resp.records.reverse();
+      var tarRecords = resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
       //最初の空白の1行目を削除
       eRecord.record.hStockList.value.splice(0, 1);
       //ahl: auto hub list
-      for(var ahl in tarRecords){
+      for (var ahl in tarRecords) {
         eRecord.record.hStockList.value.push({
           value: {
             hCode: {
@@ -31,144 +31,178 @@
             }
           }
         });
-        eRecord.record.hStockList.value[ahl].value.hCode.disabled=true;
-        eRecord.record.hStockList.value[ahl].value.hName.disabled=true;
-        eRecord.record.hStockList.value[ahl].value.hStock.disabled=true;
+        eRecord.record.hStockList.value[ahl].value.hCode.disabled = true;
+        eRecord.record.hStockList.value[ahl].value.hName.disabled = true;
+        eRecord.record.hStockList.value[ahl].value.hStock.disabled = true;
         kintone.app.record.set(eRecord);
       }
       kintone.app.record.set(eRecord);
-    }).catch(function(error){
+    }).catch(function (error) {
       console.log(error);
-      alert('拠点データを取得できませんでした。'+error.message);
+      alert('拠点データを取得できませんでした。' + error.message);
     });
     return event;
   });
-  
+
   //新規保存時アクション
-  kintone.events.on('app.record.create.submit.success', function(event) {
+  kintone.events.on('app.record.create.submit.success', function (event) {
     //転送用データ取得
-    var mname=event.record.mName.value;
-    var mcode=event.record.mCode.value;
-    var mtype=event.record.mType.value;
-    var mvendor=event.record.mVendor.value;
-    var mnickname=event.record.mNickname.value;
-    
+    var mname = event.record.mName.value;
+    var mcode = event.record.mCode.value;
+    var mtype = event.record.mType.value;
+    var mvendor = event.record.mVendor.value;
+    var mnickname = event.record.mNickname.value;
+
     //品目情報を拠点リストに転送
-    getUNITdata.then(function(resp){
-      var tarRecords=resp.records;
-      
+    getUNITdata.then(function (resp) {
+      var tarRecords = resp.records;
+
       //拠点管理アプリの品目リストに上書きするデータ作成
-      var NewPrdInfo={
+      var NewPrdInfo = {
         'app': sysid.INV.app_id.unit,
-        'records':[]
+        'records': []
       };
       //spd: set product data
-      for (var spd in tarRecords){
-        var records_set={
+      for (var spd in tarRecords) {
+        var records_set = {
           'id': tarRecords[spd].$id.value,
           'record': {
             'mStockList': tarRecords[spd].mStockList
           }
         };
-        var addRowData={
+        var addRowData = {
           'value': {
-            'mCode': {'value': mcode},
-            'mName': {'value': mname}
+            'mCode': {
+              'value': mcode
+            },
+            'mName': {
+              'value': mname
+            }
           }
         };
         records_set.record.mStockList.value.push(addRowData);
         NewPrdInfo.records.push(records_set);
       }
       return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
-    }).then(function(resp){
+    }).then(function (resp) {
       //転送成功
       alert('put data to UNIT is success');
-    }).catch(function(error){
+    }).catch(function (error) {
       //event error
       console.log(error);
-      alert('UNITにデータ更新失敗'+error.message);
+      alert('UNITにデータ更新失敗' + error.message);
     });
 
     //案件管理にデータ転送
     var newPMinfo = {
       'app': sysid.PM.app_id.item,
       'record': {
-        'mName': {'value': mname},
-        'mCode': {'value': mcode},
-        'mType': {'value': mtype},
-        'mVendor': {'value': mvendor},
-        'mNickname': {'value': mnickname}
+        'mName': {
+          'value': mname
+        },
+        'mCode': {
+          'value': mcode
+        },
+        'mType': {
+          'value': mtype
+        },
+        'mVendor': {
+          'value': mvendor
+        },
+        'mNickname': {
+          'value': mnickname
+        }
       }
     };
-    var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newPMinfo);
+    var pmResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newPMinfo);
     //転送結果
-    pmResult.then(function(resp){
+    pmResult.then(function (resp) {
       alert('PM success');
-    }).catch(function(error){
-      alert('PM'+error.message);
+    }).catch(function (error) {
+      alert('PM' + error.message);
     });
-    
+
     //supportとtitanにデータ転送
     //品目区分が「仕掛品」の場合、転送しない
-    if(mtype!='仕掛品'){
+    if (mtype != '仕掛品') {
       //Titan
       var newASSinfo = {
         'app': sysID.ASS.app.dev,
         'record': {
-          'mName': {'value': mname},
-          'mCode': {'value': mcode},
-          'mType': {'value': mtype},
-          'mVendor': {'value': mvendor},
-          'mNickname': {'value': mnickname}
+          'mName': {
+            'value': mname
+          },
+          'mCode': {
+            'value': mcode
+          },
+          'mType': {
+            'value': mtype
+          },
+          'mVendor': {
+            'value': mvendor
+          },
+          'mNickname': {
+            'value': mnickname
+          }
         }
       };
-      var assResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newASSinfo);
+      var assResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newASSinfo);
       //転送結果
-      assResult.then(function(resp){
+      assResult.then(function (resp) {
         alert('Titan success');
-      }).catch(function(error){
-        alert('Titan'+error.message);
+      }).catch(function (error) {
+        alert('Titan' + error.message);
       });
-      
+
       //Support
       var newSUPinfo = {
         'app': sysID.SUP.app.dev,
         'record': {
-          'mName': {'value': mname},
-          'mCode': {'value': mcode},
-          'mType': {'value': mtype},
-          'mVendor': {'value': mvendor},
-          'mNickname': {'value': mnickname}
+          'mName': {
+            'value': mname
+          },
+          'mCode': {
+            'value': mcode
+          },
+          'mType': {
+            'value': mtype
+          },
+          'mVendor': {
+            'value': mvendor
+          },
+          'mNickname': {
+            'value': mnickname
+          }
         }
       };
-      var supResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newSUPinfo);
+      var supResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newSUPinfo);
       //転送結果
-      supResult.then(function(resp){
+      supResult.then(function (resp) {
         alert('Support success');
-      }).catch(function(error){
-        alert('Support'+error.message);
+      }).catch(function (error) {
+        alert('Support' + error.message);
       });
     }
     return event;
   });
-  
+
   //編集詳細閲覧時アクション
   var before_mCode;
-  kintone.events.on('app.record.edit.show', function(event){
-    before_mCode=event.record.mCode.value;
+  kintone.events.on('app.record.edit.show', function (event) {
+    before_mCode = event.record.mCode.value;
 
     return event;
   });
-  
-  
+
+
   //編集保存時アクション
-  kintone.events.on('app.record.edit.submit', function(event) {
+  kintone.events.on('app.record.edit.submit', function (event) {
     //転送用データ取得
-    var mname=event.record.mName.value;
-    var mtype=event.record.mType.value;
-    var mvendor=event.record.mVendor.value;
-    var mnickname=event.record.mNickname.value;
-    var endservice=event.record.endservice.value;
+    var mname = event.record.mName.value;
+    var mtype = event.record.mType.value;
+    var mvendor = event.record.mVendor.value;
+    var mnickname = event.record.mNickname.value;
+    var endservice = event.record.endservice.value;
 
     //案件管理にデータ転送
     var updPMinfo = {
@@ -178,23 +212,33 @@
         'value': before_mCode
       },
       'record': {
-        'mName': {'value': mname},
-        'mType': {'value': mtype},
-        'mVendor': {'value': mvendor},
-        'mNickname': {'value': mnickname},
-        'endservice': {'value': endservice}
+        'mName': {
+          'value': mname
+        },
+        'mType': {
+          'value': mtype
+        },
+        'mVendor': {
+          'value': mvendor
+        },
+        'mNickname': {
+          'value': mnickname
+        },
+        'endservice': {
+          'value': endservice
+        }
       }
     };
-    var pmResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updPMinfo);
+    var pmResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updPMinfo);
     //更新結果
-    pmResult.then(function(resp){
+    pmResult.then(function (resp) {
       alert('PM success');
-    }).catch(function(error){
-      alert('PM'+error.message);
+    }).catch(function (error) {
+      alert('PM' + error.message);
     });
-    
+
     //品目区分が「仕掛品」の場合、更新しない
-    if(mtype!='仕掛品'){
+    if (mtype != '仕掛品') {
       //Titanを更新
       var updASSinfo = {
         'app': sysID.ASS.app.dev,
@@ -203,21 +247,31 @@
           'value': before_mCode
         },
         'record': {
-          'mName': {'value': mname},
-          'mType': {'value': mtype},
-          'mVendor': {'value': mvendor},
-          'mNickname': {'value': mnickname},
-          'endservice': {'value': endservice}  
+          'mName': {
+            'value': mname
+          },
+          'mType': {
+            'value': mtype
+          },
+          'mVendor': {
+            'value': mvendor
+          },
+          'mNickname': {
+            'value': mnickname
+          },
+          'endservice': {
+            'value': endservice
+          }
         }
       };
-      var assResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updASSinfo);
+      var assResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updASSinfo);
       //更新結果
-      assResult.then(function(resp){
+      assResult.then(function (resp) {
         alert('Titan success');
-      }).catch(function(error){
-        alert('Titan'+error.message);
+      }).catch(function (error) {
+        alert('Titan' + error.message);
       });
-      
+
       //supportを更新
       var updSUPinfo = {
         'app': sysID.SUP.app.dev,
@@ -226,19 +280,31 @@
           'value': before_mCode
         },
         'record': {
-          'mName': {'value': mname},
-          'mType': {'value': mtype},
-          'mVendor': {'value': mvendor},
-          'mNickname': {'value': mnickname},
-          'endservice': {'value': endservice}
+          'mName': {
+            'value': mname
+          },
+          'mType': {
+            'value': mtype
+          },
+          'mVendor': {
+            'value': mvendor
+          },
+          'mNickname': {
+            'value': mnickname
+          },
+          'endservice': {
+            'value': endservice
+          }
         }
       };
-      var supResult=new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updSUPinfo);
+      
+      var supResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updSUPinfo);
+
       //更新結果
-      supResult.then(function(resp){
+      supResult.then(function (resp) {
         alert('Support success');
-      }).catch(function(error){
-        alert('Support'+error.message);
+      }).catch(function (error) {
+        alert('Support' + error.message);
       });
     }
     return event;
