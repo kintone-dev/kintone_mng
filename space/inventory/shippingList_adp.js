@@ -84,8 +84,8 @@
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
   
-      console.log(shipTable);
-      console.log(shipTable.sNum);
+      console.log(shipTable[0]);
+      console.log(shipTable[0].sNum.value);
 
       // trtDY(1,2,3);
       kintone.app.record.set(eRecord);
