@@ -76,7 +76,7 @@
     }
   });
 
-  kintone.events.on(['app.record.edit.show','app.record.create.show','app.record.create.change.deviceList','app.record.edit.change.deviceList'],function(event){
+  kintone.events.on(['app.record.edit.show','app.record.create.show','app.record.create.change.sNum','app.record.edit.change.sNum'],function(event){
     setBtn('calBtn','計算');
 
     var shipTable=event.record.deviceList.value;
