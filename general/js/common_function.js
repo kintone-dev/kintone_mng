@@ -238,8 +238,11 @@ function hoge(defectiveNum, repairedNum){
 
 	sNumInfo.records.push(snRecord);
 
+	console.log(snRecord);
+
 	//シリアル管理に状態と状況を挿入
 	var putResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
+
 	putResult.then(function (resp) {
 		console.log("put success");
 	}).catch(function (error) {
@@ -280,7 +283,7 @@ function hoge(defectiveNum, repairedNum){
 
 		defDevInfo.records.push(defRecord);
 
-		console.log(defDevInfo);
+		console.log(defDevInfo.records[0].record);
 
 		// var putDefResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defDevInfo);
 		
