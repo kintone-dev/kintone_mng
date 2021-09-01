@@ -45,7 +45,6 @@
           setFieldShown('Receiver', true);
 
           setFieldShown('deviceList', false);
-          setFieldShown('calBtn', false); 
 
           //setFieldShown('postage', false);
           //setFieldShown('tariff', false);
@@ -74,7 +73,6 @@
           setFieldShown('Receiver', false);
 
           setFieldShown('deviceList', true);
-          setFieldShown('calBtn', true); 
 
           //setFieldShown('postage', false);
           //setFieldShown('tariff', false);
@@ -103,7 +101,6 @@
           setFieldShown('Receiver', false);
 
           setFieldShown('deviceList', false);
-          setFieldShown('calBtn', false); 
 
           //setFieldShown('postage', false);
           //setFieldShown('tariff', false);
@@ -132,7 +129,6 @@
           setFieldShown('Receiver', false);
 
           setFieldShown('deviceList', false);
-          setFieldShown('calBtn', false); 
 
           //setFieldShown('postage', false);
           //setFieldShown('tariff', false);
@@ -174,6 +170,9 @@
 
   kintone.events.on(['app.record.edit.show','app.record.create.show'],function(event){
     setBtn('calBtn','計算');
+    $('#calBtn').on('click', function() {
+      console.log('on');
+    });
   });
 
   
