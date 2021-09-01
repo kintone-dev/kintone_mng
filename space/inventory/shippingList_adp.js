@@ -83,8 +83,32 @@
     $('#calBtn').on('click', function() {
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
-  
+
+      var lengthStr = '0';
+      var openType = 'O';
+      var mounterType = 'O';
+
+      var lengthRegExp = new RegExp(/^[1-9][0-9]+[SW]$/);
+      var methodRegExp = new RegExp(/壁|天井/);
+
       var railSpecs = (String(shipTable[0].value.sNum.value)).split(/\n/);
+
+      for(var i = 0; i < railSpecs.length; i++){
+        if( lengthRegExp.test( railSpecs[i] ) === true ){
+          lengthStr = railSpecs[z].substring( 0, railSpecs[z].length - 1 );
+          openType = railSpecs[z].substring( railSpecs[z].length - 1 );
+        }
+        if( methodRegExp.test( railSpecs[z] ) === true ){
+          if( railSpecs[z].match('壁') === true ){
+            // 壁付け
+            mounterType = 'W';
+          }else{
+            // 天井またはボックスt付け
+            mounterType = 'S';
+          }
+        }
+      }
+
 
       console.log(railSpecs);
 
