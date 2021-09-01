@@ -213,7 +213,6 @@ function autoNum(header, fieldCode){
 
 //故障品管理とシリアル管理連携
 function defective(defectiveNum, repairedNum){
-	var snDefective = defectiveNum;
 
 	//シリアル管理に挿入する情報の作成
 	var defInfo = {
@@ -224,7 +223,7 @@ function defective(defectiveNum, repairedNum){
 	var defRecord = {
 		'updateKey': {
 			'field': 'sNum',
-			'value': snDefective
+			'value': defectiveNum
 		},
 		'record': {
 			'sState': {
