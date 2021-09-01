@@ -255,37 +255,39 @@ function hoge(defectiveNum, repairedNum){
 	var getResult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
 
 	getResult.then(function (resp) {
-		var records = resp.records[0];
+		var records = resp.records;
 
-		delete records.$id;
-		delete records.$revision;
-		delete records.sNum;
-		delete records.レコード番号;
-		delete records.作成日時;
-		delete records.作成者;
-		delete records.ステータス;
+		delete records[0].$id;
+		delete records[0].$revision;
+		delete records[0].sNum;
+		delete records[0].レコード番号;
+		delete records[0].作成日時;
+		delete records[0].作成者;
+		delete records[0].ステータス;
 
-		// var defDevInfo = {
-		// 	'app': sysid.DEV.app.sNum,
-		// 	'records': []
-		// };
+		var defDevInfo = {
+			'app': sysid.DEV.app.sNum,
+			'records': []
+		};
 	
-		// var defRecord = {
-		// 	'updateKey': {
-		// 		'field': 'sNum',
-		// 		'value': snDefective
-		// 	},
-		// 	'record': {
-		// 		'sState': {
-		// 			'value': '故障品'
-		// 		},
-		// 		'sDstate': {
-		// 			'value': '検証待ち'
-		// 		}
-		// 	}
-		// };
+		var defRecord = {
+			'updateKey': {
+				'field': 'sNum',
+				'value': snDefective
+			},
+			'record': {
+				'sState': {
+					'value': '故障品'
+				},
+				'sDstate': {
+					'value': '検証待ち'
+				}
+			}
+		};
 
-		// defDevInfo.records.push(defRecord);
+		defDevInfo.records.push(defRecord);
+
+		console.log(defDevInfo);
 
 		// var putDefResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defDevInfo);
 		
