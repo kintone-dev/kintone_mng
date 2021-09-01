@@ -50,6 +50,8 @@
 
     getresult.then(function (resp) {
       var records = resp.records;
+
+      delete resp.records['作成者'];
       
       console.log(records);
 
