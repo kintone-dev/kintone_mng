@@ -84,10 +84,10 @@
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
   
-      console.log($('#42_5734367-textarea').val());
+      console.log(shipTable.sNum.value);
 
-      console.log(shipTable);
       // trtDY(1,2,3);
+      kintone.app.record.set(eRecord);
     });
 
     return event;
