@@ -6,6 +6,23 @@
     'app.record.edit.submit'
   ];
 
+  function createPutRecords(records) {
+    var putRecords = [];
+    for (var i = 0, l = records.length; i < l; i++) {
+        var record = records[i];
+        putRecords[i] = {
+            id: record.$id.value,
+            record: {
+                lookup: {
+                    value: record.lookup.value
+                }
+            }
+        };
+    }
+    return putRecords;
+}
+
+
   kintone.events.on(events_ced, function (event) {
 
     var snMalfunction = event.record.malfunction.value;
@@ -44,7 +61,15 @@
     var getresult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
 
     getresult.then(function (resp) {
-      console.log(resp);
+
+      var records = resp.records;
+      var paramPut = {
+          'app': kintone.app.getId(),
+          'records': createPutRecords(records)
+      };
+      
+      kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', paramPut);
+      
     }).catch(function (error) {
       console.log(error);
       console.log(error.message);
