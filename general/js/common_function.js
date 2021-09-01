@@ -266,8 +266,8 @@ function hoge(defectiveNum, repairedNum){
 		delete respRecords[0].レコード番号;
 		delete respRecords[0].作成日時;
 		delete respRecords[0].作成者;
-		delete respRecords[0].更新者;
 		delete respRecords[0].ステータス;
+		delete respRecords[0].更新者;
 
 		var repInfo = {
 			'app': sysid.DEV.app.sNum,
@@ -284,6 +284,8 @@ function hoge(defectiveNum, repairedNum){
 
 		repRecord.record = respRecords[0];
 		repInfo.records.push(repRecord);
+
+		console.log(repInfo);
 
 		var putRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', repInfo);
 
