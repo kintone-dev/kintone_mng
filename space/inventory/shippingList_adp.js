@@ -83,7 +83,7 @@
 
     console.log(shipTable);
     $('#calBtn').on('click', function() {
-      console.log(shipTable.value.sNum.value);
+      console.log(shipTable[0].value.sNum.value);
       // trtDY(1,2,3);
     });
 
