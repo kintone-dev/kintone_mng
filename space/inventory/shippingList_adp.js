@@ -81,7 +81,8 @@
 
 
     $('#calBtn').on('click', function() {
-      var shipTable = event.record.deviceList.value;
+      var eRecord = kintone.app.record.get();
+      var shipTable = eRecord.record.deviceList.value;
   
       console.log($('#42_5734367-textarea').val());
 
