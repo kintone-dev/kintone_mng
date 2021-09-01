@@ -54,6 +54,7 @@
       console.log(records);
 
       delete resp.records;
+      delete resp.records.$id;
       
       console.log(records);
     }).catch(function (error) {
