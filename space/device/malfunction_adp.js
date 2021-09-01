@@ -59,8 +59,8 @@
         var mBody = {};
 
         mBody={
-          'mCode': {'value': records[si].mCode.value },
-          'mName': {'value': records[si].mName.value }
+          'mCode_defective': {'value': records[si].mCode.value },
+          'mName_defective': {'value': records[si].mName.value }
         };
 
         paramPut.records.push(mBody);
@@ -68,7 +68,7 @@
 
       console.log(paramPut);
 
-      // kintone.api(kintone.api.url('/k/v1/records', true), 'POST', paramPut);
+      kintone.api(kintone.api.url('/k/v1/records', true), 'POST', paramPut);
 
     }).catch(function (error) {
       console.log(error);
