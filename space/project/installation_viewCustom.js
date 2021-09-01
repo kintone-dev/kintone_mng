@@ -10,19 +10,19 @@
   kintone.events.on(['app.record.create.change.editMC','app.record.edit.change.editMC','app.record.create.show','app.record.edit.show'], function(event) {
     var editmc = event.record.editMC.value;
 
-    console.log(editmc);
-
     //請求先は編集不可
     event.record.cName.disabled=true;
 
-    //管理会社編集チェックボックス
+    //チェックボックス条件
     if(editmc.length == 0){
       event.record.BMC.disabled=true;
       event.record.RRMC.disabled=true;
     } else if(editmc.includes('建物管理')){
       event.record.BMC.disabled=false;
     } else if(editmc.includes('賃貸管理')){
-      event.record.RRMC.disabled=true;
+      event.record.RRMC.disabled=false;
+    } else if(editmc.includes('管理対象外')){
+      console.log('管理対象外');
     }
 
     // if(!editmc[0]){
