@@ -268,6 +268,7 @@ function hoge(defectiveNum, repairedNum){
 		delete respRecords[0].作成者;
 		delete respRecords[0].ステータス;
 		delete respRecords[0].更新者;
+		delete respRecords[0].更新日時;
 
 		var repInfo = {
 			'app': sysid.DEV.app.sNum,
