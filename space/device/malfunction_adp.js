@@ -51,9 +51,9 @@
     getresult.then(function (resp) {
       var records = resp.records;
 
-      delete resp.records.作成者;
+      delete resp.records;
       
-      console.log(records);
+      console.log(resp);
     }).catch(function (error) {
       console.log(error);
       console.log(error.message);
