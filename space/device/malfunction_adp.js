@@ -51,6 +51,8 @@
     getresult.then(function (resp) {
       var records = resp.records;
 
+      console.log(resp);
+
       delete resp.records;
       
       console.log(resp);
