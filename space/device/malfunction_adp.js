@@ -67,12 +67,13 @@
     getresult.then(function (resp) {
 
       var records = resp.records;
-      var paramPut = {
-        'app': kintone.app.getId(),
-        'records': createPutRecords(records)
-      };
+      console.log(records);
+      // var paramPut = {
+      //   'app': kintone.app.getId(),
+      //   'records': createPutRecords(records)
+      // };
 
-      kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', paramPut);
+      // kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', paramPut);
 
     }).catch(function (error) {
       console.log(error);
