@@ -50,8 +50,6 @@
     getresult.then(function (resp) {
 
       var records = resp.records;
-      console.log(records);
-      console.log(kintone.app.getId());
       var paramPut = {
         'app': kintone.app.getId(),
         'records': []
@@ -68,8 +66,9 @@
         paramPut.records.push(mBody);
       };
 
+      console.log(paramPut);
 
-      kintone.api(kintone.api.url('/k/v1/records', true), 'POST', paramPut);
+      // kintone.api(kintone.api.url('/k/v1/records', true), 'POST', paramPut);
 
     }).catch(function (error) {
       console.log(error);
