@@ -216,12 +216,12 @@ function hoge(defectiveNum, repairedNum){
 	var snDefective = defectiveNum;
 
 	//シリアル管理に挿入する情報の作成
-	var sNumInfo = {
+	var defInfo = {
 		'app': sysid.DEV.app.sNum,
 		'records': []
 	};
 
-	var snRecord = {
+	var defRecord = {
 		'updateKey': {
 			'field': 'sNum',
 			'value': snDefective
@@ -236,12 +236,12 @@ function hoge(defectiveNum, repairedNum){
 		}
 	};
 
-	sNumInfo.records.push(snRecord);
+	defInfo.records.push(defRecord);
 
-	console.log(snRecord);
+	console.log(defInfo);
 
 	//シリアル管理に状態と状況を挿入
-	var putResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
+	var putResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defInfo);
 
 	putResult.then(function (resp) {
 		console.log("put success");
@@ -268,12 +268,12 @@ function hoge(defectiveNum, repairedNum){
 		delete records[0].作成者;
 		delete records[0].ステータス;
 
-		var defDevInfo = {
+		var repInfo = {
 			'app': sysid.DEV.app.sNum,
 			'records': []
 		};
 	
-		var defRecord = {
+		var repRecord = {
 			'updateKey': {
 				'field': 'sNum',
 				'value': repairedNum
@@ -281,9 +281,10 @@ function hoge(defectiveNum, repairedNum){
 			'record': {}
 		};
 
-		defDevInfo.records.push(defRecord);
+		repRecord.record.push(records[0]);
+		repInfo.records.push(repRecord);
 
-		console.log(defDevInfo.records[0].record);
+		console.log(repInfo);
 
 		// var putDefResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defDevInfo);
 		
