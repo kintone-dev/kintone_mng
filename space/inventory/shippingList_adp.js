@@ -76,23 +76,15 @@
     }
   });
 
-  kintone.events.on(['app.record.edit.show','app.record.create.show'],function(event){
+  kintone.events.on(['app.record.edit.show','app.record.create.show','app.record.create.change.deviceList','app.record.edit.change.deviceList'],function(event){
     setBtn('calBtn','計算');
 
     var shipTable=event.record.deviceList.value;
-    for (var i in shipTable){
-      var ship_sn=shipTable[i].value.sNum.value;
-      console.log(ship_sn);
-    }
 
-    console.log();
+    console.log(shipTable);
     $('#calBtn').on('click', function() {
       console.log($('#42_5734367-textarea').val());
-      var shipTable=event.record.deviceList.value;
-      for (var i in shipTable){
-        var ship_sn=shipTable[i].value.sNum.value;
-        console.log(ship_sn);
-      }  
+      console.log(shipTable);
       // trtDY(1,2,3);
     });
 
