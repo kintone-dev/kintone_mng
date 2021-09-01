@@ -6,23 +6,6 @@
     'app.record.edit.submit'
   ];
 
-  function createPutRecords(records) {
-    var putRecords = [];
-    for (var i = 0, l = records.length; i < l; i++) {
-      var record = records[i];
-      putRecords[i] = {
-        id: record.$id.value,
-        record: {
-          lookup: {
-            value: record.lookup.value
-          }
-        }
-      };
-    }
-    return putRecords;
-  }
-
-
   kintone.events.on(events_ced, function (event) {
 
     var snDefective = event.record.defective.value;
@@ -68,12 +51,25 @@
 
       var records = resp.records;
       console.log(records);
-      // var paramPut = {
-      //   'app': kintone.app.getId(),
-      //   'records': createPutRecords(records)
-      // };
+      console.log(kintone.app.getId());
+      var paramPut = {
+        'app': kintone.app.getId(),
+        'records': []
+      };
 
-      // kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', paramPut);
+      for (var si in records) {
+        var mBody = {};
+
+        mBody={
+          'mCode': {'value': records[si].mCode.value },
+          'mName': {'value': records[si].mName.value }
+        };
+
+        paramPut.records.push(mBody);
+      };
+
+
+      kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', paramPut);
 
     }).catch(function (error) {
       console.log(error);
