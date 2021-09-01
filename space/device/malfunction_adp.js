@@ -48,24 +48,9 @@
     var getresult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
 
     getresult.then(function (resp) {
-
       var records = resp.records;
-
-      var paramPut;
-
-      for (var si in records) {
-        paramPut = {
-          'app': kintone.app.getId(),
-          'record': {
-            'mCode_defective': {'value': records[si].mCode.value },
-            'mName_defective': {'value': records[si].mName.value }
-          }
-        };
-      };
       
-      console.log(paramPut);
-
-      kintone.api(kintone.api.url('/k/v1/records', true), 'POST', paramPut);
+      console.log(records);
 
     }).catch(function (error) {
       console.log(error);
