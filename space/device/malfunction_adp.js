@@ -51,9 +51,7 @@
     getresult.then(function (resp) {
       var records = resp.records;
 
-      console.log(records);
-
-      delete records.$id;
+      delete records.$id.value;
       
       console.log(records);
     }).catch(function (error) {
