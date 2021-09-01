@@ -266,6 +266,7 @@ function hoge(defectiveNum, repairedNum){
 		delete respRecords[0].レコード番号;
 		delete respRecords[0].作成日時;
 		delete respRecords[0].作成者;
+		delete respRecords[0].更新者;
 		delete respRecords[0].ステータス;
 
 		var repInfo = {
