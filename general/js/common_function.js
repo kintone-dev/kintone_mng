@@ -284,14 +284,16 @@ function hoge(defectiveNum, repairedNum){
 		repRecord.record = respRecords[0];
 		repInfo.records.push(repRecord);
 
-		var putRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', repInfo);
+		console.log(repInfo);
 
-		putRepResult.then(function (resp) {
-			console.log("defective date put success");
-		}).catch(function (error) {
-			console.log("put error");
-			console.error(error);
-		});	
+		// var putRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', repInfo);
+
+		// putRepResult.then(function (resp) {
+		// 	console.log("defective date put success");
+		// }).catch(function (error) {
+		// 	console.log("put error");
+		// 	console.error(error);
+		// });	
 		
 	}).catch(function (error) {
 		console.log(error);
