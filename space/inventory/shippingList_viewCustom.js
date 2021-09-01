@@ -167,18 +167,6 @@
     setFieldShown('expArrivalDate', false);
     return event;
   });
-
-  kintone.events.on(['app.record.edit.show','app.record.create.show'],function(event){
-    setBtn('calBtn','計算');
-    console.log(event.record.sNum);
-    $('#calBtn').on('click', function() {
-      console.log(event.record.sNum);
-      // trtDY(1,2,3);
-    });
-
-    return event;
-  });
-
   
   //納品依頼に進めた場合、作業者から組織情報を取得し、「出荷ロケーション」に格納
   kintone.events.on('app.record.detail.process.proceed',function(event){

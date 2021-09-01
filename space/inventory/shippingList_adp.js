@@ -1,7 +1,7 @@
 (function() {
   'use strict';
-  //拠点情報取得＆繰り返し利用
 
+  //拠点情報取得＆繰り返し利用
   kintone.events.on('app.record.detail.process.proceed',function(event){
     var nStatus = event.nextStatus.value;
     
@@ -75,5 +75,20 @@
       });
     }
   });
+
+  kintone.events.on(['app.record.edit.show','app.record.create.show'],function(event){
+    setBtn('calBtn','計算');
+
+    var shipTable=event.record.deviceList.value;
+
+    console.log(shipTable);
+    $('#calBtn').on('click', function() {
+      console.log(shipTable.value.sNum.value);
+      // trtDY(1,2,3);
+    });
+
+    return event;
+  });
+
 
 })();
