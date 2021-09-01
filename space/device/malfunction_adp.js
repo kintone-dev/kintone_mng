@@ -11,7 +11,7 @@
     var snMalfunction = event.record.malfunction.value;
 
     var sNumInfo = {
-      'app': sysid.DEV.app.malfunction,
+      'app': sysid.DEV.app.sNum,
       'records': []
     };
 
