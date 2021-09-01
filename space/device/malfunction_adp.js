@@ -57,19 +57,16 @@
         'records': []
       };
 
-      for (var si in records) {
-        var mBody = {};
+      var mBody = {};
 
-        mBody={
-          'mCode': {'value': records[si].mCode.value },
-          'mName': {'value': records[si].mName.value }
-        };
-
-        paramPut.records.push(mBody);
+      mBody={
+        'mCode': {'value': records.mCode.value },
+        'mName': {'value': records.mName.value }
       };
 
+      paramPut.records.push(mBody);
 
-      kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', paramPut);
+      kintone.api(kintone.api.url('/k/v1/records', true), 'POST', paramPut);
 
     }).catch(function (error) {
       console.log(error);
