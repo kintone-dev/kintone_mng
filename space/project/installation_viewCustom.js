@@ -10,6 +10,8 @@
   kintone.events.on(['app.record.create.change.editMC','app.record.edit.change.editMC','app.record.create.show','app.record.edit.show'], function(event) {
     var editmc = event.record.editMC.value;
 
+    console.log(editmc);
+
     //請求先は編集不可
     event.record.cName.disabled=true;
 
