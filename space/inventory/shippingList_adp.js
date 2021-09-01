@@ -95,11 +95,11 @@
 
       for(var i = 0; i < railSpecs.length; i++){
         if( lengthRegExp.test( railSpecs[i] ) === true ){
-          lengthStr = railSpecs[z].substring( 0, railSpecs[z].length - 1 );
-          openType = railSpecs[z].substring( railSpecs[z].length - 1 );
+          lengthStr = railSpecs[z].substring( 0, railSpecs[i].length - 1 );
+          openType = railSpecs[z].substring( railSpecs[i].length - 1 );
         }
-        if( methodRegExp.test( railSpecs[z] ) === true ){
-          if( railSpecs[z].match('壁づけ') === true ){
+        if( methodRegExp.test( railSpecs[i] ) === true ){
+          if( railSpecs[i].match('壁づけ') === true ){
             // 壁付け
             methodType = '壁づけ';
           }else{
