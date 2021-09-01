@@ -51,11 +51,11 @@
     getresult.then(function (resp) {
       var records = resp.records;
 
-      console.log(resp);
+      console.log(records);
 
       delete resp.records;
       
-      console.log(resp);
+      console.log(records);
     }).catch(function (error) {
       console.log(error);
       console.log(error.message);
