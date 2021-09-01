@@ -54,7 +54,6 @@
       delete resp.records.作成者;
       
       console.log(records);
-
     }).catch(function (error) {
       console.log(error);
       console.log(error.message);
