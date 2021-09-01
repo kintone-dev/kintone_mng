@@ -1,13 +1,16 @@
 (function() {
   'use strict';
+
   kintone.events.on('app.record.index.show', function(event) {
     var del_records=setBtn_index('btn_del_records', '処理済みデータ削除');
     var sync_kintone=setBtn_index('btn_sync_kintone', '内部連携');
+    
     $('#'+sync_kintone.id).on('click', function(){
       var getReqBody={
         'app': kintone.app.getId(),
         'query': 'info_status not in ("exported", "delete") order by 更新日時 asc',
       };
+
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody).then(function(resp){
         console.log(resp);
         // 会員情報関連

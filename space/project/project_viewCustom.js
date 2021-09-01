@@ -52,6 +52,7 @@
         'query': 'prj_aNum="' + event.record.prj_aNum.value + '" and ステータス in ("納品情報未確定")',
         'fields': ['prj_aNum', '$id', 'ステータス', 'shipType']
       };
+      
       kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (getResp) {
         //「確認中」の「用途」がある場合、「用途」を更新するBody作成
         var update_shipType = {

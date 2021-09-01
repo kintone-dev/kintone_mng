@@ -30,11 +30,28 @@
 
     var putResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
 
-    return putResult.then(function(resp){
+    putResult.then(function(resp){
       console.log(resp);
     }).catch(function(error){
       console.error(error);
     });
+
+    var queryBody = {
+      'app': sysid.DEV.app.sNum,
+      'query': 'sNum=' + event.record.malfunction.value,
+    };
+
+    var getresult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
+
+    getresult.then(function (resp) {
+      console.log(resp);
+    }).catch(function (error) {
+      console.log(error);
+      console.log(error.message);
+    });
+
+
+    return event;
   });
 
 })();
