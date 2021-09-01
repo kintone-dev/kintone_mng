@@ -25,6 +25,11 @@
     } else if(editmc.includes('賃貸管理')){
       event.record.BMC.disabled = true;
       event.record.RRMC.disabled = false;
+    } else if(editmc.includes('管理対象外')){
+      event.record.BMC.disabled = false;
+      event.record.RRMC.disabled = false;
+      event.record.BMC.value = "";
+      event.record.RRMC.value = "";
     } else {
       event.record.BMC.disabled = true;
       event.record.RRMC.disabled = true;
