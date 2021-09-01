@@ -35,8 +35,9 @@
     var putResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
 
     putResult.then(function (resp) {
-      console.log(resp);
+      console.log("put success");
     }).catch(function (error) {
+      console.log("put error");
       console.error(error);
     });
 
