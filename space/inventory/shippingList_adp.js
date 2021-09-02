@@ -161,7 +161,7 @@
       var railItems = railConf(spec);
       
       for (var ril in railItems) {
-        eRecord.record.deviceList.value.push({
+        shipTable.push({
           value: {
             mCode: {
               type: JSON.stringify(railItems[ril].value.mCode.type),
@@ -194,6 +194,8 @@
           }
         });
       }
+
+      console.log(shipTable);
 
       kintone.app.record.set(eRecord);
     });
