@@ -92,6 +92,7 @@
 
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('calBtn', '計算');
+    event.error = 'error';
 
     console.log(event);
 
@@ -99,7 +100,7 @@
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
 
-      console.log(kintone.app.get());
+      console.log(kintone.app);
 
       var lengthStr = '';
       var openType = '';
