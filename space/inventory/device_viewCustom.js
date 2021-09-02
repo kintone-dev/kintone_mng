@@ -33,6 +33,7 @@
           setFieldShown('developCost', false);
           setFieldShown('totalStock', true);
           setFieldShown('hStockList', true);
+          setFieldShown('packageComp', false);
           break;
         case '#原価情報':
           setFieldShown('mCost', true);
@@ -42,6 +43,7 @@
           setFieldShown('developCost', true);
           setFieldShown('totalStock', false);
           setFieldShown('hStockList', false);
+          setFieldShown('packageComp', false);
           break;
         case '#パッケージ内容':
           setFieldShown('mCost', false);
@@ -86,6 +88,8 @@
   
   kintone.events.on('app.record.edit.change.editinfo', function(event){
     // 情報編集チェックボックスが on でなければ、編集させない
+    event.record.endservice.disabled=true;
+    event.record.package.disabled=false;
     if( event.record.editinfo.value[0]==='情報編集' ){
       // チェックボックスがチェックされている
       event.record.mName.disabled=false;
