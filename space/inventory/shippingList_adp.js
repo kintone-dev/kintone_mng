@@ -162,6 +162,8 @@
 
       console.log(railItems);
 
+      console.log(railItems[0].value.mcode);
+
       for (var ril in railItems) {
         eRecord.record.deviceList.value.push({
           value: {
