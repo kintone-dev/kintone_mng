@@ -165,19 +165,19 @@
           value: {
             mCode: {
               type: JSON.stringify(railItems[ril].value.mCode.type),
-              value: JSON.stringify(railItems[ril].value.mCode.value)
+              value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '\"\"')
             },
             mName: {
               type: JSON.stringify(railItems[ril].value.mName.type),
-              value: JSON.stringify(railItems[ril].value.mName.value)
+              value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '\"\"')
             },
             mType: {
               type: JSON.stringify(railItems[ril].value.mType.type),
-              value: JSON.stringify(railItems[ril].value.mType.value)
+              value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
             },
             mVendor: {
               type: JSON.stringify(railItems[ril].value.mVendor.type),
-              value: JSON.stringify(railItems[ril].value.mVendor.value)
+              value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
             },
             sNum: {
               type: JSON.stringify(railItems[ril].value.sNum.type),
