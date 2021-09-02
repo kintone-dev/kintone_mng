@@ -156,7 +156,7 @@
                 }
               }
             });
-            var lookupCount = pil +1
+            console.log( pil +1);
             shipTable[lookupCount].value.mName.lookup = true;
           }
 
@@ -254,7 +254,7 @@
               }
             }
           });
-          shipTable[ril + 1].value.mName.lookup = true;
+          shipTable[ril].value.mName.lookup = true;
         }
       }
 
