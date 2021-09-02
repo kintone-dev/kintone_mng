@@ -202,7 +202,7 @@
     return event;
   });
   // カーテンレールが選択された場合、シリアル番号欄にデータを記入
-  kintone.events.on('app.record.edit.change.mCode', function(event) {
+  kintone.events.on(['app.record.edit.change.mCode','app.record.create.change.mCode'], function(event) {
     for (var i in event.record.deviceList.value){
       if(event.record.deviceList.value[i].value.mCode.value=='TRT-DY'){
         if(event.record.deviceList.value[i].value.sNum.value===undefined){
