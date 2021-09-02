@@ -98,6 +98,7 @@
       var shipTable = eRecord.record.deviceList.value;
 
       event.error = 'error';
+      console.log(event);
 
       var lengthStr = '';
       var openType = '';
