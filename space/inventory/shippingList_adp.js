@@ -144,16 +144,14 @@
                 },
                 shipNum: {
                   type: "NUMBER",
-                  value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value).replace(/\"/g, '')
+                  value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
                 }
               }
-            });
+            });    
+            // shipTable[pil].value.mName.lookup = true;
+          }
 
-            console.log(resp.records[0].packageComp.value[0].value.pc_Num.value * shipNum);
-    
-            shipTable[pil].value.mName.lookup = true;
-          }  
-          
+          console.log(shipTable);
 
         }).catch(function (error) {
           console.log(error);
@@ -246,7 +244,6 @@
               }
             }
           });
-
           shipTable[ril].value.mName.lookup = true;
         }
       }
