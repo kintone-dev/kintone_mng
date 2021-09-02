@@ -94,9 +94,9 @@
     setBtn('calBtn', '計算');
 
     $('#calBtn').on('click', function () {
-      event.error = 'error';
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
+      eRecord.error = 'error';
 
       var lengthStr = '';
       var openType = '';
