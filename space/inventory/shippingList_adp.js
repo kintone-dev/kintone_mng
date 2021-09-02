@@ -117,7 +117,6 @@
           shipTable[0].value.sNum.error = null;
         } else {
           shipTable[0].value.sNum.error = '入力形式が間違えています';
-          alert('入力形式が間違えています');
         }
 
         if (openRegExp.test(railSpecs[i])) {
@@ -126,11 +125,9 @@
             shipTable[0].value.sNum.error = null;
           } else{
             shipTable[0].value.sNum.error = '入力形式が間違えています';
-            alert('入力形式が間違えています');
           }
         } else {
           shipTable[0].value.sNum.error = '入力形式が間違えています';
-          alert('入力形式が間違えています');
         }
 
         if (methodRegExp.test(railSpecs[i])) {
@@ -144,7 +141,6 @@
           shipTable[0].value.sNum.error = null;
         } else {
           shipTable[0].value.sNum.error = '入力形式が間違えています';
-          alert('入力形式が間違えています');
         }
       }
 
@@ -160,9 +156,11 @@
 
       // trtDY(1,2,3);
       kintone.app.record.set(eRecord);
+      console.log(event)
       return event;
     });
 
+    console.log(event);
     return event;
   });
 
