@@ -200,6 +200,8 @@
             }
           }
         });
+
+        shipTable[ril].value.mName.lookup = true;
       }
 
       kintone.app.record.set(eRecord);
