@@ -97,11 +97,6 @@
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
 
-      //品目コードがTRT-DYの時のみ
-      if(String(shipTable[0].value.mCode.value).match(/TRT-DY/)){
-        shipTable[0].value.sNum.value ="カーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付s/壁付w"
-      }
-
       var lengthStr = '';
       var openType = '';
       var methodType = '';
@@ -111,44 +106,6 @@
       var openRegExp = new RegExp(/^[sw]/i);
       var methodRegExp = new RegExp(/壁付[sw]|天井/i);
 
-      var railSpecs = (String(shipTable[0].value.sNum.value)).split(/,\n|\n/);
-
-      for (var i in railSpecs) {
-        if (numRegExp.test(railSpecs[i])) {
-          lengthStr = railSpecs[i];
-
-          shipTable[0].value.sNum.error = null;
-        } else {
-          shipTable[0].value.sNum.error = '入力形式が間違えています';
-        }
-
-        if (openRegExp.test(railSpecs[i])) {
-          if (railSpecs[i].length === 1) {
-            openType = railSpecs[i];
-            openType = openType.toLowerCase();
-
-            shipTable[0].value.sNum.error = null;
-          } else {
-            shipTable[0].value.sNum.error = '入力形式が間違えています';
-          }
-        } else {
-          shipTable[0].value.sNum.error = '入力形式が間違えています';
-        }
-
-        if (methodRegExp.test(railSpecs[i])) {
-          if (railSpecs[i].match(/壁付s/i)) {
-            methodType = '壁付s';
-          } else if (railSpecs[i].match(/壁付w/i)) {
-            methodType = '壁付w';
-          } else {
-            methodType = '天井';
-          }
-          shipTable[0].value.sNum.error = null;
-        } else {
-          shipTable[0].value.sNum.error = '入力形式が間違えています';
-        }
-      }
-
       if (numRegExp.test(shipTable[0].value.shipNum.value)) {
         shipNum = shipTable[0].value.shipNum.value;
         shipTable[0].value.shipNum.error = null;
@@ -156,53 +113,111 @@
         shipTable[0].value.shipNum.error = '入力形式が間違えています';
       }
 
-      var spec = {
-        rLength: lengthStr,
-        rType: openType,
-        rMethod: methodType,
-        shipNum: shipNum
-      }
-
-      var railItems = railConf(spec);
-
-      console.log(eRecord.record.deviceList);
-      
-      for (var ril in railItems) {
-        shipTable.push({
-          value: {
-            mCode: {
-              type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
-            },
-            mName: {
-              type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
-            },
-            mType: {
-              type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
-            },
-            mVendor: {
-              type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
-            },
-            sNum: {
-              type: "MULTI_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
-            },
-            shipMemo: {
-              type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.shipMemo.value).replace(/\"/g, '')
-            },
-            shipNum: {
-              type: "NUMBER",
-              value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
-            }
+      //品目コードがTRT-DYの時のみ
+      if(String(shipTable[0].value.mCode.value).match(/TRT-DY/)){
+  
+        var railSpecs = (String(shipTable[0].value.sNum.value)).split(/,\n|\n/);
+  
+        for (var i in railSpecs) {
+          if (numRegExp.test(railSpecs[i])) {
+            lengthStr = railSpecs[i];
+  
+            shipTable[0].value.sNum.error = null;
+          } else {
+            shipTable[0].value.sNum.error = '入力形式が間違えています';
           }
-        });
+  
+          if (openRegExp.test(railSpecs[i])) {
+            if (railSpecs[i].length === 1) {
+              openType = railSpecs[i];
+              openType = openType.toLowerCase();
+  
+              shipTable[0].value.sNum.error = null;
+            } else {
+              shipTable[0].value.sNum.error = '入力形式が間違えています';
+            }
+          } else {
+            shipTable[0].value.sNum.error = '入力形式が間違えています';
+          }
+  
+          if (methodRegExp.test(railSpecs[i])) {
+            if (railSpecs[i].match(/壁付s/i)) {
+              methodType = '壁付s';
+            } else if (railSpecs[i].match(/壁付w/i)) {
+              methodType = '壁付w';
+            } else {
+              methodType = '天井';
+            }
+            shipTable[0].value.sNum.error = null;
+          } else {
+            shipTable[0].value.sNum.error = '入力形式が間違えています';
+          }
+        }
+    
+        var spec = {
+          rLength: lengthStr,
+          rType: openType,
+          rMethod: methodType,
+          shipNum: shipNum
+        }
+  
+        var railItems = railConf(spec);
+  
+        console.log(eRecord.record.deviceList);
+        
+        for (var ril in railItems) {
+          shipTable.push({
+            value: {
+              mCode: {
+                type: "SINGLE_LINE_TEXT",
+                value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
+              },
+              mName: {
+                type: "SINGLE_LINE_TEXT",
+                value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
+              },
+              mType: {
+                type: "SINGLE_LINE_TEXT",
+                value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
+              },
+              mVendor: {
+                type: "SINGLE_LINE_TEXT",
+                value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
+              },
+              sNum: {
+                type: "MULTI_LINE_TEXT",
+                value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
+              },
+              shipMemo: {
+                type: "SINGLE_LINE_TEXT",
+                value: JSON.stringify(railItems[ril].value.shipMemo.value).replace(/\"/g, '')
+              },
+              shipNum: {
+                type: "NUMBER",
+                value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
+              }
+            }
+          });
+  
+          shipTable[ril].value.mName.lookup = true;
+        }
+      }else{
+        var mName = eRecord.record.mName.value;
 
-        shipTable[ril].value.mName.lookup = true;
+        var queryBody = {
+          'app': sysid.INV.app_id.device,
+          'query': 'mName="' + mName + '"',
+        };
+
+        kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (resp) {
+          console.log(resp);
+        }).catch(function (error) {
+          console.log(error);
+          console.log(error.message);
+        });
+      
       }
+
 
       kintone.app.record.set(eRecord);
     });
