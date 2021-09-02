@@ -97,6 +97,10 @@
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
 
+      if(shipTable[0].value.mCode.value.match(/TRT-DY/)){
+
+      }
+
       var lengthStr = '';
       var openType = '';
       var methodType = '';
@@ -169,27 +173,27 @@
             },
             mName: {
               type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '\"\"')
+              value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
             },
             mType: {
               type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mType.value)
+              value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
             },
             mVendor: {
               type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mVendor.value)
+              value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
             },
             sNum: {
               type: "MULTI_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.sNum.value)
+              value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
             },
             shipMemo: {
               type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.shipMemo.value)
+              value: JSON.stringify(railItems[ril].value.shipMemo.value).replace(/\"/g, '')
             },
             shipNum: {
               type: "NUMBER",
-              value: JSON.stringify(railItems[ril].value.shipNum.value)
+              value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
             }
           }
         });
