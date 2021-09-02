@@ -83,13 +83,14 @@
     event.record.mVendor.disabled=true;
     event.record.mNickname.disabled=true;
     event.record.mWarranty.disabled=true;
+    event.record.endservice.disabled=true;
+    event.record.package.disabled=true;
+
     return event;
   });
   
   kintone.events.on('app.record.edit.change.editinfo', function(event){
     // 情報編集チェックボックスが on でなければ、編集させない
-    event.record.endservice.disabled=true;
-    event.record.package.disabled=false;
     if( event.record.editinfo.value[0]==='情報編集' ){
       // チェックボックスがチェックされている
       event.record.mName.disabled=false;
