@@ -157,46 +157,44 @@
         shipNum: shipNum
       }
 
-      console.log(spec);
-      console.log(eRecord.record.deviceList.value);
-
       var railItems = railConf(spec);
 
       for (var ril in railItems) {
         eRecord.record.deviceList.value.push({
-          id: null,
           value: {
             mCode: {
               type: "SINGLE_LINE_TEXT",
-              value: ""
+              value: railItems[ril].mcode
             },
             mName: {
               type: "SINGLE_LINE_TEXT",
-              value: ""
+              value: railItems[ril].mName
             },
             mType: {
               type: "SINGLE_LINE_TEXT",
-              value: ""
+              value: railItems[ril].mtype
             },
             mVendor: {
               type: "SINGLE_LINE_TEXT",
-              value: ""
+              value: railItems[ril].mVendor
             },
             sNum: {
               type: "MULTI_LINE_TEXT",
-              value: ""
+              value: railItems[ril].sNum
             },
             shipMemo: {
               type: "SINGLE_LINE_TEXT",
-              value: ""
+              value: railItems[ril].shipMemo
             },
             shipNum: {
               type: "NUMBER",
-              value: ""
+              value: railItems[ril].shipNum
             }
           }
         });
       }
+
+      console.log(eRecord.record.deviceList.value);
 
       kintone.app.record.set(eRecord);
     });
