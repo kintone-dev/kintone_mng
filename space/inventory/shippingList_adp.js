@@ -150,8 +150,6 @@
         shipTable[0].value.shipNum.error = '入力形式が間違えています';
       }
 
-      console.log(railSpecs);
-
       var spec = {
         rLength: lengthStr,
         rType: openType,
@@ -160,8 +158,28 @@
       }
 
       console.log(spec);
+      console.log(eRecord.record.deviceList.value);
 
-      console.log(railConf(spec));
+      var railItems = railConf(spec);
+
+      // for(var ril in railItems){
+      //   eRecord.record.deviceList.value.push({
+      //     value: {
+      //       ril: {
+      //         value: '',
+      //         type: 'NUMBER',
+      //       },
+      //       "テキスト": {
+      //         value: addText,
+      //         type: 'SINGLE_LINE_TEXT',
+      //       },
+      //       "チェックボックス": {
+      //         value: addCheckBox,
+      //         type: 'CHECK_BOX',
+      //       }
+      //     }
+      //   });
+      // }
 
       kintone.app.record.set(eRecord);
     });
