@@ -164,6 +164,8 @@
       }
 
       var railItems = railConf(spec);
+
+      console.log(eRecord.record.deviceList);
       
       for (var ril in railItems) {
         shipTable.push({
@@ -198,11 +200,7 @@
             }
           }
         });
-
-        eRecord.record.deviceList[ril].lookup = true;
       }
-
-      console.log(eRecord.record.deviceList.lookup);
 
       kintone.app.record.set(eRecord);
     });
