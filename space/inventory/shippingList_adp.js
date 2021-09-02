@@ -164,6 +164,8 @@
       }
 
       var railItems = railConf(spec);
+
+      console.log(eRecord.record.deviceList);
       
       for (var ril in railItems) {
         shipTable.push({
@@ -200,7 +202,6 @@
         });
       }
 
-      console.log(shipTable);
       kintone.app.record.set(eRecord);
     });
 
