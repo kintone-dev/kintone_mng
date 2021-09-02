@@ -90,7 +90,7 @@
     }
   });
 
-  kintone.events.on(['app.record.edit.show', 'app.record.create.show','app.record.edit.change.sNum','app.record.create.change.sNum'], function (event) {
+  kintone.events.on(['app.record.edit.show', 'app.record.create.show','app.record.edit.change.zipcode','app.record.create.change.zipcode'], function (event) {
     setBtn('calBtn', '計算');
 
     $('#calBtn').on('click', function () {
