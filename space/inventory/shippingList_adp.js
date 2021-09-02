@@ -159,39 +159,36 @@
       }
 
       var railItems = railConf(spec);
-
-      console.log(railItems);
-      console.log(JSON.stringify(railItems[0].value.mCode));
       
       for (var ril in railItems) {
         eRecord.record.deviceList.value.push({
           value: {
             mCode: {
-              type: "SINGLE_LINE_TEXT",
+              type: JSON.stringify(railItems[ril].value.mCode.type),
               value: JSON.stringify(railItems[ril].value.mCode.value)
             },
             mName: {
-              type: "SINGLE_LINE_TEXT",
+              type: JSON.stringify(railItems[ril].value.mName.type),
               value: JSON.stringify(railItems[ril].value.mName.value)
             },
             mType: {
-              type: "SINGLE_LINE_TEXT",
+              type: JSON.stringify(railItems[ril].value.mType.type),
               value: JSON.stringify(railItems[ril].value.mType.value)
             },
             mVendor: {
-              type: "SINGLE_LINE_TEXT",
+              type: JSON.stringify(railItems[ril].value.mVendor.type),
               value: JSON.stringify(railItems[ril].value.mVendor.value)
             },
             sNum: {
-              type: "MULTI_LINE_TEXT",
+              type: JSON.stringify(railItems[ril].value.sNum.type),
               value: JSON.stringify(railItems[ril].value.sNum.value)
             },
             shipMemo: {
-              type: "SINGLE_LINE_TEXT",
+              type: JSON.stringify(railItems[ril].value.shipMemo.type),
               value: JSON.stringify(railItems[ril].value.shipMemo.value)
             },
             shipNum: {
-              type: "NUMBER",
+              type: JSON.stringify(railItems[ril].value.shipNum.type),
               value: JSON.stringify(railItems[ril].value.shipNum.value)
             }
           }
