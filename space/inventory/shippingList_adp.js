@@ -122,7 +122,7 @@
         };
 
         kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo).then(function (resp) {
-          var pcgItems = esp.records[0].packageComp.value;
+          var pcgItems = resp.records[0].packageComp.value;
           for (var pil in pcgItems) {
             shipTable.push({
               value: {
