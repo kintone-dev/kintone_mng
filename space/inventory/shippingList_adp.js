@@ -99,7 +99,7 @@
 
       //品目コードがTRT-DYの時のみ
       if(String(shipTable[0].value.mCode.value).match(/TRT-DY/)){
-        
+        shipTable[0].value.sNum.value ="カーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付s/壁付w"
       }
 
       var lengthStr = '';
