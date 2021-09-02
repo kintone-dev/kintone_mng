@@ -113,13 +113,15 @@
         if (numRegExp.test(railSpecs[i])) {
           lengthStr = railSpecs[i];
         } else {
-          shipTable[0].value.sNum.error = '数字を入力してください';
+          shipTable[0].value.sNum.error = '入力形式が間違えています';
+          event.error = '数字を入力してください'
         }
 
         if (openRegExp.test(railSpecs[i])) {
           openType = railSpecs[i];
         } else {
-          shipTable[0].value.sNum.error = 'SかWで入力してください';
+          shipTable[0].value.sNum.error = '入力形式が間違えています';
+          event.error = 'SかWで入力してください'
         }
 
         if (methodRegExp.test(railSpecs[i])) {
@@ -128,6 +130,9 @@
           } else {
             methodType = '天井';
           }
+        } else {
+          shipTable[0].value.sNum.error = '入力形式が間違えています';
+          event.error = '壁付S,壁付W,天井のいずれかで入力してください。'
         }
       }
 
