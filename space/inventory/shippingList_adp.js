@@ -167,31 +167,31 @@
           value: {
             mCode: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].mcode
+              value: railItems[ril].value.mcode
             },
             mName: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].mName
+              value: railItems[ril].value.mName
             },
             mType: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].mtype
+              value: railItems[ril].value.mtype
             },
             mVendor: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].mVendor
+              value: railItems[ril].value.mVendor
             },
             sNum: {
               type: "MULTI_LINE_TEXT",
-              value: railItems[ril].sNum
+              value: railItems[ril].value.sNum
             },
             shipMemo: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].shipMemo
+              value: railItems[ril].value.shipMemo
             },
             shipNum: {
               type: "NUMBER",
-              value: railItems[ril].shipNum
+              value: railItems[ril].value.shipNum
             }
           }
         });
