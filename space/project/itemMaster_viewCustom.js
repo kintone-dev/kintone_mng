@@ -18,7 +18,9 @@
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.detail.show','app.record.edit.show'], function(event){
-    if(event.record.package.value=='パッケージ品') setFieldShow('packageComp', true);
+    console.log(event.record.package.value)
+    //if(event.record.package.value=='パッケージ品') setFieldShow('packageComp', true);
     else setFieldShow('packageComp', false);
+    return event;
   })
 })();
