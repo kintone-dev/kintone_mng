@@ -114,27 +114,6 @@
         shipTable[0].value.shipNum.error = '入力形式が間違えています';
       }
 
-
-      // パッケージ品が存在する商品を格納
-      var pacItems = [];
-
-      kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacName).then(function (resp) {
-
-        for (var i in resp.records) {
-          pacItems.push(resp.records[i].mName.value);
-        }
-        console.log(pacItems);
-
-        if (pacItems.indexOf(mName)) {
-        } else {
-          console.log('no');
-        }
-
-      }).catch(function (error) {
-        console.log(error);
-        console.log(error.message);
-      });
-
       // 品目にパッケージ品が存在する時
       if(mCode.match(/pkg_/)){
         var pacInfo = {
