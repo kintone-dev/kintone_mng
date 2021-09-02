@@ -18,7 +18,6 @@
   });
 
   kintone.events.on('app.record.create.show', function (event) {
-
     $.ajax({
       type: 'GET'
     }).done(function (data, status, xhr) {
@@ -31,7 +30,7 @@
       eRecord.record.toastcam_bizUserPassword.value = pw_generator(10);
       kintone.app.record.set(eRecord); //変更内容を反映
     });
-    
+
     return event;
   });
 
