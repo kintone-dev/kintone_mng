@@ -18,16 +18,16 @@
     //   location.reload();
     // });
     //bizPASSが既にある場合、「bizID作成」ボタン非表示
-    var elTag = kintone.app.record.getSpaceElement('btn_create_bizid');
-    if(bizPW==='') elTag.parentNode.style.display = 'block';
-    else elTag.parentNode.style.display = 'none';
+    // var elTag = kintone.app.record.getSpaceElement('btn_create_bizid');
+    // if(bizPW==='') elTag.parentNode.style.display = 'block';
+    // else elTag.parentNode.style.display = 'none';
     
     //toastcamのCMSを別タブで開く
-    var openTcms=setBtn('btn_open_tCMS', 'CMS');
-    $('#'+openTcms.id).on('click', function(){
-      window.open('https://cms.toastcam.com/#/bizUserManagementWrite?searchType=&searchWord=&pageNumber=1&count=10&time=1629776725393', '_blank');
-    });
-    return event;
+    // var openTcms=setBtn('btn_open_tCMS', 'CMS');
+    // $('#'+openTcms.id).on('click', function(){
+    //   window.open('https://cms.toastcam.com/#/bizUserManagementWrite?searchType=&searchWord=&pageNumber=1&count=10&time=1629776725393', '_blank');
+    // });
+    // return event;
   });
   
   kintone.events.on('app.record.detail.show',function(event){
