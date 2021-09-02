@@ -162,18 +162,18 @@
 
       console.log(railItems);
 
-      console.log(railItems[0].value.mcode);
+      console.log(railItems[0].mcode);
 
       for (var ril in railItems) {
         eRecord.record.deviceList.value.push({
           value: {
             mCode: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].value.mcode
+              value: railItems[ril].mcode
             },
             mName: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].value.mName
+              value: railItems[ril].mName
             },
             mType: {
               type: "SINGLE_LINE_TEXT",
