@@ -93,10 +93,11 @@
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('calBtn', '計算');
 
-    $('#calBtn').on('click', function () {
+    $('#calBtn').on('click', function (event) {
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
       eRecord.error = 'error';
+      event.error = 'error';
 
       var lengthStr = '';
       var openType = '';
@@ -112,16 +113,16 @@
       for (var i in railSpecs) {
         if (numRegExp.test(railSpecs[i])) {
           lengthStr = railSpecs[i];
+          shipTable[0].value.sNum.error = null;
         } else {
           shipTable[0].value.sNum.error = '入力形式が間違えています';
-          eRecord.error = '数字を入力してください'
         }
 
         if (openRegExp.test(railSpecs[i])) {
           openType = railSpecs[i];
+          shipTable[0].value.sNum.error = null;
         } else {
           shipTable[0].value.sNum.error = '入力形式が間違えています';
-          eRecord.error = 'SかWで入力してください'
         }
 
         if (methodRegExp.test(railSpecs[i])) {
@@ -130,9 +131,9 @@
           } else {
             methodType = '天井';
           }
+          shipTable[0].value.sNum.error = null;
         } else {
           shipTable[0].value.sNum.error = '入力形式が間違えています';
-          eRecord.error = '壁付S,壁付W,天井のいずれかで入力してください。'
         }
       }
 
