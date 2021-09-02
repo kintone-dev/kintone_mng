@@ -102,11 +102,11 @@
           openType = railSpecs[i];
         }
         if( methodRegExp.test( railSpecs[i] ) === true ){
-          if( railSpecs[i].match('壁づけ') === true ){
+          if( railSpecs[i].match(/壁づけ/) === true ){
             // 壁付け
             methodType = '壁づけ';
           }else{
-            // 天井またはボックスt付け
+            // 天井付け
             methodType = '天井';
           }
         }
