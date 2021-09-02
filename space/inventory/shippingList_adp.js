@@ -168,31 +168,31 @@
           value: {
             mCode: {
               type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mCode)
+              value: JSON.stringify(railItems[ril].value.mCode.value)
             },
             mName: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].mName
+              value: JSON.stringify(railItems[ril].value.mName.value)
             },
             mType: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].value.mType
+              value: JSON.stringify(railItems[ril].value.mType.value)
             },
             mVendor: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].value.mVendor
+              value: JSON.stringify(railItems[ril].value.mVendor.value)
             },
             sNum: {
               type: "MULTI_LINE_TEXT",
-              value: railItems[ril].value.sNum
+              value: JSON.stringify(railItems[ril].value.sNum.value)
             },
             shipMemo: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].value.shipMemo
+              value: JSON.stringify(railItems[ril].value.shipMemo.value)
             },
             shipNum: {
               type: "NUMBER",
-              value: railItems[ril].value.shipNum
+              value: JSON.stringify(railItems[ril].value.shipNum.value)
             }
           }
         });
