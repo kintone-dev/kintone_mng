@@ -1,7 +1,6 @@
 (function(){
   'use strict';
 
-  kintone.events.on(events_ced, function(event){
     $('.gaia-argoui-app-menu-add').remove();
     $('.recordlist-edit-gaia').remove();
     $('.recordlist-remove-gaia').remove();
