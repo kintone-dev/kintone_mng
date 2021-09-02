@@ -90,17 +90,14 @@
     }
   });
 
-  kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
+  kintone.events.on(['app.record.edit.show', 'app.record.create.show','app.record.edit.change.deviceList','app.record.create.change.deviceList'], function (event) {
     setBtn('calBtn', '計算');
 
     $('#calBtn').on('click', function () {
-      kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
-        event.error = 'error';
-        return event;
-      });
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
 
+      event.error = 'error';
 
       var lengthStr = '';
       var openType = '';
@@ -159,6 +156,8 @@
       // trtDY(1,2,3);
       kintone.app.record.set(eRecord);
     });
+
+    console.log(event);
 
     return event;
   });
