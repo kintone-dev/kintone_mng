@@ -115,7 +115,7 @@
 
       var queryBody = {
         'app': sysid.INV.app_id.device,
-        'query': 'package = パッケージ品',
+        'query': 'package in ("パッケージ品")',
       };
 
       kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (resp) {
