@@ -96,42 +96,44 @@
     $('#calBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
-    
+
       var lengthStr = '';
       var openType = '';
       var methodType = '';
       var shipNum = '';
-  
+
       var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/^[sw]/i);
       var methodRegExp = new RegExp(/壁付[sw]|天井/i);
-  
+
       var railSpecs = (String(shipTable[0].value.sNum.value)).split(/,\n|\n/);
-  
+
       for (var i in railSpecs) {
         if (numRegExp.test(railSpecs[i])) {
           lengthStr = railSpecs[i];
+
           shipTable[0].value.sNum.error = null;
         } else {
           shipTable[0].value.sNum.error = '入力形式が間違えています';
         }
-  
+
         if (openRegExp.test(railSpecs[i])) {
-          if(railSpecs[i].length === 1){
-            openType = railSpecs[i];
+          if (railSpecs[i].length === 1) {
+            openType = railSpecs[i].toLowerCase;
+
             shipTable[0].value.sNum.error = null;
-          } else{
+          } else {
             shipTable[0].value.sNum.error = '入力形式が間違えています';
           }
         } else {
           shipTable[0].value.sNum.error = '入力形式が間違えています';
         }
-  
+
         if (methodRegExp.test(railSpecs[i])) {
           if (railSpecs[i].match(/壁付s/i)) {
-            methodType = '壁付S';
+            methodType = '壁付s';
           } else if (railSpecs[i].match(/壁付w/i)) {
-            methodType = '壁付W';
+            methodType = '壁付w';
           } else {
             methodType = '天井';
           }
@@ -140,17 +142,24 @@
           shipTable[0].value.sNum.error = '入力形式が間違えています';
         }
       }
-  
+
       if (numRegExp.test(shipTable[0].value.shipNum.value)) {
         shipNum = shipTable[0].value.shipNum.value;
       }
-  
-      console.log(shipNum);
-      console.log(lengthStr);
-      console.log(openType);
-      console.log(methodType);
+
       console.log(railSpecs);
-  
+
+      var spec = {
+        rLength: lengthStr,
+        rType: openType,
+        rMethod: methodType,
+        shipNum: shipNum
+      }
+
+      console.log(spec);
+
+      // railConf();
+
       // trtDY(1,2,3);
       kintone.app.record.set(eRecord);
     });
