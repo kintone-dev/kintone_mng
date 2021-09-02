@@ -158,19 +158,17 @@
         shipNum: shipNum
       }
 
-      console.log(shipTable);
-
       var railItems = railConf(spec);
 
       console.log(railItems);
-      console.log(railItems[1].value.mcode);
+      console.log(JSON.stringify(railItems[0].value.mcode));
       
       for (var ril in railItems) {
         eRecord.record.deviceList.value.push({
           value: {
             mCode: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].value.mcode
+              value: JSON.stringify(railItems[ril].value.mcode)
             },
             mName: {
               type: "SINGLE_LINE_TEXT",
