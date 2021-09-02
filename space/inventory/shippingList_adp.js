@@ -158,6 +158,8 @@
         shipNum: shipNum
       }
 
+      console.log(shipTable);
+
       var railItems = railConf(spec);
 
       console.log(railItems);
