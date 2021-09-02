@@ -97,8 +97,9 @@
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
 
-      if(shipTable[0].value.mCode.value.match(/TRT-DY/)){
-
+      //品目コードがTRT-DYの時のみ
+      if(String(shipTable[0].value.mCode.value).match(/TRT-DY/)){
+        
       }
 
       var lengthStr = '';
