@@ -97,7 +97,8 @@
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
 
-      kintone.app.error = 'aaa'
+      kintone.error = 'aaa';
+      eRecord.record.deviceList.error = 'aaa'
 
       var lengthStr = '';
       var openType = '';
