@@ -89,22 +89,22 @@
       var methodType = '';
       var shipNum = '';
 
-      var lengthRegExp = new RegExp(/^([1-9]\d*|0)$/);
+      var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/[SW]/);
       var methodRegExp = new RegExp(/壁づけ|天井/);
 
       var railSpecs = (String(shipTable[0].value.sNum.value)).split(/,\n/);
 
       for(var i in railSpecs){
-        if( lengthRegExp.test( railSpecs[i] ) === true ){
+        if(numRegExp.test(railSpecs[i])){
           lengthStr = railSpecs[i];
         }
 
-        if(openRegExp.test( railSpecs[i] ) === true){
+        if(openRegExp.test(railSpecs[i])){
           openType = railSpecs[i];
         }
         
-        if( methodRegExp.test( railSpecs[i] ) === true ){
+        if(methodRegExp.test(railSpecs[i])){
           if( railSpecs[i].match(/壁づけ/)){
             methodType = '壁づけ';
           } else {
@@ -113,7 +113,9 @@
         }
       }
 
-      shipNum = shipTable[0].value.shipNum.value;
+      if(numRegExp.test(shipTable[0].value.shipNum.value)){
+        shipNum = shipTable[0].value.shipNum.value;
+      }
 
       console.log(shipNum);
       console.log(lengthStr);
