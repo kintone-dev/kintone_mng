@@ -157,8 +157,6 @@
               }
             });
             var lookupCount = parseInt(pil) + 1;
-            console.log(pil);
-            console.log(lookupCount);
             shipTable[lookupCount].value.mName.lookup = true;
           }
 
@@ -256,7 +254,8 @@
               }
             }
           });
-          shipTable[ril].value.mName.lookup = true;
+          var lookupCount = parseInt(pil) + 1;
+          shipTable[lookupCount].value.mName.lookup = true;
         }
       }
 
