@@ -161,7 +161,7 @@
 
       console.log(spec);
 
-      // railConf();
+      console.log(railConf(spec));
 
       kintone.app.record.set(eRecord);
     });
