@@ -155,8 +155,9 @@
                   value: ''
                 }
               }
-            });    
-            shipTable[pil + 1].value.mName.lookup = true;
+            });
+            var lookupCount = pil +1
+            shipTable[lookupCount].value.mName.lookup = true;
           }
 
 
