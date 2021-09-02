@@ -122,7 +122,7 @@
         };
 
         kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo).then(function (resp) {
-          console.log(resp.records);
+          console.log(resp.records[0].packageComp);
             // shipTable.push({
             //   value: {
             //     mCode: {
