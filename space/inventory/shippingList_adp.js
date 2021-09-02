@@ -146,6 +146,8 @@
 
       if (numRegExp.test(shipTable[0].value.shipNum.value)) {
         shipNum = shipTable[0].value.shipNum.value;
+      }else{
+        shipTable[0].value.shipNum.error = '入力形式が間違えています';
       }
 
       console.log(railSpecs);
