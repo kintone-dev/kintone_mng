@@ -84,9 +84,9 @@
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
 
-      var lengthStr = '0';
-      var openType = 'O';
-      var methodType = 'O';
+      var lengthStr = '';
+      var openType = '';
+      var methodType = '';
 
       var lengthRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/[SW]/);
