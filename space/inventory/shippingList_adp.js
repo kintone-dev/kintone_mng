@@ -156,8 +156,9 @@
                 }
               }
             });    
-            shipTable[pil].value.mName.lookup = true;
+            shipTable[pil + 1].value.mName.lookup = true;
           }
+
 
           kintone.app.record.set(eRecord);
           return resp;
@@ -252,7 +253,7 @@
               }
             }
           });
-          shipTable[ril].value.mName.lookup = true;
+          shipTable[ril + 1].value.mName.lookup = true;
         }
       }
 
