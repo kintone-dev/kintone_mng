@@ -115,47 +115,44 @@
       }
 
       // 品目にパッケージ品が存在する時
-      if(mCode.match(/pkg_/)){
+      if (mCode.match(/pkg_/)) {
         var pacInfo = {
           'app': sysid.INV.app_id.device,
           'query': 'mCode="' + mCode + '"',
         };
 
         kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo).then(function (resp) {
-          console.log(resp.records[0].packageComp);
-            // shipTable.push({
-            //   value: {
-            //     mCode: {
-            //       type: "SINGLE_LINE_TEXT",
-            //       value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
-            //     },
-            //     mName: {
-            //       type: "SINGLE_LINE_TEXT",
-            //       value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
-            //     },
-            //     mType: {
-            //       type: "SINGLE_LINE_TEXT",
-            //       value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
-            //     },
-            //     mVendor: {
-            //       type: "SINGLE_LINE_TEXT",
-            //       value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
-            //     },
-            //     sNum: {
-            //       type: "MULTI_LINE_TEXT",
-            //       value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
-            //     },
-            //     shipMemo: {
-            //       type: "SINGLE_LINE_TEXT",
-            //       value: JSON.stringify(railItems[ril].value.shipMemo.value).replace(/\"/g, '')
-            //     },
-            //     shipNum: {
-            //       type: "NUMBER",
-            //       value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
-            //     }
-            //   }
-            // });
-  
+          var pcgItems = esp.records[0].packageComp.value;
+          for (var pil in pcgItems) {
+            shipTable.push({
+              value: {
+                mCode: {
+                  type: "SINGLE_LINE_TEXT",
+                  value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mCode.value).replace(/\"/g, '')
+                },
+                mName: {
+                  type: "SINGLE_LINE_TEXT",
+                  value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mName.value).replace(/\"/g, '')
+                },
+                mType: {
+                  type: "SINGLE_LINE_TEXT",
+                  value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mType.value).replace(/\"/g, '')
+                },
+                mVendor: {
+                  type: "SINGLE_LINE_TEXT",
+                  value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mVendor.value).replace(/\"/g, '')
+                },
+                shipNum: {
+                  type: "NUMBER",
+                  value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value).replace(/\"/g, '')
+                }
+              }
+            });
+    
+            shipTable[pil].value.mName.lookup = true;
+          }  
+          
+
         }).catch(function (error) {
           console.log(error);
           console.log(error.message);
