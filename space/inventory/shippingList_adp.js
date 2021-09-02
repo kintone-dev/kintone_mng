@@ -160,7 +160,6 @@
 
       // railConf();
 
-      // trtDY(1,2,3);
       kintone.app.record.set(eRecord);
     });
 

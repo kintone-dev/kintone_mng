@@ -360,11 +360,6 @@ var railConf=function (spec){
   return railComp;
 };
 
-// 入出荷管理、品目一覧計算
-function trtDY(length,open,attach){
-	
-}
-
 /* その他 */
 // 全レコード呼び出し
 function api_getRecords(appID) {
