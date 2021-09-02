@@ -87,6 +87,7 @@
       var lengthStr = '';
       var openType = '';
       var methodType = '';
+      var shipNum = '';
 
       var lengthRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/[SW]/);
@@ -112,6 +113,9 @@
         }
       }
 
+      shipNum = shipTable[0].value.shipNum.value;
+
+      console.log(shipNum);
       console.log(lengthStr);
       console.log(openType);
       console.log(methodType);
