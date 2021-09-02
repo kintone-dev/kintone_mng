@@ -88,15 +88,18 @@
       var openType = 'O';
       var methodType = 'O';
 
-      var lengthRegExp = new RegExp(/^[1-9][0-9]+[SW]$/);
-      var methodRegExp = new RegExp(/壁|天井/);
+      var lengthRegExp = new RegExp(/^([1-9]\d*|0)$/);
+      var openRegExp = new RegExp(/[SW]/);
+      var methodRegExp = new RegExp(/壁づけ|天井/);
 
       var railSpecs = (String(shipTable[0].value.sNum.value)).split(/\n/);
 
       for(var i = 0; i < railSpecs.length; i++){
         if( lengthRegExp.test( railSpecs[i] ) === true ){
-          lengthStr = railSpecs[z].substring( 0, railSpecs[i].length - 1 );
-          openType = railSpecs[z].substring( railSpecs[i].length - 1 );
+          lengthStr = railSpecs[i];
+        }
+        if(openRegExp.test( railSpecs[i] ) === true){
+          openType = railSpecs[i];
         }
         if( methodRegExp.test( railSpecs[i] ) === true ){
           if( railSpecs[i].match('壁づけ') === true ){
@@ -109,7 +112,9 @@
         }
       }
 
-
+      console.log(lengthStr);
+      console.log(openType);
+      console.log(methodType);
       console.log(railSpecs);
 
       // trtDY(1,2,3);
