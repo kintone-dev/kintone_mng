@@ -168,7 +168,7 @@
           value: {
             mCode: {
               type: "SINGLE_LINE_TEXT",
-              value: JSON.parse(railItems[ril].value.mcode)
+              value: railItems[ril].value.mcode
             },
             mName: {
               type: "SINGLE_LINE_TEXT",
