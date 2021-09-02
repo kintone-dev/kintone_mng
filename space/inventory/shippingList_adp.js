@@ -113,6 +113,19 @@
         shipTable[0].value.shipNum.error = '入力形式が間違えています';
       }
 
+      var queryBody = {
+        'app': sysid.INV.app_id.device,
+        'query': 'package = パッケージ品',
+      };
+
+      kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (resp) {
+        console.log(resp);
+      }).catch(function (error) {
+        console.log(error);
+        console.log(error.message);
+      });
+
+
       //品目コードがTRT-DYの時のみ
       if(String(shipTable[0].value.mCode.value).match(/TRT-DY/)){
   
@@ -200,21 +213,9 @@
           shipTable[ril].value.mName.lookup = true;
         }
       }else{
-        var mName =  shipTable[0].value.mName.value;
+        // var mName =  shipTable[0].value.mName.value;
 
-        console.log(mName);
-
-        var queryBody = {
-          'app': sysid.INV.app_id.device,
-          'query': 'mName="' + mName + '"',
-        };
-
-        kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (resp) {
-          console.log(resp);
-        }).catch(function (error) {
-          console.log(error);
-          console.log(error.message);
-        });
+        // console.log(mName);
       
       }
 
