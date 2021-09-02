@@ -164,6 +164,7 @@
 
       for (var ril in railItems) {
         eRecord.record.deviceList.value.push({
+          id: null,
           value: {
             mCode: {
               type: "SINGLE_LINE_TEXT",
