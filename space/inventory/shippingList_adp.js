@@ -104,7 +104,7 @@
         }
         
         if( methodRegExp.test( railSpecs[i] ) === true ){
-          if( railSpecs[i].match(/壁づけ/) === true ){
+          if( railSpecs[i].match(/壁づけ/)){
             methodType = '壁づけ';
           } else {
             methodType = '天井';
