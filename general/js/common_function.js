@@ -211,7 +211,7 @@ function autoNum(header, fieldCode){
 	});
 }
 
-//故障品管理とシリアル管理連携
+// 故障品管理とシリアル管理連携
 function defective(defectiveNum, repairedNum){
 
 	//シリアル管理に挿入する情報の作成
@@ -302,10 +302,65 @@ function defective(defectiveNum, repairedNum){
 		console.log(error);
 		console.log(error.message);
 	});
-
 }
 
-//入出荷管理、品目一覧計算
+// カーテンレール部品割り出し
+var railConf=function (spec){
+  var truckLength=spec.rLength-140;
+  var mcode='KRT-DY'+spec.rLength+spec.rType.toUpperCase();
+  var railDetail=[];
+  var truck=['カーテンレール（DY）2000', Math.ceil(truckLength/2000)*spec.shipNum];
+  var ConnectingKit=['Connecting Kit', Math.ceil(truckLength/2000-1)*spec.shipNum];
+  var RubberBelt=['Rubber Belt', Math.ceil(truckLength*2+240)*spec.shipNum];
+  var Carriers=['Carriers', Math.round(truckLength/125)];
+  if (spec.rType.match(/[wW]/)) Carriers[1]=Math.ceil(Carriers[1]/2)*2*spec.shipNum;
+  else Carriers[1]=Carriers[1]*spec.shipNum;
+  var CeilingBracket=['',Math.round(spec.rLength/500+1)*spec.shipNum];
+  if (spec.rMethod=='天井') CeilingBracket[0]='Ceiling Bracket(D)';
+  else if (spec.rMethod.match(/壁付/)) CeilingBracket[0]='Ceiling Bracket';
+  var MasterCarrier=['Master Carrier', 1*spec.shipNum];
+  if (ConnectingKit[1]>0) MasterCarrier[0]='Master Carrier(G)';
+  var BeltClip=['Belt Clip', 2*spec.shipNum];
+  var EndHook=['End Hook', 1*spec.shipNum];
+  if (spec.rType.match(/[wW]/)){
+    MasterCarrier[1]=MasterCarrier[1]*2;
+    BeltClip[1]=BeltClip[1]*2;
+    EndHook[1]=EndHook[1]*2;
+  }
+  
+  railDetail.push({mname:truck[0], shipnum:truck[1]});
+  if(ConnectingKit[1]>0) railDetail.push({mname:ConnectingKit[0], shipnum:ConnectingKit[1]});
+  railDetail.push({mname:RubberBelt[0], shipnum:RubberBelt[1]});
+  railDetail.push({mname:Carriers[0], shipnum:Carriers[1]});
+  railDetail.push({mname:CeilingBracket[0], shipnum:CeilingBracket[1]});
+  if(spec.rMethod.match(/壁付/)){
+    if(spec.rMethod.match(/壁付[sS]/)) railDetail.push({mname:'L字金具', shipnum:CeilingBracket[1]});
+    else if(spec.rMethod.match(/壁付[wW]/)) railDetail.push({mname:'L字金具W', shipnum:CeilingBracket[1]});
+  }
+  railDetail.push({mname:MasterCarrier[0], shipnum:MasterCarrier[1]});
+  railDetail.push({mname:BeltClip[0], shipnum:BeltClip[1]});
+  railDetail.push({mname:EndHook[0], shipnum:EndHook[1]});
+  railDetail.push({mname:'End Box', shipnum:2*spec.shipNum});
+  railDetail.push({mname:'Bumper', shipnum:2*spec.shipNum})
+  var railComp=[];
+  for (var i in railDetail){
+    railComp.push({
+      value:{
+        mCode:{value:'', type:'SINGLE_LINE_TEXT'},
+        mType:{value:'', type:'SINGLE_LINE_TEXT'},
+        mVendor:{value:'', type:'SINGLE_LINE_TEXT'},
+        mName:{value:railDetail[i].mname, type:'SINGLE_LINE_TEXT'},
+        shipNum:{value:railDetail[i].shipnum, type: 'NUMBER'},
+        sNum:{value:'', type:'MULTI_LINE_TEXT'},
+        shipMemo:{value:'', type:'SINGLE_LINE_TEXT'}
+      }
+    });
+  }
+  railComp[0].value.shipMemo.value='truckLength: '+truckLength;
+  return railComp;
+};
+
+// 入出荷管理、品目一覧計算
 function trtDY(length,open,attach){
 	
 }
