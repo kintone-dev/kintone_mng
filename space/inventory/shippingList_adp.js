@@ -146,6 +146,7 @@
 
       if (numRegExp.test(shipTable[0].value.shipNum.value)) {
         shipNum = shipTable[0].value.shipNum.value;
+        shipTable[0].value.shipNum.error = null;
       } else {
         shipTable[0].value.shipNum.error = '入力形式が間違えています';
       }
@@ -158,6 +159,8 @@
       }
 
       var railItems = railConf(spec);
+
+      console.log(railItems);
 
       for (var ril in railItems) {
         eRecord.record.deviceList.value.push({
@@ -193,8 +196,6 @@
           }
         });
       }
-
-      console.log(eRecord.record.deviceList.value);
 
       kintone.app.record.set(eRecord);
     });
