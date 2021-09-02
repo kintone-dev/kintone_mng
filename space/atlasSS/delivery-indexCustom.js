@@ -8,7 +8,7 @@
     $('#' + sync_kintone.id).on('click', function () {
       var getReqBody = {
         'app': kintone.app.getId(),
-        'query': 'working_status = "TOASTCAM登録待ち" and person_in_charge = "Accel Lab" order by 更新日時 asc',
+        'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") order by 更新日時 asc',
       };
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody).then(function (resp) {
