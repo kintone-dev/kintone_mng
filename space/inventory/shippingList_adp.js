@@ -200,7 +200,7 @@
           shipTable[ril].value.mName.lookup = true;
         }
       }else{
-        var mName = eRecord.record.mName;
+        var mName =  shipTable[0].value.mName.value;
 
         console.log(mName);
 
