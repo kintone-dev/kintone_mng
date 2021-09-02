@@ -43,10 +43,20 @@
           setFieldShown('totalStock', false);
           setFieldShown('hStockList', false);
           break;
+        case '#パッケージ内容':
+          setFieldShown('mCost', false);
+          setFieldShown('mCostUpdate', false);
+          setFieldShown('deviceCost', false);
+          setFieldShown('importExpenses', false);
+          setFieldShown('developCost', false);
+          setFieldShown('totalStock', false);
+          setFieldShown('hStockList', false);
+          setFieldShown('packageComp', true);
+          break;
       }
     }
     //タブメニュー作成
-    tabMenu('tab_inv', ['在庫情報','原価情報']);
+    tabMenu('tab_inv', ['在庫情報','原価情報','パッケージ内容']);
     //タブ切り替え表示設定
      $('.tabMenu a').on('click', function(){
         var idName = $(this).attr('href');//タブ内のリンク名を取得  
@@ -81,6 +91,7 @@
       event.record.mName.disabled=false;
       event.record.mImg.disabled=false;
       event.record.endservice.disabled=false;
+      event.record.package.disabled=false;
       event.record.mNickname.disabled=false;
       event.record.mWarranty.disabled=false;
     }else{
@@ -92,6 +103,7 @@
       event.record.mNickname.disabled=true;
       event.record.mWarranty.disabled=true;
       event.record.endservice.disabled=true;
+      event.record.package.disabled=true;
     }
     return event;
   });

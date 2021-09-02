@@ -146,7 +146,7 @@
 
       if (numRegExp.test(shipTable[0].value.shipNum.value)) {
         shipNum = shipTable[0].value.shipNum.value;
-      }else{
+      } else {
         shipTable[0].value.shipNum.error = '入力形式が間違えています';
       }
 
@@ -162,24 +162,40 @@
 
       var railItems = railConf(spec);
 
-      // for(var ril in railItems){
-      //   eRecord.record.deviceList.value.push({
-      //     value: {
-      //       ril: {
-      //         value: '',
-      //         type: 'NUMBER',
-      //       },
-      //       "テキスト": {
-      //         value: addText,
-      //         type: 'SINGLE_LINE_TEXT',
-      //       },
-      //       "チェックボックス": {
-      //         value: addCheckBox,
-      //         type: 'CHECK_BOX',
-      //       }
-      //     }
-      //   });
-      // }
+      for (var ril in railItems) {
+        eRecord.record.deviceList.value.push({
+          value: {
+            mCode: {
+              type: "SINGLE_LINE_TEXT",
+              value: ""
+            },
+            mName: {
+              type: "SINGLE_LINE_TEXT",
+              value: ""
+            },
+            mType: {
+              type: "SINGLE_LINE_TEXT",
+              value: ""
+            },
+            mVendor: {
+              type: "SINGLE_LINE_TEXT",
+              value: ""
+            },
+            sNum: {
+              type: "MULTI_LINE_TEXT",
+              value: ""
+            },
+            shipMemo: {
+              type: "SINGLE_LINE_TEXT",
+              value: ""
+            },
+            shipNum: {
+              type: "NUMBER",
+              value: ""
+            }
+          }
+        });
+      }
 
       kintone.app.record.set(eRecord);
     });
