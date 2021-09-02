@@ -161,14 +161,14 @@
       var railItems = railConf(spec);
 
       console.log(railItems);
-      console.log(JSON.stringify(railItems[0].value.mcode));
+      console.log(JSON.stringify(railItems[0].value.mCode));
       
       for (var ril in railItems) {
         eRecord.record.deviceList.value.push({
           value: {
             mCode: {
               type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mcode)
+              value: JSON.stringify(railItems[ril].value.mCode)
             },
             mName: {
               type: "SINGLE_LINE_TEXT",
@@ -176,7 +176,7 @@
             },
             mType: {
               type: "SINGLE_LINE_TEXT",
-              value: railItems[ril].value.mtype
+              value: railItems[ril].value.mType
             },
             mVendor: {
               type: "SINGLE_LINE_TEXT",
