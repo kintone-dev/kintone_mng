@@ -158,8 +158,7 @@
         shipNum: shipNum
       }
 
-      var railItems = JSON.stringify(railConf(spec));
-      railItems = JSON.parse(railItems);
+      var railItems = railConf(spec);
 
       console.log(railItems);
       console.log(railItems[1].value.mcode);
