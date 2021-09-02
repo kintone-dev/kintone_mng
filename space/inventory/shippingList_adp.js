@@ -202,6 +202,8 @@
       }else{
         var mName = eRecord.record.mName;
 
+        console.log(mName);
+
         var queryBody = {
           'app': sysid.INV.app_id.device,
           'query': 'mName="' + mName + '"',
