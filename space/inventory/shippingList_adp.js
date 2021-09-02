@@ -93,11 +93,10 @@
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('calBtn', '計算');
 
-    $('#calBtn').on('click', function (event) {
+    $('#calBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
       eRecord.error = 'error';
-      event.error = 'error';
 
       var lengthStr = '';
       var openType = '';
@@ -149,7 +148,10 @@
 
       // trtDY(1,2,3);
       kintone.app.record.set(eRecord);
+      return eRecord;
     });
+
+    console.log(eRecord);
 
     return event;
   });
