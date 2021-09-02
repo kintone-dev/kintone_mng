@@ -90,7 +90,7 @@
     }
   });
 
-  kintone.events.on(['app.record.edit.show', 'app.record.create.show','app.record.edit.change.deviceList','app.record.create.change.deviceList'], function (event) {
+  kintone.events.on(['app.record.edit.show', 'app.record.create.show','app.record.edit.change.sys_unitAddress','app.record.create.change.sys_unitAddress'], function (event) {
     setBtn('calBtn', '計算');
 
     $('#calBtn').on('click', function () {
@@ -157,8 +157,8 @@
       kintone.app.record.set(eRecord);
     });
 
+    
     console.log(event);
-
     return event;
   });
 
