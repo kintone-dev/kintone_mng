@@ -119,7 +119,8 @@
 
         if (openRegExp.test(railSpecs[i])) {
           if (railSpecs[i].length === 1) {
-            openType = railSpecs[i].toLowerCase;
+            openType = railSpecs[i];
+            openType = openType.toLowerCase();
 
             shipTable[0].value.sNum.error = null;
           } else {
