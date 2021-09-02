@@ -156,10 +156,9 @@
                 }
               }
             });    
-            // shipTable[pil].value.mName.lookup = true;
+            shipTable[pil].value.mName.lookup = true;
           }
 
-          console.log(shipTable);
           kintone.app.record.set(eRecord);
           return resp;
         }).catch(function (error) {
