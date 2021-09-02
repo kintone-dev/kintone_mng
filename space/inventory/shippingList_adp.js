@@ -163,8 +163,6 @@
   
         var railItems = railConf(spec);
   
-        console.log(eRecord.record.deviceList);
-        
         for (var ril in railItems) {
           shipTable.push({
             value: {
@@ -202,7 +200,7 @@
           shipTable[ril].value.mName.lookup = true;
         }
       }else{
-        var mName = eRecord.record.mName.value;
+        var mName = eRecord.record.mName;
 
         var queryBody = {
           'app': sysid.INV.app_id.device,
