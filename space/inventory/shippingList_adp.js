@@ -101,8 +101,7 @@
       var openType = '';
       var methodType = '';
       var shipNum = '';
-      var mName =  shipTable[0].value.mName.value;
-
+      var mCode = shipTable[0].value.mCode.value;
 
       var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/^[sw]/i);
@@ -115,48 +114,96 @@
         shipTable[0].value.shipNum.error = '入力形式が間違えています';
       }
 
-      var queryBody = {
-        'app': sysid.INV.app_id.device,
-        'query': 'package in ("パッケージ品")',
-      };
 
-      // パッケージ品が存在する商品
+      // パッケージ品が存在する商品を格納
       var pacItems = [];
 
-      kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (resp) {
+      kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacName).then(function (resp) {
 
-        console.log(resp.records);
-        for(var i in resp.records){
-          pacItems.push(resp.records[i].mName.value); 
+        for (var i in resp.records) {
+          pacItems.push(resp.records[i].mName.value);
         }
         console.log(pacItems);
+
+        if (pacItems.indexOf(mName)) {
+        } else {
+          console.log('no');
+        }
 
       }).catch(function (error) {
         console.log(error);
         console.log(error.message);
       });
 
-      console.log(pacItems);
+      // 品目にパッケージ品が存在する時
+      if(mCode.match(/pkg_/)){
+        var pacInfo = {
+          'app': sysid.INV.app_id.device,
+          'query': 'mCode="' + mCode + '"',
+        };
 
-      //品目コードがTRT-DYの時のみ
-      if(String(shipTable[0].value.mCode.value).match(/TRT-DY/)){
+        kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo).then(function (resp) {
+          console.log(resp.records);
+            // shipTable.push({
+            //   value: {
+            //     mCode: {
+            //       type: "SINGLE_LINE_TEXT",
+            //       value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
+            //     },
+            //     mName: {
+            //       type: "SINGLE_LINE_TEXT",
+            //       value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
+            //     },
+            //     mType: {
+            //       type: "SINGLE_LINE_TEXT",
+            //       value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
+            //     },
+            //     mVendor: {
+            //       type: "SINGLE_LINE_TEXT",
+            //       value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
+            //     },
+            //     sNum: {
+            //       type: "MULTI_LINE_TEXT",
+            //       value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
+            //     },
+            //     shipMemo: {
+            //       type: "SINGLE_LINE_TEXT",
+            //       value: JSON.stringify(railItems[ril].value.shipMemo.value).replace(/\"/g, '')
+            //     },
+            //     shipNum: {
+            //       type: "NUMBER",
+            //       value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
+            //     }
+            //   }
+            // });
   
+        }).catch(function (error) {
+          console.log(error);
+          console.log(error.message);
+        });
+
+      }
+
+
+      //品目コードがTRT-DYの時
+      if (String(shipTable[0].value.mCode.value).match(/TRT-DY/)) {
+
         var railSpecs = (String(shipTable[0].value.sNum.value)).split(/,\n|\n/);
-  
+
         for (var i in railSpecs) {
           if (numRegExp.test(railSpecs[i])) {
             lengthStr = railSpecs[i];
-  
+
             shipTable[0].value.sNum.error = null;
           } else {
             shipTable[0].value.sNum.error = '入力形式が間違えています';
           }
-  
+
           if (openRegExp.test(railSpecs[i])) {
             if (railSpecs[i].length === 1) {
               openType = railSpecs[i];
               openType = openType.toLowerCase();
-  
+
               shipTable[0].value.sNum.error = null;
             } else {
               shipTable[0].value.sNum.error = '入力形式が間違えています';
@@ -164,7 +211,7 @@
           } else {
             shipTable[0].value.sNum.error = '入力形式が間違えています';
           }
-  
+
           if (methodRegExp.test(railSpecs[i])) {
             if (railSpecs[i].match(/壁付s/i)) {
               methodType = '壁付s';
@@ -178,16 +225,16 @@
             shipTable[0].value.sNum.error = '入力形式が間違えています';
           }
         }
-    
+
         var spec = {
           rLength: lengthStr,
           rType: openType,
           rMethod: methodType,
           shipNum: shipNum
         }
-  
+
         var railItems = railConf(spec);
-  
+
         for (var ril in railItems) {
           shipTable.push({
             value: {
@@ -221,13 +268,9 @@
               }
             }
           });
-  
+
           shipTable[ril].value.mName.lookup = true;
         }
-      }else if(mName){
-
-        // console.log(mName);
-      
       }
 
 
