@@ -145,6 +145,14 @@
                 shipNum: {
                   type: "NUMBER",
                   value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
+                },
+                sNum: {
+                  type: "MULTI_LINE_TEXT",
+                  value: ''
+                },
+                shipMemo: {
+                  type: "SINGLE_LINE_TEXT",
+                  value: ''
                 }
               }
             });    
@@ -152,7 +160,8 @@
           }
 
           console.log(shipTable);
-
+          kintone.app.record.set(eRecord);
+          return resp;
         }).catch(function (error) {
           console.log(error);
           console.log(error.message);
