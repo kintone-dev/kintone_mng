@@ -99,7 +99,7 @@
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
 
-      console.log(eRecord);
+      console.log(kintone.app.get());
 
       var lengthStr = '';
       var openType = '';
