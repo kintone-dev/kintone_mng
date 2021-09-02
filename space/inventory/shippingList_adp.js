@@ -108,7 +108,7 @@
 
       var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/^[sw]/i);
-      var methodRegExp = new RegExp(/壁付S|壁付W|天井/i);
+      var methodRegExp = new RegExp(/壁付[sw]|天井/i);
 
       var railSpecs = (String(shipTable[0].value.sNum.value)).split(/,\n|\n/);
 
@@ -121,15 +121,21 @@
         }
 
         if (openRegExp.test(railSpecs[i])) {
-          openType = railSpecs[i];
-          shipTable[0].value.sNum.error = null;
+          if(railSpecs[i].length === 1){
+            openType = railSpecs[i];
+            shipTable[0].value.sNum.error = null;
+          } else{
+            shipTable[0].value.sNum.error = '入力形式が間違えています';
+          }
         } else {
           shipTable[0].value.sNum.error = '入力形式が間違えています';
         }
 
         if (methodRegExp.test(railSpecs[i])) {
-          if (railSpecs[i].match(/壁付/)) {
-            methodType = '壁付';
+          if (railSpecs[i].match(/壁付s/i)) {
+            methodType = '壁付S';
+          } else if (railSpecs[i].match(/壁付w/i)) {
+            methodType = '壁付W';
           } else {
             methodType = '天井';
           }
