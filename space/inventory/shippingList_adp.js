@@ -148,6 +148,8 @@
                 }
               }
             });
+
+            console.log(resp.records[0].packageComp.value[0].value.pc_Num.value * shipNum);
     
             shipTable[pil].value.mName.lookup = true;
           }  
