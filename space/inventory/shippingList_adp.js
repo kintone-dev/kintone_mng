@@ -92,7 +92,7 @@
       var openRegExp = new RegExp(/[SW]/);
       var methodRegExp = new RegExp(/壁づけ|天井/);
 
-      var railSpecs = (String(shipTable[0].value.sNum.value)).split(/\n/);
+      var railSpecs = (String(shipTable[0].value.sNum.value)).split(/,\n/);
 
       for(var i in railSpecs){
         if( lengthRegExp.test( railSpecs[i] ) === true ){
