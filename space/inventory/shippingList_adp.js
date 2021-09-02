@@ -93,8 +93,8 @@
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('calBtn', '計算');
 
-    event.error = 'error';
     $('#calBtn').on('click', function () {
+      event.error = 'error';
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
 
