@@ -168,7 +168,7 @@
     return event;
   });
   
-  //納品依頼に進めた場合、作業者から組織情報を取得し、「出荷ロケーション」に格納
+  // 納品依頼に進めた場合、作業者から組織情報を取得し、「出荷ロケーション」に格納
   kintone.events.on('app.record.detail.process.proceed',function(event){
     var nStatus = event.nextStatus.value;
     //var loginUserCode = event.record.作業者.value[0].code;
@@ -190,7 +190,7 @@
     }
     */
   });
-  //輸送業者を「担当手渡し」にした場合、追跡番号を「none」にする
+  // 輸送業者を「担当手渡し」にした場合、追跡番号を「none」にする
   kintone.events.on(['app.record.create.change.deliveryComp','app.record.edit.change.deliveryComp'], function(event){
     if(event.record.deliveryComp.value==='担当手渡し') {
       event.record.trckNum.value='none';
@@ -198,6 +198,17 @@
     }else{
       event.record.trckNum.value=null;
       event.record.trckNum.disabled=false;
+    }
+    return event;
+  });
+  // カーテンレールが選択された場合、シリアル番号欄にデータを記入
+  kintone.events.on('app.record.edit.change.mCode', function(event) {
+    for (var i in event.record.deviceList.value){
+      if(event.record.deviceList.value[i].value.mCode.value=='TRT-DY'){
+        if(event.record.deviceList.value[i].value.sNum.value===undefined){
+          event.record.deviceList.value[i].value.sNum.value='カーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
+        }
+      }
     }
     return event;
   });
