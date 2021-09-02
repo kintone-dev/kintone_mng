@@ -165,11 +165,11 @@
           value: {
             mCode: {
               type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mCode.value)
+              value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
             },
             mName: {
               type: "SINGLE_LINE_TEXT",
-              value: JSON.stringify(railItems[ril].value.mName.value)
+              value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '\"\"')
             },
             mType: {
               type: "SINGLE_LINE_TEXT",
