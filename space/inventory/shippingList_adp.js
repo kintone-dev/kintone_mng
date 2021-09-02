@@ -158,10 +158,12 @@
         shipNum: shipNum
       }
 
-      var railItems = railConf(spec);
+      var railItems = JSON.stringify(railConf(spec));
+      railItems = JSON.parse(railItems);
 
-      console.log(JSON.parse(railItems[1].value.mcode));
-
+      console.log(railItems);
+      console.log(railItems[1].value.mcode);
+      
       for (var ril in railItems) {
         eRecord.record.deviceList.value.push({
           value: {
