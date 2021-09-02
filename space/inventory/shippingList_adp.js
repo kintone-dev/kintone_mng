@@ -93,10 +93,11 @@
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('calBtn', '計算');
 
+    console.log(event);
+
     $('#calBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
       var shipTable = eRecord.record.deviceList.value;
-      eRecord.error = 'error';
 
       var lengthStr = '';
       var openType = '';
@@ -104,10 +105,10 @@
       var shipNum = '';
 
       var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
-      var openRegExp = new RegExp(/[swSW]/);
-      var methodRegExp = new RegExp(/壁付S|壁付W|天井/);
+      var openRegExp = new RegExp(/^[sw]/i);
+      var methodRegExp = new RegExp(/壁付S|壁付W|天井/i);
 
-      var railSpecs = (String(shipTable[0].value.sNum.value)).split(/,\n/);
+      var railSpecs = (String(shipTable[0].value.sNum.value)).split(/,\n|\n/);
 
       for (var i in railSpecs) {
         if (numRegExp.test(railSpecs[i])) {
@@ -148,10 +149,7 @@
 
       // trtDY(1,2,3);
       kintone.app.record.set(eRecord);
-      return eRecord;
     });
-
-    console.log(eRecord);
 
     return event;
   });
