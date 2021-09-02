@@ -99,6 +99,7 @@
 
       eRecord.error = 'aaa';
       console.log(eRecord.error);
+      console.log(event);
 
       var lengthStr = '';
       var openType = '';
