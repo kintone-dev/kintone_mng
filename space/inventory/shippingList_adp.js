@@ -101,6 +101,8 @@
       var openType = '';
       var methodType = '';
       var shipNum = '';
+      var mName =  shipTable[0].value.mName.value;
+
 
       var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/^[sw]/i);
@@ -118,13 +120,23 @@
         'query': 'package in ("パッケージ品")',
       };
 
+      // パッケージ品が存在する商品
+      var pacItems = [];
+
       kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (resp) {
-        console.log(resp);
+
+        console.log(resp.records);
+        for(var i in resp.records){
+          pacItems.push(resp.records[i].mName.value); 
+        }
+        console.log(pacItems);
+
       }).catch(function (error) {
         console.log(error);
         console.log(error.message);
       });
 
+      console.log(pacItems);
 
       //品目コードがTRT-DYの時のみ
       if(String(shipTable[0].value.mCode.value).match(/TRT-DY/)){
@@ -212,8 +224,7 @@
   
           shipTable[ril].value.mName.lookup = true;
         }
-      }else{
-        // var mName =  shipTable[0].value.mName.value;
+      }else if(mName){
 
         // console.log(mName);
       
