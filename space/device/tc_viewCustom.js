@@ -34,4 +34,14 @@
     return event;
   });
 
+  kintone.events.on(['app.record.detail.show', 'app.record.edit.show'], function (event) {
+    var openTcms = setBtn('btn_open_tCMS', 'CMS');
+    
+    $('#' + openTcms.id).on('click', function () {
+      window.open('https://cms.toastcam.com/#/bizUserManagementWrite?searchType=&searchWord=&pageNumber=1&count=10&time=1629776725393', '_blank');
+    });
+
+    return event;
+  });
+
 })();
