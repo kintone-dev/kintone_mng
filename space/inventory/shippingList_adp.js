@@ -94,19 +94,19 @@
 
       var railSpecs = (String(shipTable[0].value.sNum.value)).split(/\n/);
 
-      for(var i = 0; i < railSpecs.length; i++){
+      for(var i in railSpecs){
         if( lengthRegExp.test( railSpecs[i] ) === true ){
           lengthStr = railSpecs[i];
         }
+
         if(openRegExp.test( railSpecs[i] ) === true){
           openType = railSpecs[i];
         }
+        
         if( methodRegExp.test( railSpecs[i] ) === true ){
           if( railSpecs[i].match(/壁づけ/) === true ){
-            // 壁付け
             methodType = '壁づけ';
-          }else{
-            // 天井付け
+          } else {
             methodType = '天井';
           }
         }
