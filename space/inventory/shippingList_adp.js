@@ -164,31 +164,31 @@
         shipTable.push({
           value: {
             mCode: {
-              type: JSON.stringify(railItems[ril].value.mCode.type),
+              type: "SINGLE_LINE_TEXT",
               value: JSON.stringify(railItems[ril].value.mCode.value)
             },
             mName: {
-              type: JSON.stringify(railItems[ril].value.mName.type),
+              type: "SINGLE_LINE_TEXT",
               value: JSON.stringify(railItems[ril].value.mName.value)
             },
             mType: {
-              type: JSON.stringify(railItems[ril].value.mType.type),
+              type: "SINGLE_LINE_TEXT",
               value: JSON.stringify(railItems[ril].value.mType.value)
             },
             mVendor: {
-              type: JSON.stringify(railItems[ril].value.mVendor.type),
+              type: "SINGLE_LINE_TEXT",
               value: JSON.stringify(railItems[ril].value.mVendor.value)
             },
             sNum: {
-              type: JSON.stringify(railItems[ril].value.sNum.type),
+              type: "MULTI_LINE_TEXT",
               value: JSON.stringify(railItems[ril].value.sNum.value)
             },
             shipMemo: {
-              type: JSON.stringify(railItems[ril].value.shipMemo.type),
+              type: "SINGLE_LINE_TEXT",
               value: JSON.stringify(railItems[ril].value.shipMemo.value)
             },
             shipNum: {
-              type: JSON.stringify(railItems[ril].value.shipNum.type),
+              type: "NUMBER",
               value: JSON.stringify(railItems[ril].value.shipNum.value)
             }
           }
@@ -196,7 +196,6 @@
       }
 
       console.log(shipTable);
-
       kintone.app.record.set(eRecord);
     });
 
