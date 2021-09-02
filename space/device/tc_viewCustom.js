@@ -18,22 +18,20 @@
   });
 
   kintone.events.on('app.record.create.show', function (event) {
-    var menID = event.record.member_id.value;
-    var setRecordBody = {
-      'app': kintone.app.getId(),
-      'id': kintone.app.record.getId(),
-      'record': {
-        'toastcam_bizUserId': {
-          'value': menID + '@accel-lab.com'
-        },
-        'toastcam_bizUserPassword': {
-          'value': pw_generator(10)
-        }
-      }
-    };
-    kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', setRecordBody);
-    location.reload();
 
+    $.ajax({
+      type: 'GET'
+    }).done(function (data, status, xhr) {
+      var serverDate = new Date(xhr.getResponseHeader('Date')).getTime(); //サーバー時刻を代入
+      var utcNum = Math.floor(serverDate / 5000); //5秒の幅を持って、切り上げる
+
+      var eRecord = kintone.app.record.get(); //レコード値を取得
+
+      eRecord.record.toastcam_bizUserId.value = 'TC_' + utcNum + '@accel-lab.com';
+      eRecord.record.toastcam_bizUserPassword.value = pw_generator(10);
+      kintone.app.record.set(eRecord); //変更内容を反映
+    });
+    
     return event;
   });
 
