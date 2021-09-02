@@ -198,9 +198,12 @@
             }
           }
         });
+
+        eRecord.record.deviceList[ril].lookup = true;
       }
 
-      console.log(shipTable);
+      console.log(eRecord.record.deviceList.lookup);
+
       kintone.app.record.set(eRecord);
     });
 
