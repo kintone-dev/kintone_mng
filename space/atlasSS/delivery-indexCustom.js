@@ -114,19 +114,20 @@
           var logBody = [];
 
           // 申し込み種別が新規申し込みの時
-          if (resp.records[ri].application_type.value.match(/新規申込/)) {
+          if (shipList[ri].application_type.value.match(/新規申込/)) {
+
             pBody = {
               member_id: {
-                value: resp.records[ri].member_id.value
+                value: shipList[ri].member_id.value
               },
               member_type: {
-                value: resp.records[ri].member_type.value
+                value: shipList[ri].member_type.value
               },
               application_datetime: {
-                value: resp.records[ri].application_datetime.value
+                value: shipList[ri].application_datetime.value
               },
               application_type: {
-                value: resp.records[ri].application_type.value
+                value: shipList[ri].application_type.value
               }
             };
 
@@ -152,7 +153,7 @@
               logBody = {
                 updateKey: {
                   field: 'レコード番号',
-                  value: resp.records[ri].レコード番号.value
+                  value: shipList[ri].レコード番号.value
                 },
                 record: {
                   application_type: {
@@ -170,6 +171,7 @@
               }).catch(function (error) {
                 console.log(error);
               });
+
             }).catch(function (error) {
               console.log(error);
             });
