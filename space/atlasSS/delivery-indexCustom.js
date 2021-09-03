@@ -16,7 +16,7 @@
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
         console.log(resp.records);
         var currentDate = new Date();
-        var createDate = new Date(resp.records[di].更新日時.value);
+        var createDate = new Date(resp.records[0].更新日時.value);
 
         console.log(currentDate);
         console.log(createDate);
