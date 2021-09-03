@@ -32,21 +32,25 @@
 
         for (var ri in resp.records) {
           var mBody = {};
-          mBody = {
-            member_id: {
-              value: resp.records[ri].member_id.value
-            },
-            member_type: {
-              value: resp.records[ri].member_type.value
-            },
-            application_datetime: {
-              value: resp.records[ri].application_datetime.value
-            },
-            application_type: {
-              value: resp.records[ri].application_type.value
-            }
-          };
-          postBody_member.records.push(mBody);
+          if (resp.records[ri].application_type.value.match(/新規申込/)){
+            mBody = {
+              member_id: {
+                value: resp.records[ri].member_id.value
+              },
+              member_type: {
+                value: resp.records[ri].member_type.value
+              },
+              application_datetime: {
+                value: resp.records[ri].application_datetime.value
+              },
+              application_type: {
+                value: resp.records[ri].application_type.value
+              }
+            };
+            postBody_member.records.push(mBody);
+          } else if (resp.records[ri].application_type.value.match(/故障交換/)){
+
+          }
           // if (resp.records[ri].info_status.value == 'new') {
           // } else if (resp.records[ri].info_status.value == 'update') {
           //   mBody = {
@@ -121,11 +125,19 @@
           // }
         }
         // console.log(putBody_member);
-        console.log(postBody_member);
         // console.log(putBody_sNum);
+
+        console.log(postBody_member);
+        var postMenber_result = kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member);
+        postMenber_result.then(function(resp){
+          console.log(resp);
+          console.log('新規申し込み会員情報をPOSTしました。');
+        }).catch(function(error){
+          console.log(error);
+        });
+        
         /*
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putBody_member);
-        kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member);
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putBody_sNum);
         */
       }).catch(function (error) {
