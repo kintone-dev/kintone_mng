@@ -156,7 +156,7 @@
               logBody = {
                 id: shipList[ri].レコード番号.value,
                 record: {
-                  application_type: {
+                  working_status: {
                     value: '必要情報入力済み'
                   },
                   syncLog_list: {
