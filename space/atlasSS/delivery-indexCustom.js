@@ -214,14 +214,13 @@
 
                 });
 
-
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
-              //故障品シリアルナンバーの情報取得
               var getFSnumBody = {
                 'app': sysid.DEV.app_id.sNum,
                 'query': 'sNum="' + resp.records[ri].failure_sNum.value + '"',
               };
 
+              //故障品シリアルナンバーの情報取得
               kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getFSnumBody)
                 .then(function (resp) {
                   var failureSnum = resp.records;
