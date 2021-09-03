@@ -116,7 +116,9 @@
           // 申し込み種別が新規申し込みの時
           if (shipList[ri].application_type.value.match(/新規申込/)) {
             var recordId = shipList[ri].レコード番号.value;
-            console.log(recordId);
+            var logList = shipList[ri].syncLog_list.value
+
+            console.log(logList);
 
             pBody = {
               member_id: {
@@ -137,7 +139,6 @@
 
             kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member).then(function (resp) {
 
-              var logList = []
               var logInfo = {
                 value:{
                   syncLog_date: {
