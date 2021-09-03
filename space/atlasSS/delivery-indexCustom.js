@@ -89,8 +89,7 @@
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
       var currentDate = new Date();
-      console.log(currentDate.toISOString);
-      console.log(new Date().toISOString);
+      console.log(currentDate.toJSON);
       var getReqBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in (\"TOASTCAM登録待ち\") and person_in_charge in (\"Accel Lab\") order by 更新日時 asc'
@@ -139,7 +138,7 @@
                       {
                         value: {
                           syncLog_date: {
-                            value: currentDate.toISOString
+                            value: currentDate.toJSON
                           },
                           syncLog_type: {
                             value: 'KT-会員情報'
@@ -156,25 +155,6 @@
                   }
                 }
               };
-
-              // var logInfo = {
-              //   value: {
-              //     syncLog_date: {
-              //       value: new Date()
-              //     },
-              //     syncLog_type: {
-              //       value: 'KT-会員情報'
-              //     },
-              //     syncLog_status: {
-              //       value: 'success'
-              //     },
-              //     syncLog_message: {
-              //       value: '会員情報を連携しました。'
-              //     }
-              //   }
-              // }
-
-              // logList.push(logInfo);
 
               console.log(logBody_ship);
 
