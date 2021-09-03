@@ -52,7 +52,7 @@
                 console.log('データを削除いたしました。')
               }).catch(function (error) {
                 console.log(error);
-              });    
+              });
 
             } else {
               //100ずつ配列をスライスして格納
@@ -68,7 +68,7 @@
                 console.log('データを削除いたしました。')
               }).catch(function (error) {
                 console.log(error);
-              });    
+              });
             }
           }
 
@@ -94,8 +94,8 @@
       };
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody).then(function (resp) {
-        console.log(resp.records);
         var shipList = resp.records;
+        console.log(shipList);
 
         // 会員情報関連
         var postBody_member = {
@@ -114,7 +114,7 @@
         //   'records': []
         // };
 
-        for (var ri in resp.records) {
+        for (var ri in shipList) {
           var pBody = {};
           var logBody = [];
 
@@ -136,23 +136,8 @@
 
             // [0].syncLog_message.value = "てすと";
 
-            // logBody = {
-            //   syncLog_date: {
-            //     value: resp.records[ri].member_id.value
-            //   },
-            //   syncLog_type: {
-            //     value: resp.records[ri].member_type.value
-            //   },
-            //   syncLog_status: {
-            //     value: resp.records[ri].application_datetime.value
-            //   },
-            //   syncLog_message: {
-            //     value: resp.records[ri].application_type.value
-            //   }
-            // }
-
             // logBody_ship.records.push(logBody);
-            
+
             postBody_member.records.push(pBody);
 
           } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
@@ -238,11 +223,50 @@
         var postMenber_result = kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member);
 
         postMenber_result.then(function (resp) {
-          console.log(shipList);
+          for (var ri in shipList) {
+            if (resp.records[ri].application_type.value.match(/新規申込/)) {
+              logBody = {
+                syncLog_date: {
+                  value: new Date()
+                },
+                syncLog_type: {
+                  value: 'KT-会員情報'
+                },
+                syncLog_status: {
+                  value: 'success'
+                },
+                syncLog_message: {
+                  value: '新規申し込み会員情報を連携しました。'
+                }
+              }
 
-          console.log('新規申し込み会員情報をPOSTしました。');
+              shipList[ri].syncLog_list.value.push(logBody);
+              shipList[ri].application_type.value = '必要情報入力済み';
+            }
+          }
+
         }).catch(function (error) {
-          console.log(error);
+          for (var ri in shipList) {
+            if (resp.records[ri].application_type.value.match(/新規申込/)) {
+              logBody = {
+                syncLog_date: {
+                  value: new Date()
+                },
+                syncLog_type: {
+                  value: 'KT-会員情報'
+                },
+                syncLog_status: {
+                  value: 'error'
+                },
+                syncLog_message: {
+                  value: '会員情報を連携できませんでした。'
+                }
+              }
+
+              shipList[ri].syncLog_list.value.push(logBody);
+            }
+          }
+
         });
 
         /*
