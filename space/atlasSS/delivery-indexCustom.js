@@ -24,7 +24,7 @@
           // if(createDate){
 
           // }
-          console.log(currentDate - createDate);
+          console.log(createDate);
         }
 
         var deleteData = ['100','101'];
