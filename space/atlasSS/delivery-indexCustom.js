@@ -154,10 +154,7 @@
               logList.push(logInfo);
 
               logBody = {
-                updateKey: {
-                  field: 'レコード番号',
-                  value: parseInt(shipList[ri].レコード番号.value)
-                },
+                id: shipList[ri].レコード番号.value,
                 record: {
                   application_type: {
                     value: '必要情報入力済み'
