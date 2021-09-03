@@ -177,6 +177,11 @@
   kintone.events.on('app.record.edit.submit', function(event){
     // 保存ボタンが押されたら、情報編集チェックボックスをクリア
     event.record.editinfo.value=[];
+    if(event.record.mType.value=='パッケージ品'){
+      if(event.record.mClassification.value!='非在庫'){
+        event.record.mClassification.error='品目区分がパッケージ品の場合、取扱区分を非在庫にしてください。';
+      }
+    }
     return event;
   });
 
