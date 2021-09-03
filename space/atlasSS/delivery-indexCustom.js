@@ -135,7 +135,8 @@
 
             kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member).then(function (resp) {
 
-              var logList = {
+              var logList = []
+              var logInfo = {
                 syncLog_date: {
                   value: new Date()
                 },
@@ -149,6 +150,8 @@
                   value: '会員情報を連携しました。'
                 }
               }
+
+              logList.push(logInfo);
 
               logBody = {
                 updateKey: {
