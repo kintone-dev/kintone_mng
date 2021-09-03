@@ -34,9 +34,9 @@
               'shipment': event.record.shipment,
               'sendDate': event.record.sendDate,
               'shipType': event.record.shipType,
-              'orgName': event.record.orgName,
+              //'orgName': event.record.orgName,
               'instName': event.record.instName,
-              'roomName': event.record.roomName
+              //'roomName': event.record.roomName
             };
             sNumInfo.records.push(snRecord);
           }
@@ -61,9 +61,9 @@
                 'shipment': event.record.shipment,
                 'sendDate': event.record.sendDate,
                 'shipType': event.record.shipType,
-                'orgName': event.record.orgName,
+                //'orgName': event.record.orgName,
                 'instName': event.record.instName,
-                'roomName': event.record.roomName
+                //'roomName': event.record.roomName
               }
             };
             sNumInfo.records.push(snRecord);
