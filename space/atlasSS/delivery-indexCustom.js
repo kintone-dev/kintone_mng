@@ -88,6 +88,7 @@
 
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
+      var currentDate = new Date();
       var getReqBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in (\"TOASTCAM登録待ち\") and person_in_charge in (\"Accel Lab\") order by 更新日時 asc'
@@ -95,6 +96,7 @@
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody).then(function (resp) {
         var shipList = resp.records;
+        console.log(shipList);
 
         for (let ri in shipList) {
           // 申し込み種別が新規申し込みの時
@@ -121,6 +123,7 @@
             console.log(postBody_member);
 
             kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postBody_member).then(function (resp) {
+
               // ログデータ
               var logBody_ship = {
                 app: kintone.app.getId(),
@@ -134,7 +137,7 @@
                       {
                         value: {
                           syncLog_date: {
-                            value: new Date()
+                            value: currentDate.toISOString
                           },
                           syncLog_type: {
                             value: 'KT-会員情報'
