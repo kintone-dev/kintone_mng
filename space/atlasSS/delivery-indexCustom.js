@@ -93,127 +93,151 @@
         'query': 'working_status in (\"TOASTCAM登録待ち\") and person_in_charge in (\"Accel Lab\") order by 更新日時 asc'
       };
 
-      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody).then(function (resp) {
-        var shipList = resp.records;
-        console.log(shipList);
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
+        .then(function (resp) {
+          var shipList = resp.records;
+          console.log(shipList);
 
-        for (let ri in shipList) {
-          // 申し込み種別が新規申し込みの時
-          if (shipList[ri].application_type.value.match(/新規申込/)) {
-            // 会員情報関連
-            var postBody_member = {
-              app: sysid.ASS.app_id.member,
-              record: {
-                member_id: {
-                  value: shipList[ri].member_id.value
-                },
-                member_type: {
-                  value: shipList[ri].member_type.value
-                },
-                application_datetime: {
-                  value: shipList[ri].application_datetime.value
-                },
-                application_type: {
-                  value: shipList[ri].application_type.value
-                }
-              }
-            };
-
-            console.log(postBody_member);
-
-            kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postBody_member).then(function (resp) {
-
-              var logList = shipList[ri].syncLog_list.value
-              var appendLog = {
-                value: {
-                  syncLog_date: {
-                    value: String(luxon.DateTime.local().toISO())
-                  },
-                  syncLog_type: {
-                    value: 'KT-会員情報'
-                  },
-                  syncLog_status: {
-                    value: 'success'
-                  },
-                  syncLog_message: {
-                    value: '会員情報を連携しました。'
-                  }
-                }
-              }
-
-              logList.push(appendLog);
-
-              // ログデータ
-              var logBody_ship = {
-                app: kintone.app.getId(),
-                id: parseInt(shipList[ri].レコード番号.value),
+          for (let ri in shipList) {
+            // 申し込み種別が新規申し込みの時
+            if (shipList[ri].application_type.value.match(/新規申込/)) {
+              // 会員情報関連
+              var postBody_member = {
+                app: sysid.ASS.app_id.member,
                 record: {
-                  working_status: {
-                    value: '必要情報入力済み'
+                  member_id: {
+                    value: shipList[ri].member_id.value
                   },
-                  syncLog_list: {
-                    value: logList
+                  member_type: {
+                    value: shipList[ri].member_type.value
+                  },
+                  application_datetime: {
+                    value: shipList[ri].application_datetime.value
+                  },
+                  application_type: {
+                    value: shipList[ri].application_type.value
                   }
                 }
               };
 
-              console.log(logBody_ship);
+              console.log(postBody_member);
 
-              return kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody_ship);
-            }).then(function (resp) {
-              console.log('success log put');
-            }).catch(function (error) {
+              kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postBody_member)
+                .then(function (resp) {
 
-              var logList = shipList[ri].syncLog_list.value
-              var appendLog = {
-                value: {
-                  syncLog_date: {
-                    value: String(luxon.DateTime.local().toISO())
-                  },
-                  syncLog_type: {
-                    value: 'KT-会員情報'
-                  },
-                  syncLog_status: {
-                    value: 'error'
-                  },
-                  syncLog_message: {
-                    value: '会員情報の連携に失敗しました。'
+                  var logList = shipList[ri].syncLog_list.value
+                  var appendLog = {
+                    value: {
+                      syncLog_date: {
+                        value: String(luxon.DateTime.local().toISO())
+                      },
+                      syncLog_type: {
+                        value: 'KT-会員情報'
+                      },
+                      syncLog_status: {
+                        value: 'success'
+                      },
+                      syncLog_message: {
+                        value: '会員情報を連携しました。'
+                      }
+                    }
                   }
-                }
-              }
 
-              logList.push(appendLog);
+                  logList.push(appendLog);
 
-              // ログデータ
-              var logBody_ship = {
-                app: kintone.app.getId(),
-                id: parseInt(shipList[ri].レコード番号.value),
-                record: {
-                  syncLog_list: {
-                    value: logList
+                  // ログデータ
+                  var logBody_ship = {
+                    app: kintone.app.getId(),
+                    id: parseInt(shipList[ri].レコード番号.value),
+                    record: {
+                      working_status: {
+                        value: '必要情報入力済み'
+                      },
+                      syncLog_list: {
+                        value: logList
+                      }
+                    }
+                  };
+
+                  console.log(logBody_ship);
+
+                  kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody_ship)
+                    .then(function (resp) {
+                      console.log('success log put');
+                    }).catch(function (error) {
+                      console.log(error);
+                    });
+
+                }).catch(function (error) {
+
+                  var logList = shipList[ri].syncLog_list.value
+                  var appendLog = {
+                    value: {
+                      syncLog_date: {
+                        value: String(luxon.DateTime.local().toISO())
+                      },
+                      syncLog_type: {
+                        value: 'KT-会員情報'
+                      },
+                      syncLog_status: {
+                        value: 'error'
+                      },
+                      syncLog_message: {
+                        value: '会員情報の連携に失敗しました。'
+                      }
+                    }
                   }
-                }
+
+                  logList.push(appendLog);
+
+                  // ログデータ
+                  var logBody_ship = {
+                    app: kintone.app.getId(),
+                    id: parseInt(shipList[ri].レコード番号.value),
+                    record: {
+                      syncLog_list: {
+                        value: logList
+                      }
+                    }
+                  };
+
+                  console.log(logBody_ship);
+
+                  kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody_ship)
+                    .then(function (resp) {
+                      console.log('error log put');
+                    }).catch(function (error) {
+                      console.log(error);
+                    });
+
+                  console.log(error);
+
+                });
+
+
+            } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
+              //故障品シリアルナンバーの情報取得
+              var getFSnumBody = {
+                'app': sysid.DEV.app_id.sNum,
+                'query': 'sNum="' + resp.records[ri].failure_sNum.value + '"',
               };
 
-              console.log(logBody_ship);
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getFSnumBody)
+                .then(function (resp) {
+                  var failureSnum = resp.records;
 
-              return kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody_ship);
+                  console.log(failureSnum);
 
-            }).then(function (resp) {
-              console.log('error log put');
-            }).catch(function (error) {
-              console.log(error);
-            });
+                }).catch(function (error) {
+                  console.log(error);
+                });
 
-
-          } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
-            console.log('故障交換');
+            }
           }
-        }
 
-      }).catch(function (error) {
-        console.log(error);
-      });
+        }).catch(function (error) {
+          console.log(error);
+        });
     });
 
   });
