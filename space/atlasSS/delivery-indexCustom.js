@@ -98,11 +98,11 @@
         console.log(shipList);
 
         for (var ri in shipList) {
+          var recordId = shipList[ri].レコード番号.value;
+          var logList = shipList[ri].syncLog_list.value
 
           // 申し込み種別が新規申し込みの時
           if (shipList[ri].application_type.value.match(/新規申込/)) {
-            var recordId = shipList[ri].レコード番号.value;
-            var logList = shipList[ri].syncLog_list.value
 
             var pBody = {
               member_id: {
