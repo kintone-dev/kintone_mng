@@ -199,7 +199,7 @@
     var packagecomp=event.record.packageComp.value;
 
     // 案件管理にデータ転送
-    var updPMinfo = {
+    var putItemBody_PM = {
       'app': sysid.PM.app_id.item,
       'updateKey': {'field': 'mCode','value': mcode},
       'record': {
@@ -211,9 +211,7 @@
         'packageComp': event.record.packageComp
       }
     };
-    var pmResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updPMinfo);
-    //更新結果
-    pmResult.then(function (resp) {
+    kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody_PM).then(function (resp) {
       console.log('PM success');
     }).catch(function (error) {
       console.log('PM' + error.message);
@@ -221,69 +219,29 @@
 
     //品目区分が「仕掛品」の場合、更新しない
     if (mtype != '仕掛品') {
-      //Titanを更新
-      var updASSinfo = {
-        'app': sysID.ASS.app.dev,
-        'updateKey': {
-          'field': 'mCode',
-          'value': before_mCode
-        },
+      var putItemBody = {
+        'app': '',
+        'updateKey': {'field': 'mCode','value': mcode},
         'record': {
-          'mName': {
-            'value': mname
-          },
-          'mType': {
-            'value': mtype
-          },
-          'mVendor': {
-            'value': mvendor
-          },
-          'mNickname': {
-            'value': mnickname
-          },
-          'endservice': {
-            'value': endservice
-          }
+          'mName': event.record.mName,
+          'mNickname': event.record.mNickname,
+          'mType': event.record.mType,
+          'mVendor': event.record.mVendor,
+          'mClassification':event.record.mClassification,
+          'packageComp': event.record.packageComp
         }
       };
-      var assResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updASSinfo);
-      //更新結果
-      assResult.then(function (resp) {
+      // Titanを更新
+      putItemBody.app=sysid.ASS.app_id.item
+      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody)then(function (resp) {
         console.log('Titan success');
       }).catch(function (error) {
         console.log('Titan' + error.message);
       });
 
-      //supportを更新
-      var updSUPinfo = {
-        'app': sysID.SUP.app.dev,
-        'updateKey': {
-          'field': 'mCode',
-          'value': before_mCode
-        },
-        'record': {
-          'mName': {
-            'value': mname
-          },
-          'mType': {
-            'value': mtype
-          },
-          'mVendor': {
-            'value': mvendor
-          },
-          'mNickname': {
-            'value': mnickname
-          },
-          'endservice': {
-            'value': endservice
-          }
-        }
-      };
-
-      var supResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updSUPinfo);
-
-      //更新結果
-      supResult.then(function (resp) {
+      // supportを更新
+      putItemBody.app=sysid.SUP.app_id.item;
+      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody).then(function (resp) {
         console.log('Support success');
       }).catch(function (error) {
         console.log('Support' + error.message);
