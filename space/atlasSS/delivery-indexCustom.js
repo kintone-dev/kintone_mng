@@ -28,7 +28,7 @@
         //   }
         // }
 
-        for (var i = 0; i < 826; i++) {
+        for (var i = 100; i < 826; i++) {
           deleteData.push(i)
         }
 
@@ -41,26 +41,50 @@
 
         //配列の長さが100より大きい場合
         if (deleteData.length > 100) {
+          //配列の長さを100で割って切り捨て
           var loopNum = Math.floor(deleteData.length / 100);
           for (var i = 0; i <= loopNum; i++) {
             if (i == 0) {
+              //100ずつ配列をスライスして格納
               var cutDeleteData = deleteData.slice(0, 100);
+              deleteBody = {
+                'app': kintone.app.getId(),
+                'ids': cutDeleteData
+              };
+
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+                location.reload();
+                console.log('データを削除いたしました。')
+              }).catch(function (error) {
+                console.log(error);
+              });    
+
             } else {
-              var cutDeleteData = deleteData.slice(i * 100, (i * 100) + 100 );
+              //100ずつ配列をスライスして格納
+              var cutDeleteData = deleteData.slice(i * 100, (i * 100) + 100);
+
+              deleteBody = {
+                'app': kintone.app.getId(),
+                'ids': cutDeleteData
+              };
+
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+                location.reload();
+                console.log('データを削除いたしました。')
+              }).catch(function (error) {
+                console.log(error);
+              });    
             }
-
-            console.log(cutDeleteData);
           }
-        } 
-
-        // else {
-        //   kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-        //     location.reload();
-        //     console.log('データを削除いたしました。')
-        //   }).catch(function (error) {
-        //     console.log(error);
-        //   });
-        // }
+        } else {
+          
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+            location.reload();
+            console.log('データを削除いたしました。')
+          }).catch(function (error) {
+            console.log(error);
+          });
+        }
 
         // console.log(deleteBody);
 
