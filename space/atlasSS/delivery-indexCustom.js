@@ -18,18 +18,8 @@
 
         var deleteBody = {
           'app': kintone.app.getId(),
-          'records': []
+          'ids': ['47']
         };
-
-        var dBody = {};
-
-        dBody = {
-          $id: {
-            value: '47'
-          }
-        };
-
-        deleteBody.records.push(dBody);
 
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
           console.log(resp.records);
