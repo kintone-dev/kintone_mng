@@ -31,7 +31,7 @@
         for (var i = 0; i < 826; i++) {
           deleteData.push(i)
         }
-        
+
         console.log(deleteData.length)
 
         var deleteBody = {
@@ -41,8 +41,8 @@
 
         //配列の長さが100より大きい場合
         if (deleteData.length > 100) {
-          var loopNum = Math.floor(deleteData.length / 100)
-          for (var i = 0; i > loopNum; i++) {
+          var loopNum = Math.floor(deleteData.length / 100);
+          for (var i = 0; i < loopNum; i++) {
             if (i == 0) {
               var cutDeleteData = deleteData.slice(0, 99);
             } else {
@@ -52,6 +52,7 @@
             console.log(cutDeleteData);
           }
         } 
+
         // else {
         //   kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
         //     location.reload();
@@ -61,10 +62,7 @@
         //   });
         // }
 
-
-
-
-        console.log(deleteBody);
+        // console.log(deleteBody);
 
 
       }).catch(function (error) {
