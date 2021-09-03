@@ -5,10 +5,37 @@
     var del_records = setBtn_index('btn_del_records', '処理済みデータ削除');
     var sync_kintone = setBtn_index('btn_sync_kintone', '内部連携');
 
+    //処理済みデータ削除
+    $('#' + del_records.id).on('click', function () {
+      var deleteReqBody = {
+        'app': kintone.app.getId(),
+        'query': 'working_status in (\"登録完了\") and person_in_charge in (\"ATLAS Smart Security\") order by 更新日時 asc'
+      };
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
+        console.log(resp);
+
+        // var createDate = 
+
+        // var deleteBody = {
+        //   'app': kintone.app.getId(),
+        //   'records': []
+        // };
+        // kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+        //   console.log(resp.records);
+        // }).catch(function (error) {
+        //   console.log(error);
+        // });  
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+    });    
+
+    //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
       var getReqBody = {
         'app': kintone.app.getId(),
-        'query': 'working_status in (\"TOASTCAM登録待ち\") and person_in_charge in (\"Accel Lab\") order by 更新日時 asc',
+        'query': 'working_status in (\"TOASTCAM登録待ち\") and person_in_charge in (\"Accel Lab\") order by 更新日時 asc'
       };
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody).then(function (resp) {
@@ -145,5 +172,6 @@
         console.log(error);
       });
     });
+
   });
 })();
