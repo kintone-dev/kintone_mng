@@ -171,7 +171,7 @@
               var appendLog = {
                 value: {
                   syncLog_date: {
-                    value: currentDate.toJSON
+                    value: String(luxon.DateTime.local().toISO())
                   },
                   syncLog_type: {
                     value: 'KT-会員情報'
