@@ -88,8 +88,6 @@
 
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
-      var currentDate = new Date();
-      console.log(currentDate.toJSON);
       var getReqBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in (\"TOASTCAM登録待ち\") and person_in_charge in (\"Accel Lab\") order by 更新日時 asc'
@@ -122,8 +120,28 @@
             };
 
             console.log(postBody_member);
-
+    
             kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postBody_member).then(function (resp) {
+
+              var logList = shipList[ri].syncLog_list.value
+              var appendLog = {
+                value: {
+                  // syncLog_date: {
+                  //   value: currentDate.toJSON
+                  // },
+                  syncLog_type: {
+                    value: 'KT-会員情報'
+                  },
+                  syncLog_status: {
+                    value: 'success'
+                  },
+                  syncLog_message: {
+                    value: '会員情報を連携しました。'
+                  }
+                }
+              }
+
+              logList.push(appendLog);
 
               // ログデータ
               var logBody_ship = {
@@ -134,24 +152,7 @@
                     value: '必要情報入力済み'
                   },
                   syncLog_list: {
-                    value: [
-                      {
-                        value: {
-                          syncLog_date: {
-                            value: currentDate.toJSON
-                          },
-                          syncLog_type: {
-                            value: 'KT-会員情報'
-                          },
-                          syncLog_status: {
-                            value: 'success'
-                          },
-                          syncLog_message: {
-                            value: '会員情報を連携しました。'
-                          }
-                        }
-                      }
-                    ]
+                    value: logList
                   }
                 }
               };
