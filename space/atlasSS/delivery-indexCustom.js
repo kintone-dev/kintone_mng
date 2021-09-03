@@ -30,8 +30,9 @@
 
         for (var i = 0; i < 826; i++) {
           deleteData.push(i)
-          console.log(deleteData.length)
         }
+        
+        console.log(deleteData.length)
 
         var deleteBody = {
           'app': kintone.app.getId(),
@@ -50,14 +51,15 @@
 
             console.log(cutDeleteData);
           }
-        } else {
-          kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-            location.reload();
-            console.log('データを削除いたしました。')
-          }).catch(function (error) {
-            console.log(error);
-          });
-        }
+        } 
+        // else {
+        //   kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+        //     location.reload();
+        //     console.log('データを削除いたしました。')
+        //   }).catch(function (error) {
+        //     console.log(error);
+        //   });
+        // }
 
 
 
