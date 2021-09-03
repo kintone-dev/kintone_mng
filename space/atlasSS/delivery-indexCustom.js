@@ -156,7 +156,7 @@
               logBody = {
                 updateKey: {
                   field: 'レコード番号',
-                  value: shipList[ri].レコード番号.value
+                  value: parseInt(shipList[ri].レコード番号.value)
                 },
                 record: {
                   application_type: {
