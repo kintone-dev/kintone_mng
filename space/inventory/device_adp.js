@@ -17,23 +17,14 @@
       for (var ahl in tarRecords) {
         eRecord.record.hStockList.value.push({
           value: {
-            hCode: {
-              value: tarRecords[ahl].hCode.value,
-              type: 'SINGLE_LINE_TEXT'
-            },
-            hName: {
-              value: tarRecords[ahl].hName.value,
-              type: 'SINGLE_LINE_TEXT'
-            },
-            hStock: {
-              value: '',
-              type: 'NUMBER'
-            }
+            hCode: {value: tarRecords[ahl].hCode.value, type: 'SINGLE_LINE_TEXT'},
+            hName: {value: tarRecords[ahl].hName.value, type: 'SINGLE_LINE_TEXT'},
+            hStock: {value: '', type: 'NUMBER'}
           }
         });
-        eRecord.record.hStockList.value[ahl].value.hCode.disabled = true;
-        eRecord.record.hStockList.value[ahl].value.hName.disabled = true;
-        eRecord.record.hStockList.value[ahl].value.hStock.disabled = true;
+        eRecord.record.hStockList.value[ahl].value.hCode.disabled=true;
+        eRecord.record.hStockList.value[ahl].value.hName.disabled=true;
+        eRecord.record.hStockList.value[ahl].value.hStock.disabled=true;
         kintone.app.record.set(eRecord);
       }
       kintone.app.record.set(eRecord);
@@ -49,22 +40,22 @@
 
     // 品目情報を拠点リストに転送
     getUNITdata.then(function (resp) {
-      var tarRecords = resp.records;
+      var tarRecords=resp.records;
 
       // 拠点管理アプリの品目リストに上書きするデータ作成
-      var NewPrdInfo = {
+      var NewPrdInfo={
         'app': sysid.INV.app_id.unit,
         'records': []
       };
       //spd: set product data
       for (var spd in tarRecords) {
-        var records_set = {
+        var records_set={
           'id': tarRecords[spd].$id.value,
           'record': {
             'mStockList': tarRecords[spd].mStockList
           }
         };
-        var addRowData = {
+        var addRowData={
           'value': {
             'mCode': event.record.mCode,
             'mName': event.record.mName
@@ -74,18 +65,19 @@
         NewPrdInfo.records.push(records_set);
       }
       return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
-    }).then(function (resp) {
+    });
+    /*.then(function (resp) {
       // 転送成功
       console.log('put data to UNIT is success');
     }).catch(function (error) {
       //event error
       console.log(error);
       console.log('UNITにデータ更新失敗' + error.message);
-    });
+    });*/
 
     /* 新規データ転送 */
     //　転送データ作成
-    var postItemBody = {
+    var postItemBody={
       'app': '',
       'record': {
         'mName': event.record.mName,
@@ -106,12 +98,14 @@
     // 転送実行
     for (var pi in tarAPP){
       postItemBody.app=tarAPP[pi];
-      kintone.api(kintone.api.url('/k/v1/record', true), 'POST', postItemBody)
+      kintone.api(kintone.api.url('/k/v1/record', true), 'POST', postItemBody);
+      /*
       .then(function (resp) {
         console.log(tarAPP[pi]+' success');
       }).catch(function (error) {
         console.log(tarAPP[pi]+error.message);
       });
+      */
     }
     return event;
   });
@@ -142,12 +136,14 @@
     // 転送実行
     for (var pi in tarAPP){
       putItemBody.app=tarAPP[pi];
-      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody)
+      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
+      /*
       .then(function (resp) {
         console.log(tarAPP[pi]+' success');
       }).catch(function (error) {
         console.log(tarAPP[pi]+error.message);
       });
+      */
     }
     return event;
   });
