@@ -1,78 +1,69 @@
 (function () {
   'use strict';
 
-  //拠点情報取得＆繰り返し利用
+  // 拠点情報取得＆繰り返し利用
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     var nStatus = event.nextStatus.value;
 
     if (nStatus === "集荷待ち") {
       //パラメータsNumInfoにjsonデータ作成
       var sNumInfo = {
-        'app': sysid.DEV.app.sNum,
+        'app': sysid.DEV.app_id.sNum,
         'records': []
       };
 
-      var shipTable = event.record.deviceList.value;
-      var shipInstName = event.record.instName.value;
-      var shipShipment = event.record.shipment.value;
+      var shipTable=event.record.deviceList.value;
+      var shipShipment=event.record.shipment.value;
+      //var shipInstName = event.record.instName.value;
 
 
-      if (shipShipment === '矢倉倉庫') {
+      if(shipShipment==='矢倉倉庫'){
         for (var i in shipTable) {
-          var ship_mcode = shipTable[i].value.mCode.value;
-          var ship_shipnum = shipTable[i].value.shipNum.value;
-          var ship_sn = shipTable[i].value.sNum.value;
+          //var ship_mcode = shipTable[i].value.mCode.value;
+          //var ship_shipnum = shipTable[i].value.shipNum.value;
           //get serial numbers
-          var get_sNums = ship_sn.split(/\r\n|\n/);
+          var ship_sn=shipTable[i].value.sNum.value;
+          var get_sNums=ship_sn.split(/\r\n|\n/);
           //except Boolean
-          var sNums = get_sNums.filter(Boolean);
+          var sNums=get_sNums.filter(Boolean);
 
           for (var y in sNums) {
-            var snRecord = {
-              'sNum': {
-                'value': sNums[y]
-              },
-              'mCode': {
-                'value': ship_mcode
-              },
-              'instName': {
-                'value': shipInstName
-              },
-              'shipment': {
-                'value': shipShipment
-              }
+            var snRecord={//,,,,,roomName
+              'sNum': {'value': sNums[y]},
+              'mCode': shipTable[i].value.mCode,
+              'shipment': event.record.shipment,
+              'sendDate': event.record.sendDate,
+              'shipType': event.record.shipType,
+              'orgName': event.record.orgName,
+              'instName': event.record.instName,
+              'roomName': event.record.roomName
             };
             sNumInfo.records.push(snRecord);
           }
         }
 
-        var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumInfo);
-      } else {
+        var setSNinfo=new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumInfo);
+      }else{
         for (var i in shipTable) {
-          var ship_mcode = shipTable[i].value.mCode.value;
-          var ship_shipnum = shipTable[i].value.shipNum.value;
-          var ship_sn = shipTable[i].value.sNum.value;
+          //var ship_mcode=shipTable[i].value.mCode.value;
+          //var ship_shipnum=shipTable[i].value.shipNum.value;
           //get serial numbers
-          var get_sNums = ship_sn.split(/\r\n|\n/);
+          var ship_sn=shipTable[i].value.sNum.value;
+          var get_sNums=ship_sn.split(/\r\n|\n/);
           //except Boolean
-          var sNums = get_sNums.filter(Boolean);
+          var sNums=get_sNums.filter(Boolean);
 
-          for (var y in sNums) {
-            var snRecord = {
-              'updateKey': {
-                'field': 'sNum',
-                'value': sNums[y]
-              },
+          for (var y in sNums){
+            var snRecord={
+              'updateKey': {'field': 'sNum','value': sNums[y]},
               'record': {
-                'mCode': {
-                  'value': ship_mcode
-                },
-                'instName': {
-                  'value': shipInstName
-                },
-                'shipment': {
-                  'value': shipShipment
-                }
+                'mCode': shipTable[i].value.mCode,
+                'shipment': event.record.shipment,
+                'sendDate': event.record.sendDate,
+                'shipType': event.record.shipType,
+                'orgName': event.record.orgName,
+                'instName': event.record.instName,
+                'roomName': event.record.roomName
               }
             };
             sNumInfo.records.push(snRecord);
