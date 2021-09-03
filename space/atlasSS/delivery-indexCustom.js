@@ -88,6 +88,7 @@
 
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
+      console.log(luxon.DateTime.local().toISO());
       var getReqBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in (\"TOASTCAM登録待ち\") and person_in_charge in (\"Accel Lab\") order by 更新日時 asc'
@@ -120,15 +121,15 @@
             };
 
             console.log(postBody_member);
-    
+
             kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postBody_member).then(function (resp) {
 
               var logList = shipList[ri].syncLog_list.value
               var appendLog = {
                 value: {
-                  // syncLog_date: {
-                  //   value: currentDate.toJSON
-                  // },
+                  syncLog_date: {
+                    value: currentDate.toJSON
+                  },
                   syncLog_type: {
                     value: 'KT-会員情報'
                   },
@@ -160,13 +161,54 @@
               console.log(logBody_ship);
 
               kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody_ship).then(function (resp) {
-                console.log('log success');
+                console.log('success log put');
               }).catch(function (error) {
                 console.log(error);
               });
 
             }).catch(function (error) {
+
+              var logList = shipList[ri].syncLog_list.value
+              var appendLog = {
+                value: {
+                  syncLog_date: {
+                    value: currentDate.toJSON
+                  },
+                  syncLog_type: {
+                    value: 'KT-会員情報'
+                  },
+                  syncLog_status: {
+                    value: 'error'
+                  },
+                  syncLog_message: {
+                    value: '会員情報の連携に失敗しました。'
+                  }
+                }
+              }
+
+              logList.push(appendLog);
+
+              // ログデータ
+              var logBody_ship = {
+                app: kintone.app.getId(),
+                id: parseInt(shipList[ri].レコード番号.value),
+                record: {
+                  syncLog_list: {
+                    value: logList
+                  }
+                }
+              };
+
+              console.log(logBody_ship);
+
+              kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody_ship).then(function (resp) {
+                console.log('error log put');
+              }).catch(function (error) {
+                console.log(error);
+              });
+
               console.log(error);
+
             });
 
 
