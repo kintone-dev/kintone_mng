@@ -46,7 +46,7 @@
             if (i == 0) {
               var cutDeleteData = deleteData.slice(0, 100);
             } else {
-              var cutDeleteData = deleteData.slice(i * 100, i * 100 * 2);
+              var cutDeleteData = deleteData.slice(i * 100, (i * 100) + 100 );
             }
 
             console.log(cutDeleteData);
