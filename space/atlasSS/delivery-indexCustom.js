@@ -22,7 +22,7 @@
         console.log(currentDate.getTime());
         console.log(createDate.getTime());
         console.log(dateComp);
-        if(dateComp > 7776000){
+        if(dateComp > 7776000 * 1000){
           console.log('90日以上経過');
         }
 
