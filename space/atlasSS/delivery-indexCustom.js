@@ -139,17 +139,19 @@
 
               var logList = []
               var logInfo = {
-                syncLog_date: {
-                  value: new Date()
-                },
-                syncLog_type: {
-                  value: 'KT-会員情報'
-                },
-                syncLog_status: {
-                  value: 'success'
-                },
-                syncLog_message: {
-                  value: '会員情報を連携しました。'
+                value:{
+                  syncLog_date: {
+                    value: new Date()
+                  },
+                  syncLog_type: {
+                    value: 'KT-会員情報'
+                  },
+                  syncLog_status: {
+                    value: 'success'
+                  },
+                  syncLog_message: {
+                    value: '会員情報を連携しました。'
+                  }
                 }
               }
 
