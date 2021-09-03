@@ -97,27 +97,23 @@
         var shipList = resp.records;
         console.log(shipList);
 
-        // 会員情報関連
-        var postBody_member = {
-          'app': sysid.ASS.app_id.member,
-          'records': []
-        };
-
-        var logBody_ship = {
-          'app': kintone.app.getId(),
-          'records': []
-        };
-
-        // シリアル情報関連
-        // var putBody_sNum = {
-        //   'app': sysID.DIPM.app.sn,
-        //   'records': []
-        // };
-
         for (var ri in shipList) {
+          // 会員情報関連
+          var postBody_member = {
+            'app': sysid.ASS.app_id.member,
+            'records': []
+          };
+
+          // ログデータ
+          var logBody_ship = {
+            'app': kintone.app.getId(),
+            'records': []
+          };
+
           var pBody = {};
           var logBody = [];
 
+          // 申し込み種別が新規申し込みの時
           if (resp.records[ri].application_type.value.match(/新規申込/)) {
             pBody = {
               member_id: {
@@ -136,142 +132,50 @@
 
             postBody_member.records.push(pBody);
 
+            kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member).then(function (resp) {
+              var logList = {
+                syncLog_date: {
+                  value: new Date()
+                },
+                syncLog_type: {
+                  value: 'KT-会員情報'
+                },
+                syncLog_status: {
+                  value: 'success'
+                },
+                syncLog_message: {
+                  value: '会員情報を連携しました。'
+                }
+              }
+
+              logBody = {
+                updateKey: {
+                  field: 'レコード番号',
+                  value: resp.records[ri].レコード番号.value
+                },
+                record: {
+                  application_type: {
+                    value: '必要情報入力済み'
+                  },
+                  syncLog_list: {
+                    value: logList
+                  }
+                }
+              }
+              logBody_ship.records.push(logBody);
+
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', logBody_ship);
+
+            }).catch(function (error) {
+
+            });
+
+
           } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
-            console.log();
+            console.log('故障交換');
           }
-          // if (resp.records[ri].info_status.value == 'new') {
-          // } else if (resp.records[ri].info_status.value == 'update') {
-          //   mBody = {
-          //     'updateKey': {
-          //       'field': 'member_id',
-          //       'value': resp.records[ri].member_id.value
-          //     },
-          //     'record': {
-          //       'member_type': {
-          //         'value': resp.records[ri].member_type.value
-          //       },
-          //       'application_datetime': {
-          //         'value': resp.records[ri].member_type.value
-          //       },
-          //       'application_type': {
-          //         'value': resp.records[ri].member_type.value
-          //       }
-          //     }
-          //   };
-          //   putBody_member.records.push(mBody);
-          // }
-          // var app_type = resp.records[ri].application_type.value.match('故障交換');
-          // if (app_type) {
-          //   // 故障品の処理
-          //   console.error(resp.records[ri].$id.value + '故障');
-          //   /*
-          //   var getTarSN={
-          //     'app': sysID.DIPM.app.sn,
-          //     'query': 'sNum="'+resp.records[ri].failure_sNum.value+'"'
-          //   };
-          //   */
-          // } else {
-          //   // 販売分）シリアル番号処理
-          //   var memID = resp.records[ri].member_id.value;
-          //   var appDay = resp.records[ri].application_datetime.value;
-          //   var bizID = resp.records[ri].toastcam_bizUserId.value;
-          //   var bizPW = resp.records[ri].toastcam_bizUserPassword.value;
-
-          //   var shipTable = resp.records[ri].deviceList.value;
-
-          //   for (var i in shipTable) {
-          //     //get serial numbers
-          //     var ship_sNums = shipTable[i].value.sNums.value;
-          //     var get_sNums = ship_sNums.split(/\r\n|\n/);
-          //     //except Boolean
-          //     var sNums = get_sNums.filter(Boolean);
-
-          //     for (var y in sNums) {
-          //       var snRecord = {
-          //         'updateKey': {
-          //           'field': 'sNum',
-          //           'value': sNums[y]
-          //         },
-          //         'record': {
-          //           'member_id': {
-          //             'value': memID
-          //           },
-          //           'application_datetime': {
-          //             'value': appDay
-          //           },
-          //           'toastcam_bizUserId': {
-          //             'value': bizID
-          //           },
-          //           'toastcam_bizUserPassword': {
-          //             'value': bizPW
-          //           }
-          //         }
-          //       };
-          //       putBody_sNum.records.push(snRecord);
-          //     }
-          //   }
-          // }
         }
-        // console.log(putBody_member);
-        // console.log(putBody_sNum);
 
-        console.log(postBody_member);
-        var postMenber_result = kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member);
-
-        postMenber_result.then(function (resp) {
-
-          // for (var ri in shipList) {
-          //   if (resp.records[ri].application_type.value.match(/新規申込/)) {
-          //     logBody = {
-          //       updateKey: {
-          //         field: 'レコード番号',
-          //         value: resp.records[ri].レコード番号.value
-          //       },
-          //       record: {
-          //         application_type:{
-          //           value:'必要情報入力済み'
-          //         },
-          //         syncLog_list:{
-          //           value:logList
-          //         }
-          //       }
-          //     }
-
-          //     logBody_ship.records.push(logBody);
-          //   }
-
-          //   kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', logBody_ship);
-
-          // }
-
-        }).catch(function (error) {
-          // for (var ri in shipList) {
-          //   if (resp.records[ri].application_type.value.match(/新規申込/)) {
-          //     logBody = {
-          //       syncLog_date: {
-          //         value: new Date()
-          //       },
-          //       syncLog_type: {
-          //         value: 'KT-会員情報'
-          //       },
-          //       syncLog_status: {
-          //         value: 'error'
-          //       },
-          //       syncLog_message: {
-          //         value: '会員情報を連携できませんでした。'
-          //       }
-          //     }
-
-          //     shipList[ri].syncLog_list.value.push(logBody);
-          //   }
-          // }
-
-        });
-
-        /*
-        kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putBody_member);
-        kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putBody_sNum);
-        */
       }).catch(function (error) {
         console.log(error);
       });
