@@ -96,10 +96,7 @@
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody).then(function (resp) {
         var shipList = resp.records;
 
-        for (var ri in shipList) {
-          var recordId = shipList[ri].レコード番号.value;
-          console.log(recordId);
-
+        for (let ri in shipList) {
           // 申し込み種別が新規申し込みの時
           if (shipList[ri].application_type.value.match(/新規申込/)) {
             // 会員情報関連
