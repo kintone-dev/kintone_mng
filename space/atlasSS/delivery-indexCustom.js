@@ -95,7 +95,6 @@
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody).then(function (resp) {
         var shipList = resp.records;
-        console.log(shipList);
 
         for (var ri in shipList) {
           var recordId = shipList[ri].レコード番号.value;
@@ -129,7 +128,7 @@
               // ログデータ
               var logBody_ship = {
                 app: kintone.app.getId(),
-                id: paeseIt(shipList[ri].レコード番号.value),
+                id: paeseInt(shipList[ri].レコード番号.value),
                 record: {
                   working_status: {
                     value: '必要情報入力済み'
