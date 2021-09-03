@@ -186,47 +186,29 @@
     return event;
   });
 
-  //編集詳細閲覧時アクション
-  var before_mCode;
-  kintone.events.on('app.record.edit.show', function (event) {
-    before_mCode = event.record.mCode.value;
-
-    return event;
-  });
-
-
-  //編集保存時アクション
+  // 編集保存時アクション
   kintone.events.on('app.record.edit.submit', function (event) {
-    //転送用データ取得
-    var mname = event.record.mName.value;
-    var mtype = event.record.mType.value;
-    var mvendor = event.record.mVendor.value;
-    var mnickname = event.record.mNickname.value;
-    var endservice = event.record.endservice.value;
+    // 転送用データ取得
+    var mcode=event.record.mCode.value;
 
-    //案件管理にデータ転送
+    var mname=event.record.mName.value;
+    var mnickname=event.record.mNickname.value;
+    var mtype=event.record.mType.value;
+    var mvendor=event.record.mVendor.value;
+    var mclassification=event.record.mClassification.value;
+    var packagecomp=event.record.packageComp.value;
+
+    // 案件管理にデータ転送
     var updPMinfo = {
       'app': sysid.PM.app_id.item,
-      'updateKey': {
-        'field': 'mCode',
-        'value': before_mCode
-      },
+      'updateKey': {'field': 'mCode','value': mcode},
       'record': {
-        'mName': {
-          'value': mname
-        },
-        'mType': {
-          'value': mtype
-        },
-        'mVendor': {
-          'value': mvendor
-        },
-        'mNickname': {
-          'value': mnickname
-        },
-        'endservice': {
-          'value': endservice
-        }
+        'mName': event.record.mName,
+        'mNickname': event.record.mNickname,
+        'mType': event.record.mType,
+        'mVendor': event.record.mVendor,
+        'mClassification':event.record.mClassification,
+        'packageComp': event.record.packageComp
       }
     };
     var pmResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', updPMinfo);
