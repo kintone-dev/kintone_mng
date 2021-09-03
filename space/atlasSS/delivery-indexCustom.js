@@ -17,20 +17,15 @@
         console.log(resp.records);
         var currentDate = new Date('2021/1/1');
         var createDate = new Date(resp.records[0].更新日時.value);
-
-        console.log(currentDate.getTime());
-        console.log(createDate.getTime() );
-
-        if(currentDate > createDate){
-          console.log('90日経過');
+        
+        var createDate = new Date(resp.records[0].更新日時.value);
+        var dateComp = currentDate.getTime() - createDate.getTime();
+        console.log(dateComp);
+        if(dateComp > 7776000){
+          console.log('90日以上経過');
         }
         
         // for(var di in resp.records){
-        //   var createDate = resp.records[di].更新日時.value;
-        //   // if(createDate){
-
-        //   // }
-        //   console.log(createDate - 20);
         // }
 
         var deleteData = ['100','101'];
