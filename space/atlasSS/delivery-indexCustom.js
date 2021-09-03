@@ -98,23 +98,13 @@
         console.log(shipList);
 
         for (var ri in shipList) {
-          // 会員情報関連
-          var postBody_member = {
-            'app': sysid.ASS.app_id.member,
-            'records': []
-          };
-
-          var pBody = {};
-          var logBody = [];
 
           // 申し込み種別が新規申し込みの時
           if (shipList[ri].application_type.value.match(/新規申込/)) {
             var recordId = shipList[ri].レコード番号.value;
             var logList = shipList[ri].syncLog_list.value
 
-            console.log(logList);
-
-            pBody = {
+            var pBody = {
               member_id: {
                 value: shipList[ri].member_id.value
               },
@@ -129,11 +119,29 @@
               }
             };
 
-            postBody_member.records.push(pBody);
+            // 会員情報関連
+            var postBody_member = {
+              'app': sysid.ASS.app_id.member,
+              'record': pBody
+            };
 
             kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member).then(function (resp) {
+              // ログデータ
+              var logBody_ship = {
+                app: kintone.app.getId(),
+                id: recordId,
+                record: {
+                  working_status: {
+                    value: '必要情報入力済み'
+                  },
+                  syncLog_list: {
+                    value: logList
+                  }
+                }
+              };
+
               var logInfo = {
-                value:{
+                value: {
                   syncLog_date: {
                     value: new Date()
                   },
@@ -150,20 +158,6 @@
               }
 
               logList.push(logInfo);
-
-              // ログデータ
-              var logBody_ship = {
-                app: kintone.app.getId(),
-                id: recordId,
-                record: {
-                  working_status: {
-                    value: '必要情報入力済み'
-                  },
-                  syncLog_list: {
-                    value: logInfo
-                  }
-                }
-              };
 
               console.log(logBody_ship);
 
