@@ -89,6 +89,8 @@
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
       var currentDate = new Date();
+      console.log(currentDate.toISOString);
+      console.log(new Date().toISOString);
       var getReqBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in (\"TOASTCAM登録待ち\") and person_in_charge in (\"Accel Lab\") order by 更新日時 asc'
