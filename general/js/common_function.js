@@ -10,7 +10,7 @@ var sysid = {
 			organization: 75
 		}
 	},
-	// Inventory
+	// Inventory Management
 	INV: {
 		space_id: 19,
 		app_id: {
@@ -42,6 +42,7 @@ var sysid = {
 			shipment: 104
 		}
 	},
+	// Device Management
 	DEV: {
 		space: 22,
 		app: {
