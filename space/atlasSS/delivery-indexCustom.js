@@ -172,6 +172,8 @@
 
               logBody_ship.records.push(logBody);
 
+              console.log(logBody_ship);
+
               kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', logBody_ship).then(function (resp) {
                 console.log('log success');
               }).catch(function (error) {
