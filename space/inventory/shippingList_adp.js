@@ -184,9 +184,11 @@
               shipTable[0].value.sNum.error = null;
             }else{
               shipTable[0].value.sNum.error = '入力形式が間違えています';
+              break;
             }
           } else {
             shipTable[0].value.sNum.error = '入力形式が間違えています';
+            break;
           }
 
           if (openRegExp.test(railSpecs[i])) {
@@ -197,9 +199,11 @@
               shipTable[0].value.sNum.error = null;
             } else {
               shipTable[0].value.sNum.error = '入力形式が間違えています';
+              break;
             }
           } else {
             shipTable[0].value.sNum.error = '入力形式が間違えています';
+            break;
           }
 
           if (methodRegExp.test(railSpecs[i])) {
@@ -213,6 +217,7 @@
             shipTable[0].value.sNum.error = null;
           } else {
             shipTable[0].value.sNum.error = '入力形式が間違えています';
+            break;
           }
         }
 
