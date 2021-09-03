@@ -16,20 +16,18 @@
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
         console.log(resp.records);
         var currentDate = new Date('2021/12/10');
-        var createDate = new Date(resp.records[0].更新日時.value);
+        var deleteData = [];
         
-        var dateComp = currentDate.getTime() - createDate.getTime();
-        console.log(currentDate.getTime());
-        console.log(createDate.getTime());
-        console.log(dateComp);
-        if(dateComp > 7776000 * 1000){
-          console.log('90日以上経過');
-        }
 
-        // for(var di in resp.records){
-        // }
+        for(var di in resp.records){
+          var createDate = new Date(resp.records[di].更新日時.value);
+          var dateComp = currentDate.getTime() - createDate.getTime();
 
-        var deleteData = ['100','101'];
+          if(dateComp > 7776000 * 1000){
+            deleteData.push(resp.records[di].$id.value)
+          }
+        }  
+
 
         var deleteBody = {
           'app': kintone.app.getId(),
