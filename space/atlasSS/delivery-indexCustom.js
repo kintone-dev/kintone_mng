@@ -121,9 +121,11 @@
 
             // 会員情報関連
             var postBody_member = {
-              'app': sysid.ASS.app_id.member,
-              'record': pBody
+              app: sysid.ASS.app_id.member,
+              record: pBody
             };
+
+            console.log(postBody_member);
 
             kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member).then(function (resp) {
               // ログデータ
