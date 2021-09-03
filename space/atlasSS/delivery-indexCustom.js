@@ -99,41 +99,37 @@
 
         for (var ri in shipList) {
           var recordId = shipList[ri].レコード番号.value;
-          var logList = [];
-
           console.log(recordId);
 
           // 申し込み種別が新規申し込みの時
           if (shipList[ri].application_type.value.match(/新規申込/)) {
-
-            var pBody = {
-              member_id: {
-                value: shipList[ri].member_id.value
-              },
-              member_type: {
-                value: shipList[ri].member_type.value
-              },
-              application_datetime: {
-                value: shipList[ri].application_datetime.value
-              },
-              application_type: {
-                value: shipList[ri].application_type.value
-              }
-            };
-
             // 会員情報関連
             var postBody_member = {
               app: sysid.ASS.app_id.member,
-              record: pBody
+              record: {
+                member_id: {
+                  value: shipList[ri].member_id.value
+                },
+                member_type: {
+                  value: shipList[ri].member_type.value
+                },
+                application_datetime: {
+                  value: shipList[ri].application_datetime.value
+                },
+                application_type: {
+                  value: shipList[ri].application_type.value
+                }
+              }
             };
 
             console.log(postBody_member);
 
             kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postBody_member).then(function (resp) {
+              console.log(shipList[ri].レコード番号.value);
               // ログデータ
               var logBody_ship = {
                 app: kintone.app.getId(),
-                id: recordId,
+                id: shipList[ri].レコード番号.value,
                 record: {
                   working_status: {
                     value: '必要情報入力済み'
