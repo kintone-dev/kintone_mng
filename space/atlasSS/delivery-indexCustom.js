@@ -18,8 +18,13 @@
         var currentDate = new Date();
         var createDate = new Date(resp.records[0].更新日時.value);
 
+        createDate.setDate(createDate.getDate + 90)
         console.log(currentDate);
         console.log(createDate);
+
+        if(currentDate > createDate){
+          console.log('90日経過');
+        }
         
         // for(var di in resp.records){
         //   var createDate = resp.records[di].更新日時.value;
