@@ -13,10 +13,13 @@
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
         console.log(resp.records);
+        var currentDate = new Date();
+        var Date = currentDate.getDate();
+
+        console.log(Date);
 
         for(var di in resp.records){
           // var createDate = 
-
         }
 
         var deletedata = [];
