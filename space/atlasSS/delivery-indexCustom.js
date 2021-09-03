@@ -16,15 +16,26 @@
 
         // var createDate = 
 
-        // var deleteBody = {
-        //   'app': kintone.app.getId(),
-        //   'records': []
-        // };
-        // kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-        //   console.log(resp.records);
-        // }).catch(function (error) {
-        //   console.log(error);
-        // });  
+        var deleteBody = {
+          'app': kintone.app.getId(),
+          'records': []
+        };
+
+        var dBody = {};
+
+        dBody = {
+          $id: {
+            value: '47'
+          }
+        };
+
+        deleteBody.records.push(dBody);
+
+        kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+          console.log(resp.records);
+        }).catch(function (error) {
+          console.log(error);
+        });  
 
       }).catch(function (error) {
         console.log(error);
