@@ -44,20 +44,14 @@
     return event;
   });
 
-  //新規保存時アクション
+  // 新規保存時アクション
   kintone.events.on('app.record.create.submit.success', function (event) {
-    //転送用データ取得
-    var mname = event.record.mName.value;
-    var mcode = event.record.mCode.value;
-    var mtype = event.record.mType.value;
-    var mvendor = event.record.mVendor.value;
-    var mnickname = event.record.mNickname.value;
 
-    //品目情報を拠点リストに転送
+    // 品目情報を拠点リストに転送
     getUNITdata.then(function (resp) {
       var tarRecords = resp.records;
 
-      //拠点管理アプリの品目リストに上書きするデータ作成
+      // 拠点管理アプリの品目リストに上書きするデータ作成
       var NewPrdInfo = {
         'app': sysid.INV.app_id.unit,
         'records': []
@@ -72,12 +66,8 @@
         };
         var addRowData = {
           'value': {
-            'mCode': {
-              'value': mcode
-            },
-            'mName': {
-              'value': mname
-            }
+            'mCode': event.record.mCode,
+            'mName': event.record.mName
           }
         };
         records_set.record.mStockList.value.push(addRowData);
@@ -85,7 +75,7 @@
       }
       return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
     }).then(function (resp) {
-      //転送成功
+      // 転送成功
       console.log('put data to UNIT is success');
     }).catch(function (error) {
       //event error
@@ -93,94 +83,34 @@
       console.log('UNITにデータ更新失敗' + error.message);
     });
 
-    //案件管理にデータ転送
-    var newPMinfo = {
-      'app': sysid.PM.app_id.item,
+    /* 新規データ転送 */
+    //　転送データ作成
+    var postItemBody = {
+      'app': '',
       'record': {
-        'mName': {
-          'value': mname
-        },
-        'mCode': {
-          'value': mcode
-        },
-        'mType': {
-          'value': mtype
-        },
-        'mVendor': {
-          'value': mvendor
-        },
-        'mNickname': {
-          'value': mnickname
-        }
+        'mName': event.record.mName,
+        'mCode': event.record.mCode,
+        'mNickname': event.record.mNickname,
+        'mType': event.record.mType,
+        'mVendor': event.record.mVendor,
+        'mClassification':event.record.mClassification,
+        'packageComp': event.record.packageComp
       }
     };
-    var pmResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newPMinfo);
-    //転送結果
-    pmResult.then(function (resp) {
-      console.log('PM success');
-    }).catch(function (error) {
-      console.log('PM' + error.message);
-    });
-
-    //supportとtitanにデータ転送
-    //品目区分が「仕掛品」の場合、転送しない
-    if (mtype != '仕掛品') {
-      //Titan
-      var newASSinfo = {
-        'app': sysID.ASS.app.dev,
-        'record': {
-          'mName': {
-            'value': mname
-          },
-          'mCode': {
-            'value': mcode
-          },
-          'mType': {
-            'value': mtype
-          },
-          'mVendor': {
-            'value': mvendor
-          },
-          'mNickname': {
-            'value': mnickname
-          }
-        }
-      };
-      var assResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newASSinfo);
-      //転送結果
-      assResult.then(function (resp) {
-        console.log('Titan success');
+    // 転送先指定
+    var tarAPP=[
+      sysid.PM.app_id.item,
+      sysid.SUP.app_id.item,
+      sysid.ASS.app_id.item
+    ];
+    // 転送実行
+    for (var pi in tarAPP){
+      postItemBody.app=tarAPP[pi];
+      kintone.api(kintone.api.url('/k/v1/record', true), 'POST', postItemBody)
+      .then(function (resp) {
+        console.log(tarAPP[pi]+' success');
       }).catch(function (error) {
-        console.log('Titan' + error.message);
-      });
-
-      //Support
-      var newSUPinfo = {
-        'app': sysID.SUP.app.dev,
-        'record': {
-          'mName': {
-            'value': mname
-          },
-          'mCode': {
-            'value': mcode
-          },
-          'mType': {
-            'value': mtype
-          },
-          'mVendor': {
-            'value': mvendor
-          },
-          'mNickname': {
-            'value': mnickname
-          }
-        }
-      };
-      var supResult = new kintone.api(kintone.api.url('/k/v1/record', true), 'POST', newSUPinfo);
-      //転送結果
-      supResult.then(function (resp) {
-        console.log('Support success');
-      }).catch(function (error) {
-        console.log('Support' + error.message);
+        console.log(tarAPP[pi]+error.message);
       });
     }
     return event;
@@ -188,20 +118,12 @@
 
   // 編集保存時アクション
   kintone.events.on('app.record.edit.submit', function (event) {
-    // 転送用データ取得
-    var mcode=event.record.mCode.value;
 
-    var mname=event.record.mName.value;
-    var mnickname=event.record.mNickname.value;
-    var mtype=event.record.mType.value;
-    var mvendor=event.record.mVendor.value;
-    var mclassification=event.record.mClassification.value;
-    var packagecomp=event.record.packageComp.value;
-
-    // 案件管理にデータ転送
-    var putItemBody_PM = {
-      'app': sysid.PM.app_id.item,
-      'updateKey': {'field': 'mCode','value': mcode},
+    /* 更新データ転送 */
+    // 転送データ作成
+    var putItemBody={
+      'app': '',
+      'updateKey': {'field': 'mCode','value': event.record.mCode.value},
       'record': {
         'mName': event.record.mName,
         'mNickname': event.record.mNickname,
@@ -211,42 +133,20 @@
         'packageComp': event.record.packageComp
       }
     };
-    kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody_PM).then(function(resp){
-      console.log('PM success');
-    }).catch(function (error) {
-      console.log('PM' + error.message);
-    });
-
-    //品目区分が「仕掛品」の場合、更新しない
-    if (mtype != '仕掛品') {
-      var putItemBody = {
-        'app': '',
-        'updateKey': {'field': 'mCode','value': mcode},
-        'record': {
-          'mName': event.record.mName,
-          'mNickname': event.record.mNickname,
-          'mType': event.record.mType,
-          'mVendor': event.record.mVendor,
-          'mClassification':event.record.mClassification,
-          'packageComp': event.record.packageComp
-        }
-      };
-      // Titanを更新
-      putItemBody.app=sysid.ASS.app_id.item
-      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody).then(function(resp){
-        putItemBody.app='';
-        console.log('Titan success');
+    // 転送先指定
+    var tarAPP=[
+      sysid.PM.app_id.item,
+      sysid.SUP.app_id.item,
+      sysid.ASS.app_id.item
+    ];
+    // 転送実行
+    for (var pi in tarAPP){
+      putItemBody.app=tarAPP[pi];
+      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody)
+      .then(function (resp) {
+        console.log(tarAPP[pi]+' success');
       }).catch(function (error) {
-        console.log('Titan' + error.message);
-      });
-
-      // supportを更新
-      putItemBody.app=sysid.SUP.app_id.item;
-      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody).then(function(resp){
-        putItemBody.app='';
-        console.log('Support success');
-      }).catch(function (error) {
-        console.log('Support' + error.message);
+        console.log(tarAPP[pi]+error.message);
       });
     }
     return event;
