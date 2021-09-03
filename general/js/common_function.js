@@ -6,10 +6,6 @@ var sysid = {
 		app_id: {
 			item: 165,
 			project: 133,
-			shipment: 113,
-			sNum: 115,
-			unit: 81,
-			device: 77,
 			installation: 76,
 			organization: 75
 		}
@@ -21,9 +17,7 @@ var sysid = {
 			unit: 156,
 			device: 155,
 			report: 154,
-			shipment: 153,
-			sNum: 149,
-			account_tc: 141
+			shipment: 153
 		}
 	},
 	// Support
