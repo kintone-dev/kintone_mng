@@ -15,24 +15,20 @@
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
         console.log(resp.records);
-        var currentDate = new Date('2021/11/10');
+        var currentDate = new Date();
         var deleteData = [];
 
         //90日以上経ったデータを配列に格納
-        // for (var di in resp.records) {
-        //   var createDate = new Date(resp.records[di].更新日時.value);
-        //   var dateComp = currentDate.getTime() - createDate.getTime();
+        for (var di in resp.records) {
+          var createDate = new Date(resp.records[di].更新日時.value);
+          var dateComp = currentDate.getTime() - createDate.getTime();
 
-        //   if (dateComp > 7776000 * 1000) {
-        //     deleteData.push(resp.records[di].$id.value)
-        //   }
-        // }
-
-        for (var i = 100; i < 826; i++) {
-          deleteData.push(i)
+          if (dateComp > 7776000 * 1000) {
+            deleteData.push(resp.records[di].$id.value)
+          }
         }
 
-        console.log(deleteData.length)
+        console.log(deleteData);
 
         var deleteBody = {
           'app': kintone.app.getId(),
@@ -52,14 +48,12 @@
                 'ids': cutDeleteData
               };
 
-              console.log(deleteBody);
-
-              // kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-              //   location.reload();
-              //   console.log('データを削除いたしました。')
-              // }).catch(function (error) {
-              //   console.log(error);
-              // });    
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+                location.reload();
+                console.log('データを削除いたしました。')
+              }).catch(function (error) {
+                console.log(error);
+              });    
 
             } else {
               //100ずつ配列をスライスして格納
@@ -70,14 +64,12 @@
                 'ids': cutDeleteData
               };
 
-              console.log(deleteBody);
-
-              // kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-              //   location.reload();
-              //   console.log('データを削除いたしました。')
-              // }).catch(function (error) {
-              //   console.log(error);
-              // });    
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+                location.reload();
+                console.log('データを削除いたしました。')
+              }).catch(function (error) {
+                console.log(error);
+              });    
             }
           }
         } else {
@@ -89,9 +81,6 @@
             console.log(error);
           });
         }
-
-        // console.log(deleteBody);
-
 
       }).catch(function (error) {
         console.log(error);
