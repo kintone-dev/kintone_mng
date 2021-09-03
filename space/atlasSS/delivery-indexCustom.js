@@ -16,14 +16,15 @@
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
         console.log(resp.records);
         var currentDate = new Date();
+
         console.log(currentDate);
         
         for(var di in resp.records){
           var createDate = resp.records[di].更新日時.value;
-          if(createDate){
+          // if(createDate){
 
-          }
-          console.log(createDate);
+          // }
+          console.log(currentDate - createDate);
         }
 
         var deleteData = ['100','101'];
