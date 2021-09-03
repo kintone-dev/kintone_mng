@@ -7,19 +7,22 @@
 
     //処理済みデータ削除
     $('#' + del_records.id).on('click', function () {
+
       var deleteReqBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in (\"登録完了\") and person_in_charge in (\"ATLAS Smart Security\") order by 更新日時 asc'
       };
+
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
         console.log(resp.records);
         var currentDate = new Date();
-        var Date = currentDate.getDate();
-
-        console.log(Date);
+        console.log(currentDate);
         
         for(var di in resp.records){
           var createDate = resp.records[di].更新日時.value;
+          if(createDate){
+
+          }
           console.log(createDate);
         }
 
