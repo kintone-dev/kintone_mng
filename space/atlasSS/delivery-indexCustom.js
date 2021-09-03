@@ -12,21 +12,28 @@
         'query': 'working_status in (\"登録完了\") and person_in_charge in (\"ATLAS Smart Security\") order by 更新日時 asc'
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
-        console.log(resp);
+        console.log(resp.records);
 
-        // var createDate = 
+        for(var di in resp.records){
+          // var createDate = 
+
+        }
+
+        var deletedata = [];
 
         var deleteBody = {
           'app': kintone.app.getId(),
-          'ids': ['47']
+          'ids': deletedata
         };
 
-        kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-          location.reload();
-          console.log('データを削除いたしました。')
-        }).catch(function (error) {
-          console.log(error);
-        });  
+        console.log(deleteBody);
+
+        // kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+        //   location.reload();
+        //   console.log('データを削除いたしました。')
+        // }).catch(function (error) {
+        //   console.log(error);
+        // });  
 
       }).catch(function (error) {
         console.log(error);
