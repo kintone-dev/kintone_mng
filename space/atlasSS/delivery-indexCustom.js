@@ -115,7 +115,7 @@
 
         for (var ri in resp.records) {
           var pBody = {};
-          var logBody = {};
+          var logBody = [];
 
           if (resp.records[ri].application_type.value.match(/新規申込/)) {
             pBody = {
@@ -133,7 +133,7 @@
               }
             };
 
-            resp.records[ri].syncLog_message.value = "てすと";
+            // [0].syncLog_message.value = "てすと";
 
             // logBody = {
             //   syncLog_date: {
@@ -236,10 +236,7 @@
         console.log(postBody_member);
         var postMenber_result = kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member);
         postMenber_result.then(function (resp) {
-
-          // kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', logBody_ship);
-
-
+          console.log(resp);
           console.log('新規申し込み会員情報をPOSTしました。');
         }).catch(function (error) {
           console.log(error);
