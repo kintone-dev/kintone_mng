@@ -177,8 +177,8 @@
 
         for (var i in railSpecs) {
           if (numRegExp.test(railSpecs[i])) {
-            console.log(railSpecs[i]);
-            if(railSpecs[i] >= 580){
+            console.log(parseInt(railSpecs[i]));
+            if(parseInt(railSpecs[i]) >= 580){
               lengthStr = railSpecs[i];
 
               shipTable[0].value.sNum.error = null;
@@ -260,6 +260,7 @@
               }
             }
           });
+
           var lookupCount = parseInt(ril) + 1;
           shipTable[lookupCount].value.mName.lookup = true;
         }
