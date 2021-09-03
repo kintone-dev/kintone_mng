@@ -34,7 +34,7 @@
               'shipment': event.record.shipment,
               'sendDate': event.record.sendDate,
               'shipType': event.record.shipType,
-              'orgName': event.record.orgName,
+              //'orgName': event.record.orgName,
               'instName': event.record.instName,
               'roomName': event.record.roomName
             };
@@ -61,7 +61,7 @@
                 'shipment': event.record.shipment,
                 'sendDate': event.record.sendDate,
                 'shipType': event.record.shipType,
-                'orgName': event.record.orgName,
+                //'orgName': event.record.orgName,
                 'instName': event.record.instName,
                 'roomName': event.record.roomName
               }
