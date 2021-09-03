@@ -73,12 +73,13 @@
         var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
       }
 
-      return setSNinfo.then(function (resp) {
+      setSNinfo.then(function (resp) {
         console.log(resp);
       }).catch(function (error) {
         console.error(error);
       });
     }
+    return event;
   });
 
 
