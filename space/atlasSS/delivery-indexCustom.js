@@ -14,7 +14,6 @@
       };
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
-        console.log(resp.records);
         var currentDate = new Date();
         var deleteData = [];
 
@@ -72,8 +71,8 @@
               });    
             }
           }
-        } else {
 
+        } else {
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
             location.reload();
             console.log('データを削除いたしました。')
@@ -103,10 +102,10 @@
           'records': []
         };
 
-        // var postBody_member = {
-        //   'app': sysID.ASS.app.aim,
-        //   'records': []
-        // };
+        var logBody_ship = {
+          'app': kintone.app.getId(),
+          'records': []
+        };
 
         // シリアル情報関連
         // var putBody_sNum = {
@@ -115,9 +114,11 @@
         // };
 
         for (var ri in resp.records) {
-          var mBody = {};
+          var pBody = {};
+          var logBody = [];
+
           if (resp.records[ri].application_type.value.match(/新規申込/)) {
-            mBody = {
+            pBody = {
               member_id: {
                 value: resp.records[ri].member_id.value
               },
@@ -131,9 +132,30 @@
                 value: resp.records[ri].application_type.value
               }
             };
-            postBody_member.records.push(mBody);
-          } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
 
+            // [0].syncLog_message.value = "てすと";
+
+            // logBody = {
+            //   syncLog_date: {
+            //     value: resp.records[ri].member_id.value
+            //   },
+            //   syncLog_type: {
+            //     value: resp.records[ri].member_type.value
+            //   },
+            //   syncLog_status: {
+            //     value: resp.records[ri].application_datetime.value
+            //   },
+            //   syncLog_message: {
+            //     value: resp.records[ri].application_type.value
+            //   }
+            // }
+
+            // logBody_ship.records.push(logBody);
+            
+            postBody_member.records.push(pBody);
+
+          } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
+            console.log();
           }
           // if (resp.records[ri].info_status.value == 'new') {
           // } else if (resp.records[ri].info_status.value == 'update') {
