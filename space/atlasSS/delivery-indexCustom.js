@@ -52,12 +52,14 @@
                 'ids': cutDeleteData
               };
 
-              kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-                location.reload();
-                console.log('データを削除いたしました。')
-              }).catch(function (error) {
-                console.log(error);
-              });    
+              console.log(deleteBody);
+
+              // kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+              //   location.reload();
+              //   console.log('データを削除いたしました。')
+              // }).catch(function (error) {
+              //   console.log(error);
+              // });    
 
             } else {
               //100ずつ配列をスライスして格納
@@ -68,16 +70,18 @@
                 'ids': cutDeleteData
               };
 
-              kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-                location.reload();
-                console.log('データを削除いたしました。')
-              }).catch(function (error) {
-                console.log(error);
-              });    
+              console.log(deleteBody);
+
+              // kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+              //   location.reload();
+              //   console.log('データを削除いたしました。')
+              // }).catch(function (error) {
+              //   console.log(error);
+              // });    
             }
           }
         } else {
-          
+
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
             location.reload();
             console.log('データを削除いたしました。')
