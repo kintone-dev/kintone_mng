@@ -22,7 +22,8 @@
         };
 
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-          console.log(resp.records);
+          location.reload();
+          console.log('データを削除いたしました。')
         }).catch(function (error) {
           console.log(error);
         });  
