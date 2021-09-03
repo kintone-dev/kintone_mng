@@ -95,6 +95,8 @@
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody).then(function (resp) {
         var shipList = resp.records;
+        shipList[0].application_type.value = '必要情報入力済み';
+
         console.log(shipList);
 
         // 会員情報関連
