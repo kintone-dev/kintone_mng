@@ -24,6 +24,7 @@
         //   'app': sysID.ASS.app.aim,
         //   'records': []
         // };
+
         // シリアル情報関連
         // var putBody_sNum = {
         //   'app': sysID.DIPM.app.sn,
@@ -135,7 +136,7 @@
         }).catch(function(error){
           console.log(error);
         });
-        
+
         /*
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putBody_member);
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putBody_sNum);

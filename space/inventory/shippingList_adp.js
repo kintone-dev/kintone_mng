@@ -90,6 +90,7 @@
     }
   });
 
+
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('calBtn', '計算');
 
@@ -156,10 +157,10 @@
                 }
               }
             });
+
             var lookupCount = parseInt(pil) + 1;
             shipTable[lookupCount].value.mName.lookup = true;
           }
-
 
           kintone.app.record.set(eRecord);
           return resp;
@@ -167,9 +168,7 @@
           console.log(error);
           console.log(error.message);
         });
-
       }
-
 
       //品目コードがTRT-DYの時
       if (String(shipTable[0].value.mCode.value).match(/TRT-DY/)) {
@@ -178,9 +177,13 @@
 
         for (var i in railSpecs) {
           if (numRegExp.test(railSpecs[i])) {
-            lengthStr = railSpecs[i];
-
-            shipTable[0].value.sNum.error = null;
+            if(railSpecs[i] >= 580){
+              lengthStr = railSpecs[i];
+              
+              shipTable[0].value.sNum.error = null;
+            }else{
+              shipTable[0].value.sNum.error = '入力形式が間違えています';
+            }
           } else {
             shipTable[0].value.sNum.error = '入力形式が間違えています';
           }
