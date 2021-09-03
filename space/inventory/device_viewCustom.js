@@ -11,10 +11,6 @@
     'app.record.detail.show',
     'app.record.edit.show'
   ];
-  kintone.events.on(['app.record.create.change.mType','app.reocrd.edit.chenage.mType'], function(event){
-    if(event.record.mType.value=='パッケージ品') setFieldShown('packageComp', true);
-    else setFieldShown('packageComp', false);
-  });
   kintone.events.on(events_ced, function(event) {    
     
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
@@ -62,8 +58,6 @@
       }
     }
     //タブメニュー作成
-    if(event.record.mType.value=='パッケージ品') setFieldShown('packageComp', true);
-    else setFieldShown('packageComp', false);
     tabMenu('tab_inv', ['在庫情報','原価情報','パッケージ構成']);
     //タブ切り替え表示設定
      $('.tabMenu a').on('click', function(){
