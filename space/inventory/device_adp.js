@@ -211,7 +211,7 @@
         'packageComp': event.record.packageComp
       }
     };
-    kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody_PM).then(function (resp) {
+    kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody_PM).then(function(resp){
       console.log('PM success');
     }).catch(function (error) {
       console.log('PM' + error.message);
@@ -233,7 +233,8 @@
       };
       // Titanを更新
       putItemBody.app=sysid.ASS.app_id.item
-      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody)then(function (resp) {
+      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody)then(function(resp){
+        putItemBody.app='';
         console.log('Titan success');
       }).catch(function (error) {
         console.log('Titan' + error.message);
@@ -241,7 +242,8 @@
 
       // supportを更新
       putItemBody.app=sysid.SUP.app_id.item;
-      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody).then(function (resp) {
+      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody).then(function(resp){
+        putItemBody.app='';
         console.log('Support success');
       }).catch(function (error) {
         console.log('Support' + error.message);
