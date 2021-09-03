@@ -133,6 +133,7 @@
             postBody_member.records.push(pBody);
 
             kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member).then(function (resp) {
+
               var logList = {
                 syncLog_date: {
                   value: new Date()
@@ -164,10 +165,13 @@
               }
               logBody_ship.records.push(logBody);
 
-              kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', logBody_ship);
-
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', logBody_ship).then(function (resp) {
+                console.log('log success');
+              }).catch(function (error) {
+                console.log(error);
+              });
             }).catch(function (error) {
-
+              console.log(error);
             });
 
 
