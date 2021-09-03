@@ -177,7 +177,6 @@
 
         for (var i in railSpecs) {
           if (numRegExp.test(railSpecs[i])) {
-            console.log(parseInt(railSpecs[i]));
             if(parseInt(railSpecs[i]) >= 580){
               lengthStr = railSpecs[i];
 
