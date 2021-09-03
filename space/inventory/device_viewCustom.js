@@ -49,7 +49,7 @@
           setFieldShown('hStockList', false);
           setFieldShown('packageComp', false);
           break;
-        case '#パッケージ内容':
+        case '#パッケージ構成':
           setFieldShown('mCost', false);
           setFieldShown('mCostUpdate', false);
           setFieldShown('deviceCost', false);
