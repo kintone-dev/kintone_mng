@@ -23,7 +23,7 @@ var sysid = {
 	// Support
 	SUP: {
 		space_id: 13,
-		app: {
+		app_id: {
 			item: 111,
 			inquiry: 95,
 			onsite: 108,
@@ -35,7 +35,7 @@ var sysid = {
 	// ATLAS Smart Security
 	ASS: {
 		space: 14,
-		app: {
+		app_id: {
 			member: 139,
 			cancellation: 135,
 			item: 109,
@@ -45,7 +45,7 @@ var sysid = {
 	// Device Management
 	DEV: {
 		space: 22,
-		app: {
+		app_id: {
 			defective: 161,
 			account_tc: 160,
 			sNum: 159
