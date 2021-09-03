@@ -15,24 +15,20 @@
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
         console.log(resp.records);
-        var currentDate = new Date('2021/11/10');
+        var currentDate = new Date();
         var deleteData = [];
 
         //90日以上経ったデータを配列に格納
-        // for (var di in resp.records) {
-        //   var createDate = new Date(resp.records[di].更新日時.value);
-        //   var dateComp = currentDate.getTime() - createDate.getTime();
+        for (var di in resp.records) {
+          var createDate = new Date(resp.records[di].更新日時.value);
+          var dateComp = currentDate.getTime() - createDate.getTime();
 
-        //   if (dateComp > 7776000 * 1000) {
-        //     deleteData.push(resp.records[di].$id.value)
-        //   }
-        // }
-
-        for (var i = 0; i < 826; i++) {
-          deleteData.push(i)
+          if (dateComp > 7776000 * 1000) {
+            deleteData.push(resp.records[di].$id.value)
+          }
         }
 
-        console.log(deleteData.length)
+        console.log(deleteData);
 
         var deleteBody = {
           'app': kintone.app.getId(),
@@ -41,29 +37,50 @@
 
         //配列の長さが100より大きい場合
         if (deleteData.length > 100) {
+          //配列の長さを100で割って切り捨て
           var loopNum = Math.floor(deleteData.length / 100);
           for (var i = 0; i <= loopNum; i++) {
             if (i == 0) {
+              //100ずつ配列をスライスして格納
               var cutDeleteData = deleteData.slice(0, 100);
+              deleteBody = {
+                'app': kintone.app.getId(),
+                'ids': cutDeleteData
+              };
+
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+                location.reload();
+                console.log('データを削除いたしました。')
+              }).catch(function (error) {
+                console.log(error);
+              });    
+
             } else {
-              var cutDeleteData = deleteData.slice(i * 100, i * 100 * 2);
+              //100ずつ配列をスライスして格納
+              var cutDeleteData = deleteData.slice(i * 100, (i * 100) + 100);
+
+              deleteBody = {
+                'app': kintone.app.getId(),
+                'ids': cutDeleteData
+              };
+
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+                location.reload();
+                console.log('データを削除いたしました。')
+              }).catch(function (error) {
+                console.log(error);
+              });    
             }
-
-            console.log(cutDeleteData);
           }
-        } 
+        } else {
 
-        // else {
-        //   kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-        //     location.reload();
-        //     console.log('データを削除いたしました。')
-        //   }).catch(function (error) {
-        //     console.log(error);
-        //   });
-        // }
-
-        // console.log(deleteBody);
-
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+            location.reload();
+            console.log('データを削除いたしました。')
+          }).catch(function (error) {
+            console.log(error);
+          });
+        }
 
       }).catch(function (error) {
         console.log(error);
