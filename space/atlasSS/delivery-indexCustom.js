@@ -167,6 +167,7 @@
                   }
                 }
               }
+              console.log(shipList[ri].レコード番号.value);
               logBody_ship.records.push(logBody);
 
               kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', logBody_ship).then(function (resp) {
