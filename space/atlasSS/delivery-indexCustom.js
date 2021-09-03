@@ -127,7 +127,7 @@
 
             console.log(postBody_member);
 
-            kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member).then(function (resp) {
+            kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postBody_member).then(function (resp) {
               // ログデータ
               var logBody_ship = {
                 app: kintone.app.getId(),
@@ -163,7 +163,7 @@
 
               console.log(logBody_ship);
 
-              kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', logBody_ship).then(function (resp) {
+              kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody_ship).then(function (resp) {
                 console.log('log success');
               }).catch(function (error) {
                 console.log(error);
