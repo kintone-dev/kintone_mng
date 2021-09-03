@@ -15,12 +15,11 @@
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
         console.log(resp.records);
-        var currentDate = new Date();
+        var currentDate = new Date('2021/1/1');
         var createDate = new Date(resp.records[0].更新日時.value);
 
-        createDate.setDate(createDate.getDate + 90)
-        console.log(currentDate.getDate());
-        console.log(createDate.getDate());
+        console.log(currentDate.getTime());
+        console.log(createDate.getTime() );
 
         if(currentDate > createDate){
           console.log('90日経過');
