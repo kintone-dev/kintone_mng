@@ -11,6 +11,15 @@
     'app.record.detail.show',
     'app.record.edit.show'
   ];
+  // タブメニュー表示項目
+  var tabMenuValue;
+  kintone.events.on(['app.record.create.change.mType','app.reocrd.edit.chenage.mType'], function(event){
+    if(event.record.mType.value=='パッケージ品'){
+      tabMenuValue=['在庫情報','原価情報','パッケージ内容'];
+    }else{
+      tabMenuValue=['在庫情報','原価情報'];
+    }
+  });
   kintone.events.on(events_ced, function(event) {    
     
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
@@ -58,7 +67,12 @@
       }
     }
     //タブメニュー作成
-    tabMenu('tab_inv', ['在庫情報','原価情報','パッケージ内容']);
+    if(event.record.mType.value=='パッケージ品'){
+      tabMenuValue=['在庫情報','原価情報','パッケージ内容'];
+    }else{
+      tabMenuValue=['在庫情報','原価情報'];
+    }
+    tabMenu('tab_inv', tabMenuValue);
     //タブ切り替え表示設定
      $('.tabMenu a').on('click', function(){
         var idName = $(this).attr('href');//タブ内のリンク名を取得  
@@ -83,9 +97,14 @@
     event.record.mVendor.disabled=true;
     event.record.mNickname.disabled=true;
     event.record.mWarranty.disabled=true;
-    event.record.endservice.disabled=true;
-    event.record.package.disabled=true;
-
+    event.record.mClassification.disabled=true;
+    for (var sti in event.record.packageComp.value){
+      event.record.packageComp.value[sti].value.pc_mVendor.disabled=true;
+      event.record.packageComp.value[sti].value.pc_mType.disabled=true;
+      event.record.packageComp.value[sti].value.pc_mCode.disabled=true;
+      event.record.packageComp.value[sti].value.pc_mName.disabled=true;
+      event.record.packageComp.value[sti].value.pc_Num.disabled=true;
+    }
     return event;
   });
   
@@ -95,20 +114,35 @@
       // チェックボックスがチェックされている
       event.record.mName.disabled=false;
       event.record.mImg.disabled=false;
-      event.record.endservice.disabled=false;
-      event.record.package.disabled=false;
+      event.record.mType.disabled=false;
+      event.record.mVendor.disabled=false;
       event.record.mNickname.disabled=false;
       event.record.mWarranty.disabled=false;
+      event.record.mClassification.disabled=false;
+      for (var sti in event.record.packageComp.value){
+        event.record.packageComp.value[sti].value.pc_mVendor.disabled=false;
+        event.record.packageComp.value[sti].value.pc_mType.disabled=false;
+        event.record.packageComp.value[sti].value.pc_mCode.disabled=false;
+        event.record.packageComp.value[sti].value.pc_mName.disabled=false;
+        event.record.packageComp.value[sti].value.pc_Num.disabled=false;
+      }
     }else{
       // チェックボックスがチェックされていない
       event.record.mName.disabled=true;
       event.record.mImg.disabled=true;
+      event.record.mCode.disabled=true;
       event.record.mType.disabled=true;
       event.record.mVendor.disabled=true;
       event.record.mNickname.disabled=true;
       event.record.mWarranty.disabled=true;
-      event.record.endservice.disabled=true;
-      event.record.package.disabled=true;
+      event.record.mClassification.disabled=true;
+      for (var sti in event.record.packageComp.value){
+        event.record.packageComp.value[sti].value.pc_mVendor.disabled=true;
+        event.record.packageComp.value[sti].value.pc_mType.disabled=true;
+        event.record.packageComp.value[sti].value.pc_mCode.disabled=true;
+        event.record.packageComp.value[sti].value.pc_mName.disabled=true;
+        event.record.packageComp.value[sti].value.pc_Num.disabled=true;
+      }
     }
     return event;
   });
@@ -123,7 +157,6 @@
   kintone.events.on(events_cd, function(event){
     // レコード追加＆詳細閲覧時は「情報編集」フィールドは非表示
     setFieldShown('editinfo', false);
-    setFieldShown('endservice', false);
     return event;
   })
 })();
