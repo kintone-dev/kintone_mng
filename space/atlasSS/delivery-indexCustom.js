@@ -115,6 +115,8 @@
 
           // 申し込み種別が新規申し込みの時
           if (shipList[ri].application_type.value.match(/新規申込/)) {
+            var recordId = shipList[ri].レコード番号.value;
+            console.log(recordId);
 
             pBody = {
               member_id: {
@@ -154,7 +156,7 @@
               logList.push(logInfo);
 
               logBody = {
-                id: shipList[ri].レコード番号.value,
+                id: recordId,
                 record: {
                   working_status: {
                     value: '必要情報入力済み'
@@ -164,7 +166,7 @@
                   }
                 }
               }
-              console.log(shipList[ri].レコード番号.value);
+
               logBody_ship.records.push(logBody);
 
               kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', logBody_ship).then(function (resp) {
