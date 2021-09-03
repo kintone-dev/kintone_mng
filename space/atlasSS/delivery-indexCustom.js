@@ -19,8 +19,8 @@
         var createDate = new Date(resp.records[0].更新日時.value);
 
         createDate.setDate(createDate.getDate + 90)
-        console.log(currentDate);
-        console.log(createDate);
+        console.log(currentDate.getDate());
+        console.log(createDate.getDate());
 
         if(currentDate > createDate){
           console.log('90日経過');
