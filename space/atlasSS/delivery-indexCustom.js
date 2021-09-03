@@ -159,12 +159,10 @@
 
               console.log(logBody_ship);
 
-              kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody_ship).then(function (resp) {
-                console.log('success log put');
-              }).catch(function (error) {
-                console.log(error);
-              });
-
+            return kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody_ship);
+            
+            }).then(function (resp) {
+              console.log('success log put');
             }).catch(function (error) {
 
               var logList = shipList[ri].syncLog_list.value
