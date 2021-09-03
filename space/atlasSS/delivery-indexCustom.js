@@ -17,16 +17,17 @@
         var Date = currentDate.getDate();
 
         console.log(Date);
-
+        
         for(var di in resp.records){
-          // var createDate = 
+          var createDate = resp.records[di].更新日時.value;
+          console.log(createDate);
         }
 
-        var deletedata = [];
+        var deleteData = ['100','101'];
 
         var deleteBody = {
           'app': kintone.app.getId(),
-          'ids': deletedata
+          'ids': deleteData
         };
 
         console.log(deleteBody);
