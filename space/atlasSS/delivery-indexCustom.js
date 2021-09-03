@@ -15,38 +15,60 @@
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
         console.log(resp.records);
-        var currentDate = new Date('2021/12/10');
+        var currentDate = new Date('2021/11/10');
         var deleteData = [];
-        
 
-        for(var di in resp.records){
-          var createDate = new Date(resp.records[di].更新日時.value);
-          var dateComp = currentDate.getTime() - createDate.getTime();
+        //90日以上経ったデータを配列に格納
+        // for (var di in resp.records) {
+        //   var createDate = new Date(resp.records[di].更新日時.value);
+        //   var dateComp = currentDate.getTime() - createDate.getTime();
 
-          if(dateComp > 7776000 * 1000){
-            deleteData.push(resp.records[di].$id.value)
-          }
-        }  
+        //   if (dateComp > 7776000 * 1000) {
+        //     deleteData.push(resp.records[di].$id.value)
+        //   }
+        // }
 
+        for (var i = 0; i < 826; i++) {
+          deleteData.push(i)
+          console.log(deleteData.length)
+        }
 
         var deleteBody = {
           'app': kintone.app.getId(),
           'ids': deleteData
         };
 
+        //配列の長さが100より大きい場合
+        if (deleteData.length > 100) {
+          var loopNum = Math.floor(deleteData.length / 100)
+          for (var i = 0; i > loopNum; i++) {
+            if (i == 0) {
+              var cutDeleteData = deleteData.slice(0, 99);
+            } else {
+              var cutDeleteData = deleteData.slice(i * 100, (i * 100) + 99);
+            }
+
+            console.log(cutDeleteData);
+          }
+        } else {
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
+            location.reload();
+            console.log('データを削除いたしました。')
+          }).catch(function (error) {
+            console.log(error);
+          });
+        }
+
+
+
+
         console.log(deleteBody);
 
-        // kintone.api(kintone.api.url('/k/v1/records.json', true), 'DELETE', deleteBody).then(function (resp) {
-        //   location.reload();
-        //   console.log('データを削除いたしました。')
-        // }).catch(function (error) {
-        //   console.log(error);
-        // });  
 
       }).catch(function (error) {
         console.log(error);
       });
-    });    
+    });
 
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
@@ -77,7 +99,7 @@
 
         for (var ri in resp.records) {
           var mBody = {};
-          if (resp.records[ri].application_type.value.match(/新規申込/)){
+          if (resp.records[ri].application_type.value.match(/新規申込/)) {
             mBody = {
               member_id: {
                 value: resp.records[ri].member_id.value
@@ -93,7 +115,7 @@
               }
             };
             postBody_member.records.push(mBody);
-          } else if (resp.records[ri].application_type.value.match(/故障交換/)){
+          } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
 
           }
           // if (resp.records[ri].info_status.value == 'new') {
@@ -174,10 +196,10 @@
 
         console.log(postBody_member);
         var postMenber_result = kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member);
-        postMenber_result.then(function(resp){
+        postMenber_result.then(function (resp) {
           console.log(resp);
           console.log('新規申し込み会員情報をPOSTしました。');
-        }).catch(function(error){
+        }).catch(function (error) {
           console.log(error);
         });
 
