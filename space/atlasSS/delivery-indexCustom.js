@@ -42,11 +42,11 @@
         //配列の長さが100より大きい場合
         if (deleteData.length > 100) {
           var loopNum = Math.floor(deleteData.length / 100);
-          for (var i = 0; i < loopNum; i++) {
+          for (var i = 0; i <= loopNum; i++) {
             if (i == 0) {
-              var cutDeleteData = deleteData.slice(0, 99);
+              var cutDeleteData = deleteData.slice(0, 100);
             } else {
-              var cutDeleteData = deleteData.slice(i * 100, (i * 100) + 99);
+              var cutDeleteData = deleteData.slice(i * 100, i * 100 * 2);
             }
 
             console.log(cutDeleteData);
