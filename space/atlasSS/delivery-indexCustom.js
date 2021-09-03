@@ -98,12 +98,6 @@
         console.log(shipList);
 
         for (var ri in shipList) {
-          // 会員情報関連
-          var postBody_member = {
-            'app': sysid.ASS.app_id.member,
-            'records': []
-          };
-
           var pBody = {};
           var logBody = [];
 
@@ -112,7 +106,11 @@
             var recordId = shipList[ri].レコード番号.value;
             var logList = shipList[ri].syncLog_list.value
 
-            console.log(logList);
+            // 会員情報関連
+            var postBody_member = {
+              'app': sysid.ASS.app_id.member,
+              'record': pBody
+            };
 
             pBody = {
               member_id: {
@@ -128,8 +126,6 @@
                 value: shipList[ri].application_type.value
               }
             };
-
-            postBody_member.records.push(pBody);
 
             kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member).then(function (resp) {
               var logInfo = {
@@ -160,7 +156,7 @@
                     value: '必要情報入力済み'
                   },
                   syncLog_list: {
-                    value: logInfo
+                    value: logList
                   }
                 }
               };
