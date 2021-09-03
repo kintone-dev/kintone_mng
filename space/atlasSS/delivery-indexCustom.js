@@ -238,8 +238,7 @@
         var postMenber_result = kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member);
 
         postMenber_result.then(function (resp) {
-          log(shipList);
-
+          console.log(shipList);
 
           console.log('新規申し込み会員情報をPOSTしました。');
         }).catch(function (error) {
