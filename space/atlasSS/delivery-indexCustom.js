@@ -121,11 +121,10 @@
             console.log(postBody_member);
 
             kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postBody_member).then(function (resp) {
-              console.log(shipList[ri].レコード番号.value);
               // ログデータ
               var logBody_ship = {
                 app: kintone.app.getId(),
-                id: paeseInt(shipList[ri].レコード番号.value),
+                id: parseInt(shipList[ri].レコード番号.value),
                 record: {
                   working_status: {
                     value: '必要情報入力済み'
