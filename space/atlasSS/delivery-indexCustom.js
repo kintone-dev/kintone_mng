@@ -104,12 +104,6 @@
             'records': []
           };
 
-          // ログデータ
-          var logBody_ship = {
-            'app': kintone.app.getId(),
-            'records': []
-          };
-
           var pBody = {};
           var logBody = [];
 
@@ -138,7 +132,6 @@
             postBody_member.records.push(pBody);
 
             kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postBody_member).then(function (resp) {
-
               var logInfo = {
                 value:{
                   syncLog_date: {
@@ -158,19 +151,19 @@
 
               logList.push(logInfo);
 
-              logBody = {
+              // ログデータ
+              var logBody_ship = {
+                app: kintone.app.getId(),
                 id: recordId,
                 record: {
                   working_status: {
                     value: '必要情報入力済み'
                   },
                   syncLog_list: {
-                    value: logList
+                    value: logInfo
                   }
                 }
-              }
-
-              logBody_ship.records.push(logBody);
+              };
 
               console.log(logBody_ship);
 
