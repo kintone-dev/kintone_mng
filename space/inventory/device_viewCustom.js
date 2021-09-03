@@ -11,14 +11,9 @@
     'app.record.detail.show',
     'app.record.edit.show'
   ];
-  // タブメニュー表示項目
-  var tabMenuValue;
   kintone.events.on(['app.record.create.change.mType','app.reocrd.edit.chenage.mType'], function(event){
-    if(event.record.mType.value=='パッケージ品'){
-      tabMenuValue=['在庫情報','原価情報','パッケージ内容'];
-    }else{
-      tabMenuValue=['在庫情報','原価情報'];
-    }
+    if(event.record.mType.value=='パッケージ品') setFieldShown('packageComp', true);
+    else setFieldShown('packageComp', false);
   });
   kintone.events.on(events_ced, function(event) {    
     
@@ -67,12 +62,9 @@
       }
     }
     //タブメニュー作成
-    if(event.record.mType.value=='パッケージ品'){
-      tabMenuValue=['在庫情報','原価情報','パッケージ内容'];
-    }else{
-      tabMenuValue=['在庫情報','原価情報'];
-    }
-    tabMenu('tab_inv', tabMenuValue);
+    if(event.record.mType.value=='パッケージ品') setFieldShown('packageComp', true);
+    else setFieldShown('packageComp', false);
+    tabMenu('tab_inv', ['在庫情報','原価情報','パッケージ構成']);
     //タブ切り替え表示設定
      $('.tabMenu a').on('click', function(){
         var idName = $(this).attr('href');//タブ内のリンク名を取得  
