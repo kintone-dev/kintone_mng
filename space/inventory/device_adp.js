@@ -233,7 +233,7 @@
       };
       // Titanを更新
       putItemBody.app=sysid.ASS.app_id.item
-      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody)then(function(resp){
+      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody).then(function(resp){
         putItemBody.app='';
         console.log('Titan success');
       }).catch(function (error) {
