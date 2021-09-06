@@ -175,10 +175,6 @@
           // putRecords(sysid.ASS.app_id.member,putDefData);
           // putRecords(sysid.ASS.app_id.member,putRepData);
 
-          // kintone.api(kintone.api.url('/k/v1/records', true), 'POST', postMemJson);
-          // kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', putDefJson);
-          // kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', putRepJson);
-
         }).catch(function (error) {
           console.log(error);
         });
