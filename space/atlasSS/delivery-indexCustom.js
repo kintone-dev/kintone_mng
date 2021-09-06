@@ -139,12 +139,12 @@
               putWStatData.push(putBody_workStat);
             }
           }
-
-          // getDefQueryArray = getDefQueryArray.pop();
-
-          console.log(getDefQueryArray);
-
+          if(getDefQueryArray != []){
+            getDefQueryArray.pop();
+          }
+          
           var getDefQuery = getDefQueryArray.join('');
+          console.log(getDefQueryArray);
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
