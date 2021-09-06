@@ -205,8 +205,6 @@
                     delete defRec[ri].$revision;
                     delete defRec[ri].sDstate;
                     delete defRec[ri].sState;
-                    delete defRec[ri].sendDate;
-                    delete defRec[ri].sendType;
                     delete defRec[ri].レコード番号;
                     delete defRec[ri].作成日時;
                     delete defRec[ri].作成者;
