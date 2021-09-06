@@ -60,7 +60,7 @@
           };
 
           //交換品データ作成
-          let putRepData = []
+          let putRepData = [];
 
           for (let ri in shipList) {
             if (shipList[ri].application_type.value.match(/新規申込/)) {
@@ -126,12 +126,19 @@
 
           let getDefQuery = getDefQueryArray.join('');
 
+          var xxx = 123;
+          let yyy = 123;
+          const VVV = 123;
+
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
               let defRec = resp.records;
               console.log(defRec);
               console.log(putRepData);
+              console.log(xxx);
+              console.log(yyy);
+              console.log(VVV);
 
               for (let rd in putRepData) {
                 let defKey = putRepData[rd].defKey;
