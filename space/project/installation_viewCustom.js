@@ -36,11 +36,6 @@
     return event;
   });
 
-  kintone.events.on('app.record.detail.show', function (event) {
-    setFieldShown('editMC', false);
-    return event;
-  });
-
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     event.record.prj_aNum.disabled = true;
     setFieldShown('sys_address', false);
