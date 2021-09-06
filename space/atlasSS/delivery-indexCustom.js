@@ -185,10 +185,15 @@
               console.log(putDefData);
               console.log(putRepData);
 
-              postRecords(sysid.ASS.app_id.member, postMemData);
-              putRecords(sysid.DEV.app_id.sNum, putDefData);
-              putRecords(sysid.DEV.app_id.sNum, putRepData);
-              putRecords(kintone.app.getId(), putWStatData);
+              console.log(postRecords(sysid.ASS.app_id.member, postMemData));
+              console.log(putRecords(sysid.DEV.app_id.sNum, putDefData));
+              console.log(putRecords(sysid.DEV.app_id.sNum, putRepData));
+              console.log(putRecords(kintone.app.getId(), putWStatData));
+
+              // postRecords(sysid.ASS.app_id.member, postMemData);
+              // putRecords(sysid.DEV.app_id.sNum, putDefData);
+              // putRecords(sysid.DEV.app_id.sNum, putRepData);
+              // putRecords(kintone.app.getId(), putWStatData);
 
             }).catch(function (error) {
               console.log(error);
