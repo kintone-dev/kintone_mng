@@ -87,9 +87,6 @@
                 'record': {
                   'working_status': {
                     'value': '必要情報入力済み'
-                  },
-                  'sDstate': {
-                    'value': '検証待ち'
                   }
                 }
               };
@@ -106,7 +103,10 @@
                 'record': {
                   'sState': {
                     'value': '故障品'
-                  }
+                  },
+                  'sDstate': {
+                    'value': '検証待ち'
+                  }            
                 }
               };
 
@@ -186,10 +186,10 @@
               console.log(putDefData);
               console.log(putRepData);
 
-              console.log(postRecords(sysid.ASS.app_id.member, postMemData));
-              console.log(putRecords(sysid.DEV.app_id.sNum, putDefData));
-              console.log(putRecords(sysid.DEV.app_id.sNum, putRepData));
-              console.log(putRecords(kintone.app.getId(), putWStatData));
+              postRecords(sysid.ASS.app_id.member, postMemData);
+              putRecords(sysid.DEV.app_id.sNum, putDefData);
+              putRecords(sysid.DEV.app_id.sNum, putRepData);
+              // putRecords(kintone.app.getId(), putWStatData);
 
               // postRecords(sysid.ASS.app_id.member, postMemData);
               // putRecords(sysid.DEV.app_id.sNum, putDefData);
