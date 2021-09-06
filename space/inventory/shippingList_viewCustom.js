@@ -216,7 +216,7 @@
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
       console.log(event.record.sys_unitAddress.value);
-      if(event.record.sys_unitAddress.value!==''){
+      if(event.record.sys_unitAddress.value!==undefined){
         var unitAddress=event.record.sys_unitAddress.value.split(',');
         event.record.receiver.value=unitAddress[0];
         event.record.phoneNum.value=unitAddress[1];
@@ -239,7 +239,7 @@
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
       console.log(event.record.sys_instAddress.value);
-      if(event.record.sys_instAddress.value!==''){
+      if(event.record.sys_instAddress.value!==undefined){
         var instAddress=event.record.sys_instAddress.value.split(',');
         event.record.receiver.value=instAddress[0];
         event.record.phoneNum.value=instAddress[1];
