@@ -74,7 +74,7 @@
             sNumInfo.records.push(snRecord);
           }
         }
-
+console.log(sNumInfo);
         var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
       }
 
