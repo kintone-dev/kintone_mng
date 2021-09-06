@@ -105,13 +105,13 @@ function setBtn_index(btnID, btnValue) {
  *});
  */
 // プルダウンメニュー
-function setSelect_header(selectID, selectValue){
-	var headerSelect=document.createElement('select');
-	headerSelect.id=selectID;
+function setSelect_header(selectID, selectValue) {
+	var headerSelect = document.createElement('select');
+	headerSelect.id = selectID;
 	headerSelect.classList.add('jsselect_header');
-	for(var sl in selectValue){
-		var sOption=document.createElement('option');
-		sOption.innerText=selectValue[sl];
+	for (var sl in selectValue) {
+		var sOption = document.createElement('option');
+		sOption.innerText = selectValue[sl];
 		headerSelect.appendChild(sOption);
 	}
 	kintone.app.record.getHeaderMenuSpaceElement().appendChild(headerSelect);
@@ -431,15 +431,15 @@ function api_getRecords(appID) {
 
 // 100件以上のレコード削除
 const deleteRecords = async (app, records) => {
-	const records = records;
+	const DELETE_RECORDS = records;
 
-	while (records.length) {
-		var deleteBody ={
+	while (DELETE_RECORDS.length) {
+		var deleteBody = {
 			'app': app,
-			'ids': records.slice(0, LIMIT_POST),
+			'ids': DELETE_RECORDS.slice(0, LIMIT_POST),
 		}
 		console.log(deleteBody);
 		// await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
-		records.splice(0, 100);
+		DELETE_RECORDS.splice(0, 100);
 	}
 }
