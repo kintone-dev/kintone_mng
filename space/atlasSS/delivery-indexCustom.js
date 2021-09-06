@@ -123,15 +123,11 @@
           }
 
           var getDefQuery = getDefQueryArray.join('');
-          console.log('layer1:');
-          console.log(putRepData);
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
               var defRec = resp.records;
               console.log(defRec);
-              console.log('layer2:');
-              console.log(putRepData);
 
               for (let rd in putRepData) {
                 var defKey = putRepData[rd].defKey;
