@@ -49,8 +49,20 @@
           //新規申込データ作成
           var postMemData = [];
 
+          //新規申込用json作成
+          var postMemJson = {
+            'app': sysid.ASS.app_id.member,
+            'records': []
+          }
+
           //故障品データ作成
           var putDefData = [];
+
+          //故障品json作成
+          var putDefJson = {
+            'app': sysid.DEV.app_id.sNum,
+            'records': []
+          }
 
           //交換品query
           var getDefQueryArray = [];
@@ -58,6 +70,12 @@
             'app': sysid.DEV.app_id.sNum,
             'query': ''
           };
+
+          //交換品json作成
+          var putRepJson = {
+            'app': sysid.DEV.app_id.sNum,
+            'records': []
+          }
 
           //交換品データ作成
           var putRepData = [];
@@ -121,7 +139,7 @@
           if (getDefQueryArray.slice(-1)[0].match(/or/)) {
             getDefQueryArray.pop();
           }
-          
+
           var putRepDataRe = putRepData;
 
           console.log(putRepDataRe);
@@ -164,13 +182,18 @@
                 delete putRepData[rd].shipDate;
                 delete putRepData[rd].record.sNum;
               }
+
             }).catch(function (error) {
               console.log(error);
             });
 
-            console.log(postMemData);
-            console.log(putDefData);
-            console.log(putRepData);
+          postMemJson.records = postMemData;
+          putDefJson.records = putDefData;
+          putRepJson.records = putRepData;
+
+          console.log(postMemJson);
+          console.log(putDefJson);
+          console.log(putRepJson);
 
           postRecords(sysid.ASS.app_id.member, postMemData);
           putRecords(sysid.DEV.app_id.sNum, putDefData);
