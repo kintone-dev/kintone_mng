@@ -46,8 +46,20 @@
           var shipList = resp.records;
           console.log(shipList);
 
+          //新規申込用json作成
+          var postMemJson = {
+            'app': sysid.ASS.app_id.member,
+            'records': []
+          }
+
           //新規申込データ作成
           var postMemData = []
+
+          //故障品json作成
+          var putDefJson = {
+            'app': sysid.DEV.app_id.sNum,
+            'records': []
+          }
 
           //故障品データ作成
           var putDefData = []
@@ -58,6 +70,13 @@
             'app': sysid.DEV.app_id.sNum,
             'query': ''
           };
+
+
+          //交換品json作成
+          var putRepJson = {
+            'app': sysid.DEV.app_id.sNum,
+            'records': []
+          }
 
           //交換品データ作成
           var putRepData = []
@@ -127,6 +146,7 @@
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
               var defRec = resp.records;
+              console.log(defRec);
 
               for (let rd in putRepData) {
                 var defKey = putRepData[rd].defKey;
