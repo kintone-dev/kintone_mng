@@ -436,7 +436,7 @@ const deleteRecords = async (app, records) => {
 	while (DELETE_RECORDS.length) {
 		var deleteBody = {
 			'app': app,
-			'ids': DELETE_RECORDS.slice(0, LIMIT_POST),
+			'ids': DELETE_RECORDS.slice(0, 100),
 		}
 		console.log(deleteBody);
 		// await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
