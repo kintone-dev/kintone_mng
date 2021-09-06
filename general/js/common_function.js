@@ -440,7 +440,7 @@ const postRecords = async (app, records) => {
 		}
 		console.log(postBody);
 		await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody);
-		POST_RECORDS.splice(0, 100);
+		POST_RECORDS.splice(0, 1);
 	}
 }
 
@@ -455,7 +455,7 @@ const putRecords = async (app, records) => {
 		}
 		console.log(putBody);
 		await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody);
-		PUT_RECORDS.splice(0, 100);
+		PUT_RECORDS.splice(0, 1);
 	}
 }
 
