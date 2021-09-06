@@ -265,6 +265,8 @@ function defective(defectiveNum, repairedNum) {
 		delete respRecords[0].sNum;
 		delete respRecords[0].sDstate;
 		delete respRecords[0].sState;
+		delete respRecords[0].sendDate;
+		delete respRecords[0].sendType;
 		delete respRecords[0].レコード番号;
 		delete respRecords[0].作成日時;
 		delete respRecords[0].作成者;
@@ -291,7 +293,7 @@ function defective(defectiveNum, repairedNum) {
 		var putRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', repInfo);
 
 		putRepResult.then(function (resp) {
-			console.log("defective date put success");
+			console.log("故障品情報を交換品情報にPUTしました。");
 		}).catch(function (error) {
 			console.log("put error");
 			console.error(error);
