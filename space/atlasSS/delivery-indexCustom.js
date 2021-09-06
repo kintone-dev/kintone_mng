@@ -117,7 +117,7 @@
           var putDefData = []
 
           //交換品query
-          var getDefQuery = 'sNum="eee" or "bbb"';
+          var getDefQuery = 'sNum="eee" or sNum = "bbb"';
           var getDefBody = {
             'app': sysid.DEV.app_id.sNum,
             'query': ''
