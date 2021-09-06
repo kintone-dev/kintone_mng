@@ -162,18 +162,9 @@
               console.log(error);
             });
 
-
-          // postMemJson.records = postMemData;
-          // putDefJson.records = putDefData;
-          // putRepJson.records = putRepData;
-
-          console.log(postMemData);
-          console.log(putDefData);
-          console.log(putRepData);
-
-          // postRecords(sysid.ASS.app_id.member,postMemData);
-          // putRecords(sysid.ASS.app_id.member,putDefData);
-          // putRecords(sysid.ASS.app_id.member,putRepData);
+          postRecords(sysid.ASS.app_id.member,postMemData);
+          putRecords(sysid.ASS.app_id.member,putDefData);
+          putRecords(sysid.ASS.app_id.member,putRepData);
 
         }).catch(function (error) {
           console.log(error);
