@@ -106,11 +106,11 @@ function setBtn_index(btnID, btnValue) {
  */
 // プルダウンメニュー
 function setSelect_header(selectID, selectValue){
-	var headerSelect=doucment.createElement('select');
+	var headerSelect=document.createElement('select');
 	headerSelect.id=selectID;
 	headerSelect.classList.add();
 	for(var sl in selectValue){
-		var sOption=doucment.createElement('option');
+		var sOption=document.createElement('option');
 		sOption.innerText=selectValue[sl];
 		headerSelect.appendChild(sOption);
 	}
