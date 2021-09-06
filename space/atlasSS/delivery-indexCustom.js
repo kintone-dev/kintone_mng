@@ -83,10 +83,7 @@
               };
 
               var putBody_workStat = {
-                'updateKey': {
-                  'field': 'レコード番号',
-                  'value': shipList[ri].レコード番号.value
-                },
+                'id': shipList[ri].レコード番号.value,
                 'record': {
                   'working_status': {
                     'value': '必要情報入力済み'
@@ -125,10 +122,7 @@
               };
 
               var putBody_workStat = {
-                'updateKey': {
-                  'field': 'レコード番号',
-                  'value': shipList[ri].レコード番号.value
-                },
+                'id': shipList[ri].レコード番号.value,
                 'record': {
                   'working_status': {
                     'value': '必要情報入力済み'
