@@ -183,9 +183,21 @@
                 delete putRepData[rd].record.sNum;
               }
 
+              //会員情報連携データ
+              console.log('会員情報連携データ');
               console.log(postMemData);
+              //故障品連携データ
+              console.log('故障品連携データ');
               console.log(putDefData);
+              //交換品連携データ
+              console.log('交換品連携データ');
               console.log(putRepData);
+              //会員情報連携完了ステータスデータ
+              console.log('会員情報連携完了ステータスデータ');
+              console.log(putWStatNewData);
+              //故障品、交換品連携完了ステータスデータ
+              console.log('故障品、交換品連携完了ステータスデータ');
+              console.log(putWStatDefData);
 
               //新規申込
               postRecords(sysid.ASS.app_id.member, postMemData)
