@@ -436,11 +436,11 @@ const postRecords = async (app, records) => {
 	while (POST_RECORDS.length) {
 		var postBody = {
 			'app': app,
-			'records': POST_RECORDS.slice(0, 1),
+			'records': POST_RECORDS.slice(0, 100),
 		}
 		console.log(postBody);
 		var getResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody);
-		POST_RECORDS.splice(0, 1);
+		POST_RECORDS.splice(0, 100);
 		return getResult;
 	}
 }
@@ -452,11 +452,11 @@ const putRecords = async (app, records) => {
 	while (PUT_RECORDS.length) {
 		var putBody = {
 			'app': app,
-			'records': PUT_RECORDS.slice(0, 1),
+			'records': PUT_RECORDS.slice(0, 100),
 		}
 		console.log(putBody);
 		var getResult = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody);
-		PUT_RECORDS.splice(0, 1);
+		PUT_RECORDS.splice(0, 100);
 		return getResult;
 	}
 }
