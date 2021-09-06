@@ -169,15 +169,14 @@
 
               getDefQueryArray.push('sNum = "');
               getDefQueryArray.push(resp.records[ri].replacement_sNum.value);
-              console.log(ri);
-              console.log(shipList.length);
-              if(ri != shipList.length){
-                getDefQueryArray.push('" or ');
-              }
+              getDefQueryArray.push('" or ');
 
               putDefData.push(putDefBody_sNum);
             }
+          }
 
+          if(getDefQueryArray.slice(-1)[0].match(/or/)){
+            getDefQueryArray.pop;
           }
 
           var getDefQuery = getDefQueryArray.join('');
