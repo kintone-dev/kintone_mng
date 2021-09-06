@@ -26,8 +26,8 @@
             deleteData.push(resp.records[di].$id.value)
           }
         }
-        
-        deleteRecords(kintone.app.getId(),deleteData);
+
+        deleteRecords(kintone.app.getId(), deleteData);
 
       }).catch(function (error) {
         console.log(error);
@@ -148,7 +148,7 @@
                 }
               }
 
-              for(let rd in putRepData){
+              for (let rd in putRepData) {
                 putRepData[rd].record.sendDate.value = putRepData[rd].shipDate;
                 putRepData[rd].record.sendType.value = putRepData[rd].appType;
 
@@ -162,9 +162,9 @@
               console.log(error);
             });
 
-          postRecords(sysid.ASS.app_id.member,postMemData);
-          putRecords(sysid.ASS.app_id.member,putDefData);
-          putRecords(sysid.ASS.app_id.member,putRepData);
+          postRecords(sysid.ASS.app_id.member, postMemData);
+          putRecords(sysid.DEV.app_id.sNum, putDefData);
+          putRecords(sysid.DEV.app_id.sNum, putRepData);
 
         }).catch(function (error) {
           console.log(error);
