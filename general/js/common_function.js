@@ -429,6 +429,34 @@ function api_getRecords(appID) {
 	});
 }
 
+// 100件以上のレコード登録
+const postRecords = async (app, records) => {
+	const POST_RECORDS = records;
+
+	while (POST_RECORDS.length) {
+		var deleteBody = {
+			'app': app,
+			'records': POST_RECORDS.slice(0, 100),
+		}
+		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
+		POST_RECORDS.splice(0, 100);
+	}
+}
+
+// 100件以上のレコード更新
+const putRecords = async (app, records) => {
+	const PUT_RECORDS = records;
+
+	while (PUT_RECORDS.length) {
+		var deleteBody = {
+			'app': app,
+			'records': PUT_RECORDS.slice(0, 100),
+		}
+		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
+		PUT_RECORDS.splice(0, 100);
+	}
+}
+
 // 100件以上のレコード削除
 const deleteRecords = async (app, records) => {
 	const DELETE_RECORDS = records;
@@ -438,8 +466,7 @@ const deleteRecords = async (app, records) => {
 			'app': app,
 			'ids': DELETE_RECORDS.slice(0, 100),
 		}
-		console.log(deleteBody);
-		// await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
+		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
 		DELETE_RECORDS.splice(0, 100);
 	}
 }

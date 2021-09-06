@@ -26,14 +26,8 @@
             deleteData.push(resp.records[di].$id.value)
           }
         }
-
-        for(var i = 0;i < 832;i++){
-          deleteData.push(i);
-        }
-
-        console.log(deleteData);
-
-        deleteRecords(kintone.app.getId(),deleteData)
+        
+        deleteRecords(kintone.app.getId(),deleteData);
 
       }).catch(function (error) {
         console.log(error);
@@ -52,20 +46,8 @@
           var shipList = resp.records;
           console.log(shipList);
 
-          //新規申込用json作成
-          var postMemJson = {
-            'app': sysid.ASS.app_id.member,
-            'records': []
-          }
-
           //新規申込データ作成
           var postMemData = []
-
-          //故障品json作成
-          var putDefJson = {
-            'app': sysid.DEV.app_id.sNum,
-            'records': []
-          }
 
           //故障品データ作成
           var putDefData = []
@@ -76,13 +58,6 @@
             'app': sysid.DEV.app_id.sNum,
             'query': ''
           };
-
-
-          //交換品json作成
-          var putRepJson = {
-            'app': sysid.DEV.app_id.sNum,
-            'records': []
-          }
 
           //交換品データ作成
           var putRepData = []
@@ -188,13 +163,17 @@
             });
 
 
-          postMemJson.records = postMemData;
-          putDefJson.records = putDefData;
-          putRepJson.records = putRepData;
+          // postMemJson.records = postMemData;
+          // putDefJson.records = putDefData;
+          // putRepJson.records = putRepData;
 
-          console.log(postMemJson);
-          console.log(putDefJson);
-          console.log(putRepJson);
+          console.log(postMemData);
+          console.log(putDefData);
+          console.log(putRepData);
+
+          // postRecords(sysid.ASS.app_id.member,postMemData);
+          // putRecords(sysid.ASS.app_id.member,putDefData);
+          // putRecords(sysid.ASS.app_id.member,putRepData);
 
           // kintone.api(kintone.api.url('/k/v1/records', true), 'POST', postMemJson);
           // kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', putDefJson);
