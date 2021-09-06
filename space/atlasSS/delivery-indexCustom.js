@@ -117,7 +117,7 @@
           var putDefData = []
 
           //交換品query
-          var getDefQuery = 'sNum="eee" or sNum = "bbb"';
+          var getDefQueryArray = [];
           var getDefBody = {
             'app': sysid.DEV.app_id.sNum,
             'query': ''
@@ -167,13 +167,16 @@
                 }
               };
 
-              // getDefQuery =
-
+              getDefQueryArray.push('sNum = "');
+              getDefQueryArray.push(resp.records[ri].replacement_sNum.value);
+              getDefQueryArray.push('" or ');
 
                 putDefData.push(putDefBody_sNum);
             }
 
           }
+
+          var getDefQuery = getDefQueryArray.join('');
 
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
