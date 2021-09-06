@@ -211,7 +211,7 @@ function defective(defectiveNum, repairedNum){
 
 	//シリアル管理に挿入する情報の作成
 	var defInfo = {
-		'app': sysid.DEV.app.sNum,
+		'app': sysid.DEV.app_id.sNum,
 		'records': []
 	};
 
@@ -246,7 +246,7 @@ function defective(defectiveNum, repairedNum){
 
 	//故障品のデータ取得
 	var queryBody = {
-		'app': sysid.DEV.app.sNum,
+		'app': sysid.DEV.app_id.sNum,
 		'query': 'sNum="' + defectiveNum + '"',
 	};
 	var getResult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
@@ -267,7 +267,7 @@ function defective(defectiveNum, repairedNum){
 		delete respRecords[0].更新日時;
 
 		var repInfo = {
-			'app': sysid.DEV.app.sNum,
+			'app': sysid.DEV.app_id.sNum,
 			'records': []
 		};
 	
