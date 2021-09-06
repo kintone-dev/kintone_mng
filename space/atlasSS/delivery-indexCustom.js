@@ -122,6 +122,8 @@
             getDefQueryArray.pop();
           }
 
+          console.log(putRepData);
+
           let getDefQuery = getDefQueryArray.join('');
 
           getDefBody.query = getDefQuery;
