@@ -196,7 +196,6 @@
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
               var defRec = resp.records;
-              console.log(defRec);
 
               for (let rd in putRepData) {
                 var defKey = putRepData[rd].defKey;
