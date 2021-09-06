@@ -169,9 +169,11 @@
 
               getDefQueryArray.push('sNum = "');
               getDefQueryArray.push(resp.records[ri].replacement_sNum.value);
-              getDefQueryArray.push('" or ');
+              if(ri != shipList.length){
+                getDefQueryArray.push('" or ');
+              }
 
-                putDefData.push(putDefBody_sNum);
+              putDefData.push(putDefBody_sNum);
             }
 
           }
