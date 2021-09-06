@@ -203,7 +203,6 @@
                   if(rdKey = defRec[ri].sNum.value){
                     delete defRec[ri].$id;
                     delete defRec[ri].$revision;
-                    delete defRec[ri].sNum;
                     delete defRec[ri].sDstate;
                     delete defRec[ri].sState;
                     delete defRec[ri].sendDate;
