@@ -1,17 +1,7 @@
 (function() {
   'use strict';
   kintone.events.on(['app.record.create.change.dstSelection','app.record.edit.change.dstSelection'], function(event) {
-    if(event.record.dstSelection.value=='施工業者へ納品'){
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-    }else if(event.record.dstSelection.value=='設置先と同じ'){
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', true);
-    }else{
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
-      event.record.Contractor.lookup='CLEAR';
-    }
+    doSelection(event);
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
@@ -35,17 +25,7 @@
       switch(onSelect){
         case '#宛先情報':
           kintone.app.record.setFieldShown('dstSelection', true);
-          if(event.record.dstSelection.value=='施工業者へ納品'){
-            setFieldShown('Contractor', true);
-            setFieldShown('instName', false);
-          }else if(event.record.dstSelection.value=='設置先と同じ'){
-            setFieldShown('Contractor', false);
-            setFieldShown('instName', true);
-          }else{
-            setFieldShown('Contractor', false);
-            setFieldShown('instName', false);
-            event.record.Contractor.lookup='CLEAR';
-          }
+          doSelection()event;
           setFieldShown('zipcode', true);
           setFieldShown('phoneNum', true);
           setFieldShown('address', true);
@@ -230,4 +210,17 @@
     }
     return event;
   });
+  function doSelection(event){
+    if(event.record.dstSelection.value=='施工業者へ納品'){
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+    }else if(event.record.dstSelection.value=='設置先と同じ'){
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', true);
+    }else{
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', false);
+      event.record.Contractor.lookup='CLEAR';
+    }
+  }
 })();
