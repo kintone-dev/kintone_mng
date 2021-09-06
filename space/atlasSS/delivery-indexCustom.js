@@ -185,7 +185,7 @@
               console.log(putRepData);
 
               postRecords(sysid.ASS.app_id.member, postMemData).catch(function (error) {
-                console.log("-----aaaa-----");
+                console.log(error);
               });
               putRecords(sysid.DEV.app_id.sNum, putDefData);
               putRecords(sysid.DEV.app_id.sNum, putRepData);
