@@ -248,7 +248,7 @@ function defective(defectiveNum, repairedNum) {
 	};
 
 	//シリアル管理に状態と状況を挿入
-	var putDefResult = kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', defInfo);
+	var putDefResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', defInfo);
 
 	putDefResult.then(function (resp) {
 		console.log("put success");
@@ -262,7 +262,7 @@ function defective(defectiveNum, repairedNum) {
 		'app': sysid.DEV.app_id.sNum,
 		'query': 'sNum="' + defectiveNum + '"',
 	};
-	var getRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
+	var getRepResult = await kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
 
 	getRepResult.then(function (resp) {
 		var respRecords = resp.records;
@@ -292,7 +292,7 @@ function defective(defectiveNum, repairedNum) {
 
 		repInfo.record = respRecords[0];
 
-		var putRepResult = kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', repInfo);
+		var putRepResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', repInfo);
 
 		putRepResult.then(function (resp) {
 			console.log("故障品情報を交換品情報にPUTしました。");
