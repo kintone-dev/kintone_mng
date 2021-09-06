@@ -214,6 +214,7 @@
                     delete defRec[ri].更新日時;
                 
                     putRepData[rd].record = defRec[ri];
+                    delete putRepData[rd].record.sNum;
                   }
                 }
               }
