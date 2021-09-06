@@ -198,6 +198,7 @@
               
               for(let rd in putRepData){
                 var rdKey =  putRepData[rd].updateKey.value;
+                console.log(rdKey);
                 for(let ri in defRec){
                   if(rdKey = defRec[ri].sNum.value){
                     delete defRec[ri].$id;
@@ -212,6 +213,7 @@
                     delete defRec[ri].ステータス;
                     delete defRec[ri].更新者;
                     delete defRec[ri].更新日時;
+                    console.log(defRec[ri]);
                 
                     putRepData[rd].record = defRec[ri];
                     delete putRepData[rd].record.sNum;
