@@ -220,6 +220,7 @@
     }else{
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
+      console.log(event)
       event.record.Contractor.lookup='CLEAR';
     }
   }
