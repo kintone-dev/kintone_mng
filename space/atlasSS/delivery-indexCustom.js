@@ -121,10 +121,10 @@
           if (getDefQueryArray.slice(-1)[0].match(/or/)) {
             getDefQueryArray.pop();
           }
+          
+          var putRepDataRe = putRepData;
 
-          console.log(putRepData);
-
-          var putRepData = putRepData;
+          console.log(putRepDataRe);
 
           var getDefQuery = getDefQueryArray.join('');
 
@@ -133,7 +133,7 @@
             .then(function (resp) {
               var defRec = resp.records;
               console.log(defRec);
-              console.log(putRepData);
+              console.log(putRepDataRe);
 
               for (let rd in putRepData) {
                 var defKey = putRepData[rd].defKey;
