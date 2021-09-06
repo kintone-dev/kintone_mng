@@ -288,8 +288,6 @@ function defective(defectiveNum, repairedNum) {
 		repRecord.record = respRecords[0];
 		repInfo.records.push(repRecord);
 
-		console.log(repInfo);
-
 		var putRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', repInfo);
 
 		putRepResult.then(function (resp) {

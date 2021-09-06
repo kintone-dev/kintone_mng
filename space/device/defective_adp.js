@@ -8,8 +8,6 @@
 
   kintone.events.on(events_ced, function (event) {
 
-    console.log(event.record.repaired.value);
-
     defective(event.record.defective.value, event.record.repaired.value);
 
     return event;
