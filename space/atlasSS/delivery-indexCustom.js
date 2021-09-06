@@ -218,6 +218,10 @@
                 }
               }
 
+              for(let rd in putRepData){
+                delete putRepData[rd].defKey;
+              }
+
             }).catch(function (error) {
               console.log(error);
             });
