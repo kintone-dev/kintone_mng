@@ -215,17 +215,24 @@
                 });
 
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
+              var failure_sNum = resp.records[ri].failure_sNum.value;
+              var replacement_sNum = resp.records[ri].replacement_sNum.value;
+
               var getFSnumBody = {
                 'app': sysid.DEV.app_id.sNum,
-                'query': 'sNum="' + resp.records[ri].failure_sNum.value + '"',
+                'query': 'sNum="' + failure_sNum + '"',
               };
 
               //故障品シリアルナンバーの情報取得
               kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getFSnumBody)
                 .then(function (resp) {
-                  var failureSnum = resp.records;
+                  var failureInfo = resp.records;
 
-                  console.log(failureSnum);
+                  if (failureInfo[0].sState.value.match(/故障品/)) {
+                    defective(failure_sNum, replacement_sNum);
+                  } else {
+                    console.log('古商品ではありません。');
+                  }
 
                 }).catch(function (error) {
                   console.log(error);
