@@ -173,6 +173,8 @@
                   'value': resp.records[ri].replacement_sNum.value
                 },
                 'defKey': resp.records[ri].failure_sNum.value,
+                'appType': shipList[ri].application_type.value,
+                'shipDate': shipList[ri].shipping_datetime.value,
                 'record': ''
               };
 
@@ -218,7 +220,12 @@
               }
               
               for(let rd in putRepData){
+                putRepData[rd].record.sendDate = putRepData[rd].appType;
+                putRepData[rd].record.sendType = putRepData[rd].shipDate;
+
                 delete putRepData[rd].defKey;
+                delete putRepData[rd].appType;
+                delete putRepData[rd].shipDate;
                 delete putRepData[rd].record.sNum;
               }
 
