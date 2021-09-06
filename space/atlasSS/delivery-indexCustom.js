@@ -167,11 +167,21 @@
                 }
               };
 
+              var putRepBody_sNum = {
+                'updateKey': {
+                  'field': 'sNum',
+                  'value': resp.records[ri].replacement_sNum.value
+                },
+                'record': ''
+              };
+
+
               getDefQueryArray.push('sNum = ');
               getDefQueryArray.push('"' + resp.records[ri].replacement_sNum.value + '"');
               getDefQueryArray.push(' or ');
 
               putDefData.push(putDefBody_sNum);
+              putRepData.push(putRepBody_sNum);
             }
           }
 
@@ -180,7 +190,6 @@
           }
 
           var getDefQuery = getDefQueryArray.join('');
-          getDefQuery = getDefQueryArray.join('');
 
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
@@ -191,21 +200,6 @@
             }).catch(function (error) {
               console.log(error);
             });
-
-          // var putRepBody_sNum = {
-          //   'updateKey': {
-          //     'field': 'sNum',
-          //     'value': resp.records[ri].replacement_sNum.value
-          //   },
-          //   'record':{
-          //     'sState': {
-          //       'value': '故障品'
-          //     },
-          //     'sDstate': {
-          //       'value': '検証待ち'
-          //     }   
-          //   }            
-          // };
 
 
           postNewJson.records = postNewData;
