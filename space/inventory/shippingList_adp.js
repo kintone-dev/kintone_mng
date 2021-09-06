@@ -2,15 +2,18 @@
   'use strict';
 
   // 拠点情報取得＆繰り返し利用
-  //kintone.events.on('app.record.detail.process.proceed', function (event) {
-  kintone.events.on('app.record.detail.show', function (event) {
-    //var nStatus = event.nextStatus.value;
-    //if (nStatus === "集荷待ち") {
+  kintone.events.on('app.record.detail.process.proceed', function (event) {
+  //kintone.events.on('app.record.detail.show', function (event) {
+    var nStatus = event.nextStatus.value;
+    if (nStatus === "集荷待ち") {
+      /*
     setBtn_header('test_btn_sNam', 'input to sNam');
     $('#'+test_btn_sNam.id).on('click', function(){
       test_sNam();
     });
+
     var test_sNam=function(){
+      */
       //パラメータsNumInfoにjsonデータ作成
       var sNumInfo = {
         'app': sysid.DEV.app_id.sNum,
@@ -19,14 +22,10 @@
 
       var shipTable=event.record.deviceList.value;
       var shipShipment=event.record.shipment.value;
-      //var shipInstName = event.record.instName.value;
 
 
       if(shipShipment==='矢倉倉庫'){
         for (var i in shipTable) {
-          //var ship_mcode = shipTable[i].value.mCode.value;
-          //var ship_shipnum = shipTable[i].value.shipNum.value;
-          //get serial numbers
           var ship_sn=shipTable[i].value.sNum.value;
           var get_sNums=ship_sn.split(/\r\n|\n/);
           //except Boolean
@@ -39,9 +38,7 @@
               'shipment': event.record.shipment,
               'sendDate': event.record.sendDate,
               'shipType': event.record.shipType,
-              //'orgName': event.record.orgName,
-              'instName': event.record.instName,
-              //'roomName': event.record.roomName
+              'instName': event.record.instName
             };
             sNumInfo.records.push(snRecord);
           }
@@ -50,9 +47,6 @@
         var setSNinfo=new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumInfo);
       }else{
         for (var i in shipTable) {
-          //var ship_mcode=shipTable[i].value.mCode.value;
-          //var ship_shipnum=shipTable[i].value.shipNum.value;
-          //get serial numbers
           var ship_sn=shipTable[i].value.sNum.value;
           var get_sNums=ship_sn.split(/\r\n|\n/);
           //except Boolean
@@ -66,15 +60,13 @@
                 'shipment': event.record.shipment,
                 'sendDate': event.record.sendDate,
                 'shipType': event.record.shipType,
-                //'orgName': event.record.orgName,
-                'instName': event.record.instName,
-                //'roomName': event.record.roomName
+                'instName': event.record.instName
               }
             };
             sNumInfo.records.push(snRecord);
           }
         }
-console.log(sNumInfo);
+
         var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
       }
 
