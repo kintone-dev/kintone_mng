@@ -20,10 +20,9 @@
 
 
     // システム用フィールド非表示
-    /*
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
-    */
+    
     // lookupコピー対象の編集不可を解除
     event.record.zipcode.disabled=false;
     event.record.phoneNum.disabled=false;
@@ -58,7 +57,7 @@
           //setFieldShown('postage', false);
           //setFieldShown('tariff', false);
 
-          setFieldShown('deliveryComp', false);
+          setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
@@ -86,7 +85,7 @@
           //setFieldShown('postage', false);
           //setFieldShown('tariff', false);
 
-          setFieldShown('deliveryComp', false);
+          setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
@@ -114,7 +113,7 @@
           //setFieldShown('postage', false);
           //setFieldShown('tariff', false);
 
-          setFieldShown('deliveryComp', false);
+          setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
@@ -142,7 +141,7 @@
           //setFieldShown('postage', false);
           //setFieldShown('tariff', false);
 
-          setFieldShown('deliveryComp', true);
+          setFieldShown('deliveryCorp', true);
           setFieldShown('trckNum', true);
           setFieldShown('sendDate', true);
           setFieldShown('expArrivalDate', true);
@@ -170,7 +169,7 @@
   kintone.events.on('app.record.create.show', function(event){
     //レコード作成時、発送関連情報を非表示
     setFieldShown('shipment', false);
-    setFieldShown('deliveryComp', false);
+    setFieldShown('deliveryCorp', false);
     setFieldShown('trckNum', false);
     setFieldShown('sendDate', false);
     setFieldShown('expArrivalDate', false);
@@ -200,14 +199,15 @@
     */
   });
   // 輸送業者を「担当手渡し」にした場合、追跡番号を「none」にする
-  kintone.events.on(['app.record.create.change.deliveryComp','app.record.edit.change.deliveryComp'], function(event){
-    if(event.record.deliveryComp.value==='担当手渡し') {
+  kintone.events.on(['app.record.create.change.deliveryCorp','app.record.edit.change.deliveryCorp'], function(event){
+    if(event.record.deliveryCorp.value=='担当手渡し') {
       event.record.trckNum.value='none';
       event.record.trckNum.disabled=true;
     }else{
       event.record.trckNum.value=null;
       event.record.trckNum.disabled=false;
     }
+
     return event;
   });
   // カーテンレールが選択された場合、シリアル番号欄にデータを記入
