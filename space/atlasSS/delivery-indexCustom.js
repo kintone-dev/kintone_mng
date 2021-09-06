@@ -150,7 +150,7 @@
                 }
               };
 
-              putNewData.push(postBody_member);
+              postNewData.push(postBody_member);
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
               var putDefBody_sNum = {
                 'updateKey': {
