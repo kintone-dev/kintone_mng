@@ -16,12 +16,7 @@
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
 
-    $('.gaia-app-statusbar').css('display', 'none');
-    var test_status=setBtn_header('test_btn_sNam', 'input to sNam');
-    setSelect_header('testSelect', ['option1', 'option2']);
-    $('#'+test_status.id).on('click', function(){
-      //var 
-    });
+    //$('.gaia-app-statusbar').css('display', 'none');
 
 
     // システム用フィールド非表示
