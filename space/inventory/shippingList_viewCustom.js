@@ -215,16 +215,17 @@
       event.record.address.disabled=false;
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
-
-      var unitAddress=event.record.sys_unitAddress.value.split(',');
-      event.record.receiver.value=unitAddress[0];
-      event.record.phoneNum.value=unitAddress[1];
-      event.record.zipcode.value=unitAddress[2];
-      event.record.prefectures.value=unitAddress[3];
-      event.record.city.value=unitAddress[4];
-      event.record.address.value=unitAddress[5];
-      event.record.buildingName.value=unitAddress[6];
-      event.record.corpName.value=unitAddress[7];
+      if(event.record.sys_unitAddress.value!==''){
+        var unitAddress=event.record.sys_unitAddress.value.split(',');
+        event.record.receiver.value=unitAddress[0];
+        event.record.phoneNum.value=unitAddress[1];
+        event.record.zipcode.value=unitAddress[2];
+        event.record.prefectures.value=unitAddress[3];
+        event.record.city.value=unitAddress[4];
+        event.record.address.value=unitAddress[5];
+        event.record.buildingName.value=unitAddress[6];
+        event.record.corpName.value=unitAddress[7];
+      }
     }else if(selection=='設置先と同じ'){
       setFieldShown('Contractor', false);
       setFieldShown('instName', true);
@@ -236,16 +237,17 @@
       event.record.address.disabled=false;
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
-
-      var instAddress=event.record.sys_instAddress.value.split(',');
-      event.record.receiver.value=instAddress[0];
-      event.record.phoneNum.value=instAddress[1];
-      event.record.zipcode.value=instAddress[2];
-      event.record.prefectures.value=instAddress[3];
-      event.record.city.value=instAddress[4];
-      event.record.address.value=instAddress[5];
-      event.record.buildingName.value=instAddress[6];
-      event.record.corpName.value=instAddress[7];
+      if(event.record.sys_instAddress.value!==''){
+        var instAddress=event.record.sys_instAddress.value.split(',');
+        event.record.receiver.value=instAddress[0];
+        event.record.phoneNum.value=instAddress[1];
+        event.record.zipcode.value=instAddress[2];
+        event.record.prefectures.value=instAddress[3];
+        event.record.city.value=instAddress[4];
+        event.record.address.value=instAddress[5];
+        event.record.buildingName.value=instAddress[6];
+        event.record.corpName.value=instAddress[7];
+      }
     }else if(selection=='担当手渡し'){
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
