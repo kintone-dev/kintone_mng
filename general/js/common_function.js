@@ -104,6 +104,19 @@ function setBtn_index(btnID, btnValue) {
  *	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
  *});
  */
+// プルダウンメニュー
+function setSelect_header(selectID, selectValue){
+	var headerSelect=doucment.createElement('select');
+	headerSelect.id=selectID;
+	headerSelect.classList.add();
+	for(var sl in selectValue){
+		var sOption=doucment.createElement('option');
+		sOption.innerText=selectValue[sl];
+		headerSelect.appendChild(sOption);
+	}
+	kintone.app.record.getHeaderMenuSpaceElement().appendChild(headerSelect);
+	return headerSelect;
+}
 
 // tabメニューをULで作成
 function tabMenu(tabID, tabList) {
