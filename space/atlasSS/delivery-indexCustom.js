@@ -99,13 +99,13 @@
           console.log(shipList);
 
           //新規申込用json作成
-          var postNewJson = {
+          var postMemJson = {
             'app': sysid.ASS.app_id.member,
             'records': []
           }
 
           //新規申込データ作成
-          var postNewData = []
+          var postMemData = []
 
           //故障品json作成
           var putDefJson = {
@@ -150,7 +150,7 @@
                 }
               };
 
-              postNewData.push(postBody_member);
+              postMemData.push(postBody_member);
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
               var putDefBody_sNum = {
                 'updateKey': {
@@ -234,16 +234,16 @@
             });
 
 
-          postNewJson.records = postNewData;
+          postMemJson.records = postMemData;
           putDefJson.records = putDefData;
           putRepJson.records = putRepData;
 
-          console.log(postNewJson);
+          console.log(postMemJson);
           console.log(putDefJson);
           console.log(putRepJson);
-          // kintone.api(kintone.api.url('/k/v1/records', true), 'POST', postNewJson);
-          // kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', putDefJson);
-          // kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', putRepJson);
+          kintone.api(kintone.api.url('/k/v1/records', true), 'POST', postMemJson);
+          kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', putDefJson);
+          kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', putRepJson);
 
           // 申し込み種別が新規申し込みの時
           // if (shipList[ri].application_type.value.match(/新規申込/)) {
