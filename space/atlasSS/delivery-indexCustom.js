@@ -194,9 +194,31 @@
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
-              var failureInfo = resp.records;
+              var defRec = resp.records;
+              
+              for(let rd in putRepData){
+                var rdKey =  putRepData[rd].updateKey.value;
+                for(let ri in defRec){
+                  if(rdKey = defRec[ri].sNum.value){
+                    delete defRec[ri].$id;
+                    delete defRec[ri].$revision;
+                    delete defRec[ri].sNum;
+                    delete defRec[ri].sDstate;
+                    delete defRec[ri].sState;
+                    delete defRec[ri].sendDate;
+                    delete defRec[ri].sendType;
+                    delete defRec[ri].レコード番号;
+                    delete defRec[ri].作成日時;
+                    delete defRec[ri].作成者;
+                    delete defRec[ri].ステータス;
+                    delete defRec[ri].更新者;
+                    delete defRec[ri].更新日時;
+                
+                    putRepData[rd].record = defRec[ri];
+                  }
+                }
+              }
 
-              console.log(failureInfo);
             }).catch(function (error) {
               console.log(error);
             });
@@ -209,6 +231,9 @@
           console.log(postNewJson);
           console.log(putDefJson);
           console.log(putRepJson);
+          // kintone.api(kintone.api.url('/k/v1/records', true), 'POST', postNewJson);
+          // kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', putDefJson);
+          // kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', putRepJson);
 
           // 申し込み種別が新規申し込みの時
           // if (shipList[ri].application_type.value.match(/新規申込/)) {
