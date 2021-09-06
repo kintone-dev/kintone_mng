@@ -2,7 +2,8 @@
   'use strict';
 
   // 拠点情報取得＆繰り返し利用
-  kintone.events.on('app.record.detail.process.proceed', function (event) {
+  //kintone.events.on('app.record.detail.process.proceed', function (event) {
+  kintone.events.on('app.record.detail.show', function (event) {
     var nStatus = event.nextStatus.value;
     //if (nStatus === "集荷待ち") {
     setBtn_header('test_btn_sNam', 'input to sNam');
