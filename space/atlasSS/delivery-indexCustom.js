@@ -216,7 +216,6 @@
                     console.log(defRec[ri]);
                 
                     putRepData[rd].record = defRec[ri];
-                    delete putRepData[rd].record.sNum;
                   }
                 }
               }
