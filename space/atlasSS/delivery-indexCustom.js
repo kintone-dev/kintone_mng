@@ -186,7 +186,7 @@
 
               postRecords(sysid.ASS.app_id.member, postMemData).catch(function (error) {
                 console.log("-----aaaa-----");
-              });;
+              });
               putRecords(sysid.DEV.app_id.sNum, putDefData);
               putRecords(sysid.DEV.app_id.sNum, putRepData);
               // putRecords(kintone.app.getId(), putWStatData);
