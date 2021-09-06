@@ -122,7 +122,7 @@
             getDefQueryArray.pop();
           }
 
-          putRepData = putRepData;
+          console.log(putRepData);
 
           var getDefQuery = getDefQueryArray.join('');
 
