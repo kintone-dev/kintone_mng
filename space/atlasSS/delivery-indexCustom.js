@@ -132,7 +132,7 @@
               console.log(defRec);
               console.log('layer2:');
               console.log(putRepData);
-/*
+
               for (let rd in putRepData) {
                 var defKey = putRepData[rd].defKey;
                 for (let ri in defRec) {
@@ -162,7 +162,7 @@
                 delete putRepData[rd].shipDate;
                 delete putRepData[rd].record.sNum;
               }
-*/
+
             }).catch(function (error) {
               console.log(error);
             });
