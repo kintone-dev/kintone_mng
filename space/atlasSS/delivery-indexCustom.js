@@ -177,6 +177,7 @@
           }
 
           var getDefQuery = getDefQueryArray.join('');
+          console.log(getDefQuery);
 
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
