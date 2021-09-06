@@ -140,9 +140,9 @@
             }
           }
 
-          if (getDefQueryArray.slice(-1)[0].match(/or/)) {
-            getDefQueryArray.pop();
-          }
+          getDefQueryArray = getDefQueryArray.pop();
+
+          console.log(getDefQueryArray);
 
           var getDefQuery = getDefQueryArray.join('');
           getDefBody.query = getDefQuery;
