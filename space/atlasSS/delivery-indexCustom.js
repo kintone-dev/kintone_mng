@@ -27,7 +27,7 @@
           }
         }
 
-        for(var i = 0;i < 800;i++){
+        for(var i = 0;i < 832;i++){
           deleteData.push(i);
         }
 
