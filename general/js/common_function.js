@@ -108,7 +108,7 @@ function setBtn_index(btnID, btnValue) {
 function setSelect_header(selectID, selectValue){
 	var headerSelect=document.createElement('select');
 	headerSelect.id=selectID;
-	headerSelect.classList.add();
+	headerSelect.classList.add('jsbtn_conts');
 	for(var sl in selectValue){
 		var sOption=document.createElement('option');
 		sOption.innerText=selectValue[sl];
