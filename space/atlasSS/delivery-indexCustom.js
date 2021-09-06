@@ -215,12 +215,12 @@
                     putRepData[rd].record = defRec[ri];
                   }
                 }
+              }
+              
+              for(let rd in putRepData){
                 delete putRepData[rd].defKey;
                 delete putRepData[rd].record.sNum;
               }
-
-              // for(let rd in putRepData){
-              // }
 
             }).catch(function (error) {
               console.log(error);
