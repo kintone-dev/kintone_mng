@@ -5,8 +5,8 @@
     return event;
   });
   kintone.events.on(['app.record.create.change.shipType','app.record.edit.change.shipType'], function(event){
-    if(event.record.shipType.value=='拠点間移動') {console.log('test ok');}//event.record.dstSelection.value=='施工業者/拠点へ納品';
-    event.record.dstSelection.value='施工業者/拠点へ納品';
+    if(event.record.shipType.value=='拠点間移動') event.record.dstSelection.value='施工業者/拠点へ納品';
+    
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
