@@ -6,6 +6,8 @@
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
     console.log(event.record.sys_instAddress.value);
+    var instAddress=new Array(event.record.sys_instAddress.value);
+    console.log(instAddress);
     console.log(event.record.sys_unitAddress.value);
     //$('.gaia-app-statusbar').css('display', 'none');
 
@@ -217,6 +219,8 @@
       event.record.address.disabled=false;
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
+//receiver&","&phoneNum&","&zipcode&","&prefectures&","&city&","&address&","&bName&",none"
+//"['"&receiver&"','"&phoneNum&"','"&zipcode&"','"&prefectures&"','"&city&"','"&address&"','"&bName&"','none']"
     }else if(selection=='設置先と同じ'){
       setFieldShown('Contractor', false);
       setFieldShown('instName', true);
@@ -239,6 +243,13 @@
       event.record.address.disabled=true;
       event.record.buildingName.disabled=true;
       event.record.corpName.disabled=true;
+
+      event.record.zipcode.value='';
+      event.record.prefectures.value='';
+      event.record.city.value='';
+      event.record.address.value='';
+      event.record.buildingName.value='';
+      event.record.corpName.value='';
     }else{
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
