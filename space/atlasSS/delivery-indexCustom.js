@@ -169,6 +169,8 @@
 
               getDefQueryArray.push('sNum = "');
               getDefQueryArray.push(resp.records[ri].replacement_sNum.value);
+              console.log(ri);
+              console.log(shipList.length);
               if(ri != shipList.length){
                 getDefQueryArray.push('" or ');
               }
