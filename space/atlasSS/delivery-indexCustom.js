@@ -220,8 +220,8 @@
               }
               
               for(let rd in putRepData){
-                putRepData[rd].record.sendDate = putRepData[rd].appType;
-                putRepData[rd].record.sendType = putRepData[rd].shipDate;
+                putRepData[rd].record.sendDate.value = putRepData[rd].shipDate;
+                putRepData[rd].record.sendType.value = putRepData[rd].appType;
 
                 delete putRepData[rd].defKey;
                 delete putRepData[rd].appType;
