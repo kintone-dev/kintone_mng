@@ -1,7 +1,11 @@
 (function() {
   'use strict';
-  kintone.events.on(['app.record.create.change.dstSelection','app.record.edit.change.dstSelection','app.record.edit.change.sys_instAddress','app.record.edit.change.sys_instAddress','app.record.edit.change.sys_unitAddress','app.record.edit.change.sys_unitAddress'], function(event) {
+  kintone.events.on(['app.record.create.change.dstSelection','app.record.edit.change.dstSelection','app.record.create.change.sys_instAddress','app.record.edit.change.sys_instAddress','app.record.create.change.sys_unitAddress','app.record.edit.change.sys_unitAddress'], function(event) {
     doSelection(event);
+    return event;
+  });
+  kintone.events.on(['app.record.create.change.shipType','app.record.edit.change.shipType'], function(event){
+    if(event.record.shipType.value=='拠点間移動') event.record.dstSelection.value=='施工業者/拠点へ納品';
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
@@ -204,7 +208,7 @@
   });
   function doSelection(event){
     var selection=event.record.dstSelection.value;
-    if(selection=='施工業者へ納品'){
+    if(selection=='施工業者/拠点へ納品'){
       setFieldShown('Contractor', true);
       setFieldShown('instName', false);
       event.record.receiver.disabled=false;
@@ -215,7 +219,6 @@
       event.record.address.disabled=false;
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
-      console.log(event.record.sys_unitAddress.value);
       if(event.record.sys_unitAddress.value!==undefined){
         var unitAddress=event.record.sys_unitAddress.value.split(',');
         event.record.receiver.value=unitAddress[0];
@@ -238,7 +241,6 @@
       event.record.address.disabled=false;
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
-      console.log(event.record.sys_instAddress.value);
       if(event.record.sys_instAddress.value!==undefined){
         var instAddress=event.record.sys_instAddress.value.split(',');
         event.record.receiver.value=instAddress[0];
