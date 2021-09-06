@@ -62,6 +62,9 @@
           //交換品データ作成
           var putRepData = [];
 
+          //作業品データ作成
+          var putWStatData = [];
+
           for (let ri in shipList) {
             if (shipList[ri].application_type.value.match(/新規申込/)) {
               var postBody_member = {
@@ -79,7 +82,24 @@
                 }
               };
 
+              var putBody_workStat = {
+                'updateKey': {
+                  'field': 'レコード番号',
+                  'value': shipList[ri].レコード番号.value
+                },
+                'record': {
+                  'working_status': {
+                    'value': '必要情報入力済み'
+                  },
+                  'sDstate': {
+                    'value': '検証待ち'
+                  }
+                }
+              };
+
+
               postMemData.push(postBody_member);
+              putWStatData.push(putBody_workStat);
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
               var putDefBody_sNum = {
                 'updateKey': {
@@ -89,9 +109,6 @@
                 'record': {
                   'sState': {
                     'value': '故障品'
-                  },
-                  'sDstate': {
-                    'value': '検証待ち'
                   }
                 }
               };
@@ -107,6 +124,17 @@
                 'record': ''
               };
 
+              var putBody_workStat = {
+                'updateKey': {
+                  'field': 'レコード番号',
+                  'value': shipList[ri].レコード番号.value
+                },
+                'record': {
+                  'working_status': {
+                    'value': '必要情報入力済み'
+                  }
+                }
+              };
 
               getDefQueryArray.push('sNum = ');
               getDefQueryArray.push('"' + resp.records[ri].failure_sNum.value + '"');
@@ -114,6 +142,7 @@
 
               putDefData.push(putDefBody_sNum);
               putRepData.push(putRepBody_sNum);
+              putWStatData.push(putBody_workStat);
             }
           }
 
@@ -165,6 +194,7 @@
               postRecords(sysid.ASS.app_id.member, postMemData);
               putRecords(sysid.DEV.app_id.sNum, putDefData);
               putRecords(sysid.DEV.app_id.sNum, putRepData);
+              putRecords(kintone.app.getId(), putWStatData);
 
             }).catch(function (error) {
               console.log(error);
