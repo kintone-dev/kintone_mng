@@ -6,12 +6,12 @@
   //kintone.events.on('app.record.detail.show', function (event) {
     var nStatus = event.nextStatus.value;
     if (nStatus === "集荷待ち") {
-      /*
+      
     setBtn_header('test_btn_sNam', 'input to sNam');
     $('#'+test_btn_sNam.id).on('click', function(){
-      test_sNam();
+      //test_sNam();
     });
-
+/*
     var test_sNam=function(){
       */
       //パラメータsNumInfoにjsonデータ作成

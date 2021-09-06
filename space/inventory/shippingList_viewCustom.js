@@ -15,7 +15,12 @@
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
-    //lookupコピー対象の編集不可を解除
+    // システム用フィールド非表示
+    /*
+    setFieldShown('sys_unitAddress', false);
+    setFieldShown('sys_instAddress', false);
+    */
+    // lookupコピー対象の編集不可を解除
     event.record.zipcode.disabled=false;
     event.record.phoneNum.disabled=false;
     event.record.address.disabled=false;
