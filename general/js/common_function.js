@@ -428,3 +428,18 @@ function api_getRecords(appID) {
 		'query': null
 	});
 }
+
+// 100件以上のレコード削除
+const deleteRecords = async (app, records) => {
+	const records = records;
+
+	while (records.length) {
+		var deleteBody ={
+			'app': app,
+			'ids': records.slice(0, LIMIT_POST),
+		}
+		console.log(deleteBody);
+		// await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
+		records.splice(0, 100);
+	}
+}
