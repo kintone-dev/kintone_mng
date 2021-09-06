@@ -99,11 +99,11 @@ function setBtn_index(btnID, btnValue) {
 	return indexBtn;
 }
 /* 使い方
-*var newORG=setBtn('btn_newORG','新規組織');
-*$('#'+newORG.id).on('click', function(){
-*	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
-*});
-*/
+ *var newORG=setBtn('btn_newORG','新規組織');
+ *$('#'+newORG.id).on('click', function(){
+ *	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
+ *});
+ */
 
 // tabメニューをULで作成
 function tabMenu(tabID, tabList) {
@@ -220,15 +220,11 @@ function defective(defectiveNum, repairedNum) {
 	//シリアル管理に挿入する情報の作成
 	var defInfo = {
 		'app': sysid.DEV.app_id.sNum,
-		'records': []
-	};
-
-	var defRecord = {
 		'updateKey': {
 			'field': 'sNum',
 			'value': defectiveNum
 		},
-		'record': {
+		'records': {
 			'sState': {
 				'value': '故障品'
 			},
@@ -238,10 +234,8 @@ function defective(defectiveNum, repairedNum) {
 		}
 	};
 
-	defInfo.records.push(defRecord);
-
 	//シリアル管理に状態と状況を挿入
-	var putDefResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defInfo);
+	var putDefResult = kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', defInfo);
 
 	putDefResult.then(function (resp) {
 		console.log("put success");
@@ -276,21 +270,16 @@ function defective(defectiveNum, repairedNum) {
 
 		var repInfo = {
 			'app': sysid.DEV.app_id.sNum,
-			'records': []
-		};
-
-		var repRecord = {
-			'updateKey': {
+			"updateKey": {
 				'field': 'sNum',
 				'value': repairedNum
 			},
 			'record': {}
 		};
 
-		repRecord.record = respRecords[0];
-		repInfo.records.push(repRecord);
+		repInfo.record = respRecords[0];
 
-		var putRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', repInfo);
+		var putRepResult = kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', repInfo);
 
 		putRepResult.then(function (resp) {
 			console.log("故障品情報を交換品情報にPUTしました。");
