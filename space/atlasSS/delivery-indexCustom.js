@@ -43,28 +43,28 @@
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
         .then(function (resp) {
-          let shipList = resp.records;
+          var shipList = resp.records;
           console.log(shipList);
 
           //新規申込データ作成
-          let postMemData = []
+          var postMemData = []
 
           //故障品データ作成
-          let putDefData = []
+          var putDefData = []
 
           //交換品query
-          let getDefQueryArray = [];
-          let getDefBody = {
+          var getDefQueryArray = [];
+          var getDefBody = {
             'app': sysid.DEV.app_id.sNum,
             'query': ''
           };
 
           //交換品データ作成
-          let putRepData = [];
+          var putRepData = [];
 
           for (let ri in shipList) {
             if (shipList[ri].application_type.value.match(/新規申込/)) {
-              let postBody_member = {
+              var postBody_member = {
                 'member_id': {
                   value: shipList[ri].member_id.value
                 },
@@ -81,7 +81,7 @@
 
               postMemData.push(postBody_member);
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
-              let putDefBody_sNum = {
+              var putDefBody_sNum = {
                 'updateKey': {
                   'field': 'sNum',
                   'value': resp.records[ri].failure_sNum.value
@@ -96,7 +96,7 @@
                 }
               };
 
-              let putRepBody_sNum = {
+              var putRepBody_sNum = {
                 'updateKey': {
                   'field': 'sNum',
                   'value': resp.records[ri].replacement_sNum.value
@@ -122,26 +122,19 @@
             getDefQueryArray.pop();
           }
 
-          console.log(putRepData);
+          putRepData = putRepData;
 
-          let getDefQuery = getDefQueryArray.join('');
-
-          var xxx = 123;
-          let yyy = 123;
-          const VVV = 123;
+          var getDefQuery = getDefQueryArray.join('');
 
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
-              let defRec = resp.records;
+              var defRec = resp.records;
               console.log(defRec);
               console.log(putRepData);
-              console.log(xxx);
-              console.log(yyy);
-              console.log(VVV);
 
               for (let rd in putRepData) {
-                let defKey = putRepData[rd].defKey;
+                var defKey = putRepData[rd].defKey;
                 for (let ri in defRec) {
                   if (defKey == defRec[ri].sNum.value) {
                     delete defRec[ri].$id;
