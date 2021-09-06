@@ -6,7 +6,7 @@
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
     console.log(event.record.sys_instAddress.value);
-    var instAddress=new Array(event.record.sys_instAddress.value);
+    var instAddress=event.record.sys_instAddress.value.split(',');
     console.log(instAddress);
     console.log(event.record.sys_unitAddress.value);
     //$('.gaia-app-statusbar').css('display', 'none');
@@ -219,8 +219,6 @@
       event.record.address.disabled=false;
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
-//receiver&","&phoneNum&","&zipcode&","&prefectures&","&city&","&address&","&bName&",none"
-//"['"&receiver&"','"&phoneNum&"','"&zipcode&"','"&prefectures&"','"&city&"','"&address&"','"&bName&"','none']"
     }else if(selection=='設置先と同じ'){
       setFieldShown('Contractor', false);
       setFieldShown('instName', true);
