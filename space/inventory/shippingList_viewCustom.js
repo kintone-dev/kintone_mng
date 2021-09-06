@@ -215,6 +215,7 @@
       event.record.address.disabled=false;
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
+      console.log(event.record.sys_unitAddress.value);
       if(event.record.sys_unitAddress.value!==''){
         var unitAddress=event.record.sys_unitAddress.value.split(',');
         event.record.receiver.value=unitAddress[0];
@@ -237,6 +238,7 @@
       event.record.address.disabled=false;
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
+      console.log(event.record.sys_instAddress.value);
       if(event.record.sys_instAddress.value!==''){
         var instAddress=event.record.sys_instAddress.value.split(',');
         event.record.receiver.value=instAddress[0];
