@@ -146,12 +146,15 @@
 
           var getDefQuery = getDefQueryArray.join('');
 
+          var xxx = 123;
+          xxx = 456;
+
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
               var defRec = resp.records;
               console.log(defRec);
-              console.log(putRepDataRe);
+              console.log(xxx);
 
               for (let rd in putRepData) {
                 var defKey = putRepData[rd].defKey;
