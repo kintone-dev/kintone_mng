@@ -140,7 +140,7 @@
             }
           }
 
-          getDefQueryArray = getDefQueryArray.pop();
+          // getDefQueryArray = getDefQueryArray.pop();
 
           console.log(getDefQueryArray);
 
