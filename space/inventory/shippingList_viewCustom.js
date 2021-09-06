@@ -15,7 +15,7 @@
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
-        //setBtn_header('test_btn_sNam', 'input to sNam');
+        setBtn_header('test_btn_sNam', 'input to sNam');
     $('.gaia-app-statusbar').css('display', 'none');
 
     // システム用フィールド非表示
