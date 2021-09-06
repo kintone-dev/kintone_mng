@@ -232,12 +232,10 @@ function defective(defectiveNum, repairedNum){
 
 	defInfo.records.push(defRecord);
 
-	console.log(defInfo);
-
 	//シリアル管理に状態と状況を挿入
-	var putResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defInfo);
+	var putDefResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', defInfo);
 
-	putResult.then(function (resp) {
+	putDefResult.then(function (resp) {
 		console.log("put success");
 	}).catch(function (error) {
 		console.log("put error");
@@ -249,9 +247,9 @@ function defective(defectiveNum, repairedNum){
 		'app': sysid.DEV.app_id.sNum,
 		'query': 'sNum="' + defectiveNum + '"',
 	};
-	var getResult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
+	var getRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody);
 
-	getResult.then(function (resp) {
+	getRepResult.then(function (resp) {
 		var respRecords = resp.records;
 
 		delete respRecords[0].$id;
