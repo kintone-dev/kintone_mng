@@ -14,12 +14,6 @@
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
     
-    // lookupコピー対象の編集不可を解除
-    event.record.zipcode.disabled=false;
-    event.record.phoneNum.disabled=false;
-    event.record.address.disabled=false;
-    event.record.buildingName.disabled=false;
-    event.record.Receiver.disabled=false;
     //tabメニューの選択肢による表示設定
     function tabSwitch(onSelect){
       switch(onSelect){
@@ -31,7 +25,7 @@
           setFieldShown('address', true);
           setFieldShown('buildingName', true);
           setFieldShown('corpName', true);
-          setFieldShown('Receiver', true);
+          setFieldShown('receiver', true);
           setFieldShown('prefectures', true);
           setFieldShown('city', true);
 
@@ -61,7 +55,7 @@
           setFieldShown('address', false);
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
-          setFieldShown('Receiver', false);
+          setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
 
@@ -91,7 +85,7 @@
           setFieldShown('address', false);
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
-          setFieldShown('Receiver', false);
+          setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
 
@@ -121,7 +115,7 @@
           setFieldShown('address', false);
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
-          setFieldShown('Receiver', false);
+          setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
 
@@ -211,17 +205,51 @@
     return event;
   });
   function doSelection(event){
-    if(event.record.dstSelection.value=='施工業者へ納品'){
+    var selection=event.record.dstSelection.value;
+    if(selection=='施工業者へ納品'){
       setFieldShown('Contractor', true);
       setFieldShown('instName', false);
-    }else if(event.record.dstSelection.value=='設置先と同じ'){
+      event.record.receiver.disabled=false;
+      event.record.phoneNum.disabled=false;
+      event.record.zipcode.disabled=false;
+      event.record.prefectures.disabled=false;
+      event.record.city.disabled=false;
+      event.record.address.disabled=false;
+      event.record.buildingName.disabled=false;
+      event.record.corpName.disabled=false;
+    }else if(selection=='設置先と同じ'){
       setFieldShown('Contractor', false);
       setFieldShown('instName', true);
+      event.record.receiver.disabled=false;
+      event.record.phoneNum.disabled=false;
+      event.record.zipcode.disabled=false;
+      event.record.prefectures.disabled=false;
+      event.record.city.disabled=false;
+      event.record.address.disabled=false;
+      event.record.buildingName.disabled=false;
+      event.record.corpName.disabled=false;
+    }else if(selection=='担当手渡し'){
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', false);
+      event.record.receiver.disabled=false;
+      event.record.phoneNum.disabled=false;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
     }else{
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
-      console.log(event)
-      event.record.Contractor.lookup='CLEAR';
+      event.record.receiver.disabled=false;
+      event.record.phoneNum.disabled=false;
+      event.record.zipcode.disabled=false;
+      event.record.prefectures.disabled=false;
+      event.record.city.disabled=false;
+      event.record.address.disabled=false;
+      event.record.buildingName.disabled=false;
+      event.record.corpName.disabled=false;
     }
   }
 })();
