@@ -15,7 +15,8 @@
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
-
+    console.log(event.record.sys_instAddress.value);
+    console.log(event.record.sys_unitAddress.value);
     //$('.gaia-app-statusbar').css('display', 'none');
 
 
@@ -51,6 +52,8 @@
           setFieldShown('buildingName', true);
           setFieldShown('corpName', true);
           setFieldShown('Receiver', true);
+          setFieldShown('prefectures', true);
+          setFieldShown('city', true);
 
           setFieldShown('deviceList', false);
 
@@ -79,6 +82,8 @@
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
           setFieldShown('Receiver', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
 
           setFieldShown('deviceList', true);
 
@@ -107,6 +112,8 @@
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
           setFieldShown('Receiver', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
 
           setFieldShown('deviceList', false);
 
@@ -135,6 +142,8 @@
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
           setFieldShown('Receiver', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
 
           setFieldShown('deviceList', false);
 
