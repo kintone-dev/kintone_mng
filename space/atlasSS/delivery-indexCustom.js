@@ -176,8 +176,9 @@
           }
 
           if(getDefQueryArray.slice(-1)[0].match(/or/)){
-            console.log(console.log(getDefQueryArray.slice(-1)[0]));
+            console.log(getDefQueryArray.slice(-1)[0]);
             getDefQueryArray.pop;
+            console.log(getDefQueryArray);
           }
 
           var getDefQuery = getDefQueryArray.join('');
