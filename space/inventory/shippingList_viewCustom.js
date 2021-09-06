@@ -25,7 +25,7 @@
       switch(onSelect){
         case '#宛先情報':
           kintone.app.record.setFieldShown('dstSelection', true);
-          doSelection()event;
+          doSelection(event);
           setFieldShown('zipcode', true);
           setFieldShown('phoneNum', true);
           setFieldShown('address', true);
