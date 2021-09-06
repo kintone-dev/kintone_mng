@@ -199,7 +199,6 @@
               for(let rd in putRepData){
                 var rdKey =  putRepData[rd].updateKey.value;
                 for(let ri in defRec){
-                  console.log(defRec[ri]);
                   if(rdKey = defRec[ri].sNum.value){
                     delete defRec[ri].$id;
                     delete defRec[ri].$revision;
