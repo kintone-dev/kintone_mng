@@ -293,7 +293,7 @@ function defective(defectiveNum, repairedNum) {
 		var putRepResult = kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', repInfo);
 
 		putRepResult.then(function (resp) {
-			console.log("defective date put success");
+			console.log("故障品情報を交換品情報にPUTしました。");
 		}).catch(function (error) {
 			console.log("put error");
 			console.error(error);
