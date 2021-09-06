@@ -172,12 +172,13 @@
                   'field': 'sNum',
                   'value': resp.records[ri].replacement_sNum.value
                 },
+                'defKey': resp.records[ri].failure_sNum.value,
                 'record': ''
               };
 
 
               getDefQueryArray.push('sNum = ');
-              getDefQueryArray.push('"' + resp.records[ri].replacement_sNum.value + '"');
+              getDefQueryArray.push('"' + resp.records[ri].failure_sNum.value + '"');
               getDefQueryArray.push(' or ');
 
               putDefData.push(putDefBody_sNum);
@@ -195,12 +196,12 @@
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
               var defRec = resp.records;
-              
-              for(let rd in putRepData){
-                var rdKey =  putRepData[rd].updateKey.value;
-                console.log(rdKey);
-                for(let ri in defRec){
-                  if(rdKey == defRec[ri].sNum.value){
+              console.log(defRec);
+
+              for (let rd in putRepData) {
+                var defKey = putRepData[rd].defKey;
+                for (let ri in defRec) {
+                  if (defKey == defRec[ri].sNum.value) {
                     delete defRec[ri].$id;
                     delete defRec[ri].$revision;
                     delete defRec[ri].sDstate;
@@ -211,8 +212,7 @@
                     delete defRec[ri].ステータス;
                     delete defRec[ri].更新者;
                     delete defRec[ri].更新日時;
-                    console.log(defRec[ri]);
-                
+
                     putRepData[rd].record = defRec[ri];
                   }
                 }
