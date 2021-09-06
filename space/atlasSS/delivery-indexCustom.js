@@ -114,7 +114,6 @@
 
               putDefData.push(putDefBody_sNum);
               putRepData.push(putRepBody_sNum);
-              console.log(putRepData);
             }
           }
 
