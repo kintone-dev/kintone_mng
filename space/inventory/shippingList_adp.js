@@ -9,9 +9,9 @@
       /*
     setBtn_header('test_btn_sNam', 'input to sNam');
     $('#'+test_btn_sNam.id).on('click', function(){
-      test_sNam();
+      //test_sNam();
     });
-
+/*
     var test_sNam=function(){
       */
       //パラメータsNumInfoにjsonデータ作成
