@@ -5,13 +5,14 @@
     var application_type=event.record.application_type.value;
     if(application_type=='新規申込'){
       var new_memID={
-        'app': sysID.ASS.app.aim,
+        'app': sysid.ASS.app_id.member,
         'record': {
           'member_id': {'value': event.record.member_id.value},
           'member_type': {'value': event.record.member_type.value},
           'application_datetime': {'value': event.record.application_datetime.value},
           'toastcam_bizUserId': {'value': event.record.toastcam_bizUserId.value},
-          // 'toastcam_bizUserPassword': {'value': event.record.toastcam_bizUserPassword.value}
+          'application_type': { 'value':event.record.application_type.value},
+          'toastcam_bizUserPassword': {'value': event.record.toastcam_bizUserPassword.value}
         }
       };
       
