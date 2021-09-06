@@ -182,6 +182,10 @@
               console.log(error);
             });
 
+            console.log(postMemData);
+            console.log(putDefData);
+            console.log(putRepData);
+
           postRecords(sysid.ASS.app_id.member, postMemData);
           putRecords(sysid.DEV.app_id.sNum, putDefData);
           putRecords(sysid.DEV.app_id.sNum, putRepData);
