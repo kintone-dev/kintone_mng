@@ -228,10 +228,12 @@
                 .then(function (resp) {
                   var failureInfo = resp.records;
 
+                  console.log(failureInfo[0].sState.value);
+
                   if (failureInfo[0].sState.value.match(/故障品/)) {
                     defective(failure_sNum, replacement_sNum);
                   } else {
-                    console.log('古商品ではありません。');
+                    console.log('故障品ではありません。');
                   }
 
                 }).catch(function (error) {
