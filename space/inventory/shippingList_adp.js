@@ -4,8 +4,12 @@
   // 拠点情報取得＆繰り返し利用
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     var nStatus = event.nextStatus.value;
-
-    if (nStatus === "集荷待ち") {
+    //if (nStatus === "集荷待ち") {
+    setBtn_header('test_btn_sNam', 'input to sNam');
+    $('#'+test_btn_sNam.id).on('click', function(){
+      test_btn_sNam();
+    });
+    var test_btn_sNam=function(){
       //パラメータsNumInfoにjsonデータ作成
       var sNumInfo = {
         'app': sysid.DEV.app_id.sNum,
