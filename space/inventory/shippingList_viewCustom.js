@@ -15,6 +15,11 @@
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
+        setBtn_header('test_btn_sNam', 'input to sNam');
+    $('#'+test_btn_sNam.id).on('click', function(){
+      //test_sNam();
+    });
+    
     // システム用フィールド非表示
     /*
     setFieldShown('sys_unitAddress', false);
