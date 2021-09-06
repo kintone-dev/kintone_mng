@@ -139,6 +139,7 @@
               putWStatData.push(putBody_workStat);
             }
           }
+          
           if(getDefQueryArray != []){
             getDefQueryArray.pop();
           }

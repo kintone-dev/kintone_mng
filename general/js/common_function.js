@@ -459,7 +459,12 @@ const putRecords = async (app, records) => {
 			'records': PUT_RECORDS.slice(0, 100),
 		}
 		console.log(putBody);
-		await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody);
+		await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			return error;
+		});
 		PUT_RECORDS.splice(0, 100);
 	}
 }
