@@ -63,7 +63,7 @@
               'updateKey': {'field': 'sNum','value': sNums[y]},
               'record': {
                 'mCode': shipTable[i].value.mCode,
-                'shipment': event.record.shipment,
+                'shipment': {'value':event.record.shipment.value},
                 'sendDate': event.record.sendDate,
                 'shipType': event.record.shipType,
                 //'orgName': event.record.orgName,
