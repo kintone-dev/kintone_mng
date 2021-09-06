@@ -139,11 +139,10 @@
               putWStatData.push(putBody_workStat);
             }
           }
-          
+          console.log(getDefQueryArray);
           if(getDefQueryArray != []){
             getDefQueryArray.pop();
           }
-          
           var getDefQuery = getDefQueryArray.join('');
           console.log(getDefQueryArray);
           getDefBody.query = getDefQuery;
