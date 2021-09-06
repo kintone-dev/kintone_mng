@@ -434,11 +434,12 @@ const postRecords = async (app, records) => {
 	const POST_RECORDS = records;
 
 	while (POST_RECORDS.length) {
-		var deleteBody = {
+		var postBody = {
 			'app': app,
 			'records': POST_RECORDS.slice(0, 100),
 		}
-		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
+		console.log(postBody);
+		// await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", postBody);
 		POST_RECORDS.splice(0, 100);
 	}
 }
@@ -448,11 +449,12 @@ const putRecords = async (app, records) => {
 	const PUT_RECORDS = records;
 
 	while (PUT_RECORDS.length) {
-		var deleteBody = {
+		var putBody = {
 			'app': app,
 			'records': PUT_RECORDS.slice(0, 100),
 		}
-		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
+		console.log(putBody);
+		// await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", putBody);
 		PUT_RECORDS.splice(0, 100);
 	}
 }
