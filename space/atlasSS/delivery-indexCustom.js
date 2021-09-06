@@ -47,10 +47,10 @@
           console.log(shipList);
 
           //新規申込データ作成
-          var postMemData = []
+          var postMemData = [];
 
           //故障品データ作成
-          var putDefData = []
+          var putDefData = [];
 
           //交換品query
           var getDefQueryArray = [];
