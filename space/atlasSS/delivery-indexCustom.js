@@ -64,7 +64,7 @@
 
           for (let ri in shipList) {
             if (shipList[ri].application_type.value.match(/新規申込/)) {
-              var postBody_member = JSON.stringify({
+              var postBody_member = {
                 'member_id': {
                   value: shipList[ri].member_id.value
                 },
@@ -77,11 +77,11 @@
                 'application_type': {
                   value: shipList[ri].application_type.value
                 }
-              });
+              };
 
               postMemData.push(postBody_member);
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
-              var putDefBody_sNum = JSON.stringify({
+              var putDefBody_sNum = {
                 'updateKey': {
                   'field': 'sNum',
                   'value': resp.records[ri].failure_sNum.value
@@ -94,9 +94,9 @@
                     'value': '検証待ち'
                   }
                 }
-              });
+              };
 
-              var putRepBody_sNum = JSON.stringify({
+              var putRepBody_sNum = {
                 'updateKey': {
                   'field': 'sNum',
                   'value': resp.records[ri].replacement_sNum.value
@@ -105,7 +105,7 @@
                 'appType': shipList[ri].application_type.value,
                 'shipDate': shipList[ri].shipping_datetime.value,
                 'record': ''
-              });
+              };
 
 
               getDefQueryArray.push('sNum = ');
@@ -123,14 +123,16 @@
           }
 
           var getDefQuery = getDefQueryArray.join('');
-
+          console.log('layer1:');
+          console.log(putRepData);
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
               var defRec = resp.records;
               console.log(defRec);
+              console.log('layer2:');
               console.log(putRepData);
-
+/*
               for (let rd in putRepData) {
                 var defKey = putRepData[rd].defKey;
                 for (let ri in defRec) {
@@ -160,7 +162,7 @@
                 delete putRepData[rd].shipDate;
                 delete putRepData[rd].record.sNum;
               }
-
+*/
             }).catch(function (error) {
               console.log(error);
             });
