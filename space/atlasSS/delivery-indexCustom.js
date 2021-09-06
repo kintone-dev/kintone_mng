@@ -167,22 +167,20 @@
                 }
               };
 
-              getDefQueryArray.push('sNum = "');
-              getDefQueryArray.push(resp.records[ri].replacement_sNum.value);
-              getDefQueryArray.push('" or ');
+              getDefQueryArray.push('sNum = ');
+              getDefQueryArray.push('"' + resp.records[ri].replacement_sNum.value + '"');
+              getDefQueryArray.push(' or ');
 
               putDefData.push(putDefBody_sNum);
             }
           }
 
-          if(getDefQueryArray.slice(-1)[0].match(/or/)){
-            console.log(getDefQueryArray.slice(-1)[0]);
+          if (getDefQueryArray.slice(-1)[0].match(/or/)) {
             getDefQueryArray.pop();
-            console.log(getDefQueryArray);
           }
 
           var getDefQuery = getDefQueryArray.join('');
-          console.log(getDefQuery);
+          getDefQuery = getDefQueryArray.join('');
 
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
