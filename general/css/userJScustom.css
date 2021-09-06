@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
-/*タブメニュー*/
-/*ノーマル状態*/
+/* タブメニュー */
+/* ノーマル状態 */
 .tabMenu{
 	display: flex;
 	list-style: none;
@@ -19,13 +19,13 @@
 	border-bottom: 0;
   
 }
-/*選択された状態*/
+/* 選択された状態 */
 .tabMenu .active a{
 	color:#FFFFFF;
 	background:#5295D5;
 }
 
-/*ボタン*/
+/* ボタン */
 .jsbtn_conts{
 	color:#3A98D7;
 	margin:33px 10px 0;
@@ -42,4 +42,13 @@
 }
 .jsbtn_over{
 	background:#CBD6DC;
+}
+
+/* プルダウンメニュー */
+.jsselect_header{
+	color:#3A98D7;
+	margin:0px 10px;
+	padding:7px 20px;
+	background:#F7F9FA;
+	border:solid 1px #E3E7E8;
 }
