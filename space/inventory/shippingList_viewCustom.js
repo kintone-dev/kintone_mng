@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   kintone.events.on(['app.record.create.change.dstSelection','app.record.edit.change.dstSelection'], function(event) {
-    doSelection();
+    doSelection(event);
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
@@ -25,7 +25,7 @@
       switch(onSelect){
         case '#宛先情報':
           kintone.app.record.setFieldShown('dstSelection', true);
-          doSelection();
+          doSelection()event;
           setFieldShown('zipcode', true);
           setFieldShown('phoneNum', true);
           setFieldShown('address', true);
@@ -210,7 +210,7 @@
     }
     return event;
   });
-  function doSelection(){
+  function doSelection(event){
     if(event.record.dstSelection.value=='施工業者へ納品'){
       setFieldShown('Contractor', true);
       setFieldShown('instName', false);
