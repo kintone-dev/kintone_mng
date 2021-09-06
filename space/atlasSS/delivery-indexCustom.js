@@ -187,6 +187,7 @@
               console.log(putDefData);
               console.log(putRepData);
 
+              //新規申込
               postRecords(sysid.ASS.app_id.member, postMemData)
               .then(function (resp) {
                 alert('内部情報連携に成功しました。');
@@ -196,6 +197,7 @@
                 alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
               });
 
+              //故障交換
               putRecords(sysid.DEV.app_id.sNum, putDefData)
               .then(function (resp) {
                 putRecords(sysid.DEV.app_id.sNum, putRepData)
