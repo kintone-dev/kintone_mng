@@ -49,20 +49,8 @@
           //新規申込データ作成
           var postMemData = [];
 
-          //新規申込用json作成
-          var postMemJson = {
-            'app': sysid.ASS.app_id.member,
-            'records': []
-          }
-
           //故障品データ作成
           var putDefData = [];
-
-          //故障品json作成
-          var putDefJson = {
-            'app': sysid.DEV.app_id.sNum,
-            'records': []
-          }
 
           //交換品query
           var getDefQueryArray = [];
@@ -71,18 +59,12 @@
             'query': ''
           };
 
-          //交換品json作成
-          var putRepJson = {
-            'app': sysid.DEV.app_id.sNum,
-            'records': []
-          }
-
           //交換品データ作成
           var putRepData = [];
 
           for (let ri in shipList) {
             if (shipList[ri].application_type.value.match(/新規申込/)) {
-              var postBody_member = {
+              var postBody_member = JSON.stringify({
                 'member_id': {
                   value: shipList[ri].member_id.value
                 },
@@ -95,11 +77,11 @@
                 'application_type': {
                   value: shipList[ri].application_type.value
                 }
-              };
+              });
 
               postMemData.push(postBody_member);
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
-              var putDefBody_sNum = {
+              var putDefBody_sNum = JSON.stringify({
                 'updateKey': {
                   'field': 'sNum',
                   'value': resp.records[ri].failure_sNum.value
@@ -112,9 +94,9 @@
                     'value': '検証待ち'
                   }
                 }
-              };
+              });
 
-              var putRepBody_sNum = {
+              var putRepBody_sNum = JSON.stringify({
                 'updateKey': {
                   'field': 'sNum',
                   'value': resp.records[ri].replacement_sNum.value
@@ -123,7 +105,7 @@
                 'appType': shipList[ri].application_type.value,
                 'shipDate': shipList[ri].shipping_datetime.value,
                 'record': ''
-              };
+              });
 
 
               getDefQueryArray.push('sNum = ');
@@ -140,21 +122,14 @@
             getDefQueryArray.pop();
           }
 
-          var putRepDataRe = putRepData;
-
-          console.log(putRepDataRe);
-
           var getDefQuery = getDefQueryArray.join('');
-
-          var xxx = 123;
-          xxx = 456;
 
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
               var defRec = resp.records;
               console.log(defRec);
-              console.log(xxx);
+              console.log(putRepData);
 
               for (let rd in putRepData) {
                 var defKey = putRepData[rd].defKey;
@@ -190,13 +165,9 @@
               console.log(error);
             });
 
-          postMemJson.records = postMemData;
-          putDefJson.records = putDefData;
-          putRepJson.records = putRepData;
-
-          console.log(postMemJson);
-          console.log(putDefJson);
-          console.log(putRepJson);
+          console.log(postMemData);
+          console.log(putDefData);
+          console.log(putRepData);
 
           postRecords(sysid.ASS.app_id.member, postMemData);
           putRecords(sysid.DEV.app_id.sNum, putDefData);
