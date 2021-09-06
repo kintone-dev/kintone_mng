@@ -184,36 +184,27 @@
               console.log(putDefData);
               console.log(putRepData);
 
-              // postRecords(sysid.ASS.app_id.member, postMemData)
-              // .then(function (resp) {
-              //   console.log(resp);
-              // }).catch(function (error) {
-              //   console.log(error);
-              //   alert('内部情報連携失敗しました。システム管理者に連絡してください。');
-              // });
-              console.log(postRecords(sysid.ASS.app_id.member, postMemData));
-              // putRecords(sysid.DEV.app_id.sNum, putDefData)
-              // .then(function (resp) {
-              //   console.log(resp);
-              // }).catch(function (error) {
-              //   console.log(error);
-              //   alert('内部情報連携失敗しました。システム管理者に連絡してください。');
-              // });
-
-              console.log(putRecords(sysid.DEV.app_id.sNum, putDefData));
-
-              putRecords(sysid.DEV.app_id.sNum, putRepData).then(function (resp) {
-                console.log(resp);
+              postRecords(sysid.ASS.app_id.member, postMemData)
+              .then(function (resp) {
+                alert('内部情報連携に成功しました。');
               }).catch(function (error) {
                 console.log(error);
-                alert('内部情報連携失敗しました。システム管理者に連絡してください。');
+                alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
+              });
+              putRecords(sysid.DEV.app_id.sNum, putDefData)
+              .then(function (resp) {
+                alert('内部情報連携に成功しました。');
+              }).catch(function (error) {
+                console.log(error);
+                alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
+              });
+              putRecords(sysid.DEV.app_id.sNum, putRepData).then(function (resp) {
+                alert('内部情報連携に成功しました。');
+              }).catch(function (error) {
+                console.log(error);
+                alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
               });
 
-              // putRecords(kintone.app.getId(), putWStatData);
-
-              // postRecords(sysid.ASS.app_id.member, postMemData);
-              // putRecords(sysid.DEV.app_id.sNum, putDefData);
-              // putRecords(sysid.DEV.app_id.sNum, putRepData);
               // putRecords(kintone.app.getId(), putWStatData);
 
             }).catch(function (error) {
