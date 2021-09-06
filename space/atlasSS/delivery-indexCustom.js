@@ -127,7 +127,6 @@
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
               let defRec = resp.records;
-              console.log(defRec);
 
               for (let rd in putRepData) {
                 let defKey = putRepData[rd].defKey;
@@ -158,6 +157,8 @@
                 delete putRepData[rd].shipDate;
                 delete putRepData[rd].record.sNum;
               }
+
+              console.log(putRepData);
 
             }).catch(function (error) {
               console.log(error);
