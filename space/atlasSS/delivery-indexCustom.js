@@ -132,6 +132,7 @@
               var defRec = resp.records;
               console.log(defRec);
               console.log(putRepData);
+              console.log(postMemData);
 
               for (let rd in putRepData) {
                 var defKey = putRepData[rd].defKey;
