@@ -177,7 +177,7 @@
 
           if(getDefQueryArray.slice(-1)[0].match(/or/)){
             console.log(getDefQueryArray.slice(-1)[0]);
-            getDefQueryArray.pop;
+            getDefQueryArray.pop();
             console.log(getDefQueryArray);
           }
 
