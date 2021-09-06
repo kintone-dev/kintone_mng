@@ -63,7 +63,7 @@
               'updateKey': {'field': 'sNum','value': sNums[y]},
               'record': {
                 'mCode': shipTable[i].value.mCode,
-                'shipment': {'value':event.record.shipment.value},
+                'shipment': event.record.shipment,
                 'sendDate': event.record.sendDate,
                 'shipType': event.record.shipType,
                 //'orgName': event.record.orgName,
@@ -77,7 +77,7 @@
 
         var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
       }
-console.log(sNumInfo);
+
       setSNinfo.then(function (resp) {
         console.log(resp);
       }).catch(function (error) {
