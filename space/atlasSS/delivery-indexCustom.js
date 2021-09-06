@@ -62,8 +62,11 @@
           //交換品データ作成
           var putRepData = [];
 
-          //作業品データ作成
-          var putWStatData = [];
+          //新規申込作業ステータスデータ作成
+          var putWStatNewData = [];
+
+          //故障交換ステータスデータ作成
+          var putWStatDefData = [];
 
           for (let ri in shipList) {
             if (shipList[ri].application_type.value.match(/新規申込/)) {
@@ -82,7 +85,7 @@
                 }
               };
 
-              var putBody_workStat = {
+              var putBody_workStatNew = {
                 'id': shipList[ri].レコード番号.value,
                 'record': {
                   'working_status': {
@@ -93,7 +96,7 @@
 
 
               postMemData.push(postBody_member);
-              putWStatData.push(putBody_workStat);
+              putWStatNewData.push(putBody_workStatNew);
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
               var putDefBody_sNum = {
                 'updateKey': {
@@ -121,7 +124,7 @@
                 'record': ''
               };
 
-              var putBody_workStat = {
+              var putBody_workStatDef = {
                 'id': shipList[ri].レコード番号.value,
                 'record': {
                   'working_status': {
@@ -136,7 +139,7 @@
 
               putDefData.push(putDefBody_sNum);
               putRepData.push(putRepBody_sNum);
-              putWStatData.push(putBody_workStat);
+              putWStatDefData.push(putBody_workStatDef);
             }
           }
           if(getDefQueryArray != []){
@@ -187,25 +190,26 @@
               postRecords(sysid.ASS.app_id.member, postMemData)
               .then(function (resp) {
                 alert('内部情報連携に成功しました。');
-              }).catch(function (error) {
-                console.log(error);
-                alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
-              });
-              putRecords(sysid.DEV.app_id.sNum, putDefData)
-              .then(function (resp) {
-                alert('内部情報連携に成功しました。');
-              }).catch(function (error) {
-                console.log(error);
-                alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
-              });
-              putRecords(sysid.DEV.app_id.sNum, putRepData).then(function (resp) {
-                alert('内部情報連携に成功しました。');
+                putRecords(kintone.app.getId(), putWStatNewData);
               }).catch(function (error) {
                 console.log(error);
                 alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
               });
 
-              // putRecords(kintone.app.getId(), putWStatData);
+              putRecords(sysid.DEV.app_id.sNum, putDefData)
+              .then(function (resp) {
+                putRecords(sysid.DEV.app_id.sNum, putRepData)
+                .then(function (resp) {
+                  alert('内部情報連携に成功しました。');
+                  putRecords(kintone.app.getId(), putWStatDefData);
+                }).catch(function (error) {
+                  console.log(error);
+                  alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
+                });  
+              }).catch(function (error) {
+                console.log(error);
+                alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
+              });
 
             }).catch(function (error) {
               console.log(error);
