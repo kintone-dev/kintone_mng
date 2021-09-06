@@ -175,6 +175,8 @@
             }
           }
 
+          console.log(getDefQueryArray.slice(-1)[0]);
+
           if(getDefQueryArray.slice(-1)[0].match(/or/)){
             getDefQueryArray.pop;
           }
