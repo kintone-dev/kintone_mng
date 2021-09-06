@@ -5,27 +5,29 @@
     return event;
   });
   kintone.events.on(['app.record.create.change.shipType','app.record.edit.change.shipType'], function(event){
-    if(event.record.shipType.value=='拠点間移動') event.record.dstSelection.value='施工業者/拠点へ納品';
-    setFieldShown('Contractor', true);
-    setFieldShown('instName', false);
-    event.record.receiver.disabled=true;
-    event.record.phoneNum.disabled=true;
-    event.record.zipcode.disabled=true;
-    event.record.prefectures.disabled=true;
-    event.record.city.disabled=true;
-    event.record.address.disabled=true;
-    event.record.buildingName.disabled=true;
-    event.record.corpName.disabled=true;
-    if(event.record.sys_unitAddress.value!==undefined){
-      var unitAddress=event.record.sys_unitAddress.value.split(',');
-      event.record.receiver.value=unitAddress[0];
-      event.record.phoneNum.value=unitAddress[1];
-      event.record.zipcode.value=unitAddress[2];
-      event.record.prefectures.value=unitAddress[3];
-      event.record.city.value=unitAddress[4];
-      event.record.address.value=unitAddress[5];
-      event.record.buildingName.value=unitAddress[6];
-      event.record.corpName.value=unitAddress[7];
+    if(event.record.shipType.value=='拠点間移動'){
+      event.record.dstSelection.value='施工業者/拠点へ納品';
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
+      if(event.record.sys_unitAddress.value!==undefined){
+        var unitAddress=event.record.sys_unitAddress.value.split(',');
+        event.record.receiver.value=unitAddress[0];
+        event.record.phoneNum.value=unitAddress[1];
+        event.record.zipcode.value=unitAddress[2];
+        event.record.prefectures.value=unitAddress[3];
+        event.record.city.value=unitAddress[4];
+        event.record.address.value=unitAddress[5];
+        event.record.buildingName.value=unitAddress[6];
+        event.record.corpName.value=unitAddress[7];
+      }
     }
     return event;
   });
