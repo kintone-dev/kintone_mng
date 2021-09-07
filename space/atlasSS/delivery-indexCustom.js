@@ -40,7 +40,6 @@
         会員情報に情報を更新
         AL専用を会員情報登録済に
       */
-
       var getNewMemBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in ("準備中") and application_type in ("新規申込") and al_result = "" order by 更新日時 asc'
@@ -327,3 +326,6 @@
     });
   });
 })();
+
+
+
