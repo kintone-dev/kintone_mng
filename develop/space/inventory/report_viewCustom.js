@@ -50,6 +50,7 @@
   kintone.events.on('app.record.edit.show', function(event){
     var table = event.record.inventoryList;
     sortTable(table.value, 'sys_code', true);
+    sortTable(table.value, 'mCode', true);
     return event;
   });
 var sortTable = function(table, orderBy, isDesc) {
