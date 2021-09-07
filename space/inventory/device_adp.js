@@ -12,19 +12,19 @@
       var tarRecords = resp.records.reverse();
       //各拠点情報を当アプリの拠点リストに格納する
       //最初の空白の1行目を削除
-      eRecord.record.hStockList.value.splice(0, 1);
-      //ahl: auto hub list
-      for (var ahl in tarRecords) {
-        eRecord.record.hStockList.value.push({
+      eRecord.record.uStockList.value.splice(0, 1);
+      //aul: auto uint list
+      for (var aul in tarRecords) {
+        eRecord.record.uStockList.value.push({
           value: {
-            hCode: {value: tarRecords[ahl].uCode.value, type: 'SINGLE_LINE_TEXT'},
-            hName: {value: tarRecords[ahl].uName.value, type: 'SINGLE_LINE_TEXT'},
-            hStock: {value: '', type: 'NUMBER'}
+            uCode: {value: tarRecords[aul].uCode.value, type: 'SINGLE_LINE_TEXT'},
+            uName: {value: tarRecords[aul].uName.value, type: 'SINGLE_LINE_TEXT'},
+            uStock: {value: '', type: 'NUMBER'}
           }
         });
-        eRecord.record.uStockList.value[ahl].value.uCode.disabled=true;
-        eRecord.record.uStockList.value[ahl].value.uName.disabled=true;
-        eRecord.record.uStockList.value[ahl].value.uStock.disabled=true;
+        eRecord.record.uStockList.value[aul].value.uCode.disabled=true;
+        eRecord.record.uStockList.value[aul].value.uName.disabled=true;
+        eRecord.record.uStockList.value[aul].value.uStock.disabled=true;
         kintone.app.record.set(eRecord);
       }
       kintone.app.record.set(eRecord);
