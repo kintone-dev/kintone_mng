@@ -17,14 +17,14 @@
       for (var ahl in tarRecords) {
         eRecord.record.hStockList.value.push({
           value: {
-            hCode: {value: tarRecords[ahl].hCode.value, type: 'SINGLE_LINE_TEXT'},
-            hName: {value: tarRecords[ahl].hName.value, type: 'SINGLE_LINE_TEXT'},
+            hCode: {value: tarRecords[ahl].uCode.value, type: 'SINGLE_LINE_TEXT'},
+            hName: {value: tarRecords[ahl].uName.value, type: 'SINGLE_LINE_TEXT'},
             hStock: {value: '', type: 'NUMBER'}
           }
         });
-        eRecord.record.hStockList.value[ahl].value.hCode.disabled=true;
-        eRecord.record.hStockList.value[ahl].value.hName.disabled=true;
-        eRecord.record.hStockList.value[ahl].value.hStock.disabled=true;
+        eRecord.record.uStockList.value[ahl].value.uCode.disabled=true;
+        eRecord.record.uStockList.value[ahl].value.uName.disabled=true;
+        eRecord.record.uStockList.value[ahl].value.uStock.disabled=true;
         kintone.app.record.set(eRecord);
       }
       kintone.app.record.set(eRecord);
