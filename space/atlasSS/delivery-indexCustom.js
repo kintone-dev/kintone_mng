@@ -275,6 +275,7 @@
         });
       // ②、③情報連結
       var putSnumData = putRepData.concat(putNotDefData);
+      console.log(putSnumData);
       // シリアル管理情報更新
       putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .then(function (resp) {
