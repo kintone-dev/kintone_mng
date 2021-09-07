@@ -36,7 +36,7 @@
 
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
-      /*
+      /*①
         作業ステータス：準備中
         担当者：--------
         申込種別：新規申込
@@ -99,7 +99,7 @@
             });
         });
 
-      /*
+      /*②
         作業ステータス：TOASTCAM登録待ち
         担当者：Accel Lab
         申込種別：故障交換（保証期間内）、故障交換（保証期間外）
@@ -112,6 +112,8 @@
         'app': kintone.app.getId(),
         'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
       };
+      //交換品データ作成
+      var putRepData = [];
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
         .then(function (resp) {
           var shipList = resp.records;
@@ -124,8 +126,6 @@
             'app': sysid.DEV.app_id.sNum,
             'query': ''
           };
-          //交換品データ作成
-          var putRepData = [];
           for (let ri in shipList) {
             var dateCutter = shipList[ri].shipping_datetime.value.indexOf('T')
 
@@ -236,7 +236,7 @@
             });
         });
 
-      /*
+      /*③
         作業ステータス：TOASTCAM登録待ち
         担当者：Accel Lab
         申込種別：故障交換（保証期間内）、故障交換（保証期間外）以外
@@ -247,13 +247,12 @@
         'app': kintone.app.getId(),
         'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
       };
+      //故障交換ステータスデータ作成
+      var putSnumData = [];
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
         .then(function (resp) {
           var notDefList = resp.records;
           console.log(notDefList);
-
-          //故障交換ステータスデータ作成
-          var putSnumData = [];
 
           for (var ndl in notDefList) {
             var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value, 'table');
@@ -303,7 +302,7 @@
               alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
             });
         });
-
+      // ②、③情報更新
 
       /*
         作業ステータス：TOASTCAM登録待ち
