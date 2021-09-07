@@ -47,4 +47,27 @@
     });
     return event;
   });
+  kintone.events.on('app.record.edit.show', function(event){
+    var table = event.record.inventoryList;
+    sortTable(table.value, 'sys_code', true);
+    return event;
+  });
+var sortTable = function(table, orderBy, isDesc) {
+    console.log(table);
+    table.sort(function(a, b) {
+        var v1 = a.value[orderBy].value;
+        var v2 = b.value[orderBy].value;
+        var pos = isDesc ? -1 : 1;
+        if (v1 > v2) {
+            return pos;
+        }
+        if (v1 < v2) {
+            return pos * -1;
+        }
+    });
+    console.log(table);
+
+    return table;
+};
+
 })();
