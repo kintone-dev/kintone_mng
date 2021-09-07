@@ -208,8 +208,8 @@ var sNumRecords=function(Value, fType){
       }
       break;
     case 'text':
-      var sn=Value[ti].value.sNum.value; //シリアル番号データを取り出す
-      var snArray=sn.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
+      //var sn=Value[ti].value.sNum.value; //シリアル番号データを取り出す
+      var snArray=Value.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
       sNs=snArray.filter(Boolean);
       break;
   }
