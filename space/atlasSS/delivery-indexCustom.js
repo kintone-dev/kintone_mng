@@ -302,7 +302,7 @@
                     'value': notDefList[ndl].member_id.value
                   },
                   'startDate': {
-                    'value': notDefList[ndl].application_datetime
+                    'value': notDefList[ndl].application_datetime.value
                   },
                 }
               };
@@ -311,7 +311,7 @@
           }
 
           //シリアル番号連携データ
-          console.log('故障品連携データ');
+          console.log('シリアル番号連携データ');
           console.log(putSnumData);
 
         });
