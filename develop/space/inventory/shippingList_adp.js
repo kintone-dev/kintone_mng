@@ -183,8 +183,6 @@
           railSpecs[1] = '';
         }
 
-        console.log(railSpecs);
-
         for (var i in railSpecs) {
           if (numRegExp.test(railSpecs[i])) {
             if (parseInt(railSpecs[i]) >= 580) {
