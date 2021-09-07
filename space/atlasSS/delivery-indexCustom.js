@@ -68,7 +68,7 @@
             };
 
             var putBody_workStatNew = {
-              'id': shipList[ri].レコード番号.value,
+              'id': newMemList[nml].レコード番号.value,
               'record': {
                 'al_result': {
                   'value': '会員情報登録済'
