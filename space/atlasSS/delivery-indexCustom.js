@@ -36,7 +36,6 @@
 
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
-      //新規申込かつ準備中、会員情報を登録していないものを会員情報登録
       /*
         作業ステータス：準備中
         担当者：--------
@@ -242,6 +241,53 @@
       /*
         作業ステータス：TOASTCAM登録待ち
         担当者：Accel Lab
+        申込種別：故障交換（保証期間内）、故障交換（保証期間外）以外
+
+        ・記入されたシリアル番号に配送先リストの情報を追加する
+      */
+      var getNotDefBody = {
+        'app': kintone.app.getId(),
+        'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+      };
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
+        .then(function (resp) {
+          var notDefList = resp.records;
+          console.log(notDefList);
+
+          //故障交換ステータスデータ作成
+          var putSnumData = [];
+          
+          for(var ndl in notDefList){
+            var devListLength = notDefList[ndl].deviceList.length;
+            var sNumsArray = [];
+            for(var dl in devListLength){
+              sNumsArray.concat(sNumRecords(notDefList[ndl].deviceList[dl].sNums.value,'table'));
+            }
+            console.log(sNumsArray);
+            // var putSnumBody = {
+            //   'updateKey': {
+            //     'field': 'sNum',
+            //     'value': notDefList[ndl].failure_sNum.value
+            //   },
+            //   'record': {
+            //     'sState': {
+            //       'value': '故障品'
+            //     },
+            //     'sDstate': {
+            //       'value': '検証待ち'
+            //     }
+            //   }
+            // };
+
+            // putSnumData.push(putSnumBody);
+          }
+
+        });
+
+
+      /*
+        作業ステータス：TOASTCAM登録待ち
+        担当者：Accel Lab
         申込種別：--------
         BizID登録済み
 
@@ -258,7 +304,7 @@
           //故障交換ステータスデータ作成
           var putStatData = [];
 
-          for(var bil in bizInList){
+          for (var bil in bizInList) {
             var putBody_workStat = {
               'id': bizInList[ri].レコード番号.value,
               'record': {
@@ -271,7 +317,6 @@
           }
           putRecords(kintone.app.getId(), putStatData);
         });
-
 
     });
   });
