@@ -199,7 +199,7 @@
               }
 
               for (let pd in putDefData) {
-                delete putDefData[rd].memId;
+                delete putDefData[pd].memId;
               }
 
               for (let prd in putRepData) {
