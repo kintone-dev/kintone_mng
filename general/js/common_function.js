@@ -195,7 +195,7 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 
 // シリアル番号取得
 var sNumRecords=function(Value, fType){
-  var sNums=[];
+  var sNs=[];
   switch(fType){
     case 'table':
       for(var ti in Value){
