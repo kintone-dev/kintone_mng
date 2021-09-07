@@ -7,31 +7,27 @@
 
     //処理済みデータ削除
     $('#' + del_records.id).on('click', function () {
-
       var deleteReqBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in (\"登録完了\") and person_in_charge in (\"ATLAS Smart Security\") order by 更新日時 asc'
       };
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody)
+        .then(function (resp) {
+          var currentDate = new Date();
+          var deleteData = [];
+          //90日以上経ったデータを配列に格納
+          for (var di in resp.records) {
+            var createDate = new Date(resp.records[di].更新日時.value);
+            var dateComp = currentDate.getTime() - createDate.getTime();
 
-      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
-        var currentDate = new Date();
-        var deleteData = [];
-
-        //90日以上経ったデータを配列に格納
-        for (var di in resp.records) {
-          var createDate = new Date(resp.records[di].更新日時.value);
-          var dateComp = currentDate.getTime() - createDate.getTime();
-
-          if (dateComp > 7776000 * 1000) {
-            deleteData.push(resp.records[di].$id.value)
+            if (dateComp > 7776000 * 1000) {
+              deleteData.push(resp.records[di].$id.value)
+            }
           }
-        }
-
-        deleteRecords(kintone.app.getId(), deleteData);
-
-      }).catch(function (error) {
-        console.log(error);
-      });
+          deleteRecords(kintone.app.getId(), deleteData);
+        }).catch(function (error) {
+          console.log(error);
+        });
     });
 
     //内部連携ボタンクリック時
@@ -52,14 +48,10 @@
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNewMemBody)
         .then(function (resp) {
           var newMemList = resp.records;
-          console.log(newMemList);
-
           //新規申込データ作成
           var postMemData = [];
-
           //新規申込作業ステータスデータ作成
           var putWStatNewData = [];
-
           for (let nml in newMemList) {
             var postBody_member = {
               'member_id': {
@@ -117,7 +109,6 @@
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
         .then(function (resp) {
           var shipList = resp.records;
-          console.log(shipList);
           //故障品データ作成
           var putDefData = [];
           //交換品query
@@ -252,8 +243,6 @@
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
         .then(function (resp) {
           var notDefList = resp.records;
-          console.log(notDefList);
-
           for (var ndl in notDefList) {
             var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value, 'table');
             for (var snl in sNumsArray) {
@@ -319,10 +308,8 @@
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getStaBody)
         .then(function (resp) {
           var bizInList = resp.records;
-          console.log(bizInList);
           //故障交換ステータスデータ作成
           var putStatData = [];
-
           for (var bil in bizInList) {
             var putBody_workStat = {
               'id': bizInList[ri].レコード番号.value,
