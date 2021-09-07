@@ -38,7 +38,7 @@
           setFieldShown('inventoryList', true);
           break;
       }
-    }tabSwitch('#概要');
+    }tabSwitch('#在庫リスト');
     tabMenu('tab_report', ['概要','在庫リスト']); //タブメニュー作成
     $('.tabMenu a').on('click', function(){ //タブメニュークリック時アクション
       var idName = $(this).attr('href'); //タブ内のリンク名を取得  
