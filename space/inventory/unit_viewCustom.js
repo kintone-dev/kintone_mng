@@ -31,7 +31,6 @@
     event.record.phoneNum.disabled = true;
     event.record.prefectures.disabled = true;
     event.record.city.disabled = true;
-    event.record.town.disabled = true;
     event.record.address.disabled = true;
     event.record.uBuildingName.disabled = true;
     event.record.receiver.disabled = true;
@@ -50,7 +49,6 @@
       event.record.phoneNum.disabled = false;
       event.record.prefectures.disabled = false;
       event.record.city.disabled = false;
-      event.record.town.disabled = false;
       event.record.address.disabled = false;
       event.record.uBuildingName.disabled = false;
       event.record.receiver.disabled = false;
@@ -63,7 +61,6 @@
       event.record.phoneNum.disabled = true;
       event.record.prefectures.disabled = true;
       event.record.city.disabled = true;
-      event.record.town.disabled = true;
       event.record.address.disabled = true;
       event.record.uBuildingName.disabled = true;
       event.record.receiver.disabled = true;
