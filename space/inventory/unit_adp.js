@@ -84,7 +84,7 @@
     }).catch(function(error){
       //event error
       console.log(error);
-      console.log('品目データ更新失敗'+error.message);
+      alert('品目データ更新失敗'+error.message);
     });
   });
 })();
