@@ -70,42 +70,66 @@
 
           for (let ri in shipList) {
             if (shipList[ri].application_type.value.match(/新規申込/)) {
-              var postBody_member = {
-                'member_id': {
-                  value: shipList[ri].member_id.value
-                },
-                'member_type': {
-                  value: shipList[ri].member_type.value
-                },
-                'application_datetime': {
-                  value: shipList[ri].application_datetime.value
-                },
-                'application_type': {
-                  value: shipList[ri].application_type.value
-                }
-              };
-
-              if(shipList[ri].toastcam_bizUserId.value != ''){
-                var putBody_workStatNew = {
-                  'id': shipList[ri].レコード番号.value,
-                  'record': {
-                    'working_status': {
-                      'value': '必要情報入力済み'
-                    },
-                    'al_result':{
-                      'value': '会員情報登録済'
+              if(shipList[ri].al_result.value.match(/会員情報登録済/)){
+                if(shipList[ri].toastcam_bizUserId.value != ''){
+                  var putBody_workStatNew = {
+                    'id': shipList[ri].レコード番号.value,
+                    'record': {
+                      'working_status': {
+                        'value': '必要情報入力済み'
+                      },
+                      'al_result':{
+                        'value': '会員情報登録済'
+                      }
                     }
-                  }
-                };
+                  };
+                } else{
+                  var putBody_workStatNew = {
+                    'id': shipList[ri].レコード番号.value,
+                    'record': {
+                      'al_result':{
+                        'value': '会員情報登録済'
+                      }
+                    }
+                  };
+                }  
               } else{
-                var putBody_workStatNew = {
-                  'id': shipList[ri].レコード番号.value,
-                  'record': {
-                    'al_result':{
-                      'value': '会員情報登録済'
-                    }
+                var postBody_member = {
+                  'member_id': {
+                    value: shipList[ri].member_id.value
+                  },
+                  'member_type': {
+                    value: shipList[ri].member_type.value
+                  },
+                  'application_datetime': {
+                    value: shipList[ri].application_datetime.value
+                  },
+                  'application_type': {
+                    value: shipList[ri].application_type.value
                   }
                 };
+                if(shipList[ri].toastcam_bizUserId.value != ''){
+                  var putBody_workStatNew = {
+                    'id': shipList[ri].レコード番号.value,
+                    'record': {
+                      'working_status': {
+                        'value': '必要情報入力済み'
+                      },
+                      'al_result':{
+                        'value': '会員情報登録済'
+                      }
+                    }
+                  };
+                } else{
+                  var putBody_workStatNew = {
+                    'id': shipList[ri].レコード番号.value,
+                    'record': {
+                      'al_result':{
+                        'value': '会員情報登録済'
+                      }
+                    }
+                  };
+                }  
               }
 
               postMemData.push(postBody_member);
