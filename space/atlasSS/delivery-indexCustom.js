@@ -278,11 +278,11 @@
           var putSnumData = [];
 
           for (var ndl in notDefList) {
-            var devListLength = notDefList[ndl].deviceList.length;
+            var devListLength = notDefList[ndl].deviceList.value.length;
             var sNumsArray = [];
-            console.log(devListLength);
             for (var dl in devListLength) {
-              console.log(sNumRecords(notDefList[ndl].deviceList[dl].sNums.value, 'table'));
+              sNumsArray.concat(sNumRecords(notDefList[ndl].deviceList[dl].sNums.value, 'table'));
+              console.log(sNumsArray);
             }
             // var putSnumBody = {
             //   'updateKey': {
