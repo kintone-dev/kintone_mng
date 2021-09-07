@@ -65,7 +65,7 @@
       });
 
       var sendDate = event.record.sendDate.value;
-      sendDate.replace(/-/g, '')
+      sendDate = sendDate.replace(/-/g, '')
       console.log(sendDate);
     }
     return event;
