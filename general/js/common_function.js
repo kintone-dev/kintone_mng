@@ -193,6 +193,30 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 	}
 }
 
+// シリアル番号取得
+var sNumRecords=function(Value, fType){
+  var sNums=[];
+  switch(fType){
+    case 'table':
+      for(var ti in Value){
+        var snum=Value[ti].value.sNum.value; //シリアル番号データを取り出す
+        var snumArray=snum.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
+        var snums=snumArray.filter(Boolean); //配列順番を反転
+        for(var sni in snums){
+          sNums.push(snums[sni]);
+        }
+      }
+      break;
+    case 'text':
+      var snum=Value[ti].value.sNum.value; //シリアル番号データを取り出す
+      var snumArray=snum.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
+      //var snums=; //配列順番を反転
+      sNums=snumArray.filter(Boolean);
+      break;
+  }
+  return sNums;
+};
+
 // パスワードジェネレーター
 var pw_generator = function (len) {
 	var letters = 'abcdefghjklmnpqrstuvwxyz'; //パスワードに使用する文字列群
