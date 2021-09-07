@@ -97,7 +97,7 @@
           setFieldShown('packageComp', true);
           break;
       }
-    }
+    }tabSwitch('#品目情報');//tab初期表示設定
     //タブメニュー作成
     tabMenu('tab_inv', ['品目情報','在庫情報','原価情報','パッケージ構成']);
     //タブ切り替え表示設定
@@ -105,7 +105,7 @@
         var idName = $(this).attr('href');//タブ内のリンク名を取得  
         tabSwitch(idName);//tabをクリックした時の表示設定
         return false;//aタグを無効にする
-    });tabSwitch('#品目情報');//tab初期表示設定
+    });
     event.record.totalStock.disabled=true;
     event.record.mCost.disabled=true;
     event.record.mCostUpdate.disabled=true;
