@@ -211,16 +211,6 @@
                 delete putRepData[rd].shipDate;
                 delete putRepData[rd].record.sNum;
               }
-              var putDefRepData = putDefData.concat(putRepData);
-              //故障交換
-              putRecords(sysid.DEV.app_id.sNum, putDefRepData)
-                .then(function (resp) {
-                  alert('故障交換情報連携に成功しました。');
-                }).catch(function (error) {
-                  console.log(error);
-                  alert('故障交換情報連携に失敗しました。システム管理者に連絡してください。');
-                });
-
             }).catch(function (error) {
               console.log(error);
             });
@@ -238,7 +228,7 @@
         'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
       };
       //故障交換ステータスデータ作成
-      var putSnumData = [];
+      var putNotDefData = [];
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
         .then(function (resp) {
           var notDefList = resp.records;
@@ -274,23 +264,24 @@
                   },
                 }
               };
-              for (var psdl in putSnumData) {
-                if (putSnumData[psdl].updateKey.value == putSnumBody.updateKey.value) {
-                  putSnumData.splice(psdl, 1);
+              for (var psdl in putNotDefData) {
+                if (putNotDefData[psdl].updateKey.value == putSnumBody.updateKey.value) {
+                  putNotDefData.splice(psdl, 1);
                 }
               }
-              putSnumData.push(putSnumBody);
+              putNotDefData.push(putSnumBody);
             }
           }
-          putRecords(sysid.DEV.app_id.sNum, putSnumData)
-            .then(function (resp) {
-              alert('シリアル番号情報連携に成功しました。');
-            }).catch(function (error) {
-              console.log(error);
-              alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
-            });
         });
       // ②、③情報更新
+      var putSnumData = putRepData.concat(putNotDefData);
+      putRecords(sysid.DEV.app_id.sNum, putSnumData)
+        .then(function (resp) {
+          alert('シリアル番号情報連携に成功しました。');
+        }).catch(function (error) {
+          console.log(error);
+          alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
+        });
 
       /*
         作業ステータス：TOASTCAM登録待ち
@@ -326,6 +317,3 @@
     });
   });
 })();
-
-
-
