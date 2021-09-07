@@ -129,8 +129,8 @@
           var putDefData = [];
 
           //交換品query
-          var getDefQueryArray = [];
-          var getDefBody = {
+          var getRepQueryArray = [];
+          var getRepBody = {
             'app': sysid.DEV.app_id.sNum,
             'query': ''
           };
@@ -144,6 +144,7 @@
                 'field': 'sNum',
                 'value': resp.records[ri].failure_sNum.value
               },
+              'memId':resp.records[ri].member_id.value,
               'record': {
                 'sState': {
                   'value': '故障品'
@@ -165,25 +166,44 @@
               'record': ''
             };
 
-            getDefQueryArray.push('sNum = ');
-            getDefQueryArray.push('"' + resp.records[ri].failure_sNum.value + '"');
-            getDefQueryArray.push(' or ');
+            getRepQueryArray.push('sNum = ');
+            getRepQueryArray.push('"' + resp.records[ri].failure_sNum.value + '"');
+            getRepQueryArray.push(' or ');
 
             putDefData.push(putDefBody_sNum);
             putRepData.push(putRepBody_sNum);
           }
-          if (getDefQueryArray != []) {
-            getDefQueryArray.pop();
+
+          if (getRepQueryArray != []) {
+            getRepQueryArray.pop();
           }
-          var getDefQuery = getDefQueryArray.join('');
-          getDefBody.query = getDefQuery;
-          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
+
+          var getDefQuery = getRepQueryArray.join('');
+          getRepBody.query = getDefQuery;
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getRepBody)
             .then(function (resp) {
               var defRec = resp.records;
               console.log(defRec);
 
-              for (let rd in putRepData) {
-                var defKey = putRepData[rd].defKey;
+              //メンバーID比較
+              for(let pdd in putDefData){
+                var defSnum = putDefData[pdd].updateKey.value;
+                var defMemId = putDefData[pdd].memId;
+                for (let ri in defRec) {
+                  if(defRec[ri].sNum.value==defSnum){
+                    if(!defRec[ri].roomName.value==defMemId){
+                      putDefData.splice(pdd,1);
+                    }
+                  }
+                }
+              }
+
+              for (let pd in putDefData) {
+                delete putDefData[rd].memId;
+              }
+
+              for (let prd in putRepData) {
+                var defKey = putRepData[prd].defKey;
                 for (let ri in defRec) {
                   if (defKey == defRec[ri].sNum.value) {
                     delete defRec[ri].$id;
@@ -197,7 +217,7 @@
                     delete defRec[ri].更新者;
                     delete defRec[ri].更新日時;
 
-                    putRepData[rd].record = defRec[ri];
+                    putRepData[prd].record = defRec[ri];
                   }
                 }
               }
@@ -256,12 +276,12 @@
 
           //故障交換ステータスデータ作成
           var putSnumData = [];
-          
-          for(var ndl in notDefList){
+
+          for (var ndl in notDefList) {
             var devListLength = notDefList[ndl].deviceList.length;
             var sNumsArray = [];
-            for(var dl in devListLength){
-              sNumsArray.concat(sNumRecords(notDefList[ndl].deviceList[dl].sNums.value,'table'));
+            for (var dl in devListLength) {
+              sNumsArray.concat(sNumRecords(notDefList[ndl].deviceList[dl].sNums.value, 'table'));
               console.log(sNumsArray);
             }
             // var putSnumBody = {
