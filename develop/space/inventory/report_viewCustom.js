@@ -26,7 +26,7 @@
           setFieldShown('nonSalesAmount', true);
           setFieldShown('inventoryList', false);
           break;
-        case '在庫リスト':
+        case '#在庫リスト':
           setFieldShown('totalInventoryAmount', false);
           setFieldShown('finishProduct', false);
           setFieldShown('inProcess', false);
