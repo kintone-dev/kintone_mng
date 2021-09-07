@@ -127,6 +127,8 @@
           //交換品データ作成
           var putRepData = [];
           for (let ri in shipList) {
+            var dateCutter = shipList[ri].shipping_datetime.value.indexOf('T')
+
             var putDefBody_sNum = {
               'updateKey': {
                 'field': 'sNum',
@@ -150,7 +152,7 @@
               },
               'defKey': resp.records[ri].failure_sNum.value,
               'appType': shipList[ri].application_type.value,
-              'shipDate': shipList[ri].shipping_datetime.value,
+              'shipDate': shipList[ri].shipping_datetime.value.substring(0, dateCutter),
               'record': ''
             };
 
