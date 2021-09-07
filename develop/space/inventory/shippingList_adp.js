@@ -179,6 +179,8 @@
           railSpecs[1] = 's';
         } else if (railSpecs[1] == '(W)両開き') {
           railSpecs[1] = 'w';
+        } else{
+          railSpecs[1] = '';
         }
 
         console.log(railSpecs);
