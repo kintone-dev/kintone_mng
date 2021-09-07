@@ -56,9 +56,6 @@
 
           setFieldShown('deviceList', false);
 
-          //setFieldShown('postage', false);
-          //setFieldShown('tariff', false);
-
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
@@ -85,9 +82,6 @@
           setFieldShown('city', false);
 
           setFieldShown('deviceList', true);
-
-          //setFieldShown('postage', false);
-          //setFieldShown('tariff', false);
 
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
@@ -116,9 +110,6 @@
 
           setFieldShown('deviceList', false);
 
-          //setFieldShown('postage', false);
-          //setFieldShown('tariff', false);
-
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
@@ -145,9 +136,6 @@
           setFieldShown('city', false);
 
           setFieldShown('deviceList', false);
-
-          //setFieldShown('postage', false);
-          //setFieldShown('tariff', false);
 
           setFieldShown('deliveryCorp', true);
           setFieldShown('trckNum', true);
