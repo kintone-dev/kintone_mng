@@ -273,8 +273,9 @@
             }
           }
         });
-      // ②、③情報更新
+      // ②、③情報連結
       var putSnumData = putRepData.concat(putNotDefData);
+      // シリアル管理情報更新
       putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .then(function (resp) {
           alert('シリアル番号情報連携に成功しました。');
