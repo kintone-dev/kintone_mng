@@ -48,9 +48,8 @@
 
   
   //新規保存時アクション
-  kintone.events.on('app.record.create.submit.success', function(event) {
-    
-
+  kintone.events.on('app.record.create.submit', function(event) {
+    var rResult;
     //品目情報を拠点リストに転送
     getDEVdata.then(function(resp){
       var tarRecords=resp.records;
@@ -81,10 +80,17 @@
     }).then(function(resp){
       //転送成功
       console.log('put data to device is success');
+      rResult=true;
     }).catch(function(error){
       //event error
       console.log(error);
       alert('品目データ更新失敗'+error.message);
+      rResult=false;
     });
+    if(rResult){
+      return event;
+    }else{
+      return false;
+    }
   });
 })();
