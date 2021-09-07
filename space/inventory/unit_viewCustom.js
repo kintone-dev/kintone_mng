@@ -18,7 +18,7 @@
       event.record.mStockList.value[sti].value.mStock.disabled = true;
     }
     //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
-    event.record.sys_unitAddress.disabled=true;
+    setFieldShown('sys_unitAddress', false)
     function tabSwitch(onSelect){
       switch(onSelect){
         case '#拠点概要':
