@@ -144,7 +144,7 @@
                 'field': 'sNum',
                 'value': resp.records[ri].failure_sNum.value
               },
-              'memId':resp.records[ri].member_id.value,
+              'memId': resp.records[ri].member_id.value,
               'record': {
                 'sState': {
                   'value': '故障品'
@@ -186,13 +186,13 @@
               console.log(defRec);
 
               //メンバーID比較
-              for(let pdd in putDefData){
+              for (let pdd in putDefData) {
                 var defSnum = putDefData[pdd].updateKey.value;
                 var defMemId = putDefData[pdd].memId;
                 for (let ri in defRec) {
-                  if(defRec[ri].sNum.value==defSnum){
-                    if(!defRec[ri].roomName.value==defMemId){
-                      putDefData.splice(pdd,1);
+                  if (defRec[ri].sNum.value == defSnum) {
+                    if (!defRec[ri].roomName.value == defMemId) {
+                      putDefData.splice(pdd, 1);
                     }
                   }
                 }
@@ -277,9 +277,16 @@
           //故障交換ステータスデータ作成
           var putSnumData = [];
 
+          var dateCutter = railSpecs[0].indexOf('T')
+          railSpecs[0] = railSpecs[0].substring(0, dateCutter);
+
+
           for (var ndl in notDefList) {
-            var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value,'table');
-            for(var snl in sNumsArray){
+            var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value, 'table');
+            for (var snl in sNumsArray) {
+              var dateCutter1 = railSpecs[ndl].shipping_datetime.value.indexOf('T')
+              var dateCutter2 = railSpecs[ndl].application_datetime.value.indexOf('T')
+
               var putSnumBody = {
                 'updateKey': {
                   'field': 'sNum',
@@ -287,7 +294,7 @@
                 },
                 'record': {
                   'sendDate': {
-                    'value': notDefList[ndl].shipping_datetime.value
+                    'value': notDefList[ndl].shipping_datetime.value.substring(0, dateCutter1)
                   },
                   'sendType': {
                     'value': '検証待ち'
@@ -302,13 +309,13 @@
                     'value': notDefList[ndl].member_id.value
                   },
                   'startDate': {
-                    'value': notDefList[ndl].application_datetime.value
+                    'value': notDefList[ndl].application_datetime.value.substring(0, dateCutter2)
                   },
                 }
               };
-              for(var psdl in putSnumData){
-                if(putSnumData[psdl].updateKey.value = putSnumBody.updateKey.value){
-                  putSnumData.splice(psdl,1);
+              for (var psdl in putSnumData) {
+                if (putSnumData[psdl].updateKey.value = putSnumBody.updateKey.value) {
+                  putSnumData.splice(psdl, 1);
                 }
               }
               putSnumData.push(putSnumBody);
@@ -320,12 +327,12 @@
           console.log(putSnumData);
 
           putRecords(sysid.DEV.app_id.sNum, putSnumData)
-          .then(function (resp) {
-            alert('シリアル番号情報連携に成功しました。');
-          }).catch(function (error) {
-            console.log(error);
-            alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
-          });
+            .then(function (resp) {
+              alert('シリアル番号情報連携に成功しました。');
+            }).catch(function (error) {
+              console.log(error);
+              alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
+            });
 
         });
 
