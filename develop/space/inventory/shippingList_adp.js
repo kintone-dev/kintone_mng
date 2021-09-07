@@ -3,7 +3,7 @@
 
   // 拠点情報取得＆繰り返し利用
   kintone.events.on('app.record.detail.process.proceed', function (event) {
-  //kintone.events.on('app.record.detail.show', function (event) {
+    //kintone.events.on('app.record.detail.show', function (event) {
     var nStatus = event.nextStatus.value;
     if (nStatus === "集荷待ち") {
       /*
@@ -20,20 +20,22 @@
         'records': []
       };
 
-      var shipTable=event.record.deviceList.value;
-      var shipShipment=event.record.shipment.value;
+      var shipTable = event.record.deviceList.value;
+      var shipShipment = event.record.shipment.value;
 
 
-      if(shipShipment==='矢倉倉庫'){
+      if (shipShipment === '矢倉倉庫') {
         for (var i in shipTable) {
-          var ship_sn=shipTable[i].value.sNum.value;
-          var get_sNums=ship_sn.split(/\r\n|\n/);
+          var ship_sn = shipTable[i].value.sNum.value;
+          var get_sNums = ship_sn.split(/\r\n|\n/);
           //except Boolean
-          var sNums=get_sNums.filter(Boolean);
+          var sNums = get_sNums.filter(Boolean);
 
           for (var y in sNums) {
-            var snRecord={//,,,,,roomName
-              'sNum': {'value': sNums[y]},
+            var snRecord = { //,,,,,roomName
+              'sNum': {
+                'value': sNums[y]
+              },
               'mCode': shipTable[i].value.mCode,
               'shipment': event.record.shipment,
               'sendDate': event.record.sendDate,
@@ -44,17 +46,20 @@
           }
         }
 
-        var setSNinfo=new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumInfo);
-      }else{
+        var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumInfo);
+      } else {
         for (var i in shipTable) {
-          var ship_sn=shipTable[i].value.sNum.value;
-          var get_sNums=ship_sn.split(/\r\n|\n/);
+          var ship_sn = shipTable[i].value.sNum.value;
+          var get_sNums = ship_sn.split(/\r\n|\n/);
           //except Boolean
-          var sNums=get_sNums.filter(Boolean);
+          var sNums = get_sNums.filter(Boolean);
 
-          for (var y in sNums){
-            var snRecord={
-              'updateKey': {'field': 'sNum','value': sNums[y]},
+          for (var y in sNums) {
+            var snRecord = {
+              'updateKey': {
+                'field': 'sNum',
+                'value': sNums[y]
+              },
               'record': {
                 'mCode': shipTable[i].value.mCode,
                 'shipment': event.record.shipment,
@@ -170,15 +175,21 @@
         var methodCutter = railSpecs[2].indexOf('：')
         railSpecs[2] = railSpecs[2].slice(methodCutter + 1);
 
+        if (railSpecs[1] == '(S)片開き') {
+          railSpecs[1] = 's';
+        } else if (railSpecs[1] == '(W)両開き') {
+          railSpecs[1] = 'w';
+        }
+
         console.log(railSpecs);
 
         for (var i in railSpecs) {
           if (numRegExp.test(railSpecs[i])) {
-            if(parseInt(railSpecs[i]) >= 580){
+            if (parseInt(railSpecs[i]) >= 580) {
               lengthStr = railSpecs[i];
 
               shipTable[0].value.sNum.error = null;
-            }else{
+            } else {
               shipTable[0].value.sNum.error = '入力形式が間違えています';
               break;
             }
