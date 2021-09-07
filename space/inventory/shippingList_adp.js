@@ -22,29 +22,7 @@
 
       var shipTable=event.record.deviceList.value;
       var shipShipment=event.record.shipment.value;
-var sNumRecords=function(value, fType){
-  var sNums=[];
-  switch(fType){
-    case 'table':
-      for(var ti in tableValue){
-        var snum=tableValue[ti].value.sNum.value; //シリアル番号データを取り出す
-        var snumArray=snum.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
-        var snums=snumArray.filter(Boolean); //配列順番を反転
-        for(var sni in snums){
-          sNums.push(snums[sni]);
-        }
-      }
-      break;
-    case 'text':
-      var snum=tableValue[ti].value.sNum.value; //シリアル番号データを取り出す
-      var snumArray=snum.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
-      //var snums=; //配列順番を反転
-      sNums=snumArray.filter(Boolean);
-      break;
-  }
-  return sNums;
-};
-console.log(sNumRecords(event.record.deviceList.value, table));
+
 
       if(shipShipment==='矢倉倉庫'){
         for (var i in shipTable) {
