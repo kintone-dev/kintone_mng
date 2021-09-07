@@ -44,7 +44,7 @@ var sNumRecords=function(value, fType){
   }
   return sNums;
 };
-console.log(sNumRecords(event.record.deviceList.value, table))
+console.log(sNumRecords(event.record.deviceList.value, table));
 
       if(shipShipment==='矢倉倉庫'){
         for (var i in shipTable) {
