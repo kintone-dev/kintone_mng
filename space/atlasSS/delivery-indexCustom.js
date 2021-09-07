@@ -183,6 +183,8 @@
                 delete putRepData[rd].record.sNum;
               }
 
+              var putDefRepData = putDefData.concat(putRepData);
+
               //会員情報連携データ
               console.log('会員情報連携データ');
               console.log(postMemData);
@@ -192,6 +194,9 @@
               //交換品連携データ
               console.log('交換品連携データ');
               console.log(putRepData);
+              //故障品、交換品連携データ
+              console.log('故障品、交換品連携データ');
+              console.log(putDefRepData);
               //会員情報連携完了ステータスデータ
               console.log('会員情報連携完了ステータスデータ');
               console.log(putWStatNewData);
