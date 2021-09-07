@@ -211,78 +211,75 @@
                 delete putRepData[rd].shipDate;
                 delete putRepData[rd].record.sNum;
               }
-            }).catch(function (error) {
-              console.log(error);
-            });
-        });
+            })
+          /*③
+              作業ステータス：TOASTCAM登録待ち
+              担当者：Accel Lab
+              申込種別：故障交換（保証期間内）、故障交換（保証期間外）以外
+      
+              ・記入されたシリアル番号に配送先リストの情報を追加する
+            */
+          var getNotDefBody = {
+            'app': kintone.app.getId(),
+            'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+          };
+          //故障交換ステータスデータ作成
+          var putNotDefData = [];
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
+            .then(function (resp) {
+              var notDefList = resp.records;
+              for (var ndl in notDefList) {
+                var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value, 'table');
+                for (var snl in sNumsArray) {
+                  var dateCutter1 = notDefList[ndl].shipping_datetime.value.indexOf('T')
+                  var dateCutter2 = notDefList[ndl].application_datetime.value.indexOf('T')
 
-      /*③
-        作業ステータス：TOASTCAM登録待ち
-        担当者：Accel Lab
-        申込種別：故障交換（保証期間内）、故障交換（保証期間外）以外
-
-        ・記入されたシリアル番号に配送先リストの情報を追加する
-      */
-      var getNotDefBody = {
-        'app': kintone.app.getId(),
-        'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
-      };
-      //故障交換ステータスデータ作成
-      var putNotDefData = [];
-      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
-        .then(function (resp) {
-          var notDefList = resp.records;
-          for (var ndl in notDefList) {
-            var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value, 'table');
-            for (var snl in sNumsArray) {
-              var dateCutter1 = notDefList[ndl].shipping_datetime.value.indexOf('T')
-              var dateCutter2 = notDefList[ndl].application_datetime.value.indexOf('T')
-
-              var putSnumBody = {
-                'updateKey': {
-                  'field': 'sNum',
-                  'value': sNumsArray[snl]
-                },
-                'record': {
-                  'sendDate': {
-                    'value': notDefList[ndl].shipping_datetime.value.substring(0, dateCutter1)
-                  },
-                  'sendType': {
-                    'value': '検証待ち'
-                  },
-                  'shipment': {
-                    'value': '123倉庫'
-                  },
-                  'instName': {
-                    'value': '高井戸西2丁目'
-                  },
-                  'roomName': {
-                    'value': notDefList[ndl].member_id.value
-                  },
-                  'startDate': {
-                    'value': notDefList[ndl].application_datetime.value.substring(0, dateCutter2)
-                  },
-                }
-              };
-              for (var psdl in putNotDefData) {
-                if (putNotDefData[psdl].updateKey.value == putSnumBody.updateKey.value) {
-                  putNotDefData.splice(psdl, 1);
+                  var putSnumBody = {
+                    'updateKey': {
+                      'field': 'sNum',
+                      'value': sNumsArray[snl]
+                    },
+                    'record': {
+                      'sendDate': {
+                        'value': notDefList[ndl].shipping_datetime.value.substring(0, dateCutter1)
+                      },
+                      'sendType': {
+                        'value': '検証待ち'
+                      },
+                      'shipment': {
+                        'value': '123倉庫'
+                      },
+                      'instName': {
+                        'value': '高井戸西2丁目'
+                      },
+                      'roomName': {
+                        'value': notDefList[ndl].member_id.value
+                      },
+                      'startDate': {
+                        'value': notDefList[ndl].application_datetime.value.substring(0, dateCutter2)
+                      },
+                    }
+                  };
+                  for (var psdl in putNotDefData) {
+                    if (putNotDefData[psdl].updateKey.value == putSnumBody.updateKey.value) {
+                      putNotDefData.splice(psdl, 1);
+                    }
+                  }
+                  putNotDefData.push(putSnumBody);
                 }
               }
-              putNotDefData.push(putSnumBody);
-            }
-          }
-        });
-      // ②、③情報連結
-      var putSnumData = putRepData.concat(putNotDefData);
-      console.log(putSnumData);
-      // シリアル管理情報更新
-      putRecords(sysid.DEV.app_id.sNum, putSnumData)
-        .then(function (resp) {
-          alert('シリアル番号情報連携に成功しました。');
-        }).catch(function (error) {
-          console.log(error);
-          alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
+              // ②、③情報連結
+              var putSnumData = putRepData.concat(putNotDefData);
+              console.log(putSnumData);
+              // シリアル管理情報更新
+              putRecords(sysid.DEV.app_id.sNum, putSnumData)
+                .then(function (resp) {
+                  alert('シリアル番号情報連携に成功しました。');
+                }).catch(function (error) {
+                  console.log(error);
+                  alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
+                });
+            });
         });
 
       /*
