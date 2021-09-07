@@ -67,28 +67,14 @@
               }
             };
 
-            if (newMemList[nml].toastcam_bizUserId.value != '') {
-              var putBody_workStatNew = {
-                'id': shipList[ri].レコード番号.value,
-                'record': {
-                  'working_status': {
-                    'value': '必要情報入力済み'
-                  },
-                  'al_result': {
-                    'value': '会員情報登録済'
-                  }
+            var putBody_workStatNew = {
+              'id': shipList[ri].レコード番号.value,
+              'record': {
+                'al_result': {
+                  'value': '会員情報登録済'
                 }
-              };
-            } else {
-              var putBody_workStatNew = {
-                'id': newMemList[nml].レコード番号.value,
-                'record': {
-                  'al_result': {
-                    'value': '会員情報登録済'
-                  }
-                }
-              };
-            }
+              }
+            };
 
             postMemData.push(postBody_member);
             putWStatNewData.push(putBody_workStatNew);
