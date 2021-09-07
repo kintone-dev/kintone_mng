@@ -283,7 +283,6 @@
             console.log(devListLength);
             for (var dl in devListLength) {
               console.log('test');
-              console.log(sNumRecords(notDefList[ndl].deviceList[dl].sNums.value, 'table'));
             }
             // var putSnumBody = {
             //   'updateKey': {
