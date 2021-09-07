@@ -262,8 +262,8 @@
             var sNumsArray = [];
             for(var dl in devListLength){
               sNumsArray.concat(sNumRecords(notDefList[ndl].deviceList[dl].sNums.value,'table'));
+              console.log(sNumsArray);
             }
-            console.log(sNumsArray);
             // var putSnumBody = {
             //   'updateKey': {
             //     'field': 'sNum',
