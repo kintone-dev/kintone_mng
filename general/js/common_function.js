@@ -432,22 +432,20 @@ function api_getRecords(appID) {
 // 100件以上のレコード登録
 const postRecords = async (app, records) => {
 	const POST_RECORDS = records;
-
 	while (POST_RECORDS.length) {
 		var postBody = {
 			'app': app,
-			'records': POST_RECORDS.slice(0, 1),
+			'records': POST_RECORDS.slice(0, 100),
 		}
 		console.log(postBody);
 		await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody);
-		POST_RECORDS.splice(0, 1);
+		POST_RECORDS.splice(0, 100);
 	}
 }
 
 // 100件以上のレコード更新
 const putRecords = async (app, records) => {
 	const PUT_RECORDS = records;
-
 	while (PUT_RECORDS.length) {
 		var putBody = {
 			'app': app,
@@ -462,7 +460,6 @@ const putRecords = async (app, records) => {
 // 100件以上のレコード削除
 const deleteRecords = async (app, records) => {
 	const DELETE_RECORDS = records;
-
 	while (DELETE_RECORDS.length) {
 		var deleteBody = {
 			'app': app,

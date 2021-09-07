@@ -85,6 +85,7 @@
                 }
               };
 
+              console.log(shipList[ri].レコード番号.toastcam_bizUserId);
               var putBody_workStatNew = {
                 'id': shipList[ri].レコード番号.value,
                 'record': {
@@ -123,6 +124,7 @@
                 'record': ''
               };
 
+              console.log(shipList[ri].レコード番号.toastcam_bizUserId);
               var putBody_workStatDef = {
                 'id': shipList[ri].レコード番号.value,
                 'record': {
