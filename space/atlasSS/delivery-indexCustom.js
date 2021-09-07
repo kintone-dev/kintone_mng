@@ -270,7 +270,7 @@
               }
               // ②、③情報連結
               var putSnumData = putRepData.concat(putDefData);
-              var putSnumData = putNotDefData.concat(putSnumData);
+              putSnumData = putNotDefData.concat(putSnumData);
               console.log(putSnumData);
               // シリアル管理情報更新
               putRecords(sysid.DEV.app_id.sNum, putSnumData)
