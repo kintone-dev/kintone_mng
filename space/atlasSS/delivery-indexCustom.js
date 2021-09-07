@@ -94,7 +94,6 @@
                 }
               };
 
-
               postMemData.push(postBody_member);
               putWStatNewData.push(putBody_workStatNew);
             } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
@@ -146,7 +145,6 @@
             getDefQueryArray.pop();
           }
           var getDefQuery = getDefQueryArray.join('');
-          console.log(getDefQueryArray);
           getDefBody.query = getDefQuery;
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
             .then(function (resp) {
