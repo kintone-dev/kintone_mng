@@ -280,7 +280,7 @@
           for (var ndl in notDefList) {
             var devListLength = notDefList[ndl].deviceList.value.length;
             var sNumsArray = [];
-            console.log(sNumRecords(notDefList[ndl].deviceList.value,'table'));
+            console.log(sNumRecords(notDefList[ndl].deviceList,'table'));
             // var putSnumBody = {
             //   'updateKey': {
             //     'field': 'sNum',
