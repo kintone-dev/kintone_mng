@@ -40,7 +40,7 @@
       }
     }tabSwitch('#概要');
     tabMenu('tab_report', ['概要','在庫リスト']); //タブメニュー作成
-    $('.tab_report a').on('click', function(){ //タブメニュークリック時アクション
+    $('.tabMenu a').on('click', function(){ //タブメニュークリック時アクション
       var idName = $(this).attr('href'); //タブ内のリンク名を取得  
       tabSwitch(idName); //tabをクリックした時の表示設定
       return false;
