@@ -287,7 +287,7 @@
                 },
                 'record': {
                   'sendDate': {
-                    'value': '故障品'
+                    'value': notDefList[ndl].shipping_datetime.value
                   },
                   'sendType': {
                     'value': '検証待ち'
