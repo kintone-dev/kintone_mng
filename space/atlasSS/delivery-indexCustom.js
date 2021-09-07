@@ -277,10 +277,6 @@
           //故障交換ステータスデータ作成
           var putSnumData = [];
 
-          var dateCutter = railSpecs[0].indexOf('T')
-          railSpecs[0] = railSpecs[0].substring(0, dateCutter);
-
-
           for (var ndl in notDefList) {
             var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value, 'table');
             for (var snl in sNumsArray) {
