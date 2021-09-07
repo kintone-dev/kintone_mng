@@ -164,7 +164,6 @@
   
   kintone.events.on('app.record.create.show', function(event){
     //レコード作成時、発送関連情報を非表示
-    setFieldShown('shipment', false);
     setFieldShown('deliveryCorp', false);
     setFieldShown('trckNum', false);
     setFieldShown('sendDate', false);
