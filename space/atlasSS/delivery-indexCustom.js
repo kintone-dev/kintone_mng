@@ -310,7 +310,7 @@
                 }
               };
               for (var psdl in putSnumData) {
-                if (putSnumData[psdl].updateKey.value = putSnumBody.updateKey.value) {
+                if (putSnumData[psdl].updateKey.value == putSnumBody.updateKey.value) {
                   putSnumData.splice(psdl, 1);
                 }
               }
