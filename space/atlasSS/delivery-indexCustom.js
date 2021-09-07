@@ -103,13 +103,13 @@
         'app': kintone.app.getId(),
         'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
       };
-      //交換品データ作成
-      var putRepData = [];
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
         .then(function (resp) {
           var shipList = resp.records;
           //故障品データ作成
           var putDefData = [];
+          //交換品データ作成
+          var putRepData = [];
           //交換品query
           var getRepQueryArray = [];
           var getRepBody = {
@@ -223,10 +223,10 @@
             'app': kintone.app.getId(),
             'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
           };
-          //故障交換ステータスデータ作成
-          var putNotDefData = [];
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
             .then(function (resp) {
+              //故障交換ステータスデータ作成
+              var putNotDefData = [];
               var notDefList = resp.records;
               for (var ndl in notDefList) {
                 var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value, 'table');
@@ -269,7 +269,8 @@
                 }
               }
               // ②、③情報連結
-              var putSnumData = putRepData.concat(putNotDefData);
+              var putSnumData = putRepData.concat(putDefData);
+              var putSnumData = putNotDefData.concat(putSnumData);
               console.log(putSnumData);
               // シリアル管理情報更新
               putRecords(sysid.DEV.app_id.sNum, putSnumData)
