@@ -310,6 +310,8 @@
             }
           }
 
+          //シリアル番号連携データ
+          console.log('故障品連携データ');
           console.log(putSnumData);
 
         });
