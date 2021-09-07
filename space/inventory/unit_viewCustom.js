@@ -51,7 +51,7 @@
           setFieldShown('corpName', true);
           setFieldShown('mStockList', false);
           break;
-        case '品目在庫一覧':
+        case '#品目在庫一覧':
           setFieldShown('uCode', false);
           setFieldShown('uType', false);
           setFieldShown('uName', false);
