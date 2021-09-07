@@ -77,22 +77,10 @@
                     'record': {
                       'working_status': {
                         'value': '必要情報入力済み'
-                      },
-                      'al_result':{
-                        'value': '会員情報登録済'
                       }
                     }
                   };
-                } else{
-                  var putBody_workStatNew = {
-                    'id': shipList[ri].レコード番号.value,
-                    'record': {
-                      'al_result':{
-                        'value': '会員情報登録済'
-                      }
-                    }
-                  };
-                }  
+                }
               } else{
                 var postBody_member = {
                   'member_id': {
@@ -108,6 +96,7 @@
                     value: shipList[ri].application_type.value
                   }
                 };
+                
                 if(shipList[ri].toastcam_bizUserId.value != ''){
                   var putBody_workStatNew = {
                     'id': shipList[ri].レコード番号.value,
