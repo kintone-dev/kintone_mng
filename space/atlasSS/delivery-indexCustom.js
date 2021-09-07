@@ -306,6 +306,11 @@
                   },
                 }
               };
+              for(var psdl in putSnumData){
+                if(putSnumData[psdl].updateKey.value = putSnumBody.updateKey.value){
+                  putDefData.splice(psdl,1);
+                }
+              }
               putSnumData.push(putSnumBody);
             }
           }
