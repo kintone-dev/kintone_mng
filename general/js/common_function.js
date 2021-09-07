@@ -436,11 +436,11 @@ const postRecords = async (app, records) => {
 	while (POST_RECORDS.length) {
 		var postBody = {
 			'app': app,
-			'records': POST_RECORDS.slice(0, 100),
+			'records': POST_RECORDS.slice(0, 1),
 		}
 		console.log(postBody);
 		await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody);
-		POST_RECORDS.splice(0, 100);
+		POST_RECORDS.splice(0, 1);
 	}
 }
 
