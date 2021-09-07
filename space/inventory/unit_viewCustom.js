@@ -23,17 +23,18 @@
 
   kintone.events.on('app.record.edit.show', function (event) {
     // 編集画面は、全フィールド編集不可で表示する
-    event.record.uCode.disabled = true;
-    event.record.uType.disabled = true;
-    event.record.uName.disabled = true;
-    event.record.uCharge.disabled = true;
-    event.record.zipcode.disabled = true;
-    event.record.phoneNum.disabled = true;
-    event.record.prefectures.disabled = true;
-    event.record.city.disabled = true;
-    event.record.address.disabled = true;
-    event.record.uBuildingName.disabled = true;
-    event.record.receiver.disabled = true;
+    event.record.uCode.disabled=true;
+    event.record.uType.disabled=true;
+    event.record.uName.disabled=true;
+    event.record.uCharge.disabled=true;
+    event.record.receiver.disabled=true;
+    event.record.phoneNum.disabled=true;
+    event.record.zipcode.disabled=true;
+    event.record.prefectures.disabled=true;
+    event.record.city.disabled=true;
+    event.record.address.disabled=true;
+    event.record.hBuildingName.disabled=true;
+    event.record.corpName.disabled=true;
     return event;
   });
 
@@ -42,28 +43,32 @@
     // 情報編集チェックボックスが on でなければ、編集させない
     if (event.record.editinfo.value[0] === '情報編集') {
       // チェックボックスがチェックされている
-      event.record.uType.disabled = false;
-      event.record.uName.disabled = false;
-      event.record.uCharge.disabled = false;
-      event.record.zipcode.disabled = false;
-      event.record.phoneNum.disabled = false;
-      event.record.prefectures.disabled = false;
-      event.record.city.disabled = false;
-      event.record.address.disabled = false;
-      event.record.uBuildingName.disabled = false;
-      event.record.receiver.disabled = false;
+      event.record.uCode.disabled=true;
+      event.record.uType.disabled=true;
+      event.record.uName.disabled=true;
+      event.record.uCharge.disabled=true;
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.hBuildingName.disabled=true;
+      event.record.corpName.disabled=true;
     } else {
       // チェックボックスがチェックされていない
-      event.record.uType.disabled = true;
-      event.record.uName.disabled = true;
-      event.record.uCharge.disabled = true;
-      event.record.zipcode.disabled = true;
-      event.record.phoneNum.disabled = true;
-      event.record.prefectures.disabled = true;
-      event.record.city.disabled = true;
-      event.record.address.disabled = true;
-      event.record.uBuildingName.disabled = true;
-      event.record.receiver.disabled = true;
+      event.record.uCode.disabled=true;
+      event.record.uType.disabled=true;
+      event.record.uName.disabled=true;
+      event.record.uCharge.disabled=true;
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.hBuildingName.disabled=true;
+      event.record.corpName.disabled=true;
     }
     return event;
   });
