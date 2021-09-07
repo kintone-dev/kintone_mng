@@ -88,14 +88,6 @@
             postMemData.push(postBody_member);
             putWStatNewData.push(putBody_workStatNew);
           }
-
-          //会員情報連携データ
-          console.log('会員情報連携データ');
-          console.log(postMemData);
-          //会員情報連携完了ステータスデータ
-          console.log('会員情報連携完了ステータスデータ');
-          console.log(putWStatNewData);
-
           //新規申込
           postRecords(sysid.ASS.app_id.member, postMemData)
             .then(function (resp) {
@@ -124,20 +116,16 @@
         .then(function (resp) {
           var shipList = resp.records;
           console.log(shipList);
-
           //故障品データ作成
           var putDefData = [];
-
           //交換品query
           var getRepQueryArray = [];
           var getRepBody = {
             'app': sysid.DEV.app_id.sNum,
             'query': ''
           };
-
           //交換品データ作成
           var putRepData = [];
-
           for (let ri in shipList) {
             var putDefBody_sNum = {
               'updateKey': {
@@ -231,19 +219,7 @@
                 delete putRepData[rd].shipDate;
                 delete putRepData[rd].record.sNum;
               }
-
               var putDefRepData = putDefData.concat(putRepData);
-
-              //故障品連携データ
-              console.log('故障品連携データ');
-              console.log(putDefData);
-              //交換品連携データ
-              console.log('交換品連携データ');
-              console.log(putRepData);
-              //故障品、交換品連携データ
-              console.log('故障品、交換品連携データ');
-              console.log(putDefRepData);
-
               //故障交換
               putRecords(sysid.DEV.app_id.sNum, putDefRepData)
                 .then(function (resp) {
@@ -317,11 +293,6 @@
               putSnumData.push(putSnumBody);
             }
           }
-
-          //シリアル番号連携データ
-          console.log('シリアル番号連携データ');
-          console.log(putSnumData);
-
           putRecords(sysid.DEV.app_id.sNum, putSnumData)
             .then(function (resp) {
               alert('シリアル番号情報連携に成功しました。');
@@ -329,7 +300,6 @@
               console.log(error);
               alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
             });
-
         });
 
 
