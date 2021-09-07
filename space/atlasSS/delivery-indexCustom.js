@@ -85,15 +85,16 @@
                 }
               };
 
-              console.log(shipList[ri].toastcam_bizUserId.value);
-              var putBody_workStatNew = {
-                'id': shipList[ri].レコード番号.value,
-                'record': {
-                  'working_status': {
-                    'value': '必要情報入力済み'
+              if(shipList[ri].toastcam_bizUserId.value != ''){
+                var putBody_workStatNew = {
+                  'id': shipList[ri].レコード番号.value,
+                  'record': {
+                    'working_status': {
+                      'value': '必要情報入力済み'
+                    }
                   }
-                }
-              };
+                };
+              }
 
               postMemData.push(postBody_member);
               putWStatNewData.push(putBody_workStatNew);
@@ -124,15 +125,16 @@
                 'record': ''
               };
 
-              console.log(shipList[ri].toastcam_bizUserId.value);
-              var putBody_workStatDef = {
-                'id': shipList[ri].レコード番号.value,
-                'record': {
-                  'working_status': {
-                    'value': '必要情報入力済み'
+              if(shipList[ri].toastcam_bizUserId.value != ''){
+                var putBody_workStatDef = {
+                  'id': shipList[ri].レコード番号.value,
+                  'record': {
+                    'working_status': {
+                      'value': '必要情報入力済み'
+                    }
                   }
-                }
-              };
+                };
+              }
 
               getDefQueryArray.push('sNum = ');
               getDefQueryArray.push('"' + resp.records[ri].failure_sNum.value + '"');
