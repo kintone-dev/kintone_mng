@@ -163,8 +163,6 @@
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getRepBody)
             .then(function (resp) {
               var defRec = resp.records;
-              console.log(defRec);
-
               //メンバーID比較
               for (let pdd in putDefData) {
                 var defSnum = putDefData[pdd].updateKey.value;
