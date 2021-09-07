@@ -314,6 +314,14 @@
           console.log('シリアル番号連携データ');
           console.log(putSnumData);
 
+          putRecords(sysid.DEV.app_id.sNum, putSnumData)
+          .then(function (resp) {
+            alert('シリアル番号情報連携に成功しました。');
+          }).catch(function (error) {
+            console.log(error);
+            alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
+          });
+
         });
 
 
