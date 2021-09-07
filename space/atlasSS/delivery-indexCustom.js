@@ -278,26 +278,39 @@
           var putSnumData = [];
 
           for (var ndl in notDefList) {
-            var devListLength = notDefList[ndl].deviceList.value.length;
-            var sNumsArray = [];
-            console.log(sNumRecords(notDefList[ndl].deviceList.value,'table'));
-            // var putSnumBody = {
-            //   'updateKey': {
-            //     'field': 'sNum',
-            //     'value': notDefList[ndl].failure_sNum.value
-            //   },
-            //   'record': {
-            //     'sState': {
-            //       'value': '故障品'
-            //     },
-            //     'sDstate': {
-            //       'value': '検証待ち'
-            //     }
-            //   }
-            // };
-
-            // putSnumData.push(putSnumBody);
+            var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value,'table');
+            for(var snl in sNumsArray){
+              var putSnumBody = {
+                'updateKey': {
+                  'field': 'sNum',
+                  'value': sNumsArray[snl]
+                },
+                'record': {
+                  'sendDate': {
+                    'value': '故障品'
+                  },
+                  'sendType': {
+                    'value': '検証待ち'
+                  },
+                  'shipment': {
+                    'value': '123倉庫'
+                  },
+                  'instName': {
+                    'value': '高井戸西2丁目'
+                  },
+                  'roomName': {
+                    'value': notDefList[ndl].member_id.value
+                  },
+                  'startDate': {
+                    'value': notDefList[ndl].application_datetime
+                  },
+                }
+              };
+              putSnumData.push(putSnumBody);
+            }
           }
+
+          console.log(putSnumData);
 
         });
 
