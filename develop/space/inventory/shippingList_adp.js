@@ -3,7 +3,7 @@
 
   // 拠点情報取得＆繰り返し利用
   kintone.events.on('app.record.detail.process.proceed', function (event) {
-    //kintone.events.on('app.record.detail.show', function (event) {
+  //kintone.events.on('app.record.detail.show', function (event) {
     var nStatus = event.nextStatus.value;
     if (nStatus === "集荷待ち") {
       /*
@@ -14,65 +14,45 @@
 /*
     var test_sNam=function(){
       */
-      //パラメータsNumInfoにjsonデータ作成
-      var sNumInfo = {
+      //パラメータsNumBodyにjsonデータ作成
+      var sNumBody = {
         'app': sysid.DEV.app_id.sNum,
         'records': []
       };
 
-      var shipTable = event.record.deviceList.value;
-      var shipShipment = event.record.shipment.value;
+      var shipTable=event.record.deviceList.value;
+      var shipShipment=event.record.shipment.value;
+      var sNums=sNumRecords(event.record.deviceList.value, 'table');
 
+      if(shipShipment==='矢倉倉庫'){
+        
+        for (var y in sNums) {
+          var snRecord={//,,,,,roomName
+            'sNum': {'value': sNums[y]},
+            'shipment': event.record.shipment,
+            'sendDate': event.record.sendDate,
+            'shipType': event.record.shipType,
+            'instName': event.record.instName
+          };
+          sNumBody.records.push(snRecord);
+        }
 
-      if (shipShipment === '矢倉倉庫') {
-        for (var i in shipTable) {
-          var ship_sn = shipTable[i].value.sNum.value;
-          var get_sNums = ship_sn.split(/\r\n|\n/);
-          //except Boolean
-          var sNums = get_sNums.filter(Boolean);
-
-          for (var y in sNums) {
-            var snRecord = { //,,,,,roomName
-              'sNum': {
-                'value': sNums[y]
-              },
-              'mCode': shipTable[i].value.mCode,
+        var setSNinfo=new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumBody);
+      }else{
+        for (var y in sNums){
+          var snRecord={
+            'updateKey': {'field': 'sNum','value': sNums[y]},
+            'record': {
               'shipment': event.record.shipment,
               'sendDate': event.record.sendDate,
               'shipType': event.record.shipType,
               'instName': event.record.instName
-            };
-            sNumInfo.records.push(snRecord);
-          }
+            }
+          };
+          sNumBody.records.push(snRecord);
         }
 
-        var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumInfo);
-      } else {
-        for (var i in shipTable) {
-          var ship_sn = shipTable[i].value.sNum.value;
-          var get_sNums = ship_sn.split(/\r\n|\n/);
-          //except Boolean
-          var sNums = get_sNums.filter(Boolean);
-
-          for (var y in sNums) {
-            var snRecord = {
-              'updateKey': {
-                'field': 'sNum',
-                'value': sNums[y]
-              },
-              'record': {
-                'mCode': shipTable[i].value.mCode,
-                'shipment': event.record.shipment,
-                'sendDate': event.record.sendDate,
-                'shipType': event.record.shipType,
-                'instName': event.record.instName
-              }
-            };
-            sNumInfo.records.push(snRecord);
-          }
-        }
-
-        var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumInfo);
+        var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumBody);
       }
 
       setSNinfo.then(function (resp) {
@@ -185,11 +165,11 @@
 
         for (var i in railSpecs) {
           if (numRegExp.test(railSpecs[i])) {
-            if (parseInt(railSpecs[i]) >= 580) {
+            if(parseInt(railSpecs[i]) >= 580){
               lengthStr = railSpecs[i];
 
               shipTable[0].value.sNum.error = null;
-            } else {
+            }else{
               shipTable[0].value.sNum.error = '入力形式が間違えています';
               break;
             }
