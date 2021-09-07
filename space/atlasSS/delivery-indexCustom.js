@@ -280,9 +280,9 @@
           for (var ndl in notDefList) {
             var devListLength = notDefList[ndl].deviceList.length;
             var sNumsArray = [];
+            console.log(devListLength);
             for (var dl in devListLength) {
-              sNumsArray.concat(sNumRecords(notDefList[ndl].deviceList[dl].sNums.value, 'table'));
-              console.log(sNumsArray);
+              console.log(sNumRecords(notDefList[ndl].deviceList[dl].sNums.value, 'table'));
             }
             // var putSnumBody = {
             //   'updateKey': {
