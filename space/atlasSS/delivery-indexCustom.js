@@ -38,7 +38,7 @@
     $('#' + sync_kintone.id).on('click', function () {
       var getReqBody = {
         'app': kintone.app.getId(),
-        'query': 'al_result != "会員登録済" and working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") order by 更新日時 asc'
+        'query': 'al_result != "会員情報登録済" and working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") order by 更新日時 asc'
       };
 
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
@@ -93,7 +93,7 @@
                       'value': '必要情報入力済み'
                     },
                     'al_result':{
-                      'value': '会員登録済'
+                      'value': '会員情報登録済'
                     }
                   }
                 };
@@ -102,7 +102,7 @@
                   'id': shipList[ri].レコード番号.value,
                   'record': {
                     'al_result':{
-                      'value': '会員登録済'
+                      'value': '会員情報登録済'
                     }
                   }
                 };
