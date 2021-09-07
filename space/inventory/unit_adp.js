@@ -49,9 +49,7 @@
   
   //新規保存時アクション
   kintone.events.on('app.record.create.submit.success', function(event) {
-    //転送用データ取得
-    var hcode=event.record.hCode.value;
-    var hname=event.record.hName.value;
+    
 
     //品目情報を拠点リストに転送
     getDEVdata.then(function(resp){
@@ -62,21 +60,21 @@
         'app': sysid.INV.app_id.device,
         'records':[]
       };
-      //shd: set hub data
-      for (var shd in tarRecords){
+      //sud: set unit data
+      for (var sud in tarRecords){
         var records_set={
-          'id': tarRecords[shd].$id.value,
+          'id': tarRecords[sud].$id.value,
           'record': {
-            'hStockList': tarRecords[shd].hStockList
+            'uStockList': tarRecords[sud].uStockList
           }
         };
         var addRowData={
           'value': {
-            'hCode': {'value': hcode},
-            'hName': {'value': hname}
+            'uCode': event.record.uCode,
+            'uName': event.record.uName
           }
         };
-        records_set.record.hStockList.value.push(addRowData);
+        records_set.record.uStockList.value.push(addRowData);
         NewPrdInfo.records.push(records_set);
       }
       return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
