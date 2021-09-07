@@ -109,7 +109,7 @@
                   },
                   'sDstate': {
                     'value': '検証待ち'
-                  }            
+                  }
                 }
               };
 
@@ -142,7 +142,7 @@
               putWStatDefData.push(putBody_workStatDef);
             }
           }
-          if(getDefQueryArray != []){
+          if (getDefQueryArray != []) {
             getDefQueryArray.pop();
           }
           var getDefQuery = getDefQueryArray.join('');
@@ -206,28 +206,28 @@
 
               //新規申込
               postRecords(sysid.ASS.app_id.member, postMemData)
-              .then(function (resp) {
-                alert('内部情報連携に成功しました。');
-                putRecords(kintone.app.getId(), putWStatNewData);
-              }).catch(function (error) {
-                console.log(error);
-                alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
-              });
+                .then(function (resp) {
+                  alert('内部情報連携に成功しました。');
+                  putRecords(kintone.app.getId(), putWStatNewData);
+                }).catch(function (error) {
+                  console.log(error);
+                  alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
+                });
 
               //故障交換
               putRecords(sysid.DEV.app_id.sNum, putDefRepData)
-              .then(function (resp) {
-                alert('内部情報連携に成功しました。');
-                putRecords(kintone.app.getId(), putWStatDefData);
-              }).catch(function (error) {
-                console.log(error);
-                alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
-              });
+                .then(function (resp) {
+                  alert('内部情報連携に成功しました。');
+                  putRecords(kintone.app.getId(), putWStatDefData);
+                }).catch(function (error) {
+                  console.log(error);
+                  alert('内部情報連携に失敗しました。システム管理者に連絡してください。');
+                });
 
             }).catch(function (error) {
               console.log(error);
             });
-          }).catch(function (error) {
+        }).catch(function (error) {
           console.log(error);
         });
 
