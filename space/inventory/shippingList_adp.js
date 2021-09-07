@@ -22,49 +22,34 @@
 
       var shipTable=event.record.deviceList.value;
       var shipShipment=event.record.shipment.value;
-
+      var sNums=sNumRecords(event.record.deviceList.value, 'table');
 
       if(shipShipment==='矢倉倉庫'){
-        for (var i in shipTable) {
-          var ship_sn=shipTable[i].value.sNum.value;
-          var get_sNums=ship_sn.split(/\r\n|\n/);
-          //except Boolean
-          var sNums=get_sNums.filter(Boolean);
-
-          for (var y in sNums) {
-            var snRecord={//,,,,,roomName
-              'sNum': {'value': sNums[y]},
-              'mCode': shipTable[i].value.mCode,
-              'shipment': event.record.shipment,
-              'sendDate': event.record.sendDate,
-              'shipType': event.record.shipType,
-              'instName': event.record.instName
-            };
-            sNumBody.records.push(snRecord);
-          }
+        
+        for (var y in sNums) {
+          var snRecord={//,,,,,roomName
+            'sNum': {'value': sNums[y]},
+            'shipment': event.record.shipment,
+            'sendDate': event.record.sendDate,
+            'shipType': event.record.shipType,
+            'instName': event.record.instName
+          };
+          sNumBody.records.push(snRecord);
         }
 
         var setSNinfo=new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumBody);
       }else{
-        for (var i in shipTable) {
-          var ship_sn=shipTable[i].value.sNum.value;
-          var get_sNums=ship_sn.split(/\r\n|\n/);
-          //except Boolean
-          var sNums=get_sNums.filter(Boolean);
-
-          for (var y in sNums){
-            var snRecord={
-              'updateKey': {'field': 'sNum','value': sNums[y]},
-              'record': {
-                'mCode': shipTable[i].value.mCode,
-                'shipment': event.record.shipment,
-                'sendDate': event.record.sendDate,
-                'shipType': event.record.shipType,
-                'instName': event.record.instName
-              }
-            };
-            sNumBody.records.push(snRecord);
-          }
+        for (var y in sNums){
+          var snRecord={
+            'updateKey': {'field': 'sNum','value': sNums[y]},
+            'record': {
+              'shipment': event.record.shipment,
+              'sendDate': event.record.sendDate,
+              'shipType': event.record.shipType,
+              'instName': event.record.instName
+            }
+          };
+          sNumBody.records.push(snRecord);
         }
 
         var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumBody);
