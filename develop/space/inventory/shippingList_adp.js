@@ -384,6 +384,18 @@
                 }
                 putReportBody.record.inventoryList.value.push(putInventoryBody);
               }
+              if(reportSysCode.some(item => item.sysCode === shipDistributeCode[dl].sysCode)){
+
+              }else{
+                var putInventoryBody = {
+                  'value':{
+                    'sys_code':shipDistributeCode[dl].sysCode,
+                    'stockLocation':PAGE_RECORD.shipment.value,
+                    'shipNum':shipDistributeCode[dl].shipNum
+                  }
+                }
+                putReportBody.record.inventoryList.value.push(putInventoryBody);
+              }
             }
             
             putReportData.push(putReportBody);
