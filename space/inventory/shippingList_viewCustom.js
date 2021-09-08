@@ -67,7 +67,7 @@
           setFieldShown('instFile', false);
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
-          setSpaceShown('calBtn', 'none');
+          setSpaceShown('calBtn','line', 'none');
           break;
         case '#品目情報':
           setFieldShown('dstSelection', false);
@@ -95,7 +95,7 @@
           setFieldShown('instFile', false);
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
-          setSpaceShown('calBtn', 'block');
+          setSpaceShown('calBtn','line', 'block');
           break;
         case '#出荷情報':
           setFieldShown('dstSelection', false);
@@ -123,7 +123,7 @@
           setFieldShown('instFile', true);
           setFieldShown('shipNote', true);
           setFieldShown('aboutDelivery', true);
-          setSpaceShown('calBtn', 'none');
+          setSpaceShown('calBtn','line', 'none');
           break;
         case '#輸送情報':
           setFieldShown('dstSelection', false);
@@ -151,7 +151,7 @@
           setFieldShown('instFile', false);
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
-          setSpaceShown('calBtn', 'none');
+          setSpaceShown('calBtn','line', 'none');
           break;
       }
     }tabSwitch('#出荷情報');//tab初期表示設定
