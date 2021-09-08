@@ -53,41 +53,6 @@
     return event;
   });
 
-  //商品順ソート関数
-  var sortItemTable = function (table, orderBy, isDesc) {
-    table.sort(function (a, b) {
-      var v1 = a.value[orderBy].value;
-      var v2 = b.value[orderBy].value;
-      var pos = isDesc ? -1 : 1;
-      if (v1 > v2) {
-        return pos;
-      }
-      if (v1 < v2) {
-        return pos * -1;
-      }
-    });
-    return table;
-  };
-
-  //拠点順ソート関数
-  var sortLocTable = function (table, orderBy, isDesc) {
-    var codeCutter = table[0].value[orderBy].value.indexOf('-');
-    table.sort(function (a, b) {
-      var v1 = a.value[orderBy].value.slice(codeCutter + 1) + a.value[orderBy].value.substring(0,codeCutter);
-      var v2 = b.value[orderBy].value.slice(codeCutter + 1) + b.value[orderBy].value.substring(0,codeCutter);
-      console.log(a.value[orderBy].value.substring(0,codeCutter));
-      console.log(b.value[orderBy].value.substring(0,codeCutter));
-      var pos = isDesc ? -1 : 1;
-      if (v1 > v2) {
-        return pos;
-      }
-      if (v1 < v2) {
-        return pos * -1;
-      }
-    });
-    return table;
-  };
-
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
@@ -110,4 +75,36 @@
 
     return event;
   });
+
+  //商品順ソート関数
+  var sortItemTable = function (table, orderBy, isDesc) {
+    table.sort(function (a, b) {
+      var v1 = a.value[orderBy].value;
+      var v2 = b.value[orderBy].value;
+      var pos = isDesc ? -1 : 1;
+      if (v1 > v2) {
+        return pos;
+      }
+      if (v1 < v2) {
+        return pos * -1;
+      }
+    });
+    return table;
+  };
+  //拠点順ソート関数
+  var sortLocTable = function (table, orderBy, isDesc) {
+    var codeCutter = table[0].value[orderBy].value.indexOf('-');
+    table.sort(function (a, b) {
+      var v1 = a.value[orderBy].value.slice(codeCutter + 1) + a.value[orderBy].value.substring(0, codeCutter);
+      var v2 = b.value[orderBy].value.slice(codeCutter + 1) + b.value[orderBy].value.substring(0, codeCutter);
+      var pos = isDesc ? -1 : 1;
+      if (v1 > v2) {
+        return pos;
+      }
+      if (v1 < v2) {
+        return pos * -1;
+      }
+    });
+    return table;
+  };
 })();
