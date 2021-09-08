@@ -314,7 +314,7 @@
     if (record.shipType.value == '移動-販売' || record.shipType.value == '移動-サブスク') {
       //レポート連携
       var sendDate = event.record.sendDate.value;
-      var deviceList = event.record.deviceList;
+      var deviceList = event.record.deviceList.value;
       var sysUCode = event.record.sys_uCode.value;
       sendDate = sendDate.replace(/-/g, '');
       sendDate = sendDate.slice(0, -2);
