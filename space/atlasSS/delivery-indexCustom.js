@@ -170,7 +170,7 @@
                 var defMemId = putDefData[pdd].memId;
                 for (let ri in defRec) {
                   if (defRec[ri].sNum.value == defSnum) {
-                    if (!defRec[ri].roomName.value == defMemId) {
+                    if (!defRec[ri].pkgid.value == defMemId) {
                       putDefData.splice(pdd, 1);
                     }
                   }
@@ -252,7 +252,7 @@
                       'instName': {
                         'value': '高井戸西2丁目'
                       },
-                      'roomName': {
+                      'pkgid': {
                         'value': notDefList[ndl].member_id.value
                       },
                       'startDate': {

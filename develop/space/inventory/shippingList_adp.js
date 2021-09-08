@@ -26,7 +26,7 @@
 
       if (shipShipment === '矢倉倉庫') {
         for (var y in sNums) {
-          var snRecord = { //,,,,,roomName
+          var snRecord = {
             'sNum': {
               'value': sNums[y]
             },
