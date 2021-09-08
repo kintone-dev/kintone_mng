@@ -365,17 +365,19 @@
                 console.log('ok');
               }else{
                 var putInventoryBody = {
-                  'sys_code':shipSysCode[dl].sysCode,
-                  'stockLocation':PAGE_RECORD.shipment.value,
-                  'shipNum':shipSysCode[dl].shipNum
+                  'value':{
+                    'sys_code':shipSysCode[dl].sysCode,
+                    'stockLocation':PAGE_RECORD.shipment.value,
+                    'shipNum':shipSysCode[dl].shipNum
+                  }
                 }
                 putReportBody.record.inventoryList.value.push(putInventoryBody);
               }
             }
-            console.log(putReportBody);
-
+            
             putReportData.push(putReportBody);
-            // putRecords(sysid.INV.app_id.report, putReportData);
+            console.log(putReportData);
+            putRecords(sysid.INV.app_id.report, putReportData);
           }
         });
     }
