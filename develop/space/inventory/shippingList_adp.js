@@ -5,6 +5,7 @@
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     //kintone.events.on('app.record.detail.show', function (event) {
     var nStatus = event.nextStatus.value;
+    const PAGE_RECORD = event.record;
     if (nStatus === "集荷待ち") {
       /*
         setBtn_header('test_btn_sNam', 'input to sNam');
