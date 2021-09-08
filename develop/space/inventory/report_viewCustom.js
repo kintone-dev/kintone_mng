@@ -53,11 +53,29 @@
     return event;
   });
 
-  //テーブルソート関数
-  var sortTable = function (table, orderBy, isDesc) {
+  //商品順ソート関数
+  var sortItemTable = function (table, orderBy, isDesc) {
     table.sort(function (a, b) {
       var v1 = a.value[orderBy].value;
       var v2 = b.value[orderBy].value;
+      var pos = isDesc ? -1 : 1;
+      if (v1 > v2) {
+        return pos;
+      }
+      if (v1 < v2) {
+        return pos * -1;
+      }
+    });
+    return table;
+  };
+
+  //拠点順ソート関数
+  var sortLocTable = function (table, orderBy, isDesc) {
+    table.sort(function (a, b) {
+      var v1 = a.value[orderBy].value;
+      console.log(v1);
+      var v2 = b.value[orderBy].value;
+      console.log(v2);
       var pos = isDesc ? -1 : 1;
       if (v1 > v2) {
         return pos;
@@ -76,7 +94,15 @@
     $('#itemSortBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
-      table = sortTable(table, 'sys_code', true);
+      table = sortItemTable(table, 'sys_code', true);
+
+      kintone.app.record.set(eRecord);
+    });
+
+    $('#locationSortBtn').on('click', function () {
+      var eRecord = kintone.app.record.get();
+      var table = eRecord.record.inventoryList.value
+      table = sortLocTable(table, 'sys_code', true);
 
       kintone.app.record.set(eRecord);
     });
