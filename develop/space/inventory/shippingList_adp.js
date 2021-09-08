@@ -392,6 +392,7 @@
                 for (var il in putReportBody.record.inventoryList.value) {
                   if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysCode[sdc].sysCode) {
                     putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(shipDistributeCode[sdc].shipNum)
+                    console.log(parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(shipDistributeCode[sdc].shipNum));
                   }
                 }
               } else {
