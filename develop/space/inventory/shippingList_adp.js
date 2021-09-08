@@ -76,11 +76,56 @@
           if (resp.records.length == 0) {
             //レポート新規作成
             var postReportData = [];
+            var postInventoryListArray = [];
             var postReportBody = {
               'report_key': {
                 'value': sendDate
               },
+              'inventoryList': {
+                'value': postInventoryListArray
+              }
             }
+
+            var shipSysCode = [];
+            var shipDistributeCode = [];
+
+            for (var dl in deviceList) {
+              var shipSysData = {
+                'sysCode': deviceList[dl].value.mCode.value + '-' + sysUCode,
+                'shipNum': deviceList[dl].value.shipNum.value,
+              }
+              var shipDistributeData = {
+                'sysCode': deviceList[dl].value.mCode.value + '-distribute',
+                'shipNum': deviceList[dl].value.shipNum.value
+              }
+              shipSysCode.push(shipSysData);
+              shipDistributeCode.push(shipDistributeData);
+            }
+
+            for (var ssc in shipSysCode) {
+              //サブテーブル追加
+              var postInventoryBody = {
+                'value': {
+                  'sys_code': shipSysCode[ssc].sysCode,
+                  'stockLocation': PAGE_RECORD.shipment.value,
+                  'shipNum': shipSysCode[ssc].shipNum
+                }
+              }
+              postInventoryListArray.push(postInventoryBody);
+            }
+
+            for (var sdc in shipDistributeCode) {
+              //distribute追加
+              var postInventoryBody = {
+                'value': {
+                  'sys_code': shipDistributeCode[sdc].sysCode,
+                  'stockLocation': '積送',
+                  'arrivalNum': shipDistributeCode[sdc].shipNum
+                }
+              }
+              postInventoryListArray.push(postInventoryBody);
+            }
+
             postReportData.push(postReportBody);
             postRecords(sysid.INV.app_id.report, postReportData);
           } else {
@@ -93,7 +138,7 @@
               },
               'record': {
                 'inventoryList': {
-                  value: resp.records[0].inventoryList.value
+                  'value': resp.records[0].inventoryList.value
                 }
               }
             }
@@ -391,7 +436,7 @@
               },
               'record': {
                 'inventoryList': {
-                  value: resp.records[0].inventoryList.value
+                  'value': resp.records[0].inventoryList.value
                 }
               }
             }
