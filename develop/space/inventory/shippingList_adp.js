@@ -360,7 +360,7 @@
               }
               var shipDistributeData = {
                 'sysCode': deviceList[dl].value.mCode.value + '-distribute',
-                'shipNum': deviceList[dl].value.shipNum.value,
+                'shipNum': deviceList[dl].value.shipNum.value
               }
               shipSysCode.push(shipSysData);
               shipDistributeCode.push(shipDistributeData);
@@ -390,9 +390,10 @@
               //distribute追加
               if (reportSysCode.some(item => item.sysCode === shipDistributeCode[sdc].sysCode)) {
                 for (var il in putReportBody.record.inventoryList.value) {
-                  if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysCode[sdc].sysCode) {
+                  if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipDistributeCode[sdc].sysCode) {
                     putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(shipDistributeCode[sdc].shipNum)
-                    console.log(parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(shipDistributeCode[sdc].shipNum));
+                    console.log(parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value));
+                    console.log(parseInt(shipDistributeCode[sdc].shipNum));
                   }
                 }
               } else {
