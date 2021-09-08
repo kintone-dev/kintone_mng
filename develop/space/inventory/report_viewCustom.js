@@ -25,6 +25,8 @@
           setFieldShown('subscription', true);
           setFieldShown('nonSalesAmount', true);
           setFieldShown('inventoryList', false);
+          setFieldShown('itemSortBtn', false);
+          setFieldShown('locationSortBtn', false);
           setSpaceShown('itemSortBtn', 'line', 'none');
           setSpaceShown('locationSortBtn', 'line', 'none');
           break;
@@ -75,7 +77,6 @@
 
     return event;
   });
-
   //商品順ソート関数
   var sortItemTable = function (table, orderBy, isDesc) {
     table.sort(function (a, b) {
