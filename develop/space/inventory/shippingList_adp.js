@@ -367,6 +367,7 @@
             }
 
             for(var dl in deviceList){
+              //サブテーブル追加
               if(reportSysCode.some(item => item.sysCode === shipSysCode[dl].sysCode)){
                 for (var il in putReportBody.record.inventoryList.value) {
                   if(putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysCode[dl].sysCode){
@@ -385,6 +386,7 @@
                 }
                 putReportBody.record.inventoryList.value.push(putInventoryBody);
               }
+              //distribute追加
               if(reportSysCode.some(item => item.sysCode === shipDistributeCode[dl].sysCode)){
 
               }else{
