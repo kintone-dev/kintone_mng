@@ -73,8 +73,8 @@
   var sortLocTable = function (table, orderBy, isDesc) {
     var codeCutter = table[0].value[orderBy].value.indexOf('-');
     table.sort(function (a, b) {
-      var v1 = a.value[orderBy].value.slice(codeCutter + 1);
-      var v2 = b.value[orderBy].value.slice(codeCutter + 1);
+      var v1 = a.value[orderBy].value.slice(codeCutter + 1) + a.value[orderBy].value.substring(0 + codeCutter);
+      var v2 = b.value[orderBy].value.slice(codeCutter + 1) + b.value[orderBy].value.substring(0 + codeCutter);
       console.log(v1);
       console.log(v2);
       var pos = isDesc ? -1 : 1;
@@ -88,7 +88,7 @@
     return table;
   };
 
-  kintone.events.on(['app.record.edit.show','app.record.create.show'], function (event) {
+  kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
 
