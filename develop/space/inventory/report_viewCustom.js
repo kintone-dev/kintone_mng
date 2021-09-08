@@ -13,8 +13,8 @@
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
 
-    function tabSwitch(onSelect){
-      switch(onSelect){
+    function tabSwitch(onSelect) {
+      switch (onSelect) {
         case '#概要':
           setFieldShown('totalInventoryAmount', true);
           setFieldShown('finishProduct', true);
@@ -38,37 +38,45 @@
           setFieldShown('inventoryList', true);
           break;
       }
-    }tabSwitch('#在庫リスト');
-    tabMenu('tab_report', ['概要','在庫リスト']); //タブメニュー作成
-    $('.tabMenu a').on('click', function(){ //タブメニュークリック時アクション
+    }
+    tabSwitch('#在庫リスト');
+    tabMenu('tab_report', ['概要', '在庫リスト']); //タブメニュー作成
+    $('.tabMenu a').on('click', function () { //タブメニュークリック時アクション
       var idName = $(this).attr('href'); //タブ内のリンク名を取得  
       tabSwitch(idName); //tabをクリックした時の表示設定
       return false;
     });
     return event;
   });
-  kintone.events.on('app.record.edit.show', function(event){
+
+  // kintone.events.on('app.record.edit.show', function (event) {
+  //   var table = event.record.inventoryList;
+  //   sortTable(table.value, 'sys_code', true);
+  //   sortTable(table.value, 'mCode', true);
+  //   return event;
+  // });
+
+  var sortTable = function (table, orderBy, isDesc) {
+    table.sort(function (a, b) {
+      var v1 = a.value[orderBy].value;
+      var v2 = b.value[orderBy].value;
+      var pos = isDesc ? -1 : 1;
+      if (v1 > v2) {
+        return pos;
+      }
+      if (v1 < v2) {
+        return pos * -1;
+      }
+    });
+    
+    return table;
+  };
+
+  kintone.events.on('app.record.detail.show', function (event) {
     var table = event.record.inventoryList;
     sortTable(table.value, 'sys_code', true);
-    sortTable(table.value, 'mCode', true);
+
     return event;
   });
-var sortTable = function(table, orderBy, isDesc) {
-    console.log(table);
-    table.sort(function(a, b) {
-        var v1 = a.value[orderBy].value;
-        var v2 = b.value[orderBy].value;
-        var pos = isDesc ? -1 : 1;
-        if (v1 > v2) {
-            return pos;
-        }
-        if (v1 < v2) {
-            return pos * -1;
-        }
-    });
-    console.log(table);
-
-    return table;
-};
 
 })();

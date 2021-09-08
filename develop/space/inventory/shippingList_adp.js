@@ -280,12 +280,10 @@
               }
             }
           });
-
           var lookupCount = parseInt(ril) + 1;
           shipTable[lookupCount].value.mName.lookup = true;
         }
       }
-
       kintone.app.record.set(eRecord);
     });
 
