@@ -73,7 +73,7 @@
     return table;
   };
 
-  kintone.events.on('app.record.detail.show', function (event) {
+  kintone.events.on('app.record.edit.show', function (event) {
     var table = event.record.inventoryList;
     sortTable(table.value, 'sys_code', true);
 
