@@ -85,7 +85,7 @@
           var putReportData = [];
           var putReportBody = {
             'updateKey':{
-              'field':report_key,
+              'field':'report_key',
               'value':sendDate
             },
             'record':{
