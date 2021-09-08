@@ -49,6 +49,12 @@
     return event;
   });
 
+  kintone.events.on('app.record.edit.show', function (event) {
+    var table = event.record.inventoryList;
+    sortTable(table.value, 'sys_code', true);
+    return event;
+  });
+
   //テーブルソート関数
   var sortTable = function (table, orderBy, isDesc) {
     table.sort(function (a, b) {
@@ -64,10 +70,4 @@
     });
     return table;
   };
-  kintone.events.on('app.record.edit.show', function (event) {
-    var table = event.record.inventoryList;
-    sortTable(table.value, 'sys_code', true);
-    return event;
-  });
-
 })();
