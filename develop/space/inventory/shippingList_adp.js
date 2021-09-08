@@ -91,24 +91,80 @@
                 'field': 'report_key',
                 'value': sendDate
               },
-              'record': {}
+              'record': {
+                'inventoryList': {
+                  value: resp.records[0].inventoryList.value
+                }
+              }
             }
 
             var reportSysCode = [];
+            var shipSysCode = [];
+            var shipDistributeCode = [];
 
             var inventoryList = resp.records[0].inventoryList.value;
             for (var il in inventoryList) {
-              reportSysCode.push(inventoryList[il].value.sys_code.value);
-              // for(var dl in deviceList){
-              //   if(inventoryList[il].value.sys_code.value == deviceList[dl].value.mCode.value + '-' + sysUCode){
-
-              //   }
-              // }
+              var reportSysData = {
+                'sysCode': inventoryList[il].value.sys_code.value,
+                'rowId': inventoryList[il].id,
+                'shipNum': inventoryList[il].value.shipNum.value
+              }
+              reportSysCode.push(reportSysData);
             }
-            console.log(reportSysCode);
+            for (var dl in deviceList) {
+              var shipSysData = {
+                'sysCode': deviceList[dl].value.mCode.value + '-' + sysUCode,
+                'shipNum': deviceList[dl].value.shipNum.value,
+              }
+              var shipDistributeData = {
+                'sysCode': deviceList[dl].value.mCode.value + '-distribute',
+                'shipNum': deviceList[dl].value.shipNum.value
+              }
+              shipSysCode.push(shipSysData);
+              shipDistributeCode.push(shipDistributeData);
+            }
 
+            for (var ssc in shipSysCode) {
+              //サブテーブル追加
+              if (reportSysCode.some(item => item.sysCode === shipSysCode[ssc].sysCode)) {
+                for (var il in putReportBody.record.inventoryList.value) {
+                  if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysCode[ssc].sysCode) {
+                    putReportBody.record.inventoryList.value[il].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.shipNum.value) + parseInt(shipSysCode[ssc].shipNum)
+                  }
+                }
+              } else {
+                var putInventoryBody = {
+                  'value': {
+                    'sys_code': shipSysCode[ssc].sysCode,
+                    'stockLocation': PAGE_RECORD.shipment.value,
+                    'shipNum': shipSysCode[ssc].shipNum
+                  }
+                }
+                putReportBody.record.inventoryList.value.push(putInventoryBody);
+              }
+            }
+
+            for (var sdc in shipDistributeCode) {
+              //distribute追加
+              if (reportSysCode.some(item => item.sysCode === shipDistributeCode[sdc].sysCode)) {
+                for (var il in putReportBody.record.inventoryList.value) {
+                  if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipDistributeCode[sdc].sysCode) {
+                    putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(shipDistributeCode[sdc].shipNum)
+                  }
+                }
+              } else {
+                var putInventoryBody = {
+                  'value': {
+                    'sys_code': shipDistributeCode[sdc].sysCode,
+                    'stockLocation': '積送',
+                    'arrivalNum': shipDistributeCode[sdc].shipNum
+                  }
+                }
+                putReportBody.record.inventoryList.value.push(putInventoryBody);
+              }
+            }
             putReportData.push(putReportBody);
-            // putRecords(sysid.INV.app_id.report, putReportData);
+            putRecords(sysid.INV.app_id.report, putReportData);
           }
         })
     }
@@ -392,8 +448,6 @@
                 for (var il in putReportBody.record.inventoryList.value) {
                   if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipDistributeCode[sdc].sysCode) {
                     putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(shipDistributeCode[sdc].shipNum)
-                    console.log(parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value));
-                    console.log(parseInt(shipDistributeCode[sdc].shipNum));
                   }
                 }
               } else {
@@ -407,9 +461,7 @@
                 putReportBody.record.inventoryList.value.push(putInventoryBody);
               }
             }
-
             putReportData.push(putReportBody);
-            console.log(putReportData);
             putRecords(sysid.INV.app_id.report, putReportData);
           }
         });
