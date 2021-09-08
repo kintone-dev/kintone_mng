@@ -5,7 +5,7 @@
     const PAGE_RECORD = event.record;
     if (PAGE_RECORD.EoMcheck.value == '締切') {
       const REPORT_KEY_YEAR = PAGE_RECORD.report_key.value.substring(0, 4);
-      const REPORT_KEY_MONTH = PAGE_RECORD.report_key.value.substring(5, 7);
+      const REPORT_KEY_MONTH = PAGE_RECORD.report_key.value.substring(4, 7);
       console.log(REPORT_KEY_YEAR);
       console.log(REPORT_KEY_MONTH);
       var repordData = new Date();
