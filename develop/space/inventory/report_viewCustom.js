@@ -25,6 +25,8 @@
           setFieldShown('subscription', true);
           setFieldShown('nonSalesAmount', true);
           setFieldShown('inventoryList', false);
+          setSpaceShown('itemSortBtn', 'line', 'none');
+          setSpaceShown('locationSortBtn', 'line', 'none');
           break;
         case '#在庫リスト':
           setFieldShown('totalInventoryAmount', false);
@@ -36,6 +38,8 @@
           setFieldShown('subscription', false);
           setFieldShown('nonSalesAmount', false);
           setFieldShown('inventoryList', true);
+          setSpaceShown('itemSortBtn', 'line', 'block');
+          setSpaceShown('locationSortBtn', 'line', 'block');
           break;
       }
     }
