@@ -391,7 +391,7 @@
             
             putReportData.push(putReportBody);
             console.log(putReportData);
-            putRecords(sysid.INV.app_id.report, putReportData);
+            // putRecords(sysid.INV.app_id.report, putReportData);
           }
         });
     }
