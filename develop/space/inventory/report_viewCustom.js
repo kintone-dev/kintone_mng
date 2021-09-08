@@ -59,11 +59,9 @@
 
     $('#itemSortBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
-      console.log(eRecord);
-
       var table = eRecord.record.inventoryList.value
-      sortTable(table, 'sys_code', true);
-      console.log(table.value);
+      table = sortTable(table, 'sys_code', true);
+      console.log(sortTable(table, 'sys_code', true));
 
       kintone.app.record.set(eRecord);
     });
