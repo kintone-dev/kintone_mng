@@ -25,7 +25,6 @@
       var sNums = sNumRecords(event.record.deviceList.value, 'table');
 
       if (shipShipment === '矢倉倉庫') {
-
         for (var y in sNums) {
           var snRecord = { //,,,,,roomName
             'sNum': {
@@ -38,7 +37,6 @@
           };
           sNumBody.records.push(snRecord);
         }
-
         var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'POST', sNumBody);
       } else {
         for (var y in sNums) {
@@ -58,7 +56,6 @@
         }
         var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumBody);
       }
-      console.log(sNumBody);
       setSNinfo.then(function (resp) {
         console.log(resp);
       }).catch(function (error) {
@@ -75,7 +72,29 @@
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
-        console.log(resp.records);
+        if(resp.records.length==0){
+          //レポート新規作成
+          var postReportData = [];
+          var postReportBody = {
+            'report_key':{'value':sendDate},
+          }
+          postReportData.push(postReportBody);
+          postRecords(sysid.INV.app_id.report, postReportData)
+        }else{
+          //レポート更新
+          var putReportData = [];
+          var putReportBody = {
+            'updateKey':{
+              'field':report_key,
+              'value':sendDate
+            },
+            'record':{
+              'report_key':{'value':sendDate},
+            }
+          }
+          putReportData.push(putReportBody);
+
+        }
       })
 
 
