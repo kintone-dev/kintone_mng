@@ -61,8 +61,10 @@
         console.error(error);
       });
 
-      //レポート関連
+      //レポート連携
       var sendDate = event.record.sendDate.value;
+      var deviceList = event.record.deviceList;
+      var sysUCode = event.record.sys_uCode.value;
       sendDate = sendDate.replace(/-/g, '');
       sendDate = sendDate.slice(0,-2);
       var getReportBody = {
@@ -90,10 +92,21 @@
             'record':{}
           }
 
-          console.log(resp.records[0]);
+          var reportSysCode = [];
 
-          // if(resp.records[0].)
+          var inventoryList = resp.records[0].inventoryList.value;
+          for(var il in inventoryList){
+            reportSysCode.push(inventoryList[il].value.sys_code.value);
+            // for(var dl in deviceList){
+            //   if(inventoryList[il].value.sys_code.value == deviceList[dl].value.mCode.value + '-' + sysUCode){
+
+            //   }
+            // }
+          }
+          console.log(reportSysCode);
+
           putReportData.push(putReportBody);
+          // putRecords(sysid.INV.app_id.report, putReportData);
         }
       })
     }
