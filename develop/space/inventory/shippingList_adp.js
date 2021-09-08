@@ -333,7 +333,11 @@
                 'field': 'report_key',
                 'value': sendDate
               },
-              'record': {}
+              'record': {
+                'inventoryList':{
+                  value:resp.records[0].inventoryList.value
+                }
+              }
             }
 
             var reportSysCode = [];
@@ -352,14 +356,11 @@
               if(reportSysCode.includes(shipSysCode[dl])){
                 console.log('ok');
               }else{
-                console.log('no');
+                putReportBody.record.inventoryList.value.push(1);
               }
               
             }
-
-            console.log(reportSysCode);
-            console.log(shipSysCode);
-            console.log(shipDistributeCode);
+            console.log(putReportBody.record.inventoryList.value);
 
             putReportData.push(putReportBody);
             // putRecords(sysid.INV.app_id.report, putReportData);
