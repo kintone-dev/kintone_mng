@@ -58,6 +58,7 @@
         }
         var setSNinfo = new kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', sNumBody);
       }
+      console.log(sNumBody);
       setSNinfo.then(function (resp) {
         console.log(resp);
       }).catch(function (error) {
@@ -74,7 +75,7 @@
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
-        console.log(resp);
+        console.log(resp.records);
       })
 
 
