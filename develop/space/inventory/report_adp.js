@@ -15,7 +15,13 @@
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNextMonthReportBody)
         .then(function (resp) {
-          console.log(resp);
+          if(resp.records.length == 0){
+            //次月のレポートがない場合
+            console.log('no report');
+          }else{
+            //次月のレポートがある場合
+            console.log('report');
+          }
         })
 
     }
