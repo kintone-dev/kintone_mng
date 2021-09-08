@@ -8,7 +8,6 @@
       const REPORT_KEY_MONTH = PAGE_RECORD.report_key.value.substring(4, 7);
       var reportDate = new Date(REPORT_KEY_YEAR,REPORT_KEY_MONTH);
       const NEXT_DATE = String(reportDate.getFullYear()) + String(("0"+(reportDate.getMonth() + 1)).slice(-2));
-      console.log(NEXT_DATE);
       var getNextMonthReportBody = {
         'app': sysid.INV.app_id.report,
         'query': 'report_key = "' + NEXT_DATE + '" order by 更新日時 asc'
