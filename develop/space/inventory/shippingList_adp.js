@@ -389,7 +389,11 @@
             for (var sdc in shipDistributeCode) {
               //distribute追加
               if (reportSysCode.some(item => item.sysCode === shipDistributeCode[sdc].sysCode)) {
-
+                for (var il in putReportBody.record.inventoryList.value) {
+                  if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysCode[sdc].sysCode) {
+                    putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(shipDistributeCode[sdc].shipNum)
+                  }
+                }
               } else {
                 var putInventoryBody = {
                   'value': {
