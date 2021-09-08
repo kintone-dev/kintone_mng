@@ -75,8 +75,8 @@
     table.sort(function (a, b) {
       var v1 = a.value[orderBy].value.slice(codeCutter + 1) + a.value[orderBy].value.substring(0 + codeCutter);
       var v2 = b.value[orderBy].value.slice(codeCutter + 1) + b.value[orderBy].value.substring(0 + codeCutter);
-      console.log(a.value[orderBy].value.substring(0 + codeCutter));
-      console.log(b.value[orderBy].value.substring(0 + codeCutter));
+      console.log(a.value[orderBy].value);
+      console.log(b.value[orderBy].value);
       var pos = isDesc ? -1 : 1;
       if (v1 > v2) {
         return pos;
