@@ -16,10 +16,10 @@
         .then(function (resp) {
           if(resp.records.length == 0){
             //次月のレポートがない場合
-            console.log('no report');
+            
           }else{
             //次月のレポートがある場合
-            console.log('report');
+
           }
         })
 
