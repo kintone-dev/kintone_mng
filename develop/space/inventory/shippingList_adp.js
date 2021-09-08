@@ -371,7 +371,7 @@
                 console.log('ok');
                 for (var il in putReportBody.record.inventoryList.value) {
                   console.log(putReportBody.record.inventoryList.value[il].value.sys_code.value);
-                  if(putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysData[dl].sysCode){
+                  if(putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysCode[dl].sysCode){
                     putReportBody.record.inventoryList.value[il].shipNum = parseInt(putReportBody.record.inventoryList.value[il].shipNum.value) + parseInt(deviceList[dl].shipNum)
                     console.log(parseInt(putReportBody.record.inventoryList.value[il].shipNum.value) + parseInt(deviceList[dl].shipNum));
                   }
