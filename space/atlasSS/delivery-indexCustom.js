@@ -2,8 +2,8 @@
   'use strict';
 
   kintone.events.on('app.record.index.show', function (event) {
-    var del_records = setBtn_index('btn_del_records', '処理済みデータ削除');
-    var sync_kintone = setBtn_index('btn_sync_kintone', '内部連携');
+    var del_records = setBtn_index('btn_del_records', 'KT-処理済みデータ削除');
+    var sync_kintone = setBtn_index('btn_sync_kintone', 'KT-情報連携');
 
     //処理済みデータ削除
     $('#' + del_records.id).on('click', function () {
