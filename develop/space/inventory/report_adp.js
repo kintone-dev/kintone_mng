@@ -19,8 +19,6 @@
           console.log(resp.records);
         })
 
-
-
     }
 
     return event;
