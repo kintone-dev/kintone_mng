@@ -25,8 +25,6 @@
           setFieldShown('subscription', true);
           setFieldShown('nonSalesAmount', true);
           setFieldShown('inventoryList', false);
-          setFieldShown('itemSortBtn', false);
-          setFieldShown('locationSortBtn', false);
           setSpaceShown('itemSortBtn', 'line', 'none');
           setSpaceShown('locationSortBtn', 'line', 'none');
           break;
