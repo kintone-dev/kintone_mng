@@ -308,7 +308,8 @@
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
-
+    var record = event;
+    console.log(record);
   });
 
 })();
