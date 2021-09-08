@@ -74,6 +74,7 @@
 
   kintone.events.on('app.record.detail.show', function (event) {
     var table = event.record.inventoryList;
+    console.log(table);
     sortTable(table.value, 'sys_code', true);
 
     return event;
