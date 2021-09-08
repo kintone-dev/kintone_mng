@@ -49,9 +49,17 @@
     return event;
   });
 
-  kintone.events.on('app.record.edit.show', function (event) {
+  kintone.events.on('app.record.detail.show', function (event) {
+    setBtn('itemSortBtn', '商品順');
+    setBtn('locationSortBtn', '拠点順');
     var table = event.record.inventoryList;
-    sortTable(table.value, 'sys_code', true);
+
+    $('#itemSortBtn').on('click', function () {
+      sortTable(table.value, 'sys_code', true);
+      location.reload();
+    });
+
+
     return event;
   });
 
