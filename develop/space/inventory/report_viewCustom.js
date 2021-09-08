@@ -57,8 +57,9 @@
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
     var table = event.record.inventoryList;
-    console.log(table);
-    table.value = sortTable(table, 'sys_code', true);
+    console.log(table.value);
+    console.log(sortTable(table, 'sys_code', true));
+    table.value = null;
 
     $('#itemSortBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
