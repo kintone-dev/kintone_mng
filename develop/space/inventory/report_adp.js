@@ -9,7 +9,10 @@
       console.log(REPORT_KEY_YEAR);
       console.log(REPORT_KEY_MONTH);
       var reportDate = new Date(REPORT_KEY_YEAR,REPORT_KEY_MONTH);
-      console.log(reportDate.getMonth());
+      var nextDate = reportDate.setMonth(reportDate.getMonth()+1);
+      console.log(reportDate);
+      console.log(nextDate);
+      console.log(nextDate.getFullYear() + nextDate.getMonth());
 
       var getNextMonthReportBody = {
         'app': sysid.INV.app_id.report,
