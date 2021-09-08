@@ -370,8 +370,8 @@
               if(reportSysCode.some(item => item.sysCode === shipSysCode[dl].sysCode)){
                 for (var il in putReportBody.record.inventoryList.value) {
                   if(putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysCode[dl].sysCode){
-                    putReportBody.record.inventoryList.value[il].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.shipNum.value) + parseInt(deviceList[dl].shipNum)
-                    console.log(parseInt(putReportBody.record.inventoryList.value[il].value.shipNum.value) + parseInt(deviceList[dl].shipNum));
+                    putReportBody.record.inventoryList.value[il].value.shipNum.value = putReportBody.record.inventoryList.value[il].value.shipNum.value + deviceList[dl].shipNum
+                    console.log(putReportBody.record.inventoryList.value[il].value.shipNum.value + deviceList[dl].shipNum);
                   }
                 }
               }else{
