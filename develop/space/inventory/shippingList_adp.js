@@ -13,7 +13,7 @@
         });
         var test_sNam=function(){
       */
-    
+
       //パラメータsNumBodyにjsonデータ作成
       var sNumBody = {
         'app': sysid.DEV.app_id.sNum,
@@ -66,49 +66,51 @@
       var deviceList = event.record.deviceList;
       var sysUCode = event.record.sys_uCode.value;
       sendDate = sendDate.replace(/-/g, '');
-      sendDate = sendDate.slice(0,-2);
+      sendDate = sendDate.slice(0, -2);
       var getReportBody = {
         'app': sysid.INV.app_id.report,
         'query': 'report_key = "' + sendDate + '" order by 更新日時 asc'
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
-      .then(function (resp) {
-        if(resp.records.length==0){
-          //レポート新規作成
-          var postReportData = [];
-          var postReportBody = {
-            'report_key':{'value':sendDate},
+        .then(function (resp) {
+          if (resp.records.length == 0) {
+            //レポート新規作成
+            var postReportData = [];
+            var postReportBody = {
+              'report_key': {
+                'value': sendDate
+              },
+            }
+            postReportData.push(postReportBody);
+            postRecords(sysid.INV.app_id.report, postReportData);
+          } else {
+            //レポート更新
+            var putReportData = [];
+            var putReportBody = {
+              'updateKey': {
+                'field': 'report_key',
+                'value': sendDate
+              },
+              'record': {}
+            }
+
+            var reportSysCode = [];
+
+            var inventoryList = resp.records[0].inventoryList.value;
+            for (var il in inventoryList) {
+              reportSysCode.push(inventoryList[il].value.sys_code.value);
+              // for(var dl in deviceList){
+              //   if(inventoryList[il].value.sys_code.value == deviceList[dl].value.mCode.value + '-' + sysUCode){
+
+              //   }
+              // }
+            }
+            console.log(reportSysCode);
+
+            putReportData.push(putReportBody);
+            // putRecords(sysid.INV.app_id.report, putReportData);
           }
-          postReportData.push(postReportBody);
-          postRecords(sysid.INV.app_id.report, postReportData);
-        }else{
-          //レポート更新
-          var putReportData = [];
-          var putReportBody = {
-            'updateKey':{
-              'field':'report_key',
-              'value':sendDate
-            },
-            'record':{}
-          }
-
-          var reportSysCode = [];
-
-          var inventoryList = resp.records[0].inventoryList.value;
-          for(var il in inventoryList){
-            reportSysCode.push(inventoryList[il].value.sys_code.value);
-            // for(var dl in deviceList){
-            //   if(inventoryList[il].value.sys_code.value == deviceList[dl].value.mCode.value + '-' + sysUCode){
-
-            //   }
-            // }
-          }
-          console.log(reportSysCode);
-
-          putReportData.push(putReportBody);
-          // putRecords(sysid.INV.app_id.report, putReportData);
-        }
-      })
+        })
     }
     return event;
   });
@@ -308,8 +310,49 @@
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
-    var record = event;
-    console.log(record);
+    var record = event.record;
+    if (record.shipType.value == '移動-販売' || record.shipType.value == '移動-サブスク') {
+      //レポート連携
+      var sendDate = event.record.sendDate.value;
+      var deviceList = event.record.deviceList;
+      var sysUCode = event.record.sys_uCode.value;
+      sendDate = sendDate.replace(/-/g, '');
+      sendDate = sendDate.slice(0, -2);
+      var getReportBody = {
+        'app': sysid.INV.app_id.report,
+        'query': 'report_key = "' + sendDate + '" order by 更新日時 asc'
+      };
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+        .then(function (resp) {
+          if (resp.records.length != 0) {
+            //レポート更新
+            var putReportData = [];
+            var putReportBody = {
+              'updateKey': {
+                'field': 'report_key',
+                'value': sendDate
+              },
+              'record': {}
+            }
+
+            var reportSysCode = [];
+
+            var inventoryList = resp.records[0].inventoryList.value;
+            for (var il in inventoryList) {
+              reportSysCode.push(inventoryList[il].value.sys_code.value);
+              // for(var dl in deviceList){
+              //   if(inventoryList[il].value.sys_code.value == deviceList[dl].value.mCode.value + '-' + sysUCode){
+
+              //   }
+              // }
+            }
+            console.log(reportSysCode);
+
+            putReportData.push(putReportBody);
+            // putRecords(sysid.INV.app_id.report, putReportData);
+          }
+        });
+    }
   });
 
 })();
