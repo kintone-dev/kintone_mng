@@ -356,11 +356,15 @@
               if(reportSysCode.includes(shipSysCode[dl])){
                 console.log('ok');
               }else{
-                putReportBody.record.inventoryList.value.push(1);
+                var putInventoryBody = {
+                  'sys_code':shipSysCode[dl],
+                  'shipNum':record.shipNum.value,
+                  'stockLocation':record.shipment.value
+                }
+                putReportBody.record.inventoryList.value.push(putInventoryBody);
               }
-              
             }
-            console.log(putReportBody.record.inventoryList.value);
+            console.log(putReportBody);
 
             putReportData.push(putReportBody);
             // putRecords(sysid.INV.app_id.report, putReportData);
