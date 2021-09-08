@@ -64,10 +64,20 @@
         console.error(error);
       });
 
+      //レポート関連
       var sendDate = event.record.sendDate.value;
       sendDate = sendDate.replace(/-/g, '');
       sendDate = sendDate.slice(0,-2);
-      console.log(sendDate);
+      var getReportBody = {
+        'app': sysid.INV.app_id.report,
+        'query': 'report_key = "' + sendDate + '" order by 更新日時 asc'
+      };
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+      .then(function (resp) {
+        console.log(resp);
+      })
+
+
     }
     return event;
   });
