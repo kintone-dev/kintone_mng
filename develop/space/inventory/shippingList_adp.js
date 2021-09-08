@@ -310,12 +310,12 @@
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
-    var record = event.record;
-    if (record.shipType.value == '移動-販売' || record.shipType.value == '移動-サブスク') {
+    const PAGE_RECORD = event.record;
+    if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
       //レポート連携
-      var sendDate = event.record.sendDate.value;
-      var deviceList = event.record.deviceList.value;
-      var sysUCode = event.record.sys_uCode.value;
+      var sendDate = PAGE_RECORD.sendDate.value;
+      var deviceList = PAGE_RECORD.deviceList.value;
+      var sysUCode = PAGE_RECORD.sys_uCode.value;
       sendDate = sendDate.replace(/-/g, '');
       sendDate = sendDate.slice(0, -2);
       var getReportBody = {
@@ -349,17 +349,25 @@
               reportSysCode.push(inventoryList[il].value.sys_code.value);
             }
             for(var dl in deviceList){
-              shipSysCode.push(deviceList[dl].value.mCode.value + '-' + sysUCode);
-              shipDistributeCode.push(deviceList[dl].value.mCode.value + '-distribute');
+              var shipSysData = {
+                'sysCode':deviceList[dl].value.mCode.value + '-' + sysUCode,
+                'shipNum':deviceList[dl].value.shipNum.value,
+              }
+              var shipDistributeData = {
+                'sysCode':deviceList[dl].value.mCode.value + '-distribute',
+                'shipNum':deviceList[dl].value.shipNum.value,
+              }
+              shipSysCode.push(shipSysData);
+              shipDistributeCode.push(shipDistributeData);
             }
             for(var dl in deviceList){
               if(reportSysCode.includes(shipSysCode[dl])){
                 console.log('ok');
               }else{
                 var putInventoryBody = {
-                  'sys_code':shipSysCode[dl],
-                  'shipNum':record.shipNum.value,
-                  'stockLocation':record.shipment.value
+                  'sys_code':shipSysCode[dl].sysCode,
+                  'stockLocation':PAGE_RECORD.shipment.value,
+                  'shipNum':shipSysCode[dl].shipNum
                 }
                 putReportBody.record.inventoryList.value.push(putInventoryBody);
               }
