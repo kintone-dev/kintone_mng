@@ -57,10 +57,11 @@
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
     var table = event.record.inventoryList;
+    console.log(table);
 
     $('#itemSortBtn').on('click', function () {
-      console.log();
       sortTable(table.value, 'sys_code', true);
+      console.log(table.value);
       // location.reload();
     });
 
@@ -69,7 +70,6 @@
 
   //テーブルソート関数
   var sortTable = function (table, orderBy, isDesc) {
-    console.log(table);
     table.sort(function (a, b) {
       var v1 = a.value[orderBy].value;
       var v2 = b.value[orderBy].value;
@@ -81,7 +81,6 @@
         return pos * -1;
       }
     });
-    console.log(table);
     return table;
   };
 })();
