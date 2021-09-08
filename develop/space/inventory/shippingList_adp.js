@@ -348,7 +348,8 @@
             for (var il in inventoryList) {
               var reportSysData = {
                 'sysCode':inventoryList[il].value.sys_code.value,
-                'rowId':inventoryList[il].id
+                'rowId':inventoryList[il].id,
+                'shipNum':inventoryList[il].value.shipNum.value
               }
               reportSysCode.push(reportSysData);
             }
@@ -366,20 +367,20 @@
             }
 
             for(var dl in deviceList){
-              console.log(reportSysCode.some(item => item.sysCode === shipSysCode[dl].sysCode));
               if(reportSysCode.some(item => item.sysCode === shipSysCode[dl].sysCode)){
-                console.log('ある');
-                var putInventoryBody = {
-                  'id':reportSysCode.indexOf(shipSysCode[dl]),
-                  'value':{
-                    'sys_code':shipSysCode[dl].sysCode,
-                    'stockLocation':PAGE_RECORD.shipment.value,
-                    'shipNum':shipSysCode[dl].shipNum
+                for(var rsc in reportSysCode){
+                  if(reportSysCode[rsc].sysCode === shipSysCode[dl].sysCode){
+                    var putInventoryBody = {
+                      'id':reportSysCode[rsc].rowId,
+                      'value':{
+                        'stockLocation':PAGE_RECORD.shipment.value,
+                        'shipNum':reportSysCode[rsc].shipNum + shipSysCode[dl].shipNum
+                      }
+                    }    
                   }
                 }
                 putReportBody.record.inventoryList.value.push(putInventoryBody);
               }else{
-                console.log('ない');
                 var putInventoryBody = {
                   'value':{
                     'sys_code':shipSysCode[dl].sysCode,
@@ -393,7 +394,7 @@
             
             putReportData.push(putReportBody);
             console.log(putReportData);
-            // putRecords(sysid.INV.app_id.report, putReportData);
+            putRecords(sysid.INV.app_id.report, putReportData);
           }
         });
     }
