@@ -71,8 +71,7 @@
 
   //拠点順ソート関数
   var sortLocTable = function (table, orderBy, isDesc) {
-    // var codeCutter = table[0].indexOf('-');
-    console.log(table);
+    var codeCutter = table[0].value.orderBy.value.indexOf('-');
     table.sort(function (a, b) {
       var v1 = a.value[orderBy].value.slice(codeCutter + 1);
       var v2 = b.value[orderBy].value.slice(codeCutter + 1);
