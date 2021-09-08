@@ -366,8 +366,7 @@
             }
 
             for(var dl in deviceList){
-              if(reportSysCode.some(shipSysCode[dl].sysCode)){
-
+              if(reportSysCode.some(item => item.sysCode === shipSysCode[dl].sysCode)){
                 console.log('ある');
                 var putInventoryBody = {
                   'id':reportSysCode.indexOf(shipSysCode[dl]),
