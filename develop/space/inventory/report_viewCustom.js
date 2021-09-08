@@ -69,7 +69,7 @@
     return table;
   };
 
-  kintone.events.on('app.record.edit.show', function (event) {
+  kintone.events.on(['app.record.edit.show','app.record.create.show'], function (event) {
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
 
