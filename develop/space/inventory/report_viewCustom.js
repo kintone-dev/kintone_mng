@@ -57,6 +57,7 @@
   // });
 
   var sortTable = function (table, orderBy, isDesc) {
+    console.log(table);
     table.sort(function (a, b) {
       var v1 = a.value[orderBy].value;
       var v2 = b.value[orderBy].value;
@@ -68,13 +69,12 @@
         return pos * -1;
       }
     });
-    
+    console.log(table);
     return table;
   };
 
   kintone.events.on('app.record.detail.show', function (event) {
     var table = event.record.inventoryList;
-    console.log(table);
     sortTable(table.value, 'sys_code', true);
 
     return event;
