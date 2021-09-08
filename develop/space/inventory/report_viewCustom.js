@@ -53,26 +53,6 @@
     return event;
   });
 
-  kintone.events.on('app.record.detail.show', function (event) {
-    setBtn('itemSortBtn', '商品順');
-    setBtn('locationSortBtn', '拠点順');
-    var table = event.record.inventoryList;
-    console.log(table.value);
-    console.log(sortTable(table, 'sys_code', true));
-    table.value = null;
-
-    $('#itemSortBtn').on('click', function () {
-      var eRecord = kintone.app.record.get();
-      var table = eRecord.record.inventoryList.value
-      table = sortTable(table, 'sys_code', true);
-      console.log(sortTable(table, 'sys_code', true));
-
-      kintone.app.record.set(eRecord);
-    });
-    
-    return event;
-  });
-
   //テーブルソート関数
   var sortTable = function (table, orderBy, isDesc) {
     table.sort(function (a, b) {
@@ -88,4 +68,24 @@
     });
     return table;
   };
+
+  kintone.events.on('app.record.detail.show', function (event) {
+    setBtn('itemSortBtn', '商品順');
+    setBtn('locationSortBtn', '拠点順');
+    var table = event.record.inventoryList;
+    console.log(table.value);
+    console.log(sortTable(table.value, 'sys_code', true));
+    table.value = null;
+
+    $('#itemSortBtn').on('click', function () {
+      var eRecord = kintone.app.record.get();
+      var table = eRecord.record.inventoryList.value
+      table = sortTable(table, 'sys_code', true);
+      console.log(sortTable(table, 'sys_code', true));
+
+      kintone.app.record.set(eRecord);
+    });
+
+    return event;
+  });
 })();
