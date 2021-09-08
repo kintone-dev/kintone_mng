@@ -324,6 +324,7 @@
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
         .then(function (resp) {
+          console.log(resp.records);
           if (resp.records.length != 0) {
             //レポート更新
             var putReportData = [];
@@ -347,6 +348,15 @@
               shipSysCode.push(deviceList[dl].value.mCode.value + '-' + sysUCode);
               shipDistributeCode.push(deviceList[dl].value.mCode.value + '-distribute');
             }
+            for(var dl in deviceList){
+              if(reportSysCode.includes(shipSysCode[dl])){
+                console.log('ok');
+              }else{
+                console.log('no');
+              }
+              
+            }
+
             console.log(reportSysCode);
             console.log(shipSysCode);
             console.log(shipDistributeCode);
