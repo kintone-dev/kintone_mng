@@ -368,18 +368,11 @@
 
             for(var dl in deviceList){
               if(reportSysCode.some(item => item.sysCode === shipSysCode[dl].sysCode)){
-                for(var rsc in reportSysCode){
-                  if(reportSysCode[rsc].sysCode === shipSysCode[dl].sysCode){
-                    var putInventoryBody = {
-                      'id':reportSysCode[rsc].rowId,
-                      'value':{
-                        'stockLocation':PAGE_RECORD.shipment.value,
-                        'shipNum':reportSysCode[rsc].shipNum + shipSysCode[dl].shipNum
-                      }
-                    }    
+                for (var il in putReportBody.record.inventoryList.value) {
+                  if(putReportBody.record.inventoryList.value[il].value.sys_code.value == deviceList[dl].sysCode){
+                    putReportBody.record.inventoryList.value[il].shipNum = parseInt(putReportBody.record.inventoryList.value[il].shipNum) + parseInt(deviceList[dl].shipNum)
                   }
                 }
-                putReportBody.record.inventoryList.value.push(putInventoryBody);
               }else{
                 var putInventoryBody = {
                   'value':{
