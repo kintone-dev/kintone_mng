@@ -91,7 +91,7 @@
         });
 
       /*②
-        作業ステータス：TOASTCAM登録待ち
+        作業ステータス：TOASTCAM登録待ち＞＞集荷待ち(by Jay)
         担当者：Accel Lab
         申込種別：故障交換（保証期間内）、故障交換（保証期間外）
 
@@ -101,7 +101,8 @@
       */
       var getReqBody = {
         'app': kintone.app.getId(),
-        'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+        // 'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+        'query': 'working_status in ("集荷待ち") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
         .then(function (resp) {
@@ -211,7 +212,7 @@
               }
             })
           /*③
-              作業ステータス：TOASTCAM登録待ち
+              作業ステータス：TOASTCAM登録待ち＞＞集荷待ち(by Jay)
               担当者：Accel Lab
               申込種別：故障交換（保証期間内）、故障交換（保証期間外）以外
       
@@ -219,7 +220,8 @@
             */
           var getNotDefBody = {
             'app': kintone.app.getId(),
-            'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+            //'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+            'query': 'working_status in ("集荷待ち") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
           };
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
             .then(function (resp) {
