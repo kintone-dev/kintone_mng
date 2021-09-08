@@ -8,16 +8,15 @@
       const REPORT_KEY_MONTH = PAGE_RECORD.report_key.value.substring(4, 7);
       var reportDate = new Date(REPORT_KEY_YEAR,REPORT_KEY_MONTH);
       reportDate.setMonth(reportDate.getMonth()+13);
-      var nextDate = String(reportDate.getFullYear()) + String(reportDate.getMonth());
-      console.log(nextDate);
+      const NEXT_DATE = String(reportDate.getFullYear()) + String(reportDate.getMonth());
 
       var getNextMonthReportBody = {
         'app': sysid.INV.app_id.report,
-        'query': 'report_key = "' + REPORT_KEY + '" order by 更新日時 asc'
+        'query': 'report_key = "' + NEXT_DATE + '" order by 更新日時 asc'
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNextMonthReportBody)
         .then(function (resp) {
-          console.log(resp.records);
+          console.log(resp);
         })
 
     }
