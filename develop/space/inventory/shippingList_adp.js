@@ -364,8 +364,10 @@
               shipSysCode.push(shipSysData);
               shipDistributeCode.push(shipDistributeData);
             }
+
             for(var dl in deviceList){
-              if(reportSysCode.includes(shipSysCode[dl].sysCode)){
+              if(reportSysCode.some(shipSysCode[dl].sysCode)){
+
                 console.log('ある');
                 var putInventoryBody = {
                   'id':reportSysCode.indexOf(shipSysCode[dl]),
