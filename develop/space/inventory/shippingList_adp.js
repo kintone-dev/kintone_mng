@@ -346,7 +346,11 @@
 
             var inventoryList = resp.records[0].inventoryList.value;
             for (var il in inventoryList) {
-              reportSysCode.push(inventoryList[il].value.sys_code.value);
+              var reportSysData = {
+                'sysCode':inventoryList[il].value.sys_code.value,
+                'rowId':inventoryList[il].id
+              }
+              reportSysCode.push(reportSysData);
             }
             for(var dl in deviceList){
               var shipSysData = {
@@ -361,9 +365,19 @@
               shipDistributeCode.push(shipDistributeData);
             }
             for(var dl in deviceList){
-              if(reportSysCode.includes(shipSysCode[dl])){
-                console.log('ok');
+              if(reportSysCode.includes(shipSysCode[dl].sysCode)){
+                console.log('ある');
+                var putInventoryBody = {
+                  'id':reportSysCode.indexOf(shipSysCode[dl]),
+                  'value':{
+                    'sys_code':shipSysCode[dl].sysCode,
+                    'stockLocation':PAGE_RECORD.shipment.value,
+                    'shipNum':shipSysCode[dl].shipNum
+                  }
+                }
+                putReportBody.record.inventoryList.value.push(putInventoryBody);
               }else{
+                console.log('ない');
                 var putInventoryBody = {
                   'value':{
                     'sys_code':shipSysCode[dl].sysCode,
