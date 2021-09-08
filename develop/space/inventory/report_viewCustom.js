@@ -61,6 +61,7 @@
 
     $('#itemSortBtn').on('click', function () {
       sortTable(table.value, 'sys_code', true);
+      table.value = null;
       console.log(table.value);
       // location.reload();
     });
