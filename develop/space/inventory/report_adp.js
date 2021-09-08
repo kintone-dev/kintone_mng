@@ -9,7 +9,7 @@
       var reportDate = new Date(REPORT_KEY_YEAR,REPORT_KEY_MONTH);
       reportDate.setMonth(reportDate.getMonth()+1);
       const NEXT_DATE = String(reportDate.getFullYear()) + String(reportDate.getMonth());
-
+      console.log(reportDate);
       var getNextMonthReportBody = {
         'app': sysid.INV.app_id.report,
         'query': 'report_key = "' + NEXT_DATE + '" order by 更新日時 asc'
