@@ -19,7 +19,6 @@
         'app': sysid.DEV.app_id.sNum,
         'records': []
       };
-
       var shipTable = event.record.deviceList.value;
       var shipShipment = event.record.shipment.value;
       var sNums = sNumRecords(event.record.deviceList.value, 'table');
@@ -79,7 +78,7 @@
             'report_key':{'value':sendDate},
           }
           postReportData.push(postReportBody);
-          postRecords(sysid.INV.app_id.report, postReportData)
+          postRecords(sysid.INV.app_id.report, postReportData);
         }else{
           //レポート更新
           var putReportData = [];
@@ -88,16 +87,11 @@
               'field':'report_key',
               'value':sendDate
             },
-            'record':{
-              'report_key':{'value':sendDate},
-            }
+            'record':{}
           }
           putReportData.push(putReportBody);
-
         }
       })
-
-
     }
     return event;
   });
@@ -242,7 +236,6 @@
             shipTable[0].value.sNum.error = '入力形式が間違えています';
           }
         }
-
         var spec = {
           rLength: lengthStr,
           rType: openType,
