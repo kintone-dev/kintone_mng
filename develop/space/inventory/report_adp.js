@@ -7,7 +7,7 @@
       const REPORT_KEY_YEAR = PAGE_RECORD.report_key.value.substring(0, 4);
       const REPORT_KEY_MONTH = PAGE_RECORD.report_key.value.substring(4, 7);
       var reportDate = new Date(REPORT_KEY_YEAR, REPORT_KEY_MONTH);
-      reportDate.setMonth(reportDate.getMonth() + 1);
+      reportDate.setMonth(reportDate.getMonth() + 4);
       const NEXT_DATE = String(reportDate.getFullYear()) + String(("0" + reportDate.getMonth()).slice(-2));
       console.log(NEXT_DATE);
       var getNextMonthReportBody = {
