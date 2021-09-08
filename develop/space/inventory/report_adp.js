@@ -8,7 +8,8 @@
       const REPORT_KEY_MONTH = PAGE_RECORD.report_key.value.substring(4, 7);
       var reportDate = new Date(REPORT_KEY_YEAR,REPORT_KEY_MONTH);
       reportDate.setMonth(reportDate.getMonth()+13);
-      console.log(String(reportDate.getFullYear()) + String(reportDate.getMonth()));
+      var nextDate = String(reportDate.getFullYear()) + String(reportDate.getMonth());
+      console.log(nextDate);
 
       var getNextMonthReportBody = {
         'app': sysid.INV.app_id.report,
