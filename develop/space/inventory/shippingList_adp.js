@@ -336,17 +336,20 @@
             }
 
             var reportSysCode = [];
+            var shipSysCode = [];
+            var shipDistributeCode = [];
 
             var inventoryList = resp.records[0].inventoryList.value;
             for (var il in inventoryList) {
               reportSysCode.push(inventoryList[il].value.sys_code.value);
-              // for(var dl in deviceList){
-              //   if(inventoryList[il].value.sys_code.value == deviceList[dl].value.mCode.value + '-' + sysUCode){
-
-              //   }
-              // }
+            }
+            for(var dl in deviceList){
+              shipSysCode.push(deviceList[dl].value.mCode.value + '-' + sysUCode);
+              shipDistributeCode.push(deviceList[dl].value.mCode.value + '-distribute');
             }
             console.log(reportSysCode);
+            console.log(shipSysCode);
+            console.log(shipDistributeCode);
 
             putReportData.push(putReportBody);
             // putRecords(sysid.INV.app_id.report, putReportData);
