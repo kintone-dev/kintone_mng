@@ -6,13 +6,9 @@
     if (PAGE_RECORD.EoMcheck.value == '締切') {
       const REPORT_KEY_YEAR = PAGE_RECORD.report_key.value.substring(0, 4);
       const REPORT_KEY_MONTH = PAGE_RECORD.report_key.value.substring(4, 7);
-      console.log(REPORT_KEY_YEAR);
-      console.log(REPORT_KEY_MONTH);
       var reportDate = new Date(REPORT_KEY_YEAR,REPORT_KEY_MONTH);
-      var nextDate = reportDate.setMonth(reportDate.getMonth()+1);
-      console.log(reportDate);
-      console.log(nextDate);
-      console.log(nextDate.getFullYear() + nextDate.getMonth());
+      reportDate.setMonth(reportDate.getMonth()+1);
+      console.log(reportDate.getFullYear() + reportDate.getMonth());
 
       var getNextMonthReportBody = {
         'app': sysid.INV.app_id.report,
