@@ -1,12 +1,6 @@
 (function () {
   'use strict';
 
-  kintone.events.on('app.record.detail.show', function (event) {
-    var test_tjson = event.record.sys_address.value;
-    var test = test_tjson.split(',');
-    console.log(test);
-  })
-
   kintone.events.on(['app.record.create.change.editMC', 'app.record.edit.change.editMC', 'app.record.create.show', 'app.record.edit.show'], function (event) {
     var editmc = event.record.editMC.value;
 
@@ -50,36 +44,47 @@
     setFieldShown('sWarranty__s', false);
     setFieldShown('eWarranty__s', false);
     setFieldShown('yWarranty__s', false);
-    return event;
-  });
 
-  kintone.events.on(['app.record.detail.show'], function (event) {
-
-    var putORGinfo = setBtn_header('putORGinfo', '組織情報更新');
-    $('#' + putORGinfo.id).on('click', function () {
-      var setRecordsBody = {
-        'app': event.appId,
-        'records': []
-      };
-      for (var i in event.records) {
-        setRecordsBody.records.push({
-          'id': event.records[i].$id.value,
-          'record': {
-            'orgName': {
-              'value': event.records[i].orgName.value
-            }
-          }
-        });
+    function tabSwitch(onSelect){
+      switch(onSelect){
+        case '#設置先概要':
+          setFieldShows('orgName', true);
+          setSpaceShown('btn_newORG', 'individual', 'block');
+          setFieldShows('bnName', true);
+          setFieldShows('bName', true);
+          setFieldShows('editMC', true);
+          setFieldShows('cName', true);
+          setFieldShows('BMC', true);
+          setFieldShows('RRMC', true);
+          setFieldShows('bMemo', true);
+          setFieldShows('receiver', false);
+          setFieldShows('phoneNum', false);
+          setFieldShows('zipcode', false);
+          setFieldShows('prefectures', false);
+          setFieldShows('city', false);
+          setFieldShows('address', false);
+          setFieldShows('kittingCorp', false);
+          setFieldShows('instCorp', false);
+          setFieldShows('instDate', false);
+          setFieldShows('instDDday', false);
+          setFieldShows('propertieNum', false);
+          setFieldShows('instedNum', false);
+          setFieldShows('sWarranty', false);
+          setFieldShows('eWarranty', false);
+          setFieldShows('warranty', false);
+          break;
+          case '#設置先住所':
+            break;
+        case '#設置情報':
+          break;
       }
-
-      kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', setRecordsBody).then(function (resp) {
-        console.log(resp);
-      }).catch(function (error) {
-        console.log(error);
-      });
-
+    }tabSwitch('#設置先概要');
+    tabMenu('tab_inst', ['設置先概要','設置先住所','設置情報']);
+    $('.tab_inst a').on('click', function(){
+      var idName = $(this).attr('href'); //タブ内のリンク名を取得  
+      tabSwitch(idName); //tabをクリックした時の表示設定
+      return false;
     });
-
     return event;
   });
 })();
