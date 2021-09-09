@@ -32,6 +32,7 @@
       event.record.Contractor.value = 'ベンダー';
       event.record.Contractor.lookup = true;
     } else if(event.record.shipType.value=='返品'){
+      event.record.dstSelection.value='施工業者/拠点へ納品';
       event.record.shipment.value = 'ベンダー';
       event.record.shipment.lookup = true;
       event.record.Contractor.value = 'ベンダー';
