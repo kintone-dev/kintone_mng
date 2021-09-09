@@ -4,6 +4,7 @@
   kintone.events.on('app.record.create.show', function (event) {
     autoNum('PRJ_', 'prjNum');
     event.record.prjNum.disabled = true;
+    setFieldShown('invoiceNum', false);
     return event;
   });
   
