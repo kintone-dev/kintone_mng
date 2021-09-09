@@ -49,7 +49,7 @@
       switch(onSelect){
         case '#設置先概要':
           setFieldShown('orgName', true);
-          setSpaceShown('btn_newORG', 'individual', 'block');
+          setSpaceShown('btn_newORG', 'individual', 'none');
           setFieldShown('bnName', true);
           setFieldShown('bName', true);
           setFieldShown('editMC', true);
@@ -101,7 +101,7 @@
             break;
         case '#設置情報':
           setFieldShown('orgName', false);
-          setSpaceShown('btn_newORG', 'individual', 'block');
+          setSpaceShown('btn_newORG', 'individual', 'none');
           setFieldShown('bnName', false);
           setFieldShown('bName', false);
           setFieldShown('editMC', false);
