@@ -1,10 +1,10 @@
 (function() {
 'use strict';
-  var prj_aNumValue='';
+  var prjNumValue='';
   var orgname='';
   var instname='';
-  kintone.events.on('app.record.create.change.prj_aNum', function(event) {    //案件番号格納
-    prj_aNumValue=event.record.prj_aNum.value;
+  kintone.events.on('app.record.create.change.prjNum', function(event) {    //案件番号格納
+    prjNumValue=event.record.prjNum.value;
     return event;
   });
   kintone.events.on('app.record.create.change.orgName_getvalue', function(event) {    //案件番号格納
@@ -19,18 +19,18 @@
   
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event) {
     setFieldShown('orgName_getvalue', false);
-    prj_aNumValue=event.record.prj_aNum.value;
+    prjNumValue=event.record.prjNum.value;
     orgname=event.record.orgName_getvalue.value;
     instname=event.record.instName.value;
     //新規組織
     var newORG=setBtn('btn_newORG','新規組織');
     $('#'+newORG.id).on('click', function(){
-      createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue);
+      createNewREC(sysID.DIPM.app.org, 'prjNum', prjNumValue);
     });
     //新規設置先
     var newIST=setBtn('btn_newIST','新規設置先');
     $('#'+newIST.id).on('click', function(){
-      createNewREC(sysID.DIPM.app.inst, ['prj_aNum', 'orgName'], [prj_aNumValue, orgname]);
+      createNewREC(sysID.DIPM.app.inst, ['prjNum', 'orgName'], [prjNumValue, orgname]);
     });
   });
   
@@ -52,14 +52,14 @@
           break;
       }
       var tdate=event.record.tarDate.value;
-      createNewREC(sysID.DIPM.app.ship, ['prj_aNum', 'shipType', 'tarDate', 'instName'], [prj_aNumValue, sType, tdate, instname]);
+      createNewREC(sysID.DIPM.app.ship, ['prjNum', 'shipType', 'tarDate', 'instName'], [prjNumValue, sType, tdate, instname]);
     });
     
     //新規予備機リスト
     if(sType!='確認中'){
       var newSpare=setBtn('btn_newSpare','新規予備機リスト');
       $('#'+newSpare.id).on('click', function(){
-        createNewREC(sysID.DIPM.app.ship, ['prj_aNum', 'shipType', 'instName'], [prj_aNumValue, '予備', instname]);
+        createNewREC(sysID.DIPM.app.ship, ['prjNum', 'shipType', 'instName'], [prjNumValue, '予備', instname]);
       });
     }
     return event;
