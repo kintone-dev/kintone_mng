@@ -45,6 +45,8 @@
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
+          setFieldShown('tarDate', false);
+          setFieldShown('aboutDelivery', false);
           setFieldShown('deviceList', false);
           break;
         case '#設置先情報':
@@ -69,6 +71,8 @@
           setFieldShown('instStatus', true);
           setFieldShown('instDate', true);
           setFieldShown('instDDday', true);
+          setFieldShown('tarDate', false);
+          setFieldShown('aboutDelivery', false);
           setFieldShown('deviceList', false);
           break;
         case '#納品依頼リスト':
@@ -88,6 +92,8 @@
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
+          setFieldShown('tarDate', true);
+          setFieldShown('aboutDelivery', true);
           setFieldShown('deviceList', true);
           break;
       }
