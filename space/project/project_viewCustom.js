@@ -15,7 +15,6 @@
 
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     event.record.cSales.disabled = false;
-    setFieldShown('sys_orgName', true);
     setFieldShown('sys_suptitle', true);
     if(event.record.invoiceNum.value==undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
