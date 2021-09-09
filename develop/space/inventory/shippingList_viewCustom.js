@@ -59,6 +59,7 @@
 
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
     //$('.gaia-app-statusbar').css('display', 'none');
+    doSelection(event);
 
     // システム用フィールド非表示
     setFieldShown('sys_unitAddress', false);
@@ -106,16 +107,6 @@
           } else {
             setFieldShown('Contractor', false);
             setFieldShown('instName', false);      
-          }
-          if(event.record.dstSelection.value=='施工業者/拠点へ納品'){
-            event.record.receiver.disabled=true;
-            event.record.phoneNum.disabled=true;
-            event.record.zipcode.disabled=true;
-            event.record.prefectures.disabled=true;
-            event.record.city.disabled=true;
-            event.record.address.disabled=true;
-            event.record.buildingName.disabled=true;
-            event.record.corpName.disabled=true;
           }
           break;
         case '#品目情報':
