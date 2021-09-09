@@ -107,7 +107,7 @@
             setFieldShown('Contractor', false);
             setFieldShown('instName', false);      
           }
-          if(event.record.dstSelection.value='施工業者/拠点へ納品'){
+          if(event.record.dstSelection.value=='施工業者/拠点へ納品'){
             event.record.receiver.disabled=true;
             event.record.phoneNum.disabled=true;
             event.record.zipcode.disabled=true;
@@ -115,7 +115,7 @@
             event.record.city.disabled=true;
             event.record.address.disabled=true;
             event.record.buildingName.disabled=true;
-            event.record.corpName.disabled=true;      
+            event.record.corpName.disabled=true;
           }
           break;
         case '#品目情報':
