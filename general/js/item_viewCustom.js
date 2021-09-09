@@ -19,8 +19,6 @@
     $('.gaia-argoui-app-menu-copy').remove();
     return event;
   });
-
-  // 
   kintone.events.on(['app.record.edit.show'], function(event){    
     event.record.mName.disabled = true;
     event.record.mCode.disabled = true;
