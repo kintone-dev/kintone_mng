@@ -6,7 +6,7 @@
     event.record.prjNum.value = sessionStorage.getItem('prjNum');
     event.record.bnName.value = sessionStorage.getItem('unknowINST');
     event.record.bName.value = sessionStorage.getItem('unknowINST');
-    if(sessionStorage.getItem('setShown')){
+    if(sessionStorage.getItem('setShown')=='disable'){
       event.record.bnName.disabled = true;
       event.record.bName.disabled = true;
     }
