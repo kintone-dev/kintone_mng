@@ -354,7 +354,7 @@
               var arrivalSysData = {
                 'sysCode': deviceList[dl].value.mCode.value + '-' + sysArrivalCode,
                 'shipNum': deviceList[dl].value.shipNum.value,
-                'location': deviceList[dl].value.Contractor.value
+                'location': pageRecod.Contractor.value
               }
               arrivalSysCode.push(arrivalSysData);
             }
