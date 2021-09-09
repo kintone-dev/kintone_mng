@@ -554,10 +554,12 @@
               reportSysCode.push(reportSysData);
             }
             for (var dl in deviceList) {
+              //出荷データ作成
               var shipSysData = {
                 'sysCode': deviceList[dl].value.mCode.value + '-' + sysUCode,
                 'shipNum': deviceList[dl].value.shipNum.value,
               }
+              //入荷データ作成
               var shipDistributeData = {
                 'sysCode': deviceList[dl].value.mCode.value + '-distribute',
                 'shipNum': deviceList[dl].value.shipNum.value
