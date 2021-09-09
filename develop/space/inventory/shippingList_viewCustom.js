@@ -68,7 +68,7 @@
     function tabSwitch(onSelect){
       switch(onSelect){
         case '#宛先情報':
-          doSelection(event));
+          doSelection(event);
           kintone.app.record.setFieldShown('dstSelection', true);
           setFieldShown('zipcode', true);
           setFieldShown('phoneNum', true);
