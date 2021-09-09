@@ -16,8 +16,8 @@ var sysid = {
 		app_id: {
 			unit: 156,
 			device: 155,
-			report: 154,
-			shipment: 153
+			report: 179,
+			shipment: 178
 		}
 	},
 	// Support
