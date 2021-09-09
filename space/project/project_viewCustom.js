@@ -42,15 +42,15 @@
           setFieldShown('purchaseOrder', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          // if(event.record.instName.value==undefined){
-          //   setSpaceShown('btn_newINST', 'individual', 'block');
-          //   setSpaceShown('btn_unknowINST', 'individual', 'block');
-          // }else{
-          //   setSpaceShown('btn_newINST', 'individual', 'none');
-          //   setSpaceShown('btn_unknowINST', 'individual', 'none');
-          // }
-          setSpaceShown('btn_newINST', 'individual', 'block');
-          setSpaceShown('btn_unknowINST', 'individual', 'block');
+          if(event.record.instName.value==undefined){
+            setSpaceShown('btn_newINST', 'individual', 'block');
+            setSpaceShown('btn_unknowINST', 'individual', 'block');
+          }else{
+            setSpaceShown('btn_newINST', 'individual', 'none');
+            setSpaceShown('btn_unknowINST', 'individual', 'none');
+          }
+          // setSpaceShown('btn_newINST', 'individual', 'block');
+          // setSpaceShown('btn_unknowINST', 'individual', 'block');
           setFieldShown('orgName', true);
           setFieldShown('cName', true);
           setFieldShown('cSales', true);
