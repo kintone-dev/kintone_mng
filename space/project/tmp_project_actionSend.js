@@ -7,8 +7,8 @@
     prjNumValue=event.record.prjNum.value;
     return event;
   });
-  kintone.events.on('app.record.create.change.orgName_getvalue', function(event) {    //案件番号格納
-    orgname=event.record.orgName_getvalue.value;
+  kintone.events.on('app.record.create.change.sys_orgName', function(event) {    //案件番号格納
+    orgname=event.record.sys_orgName.value;
     return event;
   });
   kintone.events.on('app.record.create.change.instName', function(event) {    //案件番号格納
@@ -18,9 +18,9 @@
   
   
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event) {
-    setFieldShown('orgName_getvalue', false);
+    setFieldShown('sys_orgName', false);
     prjNumValue=event.record.prjNum.value;
-    orgname=event.record.orgName_getvalue.value;
+    orgname=event.record.sys_orgName.value;
     instname=event.record.instName.value;
     //新規組織
     var newORG=setBtn('btn_newORG','新規組織');
