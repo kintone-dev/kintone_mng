@@ -182,7 +182,8 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 		sessionStorage.removeItem(copy_fCode); //同じ名称のSessionStorageを削除
 		sessionStorage.setItem(copy_fCode, copy_value); //値をSessionStorageに格納する
 	}
-	window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', '_blank'); //該当アプリの新規レコード作成画面を開く
+	// window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', '_blank'); //該当アプリの新規レコード作成画面を開く
+	window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', 'example','scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200'); //該当アプリの新規レコード作成画面を開く
 
 	if (Array.isArray(copy_fCode)) { //配列の場合のアクション
 		for (var fr in copy_fCode) {
