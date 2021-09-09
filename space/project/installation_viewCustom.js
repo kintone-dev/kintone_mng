@@ -48,7 +48,7 @@
     function tabSwitch(onSelect){
       switch(onSelect){
         case '#設置先概要':
-          setFieldShows('orgName', true);
+          setFieldShown('orgName', true);
           setSpaceShown('btn_newORG', 'individual', 'block');
           setFieldShows('bnName', true);
           setFieldShows('bName', true);
@@ -74,7 +74,7 @@
           setFieldShows('warranty', false);
           break;
           case '#設置先住所':
-            setFieldShows('orgName', false);
+            setFieldShown('orgName', false);
             setSpaceShown('btn_newORG', 'individual', 'block');
             setFieldShows('bnName', false);
             setFieldShows('bName', false);
@@ -100,7 +100,7 @@
             setFieldShows('warranty', false);
             break;
         case '#設置情報':
-          setFieldShows('orgName', false);
+          setFieldShown('orgName', false);
           setSpaceShown('btn_newORG', 'individual', 'block');
           setFieldShows('bnName', false);
           setFieldShows('bName', false);
