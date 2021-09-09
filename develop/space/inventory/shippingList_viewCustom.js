@@ -31,12 +31,28 @@
       event.record.dstSelection.value='施工業者/拠点へ納品';
       event.record.Contractor.value = 'ベンダー';
       event.record.Contractor.lookup = true;
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
     } else if(event.record.shipType.value=='返品'){
       event.record.dstSelection.value='施工業者/拠点へ納品';
       event.record.shipment.value = 'ベンダー';
       event.record.shipment.lookup = true;
       event.record.Contractor.value = 'ベンダー';
       event.record.Contractor.lookup = true;
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
     }
     return event;
   });
