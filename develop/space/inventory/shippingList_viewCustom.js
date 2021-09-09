@@ -27,9 +27,15 @@
         event.record.buildingName.value=unitAddress[6];
         event.record.corpName.value=unitAddress[7];
       }
+    } else if(event.record.shipType.value=='移動-ベンダー'){
+      event.record.dstSelection.value='施工業者/拠点へ納品';
+      event.record.Contractor.value = 'ベンダー';
+      event.record.Contractor.lookup = true;
     } else if(event.record.shipType.value=='返品'){
       event.record.shipment.value = 'ベンダー';
       event.record.shipment.lookup = true;
+      event.record.Contractor.value = 'ベンダー';
+      event.record.Contractor.lookup = true;
     }
     return event;
   });
@@ -75,15 +81,11 @@
             setFieldShown('Contractor', true);
             setFieldShown('instName', false);      
           } else if(eRecord.record.shipType.value=='移動-ベンダー'){
-            setFieldShown('Contractor', false);
-            setFieldShown('instName', true);      
-            event.record.Contractor.value = 'ベンダー';
-            event.record.Contractor.lookup = true;
+            setFieldShown('Contractor', true);
+            setFieldShown('instName', false);      
           } else if(eRecord.record.shipType.value=='返品'){
-            setFieldShown('Contractor', false);
-            setFieldShown('instName', true);      
-            event.record.Contractor.value = 'ベンダー';
-            event.record.Contractor.lookup = true;
+            setFieldShown('Contractor', true);
+            setFieldShown('instName', false);      
           } else {
             setFieldShown('Contractor', false);
             setFieldShown('instName', false);      
