@@ -18,7 +18,6 @@
   
   
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event) {
-    setFieldShown('sys_orgName', false);
     prjNumValue=event.record.prjNum.value;
     orgname=event.record.sys_orgName.value;
     instname=event.record.instName.value;
