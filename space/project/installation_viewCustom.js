@@ -127,7 +127,7 @@
     var newORG=setBtn('btn_newORG','新規組織');
     $('#'+newORG.id).on('click', function(){
       // createNewREC(, 'prjNum', prjNumValue); // 実行内容例
-      window.open('https://accel-lab.cybozu.com/k/' + sysid.PM.app_id.organization + '/edit', 'example','scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=800,left=200,top=200');
+      window.open('https://accel-lab.cybozu.com/k/' + sysid.PM.app_id.organization + '/edit', 'example','scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200');
     });
     return event;
   });
