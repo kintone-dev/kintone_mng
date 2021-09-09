@@ -272,6 +272,8 @@
       createReport(PAGE_RECORD,'arrival');
     } else if (PAGE_RECORD.shipType.value == '社内利用' || PAGE_RECORD.shipType.value == '貸与' || PAGE_RECORD.shipType.value == '修理') {
       createReport(PAGE_RECORD,'shiponly');
+    } else if(PAGE_RECORD.shipType.value == '返品'){
+      createReport(PAGE_RECORD,'shiponly');
     }
   });
 
