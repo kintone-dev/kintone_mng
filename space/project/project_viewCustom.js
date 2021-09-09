@@ -17,6 +17,8 @@
     event.record.cSales.disabled = false;
     setFieldShown('sys_orgName', true);
     setFieldShown('sys_suptitle', true);
+    if(event.record.invoiceNum.value==undefined) setFieldShown('invoiceStatus', false);
+    else setFieldShown('invoiceStatus', true);
     // 新・既存案件表示切り替え
     function tabSwitch(onSelect){
       switch(onSelect){
