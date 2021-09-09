@@ -22,8 +22,8 @@
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     event.record.cSales.disabled = false;
     setFieldShown('sys_suptitle', true);
-    // if(event.record.invoiceNum.value==='') setFieldShown('invoiceStatus', false);
-    // else setFieldShown('invoiceStatus', true);
+    if(event.record.invoiceNum.value===''||event.record.invoiceNum.value===undefined) setFieldShown('invoiceStatus', false);
+    else setFieldShown('invoiceStatus', true);
     // 新・既存案件表示切り替え
     function tabSwitch(onSelect){
       switch(onSelect){
