@@ -245,14 +245,14 @@
     if(selection=='施工業者/拠点へ納品'){
       setFieldShown('Contractor', true);
       setFieldShown('instName', false);
-      event.record.receiver.disabled=false;
-      event.record.phoneNum.disabled=false;
-      event.record.zipcode.disabled=false;
-      event.record.prefectures.disabled=false;
-      event.record.city.disabled=false;
-      event.record.address.disabled=false;
-      event.record.buildingName.disabled=false;
-      event.record.corpName.disabled=false;
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
       if(event.record.sys_unitAddress.value!==undefined){
         var unitAddress=event.record.sys_unitAddress.value.split(',');
         event.record.receiver.value=unitAddress[0];
