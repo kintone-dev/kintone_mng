@@ -1,6 +1,5 @@
 (function () {
   'use strict';
-
   kintone.events.on('app.record.create.show', function (event) {
     //キャンセルした時の処理
     var cancel_btn = document.getElementsByClassName('gaia-ui-actionmenu-cancel');
