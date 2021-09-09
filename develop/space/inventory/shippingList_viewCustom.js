@@ -68,12 +68,15 @@
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn','line', 'none');
           if(event.record.shipType.value=='移動-拠点間'){
+            console.log('if');
             setFieldShown('Contractor', true);
             setFieldShown('instName', false);      
           } else if(event.record.shipType.value=='設置先と同じ'){
+            console.log('else if');
             setFieldShown('Contractor', false);
             setFieldShown('instName', true);      
           } else{
+            console.log('else');
             setFieldShown('Contractor', false);
             setFieldShown('instName', false);      
           }
