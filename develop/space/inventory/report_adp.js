@@ -42,7 +42,7 @@
                 },
                 'mLastStock':{
                   'value':PAGE_RECORD.inventoryList.value[pil].value.deductionNum.value
-                },
+                }
               };
               postNewReport_listArray.push(postNewReport_listArray_body);
             }
