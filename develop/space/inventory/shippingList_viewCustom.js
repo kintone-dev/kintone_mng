@@ -16,6 +16,7 @@
       event.record.address.disabled=true;
       event.record.buildingName.disabled=true;
       event.record.corpName.disabled=true;
+      event.record.dstSelection.disabled=true;
       if(event.record.sys_unitAddress.value!==undefined){
         var unitAddress=event.record.sys_unitAddress.value.split(',');
         event.record.receiver.value=unitAddress[0];
@@ -39,6 +40,8 @@
       event.record.address.disabled=true;
       event.record.buildingName.disabled=true;
       event.record.corpName.disabled=true;
+      event.record.dstSelection.disabled=true;
+      event.record.Contractor.disabled=true;
     } else if(event.record.shipType.value=='返品'){
       event.record.dstSelection.value='施工業者/拠点へ納品';
       event.record.shipment.value = 'ベンダー';
@@ -53,6 +56,8 @@
       event.record.address.disabled=true;
       event.record.buildingName.disabled=true;
       event.record.corpName.disabled=true;
+      event.record.dstSelection.disabled=true;
+      event.record.Contractor.disabled=true;
     }
     return event;
   });
