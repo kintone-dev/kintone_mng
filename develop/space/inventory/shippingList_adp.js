@@ -263,7 +263,6 @@
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
     const PAGE_RECORD = event.record;
-    console.log(PAGE_RECORD.shipType.value);
     if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
       createReport(PAGE_RECORD,'distribute');
     } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
