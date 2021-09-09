@@ -97,8 +97,8 @@
     table.sort(function (a, b) {
       console.log(a);
       console.log(b);
-      var v1 = a.value[orderBy].value.slice(codeCutter + 1);
-      var v2 = b.value[orderBy].value.slice(codeCutter + 1);
+      var v1 = a.value[orderBy].value;
+      var v2 = b.value[orderBy].value;
       // var v1 = a.value[orderBy].value.slice(codeCutter + 1) + a.value[orderBy].value.substring(0, codeCutter);
       // var v2 = b.value[orderBy].value.slice(codeCutter + 1) + b.value[orderBy].value.substring(0, codeCutter);
       var pos = isDesc ? -1 : 1;
