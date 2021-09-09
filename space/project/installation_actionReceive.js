@@ -9,7 +9,7 @@
     var testB=sessionStorage.getItem('setShown');
     event.record.bnName.disabled = testB;
     event.record.bName.disabled = sessionStorage.getItem('setShown');
-    alert(sessionStorage.getItem('setShown'));
+    // alert(sessionStorage.getItem('setShown'));
     // setSpaceShown('btn_newORG','individual',sessionStorage.getItem('btn_newORG_shown'))
     //キャンセルした時の処理
     var cancel_btn = document.getElementsByClassName('gaia-ui-actionmenu-cancel');
