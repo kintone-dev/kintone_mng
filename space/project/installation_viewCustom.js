@@ -126,7 +126,7 @@
 
     var newORG=setBtn('btn_newORG','新規組織');
     $('#'+newORG.id).on('click', function(){
-      createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
+      // createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
     });
     return event;
   });
