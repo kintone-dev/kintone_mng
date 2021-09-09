@@ -12,8 +12,8 @@
 
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
     //$('.gaia-app-statusbar').css('display', 'none');
-    doSelection(event);
     disableSet(event);
+    doSelection(event);
 
     // システム用フィールド非表示
     setFieldShown('sys_unitAddress', false);
@@ -23,8 +23,8 @@
       switch(onSelect){
         case '#宛先情報':
           var eRecord = kintone.app.record.get();
-          doSelection(event);
           disableSet(event);
+          doSelection(event);
           kintone.app.record.setFieldShown('dstSelection', true);
           setFieldShown('zipcode', true);
           setFieldShown('phoneNum', true);
