@@ -19,7 +19,7 @@
     //反映したあとはsessionStorageの中身を削除
     //sessionStorage.clear();
     sessionStorage.removeItem('prjNum');
-    sessionStorage.removeItem('bnName');
+    sessionStorage.removeItem('unknowINST');
     sessionStorage.removeItem('setShown');
     // sessionStorage.removeItem('btn_newORG_shown');
     return event;
