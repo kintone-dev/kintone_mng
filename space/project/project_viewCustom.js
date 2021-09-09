@@ -12,7 +12,7 @@
     prjNumValue=event.record.prjNum.value;
     return event;
   });
-  
+
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     event.record.cSales.disabled = false;
     setFieldShown('sys_orgName', true);
@@ -96,17 +96,13 @@
     var newINST=setBtn('btn_newINST','新規設置先');
     $('#'+newINST.id).on('click', function(){
       // createNewREC(sysid.PM.app_id.installation, ['prjNum', 'btn_newORG_shown'], [prjNumValue, 'none']);
-      createNewREC(sysid.PM.app_id.installation, 'prjNum', prjNumValue);
+      createNewREC(sysid.PM.app_id.installation, ['prjNum','bnName','bName'], [prjNumValue,'','']);
     });
 
     var unknowINST=setBtn('btn_unknowINST','新規不特定設置先');
     $('#'+unknowINST.id).on('click', function(){
+      createNewREC(sysid.PM.app_id.installation, ['prjNum','bnName','bName'], [prjNumValue,'不特定設置先','不特定設置先']);
     });
-    // var newINST=new setBtn('btn_newINST','新規組織');
-    // $('#'+newINST.id).on('click', function(){
-    //   // createNewREC(, 'prjNum', prjNumValue); // 実行内容例
-    //   window.open('https://accel-lab.cybozu.com/k/' + sysid.PM.app_id.organization + '/edit', 'example','scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200');
-    // });
   });
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
     // 新規作成以外、案件管理番号編集と既存案件切り替え不可
