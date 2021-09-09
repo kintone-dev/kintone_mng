@@ -95,6 +95,8 @@
     // var codeCutter = table[0].value[orderBy].value.indexOf('-');
 
     table.sort(function (a, b) {
+      console.log(a);
+      console.log(b);
       var v1 = a.value[orderBy].value.slice(codeCutter + 1);
       var v2 = b.value[orderBy].value.slice(codeCutter + 1);
       // var v1 = a.value[orderBy].value.slice(codeCutter + 1) + a.value[orderBy].value.substring(0, codeCutter);
