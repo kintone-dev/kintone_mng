@@ -6,7 +6,8 @@
     event.record.prjNum.value = sessionStorage.getItem('prjNum');
     event.record.bnName.value = sessionStorage.getItem('unknowINST');
     event.record.bName.value = sessionStorage.getItem('unknowINST');
-    event.record.bnName.disabled = sessionStorage.getItem('setShown');
+    var testB=sessionStorage.getItem('setShown');
+    event.record.bnName.disabled = testB;
     event.record.bName.disabled = sessionStorage.getItem('setShown');
     alert(sessionStorage.getItem('setShown'));
     // setSpaceShown('btn_newORG','individual',sessionStorage.getItem('btn_newORG_shown'))
