@@ -5,6 +5,7 @@
     autoNum('PRJ_', 'prjNum');
     event.record.prjNum.disabled = true;
     setFieldShown('invoiceNum', false);
+    setFieldShown('invoiceStatus', false);
     return event;
   });
   
