@@ -6,10 +6,6 @@
     event.record.prjNum.value = sessionStorage.getItem('prjNum');
     event.record.bnName.value = sessionStorage.getItem('unknowINST');
     event.record.bName.value = sessionStorage.getItem('unknowINST');
-    var testB=sessionStorage.getItem('setShown');
-    event.record.bnName.disabled = testB;
-    event.record.bName.disabled = sessionStorage.getItem('setShown');
-    // alert(sessionStorage.getItem('setShown'));
     // setSpaceShown('btn_newORG','individual',sessionStorage.getItem('btn_newORG_shown'))
     //キャンセルした時の処理
     var cancel_btn = document.getElementsByClassName('gaia-ui-actionmenu-cancel');
@@ -21,7 +17,6 @@
     //sessionStorage.clear();
     sessionStorage.removeItem('prjNum');
     sessionStorage.removeItem('unknowINST');
-    sessionStorage.removeItem('setShown');
     // sessionStorage.removeItem('btn_newORG_shown');
     return event;
   });
