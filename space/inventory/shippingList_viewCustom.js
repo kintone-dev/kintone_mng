@@ -4,47 +4,28 @@
     doSelection(event);
     return event;
   });
+
   kintone.events.on(['app.record.create.change.shipType','app.record.edit.change.shipType'], function(event){
-    if(event.record.shipType.value=='拠点間移動'){
-      event.record.dstSelection.value='施工業者/拠点へ納品';
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-      event.record.receiver.disabled=true;
-      event.record.phoneNum.disabled=true;
-      event.record.zipcode.disabled=true;
-      event.record.prefectures.disabled=true;
-      event.record.city.disabled=true;
-      event.record.address.disabled=true;
-      event.record.buildingName.disabled=true;
-      event.record.corpName.disabled=true;
-      if(event.record.sys_unitAddress.value!==undefined){
-        var unitAddress=event.record.sys_unitAddress.value.split(',');
-        event.record.receiver.value=unitAddress[0];
-        event.record.phoneNum.value=unitAddress[1];
-        event.record.zipcode.value=unitAddress[2];
-        event.record.prefectures.value=unitAddress[3];
-        event.record.city.value=unitAddress[4];
-        event.record.address.value=unitAddress[5];
-        event.record.buildingName.value=unitAddress[6];
-        event.record.corpName.value=unitAddress[7];
-      }
-    }
+    disableSet(event);
     return event;
   });
+
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
     //$('.gaia-app-statusbar').css('display', 'none');
-
+    disableSet(event);
+    doSelection(event);
 
     // システム用フィールド非表示
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
-    
     //tabメニューの選択肢による表示設定
     function tabSwitch(onSelect){
       switch(onSelect){
         case '#宛先情報':
-          kintone.app.record.setFieldShown('dstSelection', true);
+          var eRecord = kintone.app.record.get();
+          disableSet(event);
           doSelection(event);
+          kintone.app.record.setFieldShown('dstSelection', true);
           setFieldShown('zipcode', true);
           setFieldShown('phoneNum', true);
           setFieldShown('address', true);
@@ -53,14 +34,11 @@
           setFieldShown('receiver', true);
           setFieldShown('prefectures', true);
           setFieldShown('city', true);
-
           setFieldShown('deviceList', false);
-
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
-
           setFieldShown('shipment', false);
           setFieldShown('shipType', false);
           setFieldShown('tarDate', false);
@@ -68,6 +46,19 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn','line', 'none');
+          if(eRecord.record.shipType.value=='移動-拠点間'){
+            setFieldShown('Contractor', true);
+            setFieldShown('instName', false);      
+          } else if(eRecord.record.shipType.value=='移動-ベンダー'){
+            setFieldShown('Contractor', true);
+            setFieldShown('instName', false);      
+          } else if(eRecord.record.shipType.value=='返品'){
+            setFieldShown('Contractor', true);
+            setFieldShown('instName', false);      
+          } else {
+            setFieldShown('Contractor', false);
+            setFieldShown('instName', false);      
+          }
           break;
         case '#品目情報':
           setFieldShown('dstSelection', false);
@@ -81,14 +72,11 @@
           setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
-
           setFieldShown('deviceList', true);
-
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
-
           setFieldShown('shipment', false);
           setFieldShown('shipType', false);
           setFieldShown('tarDate', false);
@@ -109,14 +97,11 @@
           setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
-
           setFieldShown('deviceList', false);
-
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
-
           setFieldShown('shipment', true);
           setFieldShown('shipType', true);
           setFieldShown('tarDate', true);
@@ -137,14 +122,11 @@
           setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
-
           setFieldShown('deviceList', false);
-
           setFieldShown('deliveryCorp', true);
           setFieldShown('trckNum', true);
           setFieldShown('sendDate', true);
           setFieldShown('expArrivalDate', true);
-
           setFieldShown('shipment', false);
           setFieldShown('shipType', false);
           setFieldShown('tarDate', false);
@@ -206,7 +188,6 @@
       event.record.trckNum.value=null;
       event.record.trckNum.disabled=false;
     }
-
     return event;
   });
   // カーテンレールが選択された場合、シリアル番号欄にデータを記入
@@ -220,11 +201,63 @@
     }
     return event;
   });
-  function doSelection(event){
-    var selection=event.record.dstSelection.value;
-    if(selection=='施工業者/拠点へ納品'){
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
+
+  const disableSet = function(event){
+    if(event.record.shipType.value=='移動-拠点間'){
+      event.record.dstSelection.value='施工業者/拠点へ納品';
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
+      event.record.dstSelection.disabled=true;
+      event.record.Contractor.disabled=false;
+      if(event.record.sys_unitAddress.value!==undefined){
+        var unitAddress=event.record.sys_unitAddress.value.split(',');
+        event.record.receiver.value=unitAddress[0];
+        event.record.phoneNum.value=unitAddress[1];
+        event.record.zipcode.value=unitAddress[2];
+        event.record.prefectures.value=unitAddress[3];
+        event.record.city.value=unitAddress[4];
+        event.record.address.value=unitAddress[5];
+        event.record.buildingName.value=unitAddress[6];
+        event.record.corpName.value=unitAddress[7];
+      }
+    } else if(event.record.shipType.value=='移動-ベンダー'){
+      event.record.dstSelection.value='施工業者/拠点へ納品';
+      event.record.Contractor.value = 'ベンダー';
+      event.record.Contractor.lookup = true;
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
+      event.record.dstSelection.disabled=true;
+      event.record.Contractor.disabled=true;
+    } else if(event.record.shipType.value=='返品'){
+      event.record.dstSelection.value='施工業者/拠点へ納品';
+      event.record.shipment.value = 'ベンダー';
+      event.record.shipment.lookup = true;
+      event.record.Contractor.value = 'ベンダー';
+      event.record.Contractor.lookup = true;
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
+      event.record.dstSelection.disabled=true;
+      event.record.Contractor.disabled=true;
+    }else{
+      event.record.dstSelection.value='手入力';
       event.record.receiver.disabled=false;
       event.record.phoneNum.disabled=false;
       event.record.zipcode.disabled=false;
@@ -233,6 +266,23 @@
       event.record.address.disabled=false;
       event.record.buildingName.disabled=false;
       event.record.corpName.disabled=false;
+      event.record.dstSelection.disabled=false;
+      event.record.Contractor.disabled=false;
+    }
+  }
+  function doSelection(event){
+    var selection=event.record.dstSelection.value;
+    if(selection=='施工業者/拠点へ納品'){
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
       if(event.record.sys_unitAddress.value!==undefined){
         var unitAddress=event.record.sys_unitAddress.value.split(',');
         event.record.receiver.value=unitAddress[0];
