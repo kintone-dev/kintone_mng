@@ -16,13 +16,44 @@
         .then(function (resp) {
           if(resp.records.length == 0){
             //次月のレポートがない場合
-            
+            var postNewReportData = [];
+            var postNewReport_listArray = [];
+            var postNewReport_body = {
+              'report_key': {
+                'value': sendDate
+              },  
+              'inventoryList':{
+                'value':postNewReport_listArray
+              }
+            };
+            for(var pil in PAGE_RECORD.inventoryList.value){
+              var postNewReport_listArray_body = {
+                'sys_code':{
+                  'value':PAGE_RECORD.inventoryList.value[pil].value.sys_code.value
+                },
+                'mCode':{
+                  'value':PAGE_RECORD.inventoryList.value[pil].value.mCode.value
+                },
+                'stockLocation':{
+                  'value':PAGE_RECORD.inventoryList.value[pil].value.stockLocation.value
+                },
+                'memo':{
+                  'value':PAGE_RECORD.inventoryList.value[pil].value.memo.value
+                },
+                'mLastStock':{
+                  'value':PAGE_RECORD.inventoryList.value[pil].value.deductionNum.value
+                },
+              };
+              postNewReport_listArray.push(postNewReport_listArray_body);
+            }
+            postNewReportData.push(postNewReport_body);
+            postRecords(sysid.INV.app_id.report, postNewReportData);
           }else{
             //次月のレポートがある場合
             
+            
           }
         })
-
     }
 
     return event;
