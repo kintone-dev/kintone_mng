@@ -62,7 +62,7 @@
         console.error(error);
       });
 
-      createReport_distribute(PAGE_RECORD);
+      createReport(PAGE_RECORD,'distribute');
     }
     return event;
   });
