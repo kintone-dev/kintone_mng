@@ -2,8 +2,8 @@
   'use strict';
 
   kintone.events.on('app.record.create.show', function (event) {
-    //コピー元の「prj_aNum」の値をsessionStorageの値から代入
-    event.record.prj_aNum.value = sessionStorage.getItem('prj_aNum');
+    //コピー元の「prjNum」の値をsessionStorageの値から代入
+    event.record.prjNum.value = sessionStorage.getItem('prjNum');
     event.record.orgName.value = sessionStorage.getItem('orgName');
     event.record.orgName.lookup = true;
     //キャンセルした時の処理
@@ -14,7 +14,7 @@
 
     //反映したあとはsessionStorageの中身を削除
     //sessionStorage.clear();
-    sessionStorage.removeItem('prj_aNum');
+    sessionStorage.removeItem('prjNum');
     sessionStorage.removeItem('orgName');
     return event;
   });
