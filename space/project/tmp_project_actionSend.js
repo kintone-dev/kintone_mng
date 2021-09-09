@@ -38,7 +38,7 @@
       console.log('good');
       setFieldShown('Exist_Project', false);
     }
-    var sType=event.record.shipType.value;
+    var sType=event.record.salesType.value;
     //新規納品リスト
     var newDeliverylist=setBtn('btn_newDeliveryList','新規納品リスト');
     $('#'+newDeliverylist.id).on('click', function(){
@@ -51,14 +51,14 @@
           break;
       }
       var tdate=event.record.tarDate.value;
-      createNewREC(sysID.DIPM.app.ship, ['prjNum', 'shipType', 'tarDate', 'instName'], [prjNumValue, sType, tdate, instname]);
+      createNewREC(sysID.DIPM.app.ship, ['prjNum', 'salesType', 'tarDate', 'instName'], [prjNumValue, sType, tdate, instname]);
     });
     
     //新規予備機リスト
     if(sType!='確認中'){
       var newSpare=setBtn('btn_newSpare','新規予備機リスト');
       $('#'+newSpare.id).on('click', function(){
-        createNewREC(sysID.DIPM.app.ship, ['prjNum', 'shipType', 'instName'], [prjNumValue, '予備', instname]);
+        createNewREC(sysID.DIPM.app.ship, ['prjNum', 'salesType', 'instName'], [prjNumValue, '予備', instname]);
       });
     }
     return event;
