@@ -349,7 +349,6 @@
           }
 
           if (param == 'arrival') {
-            console.log('arrival');
             //作成したarrivalsysコード格納
             var arrivalSysCode = [];
             for (var dl in deviceList) {
