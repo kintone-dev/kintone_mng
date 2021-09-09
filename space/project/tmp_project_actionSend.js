@@ -3,15 +3,15 @@
   var prjNumValue='';
   var orgname='';
   var instname='';
-  kintone.events.on('app.record.create.change.prjNum', function(event) {    //案件番号格納
+  kintone.events.on('app.record.create.change.prjNum', function(event) {
     prjNumValue=event.record.prjNum.value;
     return event;
   });
-  kintone.events.on('app.record.create.change.sys_orgName', function(event) {    //案件番号格納
+  kintone.events.on('app.record.create.change.sys_orgName', function(event) {
     orgname=event.record.sys_orgName.value;
     return event;
   });
-  kintone.events.on('app.record.create.change.instName', function(event) {    //案件番号格納
+  kintone.events.on('app.record.create.change.instName', function(event) {
     instname=event.record.instName.value;
     return event;
   });

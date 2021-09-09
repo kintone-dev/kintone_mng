@@ -38,7 +38,11 @@
       switch(onSelect){
         case '#設置先概要':
           setFieldShown('orgName', true);
-          setSpaceShown('btn_newORG', 'individual', 'block');
+          if(event.record.orgName.value==undefined){
+            setSpaceShown('btn_newORG', 'individual', 'block');
+          }else{
+            setSpaceShown('btn_newORG', 'individual', 'none');
+          }
           setFieldShown('bnName', true);
           setFieldShown('bName', true);
           setFieldShown('editMC', true);
@@ -122,6 +126,11 @@
       tabSwitch(idName); //tabをクリックした時の表示設定
       return false;
     });
+    if(event.record.orgName.value==undefined){
+      setSpaceShown('btn_newORG', 'individual', 'block');
+    }else{
+      setSpaceShown('btn_newORG', 'individual', 'none');
+    }
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show'], function(event){
     var newORG=setBtn('btn_newORG','新規組織');

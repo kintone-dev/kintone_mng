@@ -23,7 +23,8 @@
           setFieldShown('prjMemo', true);
           if (event.record.Exist_Project.value == '既存案件') setFieldShown('samePRJ', true);
           else setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newORG', 'line', 'none');
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
           setFieldShown('orgName', false);
           setFieldShown('cName', false);
           setFieldShown('cSales', false);
@@ -41,7 +42,13 @@
           setFieldShown('purchaseOrder', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newORG', 'line', 'block');
+          if(event.record.instName.value==undefined){
+            setSpaceShown('btn_newINST', 'individual', 'block');
+            setSpaceShown('btn_unknowINST', 'individual', 'block');
+          }else{
+            setSpaceShown('btn_newINST', 'individual', 'none');
+            setSpaceShown('btn_unknowINST', 'individual', 'none');
+          }
           setFieldShown('orgName', true);
           setFieldShown('cName', true);
           setFieldShown('cSales', true);
@@ -59,7 +66,8 @@
           setFieldShown('purchaseOrder', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newORG', 'line', 'none');
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
           setFieldShown('orgName', false);
           setFieldShown('cName', false);
           setFieldShown('cSales', false);
@@ -80,10 +88,24 @@
       return false;//aタグを無効にする
     });
   });
-  // 新規作成以外、案件管理番号編集と既存案件切り替え不可
+  var prjNumValue='';
+  kintone.events.on('app.record.create.change.prjNum', function(event) {
+    prjNumValue=event.record.prjNum.value;
+    return event;
+  });
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
+    // 新規作成以外、案件管理番号編集と既存案件切り替え不可
     event.record.prjNum.disabled = true;
     event.record.Exist_Project.disabled = true;
+
+    var newINST=setBtn('btn_newINST','新規設置先');
+    $('#'+newINST.id).on('click', function(){
+      createNewREC(sysid.PM.app_id.installation, ['prjNum', 'orgName'], [prjNumValue, orgname]);
+    });
+
+    var unknowINST=setBtn('btn_unknowINST','新規不特定設置先');
+    $('#'+unknowINST.id).on('click', function(){
+    });
     return event;
   });
   // 新・既存案件表示切り替え
