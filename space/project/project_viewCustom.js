@@ -1,6 +1,12 @@
 (function () {
   'use strict';
-
+  // 新規導入案件　案件番号自動採番
+  kintone.events.on('app.record.create.show', function (event) {
+    autoNum('PRJ_', 'prjNum');
+    event.record.prjNum.disabled = true;
+    return event;
+  });
+  // 新・既存案件表示切り替え
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     event.record.cSales.disabled = false;
     if (event.record.Exist_Project.value == '既存案件') {
@@ -9,48 +15,35 @@
       setFieldShown('samePRJ', false);
     }
   });
-
-  kintone.events.on(['app.record.create.change.Exist_Project', 'app.record.edit.change.Exist_Project'], function (event) {
-    if (event.record.Exist_Project.value == '既存案件') {
-      setFieldShown('samePRJ', true);
-    } else {
-      setFieldShown('samePRJ', false);
-    }
-  });
-
-  //新規導入案件
-  kintone.events.on('app.record.create.show', function (event) {
-    autoNum('PRJ_', 'prj_aNum');
-    event.record.prj_aNum.disabled = true;
-    return event;
-  });
-
-  //新・既存案件切り替え
-  kintone.events.on('app.record.create.change.Exist_Project', function (event) {
-    var epValue = event.record.Exist_Project.value;
-    if (epValue == "既存案件") {
-      event.record.prj_aNum.value = "";
-      event.record.prj_aNum.disabled = false;
-    } else {
-      autoNum('PRJ_', 'prj_aNum');
-      event.record.prj_aNum.disabled = true;
-    }
-    return event;
-  });
-
+  // 新規作成以外、案件管理番号編集と既存案件切り替え不可
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
-    event.record.prj_aNum.disabled = true;
+    event.record.prjNum.disabled = true;
     event.record.Exist_Project.disabled = true;
     return event;
   });
 
+  kintone.events.on(['app.record.create.change.Exist_Project', 'app.record.edit.change.Exist_Project'], function (event) {
+    if (event.record.Exist_Project.value == '既存案件') {
+      setFieldShown('samePRJ', true);
+      event.record.prjNum.value = "";
+      event.record.prjNum.disabled = false;
+    } else {
+      setFieldShown('samePRJ', false);
+      autoNum('PRJ_', 'prjNum');
+      event.record.prjNum.disabled = true;
+    }
+  });
+
+
+
+/*
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     var nStatus = event.nextStatus.value;
     if (nStatus == '納品手配済') {
       var queryBody = {
         'app': sysID.DIPM.app.ship,
-        'query': 'prj_aNum="' + event.record.prj_aNum.value + '" and ステータス in ("納品情報未確定")',
-        'fields': ['prj_aNum', '$id', 'ステータス', 'shipType']
+        'query': 'prjNum="' + event.record.prjNum.value + '" and ステータス in ("納品情報未確定")',
+        'fields': ['prjNum', '$id', 'ステータス', 'shipType']
       };
       
       kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (getResp) {
@@ -97,5 +90,5 @@
     }
     return event;
   });
-
+*/
 })();
