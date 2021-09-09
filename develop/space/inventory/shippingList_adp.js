@@ -325,7 +325,8 @@
             }
             var shipDistributeData = {
               'sysCode': deviceList[dl].value.mCode.value + '-' + sysArrivalCode,
-              'shipNum': deviceList[dl].value.shipNum.value
+              'shipNum': deviceList[dl].value.shipNum.value,
+              'location':deviceList[dl].value.Contractor.value
             }
             shipSysCode.push(shipSysData);
             arrivalSysCode.push(shipDistributeData);
@@ -352,7 +353,7 @@
           }
 
           for (var sdc in arrivalSysCode) {
-            //distribute追加
+            //出荷テーブル追加
             if (reportSysCode.some(item => item.sysCode === arrivalSysCode[sdc].sysCode)) {
               for (var il in putReportBody.record.inventoryList.value) {
                 if (putReportBody.record.inventoryList.value[il].value.sys_code.value == arrivalSysCode[sdc].sysCode) {
@@ -363,7 +364,7 @@
               var putInventoryBody = {
                 'value': {
                   'sys_code': arrivalSysCode[sdc].sysCode,
-                  'stockLocation': '積送',
+                  'stockLocation': arrivalSysCode[sdc].location,
                   'arrivalNum': arrivalSysCode[sdc].shipNum
                 }
               }
@@ -553,6 +554,6 @@
       });
   }
 
-  
+
 
 })();
