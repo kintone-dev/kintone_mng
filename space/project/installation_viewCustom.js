@@ -31,19 +31,7 @@
   });
 
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
-    event.record.prj_aNum.disabled = true;
-    setFieldShown('sys_address', false);
-    setFieldShown('bType', false);
-    setFieldShown('bDivision', false);
-    setFieldShown('ルックアップ_0', false);
-    setFieldShown('ルックアップ', false);
-    setFieldShown('cDate__s_0', false);
-    setFieldShown('cDate__s', false);
-    setFieldShown('uNum__s', false);
-    setFieldShown('iuNum__s', false);
-    setFieldShown('sWarranty__s', false);
-    setFieldShown('eWarranty__s', false);
-    setFieldShown('yWarranty__s', false);
+    event.record.prjNum.disabled = true;
 
     function tabSwitch(onSelect){
       switch(onSelect){
@@ -132,6 +120,12 @@
       var idName = $(this).attr('href'); //タブ内のリンク名を取得  
       tabSwitch(idName); //tabをクリックした時の表示設定
       return false;
+    });
+
+
+    var newORG=setBtn('btn_newORG','新規組織');
+    $('#'+newORG.id).on('click', function(){
+      createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
     });
     return event;
   });
