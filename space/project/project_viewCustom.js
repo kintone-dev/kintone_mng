@@ -23,7 +23,7 @@
           setFieldShown('prjMemo', true);
           if (event.record.Exist_Project.value == '既存案件') setFieldShown('samePRJ', true);
           else setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newORG', 'none', 'line');
+          setSpaceShown('btn_newORG', 'line', 'none');
           setFieldShown('orgName', false);
           setFieldShown('cName', false);
           setFieldShown('cSales', false);
@@ -41,7 +41,7 @@
           setFieldShown('purchaseOrder', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newORG', 'block', 'line');
+          setSpaceShown('btn_newORG', 'line', 'block');
           setFieldShown('orgName', true);
           setFieldShown('cName', true);
           setFieldShown('cSales', true);
@@ -59,7 +59,7 @@
           setFieldShown('purchaseOrder', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newORG', 'none', 'line');
+          setSpaceShown('btn_newORG', 'line', 'none');
           setFieldShown('orgName', false);
           setFieldShown('cName', false);
           setFieldShown('cSales', false);
