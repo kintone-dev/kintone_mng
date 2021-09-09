@@ -106,7 +106,7 @@
     // var unknowINST=setBtn('btn_unknowINST','新規不特定設置先');
     // $('#'+unknowINST.id).on('click', function(){
     // });
-    var newINST=setBtn('btn_newINST','新規組織');
+    var newINST=new setBtn('btn_newINST','新規組織');
     $('#'+newINST.id).on('click', function(){
       // createNewREC(, 'prjNum', prjNumValue); // 実行内容例
       window.open('https://accel-lab.cybozu.com/k/' + sysid.PM.app_id.organization + '/edit', 'example','scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200');
