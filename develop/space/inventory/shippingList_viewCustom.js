@@ -42,6 +42,7 @@
     function tabSwitch(onSelect){
       switch(onSelect){
         case '#宛先情報':
+          var eRecord = kintone.app.record.get();
           kintone.app.record.setFieldShown('dstSelection', true);
           doSelection(event);
           setFieldShown('zipcode', true);
@@ -67,16 +68,13 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn','line', 'none');
-          if(event.record.shipType.value=='移動-拠点間'){
-            console.log('if');
+          if(eRecord.record.shipType.value=='移動-拠点間'){
             setFieldShown('Contractor', true);
             setFieldShown('instName', false);      
-          } else if(event.record.shipType.value=='設置先と同じ'){
-            console.log('else if');
+          } else if(eRecord.record.shipType.value=='設置先と同じ'){
             setFieldShown('Contractor', false);
             setFieldShown('instName', true);      
           } else{
-            console.log('else');
             setFieldShown('Contractor', false);
             setFieldShown('instName', false);      
           }
