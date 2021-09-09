@@ -8,14 +8,14 @@
   kintone.events.on(['app.record.create.change.shipType','app.record.edit.change.shipType'], function(event){
     if(event.record.shipType.value=='移動-拠点間'){
       event.record.dstSelection.value='施工業者/拠点へ納品';
-      event.record.receiver.disabled=false;
-      event.record.phoneNum.disabled=false;
-      event.record.zipcode.disabled=false;
-      event.record.prefectures.disabled=false;
-      event.record.city.disabled=false;
-      event.record.address.disabled=false;
-      event.record.buildingName.disabled=false;
-      event.record.corpName.disabled=false;
+      event.record.receiver.disabled=true;
+      event.record.phoneNum.disabled=true;
+      event.record.zipcode.disabled=true;
+      event.record.prefectures.disabled=true;
+      event.record.city.disabled=true;
+      event.record.address.disabled=true;
+      event.record.buildingName.disabled=true;
+      event.record.corpName.disabled=true;
       if(event.record.sys_unitAddress.value!==undefined){
         var unitAddress=event.record.sys_unitAddress.value.split(',');
         event.record.receiver.value=unitAddress[0];
@@ -71,13 +71,23 @@
           if(eRecord.record.shipType.value=='移動-拠点間'){
             setFieldShown('Contractor', true);
             setFieldShown('instName', false);      
-          } else if(eRecord.record.shipType.value=='設置先と同じ'){
+          } else if(eRecord.record.shipType.value=='移動-ベンダー'){
             setFieldShown('Contractor', false);
             setFieldShown('instName', true);      
-          } else{
+            eRecord.record.Contractor.value = 'ベンダー';
+            eRecord.record.Contractor.value.lookup = true;
+          } else if(eRecord.record.shipType.value=='返品'){
+            setFieldShown('Contractor', false);
+            setFieldShown('instName', true);      
+            eRecord.record.Contractor.value = 'ベンダー';
+            eRecord.record.shipment.value = 'ベンダー';
+            eRecord.record.Contractor.value.lookup = true;
+            eRecord.record.shipment.value.lookup = true;
+          } else {
             setFieldShown('Contractor', false);
             setFieldShown('instName', false);      
           }
+          kintone.app.record.set(eRecord);
           break;
         case '#品目情報':
           setFieldShown('dstSelection', false);
