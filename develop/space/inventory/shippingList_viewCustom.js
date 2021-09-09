@@ -27,6 +27,9 @@
         event.record.buildingName.value=unitAddress[6];
         event.record.corpName.value=unitAddress[7];
       }
+    } else if(event.record.shipType.value=='返品'){
+      event.record.shipment.value = 'ベンダー';
+      event.record.shipment.lookup = true;
     }
     return event;
   });
@@ -74,20 +77,17 @@
           } else if(eRecord.record.shipType.value=='移動-ベンダー'){
             setFieldShown('Contractor', false);
             setFieldShown('instName', true);      
-            eRecord.record.Contractor.value = 'ベンダー';
-            eRecord.record.Contractor.lookup = true;
+            event.record.Contractor.value = 'ベンダー';
+            event.record.Contractor.lookup = true;
           } else if(eRecord.record.shipType.value=='返品'){
             setFieldShown('Contractor', false);
             setFieldShown('instName', true);      
-            eRecord.record.Contractor.value = 'ベンダー';
-            eRecord.record.shipment.value = 'ベンダー';
-            eRecord.record.Contractor.lookup = true;
-            eRecord.record.shipment.lookup = true;
+            event.record.Contractor.value = 'ベンダー';
+            event.record.Contractor.lookup = true;
           } else {
             setFieldShown('Contractor', false);
             setFieldShown('instName', false);      
           }
-          kintone.app.record.set(eRecord);
           break;
         case '#品目情報':
           setFieldShown('dstSelection', false);
