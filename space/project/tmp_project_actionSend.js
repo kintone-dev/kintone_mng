@@ -39,28 +39,7 @@
       setFieldShown('Exist_Project', false);
     }
     var sType=event.record.salesType.value;
-    //新規納品リスト
-    var newDeliverylist=setBtn('btn_newDeliveryList','新規納品リスト');
-    $('#'+newDeliverylist.id).on('click', function(){
-      switch(sType){
-        case '販売':
-          sType='移動';
-          break;
-        case 'サブスク':
-          sType='移動';
-          break;
-      }
-      var tdate=event.record.tarDate.value;
-      createNewREC(sysID.DIPM.app.ship, ['prjNum', 'salesType', 'tarDate', 'instName'], [prjNumValue, sType, tdate, instname]);
-    });
     
-    //新規予備機リスト
-    if(sType!='確認中'){
-      var newSpare=setBtn('btn_newSpare','新規予備機リスト');
-      $('#'+newSpare.id).on('click', function(){
-        createNewREC(sysID.DIPM.app.ship, ['prjNum', 'salesType', 'instName'], [prjNumValue, '予備', instname]);
-      });
-    }
     return event;
   });
 })();
