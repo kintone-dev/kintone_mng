@@ -4,8 +4,9 @@
     doSelection(event);
     return event;
   });
+
   kintone.events.on(['app.record.create.change.shipType','app.record.edit.change.shipType'], function(event){
-    if(event.record.shipType.value=='拠点間移動'){
+    if(event.record.shipType.value=='移動-拠点間'){
       event.record.dstSelection.value='施工業者/拠点へ納品';
       setFieldShown('Contractor', true);
       setFieldShown('instName', false);
@@ -33,7 +34,6 @@
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
     //$('.gaia-app-statusbar').css('display', 'none');
-
 
     // システム用フィールド非表示
     setFieldShown('sys_unitAddress', false);
