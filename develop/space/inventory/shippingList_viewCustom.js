@@ -46,8 +46,8 @@
       switch(onSelect){
         case '#宛先情報':
           var eRecord = kintone.app.record.get();
+          doSelection(eRecord);
           kintone.app.record.setFieldShown('dstSelection', true);
-          doSelection(event);
           setFieldShown('zipcode', true);
           setFieldShown('phoneNum', true);
           setFieldShown('address', true);
