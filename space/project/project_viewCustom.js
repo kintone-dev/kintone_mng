@@ -16,8 +16,8 @@
   });
 
   kintone.events.on('app.record.edit.change.invoiceNum', function(event){
-    // if(event.record.invoiceNum.value==='') setFieldShown('invoiceStatus', false);
-    // else setFieldShown('invoiceStatus', true);
+    if(event.record.invoiceNum.value==='') setFieldShown('invoiceStatus', false);
+    else setFieldShown('invoiceStatus', true);
   });
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     event.record.cSales.disabled = false;
