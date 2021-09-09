@@ -280,6 +280,7 @@
     var sendDate = pageRecod.sendDate.value;
     var deviceList = pageRecod.deviceList.value;
     var sysUCode = pageRecod.sys_shipmentCode.value;
+    var sysArrivalCode = pageRecod.sys_arrivalCode.value;
     sendDate = sendDate.replace(/-/g, '');
     sendDate = sendDate.slice(0, -2);
     var getReportBody = {
@@ -306,7 +307,7 @@
 
           var reportSysCode = [];
           var shipSysCode = [];
-          var shipDistributeCode = [];
+          var arrivalSysCode = [];
 
           var inventoryList = resp.records[0].inventoryList.value;
           for (var il in inventoryList) {
@@ -323,11 +324,11 @@
               'shipNum': deviceList[dl].value.shipNum.value,
             }
             var shipDistributeData = {
-              'sysCode': deviceList[dl].value.mCode.value + '-distribute',
+              'sysCode': deviceList[dl].value.mCode.value + '-' + sysArrivalCode,
               'shipNum': deviceList[dl].value.shipNum.value
             }
             shipSysCode.push(shipSysData);
-            shipDistributeCode.push(shipDistributeData);
+            arrivalSysCode.push(shipDistributeData);
           }
 
           for (var ssc in shipSysCode) {
@@ -350,20 +351,20 @@
             }
           }
 
-          for (var sdc in shipDistributeCode) {
+          for (var sdc in arrivalSysCode) {
             //distribute追加
-            if (reportSysCode.some(item => item.sysCode === shipDistributeCode[sdc].sysCode)) {
+            if (reportSysCode.some(item => item.sysCode === arrivalSysCode[sdc].sysCode)) {
               for (var il in putReportBody.record.inventoryList.value) {
-                if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipDistributeCode[sdc].sysCode) {
-                  putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(shipDistributeCode[sdc].shipNum)
+                if (putReportBody.record.inventoryList.value[il].value.sys_code.value == arrivalSysCode[sdc].sysCode) {
+                  putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(arrivalSysCode[sdc].shipNum)
                 }
               }
             } else {
               var putInventoryBody = {
                 'value': {
-                  'sys_code': shipDistributeCode[sdc].sysCode,
+                  'sys_code': arrivalSysCode[sdc].sysCode,
                   'stockLocation': '積送',
-                  'arrivalNum': shipDistributeCode[sdc].shipNum
+                  'arrivalNum': arrivalSysCode[sdc].shipNum
                 }
               }
               putReportBody.record.inventoryList.value.push(putInventoryBody);
@@ -551,5 +552,7 @@
         }
       });
   }
+
+  
 
 })();
