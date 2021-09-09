@@ -257,6 +257,7 @@
       event.record.dstSelection.disabled=true;
       event.record.Contractor.disabled=true;
     }else{
+      event.record.dstSelection.value='手入力';
       event.record.receiver.disabled=false;
       event.record.phoneNum.disabled=false;
       event.record.zipcode.disabled=false;
