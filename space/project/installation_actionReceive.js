@@ -20,6 +20,7 @@
     sessionStorage.removeItem('prjNum');
     sessionStorage.removeItem('bnName');
     sessionStorage.removeItem('bName');
+    sessionStorage.removeItem('setShown');
     // sessionStorage.removeItem('btn_newORG_shown');
     return event;
   });

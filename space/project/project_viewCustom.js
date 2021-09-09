@@ -101,7 +101,7 @@
 
     var unknowINST=setBtn('btn_unknowINST','新規不特定設置先');
     $('#'+unknowINST.id).on('click', function(){
-      createNewREC(sysid.PM.app_id.installation, ['prjNum','bnName','bName','bnNameShown'], [prjNumValue,'不特定設置先','不特定設置先',true]);
+      createNewREC(sysid.PM.app_id.installation, ['prjNum','bnName','bName','setShown'], [prjNumValue,'不特定設置先','不特定設置先',true]);
     });
   });
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
