@@ -64,7 +64,6 @@
     // システム用フィールド非表示
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
-    
     //tabメニューの選択肢による表示設定
     function tabSwitch(onSelect){
       switch(onSelect){
@@ -80,14 +79,11 @@
           setFieldShown('receiver', true);
           setFieldShown('prefectures', true);
           setFieldShown('city', true);
-
           setFieldShown('deviceList', false);
-
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
-
           setFieldShown('shipment', false);
           setFieldShown('shipType', false);
           setFieldShown('tarDate', false);
@@ -121,14 +117,11 @@
           setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
-
           setFieldShown('deviceList', true);
-
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
-
           setFieldShown('shipment', false);
           setFieldShown('shipType', false);
           setFieldShown('tarDate', false);
@@ -149,14 +142,11 @@
           setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
-
           setFieldShown('deviceList', false);
-
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
-
           setFieldShown('shipment', true);
           setFieldShown('shipType', true);
           setFieldShown('tarDate', true);
@@ -177,14 +167,11 @@
           setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
-
           setFieldShown('deviceList', false);
-
           setFieldShown('deliveryCorp', true);
           setFieldShown('trckNum', true);
           setFieldShown('sendDate', true);
           setFieldShown('expArrivalDate', true);
-
           setFieldShown('shipment', false);
           setFieldShown('shipType', false);
           setFieldShown('tarDate', false);
@@ -246,7 +233,6 @@
       event.record.trckNum.value=null;
       event.record.trckNum.disabled=false;
     }
-
     return event;
   });
   // カーテンレールが選択された場合、シリアル番号欄にデータを記入
