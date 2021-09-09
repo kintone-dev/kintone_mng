@@ -28,20 +28,22 @@
             };
             for(var pil in PAGE_RECORD.inventoryList.value){
               var postNewReport_listArray_body = {
-                'sys_code':{
-                  'value':PAGE_RECORD.inventoryList.value[pil].value.sys_code.value
-                },
-                'mCode':{
-                  'value':PAGE_RECORD.inventoryList.value[pil].value.mCode.value
-                },
-                'stockLocation':{
-                  'value':PAGE_RECORD.inventoryList.value[pil].value.stockLocation.value
-                },
-                'memo':{
-                  'value':PAGE_RECORD.inventoryList.value[pil].value.memo.value
-                },
-                'mLastStock':{
-                  'value':PAGE_RECORD.inventoryList.value[pil].value.deductionNum.value
+                'value':{
+                  'sys_code':{
+                    'value':PAGE_RECORD.inventoryList.value[pil].value.sys_code.value
+                  },
+                  'mCode':{
+                    'value':PAGE_RECORD.inventoryList.value[pil].value.mCode.value
+                  },
+                  'stockLocation':{
+                    'value':PAGE_RECORD.inventoryList.value[pil].value.stockLocation.value
+                  },
+                  'memo':{
+                    'value':PAGE_RECORD.inventoryList.value[pil].value.memo.value
+                  },
+                  'mLastStock':{
+                    'value':PAGE_RECORD.inventoryList.value[pil].value.deductionNum.value
+                  }
                 }
               };
               postNewReport_listArray.push(postNewReport_listArray_body);
