@@ -59,6 +59,7 @@
 
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
     //$('.gaia-app-statusbar').css('display', 'none');
+    doSelection(event);
 
     // システム用フィールド非表示
     setFieldShown('sys_unitAddress', false);
