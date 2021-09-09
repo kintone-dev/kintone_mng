@@ -21,11 +21,6 @@
     prjNumValue=event.record.prjNum.value;
     orgname=event.record.sys_orgName.value;
     instname=event.record.instName.value;
-    //新規組織
-    var newORG=setBtn('btn_newORG','新規組織');
-    $('#'+newORG.id).on('click', function(){
-      createNewREC(sysID.DIPM.app.org, 'prjNum', prjNumValue);
-    });
     //新規設置先
     var newIST=setBtn('btn_newIST','新規設置先');
     $('#'+newIST.id).on('click', function(){

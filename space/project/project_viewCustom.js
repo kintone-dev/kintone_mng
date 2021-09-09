@@ -102,12 +102,12 @@
 
     var newINST=setBtn('btn_newINST','新規設置先');
     $('#'+newINST.id).on('click', function(){
-      createNewREC(sysid.PM.app_id.installation, ['prjNum', 'orgName'], [prjNumValue, orgname]);
+      createNewREC(sysid.PM.app_id.installation, ['prjNum', 'btn_newORG_shown'], [prjNumValue, 'none']);
     });
 
     var unknowINST=setBtn('btn_unknowINST','新規不特定設置先');
-    $('#'+unknowINST.id).on('click', function(){
-    });
+    // $('#'+unknowINST.id).on('click', function(){
+    // });
     return event;
   });
   // 新・既存案件表示切り替え
