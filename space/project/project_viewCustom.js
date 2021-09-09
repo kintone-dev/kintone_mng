@@ -29,6 +29,7 @@
           setFieldShown('cName', false);
           setFieldShown('cSales', false);
           setFieldShown('instName', false);
+          setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
           setFieldShown('deviceList', false);
@@ -47,6 +48,7 @@
           setFieldShown('cName', true);
           setFieldShown('cSales', true);
           setFieldShown('instName', true);
+          setFieldShown('instStatus', true);
           setFieldShown('instDate', true);
           setFieldShown('instDDday', true);
           setFieldShown('deviceList', false);
@@ -65,6 +67,7 @@
           setFieldShown('cName', false);
           setFieldShown('cSales', false);
           setFieldShown('instName', false);
+          setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
           setFieldShown('deviceList', true);
