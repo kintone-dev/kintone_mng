@@ -92,15 +92,11 @@
   };
   //拠点順ソート関数
   var sortLocTable = function (table, orderBy, isDesc) {
-    // var codeCutter = table[0].value[orderBy].value.indexOf('-');
-
     table.sort(function (a, b) {
       var codeCutterA = a.value[orderBy].value.indexOf('-');
       var codeCutterB = b.value[orderBy].value.indexOf('-');
       var v1 = a.value[orderBy].value.slice(codeCutterA + 1) + a.value[orderBy].value.substring(0, codeCutterA);
       var v2 = b.value[orderBy].value.slice(codeCutterB + 1) + b.value[orderBy].value.substring(0, codeCutterB);
-      console.log(v1);
-      console.log(v2);
       var pos = isDesc ? -1 : 1;
       if (v1 > v2) {
         return pos;
