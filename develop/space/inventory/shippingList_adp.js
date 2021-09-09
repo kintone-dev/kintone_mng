@@ -268,7 +268,7 @@
     } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
       createReport_distribute(PAGE_RECORD);
     } else if (PAGE_RECORD.shipType.value == '移動-拠点間' || PAGE_RECORD.shipType.value == '移動-ベンダー') {
-
+      createReport(PAGE_RECORD);
     } else if (PAGE_RECORD.shipType.value == '社内利用' || PAGE_RECORD.shipType.value == '貸与' || PAGE_RECORD.shipType.value == '修理') {
       createReport_shipOnly(PAGE_RECORD);
     }
