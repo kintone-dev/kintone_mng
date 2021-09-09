@@ -75,14 +75,14 @@
             setFieldShown('Contractor', false);
             setFieldShown('instName', true);      
             eRecord.record.Contractor.value = 'ベンダー';
-            eRecord.record.Contractor.value.lookup = true;
+            eRecord.record.Contractor.lookup = true;
           } else if(eRecord.record.shipType.value=='返品'){
             setFieldShown('Contractor', false);
             setFieldShown('instName', true);      
             eRecord.record.Contractor.value = 'ベンダー';
             eRecord.record.shipment.value = 'ベンダー';
-            eRecord.record.Contractor.value.lookup = true;
-            eRecord.record.shipment.value.lookup = true;
+            eRecord.record.Contractor.lookup = true;
+            eRecord.record.shipment.lookup = true;
           } else {
             setFieldShown('Contractor', false);
             setFieldShown('instName', false);      
