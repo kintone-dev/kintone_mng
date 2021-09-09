@@ -412,7 +412,6 @@
               }
             }  
           } else if(param == 'shiponly'){
-            return;
           }
 
           putReportData.push(putReportBody);
