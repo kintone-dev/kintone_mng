@@ -24,6 +24,7 @@
         case '#宛先情報':
           var eRecord = kintone.app.record.get();
           doSelection(event);
+          disableSet(event);
           kintone.app.record.setFieldShown('dstSelection', true);
           setFieldShown('zipcode', true);
           setFieldShown('phoneNum', true);
@@ -255,6 +256,17 @@
       event.record.corpName.disabled=true;
       event.record.dstSelection.disabled=true;
       event.record.Contractor.disabled=true;
+    }else{
+      event.record.receiver.disabled=false;
+      event.record.phoneNum.disabled=false;
+      event.record.zipcode.disabled=false;
+      event.record.prefectures.disabled=false;
+      event.record.city.disabled=false;
+      event.record.address.disabled=false;
+      event.record.buildingName.disabled=false;
+      event.record.corpName.disabled=false;
+      event.record.dstSelection.disabled=false;
+      event.record.Contractor.disabled=false;
     }
   }
   function doSelection(event){
