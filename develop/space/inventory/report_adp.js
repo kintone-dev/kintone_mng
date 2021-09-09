@@ -20,7 +20,7 @@
             var postNewReport_listArray = [];
             var postNewReport_body = {
               'report_key': {
-                'value': sendDate
+                'value': NEXT_DATE
               },  
               'inventoryList':{
                 'value':postNewReport_listArray
