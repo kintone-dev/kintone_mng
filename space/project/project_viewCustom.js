@@ -6,14 +6,79 @@
     event.record.prjNum.disabled = true;
     return event;
   });
-  // 新・既存案件表示切り替え
+  
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     event.record.cSales.disabled = false;
-    if (event.record.Exist_Project.value == '既存案件') {
-      setFieldShown('samePRJ', true);
-    } else {
-      setFieldShown('samePRJ', false);
-    }
+    setFieldShown('sys_orgName', true);
+    setFieldShown('sys_suptitle', true);
+    // 新・既存案件表示切り替え
+    function tabSwitch(onSelect){
+      switch(onSelect){
+        case '#案件情報':
+          setFieldShown('prjNum', true);
+          setFieldShown('Exist_Project', true);
+          setFieldShown('salesType', true);
+          setFieldShown('predictDate', true);
+          setFieldShown('purchaseOrder', true);
+          setFieldShown('prjMemo', true);
+          if (event.record.Exist_Project.value == '既存案件') setFieldShown('samePRJ', true);
+          else setFieldShown('samePRJ', false);
+          setSpaceShown('btn_newORG', false);
+          setSpaceShown('btn_newIST', false);
+          setFieldShown('orgName', false);
+          setFieldShown('cName', false);
+          setFieldShown('cSales', false);
+          setFieldShown('instName', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+          setFieldShown('deviceList', false);
+          break;
+        case '#設置先情報':
+          setFieldShown('prjNum', false);
+          setFieldShown('Exist_Project', false);
+          setFieldShown('salesType', false);
+          setFieldShown('predictDate', false);
+          setFieldShown('purchaseOrder', false);
+          setFieldShown('prjMemo', false);
+          setFieldShown('samePRJ', false);
+          setSpaceShown('btn_newORG', true);
+          setSpaceShown('btn_newIST', true);
+          setFieldShown('orgName', true);
+          setFieldShown('cName', true);
+          setFieldShown('cSales', true);
+          setFieldShown('instName', true);
+          setFieldShown('instDate', true);
+          setFieldShown('instDDday', true);
+          setFieldShown('deviceList', false);
+          break;
+        case '#納品依頼リスト':
+          setFieldShown('prjNum', false);
+          setFieldShown('Exist_Project', false);
+          setFieldShown('salesType', false);
+          setFieldShown('predictDate', false);
+          setFieldShown('purchaseOrder', false);
+          setFieldShown('prjMemo', false);
+          setFieldShown('samePRJ', false);
+          setSpaceShown('btn_newORG', false);
+          setSpaceShown('btn_newIST', false);
+          setFieldShown('orgName', false);
+          setFieldShown('cName', false);
+          setFieldShown('cSales', false);
+          setFieldShown('instName', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+          setFieldShown('deviceList', true);
+          break;
+      }
+    }tabSwitch('#案件情報');
+    //タブメニュー作成
+    tabMenu('tab_project', ['案件情報','設置先情報','納品依頼リスト']);
+    //タブ切り替え表示設定
+    $('.tab_project a').on('click', function(){
+      var idName = $(this).attr('href');//タブ内のリンク名を取得  
+      tabSwitch(idName);//tabをクリックした時の表示設定
+      return false;//aタグを無効にする
+    });
   });
   // 新規作成以外、案件管理番号編集と既存案件切り替え不可
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
@@ -21,7 +86,7 @@
     event.record.Exist_Project.disabled = true;
     return event;
   });
-
+  // 新・既存案件表示切り替え
   kintone.events.on(['app.record.create.change.Exist_Project', 'app.record.edit.change.Exist_Project'], function (event) {
     if (event.record.Exist_Project.value == '既存案件') {
       setFieldShown('samePRJ', true);
