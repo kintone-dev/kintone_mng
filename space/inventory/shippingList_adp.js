@@ -334,7 +334,8 @@
             if (reportSysCode.some(item => item.sysCode === shipSysCode[ssc].sysCode)) {
               for (var il in putReportBody.record.inventoryList.value) {
                 if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysCode[ssc].sysCode) {
-                  putReportBody.record.inventoryList.value[il].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.shipNum.value) + parseInt(shipSysCode[ssc].shipNum);
+                  putReportBody.record.inventoryList.value[il].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.shipNum.value)|| 0 + parseInt(shipSysCode[ssc].shipNum)|| 0;
+                  
                 }
               }
             } else {
@@ -366,7 +367,7 @@
               if (reportSysCode.some(item => item.sysCode === arrivalSysCode[asc].sysCode)) {
                 for (var il in putReportBody.record.inventoryList.value) {
                   if (putReportBody.record.inventoryList.value[il].value.sys_code.value == arrivalSysCode[asc].sysCode) {
-                    putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(arrivalSysCode[asc].shipNum);
+                    putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value)|| 0 + parseInt(arrivalSysCode[asc].shipNum)|| 0;
                   }
                 }
               } else {
@@ -397,7 +398,7 @@
               if (reportSysCode.some(item => item.sysCode === shipDistributeCode[sdc].sysCode)) {
                 for (var il in putReportBody.record.inventoryList.value) {
                   if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipDistributeCode[sdc].sysCode) {
-                    putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value) + parseInt(shipDistributeCode[sdc].shipNum);
+                    putReportBody.record.inventoryList.value[il].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.arrivalNum.value)|| 0 + parseInt(shipDistributeCode[sdc].shipNum)|| 0;
                   }
                 }
               } else {
