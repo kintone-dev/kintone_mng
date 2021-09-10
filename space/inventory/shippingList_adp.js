@@ -344,8 +344,7 @@
               for (var il in putReportBody.record.inventoryList.value) {
                 if (putReportBody.record.inventoryList.value[il].value.sys_code.value == shipSysCode[ssc].sysCode) {
                   putReportBody.record.inventoryList.value[il].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[il].value.shipNum.value)|| 0 + parseInt(shipSysCode[ssc].shipNum)|| 0;
-                  console.log(parseInt(putReportBody.record.inventoryList.value[il].value.shipNum.value)|| 0);
-                  console.log(parseInt(shipSysCode[ssc].shipNum)|| 0);
+                  console.log(parseInt(shipSysCode[ssc].shipNum)|| 0 + parseInt(putReportBody.record.inventoryList.value[il].value.shipNum.value)|| 0);
                   console.log(putReportBody.record.inventoryList.value[il].value.shipNum.value);
                 }
               }
