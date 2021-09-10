@@ -1,3 +1,8 @@
+/**
+ * develop
+ * 
+ * sysid書き換え
+ */
 (function () {
   'use strict';
 
@@ -17,7 +22,8 @@
 
       //パラメータsNumBodyにjsonデータ作成
       var sNumBody = {
-        'app': sysid.DEV.app_id.sNum,
+        // 'app': sysid.DEV.app_id.sNum,
+        'app': sysid.SOGDev.app_id.sNum,
         'records': []
       };
       var shipTable = event.record.deviceList.value;
@@ -95,7 +101,8 @@
       // 品目にパッケージ品が存在する時
       if (mCode.match(/pkg_/)) {
         var pacInfo = {
-          'app': sysid.INV.app_id.device,
+          // 'app': sysid.INV.app_id.device,
+          'app': sysid.SOGDev.app_id.device,
           'query': 'mCode="' + mCode + '"',
         };
 
@@ -287,7 +294,8 @@
     sendDate = sendDate.slice(0, -2);
     //同じ月のレポート情報取得
     var getReportBody = {
-      'app': sysid.INV.app_id.report,
+      // 'app': sysid.INV.app_id.report,
+      'app': sysid.SOGDev.app_id.report,
       'query': 'report_key = "' + sendDate + '" order by 更新日時 asc'
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
@@ -416,7 +424,8 @@
           } else if (param == 'shiponly') {}
 
           putReportData.push(putReportBody);
-          putRecords(sysid.INV.app_id.report, putReportData);
+          // putRecords(sysid.INV.app_id.report, putReportData);
+          putRecords(sysid.SOGDev.app_id.report, putReportData);
         } else {
           //レポート新規作成
           var postReportData = [];
@@ -500,7 +509,8 @@
           } else if (param == 'shiponly') {}
 
           postReportData.push(postReportBody);
-          postRecords(sysid.INV.app_id.report, postReportData);
+          // postRecords(sysid.INV.app_id.report, postReportData);
+          postRecords(sysid.SOGDev.app_id.report, postReportData);
         }
       });
   }

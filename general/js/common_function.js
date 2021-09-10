@@ -58,7 +58,8 @@ var sysid = {
 			shipment: 207,
 			report: 205,
 			unit: 210,
-			device: 206
+			device: 206,
+			sNum:215
 		}
 	}
 }
