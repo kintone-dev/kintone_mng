@@ -568,28 +568,30 @@
                     }
                   }
                 }
-                if(putStockBody.updateKey.value === shipCode){
+                if(putStockBody.updateKey.value == shipCode){
                   for(var msl in putStockBody.record.mStockList.value){
                     for(var sid in stockItemData){
                       if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
-                        putStockBody.record.mStockList.value[msl].value.mStock.value -= stockItemData[sid].shipNum;
+                        putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0);
+                        console.log(putStockBody.record.mStockList.value[msl].value.mStock.value);
                       }
                     }
                   }
-                } else if(putStockBody.updateKey.value === arrivalCode){
+                  putStockData.push(putStockBody);
+                } else if(putStockBody.updateKey.value == arrivalCode){
                   for(var msl in putStockBody.record.mStockList.value){
                     for(var sid in stockItemData){
                       if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
-                        putStockBody.record.mStockList.value[msl].value.mStock.value += stockItemData[sid].shipNum;
+                        putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0);
+                        console.log(putStockBody.record.mStockList.value[msl].value.mStock.value);
                       }
                     }
                   }
+                  putStockData.push(putStockBody);
                 }    
-                putStockData.push(putStockBody);
               }
             }
           }
-          console.log(putStockData);
           putRecords(sysid.SOGDev.app_id.unit, putStockData);
         }
       });
