@@ -584,9 +584,10 @@
                     }
                   }
                 }    
+                putStockData.push(putStockBody);
+                break;
               }
             }
-            putStockData.push(putStockBody);
           }
           
           putRecords(sysid.SOGDev.app_id.unit, putStockData);
