@@ -262,13 +262,13 @@
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
-    console.log(PAGE_RECORD.shipType.value);
+    const PAGE_RECORD = event.record;
     if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
       createReport(PAGE_RECORD,'distribute');
     } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
       createReport(PAGE_RECORD,'distribute');
     } else if (PAGE_RECORD.shipType.value == '移動-拠点間' || PAGE_RECORD.shipType.value == '移動-ベンダー') {
-      const PAGE_RECORD = event.record;
+      console.log(PAGE_RECORD.shipType.value);
       createReport(PAGE_RECORD,'arrival');
     } else if (PAGE_RECORD.shipType.value == '社内利用' || PAGE_RECORD.shipType.value == '貸与' || PAGE_RECORD.shipType.value == '修理') {
       createReport(PAGE_RECORD,'shiponly');
