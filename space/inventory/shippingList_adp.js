@@ -268,7 +268,6 @@
     } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
       createReport(PAGE_RECORD,'distribute');
     } else if (PAGE_RECORD.shipType.value == '移動-拠点間' || PAGE_RECORD.shipType.value == '移動-ベンダー') {
-      console.log(PAGE_RECORD.shipType.value);
       createReport(PAGE_RECORD,'arrival');
     } else if (PAGE_RECORD.shipType.value == '社内利用' || PAGE_RECORD.shipType.value == '貸与' || PAGE_RECORD.shipType.value == '修理') {
       createReport(PAGE_RECORD,'shiponly');
@@ -279,6 +278,7 @@
 
   //入出荷時処理_レポート関係
   const createReport = function (pageRecod, param) {
+    console.log('func OK');
     //レポート連携
     var sendDate = pageRecod.sendDate.value;
     var deviceList = pageRecod.deviceList.value;
