@@ -588,7 +588,7 @@
               }
             }
           }
-          
+          console.log(putStockData);
           putRecords(sysid.SOGDev.app_id.unit, putStockData);
         }
       });
