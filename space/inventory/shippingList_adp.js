@@ -571,23 +571,27 @@
                 if(putStockBody.updateKey.value == shipCode){
                   for(var msl in putStockBody.record.mStockList.value){
                     for(var sid in stockItemData){
+                      console.log(putStockBody.record.mStockList.value[msl].value.mCode.value);
+                      console.log(stockItemData[sid].mCode);
                       if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
                         putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0);
                         console.log(putStockBody.record.mStockList.value[msl].value.mStock.value);
+                        putStockData.push(putStockBody);
                       }
                     }
                   }
-                  putStockData.push(putStockBody);
                 } else if(putStockBody.updateKey.value == arrivalCode){
                   for(var msl in putStockBody.record.mStockList.value){
                     for(var sid in stockItemData){
+                      console.log(putStockBody.record.mStockList.value[msl].value.mCode.value);
+                      console.log(stockItemData[sid].mCode);
                       if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
                         putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0);
                         console.log(putStockBody.record.mStockList.value[msl].value.mStock.value);
+                        putStockData.push(putStockBody);
                       }
                     }
                   }
-                  putStockData.push(putStockBody);
                 }    
               }
             }
