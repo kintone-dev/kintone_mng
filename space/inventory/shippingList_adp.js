@@ -581,6 +581,17 @@
               }
             }
           }
+
+          var getDeviceBody = {
+            // 'app': sysid.INV.app_id.unit,
+            'app': sysid.SOGDev.app_id.device,
+            'query': 'mCode = "' + shipCode + '" order by 更新日時 asc'
+          };
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+          .then(function (resp) {
+            console.log(resp.records);
+          });
+
           putRecords(sysid.SOGDev.app_id.unit, putStockData);
         } else {
           //出荷在庫と入荷在庫を拠点から増減
