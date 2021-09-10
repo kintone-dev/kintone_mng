@@ -554,10 +554,7 @@
         } else {
           for (var ca in codeArray) {
             for(var ur in unitRecords){
-              console.log(codeArray[ca]);
-              console.log(unitRecords[ur]);
-
-              if(codeArray[ca] == unitRecords[ur].uCode){
+              if(codeArray[ca] == unitRecords[ur].uCode.value){
                 //更新在庫情報
                 var putStockBody = {
                   'updateKey': {
