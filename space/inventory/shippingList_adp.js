@@ -278,7 +278,6 @@
 
   //入出荷時処理_レポート関係
   const createReport = function (pageRecod, param) {
-    console.log('func OK');
     //レポート連携
     var sendDate = pageRecod.sendDate.value;
     var deviceList = pageRecod.deviceList.value;
