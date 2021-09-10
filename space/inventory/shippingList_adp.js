@@ -300,7 +300,6 @@
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
-        stockCount();
         if (resp.records.length != 0) {
           //更新レポート情報格納配列
           var putReportData = [];
@@ -392,6 +391,7 @@
             }
 
           } else if (param == 'distribute') {
+            stockCount();
             //作成したdistributesyscode
             var shipDistributeCode = [];
             for (var dl in deviceList) {
