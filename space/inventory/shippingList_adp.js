@@ -568,7 +568,7 @@
                 }
               }
             }
-            if(putStockBody.ucode === shipcode){
+            if(putStockBody.updateKey.value === shipcode){
               for(var msl in putStockBody.record.mStockList.value){
                 for(var sid in stockItemData){
                   if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
@@ -576,7 +576,7 @@
                   }
                 }
               }
-            } else if(putStockBody.ucode === arrivalCode){
+            } else if(putStockBody.updateKey.value === arrivalCode){
               for(var msl in putStockBody.record.mStockList.value){
                 for(var sid in stockItemData){
                   if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
