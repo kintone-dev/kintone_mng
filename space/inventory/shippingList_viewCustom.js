@@ -48,16 +48,16 @@
           setSpaceShown('calBtn','line', 'none');
           if(eRecord.record.shipType.value=='移動-拠点間'){
             setFieldShown('Contractor', true);
-            setFieldShown('instName', false);      
+            setFieldShown('instName', false);
           } else if(eRecord.record.shipType.value=='移動-ベンダー'){
             setFieldShown('Contractor', true);
-            setFieldShown('instName', false);      
+            setFieldShown('instName', false);
           } else if(eRecord.record.shipType.value=='返品'){
             setFieldShown('Contractor', true);
-            setFieldShown('instName', false);      
+            setFieldShown('instName', false);
           } else {
             setFieldShown('Contractor', false);
-            setFieldShown('instName', false);      
+            setFieldShown('instName', false);
           }
           break;
         case '#品目情報':
@@ -141,13 +141,13 @@
     tabMenu('tab_ship', ['出荷情報','宛先情報','品目情報','輸送情報']);
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function(){
-      var idName = $(this).attr('href');//タブ内のリンク名を取得  
+      var idName = $(this).attr('href');//タブ内のリンク名を取得
       tabSwitch(idName);//tabをクリックした時の表示設定
       return false;//aタグを無効にする
     });
     return event;
   });
-  
+
   kintone.events.on('app.record.create.show', function(event){
     //レコード作成時、発送関連情報を非表示
     setFieldShown('deliveryCorp', false);
@@ -156,7 +156,7 @@
     setFieldShown('expArrivalDate', false);
     return event;
   });
-  
+
   // 納品依頼に進めた場合、作業者から組織情報を取得し、「出荷ロケーション」に格納
   kintone.events.on('app.record.detail.process.proceed',function(event){
     var nStatus = event.nextStatus.value;
