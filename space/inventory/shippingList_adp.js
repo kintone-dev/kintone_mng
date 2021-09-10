@@ -1,6 +1,6 @@
 /**
  * develop
- * 
+ *
  * sysid書き換え
  */
 (function () {
@@ -474,7 +474,7 @@
           }
 
           if (param == 'arrival') {
-            //作成したarrivalsysコード格納
+            //作成したarrivalSysコード格納
             var arrivalSysCode = [];
             for (var dl in deviceList) {
               var arrivalSysData = {
@@ -497,7 +497,7 @@
             }
             stockCount(sysShipmentCode, sysArrivalCode,stockData);
           } else if (param == 'distribute') {
-            //作成したdistributesyscode
+            //作成したdistributeSysCode
             var shipDistributeCode = [];
             for (var dl in deviceList) {
               var shipDistributeData = {
@@ -550,7 +550,43 @@
         //更新在庫格納配列
         var putStockData = [];
         if (arrivalCode === 'shiponly') {
-
+          //出荷在庫を拠点と商品から減少
+          for (var ca in codeArray) {
+            for(var ur in unitRecords){
+              if(codeArray[ca] == unitRecords[ur].uCode.value){
+                //更新在庫情報
+                var putStockBody = {
+                  'updateKey': {
+                    'field': 'uCode',
+                    'value': codeArray[ca]
+                  },
+                  'record': {
+                    'mStockList': {
+                      'value': unitRecords[ur].mStockList.value
+                    }
+                  }
+                }
+                if(putStockBody.updateKey.value == shipCode){
+                  for(var msl in putStockBody.record.mStockList.value){
+                    for(var sid in stockItemData){
+                      if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
+                        putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0);
+                      }
+                    }
+                  }
+                } else if(putStockBody.updateKey.value == arrivalCode){
+                  for(var msl in putStockBody.record.mStockList.value){
+                    for(var sid in stockItemData){
+                      if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
+                        putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0);
+                      }
+                    }
+                  }
+                }
+                putStockData.push(putStockBody);
+              }
+            }
+          }
         } else {
           //出荷在庫と入荷在庫を拠点から増減
           for (var ca in codeArray) {
@@ -584,7 +620,7 @@
                       }
                     }
                   }
-                }    
+                }
                 putStockData.push(putStockBody);
               }
             }
