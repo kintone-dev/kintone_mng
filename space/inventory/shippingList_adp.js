@@ -292,8 +292,8 @@
     var stockData = []
     for (var sdl in deviceList){
       var stockDataBody = {
-        'mCode':deviceList[sdl].value.mCode,
-        'shipNum':deviceList[sdl].value.shipNum
+        'mCode':deviceList[sdl].value.mCode.value,
+        'shipNum':deviceList[sdl].value.shipNum.value
       }
       stockData.push(stockDataBody);
     }
