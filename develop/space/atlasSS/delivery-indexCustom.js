@@ -2,186 +2,187 @@
   'use strict';
 
   kintone.events.on('app.record.index.show', function (event) {
-    var del_records = setBtn_index('btn_del_records', '処理済みデータ削除');
-    var sync_kintone = setBtn_index('btn_sync_kintone', '内部連携');
+    var del_records = setBtn_index('btn_del_records', 'KT-処理済みデータ削除');
+    var sync_kintone = setBtn_index('btn_sync_kintone', 'KT-情報連携');
 
     //処理済みデータ削除
     $('#' + del_records.id).on('click', function () {
-
       var deleteReqBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in (\"登録完了\") and person_in_charge in (\"ATLAS Smart Security\") order by 更新日時 asc'
       };
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody)
+        .then(function (resp) {
+          var currentDate = new Date();
+          var deleteData = [];
+          //90日以上経ったデータを配列に格納
+          for (var di in resp.records) {
+            var createDate = new Date(resp.records[di].更新日時.value);
+            var dateComp = currentDate.getTime() - createDate.getTime();
 
-      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody).then(function (resp) {
-        var currentDate = new Date();
-        var deleteData = [];
-
-        //90日以上経ったデータを配列に格納
-        for (var di in resp.records) {
-          var createDate = new Date(resp.records[di].更新日時.value);
-          var dateComp = currentDate.getTime() - createDate.getTime();
-
-          if (dateComp > 7776000 * 1000) {
-            deleteData.push(resp.records[di].$id.value)
+            if (dateComp > 7776000 * 1000) {
+              deleteData.push(resp.records[di].$id.value)
+            }
           }
-        }
-
-        deleteRecords(kintone.app.getId(), deleteData);
-
-      }).catch(function (error) {
-        console.log(error);
-      });
+          deleteRecords(kintone.app.getId(), deleteData);
+        }).catch(function (error) {
+          console.log(error);
+        });
     });
 
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
+      /*①
+        作業ステータス：準備中
+        担当者：--------
+        申込種別：新規申込
+
+        会員情報に情報を更新
+        AL専用を会員情報登録済に
+      */
+      var getNewMemBody = {
+        'app': kintone.app.getId(),
+        'query': 'working_status in ("準備中") and application_type in ("新規申込") and al_result = "" order by 更新日時 asc'
+      };
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNewMemBody)
+        .then(function (resp) {
+          var newMemList = resp.records;
+          //新規申込データ作成
+          var postMemData = [];
+          //新規申込作業ステータスデータ作成
+          var putWStatNewData = [];
+          for (let nml in newMemList) {
+            var postBody_member = {
+              'member_id': {
+                value: newMemList[nml].member_id.value
+              },
+              'member_type': {
+                value: newMemList[nml].member_type.value
+              },
+              'application_datetime': {
+                value: newMemList[nml].application_datetime.value
+              },
+              'application_type': {
+                value: newMemList[nml].application_type.value
+              }
+            };
+
+            var putBody_workStatNew = {
+              'id': newMemList[nml].レコード番号.value,
+              'record': {
+                'al_result': {
+                  'value': '会員情報登録済'
+                }
+              }
+            };
+
+            postMemData.push(postBody_member);
+            putWStatNewData.push(putBody_workStatNew);
+          }
+          //新規申込
+          postRecords(sysid.ASS.app_id.member, postMemData)
+            .then(function (resp) {
+              alert('新規申込情報連携に成功しました。');
+              putRecords(kintone.app.getId(), putWStatNewData);
+            }).catch(function (error) {
+              console.log(error);
+              alert('新規申込情報連携に失敗しました。システム管理者に連絡してください。');
+            });
+        });
+
+      /*②
+        作業ステータス：TOASTCAM登録待ち＞＞集荷待ち(by Jay)
+        担当者：Accel Lab
+        申込種別：故障交換（保証期間内）、故障交換（保証期間外）
+
+        ・故障品の情報を「検証待ち」、「故障品」に
+        ・交換品の情報は出荷日、出荷用途以外は故障品からコピー
+          出荷日、出荷用途は配送先リストから更新
+      */
       var getReqBody = {
         'app': kintone.app.getId(),
-        'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") order by 更新日時 asc'
+        // 'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+        'query': 'working_status in ("集荷待ち") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
       };
-
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
         .then(function (resp) {
           var shipList = resp.records;
-          console.log(shipList);
-
-          //新規申込データ作成
-          var postMemData = [];
-
           //故障品データ作成
           var putDefData = [];
-
+          //交換品データ作成
+          var putRepData = [];
           //交換品query
-          var getDefQueryArray = [];
-          var getDefBody = {
+          var getRepQueryArray = [];
+          var getRepBody = {
             'app': sysid.DEV.app_id.sNum,
             'query': ''
           };
-
-          //交換品データ作成
-          var putRepData = [];
-
-          //新規申込作業ステータスデータ作成
-          var putWStatNewData = [];
-
-          //故障交換ステータスデータ作成
-          var putWStatDefData = [];
-
           for (let ri in shipList) {
-            if (shipList[ri].application_type.value.match(/新規申込/)) {
-              if(shipList[ri].al_result.value.match(/会員情報登録済/)){
-                if(shipList[ri].toastcam_bizUserId.value != ''){
-                  var putBody_workStatNew = {
-                    'id': shipList[ri].レコード番号.value,
-                    'record': {
-                      'working_status': {
-                        'value': '必要情報入力済み'
-                      }
-                    }
-                  };
-                }
-              } else{
-                var postBody_member = {
-                  'member_id': {
-                    value: shipList[ri].member_id.value
-                  },
-                  'member_type': {
-                    value: shipList[ri].member_type.value
-                  },
-                  'application_datetime': {
-                    value: shipList[ri].application_datetime.value
-                  },
-                  'application_type': {
-                    value: shipList[ri].application_type.value
-                  }
-                };
-                
-                if(shipList[ri].toastcam_bizUserId.value != ''){
-                  var putBody_workStatNew = {
-                    'id': shipList[ri].レコード番号.value,
-                    'record': {
-                      'working_status': {
-                        'value': '必要情報入力済み'
-                      },
-                      'al_result':{
-                        'value': '会員情報登録済'
-                      }
-                    }
-                  };
-                } else{
-                  var putBody_workStatNew = {
-                    'id': shipList[ri].レコード番号.value,
-                    'record': {
-                      'al_result':{
-                        'value': '会員情報登録済'
-                      }
-                    }
-                  };
-                }  
-              }
+            var dateCutter = shipList[ri].shipping_datetime.value.indexOf('T')
 
-              postMemData.push(postBody_member);
-              putWStatNewData.push(putBody_workStatNew);
-            } else if (resp.records[ri].application_type.value.match(/故障交換/)) {
-              var putDefBody_sNum = {
-                'updateKey': {
-                  'field': 'sNum',
-                  'value': resp.records[ri].failure_sNum.value
+            var putDefBody_sNum = {
+              'updateKey': {
+                'field': 'sNum',
+                'value': resp.records[ri].failure_sNum.value
+              },
+              'memId': resp.records[ri].member_id.value,
+              'record': {
+                'sState': {
+                  'value': '故障品'
                 },
-                'record': {
-                  'sState': {
-                    'value': '故障品'
-                  },
-                  'sDstate': {
-                    'value': '検証待ち'
-                  }
+                'sDstate': {
+                  'value': '検証待ち'
                 }
-              };
-
-              var putRepBody_sNum = {
-                'updateKey': {
-                  'field': 'sNum',
-                  'value': resp.records[ri].replacement_sNum.value
-                },
-                'defKey': resp.records[ri].failure_sNum.value,
-                'appType': shipList[ri].application_type.value,
-                'shipDate': shipList[ri].shipping_datetime.value,
-                'record': ''
-              };
-
-              if(shipList[ri].toastcam_bizUserId.value != ''){
-                var putBody_workStatDef = {
-                  'id': shipList[ri].レコード番号.value,
-                  'record': {
-                    'working_status': {
-                      'value': '必要情報入力済み'
-                    }
-                  }
-                };
               }
+            };
 
-              getDefQueryArray.push('sNum = ');
-              getDefQueryArray.push('"' + resp.records[ri].failure_sNum.value + '"');
-              getDefQueryArray.push(' or ');
+            var putRepBody_sNum = {
+              'updateKey': {
+                'field': 'sNum',
+                'value': resp.records[ri].replacement_sNum.value
+              },
+              'defKey': resp.records[ri].failure_sNum.value,
+              'appType': shipList[ri].application_type.value,
+              'shipDate': shipList[ri].shipping_datetime.value.substring(0, dateCutter),
+              'record': ''
+            };
 
-              putDefData.push(putDefBody_sNum);
-              putRepData.push(putRepBody_sNum);
-              putWStatDefData.push(putBody_workStatDef);
-            }
+            getRepQueryArray.push('sNum = ');
+            getRepQueryArray.push('"' + resp.records[ri].failure_sNum.value + '"');
+            getRepQueryArray.push(' or ');
+
+            putDefData.push(putDefBody_sNum);
+            putRepData.push(putRepBody_sNum);
           }
-          if (getDefQueryArray != []) {
-            getDefQueryArray.pop();
+
+          if (getRepQueryArray != []) {
+            getRepQueryArray.pop();
           }
-          var getDefQuery = getDefQueryArray.join('');
-          getDefBody.query = getDefQuery;
-          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDefBody)
+
+          var getDefQuery = getRepQueryArray.join('');
+          getRepBody.query = getDefQuery;
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getRepBody)
             .then(function (resp) {
               var defRec = resp.records;
-              console.log(defRec);
+              //メンバーID比較
+              for (let pdd in putDefData) {
+                var defSnum = putDefData[pdd].updateKey.value;
+                var defMemId = putDefData[pdd].memId;
+                for (let ri in defRec) {
+                  if (defRec[ri].sNum.value == defSnum) {
+                    if (!defRec[ri].pkgid.value == defMemId) {
+                      putDefData.splice(pdd, 1);
+                    }
+                  }
+                }
+              }
 
-              for (let rd in putRepData) {
-                var defKey = putRepData[rd].defKey;
+              for (let pd in putDefData) {
+                delete putDefData[pd].memId;
+              }
+
+              for (let prd in putRepData) {
+                var defKey = putRepData[prd].defKey;
                 for (let ri in defRec) {
                   if (defKey == defRec[ri].sNum.value) {
                     delete defRec[ri].$id;
@@ -195,7 +196,7 @@
                     delete defRec[ri].更新者;
                     delete defRec[ri].更新日時;
 
-                    putRepData[rd].record = defRec[ri];
+                    putRepData[prd].record = defRec[ri];
                   }
                 }
               }
@@ -209,56 +210,110 @@
                 delete putRepData[rd].shipDate;
                 delete putRepData[rd].record.sNum;
               }
+            })
+          /*③
+              作業ステータス：TOASTCAM登録待ち＞＞集荷待ち(by Jay)
+              担当者：Accel Lab
+              申込種別：故障交換（保証期間内）、故障交換（保証期間外）以外
+      
+              ・記入されたシリアル番号に配送先リストの情報を追加する
+            */
+          var getNotDefBody = {
+            'app': kintone.app.getId(),
+            //'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+            'query': 'working_status in ("集荷待ち") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+          };
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
+            .then(function (resp) {
+              //故障交換ステータスデータ作成
+              var putNotDefData = [];
+              var notDefList = resp.records;
+              for (var ndl in notDefList) {
+                var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value, 'table');
+                for (var snl in sNumsArray) {
+                  var dateCutter1 = notDefList[ndl].shipping_datetime.value.indexOf('T')
+                  var dateCutter2 = notDefList[ndl].application_datetime.value.indexOf('T')
 
-              var putDefRepData = putDefData.concat(putRepData);
-
-              //会員情報連携データ
-              console.log('会員情報連携データ');
-              console.log(postMemData);
-              //故障品連携データ
-              console.log('故障品連携データ');
-              console.log(putDefData);
-              //交換品連携データ
-              console.log('交換品連携データ');
-              console.log(putRepData);
-              //故障品、交換品連携データ
-              console.log('故障品、交換品連携データ');
-              console.log(putDefRepData);
-              //会員情報連携完了ステータスデータ
-              console.log('会員情報連携完了ステータスデータ');
-              console.log(putWStatNewData);
-              //故障品、交換品連携完了ステータスデータ
-              console.log('故障品、交換品連携完了ステータスデータ');
-              console.log(putWStatDefData);
-
-              //新規申込
-              postRecords(sysid.ASS.app_id.member, postMemData)
+                  var putSnumBody = {
+                    'updateKey': {
+                      'field': 'sNum',
+                      'value': sNumsArray[snl]
+                    },
+                    'record': {
+                      'sendDate': {
+                        'value': notDefList[ndl].shipping_datetime.value.substring(0, dateCutter1)
+                      },
+                      'sendType': {
+                        'value': '検証待ち'
+                      },
+                      'shipment': {
+                        'value': '123倉庫'
+                      },
+                      'instName': {
+                        'value': '高井戸西2丁目'
+                      },
+                      'pkgid': {
+                        'value': notDefList[ndl].member_id.value
+                      },
+                      'startDate': {
+                        'value': notDefList[ndl].application_datetime.value.substring(0, dateCutter2)
+                      },
+                    }
+                  };
+                  for (var psdl in putNotDefData) {
+                    if (putNotDefData[psdl].updateKey.value == putSnumBody.updateKey.value) {
+                      putNotDefData.splice(psdl, 1);
+                    }
+                  }
+                  putNotDefData.push(putSnumBody);
+                }
+              }
+              // ②、③情報連結
+              var putSnumData = putRepData.concat(putDefData);
+              putSnumData = putNotDefData.concat(putSnumData);
+              console.log(putSnumData);
+              // シリアル管理情報更新
+              putRecords(sysid.DEV.app_id.sNum, putSnumData)
                 .then(function (resp) {
-                  alert('新規申込情報連携に成功しました。');
-                  putRecords(kintone.app.getId(), putWStatNewData);
+                  alert('シリアル番号情報連携に成功しました。');
                 }).catch(function (error) {
                   console.log(error);
-                  alert('新規申込情報連携に失敗しました。システム管理者に連絡してください。');
+                  alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
                 });
-
-              //故障交換
-              putRecords(sysid.DEV.app_id.sNum, putDefRepData)
-                .then(function (resp) {
-                  alert('故障交換情報連携に成功しました。');
-                  putRecords(kintone.app.getId(), putWStatDefData);
-                }).catch(function (error) {
-                  console.log(error);
-                  alert('故障交換情報連携に失敗しました。システム管理者に連絡してください。');
-                });
-
-            }).catch(function (error) {
-              console.log(error);
             });
-        }).catch(function (error) {
-          console.log(error);
+        });
+
+      /*
+        作業ステータス：TOASTCAM登録待ち
+        担当者：Accel Lab
+        申込種別：--------
+        BizID登録済み
+
+        ・作業ステータスを必要情報入力済みに
+      */
+      var getStaBody = {
+        'app': kintone.app.getId(),
+        'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and toastcam_bizUserId != "" order by 更新日時 asc'
+      };
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getStaBody)
+        .then(function (resp) {
+          var bizInList = resp.records;
+          //故障交換ステータスデータ作成
+          var putStatData = [];
+          for (var bil in bizInList) {
+            var putBody_workStat = {
+              'id': bizInList[ri].レコード番号.value,
+              'record': {
+                'working_status': {
+                  'value': '必要情報入力済み'
+                }
+              }
+            };
+            putStatData.push(putBody_workStat);
+          }
+          putRecords(kintone.app.getId(), putStatData);
         });
 
     });
-
   });
 })();

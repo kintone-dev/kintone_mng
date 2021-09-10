@@ -15,10 +15,10 @@
     
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     //sti: subTable i
-    for (var sti in event.record.hStockList.value){
-      event.record.hStockList.value[sti].value.hCode.disabled=true;
-      event.record.hStockList.value[sti].value.hName.disabled=true;
-      event.record.hStockList.value[sti].value.hStock.disabled=true;
+    for (var sti in event.record.uStockList.value){
+      event.record.uStockList.value[sti].value.uCode.disabled=true;
+      event.record.uStockList.value[sti].value.uName.disabled=true;
+      event.record.uStockList.value[sti].value.uStock.disabled=true;
     }
     //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     
@@ -39,7 +39,7 @@
           setFieldShown('importExpenses', false);
           setFieldShown('developCost', false);
           setFieldShown('totalStock', false);
-          setFieldShown('hStockList', false);
+          setFieldShown('uStockList', false);
           setFieldShown('packageComp', false);
           break;
         case '#在庫情報':
@@ -57,7 +57,7 @@
           setFieldShown('importExpenses', false);
           setFieldShown('developCost', false);
           setFieldShown('totalStock', true);
-          setFieldShown('hStockList', true);
+          setFieldShown('uStockList', true);
           setFieldShown('packageComp', false);
           break;
         case '#原価情報':
@@ -75,7 +75,7 @@
           setFieldShown('importExpenses', true);
           setFieldShown('developCost', true);
           setFieldShown('totalStock', false);
-          setFieldShown('hStockList', false);
+          setFieldShown('uStockList', false);
           setFieldShown('packageComp', false);
           break;
         case '#パッケージ構成':
@@ -93,19 +93,19 @@
           setFieldShown('importExpenses', false);
           setFieldShown('developCost', false);
           setFieldShown('totalStock', false);
-          setFieldShown('hStockList', false);
+          setFieldShown('uStockList', false);
           setFieldShown('packageComp', true);
           break;
       }
-    }
+    }tabSwitch('#品目情報');//tab初期表示設定
     //タブメニュー作成
     tabMenu('tab_inv', ['品目情報','在庫情報','原価情報','パッケージ構成']);
     //タブ切り替え表示設定
-     $('.tabMenu a').on('click', function(){
+     $('.tab_inv a').on('click', function(){
         var idName = $(this).attr('href');//タブ内のリンク名を取得  
         tabSwitch(idName);//tabをクリックした時の表示設定
         return false;//aタグを無効にする
-    });tabSwitch('#品目情報');//tab初期表示設定
+    });
     event.record.totalStock.disabled=true;
     event.record.mCost.disabled=true;
     event.record.mCostUpdate.disabled=true;

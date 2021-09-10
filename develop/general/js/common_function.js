@@ -16,8 +16,8 @@ var sysid = {
 		app_id: {
 			unit: 156,
 			device: 155,
-			report: 154,
-			shipment: 153
+			report: 179,
+			shipment: 178
 		}
 	},
 	// Support
@@ -182,7 +182,8 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 		sessionStorage.removeItem(copy_fCode); //同じ名称のSessionStorageを削除
 		sessionStorage.setItem(copy_fCode, copy_value); //値をSessionStorageに格納する
 	}
-	window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', '_blank'); //該当アプリの新規レコード作成画面を開く
+	// window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', '_blank'); //該当アプリの新規レコード作成画面を開く
+	window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', 'example','scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200'); //該当アプリの新規レコード作成画面を開く
 
 	if (Array.isArray(copy_fCode)) { //配列の場合のアクション
 		for (var fr in copy_fCode) {
@@ -192,6 +193,29 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 		sessionStorage.removeItem(copy_fCode); //同じ名称のSessionStorageを削除
 	}
 }
+
+// シリアル番号取得
+var sNumRecords=function(Value, fType){
+  var sNs=[];
+  switch(fType){
+    case 'table':
+      for(var ti in Value){
+        var sn=Value[ti].value.sNum.value; //シリアル番号データを取り出す
+        var snArray=sn.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
+        var sns=snArray.filter(Boolean); //配列順番を反転
+        for(var sni in sns){
+          sNs.push(sns[sni]);
+        }
+      }
+      break;
+    case 'text':
+      //var sn=Value[ti].value.sNum.value; //シリアル番号データを取り出す
+      var snArray=Value.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
+      sNs=snArray.filter(Boolean);
+      break;
+  }
+  return sNs;
+};
 
 // パスワードジェネレーター
 var pw_generator = function (len) {
