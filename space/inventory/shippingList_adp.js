@@ -581,6 +581,7 @@
               }
             }
           }
+          putRecords(sysid.SOGDev.app_id.unit, putStockData);
         } else {
           //出荷在庫と入荷在庫を拠点から増減
           for (var ca in codeArray) {
