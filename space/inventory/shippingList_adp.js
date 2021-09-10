@@ -371,14 +371,14 @@
                   }
                 }
               } else {
-                var putInventoryBody = {
+                var putArrivalBody = {
                   'value': {
                     'sys_code': arrivalSysCode[asc].sysCode,
                     'stockLocation': arrivalSysCode[asc].location,
                     'arrivalNum': arrivalSysCode[asc].shipNum
                   }
                 }
-                putReportBody.record.inventoryList.value.push(putInventoryBody);
+                putReportBody.record.inventoryList.value.push(putArrivalBody);
               }
             }
 
@@ -402,14 +402,14 @@
                   }
                 }
               } else {
-                var putInventoryBody = {
+                var putDistributeBody = {
                   'value': {
                     'sys_code': shipDistributeCode[sdc].sysCode,
                     'stockLocation': '積送',
                     'arrivalNum': shipDistributeCode[sdc].shipNum
                   }
                 }
-                putReportBody.record.inventoryList.value.push(putInventoryBody);
+                putReportBody.record.inventoryList.value.push(putDistributeBody);
               }
             }
           } else if (param == 'shiponly') {}
@@ -440,14 +440,14 @@
 
           for (var ssc in shipSysCode) {
             //サブテーブル追加
-            var putInventoryBody = {
+            var postInventoryBody = {
               'value': {
                 'sys_code': shipSysCode[ssc].sysCode,
                 'stockLocation': pageRecod.shipment.value,
                 'shipNum': shipSysCode[ssc].shipNum
               }
             }
-            putReportBody.record.inventoryList.value.push(putInventoryBody);
+            postInventoryListArray.push(postInventoryBody);
           }
 
           if (param == 'arrival') {
@@ -464,14 +464,14 @@
 
             for (var asc in arrivalSysCode) {
               //arrivalテーブル追加
-                var putInventoryBody = {
+                var postArrivalBody = {
                   'value': {
                     'sys_code': arrivalSysCode[asc].sysCode,
                     'stockLocation': arrivalSysCode[asc].location,
                     'arrivalNum': arrivalSysCode[asc].shipNum
                   }
                 }
-                putReportBody.record.inventoryList.value.push(putInventoryBody);
+                postInventoryListArray.push(postArrivalBody);
             }
 
           } else if (param == 'distribute') {
@@ -487,14 +487,14 @@
 
             for (var sdc in shipDistributeCode) {
               //distributeテーブル追加
-                var putInventoryBody = {
+                var postDistributeBody = {
                   'value': {
                     'sys_code': shipDistributeCode[sdc].sysCode,
                     'stockLocation': '積送',
                     'arrivalNum': shipDistributeCode[sdc].shipNum
                   }
                 }
-                putReportBody.record.inventoryList.value.push(putInventoryBody);
+                postInventoryListArray.push(postDistributeBody);
             }
           } else if (param == 'shiponly') {}
 
