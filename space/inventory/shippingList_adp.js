@@ -554,16 +554,17 @@
         } else {
           for (var ca in codeArray) {
             for(var ur in unitRecords){
-              if(codeArray[ca] === unitRecords[ur].uCode)
-              //更新在庫情報
-              var putStockBody = {
-                'updateKey': {
-                  'field': 'uCode',
-                  'value': codeArray[ca]
-                },
-                'record': {
-                  'mStockList': {
-                    'value': unitRecords[ur].mStockList.value
+              if(codeArray[ca] === unitRecords[ur].uCode){
+                //更新在庫情報
+                var putStockBody = {
+                  'updateKey': {
+                    'field': 'uCode',
+                    'value': codeArray[ca]
+                  },
+                  'record': {
+                    'mStockList': {
+                      'value': unitRecords[ur].mStockList.value
+                    }
                   }
                 }
               }
