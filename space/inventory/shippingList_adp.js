@@ -62,7 +62,7 @@
         console.error(error);
       });
 
-      createReport(PAGE_RECORD, 'distribute');
+      shipFunc(PAGE_RECORD, 'distribute');
     }
     return event;
   });
@@ -264,20 +264,20 @@
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
     const PAGE_RECORD = event.record;
     if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
-      createReport(PAGE_RECORD, 'distribute');
+      shipFunc(PAGE_RECORD, 'distribute');
     } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
-      createReport(PAGE_RECORD, 'distribute');
+      shipFunc(PAGE_RECORD, 'distribute');
     } else if (PAGE_RECORD.shipType.value == '移動-拠点間' || PAGE_RECORD.shipType.value == '移動-ベンダー') {
-      createReport(PAGE_RECORD, 'arrival');
+      shipFunc(PAGE_RECORD, 'arrival');
     } else if (PAGE_RECORD.shipType.value == '社内利用' || PAGE_RECORD.shipType.value == '貸与' || PAGE_RECORD.shipType.value == '修理') {
-      createReport(PAGE_RECORD, 'shiponly');
+      shipFunc(PAGE_RECORD, 'shiponly');
     } else if (PAGE_RECORD.shipType.value == '返品') {
-      createReport(PAGE_RECORD, 'shiponly');
+      shipFunc(PAGE_RECORD, 'shiponly');
     }
   });
 
-  //入出荷時処理_レポート関係
-  const createReport = function (pageRecod, param) {
+  //入出荷時処理
+  const shipFunc = function (pageRecod, param) {
     //レポート連携
     var sendDate = pageRecod.sendDate.value;
     var deviceList = pageRecod.deviceList.value;
@@ -292,6 +292,7 @@
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
+        stockCount();
         if (resp.records.length != 0) {
           //更新レポート情報格納配列
           var putReportData = [];
@@ -504,4 +505,8 @@
       });
   }
   
+  const stockCount = function () {
+    console.log(1);
+  }
+
 })();
