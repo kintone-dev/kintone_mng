@@ -15,11 +15,11 @@
     $('#'+new_onShip.id).on('click', function(){
       createNewREC(sysID.SUP.app.ship, ['supNum','bName'], [supNum,bName]);
     });
-    
-    
-    
+
+
+
   });
-  
+
   var events_ced=[
     'app.record.edit.show',
     'app.record.create.show',
@@ -29,16 +29,16 @@
     setFieldShown('tarDevice', false);
     setFieldShown('tarSeries', false);
     setFieldShown('hwIssue', false);
-    
+
     setFieldShown('serviceType', false);
     setFieldShown('swIssue', false);
     setFieldShown('aboutDevice', false);
     setFieldShown('scadminIssue', false);
-    
+
     setFieldShown('nonService', false);
-    
-    
-    
+
+
+
       setFieldShown('sup_mean', true);
       setFieldShown('device_status', true);
       setFieldShown('sup_logInfo', true);
@@ -46,11 +46,11 @@
       setFieldShown('ReportingIssue', false);
       setFieldShown('ReportingDetail', false);
       setFieldShown('ReportingResult', false);
-      
-      
+
+
       //setSpaceShown('btn_onSite', 'none');
       //setSpaceShown('btn_onShip', 'none');
-    
+
 
 function tabSwitch(onSelect){
   switch(onSelect){
@@ -82,14 +82,14 @@ function tabSwitch(onSelect){
     tabMenu('tab_sup', ['お問い合わせ詳細','レポート']);
     //タブ切り替え表示設定
      $('.tab_sup a').on('click', function(){
-        var idName = $(this).attr('href');//タブ内のリンク名を取得  
+        var idName = $(this).attr('href');//タブ内のリンク名を取得
         tabSwitch(idName);//tabをクリックした時の表示設定
         return false;//aタグを無効にする
      });tabSwitch('#お問い合わせ詳細');//tab初期表示設定
     return event;
   });
-  
-  
+
+
   var events_issueType=[
     'app.record.edit.change.issueType',
     'app.record.create.change.issueType'
@@ -104,70 +104,70 @@ function tabSwitch(onSelect){
     event.record.aboutDevice.value=[];
     event.record.scadminIssue.value=[];
     event.record.nonService.value=[];
-    
+
     //問題種別による表示切り替え
     switch(event.record.issueType.value){
-      
+
       default:
         //
         setFieldShown('tarDevice', false);
         setFieldShown('tarSeries', false);
         setFieldShown('hwIssue', false);
-        
+
         setFieldShown('serviceType', false);
         setFieldShown('swIssue', false);
         setFieldShown('aboutDevice', false);
         setFieldShown('scadminIssue', false);
-        
+
         setFieldShown('nonService', false);
         break;
-        
+
       //デバイストラブル
       case "デバイストラブル":
         setFieldShown('tarDevice', true);
         setFieldShown('tarSeries', true);
         setFieldShown('hwIssue', true);
-        
+
         setFieldShown('serviceType', false);
         setFieldShown('swIssue', false);
         setFieldShown('aboutDevice', false);
         setFieldShown('scadminIssue', false);
-        
+
         setFieldShown('nonService', false);
         break;
-      
+
       //サービストラブル
       case "サービストラブル":
         setFieldShown('tarDevice', false);
         setFieldShown('tarSeries', false);
         setFieldShown('hwIssue', false);
-        
+
         setFieldShown('serviceType', true);
         setFieldShown('swIssue', false);
         setFieldShown('aboutDevice', false);
         setFieldShown('scadminIssue', false);
-        
+
         setFieldShown('nonService', false);
         break;
-      
-      
+
+
       case "サポート対象外":
         setFieldShown('tarDevice', false);
         setFieldShown('tarSeries', false);
         setFieldShown('hwIssue', false);
-        
+
         setFieldShown('serviceType', false);
         setFieldShown('swIssue', false);
         setFieldShown('aboutDevice', false);
         setFieldShown('scadminIssue', false);
-        
+
         setFieldShown('nonService', true);
         break;
     }
     return event;
   });
-  
-  
+
+
   var events_serviceType=[
     'app.record.edit.change.serviceType',
     'app.record.create.change.serviceType'
@@ -177,7 +177,7 @@ function tabSwitch(onSelect){
     event.record.swIssue.value=[];
     event.record.aboutDevice.value=[];
     event.record.scadminIssue.value=[];
-    
+
     //サービス区分
     switch(event.record.serviceType.value){
       default:
@@ -201,7 +201,7 @@ function tabSwitch(onSelect){
         setFieldShown('scadminIssue', true);
         break;
     }
-    
+
     return event;
   });
 })();
