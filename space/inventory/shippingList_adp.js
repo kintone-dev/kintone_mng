@@ -427,8 +427,6 @@
             stockCount(sysShipmentCode, 'shiponly');
           }
 
-          stockCount(sysShipmentCode, sysArrivalCode);
-
           putReportData.push(putReportBody);
           // putRecords(sysid.INV.app_id.report, putReportData);
           putRecords(sysid.SOGDev.app_id.report, putReportData);
@@ -523,7 +521,8 @@
   }
 
   const stockCount = function (shipCode, arrivalCode) {
-    //同じ月のレポート情報取得
+    console.log(shipCode);
+    console.log(arrivalCode);
     if (arrivalCode === 'shiponly') {
       var getUnitBody = {
         // 'app': sysid.INV.app_id.unit,
