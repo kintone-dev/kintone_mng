@@ -549,6 +549,8 @@
         var unitRecords = resp.records;
         //更新在庫格納配列
         var putStockData = [];
+        //更新商品格納配列
+        var putItemData = [];
         if (arrivalCode === 'shiponly') {
           //出荷在庫を拠点と商品から減少
           for (var ca in codeArray) {
@@ -571,14 +573,6 @@
                     for(var sid in stockItemData){
                       if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
                         putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0);
-                      }
-                    }
-                  }
-                } else if(putStockBody.updateKey.value == arrivalCode){
-                  for(var msl in putStockBody.record.mStockList.value){
-                    for(var sid in stockItemData){
-                      if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
-                        putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0);
                       }
                     }
                   }
