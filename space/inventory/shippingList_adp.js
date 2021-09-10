@@ -567,23 +567,23 @@
                     }
                   }
                 }
-              }
-            }
-            if(putStockBody.updateKey.value === shipcode){
-              for(var msl in putStockBody.record.mStockList.value){
-                for(var sid in stockItemData){
-                  if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
-                    putStockBody.record.mStockList.value[msl].value.mStock.value -= stockItemData[sid].shipNum;
+                if(putStockBody.updateKey.value === shipcode){
+                  for(var msl in putStockBody.record.mStockList.value){
+                    for(var sid in stockItemData){
+                      if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
+                        putStockBody.record.mStockList.value[msl].value.mStock.value -= stockItemData[sid].shipNum;
+                      }
+                    }
                   }
-                }
-              }
-            } else if(putStockBody.updateKey.value === arrivalCode){
-              for(var msl in putStockBody.record.mStockList.value){
-                for(var sid in stockItemData){
-                  if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
-                    putStockBody.record.mStockList.value[msl].value.mStock.value += stockItemData[sid].shipNum;
+                } else if(putStockBody.updateKey.value === arrivalCode){
+                  for(var msl in putStockBody.record.mStockList.value){
+                    for(var sid in stockItemData){
+                      if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
+                        putStockBody.record.mStockList.value[msl].value.mStock.value += stockItemData[sid].shipNum;
+                      }
+                    }
                   }
-                }
+                }    
               }
             }
             putStockData.push(putStockBody);
