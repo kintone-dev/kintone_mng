@@ -573,7 +573,6 @@
                     for(var sid in stockItemData){
                       if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
                         putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0);
-                        console.log(putStockBody.record.mStockList.value[msl].value.mStock.value);
                         putStockData.push(putStockBody);
                       }
                     }
@@ -583,7 +582,6 @@
                     for(var sid in stockItemData){
                       if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
                         putStockBody.record.mStockList.value[msl].value.mStock.value =parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0);
-                        console.log(putStockBody.record.mStockList.value[msl].value.mStock.value);
                         putStockData.push(putStockBody);
                       }
                     }
