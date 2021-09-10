@@ -585,7 +585,6 @@
                   }
                 }    
                 putStockData.push(putStockBody);
-                break;
               }
             }
           }
