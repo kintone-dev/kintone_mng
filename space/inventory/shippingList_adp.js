@@ -62,7 +62,7 @@
         console.error(error);
       });
 
-      createReport(PAGE_RECORD,'distribute');
+      createReport(PAGE_RECORD, 'distribute');
     }
     return event;
   });
@@ -264,15 +264,15 @@
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
     const PAGE_RECORD = event.record;
     if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
-      createReport(PAGE_RECORD,'distribute');
+      createReport(PAGE_RECORD, 'distribute');
     } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
-      createReport(PAGE_RECORD,'distribute');
+      createReport(PAGE_RECORD, 'distribute');
     } else if (PAGE_RECORD.shipType.value == '移動-拠点間' || PAGE_RECORD.shipType.value == '移動-ベンダー') {
-      createReport(PAGE_RECORD,'arrival');
+      createReport(PAGE_RECORD, 'arrival');
     } else if (PAGE_RECORD.shipType.value == '社内利用' || PAGE_RECORD.shipType.value == '貸与' || PAGE_RECORD.shipType.value == '修理') {
-      createReport(PAGE_RECORD,'shiponly');
-    } else if(PAGE_RECORD.shipType.value == '返品'){
-      createReport(PAGE_RECORD,'shiponly');
+      createReport(PAGE_RECORD, 'shiponly');
+    } else if (PAGE_RECORD.shipType.value == '返品') {
+      createReport(PAGE_RECORD, 'shiponly');
     }
   });
 
@@ -380,7 +380,7 @@
                 }
                 putReportBody.record.inventoryList.value.push(putInventoryBody);
               }
-            }  
+            }
 
           } else if (param == 'distribute') {
             //作成したdistributesyscode
@@ -411,12 +411,95 @@
                 }
                 putReportBody.record.inventoryList.value.push(putInventoryBody);
               }
-            }  
-          } else if(param == 'shiponly'){
-          }
+            }
+          } else if (param == 'shiponly') {}
 
           putReportData.push(putReportBody);
           putRecords(sysid.INV.app_id.report, putReportData);
+        } else {
+          //レポート新規作成
+          var postReportData = [];
+          var postInventoryListArray = [];
+          var postReportBody = {
+            'report_key': {
+              'value': sendDate
+            },
+            'inventoryList': {
+              'value': postInventoryListArray
+            }
+          }
+          //作成したsysコードを格納
+          var shipSysCode = [];
+          for (var dl in deviceList) {
+            var shipSysData = {
+              'sysCode': deviceList[dl].value.mCode.value + '-' + sysShipmentCode,
+              'shipNum': deviceList[dl].value.shipNum.value,
+            }
+            shipSysCode.push(shipSysData);
+          }
+
+          for (var ssc in shipSysCode) {
+            //サブテーブル追加
+            var putInventoryBody = {
+              'value': {
+                'sys_code': shipSysCode[ssc].sysCode,
+                'stockLocation': pageRecod.shipment.value,
+                'shipNum': shipSysCode[ssc].shipNum
+              }
+            }
+            putReportBody.record.inventoryList.value.push(putInventoryBody);
+          }
+
+          if (param == 'arrival') {
+            //作成したarrivalsysコード格納
+            var arrivalSysCode = [];
+            for (var dl in deviceList) {
+              var arrivalSysData = {
+                'sysCode': deviceList[dl].value.mCode.value + '-' + sysArrivalCode,
+                'shipNum': deviceList[dl].value.shipNum.value,
+                'location': pageRecod.Contractor.value
+              }
+              arrivalSysCode.push(arrivalSysData);
+            }
+
+            for (var asc in arrivalSysCode) {
+              //arrivalテーブル追加
+                var putInventoryBody = {
+                  'value': {
+                    'sys_code': arrivalSysCode[asc].sysCode,
+                    'stockLocation': arrivalSysCode[asc].location,
+                    'arrivalNum': arrivalSysCode[asc].shipNum
+                  }
+                }
+                putReportBody.record.inventoryList.value.push(putInventoryBody);
+            }
+
+          } else if (param == 'distribute') {
+            //作成したdistributesyscode
+            var shipDistributeCode = [];
+            for (var dl in deviceList) {
+              var shipDistributeData = {
+                'sysCode': deviceList[dl].value.mCode.value + '-distribute',
+                'shipNum': deviceList[dl].value.shipNum.value
+              }
+              shipDistributeCode.push(shipDistributeData);
+            }
+
+            for (var sdc in shipDistributeCode) {
+              //distributeテーブル追加
+                var putInventoryBody = {
+                  'value': {
+                    'sys_code': shipDistributeCode[sdc].sysCode,
+                    'stockLocation': '積送',
+                    'arrivalNum': shipDistributeCode[sdc].shipNum
+                  }
+                }
+                putReportBody.record.inventoryList.value.push(putInventoryBody);
+            }
+          } else if (param == 'shiponly') {}
+
+          postReportData.push(postReportBody);
+          postRecords(sysid.INV.app_id.report, postReportData);
         }
       });
   }
