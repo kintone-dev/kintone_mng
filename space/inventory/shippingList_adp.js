@@ -536,6 +536,7 @@
         'query': 'uCode = "' + shipCode + '" and uCode = "' + arrivalCode + '" order by 更新日時 asc'
       };
     }
+    console.log(getUnitBody.query);
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
       .then(function (resp) {
         console.log(resp);
