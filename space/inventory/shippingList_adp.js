@@ -300,6 +300,7 @@
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
+        console.log(resp);
         if (resp.records.length != 0) {
           //更新レポート情報格納配列
           var putReportData = [];
