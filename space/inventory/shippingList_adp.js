@@ -552,6 +552,7 @@
         if (arrivalCode === 'shiponly') {
 
         } else {
+          //出荷在庫と入荷在庫を拠点から増減
           for (var ca in codeArray) {
             for(var ur in unitRecords){
               if(codeArray[ca] == unitRecords[ur].uCode.value){
@@ -567,7 +568,7 @@
                     }
                   }
                 }
-                if(putStockBody.updateKey.value === shipcode){
+                if(putStockBody.updateKey.value === shipCode){
                   for(var msl in putStockBody.record.mStockList.value){
                     for(var sid in stockItemData){
                       if(putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode){
