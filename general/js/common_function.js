@@ -50,6 +50,16 @@ var sysid = {
 			account_tc: 160,
 			sNum: 159
 		}
+	},
+	// SOG Develop
+	SOGDev:{
+		space:26,
+		app_id: {
+			shipment: 207,
+			report: 205,
+			unit: 210,
+			device: 206
+		}
 	}
 }
 /* ボタン、タブメニュー */
