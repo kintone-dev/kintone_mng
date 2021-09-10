@@ -32,7 +32,7 @@
           setFieldShown('mType', true);
           setFieldShown('mVendor', true);
           setFieldShown('mClassification', true);
-          setFieldShown('mWarranty', true);
+          setFieldShown('warranty', true);
           setFieldShown('mMemo', true);
           setFieldShown('mCostUpdate', false);
           setFieldShown('deviceCost', false);
@@ -49,7 +49,7 @@
           setFieldShown('mType', false);
           setFieldShown('mVendor', false);
           setFieldShown('mClassification', false);
-          setFieldShown('mWarranty', false);
+          setFieldShown('warranty', false);
           setFieldShown('mMemo', false);
           setFieldShown('mCost', false);
           setFieldShown('mCostUpdate', false);
@@ -67,7 +67,7 @@
           setFieldShown('mType', false);
           setFieldShown('mVendor', false);
           setFieldShown('mClassification', false);
-          setFieldShown('mWarranty', false);
+          setFieldShown('warranty', false);
           setFieldShown('mMemo', false);
           setFieldShown('mCost', true);
           setFieldShown('mCostUpdate', true);
@@ -85,7 +85,7 @@
           setFieldShown('mType', false);
           setFieldShown('mVendor', false);
           setFieldShown('mClassification', false);
-          setFieldShown('mWarranty', false);
+          setFieldShown('warranty', false);
           setFieldShown('mMemo', false);
           setFieldShown('mCost', false);
           setFieldShown('mCostUpdate', false);
@@ -123,7 +123,7 @@
     event.record.mType.disabled=true;
     event.record.mVendor.disabled=true;
     event.record.mNickname.disabled=true;
-    event.record.mWarranty.disabled=true;
+    event.record.warranty.disabled=true;
     event.record.mClassification.disabled=true;
     for (var sti in event.record.packageComp.value){
       event.record.packageComp.value[sti].value.pc_mVendor.disabled=true;
@@ -144,7 +144,7 @@
       event.record.mType.disabled=false;
       event.record.mVendor.disabled=false;
       event.record.mNickname.disabled=false;
-      event.record.mWarranty.disabled=false;
+      event.record.warranty.disabled=false;
       event.record.mClassification.disabled=false;
       for (var sti in event.record.packageComp.value){
         event.record.packageComp.value[sti].value.pc_mVendor.disabled=false;
@@ -161,7 +161,7 @@
       event.record.mType.disabled=true;
       event.record.mVendor.disabled=true;
       event.record.mNickname.disabled=true;
-      event.record.mWarranty.disabled=true;
+      event.record.warranty.disabled=true;
       event.record.mClassification.disabled=true;
       for (var sti in event.record.packageComp.value){
         event.record.packageComp.value[sti].value.pc_mVendor.disabled=true;
