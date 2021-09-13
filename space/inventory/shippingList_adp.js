@@ -706,11 +706,8 @@
         'field': 'prjNum',
         'value': pageRecod.prj_aNum.value
       },
-      // 'action': '製品発送済',
+      'action': '納品依頼（発注書無）',
       'record': {
-        'ステータス': {
-          'value': '製品発送済'
-        },
         'deliveryCorp': {
           'value': pageRecod.deliveryCorp.value
         },
