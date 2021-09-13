@@ -1,56 +1,122 @@
+function set_sysid(env) {
 //スペース＆アプリ情報
-var sysid = {
-	// Project Management
-	PM: {
-		space_id: 11,
-		app_id: {
-			item: 165,
-			project: 133,
-			installation: 76,
-			organization: 75
-		}
-	},
-	// Inventory Management
-	INV: {
-		space_id: 19,
-		app_id: {
-			unit: 156,
-			device: 155,
-			report: 179,
-			shipment: 178
-		}
-	},
-	// Support
-	SUP: {
-		space_id: 13,
-		app_id: {
-			item: 111,
-			inquiry: 95,
-			onsite: 108,
-			shipment: 110,
-			escalation: 94,
-			accident: 92
-		}
-	},
-	// ATLAS Smart Security
-	ASS: {
-		space: 14,
-		app_id: {
-			member: 139,
-			cancellation: 135,
-			item: 109,
-			shipment: 104
-		}
-	},
-	// Device Management
-	DEV: {
-		space: 22,
-		app_id: {
-			defective: 161,
-			account_tc: 160,
-			sNum: 159
-		}
+	switch (env) {
+		default:
+			var sysid = {
+				// Project Management
+				PM: {
+					space_id: 11,
+					app_id: {
+						item: 165,
+						project: 133,
+						installation: 76,
+						organization: 75
+					}
+				},
+				// Inventory Management
+				INV: {
+					space_id: 19,
+					app_id: {
+						unit: 156,
+						device: 155,
+						report: 179,
+						shipment: 178,
+						purchasing:170
+					}
+				},
+				// Device Management
+				DEV: {
+					space: 22,
+					app_id: {
+						swap: 161,
+						account_tc: 160,
+						sNum: 215,
+						reuse: 174
+					}
+				},
+				// Support
+				SUP: {
+					space_id: 13,
+					app_id: {
+						item: 111,
+						inquiry: 95,
+						onsite: 108,
+						shipment: 110,
+						escalation: 94,
+						accident: 92
+					}
+				},
+				// ATLAS Smart Security
+				ASS: {
+					space: 14,
+					app_id: {
+						member: 139,
+						cancellation: 135,
+						item: 109,
+						shipment: 104
+					}
+				}
+			}
+			break;
+		case 'develop_sog':
+			var sysid = {
+				// Project Management (DEV)
+				PM: {
+					space_id: 26,
+					app_id: {
+						item: 213,
+						project: 217,
+						installation: 208,
+						organization: 209
+					}
+				},
+				// Inventory Management (DEV)
+				INV: {
+					space_id: 26,
+					app_id: {
+						unit: 210,
+						device: 206,
+						report: 205,
+						shipment: 207,
+						purchasing:212
+					}
+				},
+				// Device Management (DEV)
+				DEV: {
+					space: 26,
+					app_id: {
+						swap: 214,
+						account_tc: 216,
+						sNum: 215,
+						reuse: 211
+					}
+				},
+				// Support (DEV)
+				SUP: {
+					space_id: 31,
+					app_id: {
+						item: 226,
+						inquiry: 227,
+						onsite: 0,
+						shipment: 0,
+						escalation: 0,
+						accident: 0
+					}
+				},
+				// ATLAS Smart Security (DEV)
+				ASS: {
+					space: 30,
+					app_id: {
+						member: 222,
+						cancellation: 225,
+						item: 223,
+						shipment:224
+					}
+				}
+			}
+			break;
 	}
+	return sysid;
 }
 /* ボタン、タブメニュー */
 // スペースフィールドにボタンを設置
@@ -150,7 +216,7 @@ function tabMenu(tabID, tabList) {
 
 *tabMenu('tabID', ['menu1','menu2']); //タブメニュー作成
 *$('.tabMenu a').on('click', function(){ //タブメニュークリック時アクション
-*	var idName = $(this).attr('href'); //タブ内のリンク名を取得  
+*	var idName = $(this).attr('href'); //タブ内のリンク名を取得
 *	tabSwitch(idName); //tabをクリックした時の表示設定
 *	return false;
 *});
@@ -183,7 +249,7 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 		sessionStorage.setItem(copy_fCode, copy_value); //値をSessionStorageに格納する
 	}
 	// window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', '_blank'); //該当アプリの新規レコード作成画面を開く
-	window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', 'example','scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200'); //該当アプリの新規レコード作成画面を開く
+	window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', 'example', 'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200'); //該当アプリの新規レコード作成画面を開く
 
 	if (Array.isArray(copy_fCode)) { //配列の場合のアクション
 		for (var fr in copy_fCode) {
@@ -195,26 +261,26 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 }
 
 // シリアル番号取得
-var sNumRecords=function(Value, fType){
-  var sNs=[];
-  switch(fType){
-    case 'table':
-      for(var ti in Value){
-        var sn=Value[ti].value.sNum.value; //シリアル番号データを取り出す
-        var snArray=sn.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
-        var sns=snArray.filter(Boolean); //配列順番を反転
-        for(var sni in sns){
-          sNs.push(sns[sni]);
-        }
-      }
-      break;
-    case 'text':
-      //var sn=Value[ti].value.sNum.value; //シリアル番号データを取り出す
-      var snArray=Value.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
-      sNs=snArray.filter(Boolean);
-      break;
-  }
-  return sNs;
+var sNumRecords = function (Value, fType) {
+	var sNs = [];
+	switch (fType) {
+		case 'table':
+			for (var ti in Value) {
+				var sn = Value[ti].value.sNum.value; //シリアル番号データを取り出す
+				var snArray = sn.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
+				var sns = snArray.filter(Boolean); //配列順番を反転
+				for (var sni in sns) {
+					sNs.push(sns[sni]);
+				}
+			}
+			break;
+		case 'text':
+			//var sn=Value[ti].value.sNum.value; //シリアル番号データを取り出す
+			var snArray = Value.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
+			sNs = snArray.filter(Boolean);
+			break;
+	}
+	return sNs;
 };
 
 // パスワードジェネレーター

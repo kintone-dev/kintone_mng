@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  // 新規導入案件　案件番号自動採番
+  // 新規導入案件 案件番号自動採番
   kintone.events.on('app.record.create.show', function (event) {
     autoNum('PRJ_', 'prjNum');
     event.record.prjNum.disabled = true;
@@ -48,6 +48,10 @@
           setFieldShown('tarDate', false);
           setFieldShown('aboutDelivery', false);
           setFieldShown('deviceList', false);
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
           break;
         case '#設置先情報':
           setFieldShown('prjNum', false);
@@ -74,6 +78,10 @@
           setFieldShown('tarDate', false);
           setFieldShown('aboutDelivery', false);
           setFieldShown('deviceList', false);
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
           break;
         case '#納品依頼リスト':
           setFieldShown('prjNum', false);
@@ -95,11 +103,40 @@
           setFieldShown('tarDate', true);
           setFieldShown('aboutDelivery', true);
           setFieldShown('deviceList', true);
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
+          break;
+        case '#輸送情報':
+          setFieldShown('prjNum', false);
+          setFieldShown('Exist_Project', false);
+          setFieldShown('salesType', false);
+          setFieldShown('predictDate', false);
+          setFieldShown('purchaseOrder', false);
+          setFieldShown('prjMemo', false);
+          setFieldShown('samePRJ', false);
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
+          setFieldShown('orgName', false);
+          setFieldShown('cName', false);
+          setFieldShown('cSales', false);
+          setFieldShown('instName', false);
+          setFieldShown('instStatus', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+          setFieldShown('tarDate', false);
+          setFieldShown('aboutDelivery', false);
+          setFieldShown('deviceList', false);
+          setFieldShown('deliveryCorp', true);
+          setFieldShown('trckNum', true);
+          setFieldShown('sendDate', true);
+          setFieldShown('expArrivalDate', true);
           break;
       }
     }tabSwitch('#案件情報');
     //タブメニュー作成
-    tabMenu('tab_project', ['案件情報','設置先情報','納品依頼リスト']);
+    tabMenu('tab_project', ['案件情報','設置先情報','納品依頼リスト','輸送情報']);
     //タブ切り替え表示設定
     $('.tab_project a').on('click', function(){
       var idName = $(this).attr('href');//タブ内のリンク名を取得  
