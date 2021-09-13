@@ -20,7 +20,18 @@ function set_sysid(env) {
 						unit: 156,
 						device: 155,
 						report: 179,
-						shipment: 178
+						shipment: 178,
+						purchasing:170
+					}
+				},
+				// Device Management
+				DEV: {
+					space: 22,
+					app_id: {
+						swap: 161,
+						account_tc: 160,
+						sNum: 215,
+						reuse: 174
 					}
 				},
 				// Support
@@ -44,21 +55,12 @@ function set_sysid(env) {
 						item: 109,
 						shipment: 104
 					}
-				},
-				// Device Management
-				DEV: {
-					space: 22,
-					app_id: {
-						defective: 161,
-						account_tc: 160,
-						sNum: 215
-					}
 				}
 			}
 			break;
 		case 'develop_sog':
 			var sysid = {
-				// Project Management
+				// Project Management (DEV)
 				PM: {
 					space_id: 11,
 					app_id: {
@@ -68,7 +70,7 @@ function set_sysid(env) {
 						organization: 209
 					}
 				},
-				// Inventory Management
+				// Inventory Management (DEV)
 				INV: {
 					space_id: 19,
 					app_id: {
@@ -76,10 +78,20 @@ function set_sysid(env) {
 						device: 206,
 						report: 205,
 						shipment: 207,
-						stock:212
+						purchasing:212
 					}
 				},
-				// Support
+				// Device Management (DEV)
+				DEV: {
+					space: 22,
+					app_id: {
+						swap: 214,
+						account_tc: 216,
+						sNum: 215,
+						reuse: 211
+					}
+				},
+				// Support (DEV)
 				SUP: {
 					space_id: 13,
 					app_id: {
@@ -91,7 +103,7 @@ function set_sysid(env) {
 						accident: 92
 					}
 				},
-				// ATLAS Smart Security
+				// ATLAS Smart Security (DEV)
 				ASS: {
 					space: 14,
 					app_id: {
@@ -99,15 +111,6 @@ function set_sysid(env) {
 						cancellation: 135,
 						item: 109,
 						shipment: 104
-					}
-				},
-				// Device Management
-				DEV: {
-					space: 22,
-					app_id: {
-						defective: 214,
-						account_tc: 216,
-						sNum: 215
 					}
 				}
 			}
