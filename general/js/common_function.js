@@ -62,20 +62,21 @@ function set_sysid(env) {
 				PM: {
 					space_id: 11,
 					app_id: {
-						item: 165,
-						project: 133,
-						installation: 76,
-						organization: 75
+						item: 213,
+						project: 217,
+						installation: 208,
+						organization: 209
 					}
 				},
 				// Inventory Management
 				INV: {
 					space_id: 19,
 					app_id: {
-						unit: 156,
-						device: 155,
+						unit: 210,
+						device: 206,
 						report: 205,
-						shipment: 178
+						shipment: 207,
+						stock:212
 					}
 				},
 				// Support
@@ -104,9 +105,9 @@ function set_sysid(env) {
 				DEV: {
 					space: 22,
 					app_id: {
-						defective: 161,
-						account_tc: 160,
-						sNum: 159
+						defective: 214,
+						account_tc: 216,
+						sNum: 215
 					}
 				}
 			}
