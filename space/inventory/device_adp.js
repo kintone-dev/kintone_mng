@@ -148,12 +148,7 @@
     // 転送実行
     for (var pi in tarAPP) {
       putItemBody.app = tarAPP[pi];
-      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody)
-        .then(function (resp) {
-          console.log(tarAPP[pi] + ' success');
-        }).catch(function (error) {
-          console.log(tarAPP[pi] + error.message);
-        });
+      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
     }
     return event;
   });
