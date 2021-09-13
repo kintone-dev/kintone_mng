@@ -702,10 +702,11 @@
   const setDeliveryInfo = function (pageRecod) {
     var putDeliveryData = [];
     var putDeliveryBody = {
-      'updateKey': {
-        'field': 'prjNum',
-        'value': pageRecod.prj_aNum.value
-      },
+      // 'updateKey': {
+      //   'field': 'prjNum',
+      //   'value': pageRecod.prj_aNum.value
+      // },
+      'id': 1,
       'action': '納品依頼（発注書無）',
       'record': {
         'deliveryCorp': {
