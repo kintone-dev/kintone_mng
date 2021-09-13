@@ -62,7 +62,7 @@ function set_sysid(env) {
 			var sysid = {
 				// Project Management (DEV)
 				PM: {
-					space_id: 11,
+					space_id: 26,
 					app_id: {
 						item: 213,
 						project: 217,
@@ -72,7 +72,7 @@ function set_sysid(env) {
 				},
 				// Inventory Management (DEV)
 				INV: {
-					space_id: 19,
+					space_id: 26,
 					app_id: {
 						unit: 210,
 						device: 206,
@@ -83,7 +83,7 @@ function set_sysid(env) {
 				},
 				// Device Management (DEV)
 				DEV: {
-					space: 22,
+					space: 26,
 					app_id: {
 						swap: 214,
 						account_tc: 216,
@@ -93,9 +93,9 @@ function set_sysid(env) {
 				},
 				// Support (DEV)
 				SUP: {
-					space_id: 0,
+					space_id: 31,
 					app_id: {
-						item: 0,
+						item: 226,
 						inquiry: 0,
 						onsite: 0,
 						shipment: 0,
@@ -105,12 +105,12 @@ function set_sysid(env) {
 				},
 				// ATLAS Smart Security (DEV)
 				ASS: {
-					space: 0,
+					space: 30,
 					app_id: {
-						member: 0,
-						cancellation: 0,
-						item: 0,
-						shipment: 0
+						member: 222,
+						cancellation: 225,
+						item: 223,
+						shipment:224
 					}
 				}
 			}
