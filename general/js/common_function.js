@@ -112,6 +112,7 @@ function sysid(env) {
 			}
 			break;
 	}
+	return sysid;
 }
 /* ボタン、タブメニュー */
 // スペースフィールドにボタンを設置
