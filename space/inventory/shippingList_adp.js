@@ -517,7 +517,7 @@
   // 在庫処理
   const stockCount = function (shipType, shipCode, arrivalCode, stockItemData) {
     var codeArray = [shipCode, arrivalCode];
-    if (shipType == '社内利用' || shipType == '貸与' || shipType == '修理' || shipType == '返品') {
+    if (shipType == 'shiponly') {
       var getUnitBody = {
         'app': sysid.INV.app_id.unit,
         'query': 'uCode = "' + shipCode + '" order by 更新日時 asc'
