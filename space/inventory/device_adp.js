@@ -17,14 +17,23 @@
       for (var aul in tarRecords) {
         eRecord.record.uStockList.value.push({
           value: {
-            uCode: {value: tarRecords[aul].uCode.value, type: 'SINGLE_LINE_TEXT'},
-            uName: {value: tarRecords[aul].uName.value, type: 'SINGLE_LINE_TEXT'},
-            uStock: {value: '', type: 'NUMBER'}
+            uCode: {
+              value: tarRecords[aul].uCode.value,
+              type: 'SINGLE_LINE_TEXT'
+            },
+            uName: {
+              value: tarRecords[aul].uName.value,
+              type: 'SINGLE_LINE_TEXT'
+            },
+            uStock: {
+              value: '',
+              type: 'NUMBER'
+            }
           }
         });
-        eRecord.record.uStockList.value[aul].value.uCode.disabled=true;
-        eRecord.record.uStockList.value[aul].value.uName.disabled=true;
-        eRecord.record.uStockList.value[aul].value.uStock.disabled=true;
+        eRecord.record.uStockList.value[aul].value.uCode.disabled = true;
+        eRecord.record.uStockList.value[aul].value.uName.disabled = true;
+        eRecord.record.uStockList.value[aul].value.uStock.disabled = true;
         kintone.app.record.set(eRecord);
       }
       kintone.app.record.set(eRecord);
@@ -40,22 +49,22 @@
 
     // 品目情報を拠点リストに転送
     getUNITdata.then(function (resp) {
-      var tarRecords=resp.records;
+      var tarRecords = resp.records;
 
       // 拠点管理アプリの品目リストに上書きするデータ作成
-      var NewPrdInfo={
+      var NewPrdInfo = {
         'app': sysid.INV.app_id.unit,
         'records': []
       };
       //spd: set product data
       for (var spd in tarRecords) {
-        var records_set={
+        var records_set = {
           'id': tarRecords[spd].$id.value,
           'record': {
             'mStockList': tarRecords[spd].mStockList
           }
         };
-        var addRowData={
+        var addRowData = {
           'value': {
             'mCode': event.record.mCode,
             'mName': event.record.mName
@@ -77,7 +86,7 @@
 
     /* 新規データ転送 */
     //　転送データ作成
-    var postItemBody={
+    var postItemBody = {
       'app': '',
       'record': {
         'mName': event.record.mName,
@@ -85,19 +94,19 @@
         'mNickname': event.record.mNickname,
         'mType': event.record.mType,
         'mVendor': event.record.mVendor,
-        'mClassification':event.record.mClassification,
+        'mClassification': event.record.mClassification,
         'packageComp': event.record.packageComp
       }
     };
     // 転送先指定
-    var tarAPP=[
+    var tarAPP = [
       sysid.PM.app_id.item,
       sysid.SUP.app_id.item,
       sysid.ASS.app_id.item
     ];
     // 転送実行
-    for (var pi in tarAPP){
-      postItemBody.app=tarAPP[pi];
+    for (var pi in tarAPP) {
+      postItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'POST', postItemBody);
       /*
       .then(function (resp) {
@@ -111,40 +120,38 @@
   });
 
   // 編集保存時アクション
-  kintone.events.on('app.record.edit.submit', function (event) {
+  kintone.events.on('app.record.edit.submit.success', function (event) {
 
     /* 更新データ転送 */
     // 転送データ作成
-    var putItemBody={
+    var putItemBody = {
       'app': '',
-      'updateKey': {'field': 'mCode','value': event.record.mCode.value},
+      'updateKey': {
+        'field': 'mCode',
+        'value': event.record.mCode.value
+      },
       'record': {
         'mName': event.record.mName,
         'mNickname': event.record.mNickname,
         'mType': event.record.mType,
         'mVendor': event.record.mVendor,
-        'mClassification':event.record.mClassification,
+        'mClassification': event.record.mClassification,
         'packageComp': event.record.packageComp
       }
     };
     // 転送先指定
-    var tarAPP=[
+    var tarAPP = [
       sysid.PM.app_id.item,
       sysid.SUP.app_id.item,
       sysid.ASS.app_id.item
     ];
     // 転送実行
-    for (var pi in tarAPP){
-      putItemBody.app=tarAPP[pi];
+    for (var pi in tarAPP) {
+      putItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
-      /*
-      .then(function (resp) {
-        console.log(tarAPP[pi]+' success');
-      }).catch(function (error) {
-        console.log(tarAPP[pi]+error.message);
-      });
-      */
     }
+
+    //拠点管理に反映
     return event;
   });
 
