@@ -573,7 +573,7 @@
           };
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
             .then(function (resp) {
-              deviceRecords = resp.records;
+              var deviceRecords = resp.records;
               //更新商品格納配列
               var putItemData = [];
               for(var dr in deviceRecords){
