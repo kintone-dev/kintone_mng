@@ -150,6 +150,8 @@
       putItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
     }
+
+    //拠点管理に反映
     return event;
   });
 
