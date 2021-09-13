@@ -587,8 +587,9 @@
                       if (putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode) {
                         putStockBody.record.mStockList.value[msl].value.mStock.value = parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0);
                         var totalStockBody = {
+                          'mCode':putStockBody.record.mStockList.value[msl].value.mCode.value,
                           'uCode': shipCode,
-                          'stockNum': parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0)
+                          'stockNum': putStockBody.record.mStockList.value[msl].value.mStock.value
                         }
                         totalStockData.push(totalStockBody);
                       }
@@ -600,8 +601,9 @@
                       if (putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode) {
                         putStockBody.record.mStockList.value[msl].value.mStock.value = parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0);
                         var totalStockBody = {
+                          'mCode':putStockBody.record.mStockList.value[msl].value.mCode.value,
                           'uCode': arrivalCode,
-                          'stockNum': parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0)
+                          'stockNum': putStockBody.record.mStockList.value[msl].value.mStock.value
                         }
                         totalStockData.push(totalStockBody);
                       }
