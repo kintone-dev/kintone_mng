@@ -59,6 +59,7 @@
 
       //在庫処理
       stockCount(sysShipmentCode,sysArrivalCode,stockData)
+
     } else if (nStatus === "出荷完了") {
       if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
         reportCreate(PAGE_RECORD, 'distribute');
@@ -504,6 +505,7 @@
       });
   }
 
+  // 在庫処理
   const stockCount = function (shipCode, arrivalCode, stockItemData) {
     var codeArray = [shipCode, arrivalCode];
     if (arrivalCode === 'shiponly') {
