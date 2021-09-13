@@ -706,6 +706,7 @@
         'field': 'prjNum',
         'value': pageRecod.prj_aNum.value
       },
+      'action': '製品発送済',
       'record': {
         'deliveryCorp': {
           'value': pageRecod.mStockList.deliveryCorp.value
