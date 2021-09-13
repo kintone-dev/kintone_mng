@@ -700,39 +700,35 @@
 
   // 輸送情報連携
   const setDeliveryInfo = function (pageRecod) {
-    var putDeliveryData = [];
     var putDeliveryBody = {
-      // 'updateKey': {
-      //   'field': 'prjNum',
-      //   'value': pageRecod.prj_aNum.value
-      // },
       'app':sysid.PM.app_id.project,
-      'id': 1,
-      'action': '納品依頼（発注書無）'
-      // 'record': {
-      //   'deliveryCorp': {
-      //     'value': pageRecod.deliveryCorp.value
-      //   },
-      //   'trckNum': {
-      //     'value': pageRecod.trckNum.value
-      //   },
-      //   'sendDate': {
-      //     'value': pageRecod.sendDate.value
-      //   },
-      //   'expArrivalDate': {
-      //     'value': pageRecod.expArrivalDate.value
-      //   }
-      // }
+      'updateKey': {
+        'field': 'prjNum',
+        'value': pageRecod.prj_aNum.value
+      },
+      'action': '納品依頼（発注書無）',
+      'record': {
+        'deliveryCorp': {
+          'value': pageRecod.deliveryCorp.value
+        },
+        'trckNum': {
+          'value': pageRecod.trckNum.value
+        },
+        'sendDate': {
+          'value': pageRecod.sendDate.value
+        },
+        'expArrivalDate': {
+          'value': pageRecod.expArrivalDate.value
+        }
+      }
     }
-    // putDeliveryData.push(putDeliveryBody);
 
-    kintone.api(kintone.api.url('/k/v1/record', true), "PUT", putDeliveryBody)
+    kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putDeliveryBody)
     .then(function (resp) {
       console.log(resp);
     }).catch(function (error) {
       console.log(error);
     });
-    // putRecords(sysid.PM.app_id.project, putDeliveryData);
   }
 
 })();
