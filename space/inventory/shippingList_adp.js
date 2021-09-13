@@ -10,7 +10,8 @@
       var shipmentName = PAGE_RECORD.shipment.value;
       var sysShipmentCode = PAGE_RECORD.sys_shipmentCode.value;
       var sysArrivalCode = PAGE_RECORD.sys_arrivalCode.value;
-      var stockData = []
+      var shipType = PAGE_RECORD.shipType.value;
+      var stockData = [];
       for (var sdl in deviceList) {
         var stockDataBody = {
           'mCode': deviceList[sdl].value.mCode.value,
@@ -18,7 +19,6 @@
         }
         stockData.push(stockDataBody);
       }
-
       var sNums = sNumRecords(PAGE_RECORD.deviceList.value, 'table');
 
       //ID更新
@@ -36,7 +36,7 @@
           };
           postSnumData.push(snRecord);
         }
-        postRecords(sysid.DEV.app_id.sNum,postSnumData);
+        postRecords(sysid.DEV.app_id.sNum, postSnumData);
       } else {
         var putSnumData = [];
         for (var y in sNums) {
@@ -54,11 +54,11 @@
           };
           putSnumData.push(snRecord);
         }
-        putRecords(sysid.DEV.app_id.sNum,putSnumData);
+        putRecords(sysid.DEV.app_id.sNum, putSnumData);
       }
 
       //在庫処理
-      stockCount(sysShipmentCode,sysArrivalCode,stockData)
+      stockCount(shipType, sysShipmentCode, sysArrivalCode, stockData);
 
     } else if (nStatus === "出荷完了") {
       if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
@@ -506,9 +506,9 @@
   }
 
   // 在庫処理
-  const stockCount = function (shipCode, arrivalCode, stockItemData) {
+  const stockCount = function (shipType, shipCode, arrivalCode, stockItemData) {
     var codeArray = [shipCode, arrivalCode];
-    if (arrivalCode === 'shiponly') {
+    if (shipType == '社内利用' || shipType == '貸与' || shipType == '修理' || shipType == '返品') {
       var getUnitBody = {
         'app': sysid.INV.app_id.unit,
         'query': 'uCode = "' + shipCode + '" order by 更新日時 asc'
@@ -522,9 +522,19 @@
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
       .then(function (resp) {
         var unitRecords = resp.records;
+        //商品管理情報クエリ
+        var deviceQuery = [];
+        for (var sid in stockItemData) {
+          deviceQuery.push('"' + stockItemData[sid].mCode + '"');
+        }
+        var getDeviceBody = {
+          'app': sysid.INV.app_id.device,
+          'query': 'mCode in (' + itemQuery.join() + ') order by 更新日時 asc'
+        };
+
         //更新在庫格納配列
         var putStockData = [];
-        if (arrivalCode === 'shiponly') {
+        if (shipType == '社内利用' || shipType == '貸与' || shipType == '修理' || shipType == '返品') {
           for (var ur in unitRecords) {
             //更新在庫情報
             var putStockBody = {
@@ -550,37 +560,10 @@
             putStockData.push(putStockBody);
           }
 
-          var itemQuery = [];
-          for (var sid in stockItemData) {
-            itemQuery.push('"' + stockItemData[sid].mCode + '"');
-          }
-          var getDeviceBody = {
-            'app': sysid.INV.app_id.device,
-            'query': 'mCode in (' + itemQuery.join() + ') order by 更新日時 asc'
-          };
-          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
-            .then(function (resp) {
-              var deviceRecords = resp.records;
-              //更新商品格納配列
-              var putItemData = [];
-              for (var dr in deviceRecords) {
-                var putStockBody = {
-                  'updateKey': {
-                    'field': 'mCode',
-                    'value': deviceRecords[dr].mCode.value
-                  },
-                  'record': {
-                    'mStockList': {
-                      'value': unitRecords[ur].mStockList.value
-                    }
-                  }
-                }
-              }
-            });
-
           putRecords(sysid.INV.app_id.unit, putStockData);
           // putRecords(sysid.INV.app_id.device, putItemData);
         } else {
+          var totalStockData = [];
           //出荷在庫と入荷在庫を拠点から増減
           for (var ca in codeArray) {
             for (var ur in unitRecords) {
@@ -602,6 +585,11 @@
                     for (var sid in stockItemData) {
                       if (putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode) {
                         putStockBody.record.mStockList.value[msl].value.mStock.value = parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0);
+                        var totalStockBody = {
+                          'uCode': shipCode,
+                          'stockNum': parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0)
+                        }
+                        totalStockData.push(totalStockBody);
                       }
                     }
                   }
@@ -610,6 +598,11 @@
                     for (var sid in stockItemData) {
                       if (putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode) {
                         putStockBody.record.mStockList.value[msl].value.mStock.value = parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0);
+                        var totalStockBody = {
+                          'uCode': arrivalCode,
+                          'stockNum': parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0)
+                        }
+                        totalStockData.push(totalStockBody);
                       }
                     }
                   }
@@ -618,6 +611,30 @@
               }
             }
           }
+
+          //商品管理に在庫数反映
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+            .then(function (resp) {
+              var deviceRecords = resp.records;
+              console.log(totalStockData);
+              //更新商品格納配列
+              var putItemData = [];
+              for (var de in deviceRecords) {
+                var putStockBody = {
+                  'updateKey': {
+                    'field': 'mCode',
+                    'value': deviceRecords[dr].mCode.value
+                  },
+                  'record': {
+                    'uStockList': {
+                      'value': deviceRecords[dr].uStockList.value
+                    }
+                  }
+                }
+              }
+            });
+
+
           putRecords(sysid.INV.app_id.unit, putStockData);
         }
       });
