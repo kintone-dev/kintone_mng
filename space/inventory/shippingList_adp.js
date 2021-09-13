@@ -718,6 +718,7 @@
         }
       }
     }
+    putRecords(sysid.PM.app_id.project, putDeliveryData);
 
     var putStatusBody = {
       'app': sysid.PM.app_id.project,
@@ -725,17 +726,8 @@
       'action': '製品発送待ち'
     }
 
-    putDeliveryData.push(putDeliveryBody);
     putRecords(sysid.PM.app_id.project, putDeliveryData);
-    kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody)
-      .then(function (resp) {
-        console.log(resp);
-      }).catch(function (error) {
-        console.log(error);
-      });
-
-
-
+    kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody);
   }
 
 })();
