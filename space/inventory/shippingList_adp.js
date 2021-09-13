@@ -708,7 +708,9 @@
       },
       // 'action': '製品発送済',
       'record': {
-        'ステータス': '製品発送済',
+        'ステータス': {
+          'value': '製品発送済'
+        },
         'deliveryCorp': {
           'value': pageRecod.deliveryCorp.value
         },
