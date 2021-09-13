@@ -567,7 +567,7 @@
 
           var itemQuery = [];
           for(var sid in stockItemData){
-            itemQuery.push(stockItemData[sid].mCode)
+            itemQuery.push('"' + stockItemData[sid].mCode + '"');
           }
           console.log(itemQuery.join());
 
