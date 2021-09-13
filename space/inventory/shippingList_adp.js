@@ -537,8 +537,6 @@
         var unitRecords = resp.records;
         //更新在庫格納配列
         var putStockData = [];
-        //更新商品格納配列
-        var putItemData = [];
         if (arrivalCode === 'shiponly') {
           for (var ur in unitRecords) {
             //更新在庫情報
@@ -566,21 +564,24 @@
           }
 
           var itemQuery = [];
-          for(var sid in stockItemData){
+          for (var sid in stockItemData) {
             itemQuery.push('"' + stockItemData[sid].mCode + '"');
           }
           console.log(itemQuery.join());
 
           var getDeviceBody = {
-            'app': sysid.INV.app_id.unit,
+            'app': sysid.INV.app_id.device,
             'query': 'mCode in (' + itemQuery.join() + ') order by 更新日時 asc'
           };
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
             .then(function (resp) {
               console.log(resp.records);
+              //更新商品格納配列
+              var putItemData = [];
             });
 
           putRecords(sysid.INV.app_id.unit, putStockData);
+          putRecords(sysid.INV.app_id.device, putStockData);
         } else {
           //出荷在庫と入荷在庫を拠点から増減
           for (var ca in codeArray) {
