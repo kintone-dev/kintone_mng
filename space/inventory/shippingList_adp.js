@@ -702,13 +702,13 @@
   const setDeliveryInfo = function (pageRecod) {
     var putDeliveryData = [];
     var putDeliveryBody = {
-      // 'updateKey': {
-      //   'field': 'prjNum',
-      //   'value': pageRecod.prj_aNum.value
-      // },
-      'id':1,
-      'action': '製品発送済',
+      'updateKey': {
+        'field': 'prjNum',
+        'value': pageRecod.prj_aNum.value
+      },
+      // 'action': '製品発送済',
       'record': {
+        'ステータス': '製品発送済',
         'deliveryCorp': {
           'value': pageRecod.deliveryCorp.value
         },
