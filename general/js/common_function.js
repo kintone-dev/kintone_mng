@@ -96,7 +96,7 @@ function set_sysid(env) {
 					space_id: 31,
 					app_id: {
 						item: 226,
-						inquiry: 0,
+						inquiry: 227,
 						onsite: 0,
 						shipment: 0,
 						escalation: 0,
