@@ -702,10 +702,11 @@
   const setDeliveryInfo = function (pageRecod) {
     var putDeliveryData = [];
     var putDeliveryBody = {
-      'updateKey': {
-        'field': 'prjNum',
-        'value': pageRecod.prj_aNum.value
-      },
+      // 'updateKey': {
+      //   'field': 'prjNum',
+      //   'value': pageRecod.prj_aNum.value
+      // },
+      'id':1,
       'action': '製品発送済',
       'record': {
         'deliveryCorp': {
@@ -724,7 +725,7 @@
     }
     putDeliveryData.push(putDeliveryBody);
 
-    putRecords(sysid.PM.app_id.project,putDeliveryData);
+    putRecords(sysid.PM.app_id.project, putDeliveryData);
   }
 
 })();
