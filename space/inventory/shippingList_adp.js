@@ -702,10 +702,7 @@
   const setDeliveryInfo = function (pageRecod) {
     var putDeliveryData = [];
     var putDeliveryBody = {
-      'updateKey': {
-        'field': 'prjNum',
-        'value': pageRecod.prj_aNum.value
-      },
+      'id':pageRecod.prjId.value,
       'record': {
         'deliveryCorp': {
           'value': pageRecod.deliveryCorp.value
@@ -721,29 +718,22 @@
         }
       }
     }
-    putDeliveryData.push(putDeliveryBody);
-    putRecords(sysid.PM.app_id.project, putDeliveryData);
 
-    var getProjectBody = {
+    var putStatusBody = {
       'app': sysid.PM.app_id.project,
-      'query': 'prjNum = "' + pageRecod.prj_aNum.value + '" order by 更新日時 asc'
+      'id': pageRecod.prjId.value,
+      'action': '製品発送待ち'
     }
 
-    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getProjectBody)
+    putDeliveryData.push(putDeliveryBody);
+    putRecords(sysid.PM.app_id.project, putDeliveryData);
+    kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody)
       .then(function (resp) {
-        var putStatusBody = {
-          'app': sysid.PM.app_id.project,
-          'id': resp.records[0].$id.value,
-          'action': '製品発送待ち'
-        }
-
-        kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody)
-          .then(function (resp) {
-            console.log(resp);
-          }).catch(function (error) {
-            console.log(error);
-          });
+        console.log(resp);
+      }).catch(function (error) {
+        console.log(error);
       });
+
 
 
   }
