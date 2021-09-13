@@ -702,26 +702,25 @@
   const setDeliveryInfo = function (pageRecod) {
     var putDeliveryData = [];
     var putDeliveryBody = {
-      // 'updateKey': {
-      //   'field': 'prjNum',
-      //   'value': pageRecod.prj_aNum.value
-      // },
-      'id':1,
+      'updateKey': {
+        'field': 'prjNum',
+        'value': pageRecod.prj_aNum.value
+      },
       'action': '納品依頼（発注書無）',
-      // 'record': {
-      //   'deliveryCorp': {
-      //     'value': pageRecod.deliveryCorp.value
-      //   },
-      //   'trckNum': {
-      //     'value': pageRecod.trckNum.value
-      //   },
-      //   'sendDate': {
-      //     'value': pageRecod.sendDate.value
-      //   },
-      //   'expArrivalDate': {
-      //     'value': pageRecod.expArrivalDate.value
-      //   }
-      // }
+      'record': {
+        'deliveryCorp': {
+          'value': pageRecod.deliveryCorp.value
+        },
+        'trckNum': {
+          'value': pageRecod.trckNum.value
+        },
+        'sendDate': {
+          'value': pageRecod.sendDate.value
+        },
+        'expArrivalDate': {
+          'value': pageRecod.expArrivalDate.value
+        }
+      }
     }
     putDeliveryData.push(putDeliveryBody);
 
