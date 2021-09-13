@@ -534,6 +534,8 @@
 
         //更新在庫格納配列
         var putStockData = [];
+        //在庫情報
+        var totalStockData = [];
         if (shipType == '社内利用' || shipType == '貸与' || shipType == '修理' || shipType == '返品') {
           for (var ur in unitRecords) {
             //更新在庫情報
@@ -563,7 +565,6 @@
           putRecords(sysid.INV.app_id.unit, putStockData);
           // putRecords(sysid.INV.app_id.device, putItemData);
         } else {
-          var totalStockData = [];
           //出荷在庫と入荷在庫を拠点から増減
           for (var ca in codeArray) {
             for (var ur in unitRecords) {
@@ -619,7 +620,7 @@
               console.log(totalStockData);
               //更新商品格納配列
               var putItemData = [];
-              for (var de in deviceRecords) {
+              for (var dr in deviceRecords) {
                 var putStockBody = {
                   'updateKey': {
                     'field': 'mCode',
