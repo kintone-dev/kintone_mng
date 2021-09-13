@@ -120,7 +120,7 @@
   });
 
   // 編集保存時アクション
-  kintone.events.on('app.record.edit.submit', function (event) {
+  kintone.events.on('app.record.edit.submit.success', function (event) {
 
     /* 更新データ転送 */
     // 転送データ作成
