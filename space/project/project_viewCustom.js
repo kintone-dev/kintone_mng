@@ -8,7 +8,7 @@
     setFieldShown('invoiceStatus', false);
     return event;
   });
-  
+
   var prjNumValue='';
   kintone.events.on('app.record.create.change.prjNum', function(event) {
     prjNumValue=event.record.prjNum.value;
@@ -108,6 +108,32 @@
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
           break;
+        case '宛先情報':
+          setFieldShown('prjNum', false);
+          setFieldShown('Exist_Project', false);
+          setFieldShown('salesType', false);
+          setFieldShown('predictDate', false);
+          setFieldShown('purchaseOrder', false);
+          setFieldShown('prjMemo', false);
+          setFieldShown('samePRJ', false);
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
+          setFieldShown('orgName', false);
+          setFieldShown('cName', false);
+          setFieldShown('cSales', false);
+          setFieldShown('instName', false);
+          setFieldShown('instStatus', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+          setFieldShown('tarDate', false);
+          setFieldShown('aboutDelivery', false);
+          setFieldShown('deviceList', false);
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
+
+          break;
         case '#輸送情報':
           setFieldShown('prjNum', false);
           setFieldShown('Exist_Project', false);
@@ -136,10 +162,10 @@
       }
     }tabSwitch('#案件情報');
     //タブメニュー作成
-    tabMenu('tab_project', ['案件情報','設置先情報','納品依頼リスト','輸送情報']);
+    tabMenu('tab_project', ['案件情報','設置先情報','納品依頼リスト','宛先情報','輸送情報']);
     //タブ切り替え表示設定
     $('.tab_project a').on('click', function(){
-      var idName = $(this).attr('href');//タブ内のリンク名を取得  
+      var idName = $(this).attr('href');//タブ内のリンク名を取得
       tabSwitch(idName);//tabをクリックした時の表示設定
       return false;//aタグを無効にする
     });
@@ -185,7 +211,7 @@
         'query': 'prjNum="' + event.record.prjNum.value + '" and ステータス in ("納品情報未確定")',
         'fields': ['prjNum', '$id', 'ステータス', 'shipType']
       };
-      
+
       kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (getResp) {
         //「確認中」の「用途」がある場合、「用途」を更新するBody作成
         var update_shipType = {
