@@ -602,10 +602,6 @@
               putRecords(sysid.INV.app_id.unit, putStockData);
               putRecords(sysid.INV.app_id.device, putDeviceData);
             });
-
-
-          putRecords(sysid.INV.app_id.unit, putStockData);
-          // putRecords(sysid.INV.app_id.device, putItemData);
         } else {
           //出荷在庫と入荷在庫を拠点から増減
           for (var ca in codeArray) {
@@ -690,7 +686,6 @@
               putRecords(sysid.INV.app_id.unit, putStockData);
               putRecords(sysid.INV.app_id.device, putDeviceData);
             });
-
         }
       });
   }
