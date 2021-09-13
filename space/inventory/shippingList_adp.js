@@ -529,7 +529,7 @@
         }
         var getDeviceBody = {
           'app': sysid.INV.app_id.device,
-          'query': 'mCode in (' + itemQuery.join() + ') order by 更新日時 asc'
+          'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
         };
 
         //更新在庫格納配列
