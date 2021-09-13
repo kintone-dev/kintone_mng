@@ -1,14 +1,8 @@
-/**
- * develop
- * 
- * sysid書き換え
- */
 (function() {
   'use strict';
   //商品情報取得＆繰り返し利用
-  var getDEVdata=api_getRecords(sysid.SOGDev.app_id.device);
-  // var getDEVdata=api_getRecords(sysid.INV.app_id.device);
-  
+  var getDEVdata=api_getRecords(sysid.INV.app_id.device);
+
   //新規拠点作成時アクション
   kintone.events.on('app.record.create.show', function(event) {
     //品目一覧を取得し、品目在庫一覧に格納
@@ -50,19 +44,18 @@
     });
     return event;
   });
-  
 
-  
+
+
   //新規保存時アクション
   kintone.events.on('app.record.create.submit', function(event) {
     //品目情報を拠点リストに転送
     getDEVdata.then(function(resp){
       var tarRecords=resp.records;
-      
+
       //商品管理アプリの拠点リストに上書きするデータ作成
       var NewPrdInfo={
-        'app': sysid.SOGDev.app_id.device,
-        // 'app': sysid.INV.app_id.device,
+        'app': sysid.INV.app_id.device,
         'records':[]
       };
       //sud: set unit data
