@@ -621,7 +621,7 @@
               var deviceRecords = resp.records;
               console.log(totalStockData);
               //更新商品格納配列
-              var putItemData = [];
+              var putDeviceData = [];
               for (var dr in deviceRecords) {
                 var putStockBody = {
                   'updateKey': {
@@ -634,11 +634,23 @@
                     }
                   }
                 }
+                for(var tsd in totalStockData){
+                  if(totalStockData[tsd].mCode == deviceRecords[dr].mCode.value){
+                    for(var duv in deviceRecords[dr].uStockList.value){
+                      if(totalStockData[tsd].uCode == deviceRecords[dr].uStockList.value[duv].value.uCode.value){
+                        deviceRecords[dr].uStockList.value[duv].value.uStock.value = totalStockData[tsd].stockNum;
+                      }
+                    }
+                  }
+                }
+                putDeviceData.push(putStockBody);
               }
+
+              putRecords(sysid.INV.app_id.unit, putStockData);
+              putRecords(sysid.INV.app_id.device, putDeviceData);
             });
 
 
-          putRecords(sysid.INV.app_id.unit, putStockData);
         }
       });
   }
