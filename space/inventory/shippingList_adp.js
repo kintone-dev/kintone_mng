@@ -543,12 +543,12 @@
           //出荷在庫を拠点と商品から減少
           for (var ca in codeArray) {
             for(var ur in unitRecords){
-              if(codeArray[ca] == unitRecords[ur].uCode.value){
+              if(codeArray[0] == unitRecords[ur].uCode.value){
                 //更新在庫情報
                 var putStockBody = {
                   'updateKey': {
                     'field': 'uCode',
-                    'value': codeArray[ca]
+                    'value': codeArray[0]
                   },
                   'record': {
                     'mStockList': {
