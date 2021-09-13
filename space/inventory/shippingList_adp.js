@@ -565,9 +565,14 @@
             putStockData.push(putStockBody);
           }
 
+          var itemQuery = [];
+          for(var sid in stockItemData){
+            itemQuery.push(stockItemData[sid].mCode)
+          }
+
           var getDeviceBody = {
             'app': sysid.INV.app_id.unit,
-            'query': 'order by レコード番号 desc'
+            'query': 'mCode in (' + itemQuery.join() + ') order by 更新日時 asc'
           };
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
             .then(function (resp) {
