@@ -707,6 +707,7 @@
         'value': pageRecod.prj_aNum.value
       },
       'action': '納品依頼（発注書無）',
+      'assignee':'システム設計',
       'record': {
         'deliveryCorp': {
           'value': pageRecod.deliveryCorp.value
