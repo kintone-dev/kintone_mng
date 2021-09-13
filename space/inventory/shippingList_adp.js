@@ -700,13 +700,12 @@
 
   // 輸送情報連携
   const setDeliveryInfo = function (pageRecod) {
+    var putDeliveryData = [];
     var putDeliveryBody = {
-      'app':sysid.PM.app_id.project,
       'updateKey': {
         'field': 'prjNum',
         'value': pageRecod.prj_aNum.value
       },
-      'action': '納品依頼（発注書無）',
       'record': {
         'deliveryCorp': {
           'value': pageRecod.deliveryCorp.value
@@ -722,13 +721,31 @@
         }
       }
     }
+    putDeliveryData.push(putDeliveryBody);
+    putRecords(sysid.PM.app_id.project, putDeliveryData);
 
-    kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putDeliveryBody)
-    .then(function (resp) {
-      console.log(resp);
-    }).catch(function (error) {
-      console.log(error);
-    });
+    var getProjectBody = {
+      'app': sysid.PM.app_id.project,
+      'query': 'prjNum = "' + pageRecod.prj_aNum.value + '" order by 更新日時 asc'
+    }
+
+    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getProjectBody)
+      .then(function (resp) {
+        var putStatusBody = {
+          'app': sysid.PM.app_id.project,
+          'id': resp.records[0].$id,
+          'action': '納品手配'
+        }
+
+        kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody)
+          .then(function (resp) {
+            console.log(resp);
+          }).catch(function (error) {
+            console.log(error);
+          });
+      });
+
+
   }
 
 })();
