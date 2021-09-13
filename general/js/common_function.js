@@ -1,3 +1,4 @@
+var env;
 //スペース＆アプリ情報
 switch (env) {
 	default:

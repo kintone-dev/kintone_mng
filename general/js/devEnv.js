@@ -1,1 +1,1 @@
-const env = 'develop';
+env = 'develop';
