@@ -10,7 +10,6 @@
       var shipmentName = PAGE_RECORD.shipment.value;
       var sysShipmentCode = PAGE_RECORD.sys_shipmentCode.value;
       var sysArrivalCode = PAGE_RECORD.sys_arrivalCode.value;
-      var shipType = PAGE_RECORD.shipType.value;
       var stockData = [];
       for (var sdl in deviceList) {
         var stockDataBody = {
@@ -68,7 +67,6 @@
       } else if (PAGE_RECORD.shipType.value == '返品') {
         stockCount('shiponly', sysShipmentCode, sysArrivalCode, stockData);
       }
-
     } else if (nStatus === "出荷完了") {
       if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
         reportCreate(PAGE_RECORD, 'distribute');
