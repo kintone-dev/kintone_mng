@@ -533,8 +533,7 @@
     var codeArray = [shipCode, arrivalCode];
     if (arrivalCode === 'shiponly') {
       var getUnitBody = {
-        // 'app': sysid.INV.app_id.unit,
-        'app': sysid.SOGDev.app_id.unit,
+        'app': sysid.INV.app_id.unit,
         'query': 'uCode = "' + shipCode + '" order by 更新日時 asc'
       };
     } else {

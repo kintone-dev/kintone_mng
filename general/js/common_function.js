@@ -1,76 +1,117 @@
-var env;
+function sysid(env) {
 //スペース＆アプリ情報
-switch (env) {
-	default:
-		var sysid = {
-			// Project Management
-			PM: {
-				space_id: 11,
-				app_id: {
-					item: 165,
-					project: 133,
-					installation: 76,
-					organization: 75
-				}
-			},
-			// Inventory Management
-			INV: {
-				space_id: 19,
-				app_id: {
-					unit: 156,
-					device: 155,
-					report: 179,
-					shipment: 178
-				}
-			},
-			// Support
-			SUP: {
-				space_id: 13,
-				app_id: {
-					item: 111,
-					inquiry: 95,
-					onsite: 108,
-					shipment: 110,
-					escalation: 94,
-					accident: 92
-				}
-			},
-			// ATLAS Smart Security
-			ASS: {
-				space: 14,
-				app_id: {
-					member: 139,
-					cancellation: 135,
-					item: 109,
-					shipment: 104
-				}
-			},
-			// Device Management
-			DEV: {
-				space: 22,
-				app_id: {
-					defective: 161,
-					account_tc: 160,
-					sNum: 159
-				}
-			}
-		}
-		break;
-	case 'develop':
-		var sysid = {
-			// SOG Develop
-			SOGDev: {
-				space: 26,
-				app_id: {
-					shipment: 207,
-					report: 205,
-					unit: 210,
-					device: 206,
-					sNum: 215
+	switch (env) {
+		default:
+			var sysid = {
+				// Project Management
+				PM: {
+					space_id: 11,
+					app_id: {
+						item: 165,
+						project: 133,
+						installation: 76,
+						organization: 75
+					}
+				},
+				// Inventory Management
+				INV: {
+					space_id: 19,
+					app_id: {
+						unit: 156,
+						device: 155,
+						report: 179,
+						shipment: 178
+					}
+				},
+				// Support
+				SUP: {
+					space_id: 13,
+					app_id: {
+						item: 111,
+						inquiry: 95,
+						onsite: 108,
+						shipment: 110,
+						escalation: 94,
+						accident: 92
+					}
+				},
+				// ATLAS Smart Security
+				ASS: {
+					space: 14,
+					app_id: {
+						member: 139,
+						cancellation: 135,
+						item: 109,
+						shipment: 104
+					}
+				},
+				// Device Management
+				DEV: {
+					space: 22,
+					app_id: {
+						defective: 161,
+						account_tc: 160,
+						sNum: 215
+					}
 				}
 			}
-		}
-		break;
+			break;
+		case 'develop':
+			var sysid = {
+				// Project Management
+				PM: {
+					space_id: 11,
+					app_id: {
+						item: 165,
+						project: 133,
+						installation: 76,
+						organization: 75
+					}
+				},
+				// Inventory Management
+				INV: {
+					space_id: 19,
+					app_id: {
+						unit: 156,
+						device: 155,
+						report: 205,
+						shipment: 178
+					}
+				},
+				// Support
+				SUP: {
+					space_id: 13,
+					app_id: {
+						item: 111,
+						inquiry: 95,
+						onsite: 108,
+						shipment: 110,
+						escalation: 94,
+						accident: 92
+					}
+				},
+				// ATLAS Smart Security
+				ASS: {
+					space: 14,
+					app_id: {
+						member: 139,
+						cancellation: 135,
+						item: 109,
+						shipment: 104
+					}
+				},
+				// Device Management
+				DEV: {
+					space: 22,
+					app_id: {
+						defective: 161,
+						account_tc: 160,
+						sNum: 159
+					}
+				}
+			}
+			break;
+	}
 }
 /* ボタン、タブメニュー */
 // スペースフィールドにボタンを設置
