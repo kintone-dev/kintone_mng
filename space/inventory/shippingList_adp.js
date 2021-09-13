@@ -726,8 +726,12 @@
     }
     // putDeliveryData.push(putDeliveryBody);
 
-    kintone.api(kintone.api.url('/k/v1/record', true), "PUT", putDeliveryBody);
-
+    kintone.api(kintone.api.url('/k/v1/record', true), "PUT", putDeliveryBody)
+    .then(function (resp) {
+      console.log(resp);
+    }).catch(function (error) {
+      console.log(error);
+    });
     // putRecords(sysid.PM.app_id.project, putDeliveryData);
   }
 
