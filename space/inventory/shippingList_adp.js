@@ -709,16 +709,16 @@
       'action': '製品発送済',
       'record': {
         'deliveryCorp': {
-          'value': pageRecod.mStockList.deliveryCorp.value
+          'value': pageRecod.deliveryCorp.value
         },
         'trckNum': {
-          'value': pageRecod.mStockList.trckNum.value
+          'value': pageRecod.trckNum.value
         },
         'sendDate': {
-          'value': pageRecod.mStockList.sendDate.value
+          'value': pageRecod.sendDate.value
         },
         'expArrivalDate': {
-          'value': pageRecod.mStockList.expArrivalDate.value
+          'value': pageRecod.expArrivalDate.value
         }
       }
     }
