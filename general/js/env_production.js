@@ -1,1 +1,1 @@
-var sysid = set_sysid('develop_sog');
+var sysid = set_sysid('');
