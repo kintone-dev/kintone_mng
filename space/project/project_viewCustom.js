@@ -200,8 +200,6 @@
     }
   });
 
-
-
 /*
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     var nStatus = event.nextStatus.value;
