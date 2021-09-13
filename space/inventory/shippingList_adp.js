@@ -733,7 +733,7 @@
       .then(function (resp) {
         var putStatusBody = {
           'app': sysid.PM.app_id.project,
-          'id': resp.records[0].$id,
+          'id': resp.records[0].$id.value,
           'action': '納品手配'
         }
 
