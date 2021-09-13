@@ -569,6 +569,7 @@
           for(var sid in stockItemData){
             itemQuery.push(stockItemData[sid].mCode)
           }
+          console.log(itemQuery.join());
 
           var getDeviceBody = {
             'app': sysid.INV.app_id.unit,
