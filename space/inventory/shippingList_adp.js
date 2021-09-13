@@ -706,7 +706,7 @@
         'field': 'prjNum',
         'value': pageRecod.prj_aNum.value
       },
-      'action': '納品依頼（発注書無）',
+      'action': '納品手配',
       'record': {
         'deliveryCorp': {
           'value': pageRecod.deliveryCorp.value
