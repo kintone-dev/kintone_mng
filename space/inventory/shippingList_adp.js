@@ -718,16 +718,22 @@
         }
       }
     }
-    putRecords(sysid.PM.app_id.project, putDeliveryData);
+    putDeliveryData.push(putDeliveryBody);
 
     var putStatusBody = {
       'app': sysid.PM.app_id.project,
       'id': pageRecod.prjId.value,
       'action': '製品発送待ち'
     }
+    var putStatusBody2 = {
+      'app': sysid.PM.app_id.project,
+      'id': pageRecod.prjId.value,
+      'action': '納品手配'
+    }
 
     putRecords(sysid.PM.app_id.project, putDeliveryData);
     kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody);
+    kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody2);
   }
 
 })();
