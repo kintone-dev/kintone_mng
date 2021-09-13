@@ -108,7 +108,7 @@
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
           break;
-        case '宛先情報':
+        case '#宛先情報':
           setFieldShown('prjNum', false);
           setFieldShown('Exist_Project', false);
           setFieldShown('salesType', false);
