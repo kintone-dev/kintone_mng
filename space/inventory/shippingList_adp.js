@@ -734,7 +734,7 @@
         var putStatusBody = {
           'app': sysid.PM.app_id.project,
           'id': resp.records[0].$id.value,
-          'action': '製品発送済'
+          'action': '製品発送待ち'
         }
 
         kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody)
