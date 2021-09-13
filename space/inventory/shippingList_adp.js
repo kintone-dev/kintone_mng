@@ -542,7 +542,7 @@
             var putStockBody = {
               'updateKey': {
                 'field': 'uCode',
-                'value': codeArray[0]
+                'value': shipCode
               },
               'record': {
                 'mStockList': {
@@ -555,12 +555,54 @@
                 for (var sid in stockItemData) {
                   if (putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode) {
                     putStockBody.record.mStockList.value[msl].value.mStock.value = parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0);
+                    var totalStockBody = {
+                      'mCode': putStockBody.record.mStockList.value[msl].value.mCode.value,
+                      'uCode': shipCode,
+                      'stockNum': putStockBody.record.mStockList.value[msl].value.mStock.value
+                    }
+                    totalStockData.push(totalStockBody);
                   }
                 }
               }
             }
+
             putStockData.push(putStockBody);
           }
+
+          //商品管理に在庫数反映
+          kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+            .then(function (resp) {
+              var deviceRecords = resp.records;
+              //更新商品格納配列
+              var putDeviceData = [];
+              for (var dr in deviceRecords) {
+                var putStockBody = {
+                  'updateKey': {
+                    'field': 'mCode',
+                    'value': deviceRecords[dr].mCode.value
+                  },
+                  'record': {
+                    'uStockList': {
+                      'value': deviceRecords[dr].uStockList.value
+                    }
+                  }
+                }
+                for (var tsd in totalStockData) {
+                  if (totalStockData[tsd].mCode == deviceRecords[dr].mCode.value) {
+                    for (var duv in deviceRecords[dr].uStockList.value) {
+                      if (totalStockData[tsd].uCode == deviceRecords[dr].uStockList.value[duv].value.uCode.value) {
+                        deviceRecords[dr].uStockList.value[duv].value.uStock.value = totalStockData[tsd].stockNum;
+                      }
+                    }
+                  }
+                }
+                putDeviceData.push(putStockBody);
+              }
+
+              putRecords(sysid.INV.app_id.unit, putStockData);
+              putRecords(sysid.INV.app_id.device, putDeviceData);
+            });
+
 
           putRecords(sysid.INV.app_id.unit, putStockData);
           // putRecords(sysid.INV.app_id.device, putItemData);
@@ -587,7 +629,7 @@
                       if (putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode) {
                         putStockBody.record.mStockList.value[msl].value.mStock.value = parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) - parseInt(stockItemData[sid].shipNum || 0);
                         var totalStockBody = {
-                          'mCode':putStockBody.record.mStockList.value[msl].value.mCode.value,
+                          'mCode': putStockBody.record.mStockList.value[msl].value.mCode.value,
                           'uCode': shipCode,
                           'stockNum': putStockBody.record.mStockList.value[msl].value.mStock.value
                         }
@@ -601,7 +643,7 @@
                       if (putStockBody.record.mStockList.value[msl].value.mCode.value == stockItemData[sid].mCode) {
                         putStockBody.record.mStockList.value[msl].value.mStock.value = parseInt(putStockBody.record.mStockList.value[msl].value.mStock.value || 0) + parseInt(stockItemData[sid].shipNum || 0);
                         var totalStockBody = {
-                          'mCode':putStockBody.record.mStockList.value[msl].value.mCode.value,
+                          'mCode': putStockBody.record.mStockList.value[msl].value.mCode.value,
                           'uCode': arrivalCode,
                           'stockNum': putStockBody.record.mStockList.value[msl].value.mStock.value
                         }
@@ -619,7 +661,6 @@
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
             .then(function (resp) {
               var deviceRecords = resp.records;
-              console.log(totalStockData);
               //更新商品格納配列
               var putDeviceData = [];
               for (var dr in deviceRecords) {
@@ -634,10 +675,10 @@
                     }
                   }
                 }
-                for(var tsd in totalStockData){
-                  if(totalStockData[tsd].mCode == deviceRecords[dr].mCode.value){
-                    for(var duv in deviceRecords[dr].uStockList.value){
-                      if(totalStockData[tsd].uCode == deviceRecords[dr].uStockList.value[duv].value.uCode.value){
+                for (var tsd in totalStockData) {
+                  if (totalStockData[tsd].mCode == deviceRecords[dr].mCode.value) {
+                    for (var duv in deviceRecords[dr].uStockList.value) {
+                      if (totalStockData[tsd].uCode == deviceRecords[dr].uStockList.value[duv].value.uCode.value) {
                         deviceRecords[dr].uStockList.value[duv].value.uStock.value = totalStockData[tsd].stockNum;
                       }
                     }
@@ -649,7 +690,6 @@
               putRecords(sysid.INV.app_id.unit, putStockData);
               putRecords(sysid.INV.app_id.device, putDeviceData);
             });
-
 
         }
       });
