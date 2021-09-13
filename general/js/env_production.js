@@ -1,1 +1,1 @@
-var sysid = set_sysid('');
+var sysid = set_sysid();
