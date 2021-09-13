@@ -706,26 +706,29 @@
       //   'field': 'prjNum',
       //   'value': pageRecod.prj_aNum.value
       // },
+      'app':sysid.PM.app_id.project,
       'id': 1,
-      'action': '納品依頼（発注書無）',
-      'record': {
-        'deliveryCorp': {
-          'value': pageRecod.deliveryCorp.value
-        },
-        'trckNum': {
-          'value': pageRecod.trckNum.value
-        },
-        'sendDate': {
-          'value': pageRecod.sendDate.value
-        },
-        'expArrivalDate': {
-          'value': pageRecod.expArrivalDate.value
-        }
-      }
+      'action': '納品依頼（発注書無）'
+      // 'record': {
+      //   'deliveryCorp': {
+      //     'value': pageRecod.deliveryCorp.value
+      //   },
+      //   'trckNum': {
+      //     'value': pageRecod.trckNum.value
+      //   },
+      //   'sendDate': {
+      //     'value': pageRecod.sendDate.value
+      //   },
+      //   'expArrivalDate': {
+      //     'value': pageRecod.expArrivalDate.value
+      //   }
+      // }
     }
-    putDeliveryData.push(putDeliveryBody);
+    // putDeliveryData.push(putDeliveryBody);
 
-    putRecords(sysid.PM.app_id.project, putDeliveryData);
+    kintone.api(kintone.api.url('/k/v1/record', true), "PUT", putDeliveryBody);
+
+    // putRecords(sysid.PM.app_id.project, putDeliveryData);
   }
 
 })();
