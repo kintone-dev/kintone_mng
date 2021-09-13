@@ -57,8 +57,17 @@
         putRecords(sysid.DEV.app_id.sNum, putSnumData);
       }
 
-      //在庫処理
-      stockCount(shipType, sysShipmentCode, sysArrivalCode, stockData);
+      if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
+        stockCount('normal', sysShipmentCode, sysArrivalCode, stockData);
+      } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
+        stockCount('normal', sysShipmentCode, sysArrivalCode, stockData);
+      } else if (PAGE_RECORD.shipType.value == '移動-拠点間' || PAGE_RECORD.shipType.value == '移動-ベンダー') {
+        stockCount('normal', sysShipmentCode, sysArrivalCode, stockData);
+      } else if (PAGE_RECORD.shipType.value == '社内利用' || PAGE_RECORD.shipType.value == '貸与' || PAGE_RECORD.shipType.value == '修理') {
+        stockCount('shiponly', sysShipmentCode, sysArrivalCode, stockData);
+      } else if (PAGE_RECORD.shipType.value == '返品') {
+        stockCount('shiponly', sysShipmentCode, sysArrivalCode, stockData);
+      }
 
     } else if (nStatus === "出荷完了") {
       if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
@@ -536,7 +545,7 @@
         var putStockData = [];
         //在庫情報
         var totalStockData = [];
-        if (shipType == '社内利用' || shipType == '貸与' || shipType == '修理' || shipType == '返品') {
+        if (shipType == 'shiponly') {
           for (var ur in unitRecords) {
             //更新在庫情報
             var putStockBody = {
