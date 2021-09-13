@@ -1,4 +1,4 @@
-function sysid(env) {
+function set_sysid(env) {
 //スペース＆アプリ情報
 	switch (env) {
 		default:
@@ -56,7 +56,7 @@ function sysid(env) {
 				}
 			}
 			break;
-		case 'develop':
+		case 'develop_sog':
 			var sysid = {
 				// Project Management
 				PM: {
