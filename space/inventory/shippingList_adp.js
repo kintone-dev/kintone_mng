@@ -56,6 +56,7 @@
         putRecords(sysid.DEV.app_id.sNum, putSnumData);
       }
 
+      setDeliveryInfo(PAGE_RECORD);
       if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
         stockCount('normal', sysShipmentCode, sysArrivalCode, stockData);
       } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
@@ -278,7 +279,7 @@
     return event;
   });
 
-  //レポート処理
+  // レポート処理
   const reportCreate = function (pageRecod, param) {
     var sendDate = pageRecod.sendDate.value;
     var deviceList = pageRecod.deviceList.value;
@@ -513,9 +514,9 @@
   }
 
   // 在庫処理
-  const stockCount = function (shipType, shipCode, arrivalCode, stockItemData) {
+  const stockCount = function (param, shipCode, arrivalCode, stockItemData) {
     var codeArray = [shipCode, arrivalCode];
-    if (shipType == 'shiponly') {
+    if (param == 'shiponly') {
       var getUnitBody = {
         'app': sysid.INV.app_id.unit,
         'query': 'uCode = "' + shipCode + '" order by 更新日時 asc'
@@ -543,7 +544,7 @@
         var putStockData = [];
         //在庫情報
         var totalStockData = [];
-        if (shipType == 'shiponly') {
+        if (param == 'shiponly') {
           for (var ur in unitRecords) {
             //更新在庫情報
             var putStockBody = {
@@ -695,6 +696,34 @@
             });
         }
       });
+  }
+
+  // 輸送情報連携
+  const setDeliveryInfo = function (pageRecod) {
+    var putDeliveryData = [];
+    var putDeliveryBody = {
+      'updateKey': {
+        'field': 'prjNum',
+        'value': pageRecod.prj_aNum.value
+      },
+      'record': {
+        'deliveryCorp': {
+          'value': pageRecod.mStockList.deliveryCorp.value
+        },
+        'trckNum': {
+          'value': pageRecod.mStockList.trckNum.value
+        },
+        'sendDate': {
+          'value': pageRecod.mStockList.sendDate.value
+        },
+        'expArrivalDate': {
+          'value': pageRecod.mStockList.expArrivalDate.value
+        }
+      }
+    }
+    putDeliveryData.push(putDeliveryBody);
+
+    putRecords(sysid.PM.app_id.project,putDeliveryData);
   }
 
 })();
