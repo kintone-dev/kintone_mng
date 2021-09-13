@@ -567,21 +567,33 @@
           for (var sid in stockItemData) {
             itemQuery.push('"' + stockItemData[sid].mCode + '"');
           }
-          console.log(itemQuery.join());
-
           var getDeviceBody = {
             'app': sysid.INV.app_id.device,
             'query': 'mCode in (' + itemQuery.join() + ') order by 更新日時 asc'
           };
           kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
             .then(function (resp) {
-              console.log(resp.records);
+              deviceRecords = resp.records;
               //更新商品格納配列
               var putItemData = [];
+              for(var dr in deviceRecords){
+                var putStockBody = {
+                  'updateKey': {
+                    'field': 'mCode',
+                    'value': deviceRecords[dr].mCode.value
+                  },
+                  'record': {
+                    'mStockList': {
+                      'value': unitRecords[ur].mStockList.value
+                    }
+                  }
+                }
+
+              }
             });
 
           putRecords(sysid.INV.app_id.unit, putStockData);
-          putRecords(sysid.INV.app_id.device, putStockData);
+          // putRecords(sysid.INV.app_id.device, putItemData);
         } else {
           //出荷在庫と入荷在庫を拠点から増減
           for (var ca in codeArray) {

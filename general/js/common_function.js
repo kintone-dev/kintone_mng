@@ -93,24 +93,24 @@ function set_sysid(env) {
 				},
 				// Support (DEV)
 				SUP: {
-					space_id: none,
+					space_id: 0,
 					app_id: {
-						item: none,
-						inquiry: none,
-						onsite: none,
-						shipment: none,
-						escalation: none,
-						accident: none
+						item: 0,
+						inquiry: 0,
+						onsite: 0,
+						shipment: 0,
+						escalation: 0,
+						accident: 0
 					}
 				},
 				// ATLAS Smart Security (DEV)
 				ASS: {
-					space: none,
+					space: 0,
 					app_id: {
-						member: none,
-						cancellation: none,
-						item: none,
-						shipment: none
+						member: 0,
+						cancellation: 0,
+						item: 0,
+						shipment: 0
 					}
 				}
 			}
