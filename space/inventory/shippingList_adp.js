@@ -706,7 +706,7 @@
         'field': 'prjNum',
         'value': pageRecod.prj_aNum.value
       },
-      'action': '納品依頼（発注書無）',
+      'action': 'sysdev',
       'assignee':'システム設計',
       'record': {
         'deliveryCorp': {
