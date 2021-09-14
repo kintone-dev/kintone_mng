@@ -231,6 +231,7 @@
 
       var pkgCount = 0;
       while(pkgCount < pkgNum){
+        console.log(pkgCount);
         for (var st in shipTable) {
           if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
             if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
