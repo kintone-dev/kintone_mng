@@ -2,7 +2,7 @@
   'use strict';
 
   kintone.events.on('app.record.create.show', function (event) {
-    event.record.prj_aNum.disabled = true;
+    event.record.prjNum.disabled = true;
     //コピー元の「prj_aNum」の値をsessionStorageの値を代入
     event.record.prj_aNum.value = sessionStorage.getItem('prj_aNum');
     event.record.shipType.value = sessionStorage.getItem('shipType');
@@ -21,5 +21,5 @@
     sessionStorage.removeItem('instName');
     return event;
   });
-  
+
 })();
