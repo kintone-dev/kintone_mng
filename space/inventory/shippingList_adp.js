@@ -285,6 +285,7 @@
               newShipTable.push(shipTable[st]);
             }
           }
+          shipTable = newShipTable;
           kintone.app.record.set(eRecord);
         });
 
