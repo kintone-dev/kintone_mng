@@ -197,7 +197,6 @@
           event.record.deviceList.value[i].value.shipRemarks.value='カーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
         }
       }
-    }
     return event;
   });
 
