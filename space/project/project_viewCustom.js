@@ -389,7 +389,7 @@ var setSearchArea=function(searchParams) {
 
 
   var searchForm=document.createElement('form');
-  searchForm.method='get';
+  searchForm.method='post';
   searchForm.name='Ctest';
 
   var eSearch=document.createElement('input');
