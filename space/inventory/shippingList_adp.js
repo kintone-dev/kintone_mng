@@ -86,33 +86,25 @@
   });
 
   // 計算ボタン
-  kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
-    setBtn('calBtn', '計算');
+  kintone.events.on(['app.record.edit.show', 'app.record.create.show'],
+    async function (event) {
+      setBtn('calBtn', '計算');
 
-    $('#calBtn').on('click', function () {
-      var eRecord = kintone.app.record.get();
-      var shipTable = eRecord.record.deviceList.value;
+      $('#calBtn').on('click', function () {
+        var eRecord = kintone.app.record.get();
+        var shipTable = eRecord.record.deviceList.value;
 
-      var lengthStr = '';
-      var openType = '';
-      var methodType = '';
-      var shipNum = '';
+        var lengthStr = '';
+        var openType = '';
+        var methodType = '';
+        var shipNum = '';
 
-      var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
-      var openRegExp = new RegExp(/^[sw]/i);
-      var methodRegExp = new RegExp(/壁付[sw]|天井/i);
+        var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
+        var openRegExp = new RegExp(/^[sw]/i);
+        var methodRegExp = new RegExp(/壁付[sw]|天井/i);
 
-      var wfpCount = 0;
-      for(var st in shipTable){
-        if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
-          wfpCount++;
-        }
-      }
-
-      var i = 0;
-      while(i <= wfpCount){
         for (var st in shipTable) {
-          console.log(i);
+          // 依頼数空欄時エラー
           if (numRegExp.test(shipTable[st].value.shipNum.value)) {
             shipNum = shipTable[st].value.shipNum.value;
             shipTable[st].value.shipNum.error = null;
@@ -120,6 +112,73 @@
             shipTable[st].value.shipNum.error = '入力形式が間違えています';
           }
 
+          //特記事項にWFPが入っている場合
+          if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
+            if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
+              var shipNum = shipTable[st].value.shipNum.value;
+              var pacInfo = {
+                'app': sysid.INV.app_id.device,
+                'query': 'mCode="' + shipTable[st].value.mCode.value + '"',
+              };
+
+              kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo).then(
+                await function (resp) {
+                console.log('pkg');
+                var pkgItems = resp.records[0].packageComp.value;
+                for (var pil in pkgItems) {
+                  var pkgItemBody = {
+                    value: {
+                      mCode: {
+                        type: "SINGLE_LINE_TEXT",
+                        value: JSON.stringify(pkgItems[pil].value.pc_mCode.value).replace(/\"/g, '')
+                      },
+                      mName: {
+                        type: "SINGLE_LINE_TEXT",
+                        value: JSON.stringify(pkgItems[pil].value.pc_mName.value).replace(/\"/g, '')
+                      },
+                      mType: {
+                        type: "SINGLE_LINE_TEXT",
+                        value: JSON.stringify(pkgItems[pil].value.pc_mType.value).replace(/\"/g, '')
+                      },
+                      mVendor: {
+                        type: "SINGLE_LINE_TEXT",
+                        value: JSON.stringify(pkgItems[pil].value.pc_mVendor.value).replace(/\"/g, '')
+                      },
+                      shipNum: {
+                        type: "NUMBER",
+                        value: JSON.stringify(pkgItems[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
+                      },
+                      sNum: {
+                        type: "MULTI_LINE_TEXT",
+                        value: ''
+                      },
+                      shipRemarks: {
+                        type: "MULTI_LINE_TEXT",
+                        value: ''
+                      }
+                    }
+                  }
+                  var spliceCount = parseInt(st) + 1;
+                  shipTable.splice(spliceCount, 0, pkgItemBody);
+                  i++;
+                }
+              });
+
+              shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
+            }
+          }
+        }
+
+        for (var st in shipTable) {
+          // 依頼数空欄時エラー
+          if (numRegExp.test(shipTable[st].value.shipNum.value)) {
+            shipNum = shipTable[st].value.shipNum.value;
+            shipTable[st].value.shipNum.error = null;
+          } else {
+            shipTable[st].value.shipNum.error = '入力形式が間違えています';
+          }
+
+          //特記事項にWFPが入っている場合
           if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
             if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
               var shipNum = shipTable[st].value.shipNum.value;
@@ -280,20 +339,18 @@
             }
           }
         }
-      }
 
+        var lookupcount = 0;
+        for (var st in shipTable) {
+          shipTable[lookupcount].value.mName.lookup = true;
+          lookupcount++;
+        }
 
-      var lookupcount = 0;
-      for (var st in shipTable) {
-        shipTable[lookupcount].value.mName.lookup = true;
-        lookupcount++;
-      }
+        kintone.app.record.set(eRecord);
+      });
 
-      kintone.app.record.set(eRecord);
+      return event;
     });
-
-    return event;
-  });
 
   // レポート処理
   const reportCreate = function (pageRecod, param) {
