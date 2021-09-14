@@ -222,7 +222,6 @@
     setFieldShown('prefectures', param);
     setFieldShown('city', param);
     if(tabCase=='arrival'){
-      doSelection(pageRecod);
       if (pageRecod.instName.value == undefined) {
         setSpaceShown('btn_newINST', 'individual', 'block');
         setSpaceShown('btn_unknowINST', 'individual', 'block');
