@@ -4,7 +4,7 @@
   kintone.events.on('app.record.create.show', function (event) {
     event.record.prjNum.disabled = true;
     //コピー元の「prj_aNum」の値をsessionStorageの値を代入
-    event.record.prj_aNum.value = sessionStorage.getItem('prjNum');
+    event.record.prjNum.value = sessionStorage.getItem('prjNum');
     event.record.shipType.value = sessionStorage.getItem('shipType');
     event.record.tarDate.value = sessionStorage.getItem('tarDate');
     event.record.instName.value = sessionStorage.getItem('instName');
