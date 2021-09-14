@@ -125,23 +125,23 @@
                   value: {
                     mCode: {
                       type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mCode.value).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_mCode.value).replace(/\"/g, '')
                     },
                     mName: {
                       type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mName.value).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_mName.value).replace(/\"/g, '')
                     },
                     mType: {
                       type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mType.value).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_mType.value).replace(/\"/g, '')
                     },
                     mVendor: {
                       type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mVendor.value).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_mVendor.value).replace(/\"/g, '')
                     },
                     shipNum: {
                       type: "NUMBER",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_Num.value * shipTable[st].value.shipNum.value).replace(/\"/g, '')
                     },
                     sNum: {
                       type: "MULTI_LINE_TEXT",
@@ -237,42 +237,42 @@
 
             var railItems = railConf(spec);
 
-            // for (var ril in railItems) {
-            //   var railItemBody = {
-            //     value: {
-            //       mCode: {
-            //         type: "SINGLE_LINE_TEXT",
-            //         value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
-            //       },
-            //       mName: {
-            //         type: "SINGLE_LINE_TEXT",
-            //         value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
-            //       },
-            //       mType: {
-            //         type: "SINGLE_LINE_TEXT",
-            //         value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
-            //       },
-            //       mVendor: {
-            //         type: "SINGLE_LINE_TEXT",
-            //         value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
-            //       },
-            //       sNum: {
-            //         type: "MULTI_LINE_TEXT",
-            //         value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
-            //       },
-            //       shipRemarks: {
-            //         type: "MULTI_LINE_TEXT",
-            //         value: JSON.stringify(railItems[ril].value.shipRemarks.value).replace(/\"/g, '')
-            //       },
-            //       shipNum: {
-            //         type: "NUMBER",
-            //         value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
-            //       }
-            //     }
-            //   }
+            for (var ril in railItems) {
+              var railItemBody = {
+                value: {
+                  mCode: {
+                    type: "SINGLE_LINE_TEXT",
+                    value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
+                  },
+                  mName: {
+                    type: "SINGLE_LINE_TEXT",
+                    value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
+                  },
+                  mType: {
+                    type: "SINGLE_LINE_TEXT",
+                    value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
+                  },
+                  mVendor: {
+                    type: "SINGLE_LINE_TEXT",
+                    value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
+                  },
+                  sNum: {
+                    type: "MULTI_LINE_TEXT",
+                    value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
+                  },
+                  shipRemarks: {
+                    type: "MULTI_LINE_TEXT",
+                    value: JSON.stringify(railItems[ril].value.shipRemarks.value).replace(/\"/g, '')
+                  },
+                  shipNum: {
+                    type: "NUMBER",
+                    value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
+                  }
+                }
+              }
 
-            //   shipTable.push(st, 0, railItemBody);
-            // }
+              shipTable.push(st, 0, railItemBody);
+            }
 
             shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
           }
