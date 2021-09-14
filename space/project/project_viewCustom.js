@@ -57,10 +57,11 @@
           setShipInfoShown(false);
           break;
         case '#宛先情報':
+          var eRecord = kintone.app.record.get();
           setPrjInfoShown(PAGE_RECORD, false, '');
           setInstInfoShown(false);
           setTarInfoShown(false);
-          setArrivalInfoShown(PAGE_RECORD, true, 'arrival')
+          setArrivalInfoShown(eRecord, true, 'arrival')
           setShipInfoShown(false);
           break;
         case '#輸送情報':
