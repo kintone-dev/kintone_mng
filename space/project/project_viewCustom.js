@@ -393,10 +393,10 @@ var setSearchArea=function(searchParams) {
   eSearch.classList.add('testclass');
   searchArea.appendChild(eSearch);
 
-  // var dSearch=document.createElement('span');
-  // dSearch.classList.add('testSpanBtn');
-  // dSearch.innerText='testSpanBtn';
-  // searchArea.appendChild(dSearch);
+  var dSearch=document.createElement('span');
+  dSearch.classList.add('testSpanBtn');
+  dSearch.innerText='testSpanBtn';
+  searchArea.appendChild(dSearch);
 
   
 	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
