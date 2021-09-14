@@ -384,6 +384,7 @@ var setEasySearch=function(sID,sPlaceholder) {
   // eSearchForm.name=sID;
 
   var eSearch=document.createElement('input');
+  eSearch.id=sID;
   eSearch.type='text';
   eSearch.placeholder=sPlaceholder;
   eSearch.classList.add('testclass');
@@ -407,8 +408,8 @@ const AND_OR = "or";
     setEasySearch('eSearch','総合検索');
     $('#btn_eSearch').on('click', function(){
       // var testC=document.s_eSearch.value;
-      var keyword=document.eSearch.s_eSearch.value;
-
+      // var keyword=document.eSearch.s_eSearch.value;
+      var keyword=document.getElementsByName('sID').value;
 
       var result = {};
       //クエリから、URL固定部分(?query=)を無視して取り出す
