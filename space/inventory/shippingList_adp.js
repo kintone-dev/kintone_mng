@@ -270,7 +270,7 @@
                   shipTable.splice(parseInt(st), 0, pkgItemBody);
 
                   for (var i =0; i >= shipTable;i++) {
-                    shipTable[lookupcount].value.mName.lookup = true;
+                    shipTable[i].value.mName.lookup = true;
                   }
 
                   kintone.app.record.set(eRecord);
