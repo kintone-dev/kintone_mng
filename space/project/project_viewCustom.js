@@ -405,8 +405,9 @@ const AND_OR = "or";
     setEasySearch('eSearch','総合検索');
     $('#btn_eSearch').on('click', function(){
       // var testC=document.s_eSearch.value;
-      var testC=document.eSearch.s_eSearch.value;
-      console.log(testC);
+      var keyword=document.eSearch.s_eSearch.value;
+      console.log(keyword);
+
 
       var result = {};
       //クエリから、URL固定部分(?query=)を無視して取り出す
@@ -419,16 +420,7 @@ const AND_OR = "or";
         //空白スペースを取り除いて、配列に格納
         result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
       }
-      //検索キーワード
-      var search_word = document.createElement('input');
-      search_word.type = 'text';
-      //検索ボタン
-      var search_button = document.createElement('input');
-      search_button.type = 'submit';
-      search_button.value = 'search';
-      search_button.onclick = function () {
-        keyword_search();
-      };
+
       //キーワード検索の関数
       function keyword_search(){
         var keyword = search_word.value;
@@ -446,17 +438,17 @@ const AND_OR = "or";
         document.location = location.origin + location.pathname + str_query
       }
       // 重複を避けるため要素をあらかじめクリアしておく
-      var node_space = kintone.app.getHeaderMenuSpaceElement()
-      for (var i =node_space.childNodes.length-1; i>=0; i--) {
-        node_space.removeChild(node_space.childNodes[i]);
-      }
-      var label = document.createElement('label');
-      label.appendChild(document.createTextNode('レコード内検索'));
-      label.appendChild(document.createTextNode(' ')); 
-      label.appendChild(search_word);
-      label.appendChild(document.createTextNode(' ')); 
-      label.appendChild(search_button); 
-      kintone.app.getHeaderMenuSpaceElement().appendChild(label);
+      // var node_space = kintone.app.getHeaderMenuSpaceElement()
+      // for (var i =node_space.childNodes.length-1; i>=0; i--) {
+      //   node_space.removeChild(node_space.childNodes[i]);
+      // }
+      // var label = document.createElement('label');
+      // label.appendChild(document.createTextNode('レコード内検索'));
+      // label.appendChild(document.createTextNode(' ')); 
+      // label.appendChild(search_word);
+      // label.appendChild(document.createTextNode(' ')); 
+      // label.appendChild(search_button); 
+      // kintone.app.getHeaderMenuSpaceElement().appendChild(label);
     });
     // setEasySearch({
     //   id:'eSearch',
