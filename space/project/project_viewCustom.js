@@ -23,6 +23,7 @@
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     const PAGE_RECORD = event.record;
     PAGE_RECORD.cSales.disabled = false;
+    doSelection(PAGE_RECORD);
     setFieldShown('sys_suptitle', true);
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
