@@ -112,166 +112,167 @@
 
       for (var st in shipTable) {
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
+          console.log(shipTable[st].value.mCode.value);
           // 品目にパッケージ品が存在する時
-          if (shipTable[st].value.mCode.value.match(/pkg_/)) {
-            var pacInfo = {
-              'app': sysid.INV.app_id.device,
-              'query': 'mCode="' + shipTable[st].value.mCode.value + '"',
-            };
+          // if (shipTable[st].value.mCode.value.match(/pkg_/)) {
+          //   var pacInfo = {
+          //     'app': sysid.INV.app_id.device,
+          //     'query': 'mCode="' + shipTable[st].value.mCode.value + '"',
+          //   };
 
-            kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo).then(function (resp) {
-              var pkgItems = resp.records[0].packageComp.value;
-              for (var pil in pkgItems) {
-                var pkgItemBody = {
-                  value: {
-                    mCode: {
-                      type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mCode.value).replace(/\"/g, '')
-                    },
-                    mName: {
-                      type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mName.value).replace(/\"/g, '')
-                    },
-                    mType: {
-                      type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mType.value).replace(/\"/g, '')
-                    },
-                    mVendor: {
-                      type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mVendor.value).replace(/\"/g, '')
-                    },
-                    shipNum: {
-                      type: "NUMBER",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
-                    },
-                    sNum: {
-                      type: "MULTI_LINE_TEXT",
-                      value: ''
-                    },
-                    shipRemarks: {
-                      type: "MULTI_LINE_TEXT",
-                      value: ''
-                    }
-                  }
-                }
-                shipTable.splice(st + pil, 0, pkgItemBody);
-              }
-              kintone.app.record.set(eRecord);
-              return resp;
-            });
+          //   kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo).then(function (resp) {
+          //     var pkgItems = resp.records[0].packageComp.value;
+          //     for (var pil in pkgItems) {
+          //       var pkgItemBody = {
+          //         value: {
+          //           mCode: {
+          //             type: "SINGLE_LINE_TEXT",
+          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mCode.value).replace(/\"/g, '')
+          //           },
+          //           mName: {
+          //             type: "SINGLE_LINE_TEXT",
+          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mName.value).replace(/\"/g, '')
+          //           },
+          //           mType: {
+          //             type: "SINGLE_LINE_TEXT",
+          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mType.value).replace(/\"/g, '')
+          //           },
+          //           mVendor: {
+          //             type: "SINGLE_LINE_TEXT",
+          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mVendor.value).replace(/\"/g, '')
+          //           },
+          //           shipNum: {
+          //             type: "NUMBER",
+          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
+          //           },
+          //           sNum: {
+          //             type: "MULTI_LINE_TEXT",
+          //             value: ''
+          //           },
+          //           shipRemarks: {
+          //             type: "MULTI_LINE_TEXT",
+          //             value: ''
+          //           }
+          //         }
+          //       }
+          //       shipTable.splice(st + pil, 0, pkgItemBody);
+          //     }
+          //     kintone.app.record.set(eRecord);
+          //     return resp;
+          //   });
 
-            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
-          }
+          //   shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
+          // }
 
           //品目コードがTRT-DYの時
-          if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
+          // if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
 
-            var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
-            var numCutter = railSpecs[1].indexOf('：');
-            railSpecs[1] = railSpecs[1].slice(numCutter + 1);
-            var openCutter = railSpecs[1].indexOf('：');
-            railSpecs[2] = railSpecs[2].slice(openCutter + 1);
-            var methodCutter = railSpecs[2].indexOf('：');
-            railSpecs[3] = railSpecs[3].slice(methodCutter + 1);
+          //   var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
+          //   var numCutter = railSpecs[1].indexOf('：');
+          //   railSpecs[1] = railSpecs[1].slice(numCutter + 1);
+          //   var openCutter = railSpecs[1].indexOf('：');
+          //   railSpecs[2] = railSpecs[2].slice(openCutter + 1);
+          //   var methodCutter = railSpecs[2].indexOf('：');
+          //   railSpecs[3] = railSpecs[3].slice(methodCutter + 1);
 
-            if (railSpecs[2] == '(S)片開き') {
-              railSpecs[2] = 's';
-            } else if (railSpecs[1] == '(W)両開き') {
-              railSpecs[2] = 'w';
-            } else {
-              railSpecs[2] = '';
-            }
+          //   if (railSpecs[2] == '(S)片開き') {
+          //     railSpecs[2] = 's';
+          //   } else if (railSpecs[1] == '(W)両開き') {
+          //     railSpecs[2] = 'w';
+          //   } else {
+          //     railSpecs[2] = '';
+          //   }
 
-            for (var i in railSpecs) {
-              if (numRegExp.test(railSpecs[i])) {
-                if (parseInt(railSpecs[i]) >= 580) {
-                  lengthStr = railSpecs[i];
+          //   for (var i in railSpecs) {
+          //     if (numRegExp.test(railSpecs[i])) {
+          //       if (parseInt(railSpecs[i]) >= 580) {
+          //         lengthStr = railSpecs[i];
 
-                  shipTable[st].value.shipRemarks.error = null;
-                } else {
-                  shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-                  break;
-                }
-              } else {
-                shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-              }
+          //         shipTable[st].value.shipRemarks.error = null;
+          //       } else {
+          //         shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+          //         break;
+          //       }
+          //     } else {
+          //       shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+          //     }
 
-              if (openRegExp.test(railSpecs[i])) {
-                if (railSpecs[i].length === 1) {
-                  openType = railSpecs[i];
-                  openType = openType.toLowerCase();
+          //     if (openRegExp.test(railSpecs[i])) {
+          //       if (railSpecs[i].length === 1) {
+          //         openType = railSpecs[i];
+          //         openType = openType.toLowerCase();
 
-                  shipTable[st].value.shipRemarks.error = null;
-                } else {
-                  shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-                  break;
-                }
-              } else {
-                shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-              }
+          //         shipTable[st].value.shipRemarks.error = null;
+          //       } else {
+          //         shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+          //         break;
+          //       }
+          //     } else {
+          //       shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+          //     }
 
-              if (methodRegExp.test(railSpecs[i])) {
-                if (railSpecs[i].match(/壁付s/i)) {
-                  methodType = '壁付s';
-                } else if (railSpecs[i].match(/壁付w/i)) {
-                  methodType = '壁付w';
-                } else {
-                  methodType = '天井';
-                }
-                shipTable[st].value.shipRemarks.error = null;
-              } else {
-                shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-              }
-            }
-            var spec = {
-              rLength: lengthStr,
-              rType: openType,
-              rMethod: methodType,
-              shipNum: shipNum
-            }
+          //     if (methodRegExp.test(railSpecs[i])) {
+          //       if (railSpecs[i].match(/壁付s/i)) {
+          //         methodType = '壁付s';
+          //       } else if (railSpecs[i].match(/壁付w/i)) {
+          //         methodType = '壁付w';
+          //       } else {
+          //         methodType = '天井';
+          //       }
+          //       shipTable[st].value.shipRemarks.error = null;
+          //     } else {
+          //       shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+          //     }
+          //   }
+          //   var spec = {
+          //     rLength: lengthStr,
+          //     rType: openType,
+          //     rMethod: methodType,
+          //     shipNum: shipNum
+          //   }
 
-            console.log(spec);
+          //   console.log(spec);
 
-            var railItems = railConf(spec);
+          //   var railItems = railConf(spec);
 
-            for (var ril in railItems) {
-              var railItemBody ={
-                value: {
-                  mCode: {
-                    type: "SINGLE_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
-                  },
-                  mName: {
-                    type: "SINGLE_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
-                  },
-                  mType: {
-                    type: "SINGLE_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
-                  },
-                  mVendor: {
-                    type: "SINGLE_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
-                  },
-                  sNum: {
-                    type: "MULTI_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
-                  },
-                  shipRemarks: {
-                    type: "MULTI_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.shipRemarks.value).replace(/\"/g, '')
-                  },
-                  shipNum: {
-                    type: "NUMBER",
-                    value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
-                  }
-                }
-              }
-              shipTable.push(st + ril, 0, railItemBody);
-            }
+          //   for (var ril in railItems) {
+          //     var railItemBody ={
+          //       value: {
+          //         mCode: {
+          //           type: "SINGLE_LINE_TEXT",
+          //           value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
+          //         },
+          //         mName: {
+          //           type: "SINGLE_LINE_TEXT",
+          //           value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
+          //         },
+          //         mType: {
+          //           type: "SINGLE_LINE_TEXT",
+          //           value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
+          //         },
+          //         mVendor: {
+          //           type: "SINGLE_LINE_TEXT",
+          //           value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
+          //         },
+          //         sNum: {
+          //           type: "MULTI_LINE_TEXT",
+          //           value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
+          //         },
+          //         shipRemarks: {
+          //           type: "MULTI_LINE_TEXT",
+          //           value: JSON.stringify(railItems[ril].value.shipRemarks.value).replace(/\"/g, '')
+          //         },
+          //         shipNum: {
+          //           type: "NUMBER",
+          //           value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
+          //         }
+          //       }
+          //     }
+          //     shipTable.push(st + ril, 0, railItemBody);
+          //   }
 
-            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
-          }
+          //   shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
+          // }
         }
       }
 
