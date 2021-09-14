@@ -97,20 +97,19 @@
       var openType = '';
       var methodType = '';
       var shipNum = '';
-      var mCode = shipTable[0].value.mCode.value;
 
       var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/^[sw]/i);
       var methodRegExp = new RegExp(/壁付[sw]|天井/i);
 
-      if (numRegExp.test(shipTable[0].value.shipNum.value)) {
-        shipNum = shipTable[0].value.shipNum.value;
-        shipTable[0].value.shipNum.error = null;
-      } else {
-        shipTable[0].value.shipNum.error = '入力形式が間違えています';
-      }
-
       for (var st in shipTable) {
+        if (numRegExp.test(shipTable[st].value.shipNum.value)) {
+          shipNum = shipTable[st].value.shipNum.value;
+          shipTable[st].value.shipNum.error = null;
+        } else {
+          shipTable[st].value.shipNum.error = '入力形式が間違えています';
+        }
+
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
           // 品目にパッケージ品が存在する時
           if (shipTable[st].value.mCode.value.match(/pkg_/)) {
@@ -168,18 +167,18 @@
 
             var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
             var numCutter = railSpecs[1].indexOf('：');
-            railSpecs[0] = railSpecs[0].slice(numCutter + 1);
+            railSpecs[0] = railSpecs[1].slice(numCutter + 1);
             var openCutter = railSpecs[2].indexOf('：');
-            railSpecs[1] = railSpecs[1].slice(openCutter + 1);
+            railSpecs[1] = railSpecs[2].slice(openCutter + 1);
             var methodCutter = railSpecs[3].indexOf('：');
-            railSpecs[2] = railSpecs[2].slice(methodCutter + 1);
+            railSpecs[2] = railSpecs[3].slice(methodCutter + 1);
 
-            if (railSpecs[2] == '(S)片開き') {
-              railSpecs[2] = 's';
+            if (railSpecs[1] == '(S)片開き') {
+              railSpecs[1] = 's';
             } else if (railSpecs[1] == '(W)両開き') {
-              railSpecs[2] = 'w';
+              railSpecs[1] = 'w';
             } else {
-              railSpecs[2] = '';
+              railSpecs[1] = '';
             }
 
             railSpecs.pop();
@@ -231,7 +230,7 @@
               rLength: lengthStr,
               rType: openType,
               rMethod: methodType,
-              shipNum: shipNum
+              shipNum: shipTable[st].value.shipNum.value
             }
 
             console.log(spec);
