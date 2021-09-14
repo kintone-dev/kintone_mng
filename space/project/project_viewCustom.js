@@ -402,6 +402,11 @@ var setSearchArea=function(searchParams) {
   dSearch.innerText='testSpanBtn';
   searchForm.appendChild(dSearch);
 
+  var searchBtn=document.createElement.createElement('button');
+  searchBtn.innerText='検索';
+  searchBtn.onClick=testalert();
+  searchArea.appendChild(searchBtn);
+
   searchForm.onsubmit='testalert()';
   searchArea.appendChild(searchForm);
 
