@@ -222,9 +222,7 @@
     setFieldShown('receiver', param);
     setFieldShown('prefectures', param);
     setFieldShown('city', param);
-    if(tabCase == 'arrival'){
-      doSelection(pageRecod);
-    }else{
+    if(tabCase != 'arrival'){
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
       setSpaceShown('btn_newINST', 'individual', 'none');
