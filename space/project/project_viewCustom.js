@@ -390,9 +390,7 @@ var setSearchArea=function(searchParams) {
 
   var searchForm=document.createElement('form');
   searchForm.method='get';
-  searchForm.onSubmit=function(){
-    console.log($('#invoiceNum').val());
-  };
+  searchForm.name='Ctest';
 
   var eSearch=document.createElement('input');
   eSearch.id=searchParams.easySearch.sID;
@@ -408,9 +406,7 @@ var setSearchArea=function(searchParams) {
 
   var searchBtn=document.createElement('button');
   searchBtn.innerText='検索';
-  searchBtn.onClick=function(){
-    console.log($('#invoiceNum').val());
-  };
+  searchBtn.onClick=testClick();
   searchForm.appendChild(searchBtn);
 
   // searchForm.onsubmit='testalert()';
@@ -422,6 +418,10 @@ var setSearchArea=function(searchParams) {
   
 	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
 	return searchArea;
+}
+function testClick(){
+  var testC=document.Ctest;
+  console.log(testC);
 }
 /* 使い方
  *var newORG=setBtn('btn_newORG','新規組織');
