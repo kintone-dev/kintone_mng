@@ -212,6 +212,7 @@
 
   //宛先情報タブ表示処理
   const setArrivalInfoShown = function (pageRecod, param, tabCase) {
+    doSelection(pageRecod);
     setFieldShown('dstSelection', param);
     setFieldShown('zipcode', param);
     setFieldShown('phoneNum', param);
@@ -232,8 +233,6 @@
     }else{
       setSpaceShown('btn_newINST', 'individual', 'none');
       setSpaceShown('btn_unknowINST', 'individual', 'none');
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
     }
 
   }
