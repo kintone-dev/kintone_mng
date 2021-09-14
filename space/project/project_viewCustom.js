@@ -373,76 +373,45 @@
    * 
    */
 // function setSearchArea(areaID, searchConditions) {
-var setSearchArea=function(searchParams) {
-	// var indexBtn = document.createElement('button');
-	// indexBtn.id = btnID;
-	// indexBtn.classList.add('jsbtn_header');
-	// indexBtn.innerText = btnValue;
-	// indexBtn.addEventListener("mouseover", function (event) {
-	// 	indexBtn.classList.add('jsbtn_over');
-	// }, false);
-	// indexBtn.addEventListener("mouseleave", function (event) {
-	// 	indexBtn.classList.remove('jsbtn_over');
-	// }, false);
-  var searchArea=document.createElement('div');
-  searchArea.id='customSearchArea';
+var setEasySearch=function(sID,sPlaceholder) {
 
 
-  var searchForm=document.createElement('form');
-  searchForm.method='post';
-  searchForm.name='Ctest';
+  var eSearchForm=document.createElement('form');
+  eSearchForm.method='get';
+  eSearchForm.ID=sID;
+  eSearchForm.name=sID;
 
   var eSearch=document.createElement('input');
-  eSearch.id=searchParams.easySearch.sID;
-  eSearch.name=searchParams.easySearch.sID;
+  eSearch.name='s_'+sID;
   eSearch.type='search';
-  eSearch.placeholder='簡易検索';
+  eSearch.placeholder=sPlaceholder;
   eSearch.classList.add('testclass');
-  searchForm.appendChild(eSearch);
-
-  var dSearch=document.createElement('span');
-  dSearch.classList.add('testSpanBtn');
-  dSearch.innerText='testSpanBtn';
-  searchForm.appendChild(dSearch);
+  eSearchForm.appendChild(eSearch);
 
   var searchBtn=document.createElement('button');
+  searchBtn.id='btn_'+sID;
   searchBtn.innerText='検索';
-  searchBtn.id='testSearch';
-  searchForm.appendChild(searchBtn);
+  eSearchForm.appendChild(searchBtn);
 
-  // searchForm.onsubmit='testalert()';
-  // searchForm.action=function(){
-  //   console.log($('#invoiceNum').val());
-  // };
-  searchArea.appendChild(searchForm);
-
-  
-	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
-	return searchArea;
+	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchForm);
 }
-// function testClick(){
-//   var testC=document.Ctest;
-//   console.log(testC);
-// }
-/* 使い方
- *var newORG=setBtn('btn_newORG','新規組織');
- *$('#'+newORG.id).on('click', function(){
- *	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
- *});
- */
+
   kintone.events.on('app.record.index.show', function(event){
-    var prjSearch=setSearchArea({
-      areaID:'prjSearch',
-      easySearch:{sID:'invoiceNum',sName:'請求書番号'},
-      searchConditions:[
-        {sID:'invoiceNum',sName:'請求書番号'},
-        {sID:'prjNum',sName:'案件管理番号'}
-      ]
-    });
-    $('#testSearch').on('click', function(){
+    setEasySearch('eSearch','総合検索');
+    $('#btn_eSearch').on('click', function(){
       var testC=document.Ctest.invoiceNum.value;
-  console.log(testC);
+      console.log(testC);
     })
+    // setEasySearch({
+    //   id:'eSearch',
+    //   placeholder:'総合検索',
+    //   target:['invoiceNum','prjNum']
+    //   // easySearch:{sID:'invoiceNum',sName:'請求書番号'},
+    //   // searchConditions:[
+    //   //   {sID:'invoiceNum',sName:'請求書番号'},
+    //   //   {sID:'prjNum',sName:'案件管理番号'}
+    //   // ]
+    // });
     // ={
     //   areaID:'prjSearch',
     //   searchType:'or',
