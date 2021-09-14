@@ -408,7 +408,7 @@ var setSearchArea=function(searchParams) {
  *	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
  *});
  */
-  kintone.events.on('app.record.index.view', function(event){
+  kintone.events.on('app.record.index.show', function(event){
     var prjSearch=setSearchArea({
       areaID:'prjSearch',
       easySearch:{sID:'invoiceNum',sName:'請求書番号'},
