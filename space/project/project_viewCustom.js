@@ -399,7 +399,7 @@ var setEasySearch=function(sID,sPlaceholder) {
   kintone.events.on('app.record.index.show', function(event){
     setEasySearch('eSearch','総合検索');
     $('#btn_eSearch').on('click', function(){
-      var testC=document.Ctest.invoiceNum.value;
+      var testC=document.s_eSearch.value;
       console.log(testC);
     })
     // setEasySearch({
