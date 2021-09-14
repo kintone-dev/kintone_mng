@@ -105,6 +105,7 @@
       var newRecord = eRecord;
       var newShiptable = eRecord.record.deviceList.value;
 
+      console.log(shipTable);
       for (var st in shipTable) {
         if (numRegExp.test(shipTable[st].value.shipNum.value)) {
           shipNum = shipTable[st].value.shipNum.value;
@@ -279,7 +280,7 @@
       }
 
       newRecord.record.deviceList.value = newShiptable;
-      kintone.app.record.set(newRecord);
+      kintone.app.record.set(eRecord);
     });
 
     return event;
