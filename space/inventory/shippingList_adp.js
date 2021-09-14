@@ -183,7 +183,6 @@
             }
 
             railSpecs.pop();
-            console.log(railSpecs);
 
             for (var i in railSpecs) {
               if (numRegExp.test(railSpecs[i])) {
@@ -234,10 +233,8 @@
               shipNum: shipTable[st].value.shipNum.value
             }
 
-            console.log(spec);
-
             var railItems = railConf(spec);
-
+            console.log(railItems);
             for (var ril in railItems) {
               var railItemBody = {
                 value: {
@@ -279,6 +276,8 @@
           }
         }
       }
+
+      console.log(shipTable);
 
       // var lookupcount = 0;
       // for (var st in shipTable) {
