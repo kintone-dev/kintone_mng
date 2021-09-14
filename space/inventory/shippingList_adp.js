@@ -97,20 +97,19 @@
       var openType = '';
       var methodType = '';
       var shipNum = '';
-      var mCode = shipTable[0].value.mCode.value;
 
       var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/^[sw]/i);
       var methodRegExp = new RegExp(/壁付[sw]|天井/i);
 
-      if (numRegExp.test(shipTable[0].value.shipNum.value)) {
-        shipNum = shipTable[0].value.shipNum.value;
-        shipTable[0].value.shipNum.error = null;
-      } else {
-        shipTable[0].value.shipNum.error = '入力形式が間違えています';
-      }
-
       for (var st in shipTable) {
+        if (numRegExp.test(shipTable[st].value.shipNum.value)) {
+          shipNum = shipTable[st].value.shipNum.value;
+          shipTable[st].value.shipNum.error = null;
+        } else {
+          shipTable[st].value.shipNum.error = '入力形式が間違えています';
+        }
+
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
           // 品目にパッケージ品が存在する時
           if (shipTable[st].value.mCode.value.match(/pkg_/)) {
@@ -126,23 +125,23 @@
                   value: {
                     mCode: {
                       type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mCode.value).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_mCode.value).replace(/\"/g, '')
                     },
                     mName: {
                       type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mName.value).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_mName.value).replace(/\"/g, '')
                     },
                     mType: {
                       type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mType.value).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_mType.value).replace(/\"/g, '')
                     },
                     mVendor: {
                       type: "SINGLE_LINE_TEXT",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mVendor.value).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_mVendor.value).replace(/\"/g, '')
                     },
                     shipNum: {
                       type: "NUMBER",
-                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_Num.value * shipTable[st].value.shipNum.value).replace(/\"/g, '')
                     },
                     sNum: {
                       type: "MULTI_LINE_TEXT",
@@ -154,31 +153,36 @@
                     }
                   }
                 }
-                shipTable.splice(st + pil, 0, pkgItemBody);
+                shipTable.splice(st, 0, pkgItemBody);
               }
               kintone.app.record.set(eRecord);
               return resp;
             });
+
+            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
           }
 
           //品目コードがTRT-DYの時
           if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
 
-            var railSpecs = (String(shipTable[0].value.shipRemarks.value)).split(/,\n|\n/);
+            var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
             var numCutter = railSpecs[1].indexOf('：');
-            railSpecs[1] = railSpecs[1].slice(numCutter + 1);
-            var openCutter = railSpecs[1].indexOf('：');
-            railSpecs[2] = railSpecs[2].slice(openCutter + 1);
-            var methodCutter = railSpecs[2].indexOf('：');
-            railSpecs[3] = railSpecs[3].slice(methodCutter + 1);
+            railSpecs[0] = railSpecs[1].slice(numCutter + 1);
+            var openCutter = railSpecs[2].indexOf('：');
+            railSpecs[1] = railSpecs[2].slice(openCutter + 1);
+            var methodCutter = railSpecs[3].indexOf('：');
+            railSpecs[2] = railSpecs[3].slice(methodCutter + 1);
 
-            if (railSpecs[2] == '(S)片開き') {
-              railSpecs[2] = 's';
+            if (railSpecs[1] == '(S)片開き') {
+              railSpecs[1] = 's';
             } else if (railSpecs[1] == '(W)両開き') {
-              railSpecs[2] = 'w';
+              railSpecs[1] = 'w';
             } else {
-              railSpecs[2] = '';
+              railSpecs[1] = '';
             }
+
+            railSpecs.pop();
+            console.log(railSpecs);
 
             for (var i in railSpecs) {
               if (numRegExp.test(railSpecs[i])) {
@@ -221,11 +225,12 @@
                 shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
               }
             }
+
             var spec = {
               rLength: lengthStr,
               rType: openType,
               rMethod: methodType,
-              shipNum: shipNum
+              shipNum: shipTable[st].value.shipNum.value
             }
 
             console.log(spec);
@@ -233,7 +238,7 @@
             var railItems = railConf(spec);
 
             for (var ril in railItems) {
-              var railItemBody ={
+              var railItemBody = {
                 value: {
                   mCode: {
                     type: "SINGLE_LINE_TEXT",
@@ -265,14 +270,19 @@
                   }
                 }
               }
-              shipTable.push(st + ril, 0, railItemBody);
+
+              shipTable.push(st, 0, railItemBody);
             }
+
+            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
           }
         }
       }
 
-      for(var st in shipTable){
-        shipTable[st].value.mName.lookup = true;
+      var lookupcount = 0;
+      for (var st in shipTable) {
+        shipTable[lookupcount].value.mName.lookup = true;
+        lookupcount++;
       }
 
       kintone.app.record.set(eRecord);
