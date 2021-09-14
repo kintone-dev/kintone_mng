@@ -403,7 +403,7 @@ var setSearchArea=function(searchParams) {
   searchForm.appendChild(dSearch);
 
   searchForm.onsubmit='testalert()';
-  searchArea.appendChild(dSearch);
+  searchArea.appendChild(searchForm);
 
   
 	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
