@@ -230,7 +230,7 @@
       }
 
       var pkgCount = 0;
-      while(pkgCount <= pkgNum){
+      while(pkgCount < pkgNum){
         for (var st in shipTable) {
           if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
             if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
@@ -239,6 +239,7 @@
                 'app': sysid.INV.app_id.device,
                 'query': 'mCode="' + shipTable[st].value.mCode.value + '"',
               };
+
               kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo)
                 .then(function (resp) {
                   var pkgItems = resp.records[0].packageComp.value;
