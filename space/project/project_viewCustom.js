@@ -423,7 +423,7 @@ const AND_OR = "or";
       keyword_search();
       //キーワード検索の関数
       function keyword_search(){
-        var keyword = search_word.value;
+        // var keyword = search_word.value;
         // var str_query = '?query='+ FIELD_CODE +' like "' + keyword;
         // ここがクエリ
         // var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"' + AND_OR +' '+ FIELD_CODE3 +' like "' + keyword + '"';
