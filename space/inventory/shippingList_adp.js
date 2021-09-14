@@ -112,57 +112,56 @@
 
       for (var st in shipTable) {
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
-          console.log(shipTable[st].value.mCode.value);
           // 品目にパッケージ品が存在する時
-          // if (shipTable[st].value.mCode.value.match(/pkg_/)) {
-          //   var pacInfo = {
-          //     'app': sysid.INV.app_id.device,
-          //     'query': 'mCode="' + shipTable[st].value.mCode.value + '"',
-          //   };
+          if (shipTable[st].value.mCode.value.match(/pkg_/)) {
+            var pacInfo = {
+              'app': sysid.INV.app_id.device,
+              'query': 'mCode="' + shipTable[st].value.mCode.value + '"',
+            };
 
-          //   kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo).then(function (resp) {
-          //     var pkgItems = resp.records[0].packageComp.value;
-          //     for (var pil in pkgItems) {
-          //       var pkgItemBody = {
-          //         value: {
-          //           mCode: {
-          //             type: "SINGLE_LINE_TEXT",
-          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mCode.value).replace(/\"/g, '')
-          //           },
-          //           mName: {
-          //             type: "SINGLE_LINE_TEXT",
-          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mName.value).replace(/\"/g, '')
-          //           },
-          //           mType: {
-          //             type: "SINGLE_LINE_TEXT",
-          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mType.value).replace(/\"/g, '')
-          //           },
-          //           mVendor: {
-          //             type: "SINGLE_LINE_TEXT",
-          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mVendor.value).replace(/\"/g, '')
-          //           },
-          //           shipNum: {
-          //             type: "NUMBER",
-          //             value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
-          //           },
-          //           sNum: {
-          //             type: "MULTI_LINE_TEXT",
-          //             value: ''
-          //           },
-          //           shipRemarks: {
-          //             type: "MULTI_LINE_TEXT",
-          //             value: ''
-          //           }
-          //         }
-          //       }
-          //       shipTable.splice(st + pil, 0, pkgItemBody);
-          //     }
-          //     kintone.app.record.set(eRecord);
-          //     return resp;
-          //   });
+            kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo).then(function (resp) {
+              var pkgItems = resp.records[0].packageComp.value;
+              for (var pil in pkgItems) {
+                var pkgItemBody = {
+                  value: {
+                    mCode: {
+                      type: "SINGLE_LINE_TEXT",
+                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mCode.value).replace(/\"/g, '')
+                    },
+                    mName: {
+                      type: "SINGLE_LINE_TEXT",
+                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mName.value).replace(/\"/g, '')
+                    },
+                    mType: {
+                      type: "SINGLE_LINE_TEXT",
+                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mType.value).replace(/\"/g, '')
+                    },
+                    mVendor: {
+                      type: "SINGLE_LINE_TEXT",
+                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_mVendor.value).replace(/\"/g, '')
+                    },
+                    shipNum: {
+                      type: "NUMBER",
+                      value: JSON.stringify(resp.records[0].packageComp.value[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
+                    },
+                    sNum: {
+                      type: "MULTI_LINE_TEXT",
+                      value: ''
+                    },
+                    shipRemarks: {
+                      type: "MULTI_LINE_TEXT",
+                      value: ''
+                    }
+                  }
+                }
+                shipTable.splice(st + pil, 0, pkgItemBody);
+              }
+              kintone.app.record.set(eRecord);
+              return resp;
+            });
 
-          //   shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
-          // }
+            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
+          }
 
           //品目コードがTRT-DYの時
           // if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
@@ -277,7 +276,9 @@
       }
 
       for(var st in shipTable){
-        shipTable[st].value.mName.lookup = true;
+        var lookupcount = 0;
+        shipTable[lookupcount].value.mName.lookup = true;
+        lookupcount++;
       }
 
       kintone.app.record.set(eRecord);
