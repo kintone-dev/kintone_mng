@@ -223,7 +223,7 @@
     setFieldShown('prefectures', param);
     setFieldShown('city', param);
     if(tabCase == 'arrival'){
-      doSelection(PAGE_RECORD);
+      doSelection(pageRecod);
     }else{
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
