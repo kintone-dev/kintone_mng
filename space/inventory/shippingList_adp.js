@@ -102,6 +102,9 @@
       var openRegExp = new RegExp(/^[sw]/i);
       var methodRegExp = new RegExp(/壁付[sw]|天井/i);
 
+      var newRecord = eRecord;
+      var newShiptable = eRecord.record.deviceList.value;
+
       for (var st in shipTable) {
         if (numRegExp.test(shipTable[st].value.shipNum.value)) {
           shipNum = shipTable[st].value.shipNum.value;
@@ -155,7 +158,7 @@
                   }
                 }
                 var spliceCount = parseInt(st) + 1;
-                shipTable.splice(spliceCount, 0, pkgItemBody);
+                newShiptable.splice(spliceCount, 0, pkgItemBody);
               }
             });
 
@@ -263,7 +266,7 @@
                 }
               }
               var spliceCount = parseInt(st) + 1;
-              shipTable.splice(spliceCount, 0, railItemBody);
+              newShiptable.splice(spliceCount, 0, railItemBody);
             }
           }
         }
@@ -275,7 +278,8 @@
         lookupcount++;
       }
 
-      kintone.app.record.set(eRecord);
+      newRecord.record.deviceList.value = newShiptable;
+      kintone.app.record.set(newRecord);
     });
 
     return event;
