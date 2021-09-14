@@ -269,7 +269,7 @@
                 }
               }
 
-              shipTable.push(st, 0, railItemBody);
+              shipTable.splice(st, 0, railItemBody);
             }
 
             shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
