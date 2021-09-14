@@ -111,8 +111,7 @@
         }
 
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
-          // 品目にパッケージ品が存在する時
-          if (shipTable[st].value.mCode.value.match(/pkg_/)) {
+          if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
             var shipNum = shipTable[st].value.shipNum.value;
             var pacInfo = {
               'app': sysid.INV.app_id.device,
@@ -161,10 +160,7 @@
             });
 
             shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
-          }
-
-          //品目コードがTRT-DYの時
-          if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
+          }else if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
 
             var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
             var numCutter = railSpecs[1].indexOf('：');
@@ -183,7 +179,6 @@
             }
 
             railSpecs.pop();
-            console.log(railSpecs);
 
             for (var i in railSpecs) {
               if (numRegExp.test(railSpecs[i])) {
@@ -234,10 +229,7 @@
               shipNum: shipTable[st].value.shipNum.value
             }
 
-            console.log(spec);
-
             var railItems = railConf(spec);
-
             for (var ril in railItems) {
               var railItemBody = {
                 value: {
@@ -272,19 +264,19 @@
                 }
               }
 
-              shipTable.push(st, 0, railItemBody);
+              shipTable.splice(st, 0, railItemBody);
             }
-
-            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
           }
         }
       }
 
-      // var lookupcount = 0;
-      // for (var st in shipTable) {
-      //   shipTable[lookupcount].value.mName.lookup = true;
-      //   lookupcount++;
-      // }
+      console.log(shipTable);
+
+      var lookupcount = 0;
+      for (var st in shipTable) {
+        shipTable[lookupcount].value.mName.lookup = true;
+        lookupcount++;
+      }
 
       kintone.app.record.set(eRecord);
     });
