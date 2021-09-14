@@ -212,7 +212,6 @@
 
   //宛先情報タブ表示処理
   const setArrivalInfoShown = function (pageRecod, param, tabCase) {
-    doSelection(pageRecod);
     setFieldShown('dstSelection', param);
     setFieldShown('zipcode', param);
     setFieldShown('phoneNum', param);
@@ -222,19 +221,6 @@
     setFieldShown('receiver', param);
     setFieldShown('prefectures', param);
     setFieldShown('city', param);
-    if(tabCase=='arrival'){
-      if (pageRecod.instName.value == undefined) {
-        setSpaceShown('btn_newINST', 'individual', 'block');
-        setSpaceShown('btn_unknowINST', 'individual', 'block');
-      } else {
-        setSpaceShown('btn_newINST', 'individual', 'none');
-        setSpaceShown('btn_unknowINST', 'individual', 'none');
-      }
-    }else{
-      setSpaceShown('btn_newINST', 'individual', 'none');
-      setSpaceShown('btn_unknowINST', 'individual', 'none');
-    }
-
   }
 
   //輸送情報タブ表示処理
@@ -250,6 +236,8 @@
     if(selection=='施工業者/拠点へ納品'){
       setFieldShown('Contractor', true);
       setFieldShown('instName', false);
+      setSpaceShown('btn_newINST', 'individual', 'none');
+      setSpaceShown('btn_unknowINST', 'individual', 'none');
       pageRecod.receiver.disabled=true;
       pageRecod.phoneNum.disabled=true;
       pageRecod.zipcode.disabled=true;
@@ -272,6 +260,13 @@
     }else if(selection=='設置先と同じ'){
       setFieldShown('Contractor', false);
       setFieldShown('instName', true);
+      if (pageRecod.instName.value == undefined) {
+        setSpaceShown('btn_newINST', 'individual', 'block');
+        setSpaceShown('btn_unknowINST', 'individual', 'block');
+      } else {
+        setSpaceShown('btn_newINST', 'individual', 'none');
+        setSpaceShown('btn_unknowINST', 'individual', 'none');
+      }
       pageRecod.receiver.disabled=false;
       pageRecod.phoneNum.disabled=false;
       pageRecod.zipcode.disabled=false;
@@ -294,6 +289,8 @@
     }else if(selection=='担当手渡し'){
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
+      setSpaceShown('btn_newINST', 'individual', 'none');
+      setSpaceShown('btn_unknowINST', 'individual', 'none');
       pageRecod.receiver.disabled=false;
       pageRecod.phoneNum.disabled=false;
       pageRecod.zipcode.disabled=true;
@@ -312,6 +309,8 @@
     }else{
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
+      setSpaceShown('btn_newINST', 'individual', 'none');
+      setSpaceShown('btn_unknowINST', 'individual', 'none');
       pageRecod.receiver.disabled=false;
       pageRecod.phoneNum.disabled=false;
       pageRecod.zipcode.disabled=false;
