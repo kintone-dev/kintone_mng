@@ -222,14 +222,6 @@
         }
       }
 
-      for (var st in shipTable) {
-        if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
-          if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
-            pkgNum.push(st);
-          }
-        }
-      }
-
       var pkgNum = 0;
       for(var st in shipTable){
         if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
