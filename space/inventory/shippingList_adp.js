@@ -159,6 +159,7 @@
                     }
                   }
                   var spliceCount = parseInt(st) + 1;
+                  console.log(spliceCount);
                   shipTable.splice(spliceCount, 0, pkgItemBody);
 
                   for (var st in shipTable) {
@@ -182,8 +183,7 @@
                           railSpecs[1] = '';
                         }
 
-                        shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
-
+                        shipTable[st].value.shipRemarks.value = '';
                         railSpecs.pop();
 
                         for (var i in railSpecs) {
@@ -275,6 +275,7 @@
                         }
                       }
                     }
+
                   }
 
                   var lookupcount = 0;
@@ -282,7 +283,6 @@
                     shipTable[lookupcount].value.mName.lookup = true;
                     lookupcount++;
                   }
-
                   kintone.app.record.set(eRecord);
                 }
               });
