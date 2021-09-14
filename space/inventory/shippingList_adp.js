@@ -230,9 +230,9 @@
       }
 
       var pkgCount = 0;
-      while(pkgCount < pkgNum){
-        console.log(pkgCount);
+      // while(pkgCount < pkgNum){
         for (var st in shipTable) {
+          console.log(pkgCount);
           if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
             if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
               var shipNum = shipTable[st].value.shipNum.value;
@@ -290,7 +290,7 @@
             }
           }
         }
-      }
+      // }
 
     });
 
