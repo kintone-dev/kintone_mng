@@ -430,6 +430,9 @@ var railConf = function (spec) {
 	return railComp;
 };
 
+// 検索エンジン
+
+
 /* その他 */
 // 全レコード呼び出し
 function api_getRecords(appID) {
