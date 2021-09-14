@@ -406,7 +406,7 @@ var setSearchArea=function(searchParams) {
 
   var searchBtn=document.createElement('button');
   searchBtn.innerText='検索';
-  searchBtn.onClick=testClick();
+  searchBtn.id='testSearch';
   searchForm.appendChild(searchBtn);
 
   // searchForm.onsubmit='testalert()';
@@ -419,10 +419,10 @@ var setSearchArea=function(searchParams) {
 	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
 	return searchArea;
 }
-function testClick(){
-  var testC=document.Ctest;
-  console.log(testC);
-}
+// function testClick(){
+//   var testC=document.Ctest;
+//   console.log(testC);
+// }
 /* 使い方
  *var newORG=setBtn('btn_newORG','新規組織');
  *$('#'+newORG.id).on('click', function(){
@@ -438,6 +438,10 @@ function testClick(){
         {sID:'prjNum',sName:'案件管理番号'}
       ]
     });
+    $('#testSearch').on('click', function(){
+      var testC=document.Ctest;
+  console.log(testC);
+    })
     // ={
     //   areaID:'prjSearch',
     //   searchType:'or',
