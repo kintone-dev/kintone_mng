@@ -29,8 +29,8 @@
     else setFieldShown('invoiceStatus', true);
 
     // システム用フィールド非表示
-    setFieldShown('sys_unitAddress', false);
-    setFieldShown('sys_instAddress', false);
+    // setFieldShown('sys_unitAddress', false);
+    // setFieldShown('sys_instAddress', false);
 
     // 新・既存案件表示切り替え
     function tabSwitch(onSelect) {
@@ -222,7 +222,9 @@
     setFieldShown('receiver', param);
     setFieldShown('prefectures', param);
     setFieldShown('city', param);
-    if(tabCase != 'arrival'){
+    if(tabCase == 'arrival'){
+      doSelection(pageRecod);
+    }else{
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
       setSpaceShown('btn_newINST', 'individual', 'none');
