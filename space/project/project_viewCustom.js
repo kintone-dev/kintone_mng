@@ -383,12 +383,13 @@ var setEasySearch=function(sID,sPlaceholder) {
 
   var eSearch=document.createElement('input');
   eSearch.name='s_'+sID;
-  eSearch.type='search';
+  eSearch.type='text';
   eSearch.placeholder=sPlaceholder;
   eSearch.classList.add('testclass');
   eSearchForm.appendChild(eSearch);
 
-  var searchBtn=document.createElement('button');
+  var searchBtn=document.createElement('input');
+  searchBtn.type='submit';
   searchBtn.id='btn_'+sID;
   searchBtn.innerText='検索';
   eSearchForm.appendChild(searchBtn);
