@@ -402,20 +402,22 @@ var setSearchArea=function(searchParams) {
   dSearch.innerText='testSpanBtn';
   searchForm.appendChild(dSearch);
 
-  var searchBtn=document.createElement.createElement('button');
+  var searchBtn=document.createElement('button');
   searchBtn.innerText='検索';
-  searchBtn.onClick=testalert();
-  searchArea.appendChild(searchBtn);
+  searchBtn.onClick=function(){
+    console.log($('#invoiceNum').val());
+  };
+  searchForm.appendChild(searchBtn);
 
-  searchForm.onsubmit='testalert()';
+  // searchForm.onsubmit='testalert()';
+  searchForm.action=function(){
+    console.log($('#invoiceNum').val());
+  };
   searchArea.appendChild(searchForm);
 
   
 	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
 	return searchArea;
-}
-function testalert(){
-  console.log($('#invoiceNum').val());
 }
 /* 使い方
  *var newORG=setBtn('btn_newORG','新規組織');
