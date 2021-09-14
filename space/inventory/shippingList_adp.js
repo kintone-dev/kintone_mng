@@ -235,6 +235,7 @@
           console.log(pkgCount);
           if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
             if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
+              shipTable[st].value.shipRemarks.value = shipTable[st].value.shipRemarks.value.replace(/WFP/g, '')
               pkgCount++;
               var shipNum = shipTable[st].value.shipNum.value;
               var pacInfo = {
@@ -284,7 +285,6 @@
                     shipTable[i].value.mName.lookup = true;
                   }
                   kintone.app.record.set(eRecord);
-                  return true;
                 });
             }
           }
