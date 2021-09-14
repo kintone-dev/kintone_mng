@@ -158,8 +158,8 @@
                       }
                     }
                   }
+                  console.log(st);
                   var spliceCount = parseInt(st) + 1;
-                  console.log(spliceCount);
                   shipTable.splice(spliceCount, 0, pkgItemBody);
 
                   for (var st in shipTable) {
