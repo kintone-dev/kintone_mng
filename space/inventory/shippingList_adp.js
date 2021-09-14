@@ -231,7 +231,7 @@
                       }
                     }
                   }
-                  newShipTable.push(ailItemBody);
+                  newShipTable.push(railItemBody);
                 }
               }
               if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
