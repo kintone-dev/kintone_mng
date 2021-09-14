@@ -394,6 +394,7 @@ var setSearchArea=function(searchParams) {
 
   var eSearch=document.createElement('input');
   eSearch.id=searchParams.easySearch.sID;
+  eSearch.name=searchParams.easySearch.sID;
   eSearch.type='search';
   eSearch.placeholder='簡易検索';
   eSearch.classList.add('testclass');
@@ -439,7 +440,7 @@ var setSearchArea=function(searchParams) {
       ]
     });
     $('#testSearch').on('click', function(){
-      var testC=document.Ctest;
+      var testC=document.Ctest.invoiceNum.value;
   console.log(testC);
     })
     // ={
