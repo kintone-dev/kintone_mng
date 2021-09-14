@@ -5,7 +5,60 @@
     const PAGE_RECORD = event.record;
     var nStatus = event.nextStatus.value;
     if (nStatus === '納品準備中') {
+      var postShipData = [];
+      var postShipBody = {
+        'aboutDelivery':{
+          'value':PAGE_RECORD.aboutDelivery.value
+        },
+        'tarDate':{
+          'value':PAGE_RECORD.tarDate.value
+        },
+        'dstSelection':{
+          'value':PAGE_RECORD.dstSelection.value
+        },
+        'Contractor':{
+          'value':PAGE_RECORD.Contractor.value
+        },
+        'instName':{
+          'value':PAGE_RECORD.instName.value
+        },
+        'receiver':{
+          'value':PAGE_RECORD.receiver.value
+        },
+        'phoneNum':{
+          'value':PAGE_RECORD.phoneNum.value
+        },
+        'zipcode':{
+          'value':PAGE_RECORD.zipcode.value
+        },
+        'prefectures':{
+          'value':PAGE_RECORD.prefectures.value
+        },
+        'city':{
+          'value':PAGE_RECORD.city.value
+        },
+        'address':{
+          'value':PAGE_RECORD.address.value
+        },
+        'buildingName':{
+          'value':PAGE_RECORD.buildingName.value
+        },
+        'corpName':{
+          'value':PAGE_RECORD.corpName.value
+        },
+        'sys_instAddress':{
+          'value':PAGE_RECORD.sys_instAddress.value
+        },
+        'sys_unitAddress':{
+          'value':PAGE_RECORD.sys_unitAddress.value
+        },
+        'deviceList':{
+          'value':PAGE_RECORD.deviceList.value
+        },
+      }
+      postShipData.push(postShipBody);
 
+      postRecords(sysid.INV.app_id.shipment, postShipData);
     }
 
   });
