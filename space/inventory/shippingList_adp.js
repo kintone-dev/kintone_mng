@@ -216,7 +216,6 @@
                 }
               }
               var spliceCount = parseInt(st) + 1;
-              console.log(spliceCount);
               shipTable.splice(spliceCount, 0, railItemBody);
             }
           }
@@ -229,7 +228,7 @@
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
           if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
             var shipNum = shipTable[st].value.shipNum.value;
-            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
+            // shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
             var pacInfo = {
               'app': sysid.INV.app_id.device,
               'query': 'mCode="' + shipTable[st].value.mCode.value + '"',
@@ -270,6 +269,7 @@
                       }
                     }
                   }
+                  console.log(stCount);
                   shipTable.splice(parseInt(stCount), 0, pkgItemBody);
 
                   var lookupcount = 0;
