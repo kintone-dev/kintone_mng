@@ -159,12 +159,14 @@
               kintone.app.record.set(eRecord);
               return resp;
             });
+
+            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
           }
 
           //品目コードがTRT-DYの時
           if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
 
-            var railSpecs = (String(shipTable[0].value.shipRemarks.value)).split(/,\n|\n/);
+            var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
             var numCutter = railSpecs[1].indexOf('：');
             railSpecs[1] = railSpecs[1].slice(numCutter + 1);
             var openCutter = railSpecs[1].indexOf('：');
@@ -267,6 +269,8 @@
               }
               shipTable.push(st + ril, 0, railItemBody);
             }
+
+            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
           }
         }
       }
