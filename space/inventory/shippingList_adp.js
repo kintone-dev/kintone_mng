@@ -112,6 +112,7 @@
 
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
           if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
+            console.log('pkg');
             var shipNum = shipTable[st].value.shipNum.value;
             var pacInfo = {
               'app': sysid.INV.app_id.device,
@@ -154,16 +155,12 @@
                   }
                 }
                 var spliceCount = parseInt(st) + 1;
-                console.log(spliceCount);
                 shipTable.splice(spliceCount, 0, pkgItemBody);
               }
-              kintone.app.record.set(eRecord);
-              return resp;
             });
 
             shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
           } else if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
-
             var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
             var numCutter = railSpecs[1].indexOf('：');
             railSpecs[0] = railSpecs[1].slice(numCutter + 1);
@@ -266,14 +263,11 @@
                 }
               }
               var spliceCount = parseInt(st) + 1;
-              console.log(spliceCount);
               shipTable.splice(spliceCount, 0, railItemBody);
             }
           }
         }
       }
-
-      console.log(shipTable);
 
       var lookupcount = 0;
       for (var st in shipTable) {
