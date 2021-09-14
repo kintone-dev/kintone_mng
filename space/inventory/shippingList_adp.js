@@ -162,11 +162,11 @@
       if (String(shipTable[0].value.mCode.value).match(/TRT-DY/)) {
 
         var railSpecs = (String(shipTable[0].value.shipRemarks.value)).split(/,\n|\n/);
-        var numCutter = railSpecs[0].indexOf('：')
+        var numCutter = railSpecs[0].indexOf('：');
         railSpecs[0] = railSpecs[0].slice(numCutter + 1);
-        var openCutter = railSpecs[1].indexOf('：')
+        var openCutter = railSpecs[1].indexOf('：');
         railSpecs[1] = railSpecs[1].slice(openCutter + 1);
-        var methodCutter = railSpecs[2].indexOf('：')
+        var methodCutter = railSpecs[2].indexOf('：');
         railSpecs[2] = railSpecs[2].slice(methodCutter + 1);
 
         if (railSpecs[1] == '(S)片開き') {
