@@ -398,7 +398,7 @@ var setSearchArea=function(searchParams) {
 
   
 	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
-	return indexBtn;
+	return searchArea;
 }
 /* 使い方
  *var newORG=setBtn('btn_newORG','新規組織');
