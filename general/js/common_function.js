@@ -419,14 +419,14 @@ var railConf = function (spec) {
 					value: '',
 					type: 'MULTI_LINE_TEXT'
 				},
-				shipMemo: {
+				shipRemarks: {
 					value: '',
 					type: 'SINGLE_LINE_TEXT'
 				}
 			}
 		});
 	}
-	railComp[0].value.shipMemo.value = 'truckLength: ' + truckLength;
+	railComp[0].value.shipRemarks.value = 'truckLength: ' + truckLength;
 	return railComp;
 };
 

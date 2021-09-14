@@ -146,7 +146,7 @@
                   type: "MULTI_LINE_TEXT",
                   value: ''
                 },
-                shipMemo: {
+                shipRemarks: {
                   type: "SINGLE_LINE_TEXT",
                   value: ''
                 }
@@ -259,9 +259,9 @@
                 type: "MULTI_LINE_TEXT",
                 value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
               },
-              shipMemo: {
+              shipRemarks: {
                 type: "SINGLE_LINE_TEXT",
-                value: JSON.stringify(railItems[ril].value.shipMemo.value).replace(/\"/g, '')
+                value: JSON.stringify(railItems[ril].value.shipRemarks.value).replace(/\"/g, '')
               },
               shipNum: {
                 type: "NUMBER",
