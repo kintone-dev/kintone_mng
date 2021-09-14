@@ -389,11 +389,13 @@ var setSearchArea=function(searchParams) {
 
   var eSearch=document.createElement('input');
   eSearch.id=searchParams.easySearch.sID;
+  eSearch.type='search';
   eSearch.classList.add('testclass');
   searchArea.appendChild(eSearch);
 
   var dSearch=document.createElement('span');
   dSearch.classList.add('testSpanBtn');
+  dSearch.innerText='testSpanBtn';
   searchArea.appendChild(dSearch);
 
   
