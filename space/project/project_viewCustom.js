@@ -387,6 +387,8 @@ var setSearchArea=function(searchParams) {
   var searchArea=document.createElement('div');
   searchArea.id='customSearchArea';
 
+  var searchForm=document.createElement('form');
+  searchForm.onsubmit='testalert();'
   var eSearch=document.createElement('input');
   eSearch.id=searchParams.easySearch.sID;
   eSearch.type='search';
@@ -402,6 +404,9 @@ var setSearchArea=function(searchParams) {
   
 	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
 	return searchArea;
+}
+function testalert(){
+  console.log('test');
 }
 /* 使い方
  *var newORG=setBtn('btn_newORG','新規組織');
