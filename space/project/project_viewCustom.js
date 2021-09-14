@@ -101,6 +101,12 @@
           PAGE_RECORD[fcode].disabled = true;
         }
       });
+      for(var i in record['SUBTABLE'].value){
+        record['SUBTABLE']['value'][i]['value']['mNickname']['disabled'] = true;
+        record['SUBTABLE']['value'][i]['value']['shipNum']['disabled'] = true;
+        record['SUBTABLE']['value'][i]['value']['subBtn']['disabled'] = true;
+        record['SUBTABLE']['value'][i]['value']['shipRemarks']['disabled'] = true;
+    }
       PAGE_RECORD.invoiceDate.disabled = false;
       PAGE_RECORD.invoiceNum.disabled = false;
       PAGE_RECORD.invoiceStatus.disabled = false;
