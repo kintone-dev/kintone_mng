@@ -279,11 +279,11 @@
 
       console.log(shipTable);
 
-      // var lookupcount = 0;
-      // for (var st in shipTable) {
-      //   shipTable[lookupcount].value.mName.lookup = true;
-      //   lookupcount++;
-      // }
+      var lookupcount = 0;
+      for (var st in shipTable) {
+        shipTable[lookupcount].value.mName.lookup = true;
+        lookupcount++;
+      }
 
       kintone.app.record.set(eRecord);
     });
