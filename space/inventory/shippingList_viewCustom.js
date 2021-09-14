@@ -192,7 +192,7 @@
   kintone.events.on(['app.record.edit.change.mCode','app.record.create.change.mCode'], function(event) {
     for (var i in event.record.deviceList.value){
       if(event.record.deviceList.value[i].value.mCode.value=='TRT-DY'){
-        if(event.record.deviceList.value[i].value.shipRemarks.value===undefined){
+        if(!event.record.deviceList.value[i].value.shipRemarks.value.match(/カーテンレール全長(mm)/)){//event.record.deviceList.value[i].value.shipRemarks.value===undefined){
           event.record.deviceList.value[i].value.shipRemarks.value='カーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
         }
       }
