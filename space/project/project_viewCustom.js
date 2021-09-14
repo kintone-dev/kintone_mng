@@ -377,7 +377,7 @@ var setEasySearch=function(sID,sPlaceholder) {
 
 
   var eSearchForm=document.createElement('form');
-  eSearchForm.method='get';
+  // eSearchForm.method='get';
   eSearchForm.ID=sID;
   eSearchForm.name=sID;
 
