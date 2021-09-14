@@ -376,13 +376,14 @@
 var setEasySearch=function(sID,sPlaceholder) {
 
 
-  var eSearchForm=document.createElement('form');
+  // var eSearchForm=document.createElement('form');
+  var eSearchForm=document.createElement('div');
   // eSearchForm.method='get';
-  eSearchForm.ID=sID;
-  eSearchForm.name=sID;
+
+  // eSearchForm.ID=sID;
+  // eSearchForm.name=sID;
 
   var eSearch=document.createElement('input');
-  eSearch.name='s_'+sID;
   eSearch.type='text';
   eSearch.placeholder=sPlaceholder;
   eSearch.classList.add('testclass');
