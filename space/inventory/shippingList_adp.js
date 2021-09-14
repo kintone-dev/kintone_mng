@@ -285,7 +285,8 @@
               newShipTable.push(shipTable[st]);
             }
           }
-          shipTable = newShipTable;
+          eRecord.record.deviceList.value = newShipTable;
+          console.log(eRecord.record.deviceList.value);
           kintone.app.record.set(eRecord);
         });
 
