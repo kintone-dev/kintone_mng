@@ -410,7 +410,9 @@ var setSearchArea=function(searchParams) {
   searchForm.appendChild(searchBtn);
 
   // searchForm.onsubmit='testalert()';
-  searchForm.action='testalert()';
+  searchForm.action=function(){
+    console.log($('#invoiceNum').val());
+  };
   searchArea.appendChild(searchForm);
 
   
