@@ -390,6 +390,7 @@ var setSearchArea=function(searchParams) {
   var eSearch=document.createElement('input');
   eSearch.id=searchParams.easySearch.sID;
   eSearch.type='search';
+  eSearch.placeholder='簡易検索';
   eSearch.classList.add('testclass');
   searchArea.appendChild(eSearch);
 
