@@ -112,6 +112,7 @@
       var i = 0;
       while(i <= wfpCount){
         for (var st in shipTable) {
+          console.log(i);
           if (numRegExp.test(shipTable[st].value.shipNum.value)) {
             shipNum = shipTable[st].value.shipNum.value;
             shipTable[st].value.shipNum.error = null;
