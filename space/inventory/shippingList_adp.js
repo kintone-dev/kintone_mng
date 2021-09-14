@@ -111,8 +111,7 @@
         }
 
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
-          // 品目にパッケージ品が存在する時
-          if (shipTable[st].value.mCode.value.match(/pkg_/)) {
+          if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
             var shipNum = shipTable[st].value.shipNum.value;
             var pacInfo = {
               'app': sysid.INV.app_id.device,
@@ -161,10 +160,7 @@
             });
 
             shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
-          }
-
-          //品目コードがTRT-DYの時
-          if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
+          }else if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
 
             var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
             var numCutter = railSpecs[1].indexOf('：');
@@ -234,7 +230,6 @@
             }
 
             var railItems = railConf(spec);
-            console.log(railItems);
             for (var ril in railItems) {
               var railItemBody = {
                 value: {
@@ -271,8 +266,6 @@
 
               shipTable.splice(st, 0, railItemBody);
             }
-
-            shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
           }
         }
       }
