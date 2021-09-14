@@ -59,7 +59,7 @@
       for(var pdv in PAGE_RECORD.deviceList.value){
         var devListBody = {
           'value':{
-            'mName':{
+            'mCode':{
               'value':PAGE_RECORD.deviceList.value[pdv].value.mCode.value
             },
             'shipNum':{
