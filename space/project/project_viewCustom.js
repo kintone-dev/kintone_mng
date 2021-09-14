@@ -406,7 +406,6 @@ const AND_OR = "or";
     $('#btn_eSearch').on('click', function(){
       // var testC=document.s_eSearch.value;
       var keyword=document.eSearch.s_eSearch.value;
-      console.log(keyword);
 
 
       var result = {};
@@ -427,8 +426,9 @@ const AND_OR = "or";
         // var str_query = '?query='+ FIELD_CODE +' like "' + keyword;
         // ここがクエリ
         // var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"' + AND_OR +' '+ FIELD_CODE3 +' like "' + keyword + '"';
+        console.log(keyword);
         var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
-        
+        console.log(str_query);
         if(keyword == ""){
           str_query = "";
         }else if(keyword != ""){
