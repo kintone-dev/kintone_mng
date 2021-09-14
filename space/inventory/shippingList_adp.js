@@ -279,7 +279,7 @@
                   }
                   shipTable.splice(parseInt(st), 0, pkgItemBody);
                 }
-                for (var i = 0; i <= shipTable; i++) {
+                for (var i = 0; i >= shipTable; i++) {
                   shipTable[i].value.mName.lookup = true;
                 }
                 kintone.app.record.set(eRecord);
