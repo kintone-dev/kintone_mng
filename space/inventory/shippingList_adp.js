@@ -103,6 +103,13 @@
       var openRegExp = new RegExp(/^[sw]/i);
       var methodRegExp = new RegExp(/壁付[sw]|天井/i);
 
+      if (numRegExp.test(shipTable[0].value.shipNum.value)) {
+        shipNum = shipTable[0].value.shipNum.value;
+        shipTable[0].value.shipNum.error = null;
+      } else {
+        shipTable[0].value.shipNum.error = '入力形式が間違えています';
+      }
+
       // 品目にパッケージ品が存在する時
       if (mCode.match(/pkg_/)) {
         var pacInfo = {
