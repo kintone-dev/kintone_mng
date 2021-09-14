@@ -389,6 +389,10 @@ var setSearchArea=function(searchParams) {
 
 
   var searchForm=document.createElement('form');
+  searchForm.method='get';
+  searchForm.onSubmit=function(){
+    console.log($('#invoiceNum').val());
+  };
 
   var eSearch=document.createElement('input');
   eSearch.id=searchParams.easySearch.sID;
@@ -410,9 +414,9 @@ var setSearchArea=function(searchParams) {
   searchForm.appendChild(searchBtn);
 
   // searchForm.onsubmit='testalert()';
-  searchForm.action=function(){
-    console.log($('#invoiceNum').val());
-  };
+  // searchForm.action=function(){
+  //   console.log($('#invoiceNum').val());
+  // };
   searchArea.appendChild(searchForm);
 
   
