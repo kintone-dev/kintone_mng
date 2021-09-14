@@ -408,6 +408,7 @@ var setSearchArea=function(searchParams) {
   searchForm.appendChild(searchBtn);
 
   // searchForm.onsubmit='testalert()';
+  searchForm.action='testalert()';
   searchArea.appendChild(searchForm);
 
   
