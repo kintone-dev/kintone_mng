@@ -387,19 +387,23 @@ var setSearchArea=function(searchParams) {
   var searchArea=document.createElement('div');
   searchArea.id='customSearchArea';
 
+
   var searchForm=document.createElement('form');
-  searchForm.onsubmit='testalert();'
+
   var eSearch=document.createElement('input');
   eSearch.id=searchParams.easySearch.sID;
   eSearch.type='search';
   eSearch.placeholder='簡易検索';
   eSearch.classList.add('testclass');
-  searchArea.appendChild(eSearch);
+  searchForm.appendChild(eSearch);
 
   var dSearch=document.createElement('span');
   dSearch.classList.add('testSpanBtn');
   dSearch.innerText='testSpanBtn';
-  searchArea.appendChild(dSearch);
+  searchForm.appendChild(dSearch);
+
+  searchForm.onsubmit='testalert()';
+  searchArea.appendChild(searchForm);
 
   
 	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
