@@ -389,11 +389,14 @@ var setSearchArea=function(searchParams) {
 
   var eSearch=document.createElement('input');
   eSearch.id=searchParams.easySearch.sID;
+  eSearch.type='search';
+  eSearch.placeholder='簡易検索';
   eSearch.classList.add('testclass');
   searchArea.appendChild(eSearch);
 
   var dSearch=document.createElement('span');
   dSearch.classList.add('testSpanBtn');
+  dSearch.innerText='testSpanBtn';
   searchArea.appendChild(dSearch);
 
   
@@ -406,7 +409,7 @@ var setSearchArea=function(searchParams) {
  *	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
  *});
  */
-  kintone.events.on('app.record.index.view', function(event){
+  kintone.events.on('app.record.index.show', function(event){
     var prjSearch=setSearchArea({
       areaID:'prjSearch',
       easySearch:{sID:'invoiceNum',sName:'請求書番号'},
