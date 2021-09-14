@@ -402,7 +402,7 @@ var setSearchArea=function(searchParams) {
   dSearch.innerText='testSpanBtn';
   searchForm.appendChild(dSearch);
 
-  var searchBtn=document.createElement.createElement('button');
+  var searchBtn=document.createElement('button');
   searchBtn.innerText='検索';
   searchBtn.onClick=testalert();
   searchArea.appendChild(searchBtn);
