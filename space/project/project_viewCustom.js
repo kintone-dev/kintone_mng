@@ -29,8 +29,8 @@
     else setFieldShown('invoiceStatus', true);
 
     // システム用フィールド非表示
-    // setFieldShown('sys_unitAddress', false);
-    // setFieldShown('sys_instAddress', false);
+    setFieldShown('sys_unitAddress', false);
+    setFieldShown('sys_instAddress', false);
 
     // 新・既存案件表示切り替え
     function tabSwitch(onSelect) {
@@ -92,7 +92,21 @@
     $('#' + unknowINST.id).on('click', function () {
       createNewREC(sysid.PM.app_id.installation, ['prjNum', 'unknowINST', 'setShown'], [prjNumValue, '不特定設置先', 'disable']);
     });
+
+    if (PAGE_RECORD.ステータス.value == '納品準備中') {
+      var types = ['SINGLE_LINE_TEXT', 'MULTI_LINE_TEXT', 'RICH_TEXT', 'NUMBER', 'DATE', 'DATETIME', 'TIME', 'DROP_DOWN', 'RADIO_BUTTON', 'CHECK_BOX', 'MULTI_SELECT', 'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'LINK', 'FILE'];
+      var arr = Object.keys(PAGE_RECORD);
+      arr.forEach(function (fcode) {
+        if (types.indexOf(PAGE_RECORD[fcode].type) >= 0) {
+          rec[fcode].disabled = true;
+        }
+      });
+      PAGE_RECORD.invoiceDate.disabled = false;
+      PAGE_RECORD.invoiceNum.disabled = false;
+      PAGE_RECORD.invoiceStatus.disabled = false;
+    }
   });
+
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
     // 新規作成以外、案件管理番号編集と既存案件切り替え不可
     event.record.prjNum.disabled = true;
@@ -100,6 +114,7 @@
 
     return event;
   });
+
   // 新・既存案件表示切り替え
   kintone.events.on(['app.record.create.change.Exist_Project', 'app.record.edit.change.Exist_Project'], function (event) {
     if (event.record.Exist_Project.value == '既存案件') {
@@ -113,7 +128,7 @@
     }
   });
 
-  kintone.events.on(['app.record.create.change.dstSelection','app.record.edit.change.dstSelection','app.record.create.change.sys_instAddress','app.record.edit.change.sys_instAddress','app.record.create.change.sys_unitAddress','app.record.edit.change.sys_unitAddress'], function(event) {
+  kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection', 'app.record.create.change.sys_instAddress', 'app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_unitAddress', 'app.record.edit.change.sys_unitAddress'], function (event) {
     const PAGE_RECORD = event.record;
     doSelection(PAGE_RECORD);
 
@@ -223,9 +238,9 @@
     setFieldShown('receiver', param);
     setFieldShown('prefectures', param);
     setFieldShown('city', param);
-    if(tabCase == 'arrival'){
+    if (tabCase == 'arrival') {
       doSelection(pageRecod);
-    }else{
+    } else {
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
       setSpaceShown('btn_newINST', 'individual', 'none');
@@ -241,33 +256,33 @@
     setFieldShown('expArrivalDate', param);
   }
 
-  function doSelection(pageRecod){
-    var selection=pageRecod.dstSelection.value;
-    if(selection=='施工業者/拠点へ納品'){
+  function doSelection(pageRecod) {
+    var selection = pageRecod.dstSelection.value;
+    if (selection == '施工業者/拠点へ納品') {
       setFieldShown('Contractor', true);
       setFieldShown('instName', false);
       setSpaceShown('btn_newINST', 'individual', 'none');
       setSpaceShown('btn_unknowINST', 'individual', 'none');
-      pageRecod.receiver.disabled=true;
-      pageRecod.phoneNum.disabled=true;
-      pageRecod.zipcode.disabled=true;
-      pageRecod.prefectures.disabled=true;
-      pageRecod.city.disabled=true;
-      pageRecod.address.disabled=true;
-      pageRecod.buildingName.disabled=true;
-      pageRecod.corpName.disabled=true;
-      if(pageRecod.sys_unitAddress.value!==undefined){
-        var unitAddress=pageRecod.sys_unitAddress.value.split(',');
-        pageRecod.receiver.value=unitAddress[0];
-        pageRecod.phoneNum.value=unitAddress[1];
-        pageRecod.zipcode.value=unitAddress[2];
-        pageRecod.prefectures.value=unitAddress[3];
-        pageRecod.city.value=unitAddress[4];
-        pageRecod.address.value=unitAddress[5];
-        pageRecod.buildingName.value=unitAddress[6];
-        pageRecod.corpName.value=unitAddress[7];
+      pageRecod.receiver.disabled = true;
+      pageRecod.phoneNum.disabled = true;
+      pageRecod.zipcode.disabled = true;
+      pageRecod.prefectures.disabled = true;
+      pageRecod.city.disabled = true;
+      pageRecod.address.disabled = true;
+      pageRecod.buildingName.disabled = true;
+      pageRecod.corpName.disabled = true;
+      if (pageRecod.sys_unitAddress.value !== undefined) {
+        var unitAddress = pageRecod.sys_unitAddress.value.split(',');
+        pageRecod.receiver.value = unitAddress[0];
+        pageRecod.phoneNum.value = unitAddress[1];
+        pageRecod.zipcode.value = unitAddress[2];
+        pageRecod.prefectures.value = unitAddress[3];
+        pageRecod.city.value = unitAddress[4];
+        pageRecod.address.value = unitAddress[5];
+        pageRecod.buildingName.value = unitAddress[6];
+        pageRecod.corpName.value = unitAddress[7];
       }
-    }else if(selection=='設置先と同じ'){
+    } else if (selection == '設置先と同じ') {
       setFieldShown('Contractor', false);
       setFieldShown('instName', true);
       if (pageRecod.instName.value == undefined) {
@@ -277,58 +292,58 @@
         setSpaceShown('btn_newINST', 'individual', 'none');
         setSpaceShown('btn_unknowINST', 'individual', 'none');
       }
-      pageRecod.receiver.disabled=false;
-      pageRecod.phoneNum.disabled=false;
-      pageRecod.zipcode.disabled=false;
-      pageRecod.prefectures.disabled=false;
-      pageRecod.city.disabled=false;
-      pageRecod.address.disabled=false;
-      pageRecod.buildingName.disabled=false;
-      pageRecod.corpName.disabled=false;
-      if(pageRecod.sys_instAddress.value!==undefined){
-        var instAddress=pageRecod.sys_instAddress.value.split(',');
-        pageRecod.receiver.value=instAddress[0];
-        pageRecod.phoneNum.value=instAddress[1];
-        pageRecod.zipcode.value=instAddress[2];
-        pageRecod.prefectures.value=instAddress[3];
-        pageRecod.city.value=instAddress[4];
-        pageRecod.address.value=instAddress[5];
-        pageRecod.buildingName.value=instAddress[6];
-        pageRecod.corpName.value=instAddress[7];
+      pageRecod.receiver.disabled = false;
+      pageRecod.phoneNum.disabled = false;
+      pageRecod.zipcode.disabled = false;
+      pageRecod.prefectures.disabled = false;
+      pageRecod.city.disabled = false;
+      pageRecod.address.disabled = false;
+      pageRecod.buildingName.disabled = false;
+      pageRecod.corpName.disabled = false;
+      if (pageRecod.sys_instAddress.value !== undefined) {
+        var instAddress = pageRecod.sys_instAddress.value.split(',');
+        pageRecod.receiver.value = instAddress[0];
+        pageRecod.phoneNum.value = instAddress[1];
+        pageRecod.zipcode.value = instAddress[2];
+        pageRecod.prefectures.value = instAddress[3];
+        pageRecod.city.value = instAddress[4];
+        pageRecod.address.value = instAddress[5];
+        pageRecod.buildingName.value = instAddress[6];
+        pageRecod.corpName.value = instAddress[7];
       }
-    }else if(selection=='担当手渡し'){
+    } else if (selection == '担当手渡し') {
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
       setSpaceShown('btn_newINST', 'individual', 'none');
       setSpaceShown('btn_unknowINST', 'individual', 'none');
-      pageRecod.receiver.disabled=false;
-      pageRecod.phoneNum.disabled=false;
-      pageRecod.zipcode.disabled=true;
-      pageRecod.prefectures.disabled=true;
-      pageRecod.city.disabled=true;
-      pageRecod.address.disabled=true;
-      pageRecod.buildingName.disabled=true;
-      pageRecod.corpName.disabled=true;
+      pageRecod.receiver.disabled = false;
+      pageRecod.phoneNum.disabled = false;
+      pageRecod.zipcode.disabled = true;
+      pageRecod.prefectures.disabled = true;
+      pageRecod.city.disabled = true;
+      pageRecod.address.disabled = true;
+      pageRecod.buildingName.disabled = true;
+      pageRecod.corpName.disabled = true;
 
-      pageRecod.zipcode.value='';
-      pageRecod.prefectures.value='';
-      pageRecod.city.value='';
-      pageRecod.address.value='';
-      pageRecod.buildingName.value='';
-      pageRecod.corpName.value='';
-    }else{
+      pageRecod.zipcode.value = '';
+      pageRecod.prefectures.value = '';
+      pageRecod.city.value = '';
+      pageRecod.address.value = '';
+      pageRecod.buildingName.value = '';
+      pageRecod.corpName.value = '';
+    } else {
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
       setSpaceShown('btn_newINST', 'individual', 'none');
       setSpaceShown('btn_unknowINST', 'individual', 'none');
-      pageRecod.receiver.disabled=false;
-      pageRecod.phoneNum.disabled=false;
-      pageRecod.zipcode.disabled=false;
-      pageRecod.prefectures.disabled=false;
-      pageRecod.city.disabled=false;
-      pageRecod.address.disabled=false;
-      pageRecod.buildingName.disabled=false;
-      pageRecod.corpName.disabled=false;
+      pageRecod.receiver.disabled = false;
+      pageRecod.phoneNum.disabled = false;
+      pageRecod.zipcode.disabled = false;
+      pageRecod.prefectures.disabled = false;
+      pageRecod.city.disabled = false;
+      pageRecod.address.disabled = false;
+      pageRecod.buildingName.disabled = false;
+      pageRecod.corpName.disabled = false;
     }
   }
 
