@@ -102,7 +102,10 @@
       var openRegExp = new RegExp(/^[sw]/i);
       var methodRegExp = new RegExp(/壁付[sw]|天井/i);
 
+      var stCount;
+
       for (var st in shipTable) {
+        stCount = st;
         // 依頼数空欄時エラー
         if (numRegExp.test(shipTable[st].value.shipNum.value)) {
           shipNum = shipTable[st].value.shipNum.value;
@@ -123,7 +126,6 @@
             };
             kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo)
               .then(function (resp) {
-                console.log('pkg');
                 var pkgItems = resp.records[0].packageComp.value;
                 for (var pil in pkgItems) {
                   var pkgItemBody = {
@@ -158,16 +160,16 @@
                       }
                     }
                   }
-                  console.log(st);
-                  var spliceCount = parseInt(st) + 1;
+                  console.log(stCount);
+                  var spliceCount = parseInt(stCount) + 1;
                   shipTable.splice(spliceCount, 0, pkgItemBody);
 
-                  for (var st in shipTable) {
+                  for (var st2 in shipTable) {
 
-                    if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
+                    if (String(shipTable[st2].value.shipRemarks.value).match(/WFP/)) {
                       // mCodeがTRT-DYの場合
-                      if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
-                        var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
+                      if (String(shipTable[st2].value.mCode.value).match(/TRT-DY/)) {
+                        var railSpecs = (String(shipTable[st2].value.shipRemarks.value)).split(/,\n|\n/);
                         var numCutter = railSpecs[1].indexOf('：');
                         railSpecs[0] = railSpecs[1].slice(numCutter + 1);
                         var openCutter = railSpecs[2].indexOf('：');
@@ -183,7 +185,7 @@
                           railSpecs[1] = '';
                         }
 
-                        shipTable[st].value.shipRemarks.value = '';
+                        shipTable[st2].value.shipRemarks.value = '';
                         railSpecs.pop();
 
                         for (var i in railSpecs) {
@@ -191,13 +193,13 @@
                             if (parseInt(railSpecs[i]) >= 580) {
                               lengthStr = railSpecs[i];
 
-                              shipTable[st].value.shipRemarks.error = null;
+                              shipTable[st2].value.shipRemarks.error = null;
                             } else {
-                              shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+                              shipTable[st2].value.shipRemarks.error = '入力形式が間違えています';
                               break;
                             }
                           } else {
-                            shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+                            shipTable[st2].value.shipRemarks.error = '入力形式が間違えています';
                           }
 
                           if (openRegExp.test(railSpecs[i])) {
@@ -205,13 +207,13 @@
                               openType = railSpecs[i];
                               openType = openType.toLowerCase();
 
-                              shipTable[st].value.shipRemarks.error = null;
+                              shipTable[st2].value.shipRemarks.error = null;
                             } else {
-                              shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+                              shipTable[st2].value.shipRemarks.error = '入力形式が間違えています';
                               break;
                             }
                           } else {
-                            shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+                            shipTable[st2].value.shipRemarks.error = '入力形式が間違えています';
                           }
 
                           if (methodRegExp.test(railSpecs[i])) {
@@ -222,9 +224,9 @@
                             } else {
                               methodType = '天井';
                             }
-                            shipTable[st].value.shipRemarks.error = null;
+                            shipTable[st2].value.shipRemarks.error = null;
                           } else {
-                            shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
+                            shipTable[st2].value.shipRemarks.error = '入力形式が間違えています';
                           }
                         }
 
@@ -232,7 +234,7 @@
                           rLength: lengthStr,
                           rType: openType,
                           rMethod: methodType,
-                          shipNum: shipTable[st].value.shipNum.value
+                          shipNum: shipTable[st2].value.shipNum.value
                         }
 
                         var railItems = railConf(spec);
@@ -269,7 +271,8 @@
                               }
                             }
                           }
-                          var spliceCount = parseInt(st) + 1;
+                          var spliceCount = parseInt(st2) + 1;
+                          console.log(spliceCount);
                           shipTable.splice(spliceCount, 0, railItemBody);
                         }
                       }
