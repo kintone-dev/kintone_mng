@@ -101,11 +101,11 @@
           PAGE_RECORD[fcode].disabled = true;
         }
       });
-      for (var i in PAGE_RECORD['SUBTABLE'].value) {
-        PAGE_RECORD['SUBTABLE'].value[i].value.mNickname.disabled = true;
-        PAGE_RECORD['SUBTABLE'].value[i].value.shipNum.disabled = true;
-        PAGE_RECORD['SUBTABLE'].value[i].value.subBtn.disabled = true;
-        PAGE_RECORD['SUBTABLE'].value[i].value.shipRemarks.disabled = true;
+      for (var i in PAGE_RECORD.deviceList.value) {
+        PAGE_RECORD.deviceList.value[i].value.mNickname.disabled = true;
+        PAGE_RECORD.deviceList.value[i].value.shipNum.disabled = true;
+        PAGE_RECORD.deviceList.value[i].value.subBtn.disabled = true;
+        PAGE_RECORD.deviceList.value[i].value.shipRemarks.disabled = true;
       }
       PAGE_RECORD.invoiceDate.disabled = false;
       PAGE_RECORD.invoiceNum.disabled = false;
