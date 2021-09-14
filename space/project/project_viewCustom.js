@@ -113,7 +113,7 @@
     }
   });
 
-  kintone.events.on(['app.record.create.change.dstSelection','app.record.edit.change.dstSelection'], function(event) {
+  kintone.events.on(['app.record.create.change.dstSelection','app.record.edit.change.dstSelection','app.record.create.change.sys_instAddress','app.record.edit.change.sys_instAddress','app.record.create.change.sys_unitAddress','app.record.edit.change.sys_unitAddress'], function(event) {
     const PAGE_RECORD = event.record;
     doSelection(PAGE_RECORD);
 
