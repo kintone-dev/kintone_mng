@@ -20,6 +20,7 @@
     else setFieldShown('invoiceStatus', true);
   });
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
+    const PAGE_RECORD = event.record;
     event.record.cSales.disabled = false;
     setFieldShown('sys_suptitle', true);
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
@@ -28,136 +29,39 @@
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#案件情報':
-          setFieldShown('prjNum', true);
-          setFieldShown('Exist_Project', true);
-          setFieldShown('salesType', true);
-          setFieldShown('predictDate', true);
-          setFieldShown('purchaseOrder', true);
-          setFieldShown('prjMemo', true);
-          if (event.record.Exist_Project.value == '既存案件') setFieldShown('samePRJ', true);
-          else setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newINST', 'individual', 'none');
-          setSpaceShown('btn_unknowINST', 'individual', 'none');
-          setFieldShown('orgName', false);
-          setFieldShown('cName', false);
-          setFieldShown('cSales', false);
-          setFieldShown('instName', false);
-          setFieldShown('instStatus', false);
-          setFieldShown('instDate', false);
-          setFieldShown('instDDday', false);
-          setFieldShown('tarDate', false);
-          setFieldShown('aboutDelivery', false);
-          setFieldShown('deviceList', false);
-          setFieldShown('deliveryCorp', false);
-          setFieldShown('trckNum', false);
-          setFieldShown('sendDate', false);
-          setFieldShown('expArrivalDate', false);
+          setPrjInfoShown(PAGE_RECORD, true, 'prj');
+          setInstInfoShown(false);
+          setTarInfoShown(false);
+          setArrivalInfoShown(PAGE_RECORD, false, '')
+          setShipInfoShown(false);
           break;
         case '#設置先情報':
-          setFieldShown('prjNum', false);
-          setFieldShown('Exist_Project', false);
-          setFieldShown('salesType', false);
-          setFieldShown('predictDate', false);
-          setFieldShown('purchaseOrder', false);
-          setFieldShown('prjMemo', false);
-          setFieldShown('samePRJ', false);
-          if (event.record.instName.value == undefined) {
-            setSpaceShown('btn_newINST', 'individual', 'block');
-            setSpaceShown('btn_unknowINST', 'individual', 'block');
-          } else {
-            setSpaceShown('btn_newINST', 'individual', 'none');
-            setSpaceShown('btn_unknowINST', 'individual', 'none');
-          }
-          setFieldShown('orgName', true);
-          setFieldShown('cName', true);
-          setFieldShown('cSales', true);
-          setFieldShown('instName', true);
-          setFieldShown('instStatus', true);
-          setFieldShown('instDate', true);
-          setFieldShown('instDDday', true);
-          setFieldShown('tarDate', false);
-          setFieldShown('aboutDelivery', false);
-          setFieldShown('deviceList', false);
-          setFieldShown('deliveryCorp', false);
-          setFieldShown('trckNum', false);
-          setFieldShown('sendDate', false);
-          setFieldShown('expArrivalDate', false);
+          setPrjInfoShown(PAGE_RECORD, false, '');
+          setInstInfoShown(true);
+          setTarInfoShown(false);
+          setArrivalInfoShown(PAGE_RECORD, false, '')
+          setShipInfoShown(false);
           break;
         case '#納品依頼リスト':
-          setFieldShown('prjNum', false);
-          setFieldShown('Exist_Project', false);
-          setFieldShown('salesType', false);
-          setFieldShown('predictDate', false);
-          setFieldShown('purchaseOrder', false);
-          setFieldShown('prjMemo', false);
-          setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newINST', 'individual', 'none');
-          setSpaceShown('btn_unknowINST', 'individual', 'none');
-          setFieldShown('orgName', false);
-          setFieldShown('cName', false);
-          setFieldShown('cSales', false);
-          setFieldShown('instName', false);
-          setFieldShown('instStatus', false);
-          setFieldShown('instDate', false);
-          setFieldShown('instDDday', false);
-          setFieldShown('tarDate', true);
-          setFieldShown('aboutDelivery', true);
-          setFieldShown('deviceList', true);
-          setFieldShown('deliveryCorp', false);
-          setFieldShown('trckNum', false);
-          setFieldShown('sendDate', false);
-          setFieldShown('expArrivalDate', false);
+          setPrjInfoShown(PAGE_RECORD, false, '');
+          setInstInfoShown(false);
+          setTarInfoShown(true);
+          setArrivalInfoShown(PAGE_RECORD, false, '')
+          setShipInfoShown(false);
           break;
         case '#宛先情報':
-          setFieldShown('prjNum', false);
-          setFieldShown('Exist_Project', false);
-          setFieldShown('salesType', false);
-          setFieldShown('predictDate', false);
-          setFieldShown('purchaseOrder', false);
-          setFieldShown('prjMemo', false);
-          setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newINST', 'individual', 'none');
-          setSpaceShown('btn_unknowINST', 'individual', 'none');
-          setFieldShown('orgName', false);
-          setFieldShown('cName', false);
-          setFieldShown('cSales', false);
-          setFieldShown('instName', false);
-          setFieldShown('instStatus', false);
-          setFieldShown('instDate', false);
-          setFieldShown('instDDday', false);
-          setFieldShown('tarDate', false);
-          setFieldShown('aboutDelivery', false);
-          setFieldShown('deviceList', false);
-          setFieldShown('deliveryCorp', false);
-          setFieldShown('trckNum', false);
-          setFieldShown('sendDate', false);
-          setFieldShown('expArrivalDate', false);
-
+          setPrjInfoShown(PAGE_RECORD, false, '');
+          setInstInfoShown(false);
+          setTarInfoShown(false);
+          setArrivalInfoShown(PAGE_RECORD, true, 'arrival')
+          setShipInfoShown(false);
           break;
         case '#輸送情報':
-          setFieldShown('prjNum', false);
-          setFieldShown('Exist_Project', false);
-          setFieldShown('salesType', false);
-          setFieldShown('predictDate', false);
-          setFieldShown('purchaseOrder', false);
-          setFieldShown('prjMemo', false);
-          setFieldShown('samePRJ', false);
-          setSpaceShown('btn_newINST', 'individual', 'none');
-          setSpaceShown('btn_unknowINST', 'individual', 'none');
-          setFieldShown('orgName', false);
-          setFieldShown('cName', false);
-          setFieldShown('cSales', false);
-          setFieldShown('instName', false);
-          setFieldShown('instStatus', false);
-          setFieldShown('instDate', false);
-          setFieldShown('instDDday', false);
-          setFieldShown('tarDate', false);
-          setFieldShown('aboutDelivery', false);
-          setFieldShown('deviceList', false);
-          setFieldShown('deliveryCorp', true);
-          setFieldShown('trckNum', true);
-          setFieldShown('sendDate', true);
-          setFieldShown('expArrivalDate', true);
+          setPrjInfoShown(PAGE_RECORD, false, '');
+          setInstInfoShown(false);
+          setTarInfoShown(false);
+          setArrivalInfoShown(PAGE_RECORD, false, '')
+          setShipInfoShown(true);
           break;
       }
     }
@@ -199,6 +103,13 @@
       autoNum('PRJ_', 'prjNum');
       event.record.prjNum.disabled = true;
     }
+  });
+
+  kintone.events.on(['app.record.create.change.dstSelection','app.record.edit.change.dstSelection'], function(event) {
+    const PAGE_RECORD = event.record;
+    doSelection(PAGE_RECORD);
+
+    return event;
   });
 
   /*
@@ -256,4 +167,153 @@
       return event;
     });
   */
+
+  //案件情報タブ表示処理
+  const setPrjInfoShown = function (pageRecod, param, tabCase) {
+    setFieldShown('prjNum', param);
+    setFieldShown('Exist_Project', param);
+    setFieldShown('salesType', param);
+    setFieldShown('predictDate', param);
+    setFieldShown('purchaseOrder', param);
+    setFieldShown('prjMemo', param);
+    if (tabCase == 'prj') {
+      if (pageRecod.Exist_Project.value == '既存案件') {
+        setFieldShown('samePRJ', true);
+      } else {
+        setFieldShown('samePRJ', false);
+      }
+    } else {
+      setFieldShown('samePRJ', param);
+    }
+  }
+
+  //設置先情報タブ表示処理
+  const setInstInfoShown = function (param) {
+    setFieldShown('cName', param);
+    setFieldShown('orgName', param);
+    setFieldShown('cSales', param);
+    setFieldShown('instStatus', param);
+    setFieldShown('instDate', param);
+    setFieldShown('instDDday', param);
+  }
+
+  //納品依頼リストタブ表示処理
+  const setTarInfoShown = function (param) {
+    setFieldShown('tarDate', param);
+    setFieldShown('aboutDelivery', param);
+    setFieldShown('deviceList', param);
+  }
+
+  //宛先情報タブ表示処理
+  const setArrivalInfoShown = function (pageRecod, param, tabCase) {
+    setFieldShown('dstSelection', param);
+    setFieldShown('zipcode', param);
+    setFieldShown('phoneNum', param);
+    setFieldShown('address', param);
+    setFieldShown('buildingName', param);
+    setFieldShown('corpName', param);
+    setFieldShown('receiver', param);
+    setFieldShown('prefectures', param);
+    setFieldShown('city', param);
+    if(tabCase=='arrival'){
+      if (pageRecod.instName.value == undefined) {
+        setSpaceShown('btn_newINST', 'individual', 'block');
+        setSpaceShown('btn_unknowINST', 'individual', 'block');
+      } else {
+        setSpaceShown('btn_newINST', 'individual', 'none');
+        setSpaceShown('btn_unknowINST', 'individual', 'none');
+      }
+    }else{
+      setSpaceShown('btn_newINST', 'individual', 'none');
+      setSpaceShown('btn_unknowINST', 'individual', 'none');
+    }
+
+  }
+
+  //輸送情報タブ表示処理
+  const setShipInfoShown = function (param) {
+    setFieldShown('deliveryCorp', param);
+    setFieldShown('trckNum', param);
+    setFieldShown('sendDate', param);
+    setFieldShown('expArrivalDate', param);
+  }
+
+  function doSelection(pageRecod){
+    var selection=pageRecod.dstSelection.value;
+    if(selection=='施工業者/拠点へ納品'){
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+      pageRecod.receiver.disabled=true;
+      pageRecod.phoneNum.disabled=true;
+      pageRecod.zipcode.disabled=true;
+      pageRecod.prefectures.disabled=true;
+      pageRecod.city.disabled=true;
+      pageRecod.address.disabled=true;
+      pageRecod.buildingName.disabled=true;
+      pageRecod.corpName.disabled=true;
+      if(pageRecod.sys_unitAddress.value!==undefined){
+        var unitAddress=pageRecod.sys_unitAddress.value.split(',');
+        pageRecod.receiver.value=unitAddress[0];
+        pageRecod.phoneNum.value=unitAddress[1];
+        pageRecod.zipcode.value=unitAddress[2];
+        pageRecod.prefectures.value=unitAddress[3];
+        pageRecod.city.value=unitAddress[4];
+        pageRecod.address.value=unitAddress[5];
+        pageRecod.buildingName.value=unitAddress[6];
+        pageRecod.corpName.value=unitAddress[7];
+      }
+    }else if(selection=='設置先と同じ'){
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', true);
+      pageRecod.receiver.disabled=false;
+      pageRecod.phoneNum.disabled=false;
+      pageRecod.zipcode.disabled=false;
+      pageRecod.prefectures.disabled=false;
+      pageRecod.city.disabled=false;
+      pageRecod.address.disabled=false;
+      pageRecod.buildingName.disabled=false;
+      pageRecod.corpName.disabled=false;
+      if(pageRecod.sys_instAddress.value!==undefined){
+        var instAddress=pageRecod.sys_instAddress.value.split(',');
+        pageRecod.receiver.value=instAddress[0];
+        pageRecod.phoneNum.value=instAddress[1];
+        pageRecod.zipcode.value=instAddress[2];
+        pageRecod.prefectures.value=instAddress[3];
+        pageRecod.city.value=instAddress[4];
+        pageRecod.address.value=instAddress[5];
+        pageRecod.buildingName.value=instAddress[6];
+        pageRecod.corpName.value=instAddress[7];
+      }
+    }else if(selection=='担当手渡し'){
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', false);
+      pageRecod.receiver.disabled=false;
+      pageRecod.phoneNum.disabled=false;
+      pageRecod.zipcode.disabled=true;
+      pageRecod.prefectures.disabled=true;
+      pageRecod.city.disabled=true;
+      pageRecod.address.disabled=true;
+      pageRecod.buildingName.disabled=true;
+      pageRecod.corpName.disabled=true;
+
+      pageRecod.zipcode.value='';
+      pageRecod.prefectures.value='';
+      pageRecod.city.value='';
+      pageRecod.address.value='';
+      pageRecod.buildingName.value='';
+      pageRecod.corpName.value='';
+    }else{
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', false);
+      pageRecod.receiver.disabled=false;
+      pageRecod.phoneNum.disabled=false;
+      pageRecod.zipcode.disabled=false;
+      pageRecod.prefectures.disabled=false;
+      pageRecod.city.disabled=false;
+      pageRecod.address.disabled=false;
+      pageRecod.buildingName.disabled=false;
+      pageRecod.corpName.disabled=false;
+    }
+  }
+
 })();
