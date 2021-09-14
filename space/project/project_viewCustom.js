@@ -410,7 +410,7 @@ var setSearchArea=function(searchParams) {
 	return searchArea;
 }
 function testalert(){
-  console.log('test');
+  console.log($('#invoiceNum').val());
 }
 /* 使い方
  *var newORG=setBtn('btn_newORG','新規組織');
