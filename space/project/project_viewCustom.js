@@ -98,7 +98,7 @@
       var arr = Object.keys(PAGE_RECORD);
       arr.forEach(function (fcode) {
         if (types.indexOf(PAGE_RECORD[fcode].type) >= 0) {
-          rec[fcode].disabled = true;
+          PAGE_RECORD[fcode].disabled = true;
         }
       });
       PAGE_RECORD.invoiceDate.disabled = false;
