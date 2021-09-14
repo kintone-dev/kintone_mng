@@ -271,7 +271,6 @@
                           }
                           var spliceCount = parseInt(st) + 1;
                           shipTable.splice(spliceCount, 0, railItemBody);
-                          i++;
                         }
                       }
                     }
