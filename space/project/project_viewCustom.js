@@ -420,7 +420,7 @@ const AND_OR = "or";
         //空白スペースを取り除いて、配列に格納
         result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
       }
-
+      keyword_search();
       //キーワード検索の関数
       function keyword_search(){
         var keyword = search_word.value;
