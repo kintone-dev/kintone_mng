@@ -153,14 +153,14 @@
                     }
                   }
                 }
-                shipTable.splice(st, 0, pkgItemBody);
+                shipTable.splice(st + 1, 0, pkgItemBody);
               }
               kintone.app.record.set(eRecord);
               return resp;
             });
 
             shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
-          }else if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
+          } else if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
 
             var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
             var numCutter = railSpecs[1].indexOf('：');
@@ -263,8 +263,7 @@
                   }
                 }
               }
-
-              shipTable.splice(st, 0, railItemBody);
+              shipTable.splice(st + 1, 0, railItemBody);
             }
           }
         }
