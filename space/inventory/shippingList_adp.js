@@ -269,7 +269,7 @@
                   console.log(st);
                   shipTable.splice(parseInt(st), 0, pkgItemBody);
 
-                  for (var i =0; i <= shipTable;i++) {
+                  for (var i =0; i >= shipTable;i++) {
                     shipTable[lookupcount].value.mName.lookup = true;
                   }
 
