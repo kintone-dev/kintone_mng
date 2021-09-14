@@ -405,7 +405,7 @@ var setSearchArea=function(searchParams) {
   var searchBtn=document.createElement('button');
   searchBtn.innerText='検索';
   searchBtn.onClick=testalert();
-  searchArea.appendChild(searchBtn);
+  searchForm.appendChild(searchBtn);
 
   searchForm.onsubmit='testalert()';
   searchArea.appendChild(searchForm);
