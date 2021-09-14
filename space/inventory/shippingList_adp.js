@@ -283,17 +283,15 @@
                         }
                       }
                     }
-
                     shipTable.splice(parseInt(st), 0, pkgItemBody);
-                    pkgCount++;
-
-                    for (var i = 0; i <= shipTable; i++) {
-                      shipTable[i].value.mName.lookup = true;
-                    }
-
-                    kintone.app.record.set(eRecord);
                   }
-                  break;
+
+                  pkgCount++;
+                  for (var i = 0; i <= shipTable; i++) {
+                    shipTable[i].value.mName.lookup = true;
+                  }
+                  kintone.app.record.set(eRecord);
+                  return true;
                 });
             }
           }
