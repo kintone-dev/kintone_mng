@@ -424,7 +424,7 @@ var setSearchArea=function(searchParams) {
     //   ]
     // };
   });
-
+/*
   const tar_fCode=['invoiceNum','prjNum'];
   const searchType='or';
 
@@ -488,4 +488,5 @@ const AND_OR = "or";
   　
     return event;
   });
+  */
 })();
