@@ -154,7 +154,7 @@
                     }
                   }
                 }
-                shipTable.splice(st + pil, 0, pkgItemBody);
+                shipTable.splice(st, 0, pkgItemBody);
               }
               kintone.app.record.set(eRecord);
               return resp;
@@ -275,8 +275,8 @@
         }
       }
 
+      var lookupcount = 0;
       for(var st in shipTable){
-        var lookupcount = 0;
         shipTable[lookupcount].value.mName.lookup = true;
         lookupcount++;
       }
