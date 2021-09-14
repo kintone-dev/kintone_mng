@@ -222,6 +222,14 @@
     setFieldShown('receiver', param);
     setFieldShown('prefectures', param);
     setFieldShown('city', param);
+    if(tabCase == 'arrival'){
+      doSelection(PAGE_RECORD);
+    }else{
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', false);
+      setSpaceShown('btn_newINST', 'individual', 'none');
+      setSpaceShown('btn_unknowINST', 'individual', 'none');
+    }
   }
 
   //輸送情報タブ表示処理
