@@ -19,12 +19,18 @@
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
   });
+
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     const PAGE_RECORD = event.record;
-    event.record.cSales.disabled = false;
+    PAGE_RECORD.cSales.disabled = false;
     setFieldShown('sys_suptitle', true);
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
+
+    // システム用フィールド非表示
+    setFieldShown('sys_unitAddress', false);
+    setFieldShown('sys_instAddress', false);
+
     // 新・既存案件表示切り替え
     function tabSwitch(onSelect) {
       switch (onSelect) {
@@ -216,6 +222,7 @@
     setFieldShown('prefectures', param);
     setFieldShown('city', param);
     if(tabCase=='arrival'){
+      doSelection(pageRecod);
       if (pageRecod.instName.value == undefined) {
         setSpaceShown('btn_newINST', 'individual', 'block');
         setSpaceShown('btn_unknowINST', 'individual', 'block');
@@ -226,6 +233,8 @@
     }else{
       setSpaceShown('btn_newINST', 'individual', 'none');
       setSpaceShown('btn_unknowINST', 'individual', 'none');
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', false);
     }
 
   }
