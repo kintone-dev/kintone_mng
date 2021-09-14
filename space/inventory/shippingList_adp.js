@@ -153,7 +153,9 @@
                     }
                   }
                 }
-                shipTable.splice(st + 1, 0, pkgItemBody);
+                var spliceCount = st + 1;
+                console.log(spliceCount);
+                shipTable.splice(spliceCount, 0, pkgItemBody);
               }
               kintone.app.record.set(eRecord);
               return resp;
@@ -263,7 +265,9 @@
                   }
                 }
               }
-              shipTable.splice(st + 1, 0, railItemBody);
+              var spliceCount = st + 1;
+              console.log(spliceCount);
+              shipTable.splice(spliceCount, 0, railItemBody);
             }
           }
         }
