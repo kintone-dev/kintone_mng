@@ -111,7 +111,7 @@
       }
 
       for (var st in shipTable) {
-        if (shipTable[st].value.shipRemarks.value.match(/WFP/)) {
+        if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
           // 品目にパッケージ品が存在する時
           if (shipTable[st].value.mCode.value.match(/pkg_/)) {
             var pacInfo = {
