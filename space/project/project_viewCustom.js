@@ -435,8 +435,8 @@ const AND_OR = "or";
           // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
         }
         // 検索結果のURLへ
-        // document.location = location.origin + location.pathname + str_query
-        document.eSearch.action=location.origin + location.pathname + str_query;
+        document.location = location.origin + location.pathname + str_query
+        // document.eSearch.action=location.origin + location.pathname + str_query;
       }
       // 重複を避けるため要素をあらかじめクリアしておく
       // var node_space = kintone.app.getHeaderMenuSpaceElement()
