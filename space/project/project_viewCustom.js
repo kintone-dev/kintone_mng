@@ -407,7 +407,7 @@ var setSearchArea=function(searchParams) {
   searchBtn.onClick=testalert();
   searchForm.appendChild(searchBtn);
 
-  searchForm.onsubmit='testalert()';
+  // searchForm.onsubmit='testalert()';
   searchArea.appendChild(searchForm);
 
   
