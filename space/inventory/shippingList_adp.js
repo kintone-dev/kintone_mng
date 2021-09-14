@@ -153,7 +153,7 @@
                     }
                   }
                 }
-                var spliceCount = st + 1;
+                var spliceCount = perseInt(st) + 1;
                 console.log(spliceCount);
                 shipTable.splice(spliceCount, 0, pkgItemBody);
               }
@@ -265,7 +265,7 @@
                   }
                 }
               }
-              var spliceCount = st + 1;
+              var spliceCount = perseInt(st) + 1;
               console.log(spliceCount);
               shipTable.splice(spliceCount, 0, railItemBody);
             }
