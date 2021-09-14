@@ -53,11 +53,24 @@
           'value':PAGE_RECORD.sys_unitAddress.value
         },
         'deviceList':{
-          'value':PAGE_RECORD.deviceList.value
+          'value':[]
         },
       }
-      postShipData.push(postShipBody);
+      for(var pdv in PAGE_RECORD.deviceList.value){
+        var devListBody = {
+          'value':{
+            'mName':{
+              'value':PAGE_RECORD.deviceList.value[pdv].value.mCode.value
+            },
+            'shipNum':{
+              'value':PAGE_RECORD.deviceList.value[pdv].value.shipNum.value
+            }
+          }
+        }
+        postShipBody.deviceList.value.push(devListBody);
+      }
 
+      postShipData.push(postShipBody);
       postRecords(sysid.INV.app_id.shipment, postShipData);
     }
 
