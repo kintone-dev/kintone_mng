@@ -167,13 +167,12 @@
           if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
 
             var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
-            console.log(railSpecs);
             var numCutter = railSpecs[1].indexOf('：');
-            railSpecs[1] = railSpecs[1].slice(numCutter + 1);
-            var openCutter = railSpecs[1].indexOf('：');
-            railSpecs[2] = railSpecs[2].slice(openCutter + 1);
-            var methodCutter = railSpecs[2].indexOf('：');
-            railSpecs[3] = railSpecs[3].slice(methodCutter + 1);
+            railSpecs[0] = railSpecs[0].slice(numCutter + 1);
+            var openCutter = railSpecs[2].indexOf('：');
+            railSpecs[1] = railSpecs[1].slice(openCutter + 1);
+            var methodCutter = railSpecs[3].indexOf('：');
+            railSpecs[2] = railSpecs[2].slice(methodCutter + 1);
 
             if (railSpecs[2] == '(S)片開き') {
               railSpecs[2] = 's';
@@ -182,6 +181,9 @@
             } else {
               railSpecs[2] = '';
             }
+
+            railSpecs.pop();
+            console.log(railSpecs);
 
             for (var i in railSpecs) {
               if (numRegExp.test(railSpecs[i])) {
