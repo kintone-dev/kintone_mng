@@ -235,6 +235,7 @@
           console.log(pkgCount);
           if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
             if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
+              pkgCount++;
               var shipNum = shipTable[st].value.shipNum.value;
               var pacInfo = {
                 'app': sysid.INV.app_id.device,
@@ -279,8 +280,6 @@
                     }
                     shipTable.splice(parseInt(st), 0, pkgItemBody);
                   }
-
-                  pkgCount++;
                   for (var i = 0; i <= shipTable; i++) {
                     shipTable[i].value.mName.lookup = true;
                   }
