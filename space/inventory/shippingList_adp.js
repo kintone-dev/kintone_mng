@@ -167,6 +167,7 @@
           if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
 
             var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
+            console.log(railSpecs);
             var numCutter = railSpecs[1].indexOf('：');
             railSpecs[1] = railSpecs[1].slice(numCutter + 1);
             var openCutter = railSpecs[1].indexOf('：');
@@ -223,6 +224,7 @@
                 shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
               }
             }
+
             var spec = {
               rLength: lengthStr,
               rType: openType,
@@ -234,41 +236,42 @@
 
             var railItems = railConf(spec);
 
-            for (var ril in railItems) {
-              var railItemBody = {
-                value: {
-                  mCode: {
-                    type: "SINGLE_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
-                  },
-                  mName: {
-                    type: "SINGLE_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
-                  },
-                  mType: {
-                    type: "SINGLE_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
-                  },
-                  mVendor: {
-                    type: "SINGLE_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
-                  },
-                  sNum: {
-                    type: "MULTI_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
-                  },
-                  shipRemarks: {
-                    type: "MULTI_LINE_TEXT",
-                    value: JSON.stringify(railItems[ril].value.shipRemarks.value).replace(/\"/g, '')
-                  },
-                  shipNum: {
-                    type: "NUMBER",
-                    value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
-                  }
-                }
-              }
-              shipTable.push(st + ril, 0, railItemBody);
-            }
+            // for (var ril in railItems) {
+            //   var railItemBody = {
+            //     value: {
+            //       mCode: {
+            //         type: "SINGLE_LINE_TEXT",
+            //         value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
+            //       },
+            //       mName: {
+            //         type: "SINGLE_LINE_TEXT",
+            //         value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
+            //       },
+            //       mType: {
+            //         type: "SINGLE_LINE_TEXT",
+            //         value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
+            //       },
+            //       mVendor: {
+            //         type: "SINGLE_LINE_TEXT",
+            //         value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
+            //       },
+            //       sNum: {
+            //         type: "MULTI_LINE_TEXT",
+            //         value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
+            //       },
+            //       shipRemarks: {
+            //         type: "MULTI_LINE_TEXT",
+            //         value: JSON.stringify(railItems[ril].value.shipRemarks.value).replace(/\"/g, '')
+            //       },
+            //       shipNum: {
+            //         type: "NUMBER",
+            //         value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
+            //       }
+            //     }
+            //   }
+
+            //   shipTable.push(st, 0, railItemBody);
+            // }
 
             shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
           }
