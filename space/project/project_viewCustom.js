@@ -61,7 +61,7 @@
           setPrjInfoShown(PAGE_RECORD, false, '');
           setInstInfoShown(false);
           setTarInfoShown(false);
-          setArrivalInfoShown(eRecord, true, 'arrival')
+          setArrivalInfoShown(eRecord.record, true, 'arrival')
           setShipInfoShown(false);
           break;
         case '#輸送情報':
