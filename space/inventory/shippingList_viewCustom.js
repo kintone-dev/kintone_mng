@@ -193,7 +193,7 @@
     for (var i in event.record.deviceList.value){
       if(event.record.deviceList.value[i].value.mCode.value=='TRT-DY'){
         var testMatch=event.record.deviceList.value[i].value.shipRemarks.value;
-        if(!testMatch.match(/カーテンレール全長(mm)/)){//event.record.deviceList.value[i].value.shipRemarks.value===undefined){
+        //if(!testMatch.match(/カーテンレール全長(mm)/)){//event.record.deviceList.value[i].value.shipRemarks.value===undefined){
           event.record.deviceList.value[i].value.shipRemarks.value='カーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
         }
       }
