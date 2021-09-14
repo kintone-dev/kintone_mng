@@ -113,6 +113,7 @@
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
           // 品目にパッケージ品が存在する時
           if (shipTable[st].value.mCode.value.match(/pkg_/)) {
+            var shipNum = shipTable[st].value.shipNum.value;
             var pacInfo = {
               'app': sysid.INV.app_id.device,
               'query': 'mCode="' + shipTable[st].value.mCode.value + '"',
@@ -141,7 +142,7 @@
                     },
                     shipNum: {
                       type: "NUMBER",
-                      value: JSON.stringify(pkgItems[pil].value.pc_Num.value * shipTable[st].value.shipNum.value).replace(/\"/g, '')
+                      value: JSON.stringify(pkgItems[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
                     },
                     sNum: {
                       type: "MULTI_LINE_TEXT",
@@ -279,11 +280,11 @@
         }
       }
 
-      var lookupcount = 0;
-      for (var st in shipTable) {
-        shipTable[lookupcount].value.mName.lookup = true;
-        lookupcount++;
-      }
+      // var lookupcount = 0;
+      // for (var st in shipTable) {
+      //   shipTable[lookupcount].value.mName.lookup = true;
+      //   lookupcount++;
+      // }
 
       kintone.app.record.set(eRecord);
     });
