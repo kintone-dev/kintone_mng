@@ -98,10 +98,9 @@
       var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
       var openRegExp = new RegExp(/^[sw]/i);
       var methodRegExp = new RegExp(/壁付[sw]|天井/i);
-      var stCount;
 
+      // 依頼数空欄時エラー
       for (var st in shipTable) {
-        // 依頼数空欄時エラー
         if (numRegExp.test(shipTable[st].value.shipNum.value)) {
           shipNum = shipTable[st].value.shipNum.value;
           shipTable[st].value.shipNum.error = null;
@@ -224,11 +223,9 @@
       }
 
       for(var st in shipTable){
-        stCount = st;
         if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
           if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
             var shipNum = shipTable[st].value.shipNum.value;
-            // shipTable[st].value.shipRemarks.value = String(shipTable[st].value.shipRemarks.value).replace(/WFP/g, '');
             var pacInfo = {
               'app': sysid.INV.app_id.device,
               'query': 'mCode="' + shipTable[st].value.mCode.value + '"',
@@ -269,13 +266,11 @@
                       }
                     }
                   }
-                  console.log(stCount);
-                  shipTable.splice(parseInt(stCount), 0, pkgItemBody);
+                  console.log(st);
+                  shipTable.splice(parseInt(st), 0, pkgItemBody);
 
-                  var lookupcount = 0;
-                  for (var st in shipTable) {
-                    shipTable[lookupcount].value.mName.lookup = true;
-                    lookupcount++;
+                  for (var i =0; i <= shipTable;i++) {
+                    shipTable[i].value.mName.lookup = true;
                   }
 
                   kintone.app.record.set(eRecord);
