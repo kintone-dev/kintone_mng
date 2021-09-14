@@ -372,13 +372,62 @@
    * 
    * 
    */
-  const fCode_1='invoiceNum';
-  const fCode_2='salesType';
-  // const fCode_3='invoiceNum';
-  // const fCode_4='invoiceNum';
-  // const fCode_5='invoiceNum';
+// function setSearchArea(areaID, searchConditions) {
+var setSearchArea=function(searchParams) {
+	// var indexBtn = document.createElement('button');
+	// indexBtn.id = btnID;
+	// indexBtn.classList.add('jsbtn_header');
+	// indexBtn.innerText = btnValue;
+	// indexBtn.addEventListener("mouseover", function (event) {
+	// 	indexBtn.classList.add('jsbtn_over');
+	// }, false);
+	// indexBtn.addEventListener("mouseleave", function (event) {
+	// 	indexBtn.classList.remove('jsbtn_over');
+	// }, false);
+  var searchArea=document.createElement('div');
+  searchArea.id='customSearchArea';
 
+  var eSearch=document.createElement('input');
+  eSearch.id=searchParams.easySearch.sID;
+  eSearch.classList.add('testclass');
+  searchArea.appendChild(eSearch);
+
+  var dSearch=document.createElement('span');
+  dSearch.classList.add('testSpanBtn');
+  searchArea.appendChild(dSearch);
+
+  
+	kintone.app.getHeaderMenuSpaceElement().appendChild(searchArea);
+	return indexBtn;
+}
+/* 使い方
+ *var newORG=setBtn('btn_newORG','新規組織');
+ *$('#'+newORG.id).on('click', function(){
+ *	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
+ *});
+ */
+  kintone.events.on('app.record.index.view', function(event){
+    var prjSearch=setSearchArea({
+      areaID:'prjSearch',
+      easySearch:{sID:'invoiceNum',sName:'請求書番号'},
+      searchConditions:[
+        {sID:'invoiceNum',sName:'請求書番号'},
+        {sID:'prjNum',sName:'案件管理番号'}
+      ]
+    });
+    // ={
+    //   areaID:'prjSearch',
+    //   searchType:'or',
+    //   searchConditions:[
+    //     {tar_fCode:'invoiceNum',tar_fValue:''},
+    //     {tar_fCode:'prjNum',tar_fValue:''}
+    //   ]
+    // };
+  });
+
+  const tar_fCode=['invoiceNum','prjNum'];
   const searchType='or';
+
 //検索したいフィールドの設定値
 //ふぃーるどフィールドコードは一対一
 const FIELD_CODE = 'invoiceNum';
