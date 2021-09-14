@@ -418,7 +418,8 @@ kintone.events.on("app.record.index.show", function (event) {
   　　　　　var keyword = search_word.value;
   //　　　　　　var str_query = '?query='+ FIELD_CODE +' like "' + keyword;
   //ここがクエリ
-  　　　　　　var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"' + AND_OR +' '+ FIELD_CODE3 +' like "' + keyword + '"';
+  // 　　　　　　var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"' + AND_OR +' '+ FIELD_CODE3 +' like "' + keyword + '"';
+  　　　　　　var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
   　
   　　　　　　if(keyword == ""){
   　　　　　　　str_query = "";
