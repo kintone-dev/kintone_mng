@@ -285,9 +285,9 @@
 
           eRecord.record.deviceList.value = newShipTable;
           console.log(eRecord.record.deviceList.value);
-          for (var i in eRecord.record.deviceList.value) {
-            eRecord.record.deviceList.value[i].value.mName.lookup = true;
-          }
+          // for (var i in eRecord.record.deviceList.value) {
+          //   eRecord.record.deviceList.value[i].value.mName.lookup = true;
+          // }
           kintone.app.record.set(eRecord);
 
         });
