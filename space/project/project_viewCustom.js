@@ -396,10 +396,11 @@ var setEasySearch=function(eSearchParms) {
   sTypeSelection.name='searchType';
   sTypeSelection.value='or';
   sTypeSelection.innerText='いずれかの条件を満たす';
-  eSearchArea.appendChild(sTypeSelection);
+  searchType.appendChild(sTypeSelection);
   sTypeSelection.value='and';
   sTypeSelection.innerText='すべての条件を満たす';
-  eSearchArea.appendChild(sTypeSelection);
+  searchType.appendChild(sTypeSelection);
+  eSearchArea.appendChild(searchType);
 
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchForm);
 }
