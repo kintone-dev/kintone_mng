@@ -372,29 +372,37 @@
    * 
    * 
    */
-// function setSearchArea(areaID, searchConditions) {
-var setEasySearch=function(sID,sPlaceholder) {
-
-
-  // var eSearchForm=document.createElement('form');
-  var eSearchForm=document.createElement('form');
-  // eSearchForm.method='get';
-  eSearchForm.name=sID;
+var setEasySearch=function(eSearchParms) {
+  var eSearchArea=document.createElement('div');
+  eSearchArea.ID=eSearchParms.sID;
 
   var eSearch=document.createElement('input');
-  eSearch.name='s_'+sID;
+  eSearch.id='s_'+eSearchParms.sID;
   eSearch.type='text';
-  eSearch.placeholder=sPlaceholder;
+  eSearch.placeholder=eSearchParms.sPlaceholder;
   eSearch.classList.add('testclass');
-  eSearchForm.appendChild(eSearch);
+  eSearchArea.appendChild(eSearch);
 
   var searchBtn=document.createElement('input');
   searchBtn.type='submit';
-  searchBtn.id='btn_'+sID;
+  searchBtn.id='btn_'+eSearchParms.sID;
   searchBtn.value='検索';
-  eSearchForm.appendChild(searchBtn);
+  eSearchArea.appendChild(searchBtn);
 
-	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchForm);
+  var searchType=document.createElement('div');
+  searchType.id='SearchType';
+  var sTypeSelection=document.createElement('input');
+  sTypeSelection.type='radio';
+  sTypeSelection.name='searchType';
+  sTypeSelection.value='or';
+  sTypeSelection.innerText='いずれかの条件を満たす';
+  searchType.appendChild(sTypeSelection);
+  sTypeSelection.value='and';
+  sTypeSelection.innerText='すべての条件を満たす';
+  searchType.appendChild(sTypeSelection);
+  eSearchArea.appendChild(searchType);
+
+	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
 }
 //検索したいフィールドの設定値
 //ふぃーるどフィールドコードは一対一
@@ -404,56 +412,39 @@ const FIELD_CODE2 = 'prjNum';
 const AND_OR = "or";
   kintone.events.on('app.record.index.show', function(event){
     
-    setEasySearch('eSearch','総合検索');
+    setEasySearch({
+      sID:'eSearch',
+      sPlaceholder:'総合検索',
+      sConditions:[
+        {fCode:'invoiceNum',fName:'請求書番号'},
+        {fCode:'prjNum',fName:'案件管理番号'}
+      ]
+    });
     $('#btn_eSearch').on('click', function(){
-      var keyword=document.eSearch.s_eSearch.value;
-      // var keyword=document.getElementById('eSearch').value;
+      // var testC=document.s_eSearch.value;
+      // var keyword=document.eSearch.s_eSearch.value;
+      var keyword=document.getElementById('eSearch').value;
 
       var result = {};
       //クエリから、URL固定部分(?query=)を無視して取り出す
       var query = window.location.search.substring(7); 
       //フィールドコード名と検索キーワードに分割する
-      for(var i = 0;i < query.length;i++){
+      for(var i in query){
         var element = query[i].split('like');
         var param_field_code = encodeURIComponent(element[0]);
         var param_search_word = encodeURIComponent(element[1]);
         //空白スペースを取り除いて、配列に格納
         result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
       }
-      keyword_search();
-      //キーワード検索の関数
-      function keyword_search(){
-        // var keyword = search_word.value;
-        // var str_query = '?query='+ FIELD_CODE +' like "' + keyword;
-        // ここがクエリ
-        // var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"' + AND_OR +' '+ FIELD_CODE3 +' like "' + keyword + '"';
-        console.log(keyword);
-        var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
-        if(keyword == ""||keyword == undefined){
-          str_query = "";
-        }else if(keyword != ""){
-          // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
-        }
-        // 検索結果のURLへ
-        // document.location = location.origin + location.pathname + str_query;
-        document.eSearch.action = location.origin + location.pathname + str_query;
-        const XHR = new XMLHttpRequest();
-        console.log(XHR);
-
-        // document.eSearch.action=location.origin + location.pathname + str_query;
+      var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
+      if(keyword == ""||keyword == undefined){
+        str_query = "";
       }
-      // 重複を避けるため要素をあらかじめクリアしておく
-      // var node_space = kintone.app.getHeaderMenuSpaceElement()
-      // for (var i =node_space.childNodes.length-1; i>=0; i--) {
-      //   node_space.removeChild(node_space.childNodes[i]);
+      // else if(keyword != ""){
+      //   // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
       // }
-      // var label = document.createElement('label');
-      // label.appendChild(document.createTextNode('レコード内検索'));
-      // label.appendChild(document.createTextNode(' ')); 
-      // label.appendChild(search_word);
-      // label.appendChild(document.createTextNode(' ')); 
-      // label.appendChild(search_button); 
-      // kintone.app.getHeaderMenuSpaceElement().appendChild(label);
+      // 検索結果のURLへ
+      document.location = location.origin + location.pathname + str_query;
     });
     // setEasySearch({
     //   id:'eSearch',
