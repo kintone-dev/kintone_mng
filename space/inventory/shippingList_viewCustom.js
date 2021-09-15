@@ -191,7 +191,6 @@
   // カーテンレールが選択された場合、シリアル番号欄にデータを記入
   kintone.events.on(['app.record.edit.change.mCode','app.record.create.change.mCode'], function(event) {
     for (var i in event.record.deviceList.value){
-      String(event.record.deviceList.value[i].value.shipRemarks.value).match(/WFP/)
       if(!String(event.record.deviceList.value[i].value.shipRemarks.value).match(/PAC/)){
         var mCodeValue=event.record.deviceList.value[i].value.mCode.value;
         if(mCodeValue===undefined) event.record.deviceList.value[i].value.shipRemarks.value='';
