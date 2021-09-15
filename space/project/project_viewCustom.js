@@ -467,11 +467,10 @@ const AND_OR = "or";
       var str_query1 = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
       var str_query = '?query=';
       var searchtarget=document.forms.searchTarget;
-      for(var y in document.forms.searchTarget){
-        console.log(y)
-        if(document.forms.searchTarget[y].checked){
-          str_query=str_query+document.forms.searchTarget[y].name+'like"'+keyword+'"';
-          if(y<document.forms.searchTarget.length-1) str_query=str_query+'"'+AND_OR;
+      for(var st in document.forms.searchTarget){
+        if(document.forms.searchTarget[st].checked){
+          str_query=str_query+document.forms.searchTarget[st].name+'like"'+keyword+'"';
+          if(st<document.forms.searchTarget.length-1) str_query=str_query+'"'+AND_OR;
         }
       }
       if(keyword == ""||keyword == undefined){
