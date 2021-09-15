@@ -236,18 +236,18 @@
           }
         }
       }
-      if(pkgQuery.length != 0){
+      if (pkgQuery.length != 0) {
         var getPkg = {
           'app': sysid.INV.app_id.device,
           'query': 'mCode in (' + pkgQuery.join() + ') order by 更新日時 asc',
         };
-      } else{
+      } else {
         var getPkg = {
           'app': sysid.INV.app_id.device,
           'query': 'order by 更新日時 asc',
         };
       }
-      kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getPkg)
+      return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getPkg)
         .then(function (resp) {
           const RESP_RECORDS = resp.records;
           for (var st in shipTable) {
