@@ -91,7 +91,7 @@
           event.error = '対応した日付のポートは締切済みです。';
         }
       }
-      return event;
+      return false;
     });
 
   });
