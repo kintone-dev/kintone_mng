@@ -393,7 +393,7 @@ var setEasySearch=function(sID,sPlaceholder) {
   var searchBtn=document.createElement('input');
   searchBtn.type='submit';
   searchBtn.id='btn_'+sID;
-  searchBtn.innerText='検索';
+  searchBtn.value='検索';
   eSearchForm.appendChild(searchBtn);
 
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchForm);
@@ -438,7 +438,8 @@ const AND_OR = "or";
           // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
         }
         // 検索結果のURLへ
-        document.location = location.origin + location.pathname + str_query
+        document.location = location.origin + location.pathname + str_query;
+        console.log(location.origin + location.pathname + str_query);
         // document.eSearch.action=location.origin + location.pathname + str_query;
       }
       // 重複を避けるため要素をあらかじめクリアしておく
