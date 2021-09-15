@@ -91,8 +91,6 @@
           alert('対応した日付のレポートは締切済みです。');
           event.record.invoiceYears.value = '2025';
           event.error = '対応した日付のレポートは締切済みです。';
-          return false;
-        } else{
           return event;
         }
       }
