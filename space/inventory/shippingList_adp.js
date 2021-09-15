@@ -128,7 +128,7 @@
           const RESP_RECORDS = resp.records;
           for (var st in shipTable) {
             if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
-              if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
+              if (shipTable[st].value.mCode.value=='TRT-DY') {
                 shipTable[st].value.shipRemarks.value = shipTable[st].value.shipRemarks.value.replace(/WFP/g, 'PAC')
                 newShipTable.push(shipTable[st]);
                 var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
