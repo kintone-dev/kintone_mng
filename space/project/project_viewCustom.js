@@ -437,6 +437,8 @@ const AND_OR = "or";
         // 検索結果のURLへ
         // document.location = location.origin + location.pathname + str_query;
         document.eSearch.action = location.origin + location.pathname + str_query;
+        const XHR = new XMLHttpRequest();
+        console.log(XHR);
 
         // document.eSearch.action=location.origin + location.pathname + str_query;
       }
