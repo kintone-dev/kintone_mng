@@ -398,7 +398,7 @@ var setEasySearch=function(eSearchParms) {
   sTypeSelection_or.value='or';
   searchType.appendChild(sTypeSelection_or);
   var sTypeLabel_or=document.createElement('label');
-  sTypeLabel_or.for='sts_or';
+  sTypeLabel_or.htmlFor='sts_or';
   sTypeLabel_or.innerText='いずれかの条件を満たす';
   searchType.appendChild(sTypeLabel_or);
   var sTypeSelection_and=document.createElement('input');
@@ -408,7 +408,7 @@ var setEasySearch=function(eSearchParms) {
   sTypeSelection_and.value='and';
   searchType.appendChild(sTypeSelection_and);
   var sTypeLabel_and=document.createElement('label');
-  sTypeLabel_and.for='sts_and';
+  sTypeLabel_and.htmlFor='sts_and';
   sTypeLabel_and.innerText='すべての条件を満たす';
   searchType.appendChild(sTypeLabel_and);
 
