@@ -391,15 +391,28 @@ var setEasySearch=function(eSearchParms) {
 
   var searchType=document.createElement('div');
   searchType.id='SearchType';
-  var sTypeSelection=document.createElement('input');
-  sTypeSelection.type='radio';
-  sTypeSelection.name='searchType';
-  sTypeSelection.value='or';
-  sTypeSelection.innerText='いずれかの条件を満たす';
-  searchType.appendChild(sTypeSelection);
-  sTypeSelection.value='and';
-  sTypeSelection.innerText='すべての条件を満たす';
-  searchType.appendChild(sTypeSelection);
+  var sTypeSelection_or=document.createElement('input');
+  sTypeSelection_or.id='sts_or';
+  sTypeSelection_or.name='searchType';
+  sTypeSelection_or.type='radio';
+  sTypeSelection_or.value='or';
+  searchType.appendChild(sTypeSelection_or);
+  var sTypeLabel_or=document.createElement('label');
+  sTypeLabel_or.for='sts_or';
+  sTypeLabel_or.innerText='いずれかの条件を満たす';
+  searchType.appendChild(sTypeLabel_or);
+  var sTypeSelection_and=document.createElement('input');
+  sTypeSelection_and.id='sts_and';
+  sTypeSelection_and.name='searchType';
+  sTypeSelection_and.type='radio';
+  sTypeSelection_and.value='and';
+  searchType.appendChild(sTypeSelection_and);
+  var sTypeLabel_and=document.createElement('label');
+  sTypeLabel_and.for='sts_and';
+  sTypeLabel_and.innerText='すべての条件を満たす';
+  searchType.appendChild(sTypeLabel_and);
+
+
   eSearchArea.appendChild(searchType);
 
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
