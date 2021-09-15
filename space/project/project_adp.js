@@ -88,8 +88,6 @@
         if (resp.records != 0) {
           for (var i in resp.records[0].EoMcheck.value) {
             if (resp.records[0].EoMcheck.value[i] == '締切') {
-              alert('対応した日付のレポートは締切済みです。');
-              event.record.invoiceYears.value = '2025';
               event.error = '対応した日付のレポートは締切済みです。';
               return event;
             }else{
