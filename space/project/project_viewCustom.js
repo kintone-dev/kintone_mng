@@ -389,31 +389,45 @@ var setEasySearch=function(eSearchParms) {
   searchBtn.value='検索';
   eSearchArea.appendChild(searchBtn);
 
-  var searchType=document.createElement('div');
-  searchType.id='SearchType';
-  var sTypeSelection_or=document.createElement('input');
-  sTypeSelection_or.id='sts_or';
-  sTypeSelection_or.name='searchType';
-  sTypeSelection_or.type='radio';
-  sTypeSelection_or.value='or';
-  searchType.appendChild(sTypeSelection_or);
-  var sTypeLabel_or=document.createElement('label');
-  sTypeLabel_or.htmlFor='sts_or';
-  sTypeLabel_or.innerText='いずれかの条件を満たす';
-  searchType.appendChild(sTypeLabel_or);
-  var sTypeSelection_and=document.createElement('input');
-  sTypeSelection_and.id='sts_and';
-  sTypeSelection_and.name='searchType';
-  sTypeSelection_and.type='radio';
-  sTypeSelection_and.value='and';
-  searchType.appendChild(sTypeSelection_and);
-  var sTypeLabel_and=document.createElement('label');
-  sTypeLabel_and.htmlFor='sts_and';
-  sTypeLabel_and.innerText='すべての条件を満たす';
-  searchType.appendChild(sTypeLabel_and);
+  // var searchType=document.createElement('div');
+  // searchType.id='SearchType';
+  // var sTypeSelection_or=document.createElement('input');
+  // sTypeSelection_or.id='sts_or';
+  // sTypeSelection_or.name='searchType';
+  // sTypeSelection_or.type='radio';
+  // sTypeSelection_or.value='or';
+  // searchType.appendChild(sTypeSelection_or);
+  // var sTypeLabel_or=document.createElement('label');
+  // sTypeLabel_or.htmlFor='sts_or';
+  // sTypeLabel_or.innerText='いずれかの条件を満たす';
+  // searchType.appendChild(sTypeLabel_or);
+  // var sTypeSelection_and=document.createElement('input');
+  // sTypeSelection_and.id='sts_and';
+  // sTypeSelection_and.name='searchType';
+  // sTypeSelection_and.type='radio';
+  // sTypeSelection_and.value='and';
+  // searchType.appendChild(sTypeSelection_and);
+  // var sTypeLabel_and=document.createElement('label');
+  // sTypeLabel_and.htmlFor='sts_and';
+  // sTypeLabel_and.innerText='すべての条件を満たす';
+  // searchType.appendChild(sTypeLabel_and);
+  // eSearchArea.appendChild(searchType);
+  var searchTargetArea=document.createElement('form');
+  searchTargetArea.id='searchTarget';
+  searchTargetArea.name='searchTarget';
+  for(var i in eSearchParms.sConditions){
+    var searchTarget=document.createElement('input');
+    searchTarget.id=eSearchParms.sConditions[i].fCode;
+    searchTarget.name=eSearchParms.sConditions[i].fCode;
+    searchTarget.type='checkbox';
+    searchTargetArea.appendChild(searchTarget);
+    var searchTargetValue=document.createElement('label');
+    searchTargetValue.htmlFor=eSearchParms.sConditions[i].fCode;
+    searchTargetValue.innerText=eSearchParms.sConditions[i].fName;
+    searchTargetArea.appendChild(searchTargetValue);
+  }
+  eSearchArea.appendChild(searchTargetArea);
 
-
-  eSearchArea.appendChild(searchType);
 
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
 }
