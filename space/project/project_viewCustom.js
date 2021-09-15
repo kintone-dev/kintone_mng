@@ -464,7 +464,9 @@ const AND_OR = "or";
         //空白スペースを取り除いて、配列に格納
         result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
       }
-      var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
+      // var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
+      var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ';
+      str_query=str_query+ AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
       if(keyword == ""||keyword == undefined){
         str_query = "";
       }
