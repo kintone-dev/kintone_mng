@@ -235,7 +235,8 @@
                   newShipTable.push(railItemBody);
                 }
               } else if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
-                shipTable[st].value.shipRemarks.value.replace(/WFP/g, 'PAC')
+                console.log(shipTable[st].value.shipRemarks.value.replace(/WFP/g, 'PAC'));
+                // shipTable[st].value.shipRemarks.value.replace(/WFP/g, 'PAC')
                 newShipTable.push(shipTable[st]);
                 for (var rr in RESP_RECORDS) {
                   if (shipTable[st].value.mCode.value == RESP_RECORDS[rr].mCode.value) {
