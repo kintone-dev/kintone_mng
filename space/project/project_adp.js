@@ -86,10 +86,10 @@
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
     .then(function (resp) {
       for(var i in resp.records[0].EoMcheck.value ){
-        console.log(event);
         if(resp.records[0].EoMcheck.value[i] == '締切'){
           alert('対応した日付のレポートは締切済みです。');
-          event.error = '対応した日付のポートは締切済みです。';
+          PAGE_RECORD.sys_invoiceDate.error = '対応した日付のレポートは締切済みです。';
+          console.log(event);
           return event;
         }
       }
