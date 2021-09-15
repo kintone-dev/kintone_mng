@@ -88,6 +88,7 @@
       console.log(resp);
       for(var i in resp.records[0].EoMcheck.value ){
         if(resp.records[0].EoMcheck.value[i] == '締切'){
+          console.log('sss');
           event.error = '対応したレポートは締切済みです。';
         }
       }
