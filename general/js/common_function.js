@@ -331,7 +331,7 @@ var railConf = function (spec) {
 	var CeilingBracket = ['', Math.round(spec.rLength / 500 + 1) * spec.shipNum];
 	if (spec.rMethod == '天井') CeilingBracket[0] = 'Ceiling Bracket(D)';
 	else if (spec.rMethod.match(/壁付/)) CeilingBracket[0] = 'Ceiling Bracket';
-	var MasterCarrier = ['Master Carrier', 1 * spec.shipNum];
+	var MasterCarrier = ['MasterCarrier', 1 * spec.shipNum];
 	if (ConnectingKit[1] > 0) MasterCarrier[0] = 'Master Carrier(G)';
 	var BeltClip = ['Belt Clip', 2 * spec.shipNum];
 	var EndHook = ['End Hook', 1 * spec.shipNum];
@@ -384,7 +384,7 @@ var railConf = function (spec) {
 		shipnum: EndHook[1]
 	});
 	railDetail.push({
-		mname: 'End Box',
+		mname: 'EndBox',
 		shipnum: 2 * spec.shipNum
 	});
 	railDetail.push({
@@ -431,7 +431,6 @@ var railConf = function (spec) {
 };
 
 // 検索エンジン
-
 
 /* その他 */
 // 全レコード呼び出し
