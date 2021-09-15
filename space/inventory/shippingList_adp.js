@@ -130,6 +130,7 @@
           for (var st in shipTable) {
             if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
               if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
+                shipTable[st].value.shipRemarks.value.replace(/WFP/g, '')
                 newShipTable.push(shipTable[st]);
                 var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
                 var numCutter = railSpecs[1].indexOf('：');
@@ -234,8 +235,8 @@
                   }
                   newShipTable.push(railItemBody);
                 }
-              }
-              if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
+              } else if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
+                shipTable[st].value.shipRemarks.value.replace(/WFP/g, '')
                 newShipTable.push(shipTable[st]);
                 for (var rr in RESP_RECORDS) {
                   if (shipTable[st].value.mCode.value == RESP_RECORDS[rr].mCode.value) {
@@ -277,9 +278,9 @@
                     }
                   }
                 }
+              } else {
+                newShipTable.push(shipTable[st]);
               }
-            } else {
-              newShipTable.push(shipTable[st]);
             }
           }
 
