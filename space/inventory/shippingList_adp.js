@@ -125,7 +125,8 @@
       };
       kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getPkg)
         .then(function (resp) {
-          console.log(resp);
+          const RESP_RECORDS = resp.records;
+          console.log(RESP_RECORDS);
           for (var st in shipTable) {
             if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
               if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
@@ -236,60 +237,30 @@
               }
               if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
                 newShipTable.push(shipTable[st]);
-
-                // kintone.api(kintone.api.url('/k/v1/records', true), 'GET', pacInfo)
-                //   .then(function (resp) {
-                //     var pkgItems = resp.records[0].packageComp.value;
-                //     for (var pil in pkgItems) {
-                //       var pkgItemBody = {
-                //         value: {
-                //           mCode: {
-                //             type: "SINGLE_LINE_TEXT",
-                //             value: JSON.stringify(pkgItems[pil].value.pc_mCode.value).replace(/\"/g, '')
-                //           },
-                //           mName: {
-                //             type: "SINGLE_LINE_TEXT",
-                //             value: JSON.stringify(pkgItems[pil].value.pc_mName.value).replace(/\"/g, '')
-                //           },
-                //           mType: {
-                //             type: "SINGLE_LINE_TEXT",
-                //             value: JSON.stringify(pkgItems[pil].value.pc_mType.value).replace(/\"/g, '')
-                //           },
-                //           mVendor: {
-                //             type: "SINGLE_LINE_TEXT",
-                //             value: JSON.stringify(pkgItems[pil].value.pc_mVendor.value).replace(/\"/g, '')
-                //           },
-                //           shipNum: {
-                //             type: "NUMBER",
-                //             value: JSON.stringify(pkgItems[pil].value.pc_Num.value * shipNum).replace(/\"/g, '')
-                //           },
-                //           sNum: {
-                //             type: "MULTI_LINE_TEXT",
-                //             value: ''
-                //           },
-                //           shipRemarks: {
-                //             type: "MULTI_LINE_TEXT",
-                //             value: ''
-                //           }
-                //         }
-                //       }
-                //       shipTable.splice(parseInt(st), 0, pkgItemBody);
-                //     }
-                //     for (var i in shipTable) {
-                //       shipTable[i].value.mName.lookup = true;
-                //     }
-                //     kintone.app.record.set(eRecord);
-                //   });
+                for (var rr in RESP_RECORDS) {
+                  if (shipTable[st].value.mCode.value == RESP_RECORDS[rr].mCode.value) {
+                    for (var pkgr in RESP_RECORDS[rr].packageComp.value) {
+                      var pkgBody = {
+                        'value': {
+                          'mName': RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mName.value
+                        }
+                      }
+                      newShipTable.push(pkgBody);
+                    }
+                  }
+                }
               }
             } else {
               newShipTable.push(shipTable[st]);
             }
           }
+
           eRecord.record.deviceList.value = newShipTable;
           for (var i in eRecord.record.deviceList.value) {
             eRecord.record.deviceList.value[i].value.mName.lookup = true;
           }
           kintone.app.record.set(eRecord);
+
         });
     });
 
