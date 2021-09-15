@@ -107,7 +107,7 @@
         PAGE_RECORD.deviceList.value[i].value.subBtn.disabled = true;
         PAGE_RECORD.deviceList.value[i].value.shipRemarks.disabled = true;
       }
-      PAGE_RECORD.invoiceDate.disabled = false;
+      PAGE_RECORD.sys_invoiceDate.disabled = false;
       PAGE_RECORD.invoiceNum.disabled = false;
       PAGE_RECORD.invoiceStatus.disabled = false;
     }
@@ -353,24 +353,24 @@
     }
   }
   /**
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
-   * 
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
    */
 var setEasySearch=function(eSearchParms) {
   var eSearchArea=document.createElement('div');
@@ -439,7 +439,7 @@ const FIELD_CODE2 = 'prjNum';
 //andかorを小文字で入れる、今回はor
 const AND_OR = "or";
   kintone.events.on('app.record.index.show', function(event){
-    
+
     setEasySearch({
       sID:'eSearch',
       sPlaceholder:'総合検索',
@@ -455,7 +455,7 @@ const AND_OR = "or";
 
       var result = {};
       //クエリから、URL固定部分(?query=)を無視して取り出す
-      var query = window.location.search.substring(7); 
+      var query = window.location.search.substring(7);
       //フィールドコード名と検索キーワードに分割する
       for(var i in query){
         var element = query[i].split('like');
@@ -521,7 +521,7 @@ const AND_OR = "or";
     //GET引数に格納された直前の検索キーワードを取得して再表示
     var result = {};
     //クエリから、URL固定部分(?query=)を無視して取り出す
-    var query = window.location.search.substring(7); 
+    var query = window.location.search.substring(7);
     //フィールドコード名と検索キーワードに分割する
     for(var i = 0;i < query.length;i++){
       var element = query[i].split('like');
@@ -547,7 +547,7 @@ const AND_OR = "or";
       // ここがクエリ
       // var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"' + AND_OR +' '+ FIELD_CODE3 +' like "' + keyword + '"';
       var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
-      
+
       if(keyword == ""){
         str_query = "";
       }else if(keyword != ""){
@@ -563,10 +563,10 @@ const AND_OR = "or";
     }
     var label = document.createElement('label');
     label.appendChild(document.createTextNode('レコード内検索'));
-    label.appendChild(document.createTextNode(' ')); 
+    label.appendChild(document.createTextNode(' '));
     label.appendChild(search_word);
-    label.appendChild(document.createTextNode(' ')); 
-    label.appendChild(search_button); 
+    label.appendChild(document.createTextNode(' '));
+    label.appendChild(search_button);
     kintone.app.getHeaderMenuSpaceElement().appendChild(label);
   　
     return event;
