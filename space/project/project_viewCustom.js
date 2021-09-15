@@ -402,7 +402,7 @@ var setEasySearch=function(eSearchParms) {
   searchType.appendChild(sTypeSelection);
   eSearchArea.appendChild(searchType);
 
-	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchForm);
+	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
 }
 //検索したいフィールドの設定値
 //ふぃーるどフィールドコードは一対一
