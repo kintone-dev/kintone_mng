@@ -90,10 +90,11 @@
       //     event.error = '対応したレポートは締切済みです。';
       //   }
       // }
-      event.error = '対応したレポートは締切済みです。';
-
-      return event;
     });
+    event.error = '対応したレポートは締切済みです。';
+
+    return event;
+
   });
 
 })();
