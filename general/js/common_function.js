@@ -455,7 +455,7 @@ const postRecords = async (app, records) => {
 		}
 		await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
 			.then(function (resp) {
-				console.log(resp);
+				console.log(postBody);
 			}).catch(function (error) {
 				console.log(error);
 			});
@@ -473,7 +473,7 @@ const putRecords = async (app, records) => {
 		}
 		await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody)
 			.then(function (resp) {
-				console.log(resp);
+				console.log(putBody);
 			}).catch(function (error) {
 				console.log(error);
 			});
@@ -491,7 +491,7 @@ const deleteRecords = async (app, records) => {
 		}
 		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody)
 			.then(function (resp) {
-				console.log(resp);
+				console.log(deleteBody);
 			}).catch(function (error) {
 				console.log(error);
 			});
