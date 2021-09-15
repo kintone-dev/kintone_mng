@@ -464,9 +464,15 @@ const AND_OR = "or";
         //空白スペースを取り除いて、配列に格納
         result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
       }
-      // var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
-      var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ';
-      str_query=str_query+ AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
+      var str_query1 = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
+      var str_query = '?query=';
+      var searchtarget=document.forms.searchTarget;
+      for(var y in searchtarget){
+        if(searchtarget[y].value=='on'){
+          str_query=str_query+searchtarget[y].name+'like"'+keyword+'"';
+          if(y<searchtarget.length-1) str_query=str_query+'"'+AND_OR;
+        }
+      }
       if(keyword == ""||keyword == undefined){
         str_query = "";
       }
@@ -474,6 +480,7 @@ const AND_OR = "or";
       //   // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
       // }
       // 検索結果のURLへ
+      alert(str_query+'\n'+str_query);
       document.location = location.origin + location.pathname + str_query;
     });
     // setEasySearch({
