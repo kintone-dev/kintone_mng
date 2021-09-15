@@ -1,9 +1,11 @@
 (function () {
   'use strict';
 
+  //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     const PAGE_RECORD = event.record;
     var nStatus = event.nextStatus.value;
+    //ステータスが納品準備中の場合
     if (nStatus === '納品準備中') {
       var postShipData = [];
       var postShipBody = {
@@ -71,6 +73,7 @@
       }
 
       postShipData.push(postShipBody);
+      // 入出荷管理に情報連携
       postRecords(sysid.INV.app_id.shipment, postShipData);
     }
 
