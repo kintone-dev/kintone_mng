@@ -88,10 +88,10 @@
       for(var i in resp.records[0].EoMcheck.value ){
         if(resp.records[0].EoMcheck.value[i] == '締切'){
           alert('対応した日付のレポートは締切済みです。');
-          event.error = '対応した日付のポートは締切済みです。';
+          return false;
+          // event.error = '対応した日付のポートは締切済みです。';
         }
       }
-      return false;
     });
 
   });
