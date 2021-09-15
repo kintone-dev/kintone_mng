@@ -255,7 +255,7 @@
             }
           }
 
-          // eRecord.record.deviceList.value = newShipTable;
+          eRecord.record.deviceList.value = newShipTable;
           // for (var i in eRecord.record.deviceList.value) {
           //   eRecord.record.deviceList.value[i].value.mName.lookup = true;
           // }
