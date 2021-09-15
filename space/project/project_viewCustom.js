@@ -378,7 +378,7 @@ var setEasySearch=function(sID,sPlaceholder) {
 
   // var eSearchForm=document.createElement('form');
   var eSearchForm=document.createElement('form');
-  eSearchForm.method='get';
+  // eSearchForm.method='get';
   eSearchForm.name=sID;
 
   var eSearch=document.createElement('input');
