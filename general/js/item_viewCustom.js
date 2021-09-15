@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  // 新規、編集、複製ボタン非表示
+  // indexページでの新規、編集、複製ボタン非表示
   var events_ced=[
     'app.record.index.show',
     'app.record.detail.show',
@@ -19,7 +19,9 @@
     $('.gaia-argoui-app-menu-copy').remove();
     return event;
   });
-  kintone.events.on(['app.record.edit.show'], function(event){    
+
+
+  kintone.events.on(['app.record.edit.show'], function(event){
     event.record.mName.disabled = true;
     event.record.mCode.disabled = true;
     event.record.mNickname.disabled = true;
