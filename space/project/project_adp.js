@@ -79,7 +79,7 @@
   //保存ボタン押下時、対応したレポートが締め切り済の場合保存できないように
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     const PAGE_RECORD = event.record;
-    event.error = null
+    const ERECORD = kintone.app.record.get();
     var getReportBody = {
       'app': sysid.INV.app_id.report,
       'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
@@ -89,9 +89,10 @@
       for(var i in resp.records[0].EoMcheck.value ){
         if(resp.records[0].EoMcheck.value[i] == '締切'){
           alert('対応した日付のレポートは締切済みです。');
-          event.record.sys_invoiceDate.error = '対応したレ日付のポートは締切済みです。';
+          ERECORD.sys_invoiceDate.error = '対応した日付のポートは締切済みです。';
         }
       }
+      kintone.app.record.set(ERECORD);
     });
 
     return event;
