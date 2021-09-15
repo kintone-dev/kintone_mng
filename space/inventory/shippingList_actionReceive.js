@@ -2,9 +2,9 @@
   'use strict';
 
   kintone.events.on('app.record.create.show', function (event) {
-    event.record.prj_aNum.disabled = true;
+    event.record.prjNum.disabled = true;
     //コピー元の「prj_aNum」の値をsessionStorageの値を代入
-    event.record.prj_aNum.value = sessionStorage.getItem('prj_aNum');
+    event.record.prjNum.value = sessionStorage.getItem('prjNum');
     event.record.shipType.value = sessionStorage.getItem('shipType');
     event.record.tarDate.value = sessionStorage.getItem('tarDate');
     event.record.instName.value = sessionStorage.getItem('instName');
@@ -15,11 +15,11 @@
       window.close();
     }, false);
     //反映したあとはsessionStorageの中身を削除
-    sessionStorage.removeItem('prj_aNum');
+    sessionStorage.removeItem('prjNum');
     sessionStorage.removeItem('shipType');
     sessionStorage.removeItem('tarDate');
     sessionStorage.removeItem('instName');
     return event;
   });
-  
+
 })();

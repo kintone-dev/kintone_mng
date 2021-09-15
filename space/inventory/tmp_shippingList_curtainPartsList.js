@@ -200,7 +200,7 @@
             mType: {type: "SINGLE_LINE_TEXT", value: ""},
             mVendor: {type: "SINGLE_LINE_TEXT", value: ""},
             sNum: {type: "MULTI_LINE_TEXT", value: ""},
-            shipMemo: {type: "SINGLE_LINE_TEXT", value: ""},
+            shipRemarks: {type: "SINGLE_LINE_TEXT", value: ""},
             shipNum: {type: "NUMBER", value: ""}
           }
         });
@@ -231,7 +231,7 @@
             mType: {type: 'SINGLE_LINE_TEXT', value: ''},
             mVendor: {type: 'SINGLE_LINE_TEXT', value: ''},
             sNum: {type: 'MULTI_LINE_TEXT', value: ''},
-            shipMemo: {type: 'SINGLE_LINE_TEXT', value: ''},
+            shipRemarks: {type: 'SINGLE_LINE_TEXT', value: ''},
             shipNum: {type: 'NUMBER', value: workInProcess[key]}
           }
         });
@@ -413,7 +413,7 @@
             'mType': {'type': 'SINGLE_LINE_TEXT', 'value': ''},
             'mVendor': {'type': 'SINGLE_LINE_TEXT', 'value': ''},
             'sNum': {'type': 'MULTI_LINE_TEXT', 'value': ''},
-            'shipMemo': {'type': 'SINGLE_LINE_TEXT', 'value': ''},
+            'shipRemarks': {'type': 'SINGLE_LINE_TEXT', 'value': ''},
             'shipNum': {'type': 'NUMBER', 'value': workInProcess[key]}
           }
         });
