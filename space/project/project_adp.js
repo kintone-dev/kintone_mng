@@ -86,12 +86,12 @@
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
     .then(function (resp) {
-      // for(var i in resp.records[0].EoMcheck.value ){
-      //   if(resp.records[0].EoMcheck.value[i] == '締切'){
-      //     event.error = '対応したレポートは締切済みです。';
-      //   }
-      // }
-      event.error = '対応したレポートは締切済みです。';
+      for(var i in resp.records[0].EoMcheck.value ){
+        if(resp.records[0].EoMcheck.value[i] == '締切'){
+          alert('対応した日付のレポートは締切済みです。');
+          event.record.sys_invoiceDate.error = '対応したレ日付のポートは締切済みです。';
+        }
+      }
     });
 
     return event;
