@@ -241,11 +241,37 @@
                   if (shipTable[st].value.mCode.value == RESP_RECORDS[rr].mCode.value) {
                     for (var pkgr in RESP_RECORDS[rr].packageComp.value) {
                       var pkgBody = {
-                        'value': {
-                          'mName': {
-                            'value':RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mName.value
+                        value: {
+                          mCode: {
+                            type: "SINGLE_LINE_TEXT",
+                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mCode.value
+                          },
+                          mName: {
+                            type: "SINGLE_LINE_TEXT",
+                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mName.value
+                          },
+                          mType: {
+                            type: "SINGLE_LINE_TEXT",
+                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mType.value
+                          },
+                          mVendor: {
+                            type: "SINGLE_LINE_TEXT",
+                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mVendor.value
+                          },
+                          sNum: {
+                            type: "MULTI_LINE_TEXT",
+                            value: ''
+                          },
+                          shipRemarks: {
+                            type: "MULTI_LINE_TEXT",
+                            value: ''
+                          },
+                          shipNum: {
+                            type: "NUMBER",
+                            value: parseInt(RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_Num.value) * parseInt(shipTable[st].value.shipNum.value)
                           }
                         }
+
                       }
                       newShipTable.push(pkgBody);
                     }
