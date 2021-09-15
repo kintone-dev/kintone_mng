@@ -377,14 +377,12 @@ var setEasySearch=function(sID,sPlaceholder) {
 
 
   // var eSearchForm=document.createElement('form');
-  var eSearchForm=document.createElement('div');
-  // eSearchForm.method='get';
-
-  // eSearchForm.ID=sID;
-  // eSearchForm.name=sID;
+  var eSearchForm=document.createElement('form');
+  eSearchForm.method='get';
+  eSearchForm.name=sID;
 
   var eSearch=document.createElement('input');
-  eSearch.id=sID;
+  eSearch.name='s_'+sID;
   eSearch.type='text';
   eSearch.placeholder=sPlaceholder;
   eSearch.classList.add('testclass');
@@ -408,9 +406,8 @@ const AND_OR = "or";
     
     setEasySearch('eSearch','総合検索');
     $('#btn_eSearch').on('click', function(){
-      // var testC=document.s_eSearch.value;
-      // var keyword=document.eSearch.s_eSearch.value;
-      var keyword=document.getElementById('eSearch').value;
+      var keyword=document.eSearch.s_eSearch.value;
+      // var keyword=document.getElementById('eSearch').value;
 
       var result = {};
       //クエリから、URL固定部分(?query=)を無視して取り出す
@@ -432,15 +429,15 @@ const AND_OR = "or";
         // var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"' + AND_OR +' '+ FIELD_CODE3 +' like "' + keyword + '"';
         console.log(keyword);
         var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
-        console.log(str_query);
         if(keyword == ""||keyword == undefined){
           str_query = "";
         }else if(keyword != ""){
           // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
         }
         // 検索結果のURLへ
-        document.location = location.origin + location.pathname + str_query;
-        console.log(location.origin + location.pathname + str_query);
+        // document.location = location.origin + location.pathname + str_query;
+        document.eSearch.action = location.origin + location.pathname + str_query;
+
         // document.eSearch.action=location.origin + location.pathname + str_query;
       }
       // 重複を避けるため要素をあらかじめクリアしておく
