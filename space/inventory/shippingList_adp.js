@@ -101,10 +101,12 @@
     }
     sendDate = sendDate.replace(/-/g, '');
     sendDate = sendDate.slice(0, -2);
+    const REPORT_KEY_YEAR = sendDate.substring(0, 4);
+    const REPORT_KEY_MONTH = sendDate.substring(4, 7);
     //同じ月のレポート情報取得
     var getReportBody = {
       'app': sysid.INV.app_id.report,
-      'query': 'report_key = "' + sendDate + '" order by 更新日時 asc'
+      'query': 'sys_invoiceDate = "' + sendDate + '" order by 更新日時 asc'
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
@@ -114,7 +116,7 @@
           //更新レポート情報
           var putReportBody = {
             'updateKey': {
-              'field': 'report_key',
+              'field': 'sys_invoiceDate',
               'value': sendDate
             },
             'record': {
@@ -239,8 +241,11 @@
           var postReportData = [];
           var postInventoryListArray = [];
           var postReportBody = {
-            'report_key': {
-              'value': sendDate
+            'invoiceYears': {
+              'value': REPORT_KEY_YEAR
+            },
+            'invoiceMonth': {
+              'value': REPORT_KEY_MONTH
             },
             'inventoryList': {
               'value': postInventoryListArray
