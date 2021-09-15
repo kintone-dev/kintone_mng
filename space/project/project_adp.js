@@ -83,7 +83,7 @@
       'app': sysid.INV.app_id.report,
       'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
     };
-    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNextMonthReportBody)
+    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
     .then(function (resp) {
       console.log(resp);
       for(var i in resp.records[0].EoMcheck.value ){
