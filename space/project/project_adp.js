@@ -76,7 +76,6 @@
       // 入出荷管理に情報連携
       postRecords(sysid.INV.app_id.shipment, postShipData);
     }
-
   });
 
   //保存ボタン押下時、対応したレポートが締め切り済の場合保存できないように

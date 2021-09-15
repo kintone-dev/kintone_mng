@@ -75,7 +75,7 @@
     }
     tabSwitch('#案件情報');
     //タブメニュー作成
-    tabMenu('tab_project', ['案件情報', '設置先情報', '納品依頼リスト', '宛先情報', '輸送情報']);
+    tabMenu('tab_project', ['案件情報', '設置先情報', '宛先情報', '納品依頼リスト', '輸送情報']);
     //タブ切り替え表示設定
     $('.tab_project a').on('click', function () {
       var idName = $(this).attr('href'); //タブ内のリンク名を取得

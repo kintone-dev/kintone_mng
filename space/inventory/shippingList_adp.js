@@ -59,9 +59,6 @@
       }
       //ID更新 end
 
-      // 輸送情報連携
-      setDeliveryInfo(PAGE_RECORD);
-
       // 在庫処理
       if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
         stockCount('normal', sysShipmentCode, sysArrivalCode, stockData);
@@ -76,6 +73,9 @@
       }
       // ステータスが出荷完了の場合
     } else if (nStatus === "出荷完了") {
+      // 輸送情報連携
+      setDeliveryInfo(PAGE_RECORD);
+
       // レポート処理
       if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
         reportCreate(PAGE_RECORD, 'distribute');
@@ -543,17 +543,11 @@
     var putStatusBody = {
       'app': sysid.PM.app_id.project,
       'id': pageRecod.prjId.value,
-      'action': '製品発送待ち'
-    }
-    var putStatusBody2 = {
-      'app': sysid.PM.app_id.project,
-      'id': pageRecod.prjId.value,
-      'action': '納品手配'
+      'action': '製品発送'
     }
 
     putRecords(sysid.PM.app_id.project, putDeliveryData);
     kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody);
-    kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody2);
   }
 
 })();
