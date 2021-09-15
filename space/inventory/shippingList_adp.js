@@ -255,10 +255,10 @@
             }
           }
 
-          eRecord.record.deviceList.value = newShipTable;
-          for (var i in eRecord.record.deviceList.value) {
-            eRecord.record.deviceList.value[i].value.mName.lookup = true;
-          }
+          // eRecord.record.deviceList.value = newShipTable;
+          // for (var i in eRecord.record.deviceList.value) {
+          //   eRecord.record.deviceList.value[i].value.mName.lookup = true;
+          // }
           kintone.app.record.set(eRecord);
 
         });
