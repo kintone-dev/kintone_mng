@@ -242,7 +242,9 @@
                     for (var pkgr in RESP_RECORDS[rr].packageComp.value) {
                       var pkgBody = {
                         'value': {
-                          'mName': RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mName.value
+                          'mName': {
+                            'value':RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mName.value
+                          }
                         }
                       }
                       newShipTable.push(pkgBody);
@@ -257,9 +259,9 @@
 
           eRecord.record.deviceList.value = newShipTable;
           console.log(eRecord.record.deviceList.value);
-          // for (var i in eRecord.record.deviceList.value) {
-          //   eRecord.record.deviceList.value[i].value.mName.lookup = true;
-          // }
+          for (var i in eRecord.record.deviceList.value) {
+            eRecord.record.deviceList.value[i].value.mName.lookup = true;
+          }
           kintone.app.record.set(eRecord);
 
         });
