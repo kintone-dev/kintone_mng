@@ -126,7 +126,6 @@
       kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getPkg)
         .then(function (resp) {
           const RESP_RECORDS = resp.records;
-          console.log(RESP_RECORDS);
           for (var st in shipTable) {
             if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
               if (String(shipTable[st].value.mCode.value).match(/TRT-DY/)) {
@@ -278,9 +277,9 @@
                     }
                   }
                 }
-              } else {
-                newShipTable.push(shipTable[st]);
               }
+            }else {
+              newShipTable.push(shipTable[st]);
             }
           }
 
