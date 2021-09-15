@@ -409,7 +409,7 @@ const AND_OR = "or";
     $('#btn_eSearch').on('click', function(){
       // var testC=document.s_eSearch.value;
       // var keyword=document.eSearch.s_eSearch.value;
-      var keyword=document.getElementsByName('sID').value;
+      var keyword=document.getElementsByName(sID).value;
 
       var result = {};
       //クエリから、URL固定部分(?query=)を無視して取り出す
