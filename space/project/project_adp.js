@@ -79,8 +79,19 @@
   //保存ボタン押下時、対応したレポートが締め切り済の場合保存できないように
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     const PAGE_RECORD = event.record;
-
-    event.error = 'エラーです';
+    var getReportBody = {
+      'app': sysid.INV.app_id.report,
+      'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
+    };
+    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNextMonthReportBody)
+    .then(function (resp) {
+      console.log(resp);
+      for(var i in resp.records[0].EoMcheck.value ){
+        if(resp.records[0].EoMcheck.value[i] == '締切'){
+          event.error = '対応したレポートは締切済みです。';
+        }
+      }
+    });
 
     return event;
   });
