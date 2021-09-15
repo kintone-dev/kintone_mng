@@ -415,6 +415,7 @@ var setEasySearch=function(eSearchParms) {
   var searchTargetArea=document.createElement('form');
   searchTargetArea.id='searchTarget';
   searchTargetArea.name='searchTarget';
+
   for(var i in eSearchParms.sConditions){
     var searchTarget=document.createElement('input');
     searchTarget.id=eSearchParms.sConditions[i].fCode;
@@ -450,7 +451,7 @@ const AND_OR = "or";
     $('#btn_eSearch').on('click', function(){
       // var testC=document.s_eSearch.value;
       // var keyword=document.eSearch.s_eSearch.value;
-      var keyword=document.getElementById('eSearch').value;
+      var keyword=document.getElementById('s_eSearch').value;
 
       var result = {};
       //クエリから、URL固定部分(?query=)を無視して取り出す
