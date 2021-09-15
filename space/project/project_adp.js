@@ -85,16 +85,17 @@
     };
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
     .then(function (resp) {
-      var eRecord=kintone.app.record.get();
+      // var eRecord=kintone.app.record.get();
       for(var i in resp.records[0].EoMcheck.value ){
         if(resp.records[0].EoMcheck.value[i] == '締切'){
           alert('対応した日付のレポートは締切済みです。');
-          eRecord.record.invoiceYears.error = '対応した日付のレポートは締切済みです。';
-          eRecord.record.invoiceMonth.error = '対応した日付のレポートは締切済みです。';
-          kintone.app.record.set(eRecord);
+          event.record.invoiceYears.value = '1';
+          // eRecord.record.invoiceMonth.error = '対応した日付のレポートは締切済みです。';
+          // kintone.app.record.set(eRecord);
         }
       }
-      kintone.app.record.set(eRecord);
+      // kintone.app.record.set(eRecord);
+      return event;
     });
 
   });
