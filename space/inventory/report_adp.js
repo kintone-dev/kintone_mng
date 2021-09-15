@@ -4,13 +4,13 @@
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
     const REPORT_RECORD = event.record;
     if (REPORT_RECORD.EoMcheck.value == '締切') {
-      const REPORT_KEY_YEAR = REPORT_RECORD.report_key.value.substring(0, 4);
-      const REPORT_KEY_MONTH = REPORT_RECORD.report_key.value.substring(4, 7);
+      const REPORT_KEY_YEAR = REPORT_RECORD.invoiceYears.value;
+      const REPORT_KEY_MONTH = REPORT_RECORD.invoiceMonth.value;
       var reportDate = new Date(REPORT_KEY_YEAR,REPORT_KEY_MONTH);
       const NEXT_DATE = String(reportDate.getFullYear()) + String(("0"+(reportDate.getMonth() + 1)).slice(-2));
       var getNextMonthReportBody = {
         'app': sysid.INV.app_id.report,
-        'query': 'report_key = "' + NEXT_DATE + '" order by 更新日時 asc'
+        'query': 'sys_invoiceDate = "' + NEXT_DATE + '" order by 更新日時 asc'
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNextMonthReportBody)
         .then(function (resp) {
@@ -20,9 +20,12 @@
             var postNewReportData = [];
             var postNewReport_listArray = [];
             var postNewReport_body = {
-              'report_key': {
-                'value': NEXT_DATE
-              },  
+              'invoiceYears': {
+                'value': String(reportDate.getFullYear())
+              },
+              'invoiceMonth': {
+                'value': String(("0"+(reportDate.getMonth() + 1)).slice(-2))
+              },
               'inventoryList':{
                 'value':postNewReport_listArray
               }
@@ -56,7 +59,7 @@
             var putNewReportData = [];
             var putNewReport_body = {
               'updateKey': {
-                'field': 'report_key',
+                'field': 'sys_invoiceDate',
                 'value': NEXT_DATE
               },
               'record': {
