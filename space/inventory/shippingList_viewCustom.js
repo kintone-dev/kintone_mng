@@ -236,11 +236,17 @@
           }
         }
       }
-      var getPkg = {
-        'app': sysid.INV.app_id.device,
-        'query': 'mCode in (' + pkgQuery.join() + ') order by 更新日時 asc',
-      };
-
+      if(pkgQuery.length != 0){
+        var getPkg = {
+          'app': sysid.INV.app_id.device,
+          'query': 'mCode in (' + pkgQuery.join() + ') order by 更新日時 asc',
+        };
+      } else{
+        var getPkg = {
+          'app': sysid.INV.app_id.device,
+          'query': 'order by 更新日時 asc',
+        };
+      }
       kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getPkg)
         .then(function (resp) {
           const RESP_RECORDS = resp.records;
