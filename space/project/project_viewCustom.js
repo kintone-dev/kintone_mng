@@ -468,6 +468,7 @@ const AND_OR = "or";
       var str_query = '?query=';
       var searchtarget=document.forms.searchTarget;
       for(var y in document.forms.searchTarget){
+        console.log(y)
         if(document.forms.searchTarget[y].value=='on'){
           str_query=str_query+document.forms.searchTarget[y].name+'like"'+keyword+'"';
           if(y<document.forms.searchTarget.length-1) str_query=str_query+'"'+AND_OR;
