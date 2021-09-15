@@ -212,9 +212,9 @@
                         type: "SINGLE_LINE_TEXT",
                         value: JSON.stringify(railItems[ril].value.mNickname.value).replace(/\"/g, '')
                       },
-                      sNum: {
-                        type: "MULTI_LINE_TEXT",
-                        value: JSON.stringify(railItems[ril].value.sNum.value).replace(/\"/g, '')
+                      subBtn: {
+                        type: "RADIO_BUTTON",
+                        value: '通常'
                       },
                       shipRemarks: {
                         type: "MULTI_LINE_TEXT",
@@ -256,9 +256,9 @@
                             type: "SINGLE_LINE_TEXT",
                             value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mNickname.value
                           },
-                          sNum: {
-                            type: "MULTI_LINE_TEXT",
-                            value: ''
+                          subBtn: {
+                            type: "RADIO_BUTTON",
+                            value: '通常'
                           },
                           shipRemarks: {
                             type: "MULTI_LINE_TEXT",
