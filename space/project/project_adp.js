@@ -76,4 +76,13 @@
 
   });
 
+  //保存ボタン押下時、対応したレポートが締め切り済の場合保存できないように
+  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+    const PAGE_RECORD = event.record;
+
+    event.error = 'エラーです';
+
+    return event;
+  });
+
 })();
