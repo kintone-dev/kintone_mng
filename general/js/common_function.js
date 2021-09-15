@@ -324,17 +324,17 @@ var railConf = function (spec) {
 	var railDetail = [];
 	var truck = ['カーテンレール（DY）2000', Math.ceil(truckLength / 2000) * spec.shipNum];
 	var ConnectingKit = ['Connecting Kit', Math.ceil(truckLength / 2000 - 1) * spec.shipNum];
-	var RubberBelt = ['Rubber Belt', Math.ceil((truckLength * 2 + 240) / 1000) * spec.shipNum];
-	var Carriers = ['Carriers', Math.round(truckLength / 125)];
+	var RubberBelt = ['ラバーベルト', Math.ceil((truckLength * 2 + 240) / 1000) * spec.shipNum];
+	var Carriers = ['ランナー', Math.round(truckLength / 125)];
 	if (spec.rType.match(/[wW]/)) Carriers[1] = Math.ceil(Carriers[1] / 2) * 2 * spec.shipNum;
 	else Carriers[1] = Carriers[1] * spec.shipNum;
 	var CeilingBracket = ['', Math.round(spec.rLength / 500 + 1) * spec.shipNum];
-	if (spec.rMethod == '天井') CeilingBracket[0] = 'Ceiling Bracket(D)';
-	else if (spec.rMethod.match(/壁付/)) CeilingBracket[0] = 'Ceiling Bracket';
-	var MasterCarrier = ['MasterCarrier', 1 * spec.shipNum];
-	if (ConnectingKit[1] > 0) MasterCarrier[0] = 'Master Carrier(G)';
-	var BeltClip = ['Belt Clip', 2 * spec.shipNum];
-	var EndHook = ['End Hook', 1 * spec.shipNum];
+	if (spec.rMethod == '天井') CeilingBracket[0] = '取付金具(D)';
+	else if (spec.rMethod.match(/壁付/)) CeilingBracket[0] = '取付金具';
+	var MasterCarrier = ['マスターキャリアー', 1 * spec.shipNum];
+	if (ConnectingKit[1] > 0) MasterCarrier[0] = 'マスターキャリアー連結レール用(G)';
+	var BeltClip = ['ベルトアタッチメント', 2 * spec.shipNum];
+	var EndHook = ['エンドフック', 1 * spec.shipNum];
 	if (spec.rType.match(/[wW]/)) {
 		MasterCarrier[1] = MasterCarrier[1] * 2;
 		BeltClip[1] = BeltClip[1] * 2;
@@ -384,18 +384,18 @@ var railConf = function (spec) {
 		shipnum: EndHook[1]
 	});
 	railDetail.push({
-		mname: 'EndBox',
+		mname: 'エンドボックス',
 		shipnum: 2 * spec.shipNum
 	});
 	railDetail.push({
-		mname: 'Bumper',
+		mname: 'バンパー＋クッション',
 		shipnum: 2 * spec.shipNum
 	})
 	var railComp = [];
 	for (var i in railDetail) {
 		railComp.push({
 			value: {
-				mCode: {
+				mVendor: {
 					value: '',
 					type: 'SINGLE_LINE_TEXT'
 				},
@@ -403,11 +403,15 @@ var railConf = function (spec) {
 					value: '',
 					type: 'SINGLE_LINE_TEXT'
 				},
-				mVendor: {
+				mCode: {
 					value: '',
 					type: 'SINGLE_LINE_TEXT'
 				},
 				mName: {
+					value: '',
+					type: 'SINGLE_LINE_TEXT'
+				},
+				mNickname: {
 					value: railDetail[i].mname,
 					type: 'SINGLE_LINE_TEXT'
 				},

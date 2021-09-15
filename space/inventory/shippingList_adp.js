@@ -202,6 +202,14 @@
                 for (var ril in railItems) {
                   var railItemBody = {
                     value: {
+                      mVendor: {
+                        type: "SINGLE_LINE_TEXT",
+                        value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
+                      },
+                      mType: {
+                        type: "SINGLE_LINE_TEXT",
+                        value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
+                      },
                       mCode: {
                         type: "SINGLE_LINE_TEXT",
                         value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
@@ -210,13 +218,9 @@
                         type: "SINGLE_LINE_TEXT",
                         value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
                       },
-                      mType: {
+                      mNickname: {
                         type: "SINGLE_LINE_TEXT",
-                        value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
-                      },
-                      mVendor: {
-                        type: "SINGLE_LINE_TEXT",
-                        value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
+                        value: JSON.stringify(railItems[ril].value.mNickname.value).replace(/\"/g, '')
                       },
                       sNum: {
                         type: "MULTI_LINE_TEXT",
@@ -242,6 +246,14 @@
                     for (var pkgr in RESP_RECORDS[rr].packageComp.value) {
                       var pkgBody = {
                         value: {
+                          mVendor: {
+                            type: "SINGLE_LINE_TEXT",
+                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mVendor.value
+                          },
+                          mType: {
+                            type: "SINGLE_LINE_TEXT",
+                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mType.value
+                          },
                           mCode: {
                             type: "SINGLE_LINE_TEXT",
                             value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mCode.value
@@ -250,13 +262,9 @@
                             type: "SINGLE_LINE_TEXT",
                             value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mName.value
                           },
-                          mType: {
+                          mNickname: {
                             type: "SINGLE_LINE_TEXT",
-                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mType.value
-                          },
-                          mVendor: {
-                            type: "SINGLE_LINE_TEXT",
-                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mVendor.value
+                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mNickname.value
                           },
                           sNum: {
                             type: "MULTI_LINE_TEXT",
@@ -271,7 +279,6 @@
                             value: parseInt(RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_Num.value) * parseInt(shipTable[st].value.shipNum.value)
                           }
                         }
-
                       }
                       newShipTable.push(pkgBody);
                     }
@@ -286,7 +293,7 @@
           eRecord.record.deviceList.value = newShipTable;
           console.log(eRecord.record.deviceList.value);
           for (var i in eRecord.record.deviceList.value) {
-            eRecord.record.deviceList.value[i].value.mName.lookup = true;
+            eRecord.record.deviceList.value[i].value.mNickname.lookup = true;
           }
           kintone.app.record.set(eRecord);
 
