@@ -92,8 +92,12 @@
               event.record.invoiceYears.value = '2025';
               event.error = '対応した日付のレポートは締切済みです。';
               return event;
+            }else{
+              return event;
             }
           }
+        }else{
+          return event;
         }
       });
 
