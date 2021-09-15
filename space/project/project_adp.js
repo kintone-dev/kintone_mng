@@ -83,16 +83,18 @@
       'app': sysid.INV.app_id.report,
       'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
     };
-    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
     .then(function (resp) {
+      var eRecord=kintone.app.record.get();
       for(var i in resp.records[0].EoMcheck.value ){
         if(resp.records[0].EoMcheck.value[i] == '締切'){
           alert('対応した日付のレポートは締切済みです。');
-          PAGE_RECORD.sys_invoiceDate.error = '対応した日付のレポートは締切済みです。';
-          console.log(event);
-          return event;
+          eRecord.record.invoiceYears.error = '対応した日付のレポートは締切済みです。';
+          eRecord.record.invoiceMonth.error = '対応した日付のレポートは締切済みです。';
+          kintone.app.record.set(eRecord);
         }
       }
+      kintone.app.record.set(eRecord);
     });
 
   });
