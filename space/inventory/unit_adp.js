@@ -45,8 +45,6 @@
     return event;
   });
 
-
-
   //新規保存時アクション
   kintone.events.on('app.record.create.submit', function(event) {
     //品目情報を拠点リストに転送
