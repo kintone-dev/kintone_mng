@@ -235,7 +235,7 @@
     const PAGE_RECORD = event.record;
 
     var nowDate = new Date();
-    var nowDateFormat = String(nowDate.getFullYear()) + String(nowDate.getMonth());
+    var nowDateFormat = String(nowDate.getFullYear()) + String(("0"+(date.getMonth() + 1)).slice(-2));
     console.log(nowDateFormat);
     console.log(PAGE_RECORD.sys_invoiceDate.value);
     if(parseInt(nowDateFormat) < parseInt(PAGE_RECORD.sys_invoiceDate.value)){
