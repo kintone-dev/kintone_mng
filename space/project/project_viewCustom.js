@@ -819,6 +819,13 @@
   kintone.events.on('app.record.detail.show', function (event) {
     const PAGE_RECORD = event.record;
     var putData = [];
+
+    sessionStorage.setItem('record_updated', '1');
+    if(sessionStorage.getItem('record_updated') === '1'){
+      sessionStorage.setItem('record_updated', '1');
+      return event;
+    }
+
     if(PAGE_RECORD.sys_isReady.value != 'true'){
       var wfpCheck = PAGE_RECORD.deviceList.value.some(function(item){
         if(item.value.shipRemarks.value.match(/WFP/)){
@@ -832,6 +839,7 @@
           }
           putData.push(putBody);
           putRecords(kintone.app.getId(),putData);
+          sessionStorage.setItem('record_updated', '1');
           location.reload();
         } else{
           var putBody = {
@@ -844,6 +852,7 @@
           }
           putData.push(putBody);
           putRecords(kintone.app.getId(),putData);
+          sessionStorage.setItem('record_updated', '1');
           location.reload();
         }
       });
