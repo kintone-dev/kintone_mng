@@ -267,7 +267,7 @@
     var nowDate = new Date();
     var nowDateFormat = String(nowDate.getFullYear()) + String(("0"+(nowDate.getMonth() + 1)).slice(-2));
     if(parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)){
-      event.error = '昔の請求書です。';
+      alert('昔の請求書です。');
       return event;
     }
   });
