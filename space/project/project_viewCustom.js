@@ -818,11 +818,13 @@
   //wfpチェック
   kintone.events.on('app.record.detail.show', function (event) {
     const PAGE_RECORD = event.record;
+    const ERECORD = kintone.app.record.get();
 
     for(var i in PAGE_RECORD.deviceList.value){
       if(PAGE_RECORD.deviceList.value[i].value.shipRemarks.value.match(/WFP/)){
         console.log('wfp');
-        PAGE_RECORD.sys_isReady.value = 'false';
+        ERECORD.sys_isReady.value = 'false';
+        kintone.app.record.set(ERECORD);
       }
     }
 
