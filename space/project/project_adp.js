@@ -239,6 +239,7 @@
       console.log(nowDateFormat);
       console.log(PAGE_RECORD.sys_invoiceDate.value);
       if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+        console.log('error');
         event.error = '請求月が間違っています。';
         return event;
       }
@@ -262,6 +263,7 @@
           return event;
         }
       });
+
   });
 
   kintone.events.on(['app.record.detail.show'], function (event) {
