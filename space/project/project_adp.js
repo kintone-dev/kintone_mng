@@ -138,10 +138,12 @@
             'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
           };
 
+          //商品管理情報取得
           return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
           .then(function (resp) {
             var deviceRecords = resp.records;
             var deviceStockData = [];
+            console.log(JSON.stringify(totalStockData, null, '\t'));
 
             for (var i in deviceRecords) {
               var deviceStockBody = {
@@ -160,6 +162,7 @@
                   for(var k in deviceStockBody.record.uStockList.value){
                     if(deviceStockBody.record.uStockList.value[k].value.uCode == 'distribute'){
                       deviceStockBody.record.uStockList.value[k].value.uStock = totalStockData[j].stockNum
+                      console.log(deviceStockBody.record.uStockList.value[k].value.uStock);
                     }
                   }
                 }
