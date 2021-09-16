@@ -85,7 +85,7 @@
         var stockData = []
         //納品リストからmCodeと納品数を取得
         for (var i in PAGE_RECORD.deviceList.value) {
-          if (PAGE_RECORD.deviceList.value[i].value.subBtn, value == '通常') {
+          if (PAGE_RECORD.deviceList.value[i].value.subBtn.value == '通常') {
             var stockBody = {
               'mCode': PAGE_RECORD.deviceList.value[i].value.mCode.value,
               'shipNum': PAGE_RECORD.deviceList.value[i].value.shipNum.value
