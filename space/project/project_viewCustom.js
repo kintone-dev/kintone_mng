@@ -381,6 +381,9 @@
     eSearch.type = 'text';
     eSearch.placeholder = eSearchParms.sPlaceholder;
     eSearch.classList.add('testclass');
+    eSearch.keypress=function(){
+      console.log(window.event.keyCode)
+    }
     eSearchArea.appendChild(eSearch);
 
     var searchBtn = document.createElement('input');
