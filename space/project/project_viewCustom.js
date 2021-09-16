@@ -820,7 +820,7 @@
     const PAGE_RECORD = event.record;
     var putData = [];
     if(PAGE_RECORD.sys_isReady.value != 'true'){
-      var wfpCheck = pageRecod.deviceList.value.some(function(item){
+      var wfpCheck = PAGE_RECORD.deviceList.value.some(function(item){
         if(item.value.shipRemarks.value.match(/WFP/)){
           var putBody = {
             'id': PAGE_RECORD.$id.value,
