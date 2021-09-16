@@ -236,13 +236,10 @@
       cache:false,
       async:false
     }).done(function (data, status, xhr) {
+      //請求月が今より過去の場合
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-
       var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-      console.log(nowDateFormat);
-      console.log(PAGE_RECORD.sys_invoiceDate.value);
       if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
-        console.log('error');
         event.error = '請求月が間違っています。';
         return event;
       }
@@ -252,11 +249,12 @@
         'app': sysid.INV.app_id.report,
         'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
       };
-      return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
         .then(function (resp) {
           console.log(resp);
           if (resp.records != 0) {
             if (resp.records[0].EoMcheck.value != 0) {
+              console.log('error');
               event.error = '対応した日付のレポートは月末処理締切済みです。';
               return event;
             } else {
@@ -266,6 +264,8 @@
             return event;
           }
         });
+
+        return event;
     });
 
     return event;
@@ -273,13 +273,21 @@
 
   kintone.events.on(['app.record.detail.show'], function (event) {
     const PAGE_RECORD = event.record;
-    //請求月が今より過去の場合
-    var nowDate = new Date();
-    var nowDateFormat = String(nowDate.getFullYear()) + String(("0" + (nowDate.getMonth() + 1)).slice(-2));
-    if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
-      alert('昔の請求書です。');
-      return event;
-    }
+    //サーバー時間取得
+    $.ajax({
+      type: 'GET',
+      cache:false,
+      async:false
+    }).done(function (data, status, xhr) {
+      //請求月が今より過去の場合
+      var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
+      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+        alert('昔の請求書です。');
+        return event;
+      }
+    });
+    return event;
   });
 
 })();
