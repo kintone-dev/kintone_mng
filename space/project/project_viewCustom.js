@@ -481,9 +481,7 @@
         // console.log(document.forms.searchTarget[st].checked)
         if (document.searchTargets.searchTarget[st].checked) {
           str_query = str_query + document.searchTargets.searchTarget[st].name + 'like"' + keyword + '"';
-          if (st < document.searchTargets.searchTarget.length - 1) str_query = str_query + 'or ';
-        }else{
-          alert('検索対象が選択されていません')
+          if (document.searchTargets.searchTarget[st].checked && st < document.searchTargets.searchTarget.length - 1) str_query = str_query + 'or ';
         }
       }
       if (keyword == "" || keyword == undefined) {
