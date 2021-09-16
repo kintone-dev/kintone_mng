@@ -816,15 +816,18 @@
   });
 
   //wfpチェック
-  kintone.events.on('app.record.edit.show', function (event) {
+  kintone.events.on('app.record.detail.show', function (event) {
     var pageRecod = event.record;
-
-    for(var i in pageRecod.deviceList.value){
-      if(pageRecod.deviceList.value[i].value.shipRemarks.value.match(/WFP/)){
-        console.log('wfp');
-        pageRecod.sys_isReady.value = 'false';
-      }
+    if(pageRecod.deviceList.value.some(item => item.sysCode.value === /WFP/)){
+      console.log('WFP');
     }
+    // for(var i in pageRecod.deviceList.value){
+
+    //   if(pageRecod.deviceList.value[i].value.shipRemarks.value.match(/WFP/)){
+    //     console.log('wfp');
+    //     pageRecod.sys_isReady.value = 'false';
+    //   }
+    // }
 
     return event;
   });
