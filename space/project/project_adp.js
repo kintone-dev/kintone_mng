@@ -3,8 +3,8 @@
 
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', function (event) {
-    alert = '対応した日付のレポートは締切済みです。';
-    return false;
+    event.error = 'aaaa';
+    return event;
     // const PAGE_RECORD = event.record;
     // var nStatus = event.nextStatus.value;
     // var getReportBody = {
