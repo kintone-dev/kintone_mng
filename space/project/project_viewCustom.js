@@ -815,4 +815,17 @@
     return event;
   });
 
+  //wfpチェック
+  kintone.events.on('app.record.detail.show', function (event) {
+    const PAGE_RECORD = event.record;
+
+    for(var i in PAGE_RECORD.deviceList.value){
+      if(PAGE_RECORD.deviceList.value[i].value.shipRemarks.value.match(/WFP/)){
+        PAGE_RECORD.sys_isReady.value = 'false';
+      }
+    }
+
+    return event;
+  });
+
 })();
