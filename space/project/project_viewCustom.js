@@ -818,7 +818,7 @@
   //wfpチェック
   kintone.events.on('app.record.detail.show', function (event) {
     var pageRecod = event.record;
-    if(pageRecod.deviceList.value.some(item => item.sysCode.value === /WFP/)){
+    if(pageRecod.deviceList.value.some(item => item.shipRemarks.value === /WFP/)){
       console.log('WFP');
     }
     // for(var i in pageRecod.deviceList.value){
