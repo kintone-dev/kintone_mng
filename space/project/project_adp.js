@@ -236,8 +236,8 @@
 
     var nowDate = new Date();
     var nowDateFormat = String(nowDate.getFullYear()) + String(nowDate.getMonth());
-
-    if(parseInt(PAGE_RECORD.sys_invoiceDate.value) < parseInt(nowDateFormat)){
+    console.log();
+    if(parseInt(nowDateFormat) < parseInt(PAGE_RECORD.sys_invoiceDate.value)){
       console.log('overs');
     }
     //対応レポート取得
