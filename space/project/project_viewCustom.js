@@ -481,7 +481,7 @@
         // console.log(document.forms.searchTarget[st].checked)
         if (document.searchTargets.searchTarget[st].checked) {
           str_query = str_query + document.searchTargets.searchTarget[st].name + 'like"' + keyword + '"';
-          if (st < document.searchTargets.searchTarget.length - 1) str_query = str_query + '"' + AND_OR;
+          if (st < document.searchTargets.searchTarget.length - 1) str_query = str_query + AND_OR;
         }
       }
       if (keyword == "" || keyword == undefined) {
@@ -491,7 +491,7 @@
       //   // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
       // }
       // 検索結果のURLへ
-      alert(str_query + '\n' + str_query);
+      alert(str_query1 + '\n' + str_query);
       document.location = location.origin + location.pathname + str_query;
     });
     // setEasySearch({
