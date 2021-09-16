@@ -17,8 +17,9 @@
               event.error = '対応した日付のレポートは締切済みです。';
               return event;
             } else {
+              console.log('done');
               //ステータスが納品準備中の場合
-              if (nStatus === '納品準備中') {
+              if (nStatus == '納品準備中') {
                 var postShipData = [];
                 var postShipBody = {
                   'aboutDelivery': {
@@ -91,7 +92,7 @@
                 // 入出荷管理に情報連携
                 return postRecords(sysid.INV.app_id.shipment, postShipData);
 
-              } else if (nStatus === '完了') {
+              } else if (nStatus == '完了') {
                 console.log(PAGE_RECORD.salesType.value);
                 if (PAGE_RECORD.salesType.value == '販売' || PAGE_RECORD.salesType.value == 'サブスク') {
                   //積送在庫処理
