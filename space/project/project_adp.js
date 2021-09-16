@@ -12,7 +12,6 @@
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
         if (resp.records != 0) {
-          console.log('donedddd');
           for (var i in resp.records[0].EoMcheck.value) {
             if (resp.records[0].EoMcheck.value[i] == '締切') {
               event.error = '対応した日付のレポートは締切済みです。';
@@ -191,12 +190,9 @@
                       }
 
                       //レポートクエリ
-                      var sendDate = PAGE_RECORD.sendDate.value;
-                      sendDate = sendDate.replace(/-/g, '');
-                      sendDate = sendDate.slice(0, -2);
                       var getReportBody = {
                         'app': sysid.INV.app_id.report,
-                        'query': 'sys_invoiceDate = "' + sendDate + '" order by 更新日時 asc'
+                        'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
                       };
                       return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
                         .then(function (resp) {
@@ -230,14 +226,42 @@
                 });
             }
           }
+        }
+      });
+  });
 
+  //保存ボタン押下時、対応したレポートが締め切り済の場合保存できないように
+  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+    const PAGE_RECORD = event.record;
+
+    var nowDate = new Date();
+    var nowDateFormat = String(nowDate.getFullYear()) + String(nowDate.getMonth());
+
+    if(parseInt(PAGE_RECORD.sys_invoiceDate.value) < parseInt(nowDateFormat)){
+      console.log('overs');
+    }
+    //対応レポート取得
+    var getReportBody = {
+      'app': sysid.INV.app_id.report,
+      'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
+    };
+    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+      .then(function (resp) {
+        if (resp.records != 0) {
+          if (resp.records[0].EoMcheck.value != 0) {
+            event.error = '対応した日付のレポートは月末処理締切済みです。';
+            return event;
+          } else {
+            return event;
+          }
+        } else {
+          return event;
         }
       });
 
   });
 
-  //保存ボタン押下時、対応したレポートが締め切り済の場合保存できないように
-  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+  kintone.events.on(['app.record.detail.show'], function (event) {
     const PAGE_RECORD = event.record;
     var getReportBody = {
       'app': sysid.INV.app_id.report,
@@ -247,7 +271,7 @@
       .then(function (resp) {
         if (resp.records != 0) {
           if (resp.records[0].EoMcheck.value != 0) {
-            event.error = '対応した日付のレポートは締切済みです。';
+            event.error = '対応した日付のレポートは月末処理締切済みです。';
             return event;
           } else {
             return event;
