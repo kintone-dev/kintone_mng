@@ -207,6 +207,8 @@
 
                     reportStockData.push(reportStockBody);
 
+                    console.log(JSON.stringify(reportStockData, null, '\t'));
+
                     putRecords(sysid.INV.app_id.unit, unitStockData);
                     putRecords(sysid.INV.app_id.device, deviceStockData);
                     putRecords(sysid.INV.app_id.report, reportStockData);
