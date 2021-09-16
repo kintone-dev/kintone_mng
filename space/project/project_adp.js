@@ -121,7 +121,7 @@
           //拠点在庫情報のbodyをset
           unitStockData.push(unitStockBody);
 
-          console.log(unitStockData);
+          console.log(JSON.stringify(unitStockData[0], null, '\t'));
         });
     }
   });
