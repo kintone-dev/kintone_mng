@@ -97,6 +97,8 @@
         .then(function (resp) {
           var distRecord = resp.record;
           var unitStockData = [];
+          //在庫情報
+          var totalStockData = [];
           var unitStockBody = {
             'updateKey': {
               'field': 'uCode',
@@ -115,13 +117,53 @@
               if (stockData[j].mCode == unitStockBody.record.mStockList.value[i].value.mCode.value) {
                 //在庫数書き換え
                 unitStockBody.record.mStockList.value[i].value.mStock.value = parseInt(unitStockBody.record.mStockList.value[i].value.mStock.value || 0) - parseInt(stockData[j].shipNum || 0);
+                var totalStockBody = {
+                  'mCode': unitStockBody.record.mStockList.value[i].value.mCode.value,
+                  'stockNum': unitStockBody.record.mStockList.value[i].value.mStock.value
+                }
+                totalStockData.push(totalStockBody);
               }
             }
           }
           //拠点在庫情報のbodyをset
           unitStockData.push(unitStockBody);
 
-          console.log(JSON.stringify(unitStockData[0], null, '\t'));
+            //商品管理情報クエリ
+          var deviceQuery = [];
+          for (var i in stockData) {
+            deviceQuery.push('"' + stockData[i].mCode + '"');
+          }
+          var getDeviceBody = {
+            'app': sysid.INV.app_id.device,
+            'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
+          };
+
+          return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+          .then(function (resp) {
+            var deviceRecords = resp.records;
+            var deviceStockData = [];
+
+            for (var i in deviceRecords) {
+              var putStockBody = {
+                'updateKey': {
+                  'field': 'mCode',
+                  'value': deviceRecords[i].mCode.value
+                },
+                'record': {
+                  'uStockList': {
+                    'value': deviceRecords[i].uStockList.value
+                  }
+                }
+              }
+              for (var j in totalStockData) {
+                //デバイスのmCodeと案件管理のmCode一致時
+                if (totalStockData[j].mCode == deviceRecords[i].mCode.value) {
+                }
+              }
+              putDeviceData.push(putStockBody);
+            }
+
+          });
         });
     }
   });
