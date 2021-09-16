@@ -473,7 +473,7 @@
       var str_query = '?query=';
       var searchtarget = document.forms.searchTarget;
       for (var st in document.forms.searchTarget) {
-        console.log(document.forms.searchTarget[st].checked)
+        // console.log(document.forms.searchTarget[st].checked)
         if (document.forms.searchTarget[st].checked) {
           str_query = str_query + document.forms.searchTarget[st].name + 'like"' + keyword + '"';
           if (st < document.forms.searchTarget.length - 1) str_query = str_query + '"' + AND_OR;
