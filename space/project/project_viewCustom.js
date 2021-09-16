@@ -501,13 +501,9 @@
       // }
       // 検索結果のURLへ
       document.location = location.origin + location.pathname + str_query;
-      if(window.performance){
-        if(performance.navigation.type==1){
-          
-          document.getElementById('s_eSearch').value=keyword;
-          document.searchTargets.searchTarget[1].checked=true;
-        }
-      }
+
+      // document.getElementById('s_eSearch').value=keyword;
+      // document.searchTargets.searchTarget[1].checked=true;
 
     });
     // setEasySearch({
