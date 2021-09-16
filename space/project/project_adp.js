@@ -234,6 +234,7 @@
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     const PAGE_RECORD = event.record;
 
+    //請求月が今より過去の場合
     var nowDate = new Date();
     var nowDateFormat = String(nowDate.getFullYear()) + String(("0"+(nowDate.getMonth() + 1)).slice(-2));
     if(parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)){
@@ -264,6 +265,7 @@
   kintone.events.on(['app.record.detail.show'], function (event) {
     const PAGE_RECORD = event.record;
 
+    //請求月が今より過去の場合
     var nowDate = new Date();
     var nowDateFormat = String(nowDate.getFullYear()) + String(("0"+(nowDate.getMonth() + 1)).slice(-2));
     if(parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)){
