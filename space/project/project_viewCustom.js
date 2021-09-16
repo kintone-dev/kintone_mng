@@ -427,7 +427,7 @@
       searchTarget.id = eSearchParms.sConditions[i].fCode;
       searchTarget.name = 'searchTarget';//eSearchParms.sConditions[i].fCode;
       searchTarget.type = 'checkbox';
-      searchTarget.checked='';
+      searchTarget.checked=true;
       searchTargetArea.appendChild(searchTarget);
       var searchTargetValue = document.createElement('label');
       searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
