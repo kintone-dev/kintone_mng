@@ -207,7 +207,6 @@
                               }
                             }
                           }
-
                           for (var i in reportStockBody.record.inventoryList.value) {
                             for (var j in stockData) {
                               if (reportStockBody.record.inventoryList.value[i].value.sys_code.value == (stockData[j].mCode + '-distribute')) {
@@ -215,9 +214,7 @@
                               }
                             }
                           }
-
                           reportStockData.push(reportStockBody);
-
                           putRecords(sysid.INV.app_id.unit, unitStockData);
                           putRecords(sysid.INV.app_id.device, deviceStockData);
                           putRecords(sysid.INV.app_id.report, reportStockData);
@@ -236,8 +233,8 @@
 
     //請求月が今より過去の場合
     var nowDate = new Date();
-    var nowDateFormat = String(nowDate.getFullYear()) + String(("0"+(nowDate.getMonth() + 1)).slice(-2));
-    if(parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)){
+    var nowDateFormat = String(nowDate.getFullYear()) + String(("0" + (nowDate.getMonth() + 1)).slice(-2));
+    if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
       event.error = '請求月が間違っています。';
       return event;
     }
@@ -259,7 +256,6 @@
           return event;
         }
       });
-
   });
 
   kintone.events.on(['app.record.detail.show'], function (event) {
@@ -267,8 +263,8 @@
 
     //請求月が今より過去の場合
     var nowDate = new Date();
-    var nowDateFormat = String(nowDate.getFullYear()) + String(("0"+(nowDate.getMonth() + 1)).slice(-2));
-    if(parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)){
+    var nowDateFormat = String(nowDate.getFullYear()) + String(("0" + (nowDate.getMonth() + 1)).slice(-2));
+    if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
       alert('昔の請求書です。');
       return event;
     }
