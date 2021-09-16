@@ -820,9 +820,8 @@
     const PAGE_RECORD = event.record;
     var putData = [];
 
-    sessionStorage.setItem('record_updated', '1');
     if(sessionStorage.getItem('record_updated') === '1'){
-      sessionStorage.setItem('record_updated', '1');
+      sessionStorage.setItem('record_updated', '0');
       return event;
     }
 
