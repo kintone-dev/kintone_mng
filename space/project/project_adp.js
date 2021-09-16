@@ -57,6 +57,9 @@
         'deviceList': {
           'value': []
         },
+        'prjId': {
+          'value': PAGE_RECORD.$id.value
+        }
       }
       for (var pdv in PAGE_RECORD.deviceList.value) {
         var devListBody = {
