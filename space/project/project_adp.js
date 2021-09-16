@@ -89,7 +89,8 @@
 
       var getDistributeBody = {
         'app': sysid.INV.app_id.unit,
-        'query': 'uCode = "distribute" order by 更新日時 asc'
+        //積送拠点のid
+        'id': 3
       };
       // 積送拠点の情報取得
       return kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', getDistributeBody)
