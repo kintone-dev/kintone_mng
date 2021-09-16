@@ -266,11 +266,9 @@
             return event;
           }
         });
-
     });
 
-
-
+    return event;
   });
 
   kintone.events.on(['app.record.detail.show'], function (event) {
