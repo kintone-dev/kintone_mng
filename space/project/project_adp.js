@@ -61,7 +61,7 @@
       for (var pdv in PAGE_RECORD.deviceList.value) {
         var devListBody = {
           'value': {
-            'mName': {
+            'mNickname': {
               'value': PAGE_RECORD.deviceList.value[pdv].value.mNickname.value
             },
             'shipNum': {
@@ -75,6 +75,7 @@
       postShipData.push(postShipBody);
       // 入出荷管理に情報連携
       postRecords(sysid.INV.app_id.shipment, postShipData);
+
     } else if (nStatus === '完了') {
       //積送在庫処理
       var stockData = []
@@ -169,7 +170,6 @@
               deviceStockData.push(deviceStockBody);
             }
 
-            console.log(JSON.stringify(deviceStockData, null, '\t'));
             putRecords(sysid.INV.app_id.unit, unitStockData);
             putRecords(sysid.INV.app_id.device, deviceStockData);
           });
