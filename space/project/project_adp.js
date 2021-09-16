@@ -143,7 +143,6 @@
           .then(function (resp) {
             var deviceRecords = resp.records;
             var deviceStockData = [];
-            console.log(JSON.stringify(totalStockData, null, '\t'));
 
             for (var i in deviceRecords) {
               var deviceStockBody = {
@@ -170,6 +169,7 @@
               deviceStockData.push(deviceStockBody);
             }
 
+            console.log(JSON.stringify(deviceStockData, null, '\t'));
             putRecords(sysid.INV.app_id.unit, unitStockData);
             putRecords(sysid.INV.app_id.device, deviceStockData);
           });
