@@ -144,7 +144,7 @@
             var deviceStockData = [];
 
             for (var i in deviceRecords) {
-              var putStockBody = {
+              var deviceStockBody = {
                 'updateKey': {
                   'field': 'mCode',
                   'value': deviceRecords[i].mCode.value
@@ -156,13 +156,19 @@
                 }
               }
               for (var j in totalStockData) {
-                //デバイスのmCodeと案件管理のmCode一致時
-                if (totalStockData[j].mCode == deviceRecords[i].mCode.value) {
+                if (totalStockData[j].mCode == deviceStockBody.updateKey.field) {
+                  for(var k in deviceStockBody.record.uStockList.value){
+                    if(deviceStockBody.record.uStockList.value[k].value.uCode == 'distribute'){
+                      deviceStockBody.record.uStockList.value[k].value.uStock = totalStockData[j].stockNum
+                    }
+                  }
                 }
               }
-              putDeviceData.push(putStockBody);
+              deviceStockData.push(deviceStockBody);
             }
 
+            console.log(JSON.stringify(unitStockData, null, '\t'));
+            console.log(JSON.stringify(deviceStockData, null, '\t'));
           });
         });
     }
