@@ -821,6 +821,7 @@
 
     for(var i in PAGE_RECORD.deviceList.value){
       if(PAGE_RECORD.deviceList.value[i].value.shipRemarks.value.match(/WFP/)){
+        console.log('wfp');
         PAGE_RECORD.sys_isReady.value = 'false';
       }
     }
