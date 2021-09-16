@@ -454,14 +454,12 @@
         }
       ]
     });
-    $('#e_eSearch').on('keypress', function(e){
-      console.log(e)
+    $('#e_eSearch').keypress(function(e){
       if(e.which==13){
         $('#btn_eSearch').click();
       }
     });
-    // $('#btn_eSearch').on('click', function () {
-      $('#btn_eSearch').click(function () {
+    $('#btn_eSearch').on('click', function () {
       // var testC=document.s_eSearch.value;
       // var keyword=document.eSearch.s_eSearch.value;
       var keyword = document.getElementById('s_eSearch').value;
