@@ -817,21 +817,33 @@
 
   //wfpチェック
   kintone.events.on('app.record.detail.show', function (event) {
-    var pageRecod = event.record;
+    const PAGE_RECORD = event.record;
+    var putData = [];
     var wfpCheck = pageRecod.deviceList.value.some(function(item){
-      console.log(item);
-      if(item.shipRemarks.value.match(/WFP/)){
-        console.log('ok');
+      if(item.value.shipRemarks.value.match(/WFP/)){
+        var putBody = {
+          'id': PAGE_RECORD.$id.value,
+          'record': {
+            'sys_isReady': {
+              'value':'false'
+            }
+          }
+        }
+        putData.push(putBody);
+        putRecords(kintone.app.getId(),putData)
+      } else{
+        var putBody = {
+          'id': PAGE_RECORD.$id.value,
+          'record': {
+            'sys_isReady': {
+              'value':''
+            }
+          }
+        }
+        putData.push(putBody);
+        putRecords(kintone.app.getId(),putData)
       }
     });
-
-    // for(var i in pageRecod.deviceList.value){
-
-    //   if(pageRecod.deviceList.value[i].value.shipRemarks.value.match(/WFP/)){
-    //     console.log('wfp');
-    //     pageRecod.sys_isReady.value = 'false';
-    //   }
-    // }
 
     return event;
   });
