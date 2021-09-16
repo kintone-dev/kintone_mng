@@ -838,7 +838,7 @@
         putData.push(putBody);
         putRecords(kintone.app.getId(), putData);
         sessionStorage.setItem('record_updated', '1');
-        location.reload();
+        // location.reload();
       } else {
         var putBody = {
           'id': PAGE_RECORD.$id.value,
@@ -851,7 +851,7 @@
         putData.push(putBody);
         putRecords(kintone.app.getId(), putData);
         sessionStorage.setItem('record_updated', '1');
-        location.reload();
+        // location.reload();
       }
     });
 
