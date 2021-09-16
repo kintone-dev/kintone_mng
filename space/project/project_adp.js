@@ -201,7 +201,7 @@
                       for(var j in stockData){
                         if(reportStockBody.record.inventoryList.value[i].value.sys_code.value == (stockData[j].mCode + '-distribute')){
                           reportStockBody.record.inventoryList.value[i].value.shipNum.value = stockData[j].shipNum
-                          console.log(eportStockBody.record.inventoryList.value[i].value.shipNum.value);
+                          console.log(reportStockBody.record.inventoryList.value[i].value.shipNum.value);
                         }
                       }
                     }
