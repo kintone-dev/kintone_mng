@@ -502,10 +502,8 @@
       // 検索結果のURLへ
       document.location = location.origin + location.pathname + str_query;
       document.getElementById('s_eSearch').value=keyword;
-      for(var isc; isc<isSearchConditions.length-1; isc++){
-        console.log(isSearchConditions[isc])
-        document.searchTargets.searchTarget[isc].checked=isSearchConditions[isc];
-      }
+      document.searchTargets.searchTarget[1].checked=true;
+
     });
     // setEasySearch({
     //   id:'eSearch',
