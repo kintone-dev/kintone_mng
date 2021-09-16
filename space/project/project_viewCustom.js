@@ -481,7 +481,7 @@
       for (var st in document.searchTargets.searchTarget) {
         // console.log(document.forms.searchTarget[st].checked)
         if (document.searchTargets.searchTarget[st].checked) {
-          str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '" ';
+          str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '"';
           var st_a=Number(st)+1;
           if (st_a<document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st_a].checked){
             str_query = str_query + ' or ';
