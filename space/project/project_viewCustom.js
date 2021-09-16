@@ -413,13 +413,13 @@
     // searchType.appendChild(sTypeLabel_and);
     // eSearchArea.appendChild(searchType);
     var searchTargetArea = document.createElement('form');
-    searchTargetArea.id = 'searchTarget';
-    searchTargetArea.name = 'searchTarget';
+    searchTargetArea.id = 'searchTargets';
+    searchTargetArea.name = 'searchTargets';
 
     for (var i in eSearchParms.sConditions) {
       var searchTarget = document.createElement('input');
       searchTarget.id = eSearchParms.sConditions[i].fCode;
-      searchTarget.name = eSearchParms.sConditions[i].fCode;
+      searchTarget.name = 'searchTarget';//eSearchParms.sConditions[i].fCode;
       searchTarget.type = 'checkbox';
       searchTargetArea.appendChild(searchTarget);
       var searchTargetValue = document.createElement('label');
@@ -477,11 +477,11 @@
       var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
       var str_query = '?query=';
       // var searchtarget = document.forms.searchTarget;
-      for (var st in document.searchTarget.searchTarget) {
+      for (var st in document.searchTargets.searchTarget) {
         // console.log(document.forms.searchTarget[st].checked)
-        if (document.searchTarget.searchTarget[st].checked) {
-          str_query = str_query + document.searchTarget.searchTarget[st].name + 'like"' + keyword + '"';
-          if (st < document.searchTarget.searchTarget.length - 1) str_query = str_query + '"' + AND_OR;
+        if (document.searchTargets.searchTarget[st].checked) {
+          str_query = str_query + document.searchTargets.searchTarget[st].name + 'like"' + keyword + '"';
+          if (st < document.searchTargets.searchTarget.length - 1) str_query = str_query + '"' + AND_OR;
         }
       }
       if (keyword == "" || keyword == undefined) {
