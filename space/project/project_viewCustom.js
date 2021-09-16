@@ -819,31 +819,35 @@
   kintone.events.on('app.record.detail.show', function (event) {
     const PAGE_RECORD = event.record;
     var putData = [];
-    var wfpCheck = pageRecod.deviceList.value.some(function(item){
-      if(item.value.shipRemarks.value.match(/WFP/)){
-        var putBody = {
-          'id': PAGE_RECORD.$id.value,
-          'record': {
-            'sys_isReady': {
-              'value':'false'
+    if(PAGE_RECORD.sys_isReady.value != 'true'){
+      var wfpCheck = pageRecod.deviceList.value.some(function(item){
+        if(item.value.shipRemarks.value.match(/WFP/)){
+          var putBody = {
+            'id': PAGE_RECORD.$id.value,
+            'record': {
+              'sys_isReady': {
+                'value':'false'
+              }
             }
           }
-        }
-        putData.push(putBody);
-        putRecords(kintone.app.getId(),putData)
-      } else{
-        var putBody = {
-          'id': PAGE_RECORD.$id.value,
-          'record': {
-            'sys_isReady': {
-              'value':''
+          putData.push(putBody);
+          putRecords(kintone.app.getId(),putData);
+          location.reload();
+        } else{
+          var putBody = {
+            'id': PAGE_RECORD.$id.value,
+            'record': {
+              'sys_isReady': {
+                'value':'true'
+              }
             }
           }
+          putData.push(putBody);
+          putRecords(kintone.app.getId(),putData);
+          location.reload();
         }
-        putData.push(putBody);
-        putRecords(kintone.app.getId(),putData)
-      }
-    });
+      });
+    }
 
     return event;
   });
