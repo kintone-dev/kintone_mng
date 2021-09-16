@@ -500,10 +500,10 @@
       //   // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
       // }
       // 検索結果のURLへ
-      alert(str_query1 + '\n' + str_query);
       document.location = location.origin + location.pathname + str_query;
       document.getElementById('s_eSearch').value=keyword;
       for(var isc in isSearchConditions){
+        console.log(isSearchConditions[isc])
         document.searchTargets.searchTarget[isc].checked=isSearchConditions[isc];
       }
     });
