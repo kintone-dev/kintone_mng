@@ -454,7 +454,7 @@
         }
       ]
     });
-    $('#e_eSearch').keypress(function(e){
+    $('#e_eSearch').onkeypress(function(e){
       if(e.which==13){
         $('#btn_eSearch').click();
       }
