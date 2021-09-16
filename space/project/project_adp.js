@@ -75,6 +75,53 @@
       postShipData.push(postShipBody);
       // 入出荷管理に情報連携
       postRecords(sysid.INV.app_id.shipment, postShipData);
+    } else if (nStatus === '完了') {
+      //積送在庫処理
+      var stockData = []
+      //納品リストからmCodeと納品数を取得
+      for (var i in PAGE_RECORD.deviceList.value) {
+        var stockBody = {
+          'mCode': PAGE_RECORD.deviceList.value[i].value.mCode.value,
+          'shipNum': PAGE_RECORD.deviceList.value[i].value.shipNum.value
+        }
+        stockData.push(stockBody);
+      }
+
+      var getDistributeBody = {
+        'app': sysid.INV.app_id.unit,
+        'query': 'uCode = "distribute" order by 更新日時 asc'
+      };
+      // 積送拠点の情報取得
+      return kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', getDistributeBody)
+        .then(function (resp) {
+          var distRecord = resp.record;
+          var unitStockData = [];
+          var unitStockBody = {
+            'updateKey': {
+              'field': 'uCode',
+              'value': 'distribute'
+            },
+            'record': {
+              'mStockList': {
+                'value': distRecord.mStockList.value
+              }
+            }
+          }
+
+          for (var i in unitStockBody.record.mStockList.value) {
+            for (var j in stockData) {
+              //積送拠点の在庫mCodeと案件管理の納品リストmCodeが一致した時
+              if (stockData[j].mCode == unitStockBody.record.mStockList.value[i].value.mCode.value) {
+                //在庫数書き換え
+                unitStockBody.record.mStockList.value[i].value.mStock.value = parseInt(unitStockBody.record.mStockList.value[i].value.mStock.value || 0) - parseInt(stockData[j].shipNum || 0);
+              }
+            }
+          }
+          //拠点在庫情報のbodyをset
+          unitStockData.push(unitStockBody);
+
+          console.log(unitStockData);
+        });
     }
   });
 
@@ -92,11 +139,11 @@
             if (resp.records[0].EoMcheck.value[i] == '締切') {
               event.error = '対応した日付のレポートは締切済みです。';
               return event;
-            }else{
+            } else {
               return event;
             }
           }
-        }else{
+        } else {
           return event;
         }
       });
