@@ -382,7 +382,10 @@
     eSearch.placeholder = eSearchParms.sPlaceholder;
     eSearch.classList.add('testclass');
     eSearch.onkeydown=function(){
-      console.log(window.event.keyCode)
+      if(window.event.keyCode==13){
+        console.log(window.event.keyCode)
+        document.getElementById("btn_eSearch").click();
+      }
     }
     eSearchArea.appendChild(eSearch);
 
