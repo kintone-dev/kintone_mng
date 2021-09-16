@@ -124,7 +124,7 @@
           var putReportData = [];
           //更新レポート情報
           var putReportBody = {
-            'id':resp.records.$id.value,
+            'id':resp.records[0].$id.value,
             'record': {
               'inventoryList': {
                 'value': resp.records[0].inventoryList.value
