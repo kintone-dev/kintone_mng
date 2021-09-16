@@ -476,12 +476,12 @@
       }
       var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
       var str_query = '?query=';
-      var searchtarget = document.forms.searchTarget;
-      for (var st in document.forms.searchTarget) {
+      // var searchtarget = document.forms.searchTarget;
+      for (var st in document.searchTarget.searchTarget) {
         // console.log(document.forms.searchTarget[st].checked)
-        if (document.forms.searchTarget[st].checked) {
-          str_query = str_query + document.forms.searchTarget[st].name + 'like"' + keyword + '"';
-          if (st < document.forms.searchTarget.length - 1) str_query = str_query + '"' + AND_OR;
+        if (document.searchTarget.searchTarget[st].checked) {
+          str_query = str_query + document.searchTarget.searchTarget[st].name + 'like"' + keyword + '"';
+          if (st < document.searchTarget.searchTarget.length - 1) str_query = str_query + '"' + AND_OR;
         }
       }
       if (keyword == "" || keyword == undefined) {
