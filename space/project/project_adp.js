@@ -231,7 +231,7 @@
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     const PAGE_RECORD = event.record;
 
-    $.ajax({
+    return $.ajax({
       type: 'GET'
     }).done(function (data, status, xhr) {
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
@@ -243,26 +243,26 @@
         event.error = '請求月が間違っています。';
         return event;
       }
-    });
-
-    //対応レポート取得
-    var getReportBody = {
-      'app': sysid.INV.app_id.report,
-      'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
-    };
-    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
-      .then(function (resp) {
-        if (resp.records != 0) {
-          if (resp.records[0].EoMcheck.value != 0) {
-            event.error = '対応した日付のレポートは月末処理締切済みです。';
-            return event;
+      //対応レポート取得
+      var getReportBody = {
+        'app': sysid.INV.app_id.report,
+        'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
+      };
+      return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+        .then(function (resp) {
+          if (resp.records != 0) {
+            if (resp.records[0].EoMcheck.value != 0) {
+              event.error = '対応した日付のレポートは月末処理締切済みです。';
+              return event;
+            } else {
+              return event;
+            }
           } else {
             return event;
           }
-        } else {
-          return event;
-        }
-      });
+        });
+    });
+
 
   });
 
