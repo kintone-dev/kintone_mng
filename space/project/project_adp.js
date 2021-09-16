@@ -12,6 +12,7 @@
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
         if (resp.records != 0) {
+          console.log('donedddd');
           for (var i in resp.records[0].EoMcheck.value) {
             if (resp.records[0].EoMcheck.value[i] == '締切') {
               event.error = '対応した日付のレポートは締切済みです。';
