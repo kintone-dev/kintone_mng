@@ -4,7 +4,7 @@
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
     const REPORT_RECORD = event.record;
     // レポートが締切の場合
-    if (REPORT_RECORD.EoMcheck.value == '締切') {
+    if (REPORT_RECORD.EoMcheck.value == '締切' || REPORT_RECORD.EoMcheck.value == '一時確認') {
       const REPORT_KEY_YEAR = REPORT_RECORD.invoiceYears.value;
       const REPORT_KEY_MONTH = REPORT_RECORD.invoiceMonth.value;
       var reportDate = new Date(REPORT_KEY_YEAR, REPORT_KEY_MONTH);
@@ -33,26 +33,28 @@
               }
             };
             for (var pil in REPORT_RECORD.inventoryList.value) {
-              var postNewReport_listArray_body = {
-                'value': {
-                  'sys_code': {
-                    'value': REPORT_RECORD.inventoryList.value[pil].value.sys_code.value
-                  },
-                  'mCode': {
-                    'value': REPORT_RECORD.inventoryList.value[pil].value.mCode.value
-                  },
-                  'stockLocation': {
-                    'value': REPORT_RECORD.inventoryList.value[pil].value.stockLocation.value
-                  },
-                  'memo': {
-                    'value': REPORT_RECORD.inventoryList.value[pil].value.memo.value
-                  },
-                  'mLastStock': {
-                    'value': REPORT_RECORD.inventoryList.value[pil].value.deductionNum.value
+              if(parseInt(REPORT_RECORD.inventoryList.value[pil].value.deductionNum.value)  > 0){
+                var postNewReport_listArray_body = {
+                  'value': {
+                    'sys_code': {
+                      'value': REPORT_RECORD.inventoryList.value[pil].value.sys_code.value
+                    },
+                    'mCode': {
+                      'value': REPORT_RECORD.inventoryList.value[pil].value.mCode.value
+                    },
+                    'stockLocation': {
+                      'value': REPORT_RECORD.inventoryList.value[pil].value.stockLocation.value
+                    },
+                    'memo': {
+                      'value': REPORT_RECORD.inventoryList.value[pil].value.memo.value
+                    },
+                    'mLastStock': {
+                      'value': REPORT_RECORD.inventoryList.value[pil].value.deductionNum.value
+                    }
                   }
-                }
-              };
-              postNewReport_listArray.push(postNewReport_listArray_body);
+                };
+                postNewReport_listArray.push(postNewReport_listArray_body);
+              }
             }
             postNewReportData.push(postNewReport_body);
             //次月のレポートを作成

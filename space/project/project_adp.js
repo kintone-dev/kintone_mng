@@ -234,12 +234,12 @@
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     const PAGE_RECORD = event.record;
 
-    // var nowDate = new Date();
-    // var nowDateFormat = String(nowDate.getFullYear()) + String(("0"+(nowDate.getMonth() + 1)).slice(-2));
-    // if(parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)){
-    //   event.error = '請求月が間違っています。';
-    //   return event;
-    // }
+    var nowDate = new Date();
+    var nowDateFormat = String(nowDate.getFullYear()) + String(("0"+(nowDate.getMonth() + 1)).slice(-2));
+    if(parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)){
+      event.error = '請求月が間違っています。';
+      return event;
+    }
     //対応レポート取得
     var getReportBody = {
       'app': sysid.INV.app_id.report,
