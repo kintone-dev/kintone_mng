@@ -453,6 +453,11 @@
         }
       ]
     });
+    $('#e_eSearch').keypress(function(e){
+      if(e.which==13){
+        $('#btn_eSearch').click();
+      }
+    });
     $('#btn_eSearch').on('click', function () {
       // var testC=document.s_eSearch.value;
       // var keyword=document.eSearch.s_eSearch.value;
