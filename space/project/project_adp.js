@@ -160,7 +160,7 @@
                 if (totalStockData[j].mCode == deviceStockBody.updateKey.value) {
                   for(var k in deviceStockBody.record.uStockList.value){
                     if(deviceStockBody.record.uStockList.value[k].value.uCode.value == 'distribute'){
-                      deviceStockBody.record.uStockList.value[k].value.uStock = totalStockData[j].stockNum
+                      deviceStockBody.record.uStockList.value[k].value.uStock.value = totalStockData[j].stockNum
                     }
                   }
                 }
