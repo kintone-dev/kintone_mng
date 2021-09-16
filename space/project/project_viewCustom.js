@@ -482,7 +482,7 @@
         // console.log(document.forms.searchTarget[st].checked)
         if (document.searchTargets.searchTarget[st].checked) {
           str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '" ';
-          if (document.searchTargets.searchTarget[st+1].checked) {str_query = str_query + ' or ';}
+          if (st<document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st+1].checked) {str_query = str_query + ' or ';}
         }
       }
       if (keyword == "" || keyword == undefined) {
