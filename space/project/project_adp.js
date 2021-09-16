@@ -230,20 +230,6 @@
   //保存ボタン押下時、対応したレポートが締め切り済の場合保存できないように
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     const PAGE_RECORD = event.record;
-
-    $.ajax({
-      type: 'GET',
-    }).done(function (data, status, xhr) {
-      //請求月が今より過去の場合
-      var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
-        event.error = '請求月が間違っています。';
-        return event;
-      }
-
-    });
-
     //対応レポート取得
     var getReportBody = {
       'app': sysid.INV.app_id.report,
@@ -263,6 +249,24 @@
         }
       });
   });
+
+  //保存ボタン押下時、請求月が今より過去の場合
+  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+    $.ajax({
+      type: 'GET',
+      async:false
+    }).done(function (data, status, xhr) {
+      //請求月が今より過去の場合
+      var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
+      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+        event.error = '請求月が間違っています。';
+        return event;
+      }
+    });
+    return event;
+  });
+
 
   kintone.events.on(['app.record.detail.show'], function (event) {
     const PAGE_RECORD = event.record;
