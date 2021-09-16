@@ -160,7 +160,7 @@
               for (var j in totalStockData) {
                 if (totalStockData[j].mCode == deviceStockBody.updateKey.value) {
                   for(var k in deviceStockBody.record.uStockList.value){
-                    if(deviceStockBody.record.uStockList.value[k].value.uCode == 'distribute'){
+                    if(deviceStockBody.record.uStockList.value[k].value.uCode.value == 'distribute'){
                       deviceStockBody.record.uStockList.value[k].value.uStock = totalStockData[j].stockNum
                       console.log(deviceStockBody.record.uStockList.value[k].value.uStock);
                     }
