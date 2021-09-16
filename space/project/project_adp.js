@@ -262,25 +262,6 @@
   });
 
   kintone.events.on(['app.record.detail.show'], function (event) {
-    const PAGE_RECORD = event.record;
-    var getReportBody = {
-      'app': sysid.INV.app_id.report,
-      'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
-    };
-    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
-      .then(function (resp) {
-        if (resp.records != 0) {
-          if (resp.records[0].EoMcheck.value != 0) {
-            event.error = '対応した日付のレポートは月末処理締切済みです。';
-            return event;
-          } else {
-            return event;
-          }
-        } else {
-          return event;
-        }
-      });
-
   });
 
 })();
