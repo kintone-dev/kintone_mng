@@ -124,10 +124,7 @@
           var putReportData = [];
           //更新レポート情報
           var putReportBody = {
-            'updateKey': {
-              'field': 'sys_invoiceDate',
-              'value': sendDate
-            },
+            'id':resp.records.$id.value,
             'record': {
               'inventoryList': {
                 'value': resp.records[0].inventoryList.value
