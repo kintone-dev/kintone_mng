@@ -231,13 +231,18 @@
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     const PAGE_RECORD = event.record;
 
-    //請求月が今より過去の場合
-    var nowDate = new Date();
-    var nowDateFormat = String(nowDate.getFullYear()) + String(("0" + (nowDate.getMonth() + 1)).slice(-2));
-    if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
-      event.error = '請求月が間違っています。';
-      return event;
-    }
+    $.ajax({
+      type: 'GET'
+    }).done(function (data, status, xhr) {
+      var serverDate = new Date(xhr.getResponseHeader('Date')).getTime(); //サーバー時刻を代入
+      console.log(serverDate);
+      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+        event.error = '請求月が間違っています。';
+        return event;
+      }
+    });
+
     //対応レポート取得
     var getReportBody = {
       'app': sysid.INV.app_id.report,
