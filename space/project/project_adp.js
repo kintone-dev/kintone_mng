@@ -231,39 +231,44 @@
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     const PAGE_RECORD = event.record;
 
-    var serverDate;
     $.ajax({
-      type: 'GET'
+      type: 'GET',
+      cache:false,
+      async:false
     }).done(function (data, status, xhr) {
-      serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-    });
+      var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
 
-    var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-    console.log(nowDateFormat);
-    console.log(PAGE_RECORD.sys_invoiceDate.value);
-    if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
-      console.log('error');
-      event.error = '請求月が間違っています。';
-      return event;
-    }
-    //対応レポート取得
-    var getReportBody = {
-      'app': sysid.INV.app_id.report,
-      'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
-    };
-    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
-      .then(function (resp) {
-        if (resp.records != 0) {
-          if (resp.records[0].EoMcheck.value != 0) {
-            event.error = '対応した日付のレポートは月末処理締切済みです。';
-            return event;
+      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+      console.log(nowDateFormat);
+      console.log(PAGE_RECORD.sys_invoiceDate.value);
+      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+        console.log('error');
+        event.error = '請求月が間違っています。';
+        return event;
+      }
+
+      //対応レポート取得
+      var getReportBody = {
+        'app': sysid.INV.app_id.report,
+        'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
+      };
+      return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+        .then(function (resp) {
+          console.log(resp);
+          if (resp.records != 0) {
+            if (resp.records[0].EoMcheck.value != 0) {
+              event.error = '対応した日付のレポートは月末処理締切済みです。';
+              return event;
+            } else {
+              return event;
+            }
           } else {
             return event;
           }
-        } else {
-          return event;
-        }
-      });
+        });
+
+    });
+
 
 
   });
