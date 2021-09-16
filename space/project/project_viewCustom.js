@@ -816,7 +816,7 @@
   });
 
   //wfpチェック
-  kintone.events.on('app.record.detail.show', function (event) {
+  kintone.events.on('app.record.edit.show', function (event) {
     var pageRecod = event.record;
 
     for(var i in pageRecod.deviceList.value){
