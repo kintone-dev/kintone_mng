@@ -93,6 +93,7 @@
 
               } else if (nStatus === '完了') {
                 if (PAGE_RECORD.salesType.value == '販売' || PAGE_RECORD.salesType.value == 'サブスク') {
+                  console.log('ok');
                   //積送在庫処理
                   var stockData = []
                   //納品リストからmCodeと納品数を取得
