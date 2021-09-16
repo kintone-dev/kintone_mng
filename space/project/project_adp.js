@@ -233,8 +233,8 @@
 
     $.ajax({
       type: 'GET',
-      cache:false,
-      async:false
+      cache: false,
+      async: false
     }).done(function (data, status, xhr) {
       //請求月が今より過去の場合
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
@@ -249,12 +249,11 @@
         'app': sysid.INV.app_id.report,
         'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
       };
-      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+      return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
         .then(function (resp) {
           console.log(resp);
           if (resp.records != 0) {
             if (resp.records[0].EoMcheck.value != 0) {
-              console.log('error');
               event.error = '対応した日付のレポートは月末処理締切済みです。';
               return event;
             } else {
@@ -264,8 +263,6 @@
             return event;
           }
         });
-
-        return event;
     });
 
     return event;
@@ -276,8 +273,8 @@
     //サーバー時間取得
     $.ajax({
       type: 'GET',
-      cache:false,
-      async:false
+      cache: false,
+      async: false
     }).done(function (data, status, xhr) {
       //請求月が今より過去の場合
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
