@@ -236,10 +236,9 @@
 
     var nowDate = new Date();
     var nowDateFormat = String(nowDate.getFullYear()) + String(("0"+(nowDate.getMonth() + 1)).slice(-2));
-    console.log(nowDateFormat);
-    console.log(PAGE_RECORD.sys_invoiceDate.value);
     if(parseInt(nowDateFormat) < parseInt(PAGE_RECORD.sys_invoiceDate.value)){
-      console.log('overs');
+      event.error = '請求月が間違っています。';
+      return event;
     }
     //対応レポート取得
     var getReportBody = {
