@@ -252,6 +252,7 @@
 
   //保存ボタン押下時、請求月が今より過去の場合
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+    const PAGE_RECORD = event.record;
     $.ajax({
       type: 'GET',
       async:false
