@@ -3,7 +3,7 @@
 
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', function (event) {
-    event.error = 'aaaa';
+    alert = '対応した日付のレポートは締切済みです。';
     return false;
     // const PAGE_RECORD = event.record;
     // var nStatus = event.nextStatus.value;
@@ -215,7 +215,6 @@
     //                             for (var j in stockData) {
     //                               if (reportStockBody.record.inventoryList.value[i].value.sys_code.value == (stockData[j].mCode + '-distribute')) {
     //                                 reportStockBody.record.inventoryList.value[i].value.shipNum.value = stockData[j].shipNum
-    //                                 console.log(reportStockBody.record.inventoryList.value[i].value.shipNum.value);
     //                               }
     //                             }
     //                           }
