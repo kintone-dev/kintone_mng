@@ -235,8 +235,9 @@
       type: 'GET'
     }).done(function (data, status, xhr) {
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-      console.log(serverDate);
       var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+      console.log(nowDateFormat);
+      console.log(PAGE_RECORD.sys_invoiceDate.value);
       if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
         event.error = '請求月が間違っています。';
         return event;
