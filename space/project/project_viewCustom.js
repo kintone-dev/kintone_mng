@@ -462,11 +462,6 @@
         }
       ]
     });
-    $('#e_eSearch').keypress(function(e){
-      if(e.which==13){
-        $('#btn_eSearch').click();
-      }
-    });
     $('#btn_eSearch').on('click', function () {
       // var testC=document.s_eSearch.value;
       // var keyword=document.eSearch.s_eSearch.value;
@@ -486,8 +481,10 @@
       var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
       var str_query = '?query=';
       // var searchtarget = document.forms.searchTarget;
+      var isSearchConditions=[]
       for (var st in document.searchTargets.searchTarget) {
         // console.log(document.forms.searchTarget[st].checked)
+        isSearchConditions.push(document.searchTargets.searchTarget[st].checked);
         if (document.searchTargets.searchTarget[st].checked) {
           str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '"';
           var st_a=Number(st)+1;
@@ -505,6 +502,10 @@
       // 検索結果のURLへ
       alert(str_query1 + '\n' + str_query);
       document.location = location.origin + location.pathname + str_query;
+      document.getElementById('s_eSearch').value=keyword;
+      for(var isc in isSearchConditions){
+        document.searchTargets.searchTarget[isc].checked=isSearchConditions[isc];
+      }
     });
     // setEasySearch({
     //   id:'eSearch',
