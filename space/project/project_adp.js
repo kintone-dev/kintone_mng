@@ -162,16 +162,16 @@
                   for(var k in deviceStockBody.record.uStockList.value){
                     if(deviceStockBody.record.uStockList.value[k].value.uCode.value == 'distribute'){
                       deviceStockBody.record.uStockList.value[k].value.uStock = totalStockData[j].stockNum
-                      console.log(deviceStockBody.record.uStockList.value[k].value.uStock);
                     }
                   }
                 }
               }
+              //商品在庫情報のbodyをset
               deviceStockData.push(deviceStockBody);
             }
 
-            console.log(JSON.stringify(unitStockData, null, '\t'));
-            console.log(JSON.stringify(deviceStockData, null, '\t'));
+            putRecords(sysid.INV.app_id.unit, unitStockData);
+            putRecords(sysid.INV.app_id.device, deviceStockData);
           });
         });
     }
