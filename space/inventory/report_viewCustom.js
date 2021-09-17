@@ -94,12 +94,13 @@
     }
     console.log(JSON.stringify(deductionData, null, '\t'));
 
+    $(".subtable-5524588 tbody tr:nth-child(1)").css({
+      "background-color": "red"
+    });
+
     //差引数量マイナスのものを赤背景に
     for (var i in deductionData) {
       if (parseInt(deductionData[i].deductionNum) < 0) {
-        $(".subtable-5524588 tbody tr td").css({
-          "background-color": "red"
-        });
         // $('.'+ tableClass + ' tbody tr:nth-child('+ deductionData[i].rowNum +')').css({
         //   'background-color':'red'
         // });
