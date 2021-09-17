@@ -28,8 +28,6 @@
       newListData.record.inventoryList.value = newList;
       PAGE_RECORD.inventoryList.value = newList;
 
-      putRecords(sysid.INV.app_id.report,newListData);
-
       /**
        * 次月のレポート作成処理
        */
@@ -145,6 +143,7 @@
             putRecords(sysid.INV.app_id.report, putNewReportData);
           }
 
+          putRecords(sysid.INV.app_id.report,newListData);
           return event;
         });
     } else {
