@@ -437,6 +437,15 @@ var railConf = function (spec) {
 // 検索エンジン
 
 /* その他 */
+function orgRound(value, base) {
+  return Math.round(value * base) / base;
+}
+function orgCeil(value, base) {
+  return Math.ceil(value * base) / base;
+}
+function orgFloor(value, base) {
+  return Math.floor(value * base) / base;
+}
 // 全レコード呼び出し
 function api_getRecords(appID) {
 	return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', {
