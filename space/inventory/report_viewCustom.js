@@ -83,7 +83,6 @@
     var tableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id
     var deductionData = []
 
-    console.log(tableClass);
     //テーブルデータ取得
     for (var i in PAGE_RECORD.inventoryList.value) {
       var deductionBody = {
@@ -92,28 +91,19 @@
       }
       deductionData.push(deductionBody);
     }
-    console.log(JSON.stringify(deductionData, null, '\t'));
 
-    function delayCss() {
-      testTimer = setInterval(function () {
-        $(".subtable-5524588 tr:nth-child(1)").css({
-          "background-color": "red"
-        });
-      }, 500);
-    }
-    delayCss();
-    stopTimer(testTimer)
-
-    //差引数量マイナスのものを赤背景に
-    for (var i in deductionData) {
-      if (parseInt(deductionData[i].deductionNum) < 0) {
-        // $('.'+ tableClass + ' tbody tr:nth-child('+ deductionData[i].rowNum +')').css({
-        //   'background-color':'red'
-        // });
+    //データ表示後動かす
+    var testTimer = setInterval(function () {
+      //差引数量マイナスのものを赤背景に
+      for (var i in deductionData) {
+        if (parseInt(deductionData[i].deductionNum) < 0) {
+          $('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +')').css({
+            'background-color':'red'
+          });
+        }
       }
-    }
-
-
+      console.log(1);
+    }, 300);
 
   });
 
