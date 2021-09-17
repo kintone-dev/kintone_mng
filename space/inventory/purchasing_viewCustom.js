@@ -54,6 +54,7 @@
         let totalcost=totalunitcost*arrivalnum;
         arrivalListValue[i].value.totalCost.value=totalcost;
       }
+      return event;
     });
     return event;
   });
