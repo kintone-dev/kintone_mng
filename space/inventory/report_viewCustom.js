@@ -100,6 +100,9 @@
           $('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +')').css({
             'background-color':'red'
           });
+          $('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +') td div').css({
+            'color':'white'
+          });
         }
       }
       console.log(1);
