@@ -84,6 +84,7 @@
     var deductionData = []
 
     console.log(tableClass);
+    //テーブルデータ取得
     for(var i in PAGE_RECORD.inventoryList.value){
       var deductionBody = {
         'rowNum': parseInt(i) + 1,
@@ -91,8 +92,17 @@
       }
       deductionData.push(deductionBody);
     }
-
     console.log(JSON.stringify(deductionData, null, '\t'));
+
+    //差引数量マイナスのものを赤背景に
+    for(var i in deductionData){
+      if(parseInt(deductionData[i].deductionNum) < 0){
+        $('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +')').css({
+          'bacground-color':'red'
+        });
+      }
+    }
+
 
 
   });
