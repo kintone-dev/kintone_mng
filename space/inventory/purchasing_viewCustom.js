@@ -29,9 +29,9 @@
         let unitpricesubtotal=arrivalListValue[i].value.unitPriceSubtotal.value;
         // 入荷数取得
         let arrivalnum=arrivalListValue[i].value.arrivalNum.value;
-        // 
+        // 単価計（外貨）
         let unitpricebubtotal_foreign=arrivalListValue[i].value.unitPrice_foreign.value*arrivalnum;
-        arrivalListValue[i].value.unitPriceSubtotal_foreign=unitpricebubtotal_foreign;
+        arrivalListValue[i].value.unitPriceSubtotal_foreign.value=unitpricebubtotal_foreign;
         // 構成比
         let compratio=orgRound(unitpricesubtotal/event.record.sys_unitPricetotal.value*100,10);
         arrivalListValue[i].value.compRatio.value=compratio;
