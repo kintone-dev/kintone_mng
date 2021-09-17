@@ -118,8 +118,9 @@
               'font-weight': 'bold'
             });
           }
+
           //特定拠点の文字色を緑に
-          if (deductionData[i].location == '矢倉倉庫') {
+          if (deductionData[i].location == 'xxxx') {
             $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ') td div').css({
               'color': 'green',
               'font-weight': 'bold'
