@@ -124,11 +124,12 @@
     });
     return table;
   };
+
   //拠点順ソート関数
   var sortLocTable = function (table, orderBy, isDesc) {
     table.sort(function (a, b) {
-      var codeCutterA = a.value[orderBy].value.indexOf('-');
-      var codeCutterB = b.value[orderBy].value.indexOf('-');
+      var codeCutterA = a.value[orderBy].value.lastIndexOf('-');
+      var codeCutterB = b.value[orderBy].value.lastIndexOf('-');
       var v1 = a.value[orderBy].value.slice(codeCutterA + 1) + a.value[orderBy].value.substring(0, codeCutterA);
       var v2 = b.value[orderBy].value.slice(codeCutterB + 1) + b.value[orderBy].value.substring(0, codeCutterB);
       var pos = isDesc ? -1 : 1;
