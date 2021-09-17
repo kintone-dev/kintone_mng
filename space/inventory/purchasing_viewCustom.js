@@ -2,7 +2,6 @@
   kintone.events.on(['app.record.edit.show','app.record.chreate.show'], function(event){
     setBtn('btn_calculation','原価算出');
     $('#btn_calculation').on('click', function(){
-
       var arrivalListValue=event.record.arrivalList.value;
       // 平均レート計算
       var remittanceListValue=event.record.remittanceList.value;
