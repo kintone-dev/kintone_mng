@@ -25,8 +25,9 @@
     return event;
   });
   kintone.events.on(['app.record.edit.show','app.record.chreate.show'], function(event){
-    setBtn('btn_calculation','原価算出');
-    $('#btn_calculation').on('click', function(){
+    var calculation=setBtn('btn_calculation','原価算出');
+    // $('#btn_calculation').on('click', function(){
+    calculation.onclick=function(){
       console.log(event);
       var arrivalListValue=event.record.arrivalList.value;
       // 平均レート計算
@@ -83,7 +84,7 @@
         arrivalListValue[i].value.totalCost.value=totalcost;
       }
       kintone.app.record.set(event);
-    });
+    };
     return event;
   });
 })();
