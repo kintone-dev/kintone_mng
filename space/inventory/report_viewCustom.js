@@ -87,25 +87,47 @@
     for (var i in PAGE_RECORD.inventoryList.value) {
       var deductionBody = {
         'rowNum': parseInt(i) + 1,
-        'deductionNum': PAGE_RECORD.inventoryList.value[i].value.deductionNum.value
+        'deductionNum': PAGE_RECORD.inventoryList.value[i].value.deductionNum.value,
+        'location': PAGE_RECORD.inventoryList.value[i].value.stockLocation.value
       }
       deductionData.push(deductionBody);
     }
 
     //データ表示後動かす
     setTimeout(function () {
-      //差引数量マイナスのものを赤背景に
       for (var i in deductionData) {
+        //差引数量マイナスのものを赤背景に
         if (parseInt(deductionData[i].deductionNum) < 0) {
-          $('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +')').css({
-            'background-color':'red'
+          $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ')').css({
+            'background-color': 'red'
           });
-          $('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +') td div').css({
-            'color':'white'
-          });
+          $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ') td div').css({
+            'color': 'white'
+          })
         }
       }
     }, 500);
+
+    if (PAGE_RECORD.EoMcheck.value == '締切' || PAGE_RECORD.EoMcheck.value == '一時締切') {
+      setTimeout(function () {
+        for (var i in deductionData) {
+          //差引数量0の文字色を青色に
+          if (parseInt(deductionData[i].deductionNum) == 0) {
+            $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ') td div').css({
+              'color': 'blue',
+              'font-weight': 'bold'
+            });
+          }
+          //特定拠点の文字色を緑に
+          if (deductionData[i].location == '矢倉倉庫') {
+            $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ') td div').css({
+              'color': 'green',
+              'font-weight': 'bold'
+            });
+          }
+        }
+      }, 500);
+    }
 
   });
 
