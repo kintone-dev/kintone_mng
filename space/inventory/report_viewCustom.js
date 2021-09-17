@@ -99,7 +99,7 @@
       if(parseInt(deductionData[i].deductionNum) < 0){
         console.log('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +')');
         $('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +')').css({
-          'bacground-color':'red'
+          'background-color':'red'
         });
       }
     }
