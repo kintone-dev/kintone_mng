@@ -8,58 +8,23 @@
        * 特定の拠点を削除
        */
       var inventoryList = PAGE_RECORD.inventoryList.value;
-      var newListData = {
-        'id': PAGE_RECORD.$id.value,
-        'record': {
-          'inventoryList': {
-            'value': []
-          }
-        }
-      }
       var newList = []
       //特定の拠点以外を抜き出して再度格納
       for (var i in inventoryList) {
-        if (inventoryList[i].value.stockLocation.value != '矢倉倉庫') {
+        if (inventoryList[i].value.stockLocation.value != '〇〇〇〇') {
           newList.push(inventoryList[i]);
         }
       }
-
-      newListData.record.inventoryList.value = newList;
       PAGE_RECORD.inventoryList.value = newList;
 
-      // putRecords(sysid.INV.app_id.report, putNewReportData);
     }
     return event;
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
     const PAGE_RECORD = event.record;
-    console.log(PAGE_RECORD);
-    // レポートが締切か一時確認の場合
+    // レポートが締切の場合
     if (PAGE_RECORD.EoMcheck.value == '締切') {
-      // /**
-      //  * 特定の拠点を削除
-      //  */
-      // var inventoryList = PAGE_RECORD.inventoryList.value;
-      // var newListData = {
-      //   'id': PAGE_RECORD.$id.value,
-      //   'record': {
-      //     'inventoryList': {
-      //       'value': []
-      //     }
-      //   }
-      // }
-      // var newList = []
-      // //特定の拠点以外を抜き出して再度格納
-      // for (var i in inventoryList) {
-      //   if (inventoryList[i].value.stockLocation.value != '矢倉倉庫') {
-      //     newList.push(inventoryList[i]);
-      //   }
-      // }
-
-      // newListData.record.inventoryList.value = newList;
-      // PAGE_RECORD.inventoryList.value = newList;
-
       /**
        * 次月のレポート作成処理
        */
