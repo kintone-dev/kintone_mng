@@ -7,5 +7,6 @@ var sysid = set_sysid();
         setFieldShown(fields[fc].var, false);
       }
     }
-  })
+    return event;
+  });
 })();
