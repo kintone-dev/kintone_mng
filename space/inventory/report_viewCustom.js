@@ -85,20 +85,20 @@
 
     console.log(tableClass);
     //テーブルデータ取得
-    for(var i in PAGE_RECORD.inventoryList.value){
+    for (var i in PAGE_RECORD.inventoryList.value) {
       var deductionBody = {
         'rowNum': parseInt(i) + 1,
-        'deductionNum':PAGE_RECORD.inventoryList.value[i].value.deductionNum.value
+        'deductionNum': PAGE_RECORD.inventoryList.value[i].value.deductionNum.value
       }
       deductionData.push(deductionBody);
     }
     console.log(JSON.stringify(deductionData, null, '\t'));
 
     //差引数量マイナスのものを赤背景に
-    for(var i in deductionData){
-      if(parseInt(deductionData[i].deductionNum) < 0){
-        $('.subtable-5524588 tbody tr td').css({
-          'background-color':'red'
+    for (var i in deductionData) {
+      if (parseInt(deductionData[i].deductionNum) < 0) {
+        $(".subtable-5524588 tbody tr td").css({
+          "background-color": "red"
         });
         // $('.'+ tableClass + ' tbody tr:nth-child('+ deductionData[i].rowNum +')').css({
         //   'background-color':'red'
