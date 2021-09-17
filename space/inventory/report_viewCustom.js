@@ -120,7 +120,7 @@
           }
 
           //特定拠点の文字色を緑に
-          if (deductionData[i].location == 'xxxx') {
+          if (deductionData[i].location == '〇〇〇〇') {
             $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ') td div').css({
               'color': 'green',
               'font-weight': 'bold'

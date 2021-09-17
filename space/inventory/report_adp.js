@@ -11,7 +11,7 @@
       var newList = []
       //特定の拠点以外を抜き出して再度格納
       for (var i in inventoryList) {
-        if (inventoryList[i].value.stockLocation.value != '〇〇〇〇') {
+        if (inventoryList[i].value.stockLocation.value != '矢倉倉庫') {
           newList.push(inventoryList[i]);
         }
       }
