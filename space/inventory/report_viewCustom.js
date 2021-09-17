@@ -79,7 +79,7 @@
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
     const PAGE_RECORD = event.record;
-    const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subtable);
+    const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
     var tableClass = GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id
     var deductionData = []
 
