@@ -86,7 +86,7 @@
     console.log(tableClass);
     for(var i in PAGE_RECORD.inventoryList.value){
       var deductionBody = {
-        'rowNum': i + 1,
+        'rowNum': parseInt(i) + 1,
         'deductionNum':PAGE_RECORD.inventoryList.value[i].value.deductionNum.value
       }
       deductionData.push(deductionBody);
