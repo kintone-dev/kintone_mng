@@ -94,7 +94,7 @@
     }
     console.log(JSON.stringify(deductionData, null, '\t'));
 
-    $(".subtable-5524588").css({
+    $(".subtable-5524588 tr:nth-child(1)").css({
       "background-color": "red"
     });
 
