@@ -135,7 +135,6 @@
       putItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
     }
-
     return event;
   });
 
