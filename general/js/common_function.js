@@ -164,11 +164,11 @@ function setBtn_index(btnID, btnValue) {
 	kintone.app.getHeaderMenuSpaceElement().appendChild(indexBtn);
 	return indexBtn;
 }
-/* 使い方
- *var newORG=setBtn('btn_newORG','新規組織');
- *$('#'+newORG.id).on('click', function(){
- *	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
- *});
+/**使い方
+ * var newORG=setBtn('btn_newORG','新規組織');
+ * newORG.onclick=function(){
+ * 	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
+ * }
  */
 // プルダウンメニュー
 function setSelect_header(selectID, selectValue) {

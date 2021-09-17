@@ -129,7 +129,7 @@
           setFieldShown('expArrivalDate', true);
           setFieldShown('shipment', false);
           setFieldShown('shipType', false);
-          setFieldShown('tarDate', false);
+          setFieldShown('tarDate', true);
           setFieldShown('instFile', false);
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
