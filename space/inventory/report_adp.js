@@ -101,6 +101,7 @@
               nextMonthSyscode.push(putNewReport_body.record.inventoryList.value[nil].value.sys_code.value);
             }
             for (var nil in PAGE_RECORD.inventoryList.value) {
+              console.log(PAGE_RECORD.inventoryList.value);
               if (parseInt(PAGE_RECORD.inventoryList.value[nil].value.deductionNum.value) > 0) {
                 var nowMonthData = {
                   'sysCode': PAGE_RECORD.inventoryList.value[nil].value.sys_code.value,
