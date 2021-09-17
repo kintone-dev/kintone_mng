@@ -1,5 +1,5 @@
 (function () {
-  kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
+  kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show','app.record.create.change.currencyType','app.record.edit.change.currencyType','app.record.detail.change.currencyType'], function(event){
     if(event.record.currencyType.value.match(/日本円/)){
       setFieldShown('remittanceList', false);
       setFieldShown('averageRate', false);
