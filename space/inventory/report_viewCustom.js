@@ -97,6 +97,7 @@
     $(".subtable-5524588 tr:nth-child(1)").css({
       "background-color": "red"
     });
+    $(".subtable-5524588 tr:nth-child(1)").addClass('aaa')
 
     //差引数量マイナスのものを赤背景に
     for (var i in deductionData) {
