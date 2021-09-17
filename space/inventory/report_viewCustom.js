@@ -97,6 +97,7 @@
     //差引数量マイナスのものを赤背景に
     for(var i in deductionData){
       if(parseInt(deductionData[i].deductionNum) < 0){
+        console.log('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +')');
         $('.'+ tableClass + ' tr:nth-child('+ deductionData[i].rowNum +')').css({
           'bacground-color':'red'
         });
