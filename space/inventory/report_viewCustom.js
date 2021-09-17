@@ -94,10 +94,15 @@
     }
     console.log(JSON.stringify(deductionData, null, '\t'));
 
-    $(".subtable-5524588 tr:nth-child(1)").css({
-      "background-color": "red"
-    });
-    $(".subtable-5524588 tr:nth-child(1)").addClass('aaa')
+    function delayCss() {
+      testTimer = setInterval(function () {
+        $(".subtable-5524588 tr:nth-child(1)").css({
+          "background-color": "red"
+        });
+      }, 500);
+    }
+    delayCss();
+    stopTimer(testTimer)
 
     //差引数量マイナスのものを赤背景に
     for (var i in deductionData) {
@@ -144,4 +149,8 @@
     });
     return table;
   };
+
+  function stopTimer(setInt) {
+    clearInterval(setInt);
+  }
 })();
