@@ -101,14 +101,15 @@
               nextMonthSyscode.push(putNewReport_body.record.inventoryList.value[nil].value.sys_code.value);
             }
             for (var nil in PAGE_RECORD.inventoryList.value) {
-              var nowMonthData = {
-                'sysCode': PAGE_RECORD.inventoryList.value[nil].value.sys_code.value,
-                'location': PAGE_RECORD.inventoryList.value[nil].value.stockLocation.value,
-                'memo': PAGE_RECORD.inventoryList.value[nil].value.memo.value,
-                'mCode': PAGE_RECORD.inventoryList.value[nil].value.mCode.value,
-                'deductionNum': PAGE_RECORD.inventoryList.value[nil].value.deductionNum.value,
+              if (parseInt(PAGE_RECORD.inventoryList.value[nil].value.deductionNum.value) > 0) {
+                var nowMonthData = {
+                  'sysCode': PAGE_RECORD.inventoryList.value[nil].value.sys_code.value,
+                  'location': PAGE_RECORD.inventoryList.value[nil].value.stockLocation.value,
+                  'memo': PAGE_RECORD.inventoryList.value[nil].value.memo.value,
+                  'mCode': PAGE_RECORD.inventoryList.value[nil].value.mCode.value,
+                  'deductionNum': PAGE_RECORD.inventoryList.value[nil].value.deductionNum.value,
+                }
               }
-
               nowMonthSyscode.push(nowMonthData);
             }
 
