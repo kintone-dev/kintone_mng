@@ -138,7 +138,6 @@
             }
 
             putNewReportData.push(putNewReport_body);
-            console.log(JSON.stringify(putNewReportData, null, '\t'));
             //次月のレポートを更新
             putRecords(sysid.INV.app_id.report, putNewReportData);
           }
