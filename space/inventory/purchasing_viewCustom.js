@@ -1,24 +1,24 @@
 (function () {
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show'], function(event){
-    if(event.record.currencyType.value.match(/￥/)){
-      setFieldShown('remittanceList', false);
-      setFieldShown('averageRate', false);
-      setFieldShown('devCost_foreign', false);
-      setFieldShown('unitPrice_foreign', false);
-      setFieldShown('unitPriceSubtotal_foreign', false);
-      setFieldShown('addiCost_foreign', false);
-      setFieldShown('addiCost', false);
-      setFieldShown('addiUnitCost', false);
-    }else{
-      setFieldShown('remittanceList', true);
-      setFieldShown('averageRate', true);
-      setFieldShown('devCost_foreign', true);
-      setFieldShown('unitPrice_foreign', true);
-      setFieldShown('unitPriceSubtotal_foreign', true);
-      setFieldShown('addiCost_foreign', true);
-      setFieldShown('addiCost', true);
-      setFieldShown('addiUnitCost', true);
-    }
+    // if(event.record.currencyType.value.match(/￥/)){
+    //   setFieldShown('remittanceList', false);
+    //   setFieldShown('averageRate', false);
+    //   setFieldShown('devCost_foreign', false);
+    //   setFieldShown('unitPrice_foreign', false);
+    //   setFieldShown('unitPriceSubtotal_foreign', false);
+    //   setFieldShown('addiCost_foreign', false);
+    //   setFieldShown('addiCost', false);
+    //   setFieldShown('addiUnitCost', false);
+    // }else{
+    //   setFieldShown('remittanceList', true);
+    //   setFieldShown('averageRate', true);
+    //   setFieldShown('devCost_foreign', true);
+    //   setFieldShown('unitPrice_foreign', true);
+    //   setFieldShown('unitPriceSubtotal_foreign', true);
+    //   setFieldShown('addiCost_foreign', true);
+    //   setFieldShown('addiCost', true);
+    //   setFieldShown('addiUnitCost', true);
+    // }
     return event;
   });
   kintone.events.on(['app.record.edit.show','app.record.chreate.show'], function(event){
