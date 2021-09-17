@@ -26,9 +26,10 @@
       }
 
       newListData.record.inventoryList.value = newList;
+      PAGE_RECORD.inventoryList.value = newList;
 
       console.log(JSON.stringify(newListData, null, '\t'));
-
+      console.log(JSON.stringify(PAGE_RECORD, null, '\t'));
 
       /**
        * 次月のレポート作成処理
@@ -91,10 +92,7 @@
             //次月のレポートがある場合
             var putNewReportData = [];
             var putNewReport_body = {
-              'updateKey': {
-                'field': 'sys_invoiceDate',
-                'value': NEXT_DATE
-              },
+              'id':NEXTREPORT_RECORD.$id.value,
               'record': {
                 'inventoryList': {
                   'value': NEXTREPORT_RECORD.inventoryList.value
