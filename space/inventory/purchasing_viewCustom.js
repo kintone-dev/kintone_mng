@@ -24,7 +24,7 @@
     }
     return event;
   });
-  kintone.events.on(['app.record.edit.show','app.record.chreate.show'], function(event){
+  kintone.events.on(['app.record.edit.show','app.record.create.show'], function(event){
     var calculation=setBtn('btn_calculation','原価算出');
     // $('#btn_calculation').on('click', function(){
     calculation.onclick=function(){
