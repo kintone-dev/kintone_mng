@@ -20,6 +20,30 @@
     else setFieldShown('invoiceStatus', true);
   });
 
+  kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
+    const PAGE_RECORD = event.record;
+    if (PAGE_RECORD.ステータス.value == '納品準備中') {
+      var types = ['SINGLE_LINE_TEXT', 'MULTI_LINE_TEXT', 'SUBTABLE', 'RICH_TEXT', 'NUMBER', 'DATE', 'DATETIME', 'TIME', 'DROP_DOWN', 'RADIO_BUTTON', 'CHECK_BOX', 'MULTI_SELECT', 'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'LINK', 'FILE'];
+      var arr = Object.keys(PAGE_RECORD);
+      arr.forEach(function (fcode) {
+        if (types.indexOf(PAGE_RECORD[fcode].type) >= 0) {
+          PAGE_RECORD[fcode].disabled = true;
+        }
+      });
+      for (var i in PAGE_RECORD.deviceList.value) {
+        PAGE_RECORD.deviceList.value[i].value.mNickname.disabled = true;
+        PAGE_RECORD.deviceList.value[i].value.shipNum.disabled = true;
+        PAGE_RECORD.deviceList.value[i].value.subBtn.disabled = true;
+        PAGE_RECORD.deviceList.value[i].value.shipRemarks.disabled = true;
+      }
+      PAGE_RECORD.sys_invoiceDate.disabled = false;
+      PAGE_RECORD.invoiceNum.disabled = false;
+      PAGE_RECORD.invoiceStatus.disabled = false;
+    }
+
+  });
+
+
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     const PAGE_RECORD = event.record;
     PAGE_RECORD.cSales.disabled = false;
@@ -92,25 +116,6 @@
     $('#' + unknowINST.id).on('click', function () {
       createNewREC(sysid.PM.app_id.installation, ['prjNum', 'unknowINST', 'setShown'], [prjNumValue, '不特定設置先', 'disable']);
     });
-
-    if (PAGE_RECORD.ステータス.value == '納品準備中') {
-      var types = ['SINGLE_LINE_TEXT', 'MULTI_LINE_TEXT', 'SUBTABLE', 'RICH_TEXT', 'NUMBER', 'DATE', 'DATETIME', 'TIME', 'DROP_DOWN', 'RADIO_BUTTON', 'CHECK_BOX', 'MULTI_SELECT', 'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'LINK', 'FILE'];
-      var arr = Object.keys(PAGE_RECORD);
-      arr.forEach(function (fcode) {
-        if (types.indexOf(PAGE_RECORD[fcode].type) >= 0) {
-          PAGE_RECORD[fcode].disabled = true;
-        }
-      });
-      for (var i in PAGE_RECORD.deviceList.value) {
-        PAGE_RECORD.deviceList.value[i].value.mNickname.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.shipNum.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.subBtn.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.shipRemarks.disabled = true;
-      }
-      PAGE_RECORD.sys_invoiceDate.disabled = false;
-      PAGE_RECORD.invoiceNum.disabled = false;
-      PAGE_RECORD.invoiceStatus.disabled = false;
-    }
   });
 
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
@@ -381,8 +386,8 @@
     eSearch.type = 'text';
     eSearch.placeholder = eSearchParms.sPlaceholder;
     eSearch.classList.add('testclass');
-    eSearch.onkeydown=function(){
-      if(window.event.keyCode==13){
+    eSearch.onkeydown = function () {
+      if (window.event.keyCode == 13) {
         console.log(window.event.keyCode)
         document.getElementById("btn_eSearch").click();
       }
@@ -425,10 +430,10 @@
     for (var i in eSearchParms.sConditions) {
       var searchTarget = document.createElement('input');
       searchTarget.id = eSearchParms.sConditions[i].fCode;
-      searchTarget.name = 'searchTarget';//eSearchParms.sConditions[i].fCode;
+      searchTarget.name = 'searchTarget'; //eSearchParms.sConditions[i].fCode;
       searchTarget.type = 'checkbox';
-      if(i==0){
-        searchTarget.checked=true;
+      if (i == 0) {
+        searchTarget.checked = true;
       }
       searchTargetArea.appendChild(searchTarget);
       var searchTargetValue = document.createElement('label');
@@ -481,14 +486,14 @@
       var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
       var str_query = '?query=';
       // var searchtarget = document.forms.searchTarget;
-      var isSearchConditions=[]
+      var isSearchConditions = []
       for (var st in document.searchTargets.searchTarget) {
         // console.log(document.forms.searchTarget[st].checked)
         isSearchConditions.push(document.searchTargets.searchTarget[st].checked);
         if (document.searchTargets.searchTarget[st].checked) {
           str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '"';
-          var st_a=Number(st)+1;
-          if (st_a<document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st_a].checked){
+          var st_a = Number(st) + 1;
+          if (st_a < document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st_a].checked) {
             str_query = str_query + ' or ';
           }
         }
@@ -842,7 +847,7 @@
       return event;
     }
 
-    if(PAGE_RECORD.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))){
+    if (PAGE_RECORD.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))) {
       var putBody = {
         'id': PAGE_RECORD.$id.value,
         'record': {
@@ -855,7 +860,7 @@
       putRecords(kintone.app.getId(), putData);
       sessionStorage.setItem('record_updated', '1');
       location.reload();
-    } else{
+    } else {
       var putBody = {
         'id': PAGE_RECORD.$id.value,
         'record': {
