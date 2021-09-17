@@ -196,28 +196,30 @@
                       };
                       return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
                         .then(function (resp) {
-                          //更新レポート情報格納配列
-                          var reportStockData = [];
-                          //更新レポート情報
-                          var reportStockBody = {
-                            'id': resp.records[0].$id.value,
-                            'record': {
-                              'inventoryList': {
-                                'value': resp.records[0].inventoryList.value
+                          if(resp.records.length != 0){
+                            //更新レポート情報格納配列
+                            var reportStockData = [];
+                            //更新レポート情報
+                            var reportStockBody = {
+                              'id': resp.records[0].$id.value,
+                              'record': {
+                                'inventoryList': {
+                                  'value': resp.records[0].inventoryList.value
+                                }
                               }
                             }
-                          }
-                          for (var i in reportStockBody.record.inventoryList.value) {
-                            for (var j in stockData) {
-                              if (reportStockBody.record.inventoryList.value[i].value.sys_code.value == (stockData[j].mCode + '-distribute')) {
-                                reportStockBody.record.inventoryList.value[i].value.shipNum.value = stockData[j].shipNum
+                            for (var i in reportStockBody.record.inventoryList.value) {
+                              for (var j in stockData) {
+                                if (reportStockBody.record.inventoryList.value[i].value.sys_code.value == (stockData[j].mCode + '-distribute')) {
+                                  reportStockBody.record.inventoryList.value[i].value.shipNum.value = stockData[j].shipNum
+                                }
                               }
                             }
+                            reportStockData.push(reportStockBody);
+                            putRecords(sysid.INV.app_id.unit, unitStockData);
+                            putRecords(sysid.INV.app_id.device, deviceStockData);
+                            putRecords(sysid.INV.app_id.report, reportStockData);
                           }
-                          reportStockData.push(reportStockBody);
-                          putRecords(sysid.INV.app_id.unit, unitStockData);
-                          putRecords(sysid.INV.app_id.device, deviceStockData);
-                          putRecords(sysid.INV.app_id.report, reportStockData);
                         });
                     });
                 });
