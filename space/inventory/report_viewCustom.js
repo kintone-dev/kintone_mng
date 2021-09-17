@@ -45,13 +45,14 @@
     tabSwitch('#在庫リスト');
     tabMenu('tab_report', ['概要', '在庫リスト']); //タブメニュー作成
     $('.tabMenu a').on('click', function () { //タブメニュークリック時アクション
-      var idName = $(this).attr('href'); //タブ内のリンク名を取得  
+      var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
       return false;
     });
     return event;
   });
 
+  //ソートボタン表示、処理
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
@@ -74,6 +75,12 @@
 
     return event;
   });
+
+  //差引数量０以下の時行を赤背景に
+  kintone.events.on('app.record.detail.show', function (event) {
+    console.log(cybozu.data.page.SCHEMA_DATA);
+  });
+
   //商品順ソート関数
   var sortItemTable = function (table, orderBy, isDesc) {
     table.sort(function (a, b) {
