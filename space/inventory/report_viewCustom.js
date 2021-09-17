@@ -93,7 +93,7 @@
     }
 
     //データ表示後動かす
-    var testTimer = setInterval(function () {
+    var testTimer = setTimeout(function () {
       //差引数量マイナスのものを赤背景に
       for (var i in deductionData) {
         if (parseInt(deductionData[i].deductionNum) < 0) {
