@@ -101,8 +101,6 @@
               nextMonthSyscode.push(putNewReport_body.record.inventoryList.value[nil].value.sys_code.value);
             }
             for (var nil in PAGE_RECORD.inventoryList.value) {
-              console.log(PAGE_RECORD.inventoryList.value);
-              if (parseInt(PAGE_RECORD.inventoryList.value[nil].value.deductionNum.value) > 0) {
                 var nowMonthData = {
                   'sysCode': PAGE_RECORD.inventoryList.value[nil].value.sys_code.value,
                   'location': PAGE_RECORD.inventoryList.value[nil].value.stockLocation.value,
@@ -111,7 +109,6 @@
                   'deductionNum': PAGE_RECORD.inventoryList.value[nil].value.deductionNum.value,
                 }
                 nowMonthSyscode.push(nowMonthData);
-              }
             }
 
             for (var ril in PAGE_RECORD.inventoryList.value) {
@@ -125,19 +122,23 @@
                   }
                 }
               } else {
-                var putNewInventoryBody = {
-                  'value': {
-                    'sys_code': nowMonthSyscode[ril].sysCode,
-                    'stockLocation': nowMonthSyscode[ril].location,
-                    'memo': nowMonthSyscode[ril].memo,
-                    'mCode': nowMonthSyscode[ril].mCode,
-                    'mLastStock': nowMonthSyscode[ril].deductionNum,
+                if (parseInt(PAGE_RECORD.inventoryList.value[ril].value.deductionNum.value) > 0) {
+                  var putNewInventoryBody = {
+                    'value': {
+                      'sys_code': nowMonthSyscode[ril].sysCode,
+                      'stockLocation': nowMonthSyscode[ril].location,
+                      'memo': nowMonthSyscode[ril].memo,
+                      'mCode': nowMonthSyscode[ril].mCode,
+                      'mLastStock': nowMonthSyscode[ril].deductionNum,
+                    }
                   }
+                  putNewReport_body.record.inventoryList.value.push(putNewInventoryBody);
                 }
-                putNewReport_body.record.inventoryList.value.push(putNewInventoryBody);
               }
             }
+
             putNewReportData.push(putNewReport_body);
+            console.log(JSON.stringify(putNewReportData, null, '\t'));
             //次月のレポートを更新
             putRecords(sysid.INV.app_id.report, putNewReportData);
           }
