@@ -80,8 +80,10 @@
   kintone.events.on('app.record.detail.show', function (event) {
     const PAGE_RECORD = event.record;
     const GET_FIELD_CODE = cybozu.data.page.SCHEMA_DATA;
+    var tableClass = GET_FIELD_CODE.subTable
     var deductionData = []
 
+    console.log(tableClass);
     for(var i in PAGE_RECORD.inventoryList.value){
       var deductionBody = {
         'rowNum': i + 1,
