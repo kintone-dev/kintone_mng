@@ -25,7 +25,7 @@
         }
       }
 
-      newListData.report.inventoryList.value = newList;
+      newListData.record.inventoryList.value = newList;
 
       console.log(JSON.stringify(newListData, null, '\t'));
 
