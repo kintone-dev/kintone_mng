@@ -8,10 +8,10 @@
        * 特定の拠点を削除
        */
       var inventoryList = PAGE_RECORD.inventoryList.value;
-      var newList = []
+      var newList = [];
       //特定の拠点以外を抜き出して再度格納
       for (var i in inventoryList) {
-        if (inventoryList[i].value.stockLocation.value != '矢倉倉庫') {
+        if (inventoryList[i].value.stockLocation.value != '〇〇〇〇') {
           newList.push(inventoryList[i]);
         }
       }
@@ -56,6 +56,7 @@
               }
             };
             for (var pil in PAGE_RECORD.inventoryList.value) {
+              //差引数量が0以下のものは次月に載せない
               if (parseInt(PAGE_RECORD.inventoryList.value[pil].value.deductionNum.value) > 0) {
                 var postNewReport_listArray_body = {
                   'value': {
@@ -122,6 +123,7 @@
                   }
                 }
               } else {
+                //差引数量が0以下のものは次月に載せない
                 if (parseInt(PAGE_RECORD.inventoryList.value[ril].value.deductionNum.value) > 0) {
                   var putNewInventoryBody = {
                     'value': {
