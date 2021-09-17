@@ -870,6 +870,21 @@
       location.reload();
     }
 
+    //サーバー時間取得
+    $.ajax({
+      type: 'GET',
+      cache: false,
+      async: false
+    }).done(function (data, status, xhr) {
+      //請求月が今より過去の場合
+      var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
+      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+        alert('昔の請求書です。');
+        return event;
+      }
+    });
+
     return event;
   });
 
