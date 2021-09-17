@@ -109,8 +109,8 @@
                   'mCode': PAGE_RECORD.inventoryList.value[nil].value.mCode.value,
                   'deductionNum': PAGE_RECORD.inventoryList.value[nil].value.deductionNum.value,
                 }
+                nowMonthSyscode.push(nowMonthData);
               }
-              nowMonthSyscode.push(nowMonthData);
             }
 
             for (var ril in PAGE_RECORD.inventoryList.value) {
