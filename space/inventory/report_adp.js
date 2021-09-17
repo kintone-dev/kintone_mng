@@ -2,11 +2,39 @@
   'use strict';
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
-    const REPORT_RECORD = event.record;
-    // レポートが締切の場合
-    if (REPORT_RECORD.EoMcheck.value == '締切' || REPORT_RECORD.EoMcheck.value == '一時確認') {
-      const REPORT_KEY_YEAR = REPORT_RECORD.invoiceYears.value;
-      const REPORT_KEY_MONTH = REPORT_RECORD.invoiceMonth.value;
+    const PAGE_RECORD = event.record;
+    // レポートが締切か一時確認の場合
+    if (PAGE_RECORD.EoMcheck.value == '締切') {
+      /**
+       * 特定の拠点を削除
+       */
+      var inventoryList = PAGE_RECORD.inventoryList.value;
+      var newListData = {
+        'id': PAGE_RECORD.$id.value,
+        'record':{
+          'inventoryList': {
+            'value': []
+          }
+        }
+      }
+      var newList = []
+      //特定の拠点以外を抜き出して再度格納
+      for(var i in inventoryList){
+        if(inventoryList[i].value.stockLocation.value != '矢倉倉庫'){
+          newList.push(inventoryList[i]);
+        }
+      }
+
+      newListData.report.inventoryList.value = newList;
+
+      console.log(JSON.stringify(newListData, null, '\t'));
+
+
+      /**
+       * 次月のレポート作成処理
+       */
+      const REPORT_KEY_YEAR = PAGE_RECORD.invoiceYears.value;
+      const REPORT_KEY_MONTH = PAGE_RECORD.invoiceMonth.value;
       var reportDate = new Date(REPORT_KEY_YEAR, REPORT_KEY_MONTH);
       const NEXT_DATE = String(reportDate.getFullYear()) + String(("0" + (reportDate.getMonth() + 1)).slice(-2));
       // 次月のレポートを取得
@@ -32,24 +60,24 @@
                 'value': postNewReport_listArray
               }
             };
-            for (var pil in REPORT_RECORD.inventoryList.value) {
-              if(parseInt(REPORT_RECORD.inventoryList.value[pil].value.deductionNum.value)  > 0){
+            for (var pil in PAGE_RECORD.inventoryList.value) {
+              if(parseInt(PAGE_RECORD.inventoryList.value[pil].value.deductionNum.value)  > 0){
                 var postNewReport_listArray_body = {
                   'value': {
                     'sys_code': {
-                      'value': REPORT_RECORD.inventoryList.value[pil].value.sys_code.value
+                      'value': PAGE_RECORD.inventoryList.value[pil].value.sys_code.value
                     },
                     'mCode': {
-                      'value': REPORT_RECORD.inventoryList.value[pil].value.mCode.value
+                      'value': PAGE_RECORD.inventoryList.value[pil].value.mCode.value
                     },
                     'stockLocation': {
-                      'value': REPORT_RECORD.inventoryList.value[pil].value.stockLocation.value
+                      'value': PAGE_RECORD.inventoryList.value[pil].value.stockLocation.value
                     },
                     'memo': {
-                      'value': REPORT_RECORD.inventoryList.value[pil].value.memo.value
+                      'value': PAGE_RECORD.inventoryList.value[pil].value.memo.value
                     },
                     'mLastStock': {
-                      'value': REPORT_RECORD.inventoryList.value[pil].value.deductionNum.value
+                      'value': PAGE_RECORD.inventoryList.value[pil].value.deductionNum.value
                     }
                   }
                 };
@@ -80,26 +108,26 @@
             for (var nil in putNewReport_body.record.inventoryList.value) {
               nextMonthSyscode.push(putNewReport_body.record.inventoryList.value[nil].value.sys_code.value);
             }
-            for (var nil in REPORT_RECORD.inventoryList.value) {
+            for (var nil in PAGE_RECORD.inventoryList.value) {
               var nowMonthData = {
-                'sysCode': REPORT_RECORD.inventoryList.value[nil].value.sys_code.value,
-                'location': REPORT_RECORD.inventoryList.value[nil].value.stockLocation.value,
-                'memo': REPORT_RECORD.inventoryList.value[nil].value.memo.value,
-                'mCode': REPORT_RECORD.inventoryList.value[nil].value.mCode.value,
-                'deductionNum': REPORT_RECORD.inventoryList.value[nil].value.deductionNum.value,
+                'sysCode': PAGE_RECORD.inventoryList.value[nil].value.sys_code.value,
+                'location': PAGE_RECORD.inventoryList.value[nil].value.stockLocation.value,
+                'memo': PAGE_RECORD.inventoryList.value[nil].value.memo.value,
+                'mCode': PAGE_RECORD.inventoryList.value[nil].value.mCode.value,
+                'deductionNum': PAGE_RECORD.inventoryList.value[nil].value.deductionNum.value,
               }
 
               nowMonthSyscode.push(nowMonthData);
             }
 
-            for (var ril in REPORT_RECORD.inventoryList.value) {
+            for (var ril in PAGE_RECORD.inventoryList.value) {
               if (nextMonthSyscode.includes(nowMonthSyscode[ril].sysCode)) {
                 for (var nil in putNewReport_body.record.inventoryList.value) {
-                  if (putNewReport_body.record.inventoryList.value[nil].value.sys_code.value == REPORT_RECORD.inventoryList.value[ril].value.sys_code.value) {
-                    putNewReport_body.record.inventoryList.value[nil].value.mLastStock.value = REPORT_RECORD.inventoryList.value[ril].value.deductionNum.value
-                    putNewReport_body.record.inventoryList.value[nil].value.mCode.value = REPORT_RECORD.inventoryList.value[ril].value.mCode.value
-                    putNewReport_body.record.inventoryList.value[nil].value.stockLocation.value = REPORT_RECORD.inventoryList.value[ril].value.stockLocation.value
-                    putNewReport_body.record.inventoryList.value[nil].value.memo.value = REPORT_RECORD.inventoryList.value[ril].value.memo.value
+                  if (putNewReport_body.record.inventoryList.value[nil].value.sys_code.value == PAGE_RECORD.inventoryList.value[ril].value.sys_code.value) {
+                    putNewReport_body.record.inventoryList.value[nil].value.mLastStock.value = PAGE_RECORD.inventoryList.value[ril].value.deductionNum.value
+                    putNewReport_body.record.inventoryList.value[nil].value.mCode.value = PAGE_RECORD.inventoryList.value[ril].value.mCode.value
+                    putNewReport_body.record.inventoryList.value[nil].value.stockLocation.value = PAGE_RECORD.inventoryList.value[ril].value.stockLocation.value
+                    putNewReport_body.record.inventoryList.value[nil].value.memo.value = PAGE_RECORD.inventoryList.value[ril].value.memo.value
                   }
                 }
               } else {
