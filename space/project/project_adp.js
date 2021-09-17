@@ -268,7 +268,6 @@
     return event;
   });
 
-
   kintone.events.on(['app.record.detail.show'], function (event) {
     const PAGE_RECORD = event.record;
     //サーバー時間取得
