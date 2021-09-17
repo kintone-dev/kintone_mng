@@ -129,7 +129,7 @@
           setFieldShown('expArrivalDate', true);
           setFieldShown('shipment', false);
           setFieldShown('shipType', false);
-          setFieldShown('tarDate', false);
+          setFieldShown('tarDate', true);
           setFieldShown('instFile', false);
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
@@ -189,7 +189,8 @@
     }
     return event;
   });
-  // カーテンレールが選択された場合、シリアル番号欄にデータを記入
+
+  // カーテンレールが選択された場合、特記事項にデータを記入
   kintone.events.on(['app.record.edit.change.mCode', 'app.record.create.change.mCode'], function (event) {
     for (var i in event.record.deviceList.value) {
       if (!String(event.record.deviceList.value[i].value.shipRemarks.value).match(/PAC/)) {
@@ -236,18 +237,18 @@
           }
         }
       }
-      if(pkgQuery.length != 0){
+      if (pkgQuery.length != 0) {
         var getPkg = {
           'app': sysid.INV.app_id.device,
           'query': 'mCode in (' + pkgQuery.join() + ') order by 更新日時 asc',
         };
-      } else{
+      } else {
         var getPkg = {
           'app': sysid.INV.app_id.device,
           'query': 'order by 更新日時 asc',
         };
       }
-      kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getPkg)
+      return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getPkg)
         .then(function (resp) {
           const RESP_RECORDS = resp.records;
           for (var st in shipTable) {

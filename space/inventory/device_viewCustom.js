@@ -191,6 +191,7 @@
     return event;
   })
 
+  // indexページでの編集、削除ボタン削除
   var events_ced = [
     'app.record.index.show',
     'app.record.detail.show',

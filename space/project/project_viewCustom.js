@@ -20,6 +20,30 @@
     else setFieldShown('invoiceStatus', true);
   });
 
+  kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
+    const PAGE_RECORD = event.record;
+    if (PAGE_RECORD.ステータス.value == '納品準備中') {
+      var types = ['SINGLE_LINE_TEXT', 'MULTI_LINE_TEXT', 'SUBTABLE', 'RICH_TEXT', 'NUMBER', 'DATE', 'DATETIME', 'TIME', 'DROP_DOWN', 'RADIO_BUTTON', 'CHECK_BOX', 'MULTI_SELECT', 'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'LINK', 'FILE'];
+      var arr = Object.keys(PAGE_RECORD);
+      arr.forEach(function (fcode) {
+        if (types.indexOf(PAGE_RECORD[fcode].type) >= 0) {
+          PAGE_RECORD[fcode].disabled = true;
+        }
+      });
+      for (var i in PAGE_RECORD.deviceList.value) {
+        PAGE_RECORD.deviceList.value[i].value.mNickname.disabled = true;
+        PAGE_RECORD.deviceList.value[i].value.shipNum.disabled = true;
+        PAGE_RECORD.deviceList.value[i].value.subBtn.disabled = true;
+        PAGE_RECORD.deviceList.value[i].value.shipRemarks.disabled = true;
+      }
+      PAGE_RECORD.sys_invoiceDate.disabled = false;
+      PAGE_RECORD.invoiceNum.disabled = false;
+      PAGE_RECORD.invoiceStatus.disabled = false;
+    }
+
+  });
+
+
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     const PAGE_RECORD = event.record;
     PAGE_RECORD.cSales.disabled = false;
@@ -75,7 +99,7 @@
     }
     tabSwitch('#案件情報');
     //タブメニュー作成
-    tabMenu('tab_project', ['案件情報', '設置先情報', '納品依頼リスト', '宛先情報', '輸送情報']);
+    tabMenu('tab_project', ['案件情報', '設置先情報', '宛先情報', '納品依頼リスト', '輸送情報']);
     //タブ切り替え表示設定
     $('.tab_project a').on('click', function () {
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
@@ -92,25 +116,6 @@
     $('#' + unknowINST.id).on('click', function () {
       createNewREC(sysid.PM.app_id.installation, ['prjNum', 'unknowINST', 'setShown'], [prjNumValue, '不特定設置先', 'disable']);
     });
-
-    if (PAGE_RECORD.ステータス.value == '納品準備中') {
-      var types = ['SINGLE_LINE_TEXT', 'MULTI_LINE_TEXT', 'SUBTABLE', 'RICH_TEXT', 'NUMBER', 'DATE', 'DATETIME', 'TIME', 'DROP_DOWN', 'RADIO_BUTTON', 'CHECK_BOX', 'MULTI_SELECT', 'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'LINK', 'FILE'];
-      var arr = Object.keys(PAGE_RECORD);
-      arr.forEach(function (fcode) {
-        if (types.indexOf(PAGE_RECORD[fcode].type) >= 0) {
-          PAGE_RECORD[fcode].disabled = true;
-        }
-      });
-      for (var i in PAGE_RECORD.deviceList.value) {
-        PAGE_RECORD.deviceList.value[i].value.mNickname.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.shipNum.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.subBtn.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.shipRemarks.disabled = true;
-      }
-      PAGE_RECORD.sys_invoiceDate.disabled = false;
-      PAGE_RECORD.invoiceNum.disabled = false;
-      PAGE_RECORD.invoiceStatus.disabled = false;
-    }
   });
 
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
@@ -381,6 +386,12 @@
     eSearch.type = 'text';
     eSearch.placeholder = eSearchParms.sPlaceholder;
     eSearch.classList.add('testclass');
+    eSearch.onkeydown = function () {
+      if (window.event.keyCode == 13) {
+        console.log(window.event.keyCode)
+        document.getElementById("btn_eSearch").click();
+      }
+    }
     eSearchArea.appendChild(eSearch);
 
     var searchBtn = document.createElement('input');
@@ -413,14 +424,17 @@
     // searchType.appendChild(sTypeLabel_and);
     // eSearchArea.appendChild(searchType);
     var searchTargetArea = document.createElement('form');
-    searchTargetArea.id = 'searchTarget';
-    searchTargetArea.name = 'searchTarget';
+    searchTargetArea.id = 'searchTargets';
+    searchTargetArea.name = 'searchTargets';
 
     for (var i in eSearchParms.sConditions) {
       var searchTarget = document.createElement('input');
       searchTarget.id = eSearchParms.sConditions[i].fCode;
-      searchTarget.name = eSearchParms.sConditions[i].fCode;
+      searchTarget.name = 'searchTarget'; //eSearchParms.sConditions[i].fCode;
       searchTarget.type = 'checkbox';
+      if (i == 0) {
+        searchTarget.checked = true;
+      }
       searchTargetArea.appendChild(searchTarget);
       var searchTargetValue = document.createElement('label');
       searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
@@ -471,12 +485,17 @@
       }
       var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
       var str_query = '?query=';
-      var searchtarget = document.forms.searchTarget;
-      for (var st in document.forms.searchTarget) {
-        console.log(document.forms.searchTarget[st].checked)
-        if (document.forms.searchTarget[st].checked) {
-          str_query = str_query + document.forms.searchTarget[st].name + 'like"' + keyword + '"';
-          if (st < document.forms.searchTarget.length - 1) str_query = str_query + '"' + AND_OR;
+      // var searchtarget = document.forms.searchTarget;
+      var isSearchConditions = []
+      for (var st in document.searchTargets.searchTarget) {
+        // console.log(document.forms.searchTarget[st].checked)
+        isSearchConditions.push(document.searchTargets.searchTarget[st].checked);
+        if (document.searchTargets.searchTarget[st].checked) {
+          str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '"';
+          var st_a = Number(st) + 1;
+          if (st_a < document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st_a].checked) {
+            str_query = str_query + ' or ';
+          }
         }
       }
       if (keyword == "" || keyword == undefined) {
@@ -486,8 +505,11 @@
       //   // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
       // }
       // 検索結果のURLへ
-      alert(str_query + '\n' + str_query);
       document.location = location.origin + location.pathname + str_query;
+
+      // document.getElementById('s_eSearch').value=keyword;
+      // document.searchTargets.searchTarget[1].checked=true;
+
     });
     // setEasySearch({
     //   id:'eSearch',
@@ -812,6 +834,62 @@
         else if (mCodeValue.match(/pkg_/)) event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
       }
     }
+    return event;
+  });
+
+  //wfpチェック
+  kintone.events.on('app.record.detail.show', function (event) {
+    const PAGE_RECORD = event.record;
+    var putData = [];
+
+    if (sessionStorage.getItem('record_updated') === '1') {
+      sessionStorage.setItem('record_updated', '0');
+      return event;
+    }
+
+    if (PAGE_RECORD.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))) {
+      var putBody = {
+        'id': PAGE_RECORD.$id.value,
+        'record': {
+          'sys_isReady': {
+            'value': 'false'
+          }
+        }
+      }
+      putData.push(putBody);
+      putRecords(kintone.app.getId(), putData);
+      sessionStorage.setItem('record_updated', '1');
+      location.reload();
+    } else {
+      var putBody = {
+        'id': PAGE_RECORD.$id.value,
+        'record': {
+          'sys_isReady': {
+            'value': 'true'
+          }
+        }
+      }
+      putData.push(putBody);
+      putRecords(kintone.app.getId(), putData);
+      sessionStorage.setItem('record_updated', '1');
+      location.reload();
+    }
+
+    //サーバー時間取得
+    $.ajax({
+      type: 'GET',
+      cache: false,
+      async: false
+    }).done(function (data, status, xhr) {
+      //請求月が今より過去の場合
+      var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
+      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+        alert('昔の請求書です。');
+        return event;
+      }
+    });
+
     return event;
   });
 

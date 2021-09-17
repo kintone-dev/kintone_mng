@@ -164,11 +164,11 @@ function setBtn_index(btnID, btnValue) {
 	kintone.app.getHeaderMenuSpaceElement().appendChild(indexBtn);
 	return indexBtn;
 }
-/* 使い方
- *var newORG=setBtn('btn_newORG','新規組織');
- *$('#'+newORG.id).on('click', function(){
- *	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
- *});
+/**使い方
+ * var newORG=setBtn('btn_newORG','新規組織');
+ * newORG.onclick=function(){
+ * 	createNewREC(sysID.DIPM.app.org, 'prj_aNum', prj_aNumValue); // 実行内容例
+ * }
  */
 // プルダウンメニュー
 function setSelect_header(selectID, selectValue) {
@@ -437,6 +437,15 @@ var railConf = function (spec) {
 // 検索エンジン
 
 /* その他 */
+function orgRound(value, base) {
+  return Math.round(value * base) / base;
+}
+function orgCeil(value, base) {
+  return Math.ceil(value * base) / base;
+}
+function orgFloor(value, base) {
+  return Math.floor(value * base) / base;
+}
 // 全レコード呼び出し
 function api_getRecords(appID) {
 	return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', {
@@ -453,8 +462,12 @@ const postRecords = async (app, records) => {
 			'app': app,
 			'records': POST_RECORDS.slice(0, 100),
 		}
-		console.log(postBody);
-		await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody);
+		await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
+			.then(function (resp) {
+				console.log(postBody);
+			}).catch(function (error) {
+				console.log(error);
+			});
 		POST_RECORDS.splice(0, 100);
 	}
 }
@@ -467,8 +480,12 @@ const putRecords = async (app, records) => {
 			'app': app,
 			'records': PUT_RECORDS.slice(0, 100),
 		}
-		console.log(putBody);
-		await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody);
+		await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody)
+			.then(function (resp) {
+				console.log(putBody);
+			}).catch(function (error) {
+				console.log(error);
+			});
 		PUT_RECORDS.splice(0, 100);
 	}
 }
@@ -481,8 +498,12 @@ const deleteRecords = async (app, records) => {
 			'app': app,
 			'ids': DELETE_RECORDS.slice(0, 100),
 		}
-		console.log(deleteBody);
-		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody);
+		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody)
+			.then(function (resp) {
+				console.log(deleteBody);
+			}).catch(function (error) {
+				console.log(error);
+			});
 		DELETE_RECORDS.splice(0, 100);
 	}
 }

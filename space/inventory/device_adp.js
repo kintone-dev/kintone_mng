@@ -75,17 +75,9 @@
       }
       return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
     });
-    /*.then(function (resp) {
-      // 転送成功
-      console.log('put data to UNIT is success');
-    }).catch(function (error) {
-      //event error
-      console.log(error);
-      console.log('UNITにデータ更新失敗' + error.message);
-    });*/
 
     /* 新規データ転送 */
-    //　転送データ作成
+    // 転送データ作成
     var postItemBody = {
       'app': '',
       'record': {
@@ -104,22 +96,15 @@
       sysid.SUP.app_id.item,
       sysid.ASS.app_id.item
     ];
-    // 転送実行
+    // 品目マスターに転送実行
     for (var pi in tarAPP) {
       postItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'POST', postItemBody);
-      /*
-      .then(function (resp) {
-        console.log(tarAPP[pi]+' success');
-      }).catch(function (error) {
-        console.log(tarAPP[pi]+error.message);
-      });
-      */
     }
     return event;
   });
 
-  // 編集保存時アクション
+  // 編集保存時アクション（現在編集不可）
   kintone.events.on('app.record.edit.submit.success', function (event) {
     const PAGE_RECORD = event.record;
     /* 更新データ転送 */
@@ -150,11 +135,6 @@
       putItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
     }
-
-    //拠点管理に反映
-
-
-
     return event;
   });
 

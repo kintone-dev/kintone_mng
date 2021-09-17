@@ -45,8 +45,6 @@
     return event;
   });
 
-
-
   //新規保存時アクション
   kintone.events.on('app.record.create.submit', function(event) {
     //品目情報を拠点リストに転送
@@ -78,11 +76,7 @@
       return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
     }).then(function(resp){
       //転送成功
-      console.log('put data to device is success');
-    }).catch(function(error){
-      //event error
-      console.log(error);
-      alert('品目データ更新失敗'+error.message);
+      console.log('商品管理に新規拠点を追加');
     });
   });
 })();

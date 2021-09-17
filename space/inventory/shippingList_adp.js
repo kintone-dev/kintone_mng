@@ -5,6 +5,8 @@
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     const PAGE_RECORD = event.record;
     var nStatus = event.nextStatus.value;
+
+    //ステータスが集荷待ちの場合
     if (nStatus === "集荷待ち") {
       var deviceList = PAGE_RECORD.deviceList.value;
       var shipmentName = PAGE_RECORD.shipment.value;
@@ -21,7 +23,7 @@
       var sNums = sNumRecords(PAGE_RECORD.deviceList.value, 'table');
 
       //ID更新
-      if (shipmentName === '矢倉倉庫') {
+      if (shipmentName == '矢倉倉庫') {
         var postSnumData = [];
         for (var y in sNums) {
           var snRecord = {
@@ -55,8 +57,9 @@
         }
         putRecords(sysid.DEV.app_id.sNum, putSnumData);
       }
+      //ID更新 end
 
-      setDeliveryInfo(PAGE_RECORD);
+      // 在庫処理
       if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
         stockCount('normal', sysShipmentCode, sysArrivalCode, stockData);
       } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
@@ -68,7 +71,12 @@
       } else if (PAGE_RECORD.shipType.value == '返品') {
         stockCount('shiponly', sysShipmentCode, sysArrivalCode, stockData);
       }
+      // ステータスが出荷完了の場合
     } else if (nStatus === "出荷完了") {
+      // 輸送情報連携
+      setDeliveryInfo(PAGE_RECORD);
+
+      // レポート処理
       if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
         reportCreate(PAGE_RECORD, 'distribute');
       } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
@@ -85,6 +93,7 @@
     return event;
   });
 
+  /* ---以下関数--- */
   // レポート処理
   const reportCreate = function (pageRecod, param) {
     var sendDate = pageRecod.sendDate.value;
@@ -115,10 +124,7 @@
           var putReportData = [];
           //更新レポート情報
           var putReportBody = {
-            'updateKey': {
-              'field': 'sys_invoiceDate',
-              'value': sendDate
-            },
+            'id':resp.records[0].$id.value,
             'record': {
               'inventoryList': {
                 'value': resp.records[0].inventoryList.value
@@ -534,17 +540,11 @@
     var putStatusBody = {
       'app': sysid.PM.app_id.project,
       'id': pageRecod.prjId.value,
-      'action': '製品発送待ち'
-    }
-    var putStatusBody2 = {
-      'app': sysid.PM.app_id.project,
-      'id': pageRecod.prjId.value,
-      'action': '納品手配'
+      'action': '製品発送'
     }
 
     putRecords(sysid.PM.app_id.project, putDeliveryData);
     kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody);
-    kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody2);
   }
 
 })();
