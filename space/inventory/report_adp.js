@@ -1,9 +1,8 @@
 (function () {
   'use strict';
 
-  kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
+  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     const PAGE_RECORD = event.record;
-    // レポートが締切か一時確認の場合
     if (PAGE_RECORD.EoMcheck.value == '締切') {
       /**
        * 特定の拠点を削除
@@ -11,7 +10,7 @@
       var inventoryList = PAGE_RECORD.inventoryList.value;
       var newListData = {
         'id': PAGE_RECORD.$id.value,
-        'record':{
+        'record': {
           'inventoryList': {
             'value': []
           }
@@ -19,14 +18,47 @@
       }
       var newList = []
       //特定の拠点以外を抜き出して再度格納
-      for(var i in inventoryList){
-        if(inventoryList[i].value.stockLocation.value != '矢倉倉庫'){
+      for (var i in inventoryList) {
+        if (inventoryList[i].value.stockLocation.value != '矢倉倉庫') {
           newList.push(inventoryList[i]);
         }
       }
 
       newListData.record.inventoryList.value = newList;
       PAGE_RECORD.inventoryList.value = newList;
+
+      // putRecords(sysid.INV.app_id.report, putNewReportData);
+    }
+    return event;
+  });
+
+  kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
+    const PAGE_RECORD = event.record;
+    console.log(PAGE_RECORD);
+    // レポートが締切か一時確認の場合
+    if (PAGE_RECORD.EoMcheck.value == '締切') {
+      // /**
+      //  * 特定の拠点を削除
+      //  */
+      // var inventoryList = PAGE_RECORD.inventoryList.value;
+      // var newListData = {
+      //   'id': PAGE_RECORD.$id.value,
+      //   'record': {
+      //     'inventoryList': {
+      //       'value': []
+      //     }
+      //   }
+      // }
+      // var newList = []
+      // //特定の拠点以外を抜き出して再度格納
+      // for (var i in inventoryList) {
+      //   if (inventoryList[i].value.stockLocation.value != '矢倉倉庫') {
+      //     newList.push(inventoryList[i]);
+      //   }
+      // }
+
+      // newListData.record.inventoryList.value = newList;
+      // PAGE_RECORD.inventoryList.value = newList;
 
       /**
        * 次月のレポート作成処理
@@ -59,7 +91,7 @@
               }
             };
             for (var pil in PAGE_RECORD.inventoryList.value) {
-              if(parseInt(PAGE_RECORD.inventoryList.value[pil].value.deductionNum.value)  > 0){
+              if (parseInt(PAGE_RECORD.inventoryList.value[pil].value.deductionNum.value) > 0) {
                 var postNewReport_listArray_body = {
                   'value': {
                     'sys_code': {
@@ -89,7 +121,7 @@
             //次月のレポートがある場合
             var putNewReportData = [];
             var putNewReport_body = {
-              'id':NEXTREPORT_RECORD.$id.value,
+              'id': NEXTREPORT_RECORD.$id.value,
               'record': {
                 'inventoryList': {
                   'value': NEXTREPORT_RECORD.inventoryList.value
@@ -143,7 +175,6 @@
             putRecords(sysid.INV.app_id.report, putNewReportData);
           }
 
-          putRecords(sysid.INV.app_id.report,newListData);
           return event;
         });
     } else {
