@@ -1,6 +1,9 @@
 (function () {
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show','app.record.create.change.currencyType','app.record.edit.change.currencyType','app.record.detail.change.currencyType'], function(event){
-    if(event.record.currencyType.value.match(/日本円/)){
+    if(event.record.currencyType.value==undefined){
+      alert('通貨種類を選択してください。')
+    }
+    else if(event.record.currencyType.value.match(/日本円/)){
       setFieldShown('remittanceList', false);
       setFieldShown('averageRate', false);
       setFieldShown('devCost_foreign', false);
