@@ -78,7 +78,21 @@
 
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
-    console.log(cybozu.data.page.SCHEMA_DATA);
+    const PAGE_RECORD = event.record;
+    const GET_FIELD_CODE = cybozu.data.page.SCHEMA_DATA;
+    var deductionData = []
+
+    for(var i in PAGE_RECORD.inventoryList.value){
+      var deductionBody = {
+        'rowNum': i,
+        'deductionNum':PAGE_RECORD.inventoryList.value[i].value.deductionNum.value
+      }
+      deductionData.push(deductionBody);
+    }
+
+    console.log(JSON.stringify(deductionData, null, '\t'));
+
+
   });
 
   //商品順ソート関数
