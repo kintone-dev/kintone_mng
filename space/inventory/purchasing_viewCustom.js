@@ -1,5 +1,5 @@
 (function () {
-  kintone.events.on(['app.record.edit.show'], function(event){
+  kintone.events.on(['app.record.detail.show'], function(event){
 
     var arrivalListValue=event.record.arrivalList.value;
     // 平均レート計算
