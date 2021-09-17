@@ -28,8 +28,7 @@
       newListData.record.inventoryList.value = newList;
       PAGE_RECORD.inventoryList.value = newList;
 
-      console.log(JSON.stringify(newListData, null, '\t'));
-      console.log(JSON.stringify(PAGE_RECORD, null, '\t'));
+      putRecords(sysid.INV.app_id.report,newListData);
 
       /**
        * 次月のレポート作成処理
