@@ -189,12 +189,9 @@
 
                   putRepoData.push(putRepoBody);
 
-                  console.log(JSON.stringify(putDevData, null, '\t'));
-                  console.log(JSON.stringify(putRepoData, null, '\t'));
-                  console.log(JSON.stringify(stockData, null, '\t'));
-                  // putRecords(sysid.INV.app_id.device, putDevData);
-                  // putRecords(sysid.INV.app_id.unit, putUniData);
-                  // putRecords(sysid.INV.app_id.report, putRepoData);
+                  putRecords(sysid.INV.app_id.device, putDevData);
+                  putRecords(sysid.INV.app_id.unit, putUniData);
+                  putRecords(sysid.INV.app_id.report, putRepoData);
                 });
             });
         }
