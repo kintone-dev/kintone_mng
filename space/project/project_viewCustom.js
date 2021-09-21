@@ -56,7 +56,7 @@
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
 
-    // 新・既存案件表示切り替え
+    // タブ表示切り替え
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#案件情報':
@@ -87,18 +87,20 @@
           setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
-          // if (tabCase == 'arrival') {
-          //   doSelection(pageRecod);
-          // } else {
-          //   setFieldShown('Contractor', false);
-          //   setFieldShown('instName', false);
-          //   setSpaceShown('btn_newINST', 'individual', 'none');
-          //   setSpaceShown('btn_unknowINST', 'individual', 'none');
-          // }
+          setFieldShown('instName', false);
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
+          
+                    // if (tabCase == 'arrival') {
+                    //   doSelection(pageRecod);
+                    // } else {
+                    //   setFieldShown('Contractor', false);
+                    //   setFieldShown('instName', false);
+                    //   setSpaceShown('btn_newINST', 'individual', 'none');
+                    //   setSpaceShown('btn_unknowINST', 'individual', 'none');
+                    // }
           break;
         case '#設置先情報':
           setPrjInfoShown(PAGE_RECORD, false, '');
