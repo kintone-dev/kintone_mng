@@ -4,7 +4,7 @@
   // kintone.events.on('app.record.detail.process.proceed', function (event) {
   kintone.events.on(['app.record.create.submit','app.record.edit.submit'], function (event) {
     const PAGE_RECORD = event.record;
-    var nStatus = event.nextStatus.value;
+    // var nStatus = event.nextStatus.value;
 
     putDevice(PAGE_RECORD);
     // if(nStatus==="仕入完了"){
