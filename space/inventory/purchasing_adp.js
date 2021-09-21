@@ -4,9 +4,31 @@
   // kintone.events.on('app.record.detail.process.proceed', function (event) {
   kintone.events.on(['app.record.create.submit','app.record.edit.submit'], function (event) {
     const PAGE_RECORD = event.record;
+    var sendDate = PAGE_RECORD.arrivalDate.value;
+    sendDate = sendDate.replace(/-/g, '');
+    sendDate = sendDate.slice(0, -2);
     // var nStatus = event.nextStatus.value;
 
-    putDevice(PAGE_RECORD);
+    //同じ月のレポート情報取得
+    var getReportBody = {
+      'app': sysid.INV.app_id.report,
+      'query': 'sys_invoiceDate = "' + sendDate + '" order by 更新日時 asc'
+    };
+    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+    .then(function (resp) {
+      if (resp.records.length != 0) {
+        for (var i in resp.records[0].EoMcheck.value) {
+          if (resp.records[0].EoMcheck.value[i]=='締切') {
+            event.error = '対応した日付のレポートは締切済みです。';
+            return event;
+          }
+        }
+
+        putDevice(PAGE_RECORD);
+      }
+    });
+
+
     // if(nStatus==="仕入完了"){
     // }
   });
@@ -40,7 +62,7 @@
                   'value': arrivalList[i].value.totalUnitCost.value
                 },
                 'mCostUpdate': {
-                  'value': pageRecod.orderDate.value
+                  'value': pageRecod.arrivalDate.value
                 },
                 'deviceCost': {
                   'value': arrivalList[i].value.unitPrice.value
