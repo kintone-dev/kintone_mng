@@ -17,16 +17,17 @@
     };
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
-        if (resp.records.length != 0) {
-          for (var i in resp.records[0].EoMcheck.value) {
-            if (resp.records[0].EoMcheck.value[i] == '締切') {
+        var reportRecords = resp.records;
+        if (reportRecords.length != 0) {
+          for (var i in reportRecords[0].EoMcheck.value) {
+            if (reportRecords[0].EoMcheck.value[i] == '締切') {
               event.error = '対応した日付のレポートは締切済みです。';
               return event;
             }
           }
 
-          // 商品管理に情報連携
           var arrivalList = PAGE_RECORD.arrivalList.value;
+          // 商品管理に情報連携
           var deviceQuery = [];
           for (var i in arrivalList) {
             deviceQuery.push('"' + arrivalList[i].value.mCode.value + '"');
@@ -87,6 +88,8 @@
                         var stockBody = {
                           'mCode': putDevData[i].updateKey.value,
                           'uCode': putDevData[i].record.uStockList.value[j].value.uCode.value,
+                          'sysCode': putDevData[i].updateKey.value + '-' + putDevData[i].record.uStockList.value[j].value.uCode.value,
+                          'arrivalNum':arrivalList[k].value.arrivalNum.value,
                           'stockNum': putDevData[i].record.uStockList.value[j].value.uStock.value
                         }
                         stockData.push(stockBody);
@@ -109,8 +112,6 @@
                 .then(function (resp) {
                   var unitRecords = resp.records;
                   var putUniData = [];
-                  console.log(unitRecords);
-
                   for (var i in unitRecords) {
                     var putUniBody = {
                       'updateKey': {
@@ -129,20 +130,40 @@
                   for (var i in putUniData) {
                     for (var j in putUniData[i].record.mStockList.value) {
                       for (var k in stockData) {
-                        if (stockData[k].uCode==putUniData[i].updateKey.value) {
+                        if (stockData[k].uCode == putUniData[i].updateKey.value) {
                           if (putUniData[i].record.mStockList.value[j].value.mCode.value == stockData[k].mCode) {
-                            putUniData[i].record.mStockList.value[j].value.mStock.value=stockData[k].stockNum;
-                            console.log('ok');
-                            console.log(putUniData[i].record.mStockList.value[j].value.mStock.value);
+                            putUniData[i].record.mStockList.value[j].value.mStock.value = stockData[k].stockNum;
                           }
                         }
                       }
                     }
                   }
 
-                  console.log(JSON.stringify(putUniData, null, '\t'));
+                  // 月次処理に情報連携
+                  var putRepoData = [];
+                  var putRepoBody = {
+                    'id':reportRecords[0].$id.value,
+                    'record': {
+                      'inventoryList': {
+                        'value': reportRecords[0].inventoryList.value
+                      }
+                    }
+                  }
+
+                  for(var i in putRepoBody.record.inventoryList.value){
+                    for(var j in stockData){
+                      if(putRepoBody.record.inventoryList.value[i].value.sys_code.value == stockData[j].sysCode){
+                        putRepoBody.record.inventoryList.value[i].value.arrivalNum.value = stockData[j].arrivalNum
+                      }
+                    }
+                  }
+
+                  putRepoData.push(putRepoBody);
+
+                  console.log(JSON.stringify(putRepoData, null, '\t'));
                   // putRecords(sysid.INV.app_id.device, putDevData);
                   // putRecords(sysid.INV.app_id.unit, putUniData);
+                  // putRecords(sysid.INV.app_id.report, putRepoData);
                 });
             });
         }
