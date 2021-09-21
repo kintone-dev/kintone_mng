@@ -8,7 +8,6 @@
     var nStatus = event.nextStatus.value;
 
     if (nStatus === "仕入完了") {
-
       //同じ月のレポート情報取得
       var getReportBody = {
         'app': sysid.INV.app_id.report,
