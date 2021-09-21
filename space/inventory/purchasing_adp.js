@@ -2,7 +2,7 @@
   'use strict';
 
   // kintone.events.on('app.record.detail.process.proceed', function (event) {
-  kintone.events.on(['app.record.create.submit','app.record.edit.submit'], function (event) {
+  kintone.events.on(['app.record.create.submit', 'app.record.edit.submit'], function (event) {
     const PAGE_RECORD = event.record;
     var sendDate = PAGE_RECORD.arrivalDate.value;
     sendDate = sendDate.replace(/-/g, '');
@@ -16,85 +16,138 @@
       'query': 'sys_invoiceDate = "' + sendDate + '" order by 更新日時 asc'
     };
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
-    .then(function (resp) {
-      if (resp.records.length != 0) {
-        for (var i in resp.records[0].EoMcheck.value) {
-          if (resp.records[0].EoMcheck.value[i]=='締切') {
-            event.error = '対応した日付のレポートは締切済みです。';
-            return event;
+      .then(function (resp) {
+        if (resp.records.length != 0) {
+          for (var i in resp.records[0].EoMcheck.value) {
+            if (resp.records[0].EoMcheck.value[i] == '締切') {
+              event.error = '対応した日付のレポートは締切済みです。';
+              return event;
+            }
           }
-        }
 
-        putDevice(PAGE_RECORD);
-      }
-    });
-    // }
-  });
-
-  const putDevice = function (pageRecod) {
-    var arrivalList = pageRecod.arrivalList.value;
-    var deviceQuery = [];
-    for (var i in arrivalList) {
-      deviceQuery.push('"' + arrivalList[i].value.mCode.value + '"');
-    }
-    var getDeviceBody = {
-      'app': sysid.INV.app_id.device,
-      'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
-    };
-    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
-    .then(function (resp) {
-      var deviceRecords = resp.records;
-      var putDevData = [];
-      for(var i in arrivalList){
-        for(var j in deviceRecords){
-          if(arrivalList[i].value.mCode.value == deviceRecords[j].mCode.value){
-            var putDevBody = {
-              'updateKey': {
-                'field': 'mCode',
-                'value': arrivalList[i].value.mCode.value
-              },
-              'record': {
-                'mCost': {
-                  'value': arrivalList[i].value.totalUnitCost.value
-                },
-                'mCostUpdate': {
-                  'value': pageRecod.arrivalDate.value
-                },
-                'deviceCost': {
-                  'value': arrivalList[i].value.unitPrice.value
-                },
-                'deviceCost_foreign': {
-                  'value': arrivalList[i].value.unitPrice_foreign.value
-                },
-                'importExpenses': {
-                  'value': arrivalList[i].value.addiUnitExpenses.value
-                },
-                'developCost': {
-                  'value': arrivalList[i].value.addiCost.value
-                },
-                'uStockList': {
-                  'value': deviceRecords[j].uStockList.value
+          // 商品管理に情報連携
+          var arrivalList = PAGE_RECORD.arrivalList.value;
+          var deviceQuery = [];
+          for (var i in arrivalList) {
+            deviceQuery.push('"' + arrivalList[i].value.mCode.value + '"');
+          }
+          var getDeviceBody = {
+            'app': sysid.INV.app_id.device,
+            'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
+          };
+          // 商品情報取得
+          return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+            .then(function (resp) {
+              var deviceRecords = resp.records;
+              var putDevData = [];
+              for (var i in arrivalList) {
+                for (var j in deviceRecords) {
+                  if (arrivalList[i].value.mCode.value == deviceRecords[j].mCode.value) {
+                    var putDevBody = {
+                      'updateKey': {
+                        'field': 'mCode',
+                        'value': arrivalList[i].value.mCode.value
+                      },
+                      'record': {
+                        'mCost': {
+                          'value': arrivalList[i].value.totalUnitCost.value
+                        },
+                        'mCostUpdate': {
+                          'value': PAGE_RECORD.arrivalDate.value
+                        },
+                        'deviceCost': {
+                          'value': arrivalList[i].value.unitPrice.value
+                        },
+                        'deviceCost_foreign': {
+                          'value': arrivalList[i].value.unitPrice_foreign.value
+                        },
+                        'importExpenses': {
+                          'value': arrivalList[i].value.addiUnitExpenses.value
+                        },
+                        'developCost': {
+                          'value': arrivalList[i].value.addiCost.value
+                        },
+                        'uStockList': {
+                          'value': deviceRecords[j].uStockList.value
+                        }
+                      }
+                    }
+                    putDevData.push(putDevBody);
+                  }
                 }
               }
-            }
-            putDevData.push(putDevBody);
-          }
+
+              var stockData =[]
+              for (var i in putDevData) {
+                for (var j in putDevData[i].record.uStockList.value) {
+                  for (var k in arrivalList) {
+                    if (arrivalList[k].value.mCode.value == putDevData[i].updateKey.value) {
+                      if (putDevData[i].record.uStockList.value[j].value.uCode.value == arrivalList[k].value.uCode.value) {
+                        putDevData[i].record.uStockList.value[j].value.uStock.value = parseInt(putDevData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(arrivalList[k].value.arrivalNum.value || 0);
+                        var stockBody = {
+                          'mCode':putDevData[i].updateKey.value,
+                          'uCode':putDevData[i].record.uStockList.value[j].value.uCode.value,
+                          'stockNum':putDevData[i].record.uStockList.value[j].value.uStock.value
+                        }
+                        stockData.push(stockBody);
+                      }
+                    }
+                  }
+                }
+              }
+
+              // 拠点管理に情報連携
+              var unitQuery = [];
+              for (var i in arrivalList) {
+                unitQuery.push('"' + arrivalList[i].value.uCode.value + '"');
+              }
+              var getUnitBody = {
+                'app': sysid.INV.app_id.unit,
+                'query': 'uCode in (' + unitQuery.join() + ') order by 更新日時 asc'
+              };
+              kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
+              .then(function (resp) {
+                var unitRecords = resp.records;
+                var putUniData = [];
+
+                for (var i in arrivalList) {
+                  for (var j in unitRecords) {
+                    if (arrivalList[i].value.uCode.value == unitRecords[j].uCode.value) {
+                      var putUniBody = {
+                        'updateKey': {
+                          'field': 'uCode',
+                          'value': arrivalList[i].value.uCode.value
+                        },
+                        'record': {
+                          'mStockList': {
+                            'value': unitRecords[j].mStockList.value
+                          }
+                        }
+                      }
+                      putUniData.push(putUniBody);
+                    }
+                  }
+                }
+
+                for(var i in putUniData){
+                  for (var j in putUniData[i].record.mStockList.value) {
+                    for (var k in stockData) {
+                      if(stockData[k].uCode == putUniData[i].updateKey.value){
+                        if (putUniData[i].record.mStockList.value[j].value.mCode.value == stockData[k].mCode) {
+                          putUniData[i].record.mStockList.value[j].value.mStock.value == stockData[k].stockNum;
+                        }
+                      }
+                    }
+                  }
+                }
+
+                console.log(JSON.stringify(putUniData, null, '\t'));
+                // putRecords(sysid.INV.app_id.device, putDevData);
+                // putRecords(sysid.INV.app_id.unit, putUniData);
+              });
+            });
         }
-      }
-
-      for(var i in putDevData){
-        for(var j in putDevData[i].record.uStockList.value){
-          for(var k in arrivalList){
-            if(putDevData[i].record.uStockList.value[j].value.uCode.value==arrivalList[k].value.uCode.value){
-              putDevData[i].record.uStockList.value[j].value.uStock.value = parseInt(putDevData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(arrivalList[k].value.arrivalNum.value || 0);
-            }
-          }
-        }
-      }
-
-      console.log(JSON.stringify(putDevData, null, '\t'));
-
-    });
-
-  }
+      });
+    // }
+  });
 })();
