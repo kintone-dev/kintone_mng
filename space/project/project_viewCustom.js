@@ -23,7 +23,7 @@
     if(event.record.purchaseOrder.value.length>0){ event.record.sys_purchaseOrder.value[0]=='POI'; }
     else{event.record.sys_purchaseOrder.value[0]==''; }
     console.log(event.record.sys_purchaseOrder.value);
-  })
+  });
   kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
 
     if (event.record.ステータス.value == '納品準備中') {
