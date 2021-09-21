@@ -3,11 +3,11 @@
 
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', function (event) {
-    const PAGE_RECORD = event.record;
+
     var nStatus = event.nextStatus.value;
     var getReportBody = {
       'app': sysid.INV.app_id.report,
-      'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
+      'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '" order by 更新日時 asc'
     };
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
@@ -24,65 +24,65 @@
             var postShipData = [];
             var postShipBody = {
               'aboutDelivery': {
-                'value': PAGE_RECORD.aboutDelivery.value
+                'value': event.record.aboutDelivery.value
               },
               'tarDate': {
-                'value': PAGE_RECORD.tarDate.value
+                'value': event.record.tarDate.value
               },
               'dstSelection': {
-                'value': PAGE_RECORD.dstSelection.value
+                'value': event.record.dstSelection.value
               },
               'Contractor': {
-                'value': PAGE_RECORD.Contractor.value
+                'value': event.record.Contractor.value
               },
               'instName': {
-                'value': PAGE_RECORD.instName.value
+                'value': event.record.instName.value
               },
               'receiver': {
-                'value': PAGE_RECORD.receiver.value
+                'value': event.record.receiver.value
               },
               'phoneNum': {
-                'value': PAGE_RECORD.phoneNum.value
+                'value': event.record.phoneNum.value
               },
               'zipcode': {
-                'value': PAGE_RECORD.zipcode.value
+                'value': event.record.zipcode.value
               },
               'prefectures': {
-                'value': PAGE_RECORD.prefectures.value
+                'value': event.record.prefectures.value
               },
               'city': {
-                'value': PAGE_RECORD.city.value
+                'value': event.record.city.value
               },
               'address': {
-                'value': PAGE_RECORD.address.value
+                'value': event.record.address.value
               },
               'buildingName': {
-                'value': PAGE_RECORD.buildingName.value
+                'value': event.record.buildingName.value
               },
               'corpName': {
-                'value': PAGE_RECORD.corpName.value
+                'value': event.record.corpName.value
               },
               'sys_instAddress': {
-                'value': PAGE_RECORD.sys_instAddress.value
+                'value': event.record.sys_instAddress.value
               },
               'sys_unitAddress': {
-                'value': PAGE_RECORD.sys_unitAddress.value
+                'value': event.record.sys_unitAddress.value
               },
               'deviceList': {
                 'value': []
               },
               'prjId': {
-                'value': PAGE_RECORD.$id.value
+                'value': event.record.$id.value
               }
             }
-            for (var pdv in PAGE_RECORD.deviceList.value) {
+            for (var pdv in event.record.deviceList.value) {
               var devListBody = {
                 'value': {
                   'mNickname': {
-                    'value': PAGE_RECORD.deviceList.value[pdv].value.mNickname.value
+                    'value': event.record.deviceList.value[pdv].value.mNickname.value
                   },
                   'shipNum': {
-                    'value': PAGE_RECORD.deviceList.value[pdv].value.shipNum.value
+                    'value': event.record.deviceList.value[pdv].value.shipNum.value
                   }
                 }
               }
@@ -94,15 +94,15 @@
             return postRecords(sysid.INV.app_id.shipment, postShipData);
 
           } else if (nStatus == '完了') {
-            if (PAGE_RECORD.salesType.value == '販売' || PAGE_RECORD.salesType.value == 'サブスク') {
+            if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
               //積送在庫処理
               var stockData = []
               //納品リストからmCodeと納品数を取得
-              for (var i in PAGE_RECORD.deviceList.value) {
-                if (PAGE_RECORD.deviceList.value[i].value.subBtn.value == '通常') {
+              for (var i in event.record.deviceList.value) {
+                if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
                   var stockBody = {
-                    'mCode': PAGE_RECORD.deviceList.value[i].value.mCode.value,
-                    'shipNum': PAGE_RECORD.deviceList.value[i].value.shipNum.value
+                    'mCode': event.record.deviceList.value[i].value.mCode.value,
+                    'shipNum': event.record.deviceList.value[i].value.shipNum.value
                   }
                   stockData.push(stockBody);
                 }
@@ -192,7 +192,7 @@
                       //レポートクエリ
                       var getReportBody = {
                         'app': sysid.INV.app_id.report,
-                        'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
+                        'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '" order by 更新日時 asc'
                       };
                       return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
                         .then(function (resp) {
@@ -231,11 +231,11 @@
 
   //保存ボタン押下時、対応したレポートが締め切り済の場合保存できないように
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
-    const PAGE_RECORD = event.record;
+
     //対応レポート取得
     var getReportBody = {
       'app': sysid.INV.app_id.report,
-      'query': 'sys_invoiceDate = "' + PAGE_RECORD.sys_invoiceDate.value + '" order by 更新日時 asc'
+      'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '" order by 更新日時 asc'
     };
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {
@@ -254,7 +254,7 @@
 
   //保存ボタン押下時、請求月が今より過去の場合
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
-    const PAGE_RECORD = event.record;
+
     $.ajax({
       type: 'GET',
       async:false
@@ -262,7 +262,7 @@
       //請求月が今より過去の場合
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
       var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+      if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
         event.error = '請求月が間違っています。';
         return event;
       }

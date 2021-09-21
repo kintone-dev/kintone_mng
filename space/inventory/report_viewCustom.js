@@ -78,17 +78,17 @@
 
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
-    const PAGE_RECORD = event.record;
+
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
     var tableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id
     var deductionData = []
 
     //テーブルデータ取得
-    for (var i in PAGE_RECORD.inventoryList.value) {
+    for (var i in event.record.inventoryList.value) {
       var deductionBody = {
         'rowNum': parseInt(i) + 1,
-        'deductionNum': PAGE_RECORD.inventoryList.value[i].value.deductionNum.value,
-        'location': PAGE_RECORD.inventoryList.value[i].value.stockLocation.value
+        'deductionNum': event.record.inventoryList.value[i].value.deductionNum.value,
+        'location': event.record.inventoryList.value[i].value.stockLocation.value
       }
       deductionData.push(deductionBody);
     }
@@ -108,7 +108,7 @@
       }
     }, 500);
 
-    if (PAGE_RECORD.EoMcheck.value == '締切' || PAGE_RECORD.EoMcheck.value == '一時締切') {
+    if (event.record.EoMcheck.value == '締切' || event.record.EoMcheck.value == '一時締切') {
       setTimeout(function () {
         for (var i in deductionData) {
           //差引数量0の文字色を青色に

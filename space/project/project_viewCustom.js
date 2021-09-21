@@ -19,81 +19,243 @@
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
   });
-
+  kintone.events.on(['app.record.create.change.purchaseOrder','app.reocrd.edit.change.purchaseOrder'], function(event){
+    if(event.record.purchaseOrder.value.length>0){ event.record.sys_purchaseOrder.value[0]=='POI'; }
+    else{event.record.sys_purchaseOrder.value[0]==''; }
+    console.log(event.record.sys_purchaseOrder.value);
+  });
   kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
-    const PAGE_RECORD = event.record;
-    if (PAGE_RECORD.ステータス.value == '納品準備中') {
+
+    if (event.record.ステータス.value == '納品準備中') {
       var types = ['SINGLE_LINE_TEXT', 'MULTI_LINE_TEXT', 'SUBTABLE', 'RICH_TEXT', 'NUMBER', 'DATE', 'DATETIME', 'TIME', 'DROP_DOWN', 'RADIO_BUTTON', 'CHECK_BOX', 'MULTI_SELECT', 'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'LINK', 'FILE'];
-      var arr = Object.keys(PAGE_RECORD);
+      var arr = Object.keys(event.record);
       arr.forEach(function (fcode) {
-        if (types.indexOf(PAGE_RECORD[fcode].type) >= 0) {
-          PAGE_RECORD[fcode].disabled = true;
+        if (types.indexOf(event.record[fcode].type) >= 0) {
+          event.record[fcode].disabled = true;
         }
       });
-      for (var i in PAGE_RECORD.deviceList.value) {
-        PAGE_RECORD.deviceList.value[i].value.mNickname.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.shipNum.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.subBtn.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.shipRemarks.disabled = true;
+      for (var i in event.record.deviceList.value) {
+        event.record.deviceList.value[i].value.mNickname.disabled = true;
+        event.record.deviceList.value[i].value.shipNum.disabled = true;
+        event.record.deviceList.value[i].value.subBtn.disabled = true;
+        event.record.deviceList.value[i].value.shipRemarks.disabled = true;
       }
-      PAGE_RECORD.sys_invoiceDate.disabled = false;
-      PAGE_RECORD.invoiceNum.disabled = false;
-      PAGE_RECORD.invoiceStatus.disabled = false;
+      event.record.sys_invoiceDate.disabled = false;
+      event.record.invoiceNum.disabled = false;
+      event.record.invoiceStatus.disabled = false;
     }
 
   });
 
 
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
-    const PAGE_RECORD = event.record;
-    PAGE_RECORD.cSales.disabled = false;
-    doSelection(PAGE_RECORD);
+
+    event.record.cSales.disabled = false;
+    doSelection(event.record);
     setFieldShown('sys_suptitle', true);
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
 
-    // システム用フィールド非表示
-    setFieldShown('sys_unitAddress', false);
-    setFieldShown('sys_instAddress', false);
 
-    // 新・既存案件表示切り替え
+    // タブ表示切り替え
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#案件情報':
-          setPrjInfoShown(PAGE_RECORD, true, 'prj');
-          setInstInfoShown(false);
-          setTarInfoShown(false);
-          setArrivalInfoShown(PAGE_RECORD, false, '')
-          setShipInfoShown(false);
+          setFieldShown('prjNum', true);
+          setFieldShown('Exist_Project', true);
+          setFieldShown('salesType', true);
+          setFieldShown('predictDate', true);
+          setFieldShown('purchaseOrder', true);
+          setFieldShown('purchaseOrder_status', true);
+          setFieldShown('prjMemo', true);
+          if (event.record.Exist_Project.value.length>0) { setFieldShown('samePRJ', true); }
+          else { setFieldShown('samePRJ', false); }
+          setFieldShown('cName', false);
+          setFieldShown('orgName', false);
+          setFieldShown('cSales', false);
+          setFieldShown('instStatus', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+          setFieldShown('tarDate', false);
+          setFieldShown('aboutDelivery', false);
+          setSpaceShown('calBtn', 'line', 'none');
+          setFieldShown('deviceList', false);
+          setFieldShown('dstSelection', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('phoneNum', false);
+          setFieldShown('address', false);
+          setFieldShown('buildingName', false);
+          setFieldShown('corpName', false);
+          setFieldShown('receiver', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
+          setFieldShown('instName', false);
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
+
+                    // if (tabCase == 'arrival') {
+                    //   doSelection(pageRecod);
+                    // } else {
+                    //   setFieldShown('Contractor', false);
+                    //   setFieldShown('instName', false);
+                    //   setSpaceShown('btn_newINST', 'individual', 'none');
+                    //   setSpaceShown('btn_unknowINST', 'individual', 'none');
+                    // }
           break;
         case '#設置先情報':
-          setPrjInfoShown(PAGE_RECORD, false, '');
-          setInstInfoShown(true);
-          setTarInfoShown(false);
-          setArrivalInfoShown(PAGE_RECORD, false, '')
-          setShipInfoShown(false);
+          setFieldShown('prjNum', false);
+          setFieldShown('Exist_Project', false);
+          setFieldShown('salesType', false);
+          setFieldShown('predictDate', false);
+          setFieldShown('purchaseOrder', false);
+          setFieldShown('prjMemo', false);
+          setFieldShown('samePRJ', false);
+
+          setFieldShown('cName', true);
+          setFieldShown('orgName', true);
+          setFieldShown('cSales', true);
+          setFieldShown('instStatus', true);
+          setFieldShown('instDate', true);
+          setFieldShown('instDDday', true);
+
+          setFieldShown('tarDate', false);
+          setFieldShown('aboutDelivery', false);
+          setFieldShown('deviceList', false);
+
+          setFieldShown('dstSelection', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('phoneNum', false);
+          setFieldShown('address', false);
+          setFieldShown('buildingName', false);
+          setFieldShown('corpName', false);
+          setFieldShown('receiver', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
+          setFieldShown('Contractor', false);
+          setFieldShown('instName', false);
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
+
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
           break;
         case '#納品依頼リスト':
-          setPrjInfoShown(PAGE_RECORD, false, '');
-          setInstInfoShown(false);
-          setTarInfoShown(true);
-          setArrivalInfoShown(PAGE_RECORD, false, '')
-          setShipInfoShown(false);
+          setFieldShown('prjNum', false);
+          setFieldShown('Exist_Project', false);
+          setFieldShown('salesType', false);
+          setFieldShown('predictDate', false);
+          setFieldShown('purchaseOrder', false);
+          setFieldShown('prjMemo', false);
+          setFieldShown('samePRJ', false);
+
+          setFieldShown('cName', false);
+          setFieldShown('orgName', false);
+          setFieldShown('cSales', false);
+          setFieldShown('instStatus', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+
+          setFieldShown('tarDate', true);
+          setFieldShown('aboutDelivery', true);
+          setFieldShown('deviceList', true);
+
+          setFieldShown('dstSelection', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('phoneNum', false);
+          setFieldShown('address', false);
+          setFieldShown('buildingName', false);
+          setFieldShown('corpName', false);
+          setFieldShown('receiver', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
+          setFieldShown('Contractor', false);
+          setFieldShown('instName', false);
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
+
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
           break;
         case '#宛先情報':
           var eRecord = kintone.app.record.get();
-          setPrjInfoShown(PAGE_RECORD, false, '');
-          setInstInfoShown(false);
-          setTarInfoShown(false);
-          setArrivalInfoShown(eRecord.record, true, 'arrival')
-          setShipInfoShown(false);
+          setFieldShown('prjNum', false);
+          setFieldShown('Exist_Project', false);
+          setFieldShown('salesType', false);
+          setFieldShown('predictDate', false);
+          setFieldShown('purchaseOrder', false);
+          setFieldShown('prjMemo', false);
+          setFieldShown('samePRJ', false);
+
+          setFieldShown('cName', false);
+          setFieldShown('orgName', false);
+          setFieldShown('cSales', false);
+          setFieldShown('instStatus', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+
+          setFieldShown('tarDate', false);
+          setFieldShown('aboutDelivery', false);
+          setFieldShown('deviceList', false);
+          setFieldShown('dstSelection', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('phoneNum', false);
+          setFieldShown('address', false);
+          setFieldShown('buildingName', false);
+          setFieldShown('corpName', false);
+          setFieldShown('receiver', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
+          doSelection(pageRecod);
+
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
           break;
         case '#輸送情報':
-          setPrjInfoShown(PAGE_RECORD, false, '');
-          setInstInfoShown(false);
-          setTarInfoShown(false);
-          setArrivalInfoShown(PAGE_RECORD, false, '')
-          setShipInfoShown(true);
+          setFieldShown('prjNum', false);
+          setFieldShown('Exist_Project', false);
+          setFieldShown('salesType', false);
+          setFieldShown('predictDate', false);
+          setFieldShown('purchaseOrder', false);
+          setFieldShown('prjMemo', false);
+          setFieldShown('samePRJ', false);
+
+          setFieldShown('cName', false);
+          setFieldShown('orgName', false);
+          setFieldShown('cSales', false);
+          setFieldShown('instStatus', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+
+          setFieldShown('tarDate', false);
+          setFieldShown('aboutDelivery', false);
+          setFieldShown('deviceList', false);
+
+          setFieldShown('dstSelection', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('phoneNum', false);
+          setFieldShown('address', false);
+          setFieldShown('buildingName', false);
+          setFieldShown('corpName', false);
+          setFieldShown('receiver', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
+          setFieldShown('Contractor', false);
+          setFieldShown('instName', false);
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
+
+          setFieldShown('deliveryCorp', true);
+          setFieldShown('trckNum', true);
+          setFieldShown('sendDate', true);
+          setFieldShown('expArrivalDate', true);
           break;
       }
     }
@@ -140,8 +302,8 @@
   });
 
   kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection', 'app.record.create.change.sys_instAddress', 'app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_unitAddress', 'app.record.edit.change.sys_unitAddress'], function (event) {
-    const PAGE_RECORD = event.record;
-    doSelection(PAGE_RECORD);
+
+    doSelection(event.record);
 
     return event;
   });
@@ -201,71 +363,6 @@
       return event;
     });
   */
-
-  //案件情報タブ表示処理
-  const setPrjInfoShown = function (pageRecod, param, tabCase) {
-    setFieldShown('prjNum', param);
-    setFieldShown('Exist_Project', param);
-    setFieldShown('salesType', param);
-    setFieldShown('predictDate', param);
-    setFieldShown('purchaseOrder', param);
-    setFieldShown('prjMemo', param);
-    if (tabCase == 'prj') {
-      if (pageRecod.Exist_Project.value == '既存案件') {
-        setFieldShown('samePRJ', true);
-      } else {
-        setFieldShown('samePRJ', false);
-      }
-    } else {
-      setFieldShown('samePRJ', param);
-    }
-  }
-
-  //設置先情報タブ表示処理
-  const setInstInfoShown = function (param) {
-    setFieldShown('cName', param);
-    setFieldShown('orgName', param);
-    setFieldShown('cSales', param);
-    setFieldShown('instStatus', param);
-    setFieldShown('instDate', param);
-    setFieldShown('instDDday', param);
-  }
-
-  //納品依頼リストタブ表示処理
-  const setTarInfoShown = function (param) {
-    setFieldShown('tarDate', param);
-    setFieldShown('aboutDelivery', param);
-    setFieldShown('deviceList', param);
-  }
-
-  //宛先情報タブ表示処理
-  const setArrivalInfoShown = function (pageRecod, param, tabCase) {
-    setFieldShown('dstSelection', param);
-    setFieldShown('zipcode', param);
-    setFieldShown('phoneNum', param);
-    setFieldShown('address', param);
-    setFieldShown('buildingName', param);
-    setFieldShown('corpName', param);
-    setFieldShown('receiver', param);
-    setFieldShown('prefectures', param);
-    setFieldShown('city', param);
-    if (tabCase == 'arrival') {
-      doSelection(pageRecod);
-    } else {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
-      setSpaceShown('btn_newINST', 'individual', 'none');
-      setSpaceShown('btn_unknowINST', 'individual', 'none');
-    }
-  }
-
-  //輸送情報タブ表示処理
-  const setShipInfoShown = function (param) {
-    setFieldShown('deliveryCorp', param);
-    setFieldShown('trckNum', param);
-    setFieldShown('sendDate', param);
-    setFieldShown('expArrivalDate', param);
-  }
 
   function doSelection(pageRecod) {
     var selection = pageRecod.dstSelection.value;
@@ -839,7 +936,7 @@
 
   //wfpチェック
   kintone.events.on('app.record.detail.show', function (event) {
-    const PAGE_RECORD = event.record;
+
     var putData = [];
 
     if (sessionStorage.getItem('record_updated') === '1') {
@@ -847,9 +944,9 @@
       return event;
     }
 
-    if (PAGE_RECORD.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))) {
+    if (event.record.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))) {
       var putBody = {
-        'id': PAGE_RECORD.$id.value,
+        'id': event.record.$id.value,
         'record': {
           'sys_isReady': {
             'value': 'false'
@@ -862,7 +959,7 @@
       location.reload();
     } else {
       var putBody = {
-        'id': PAGE_RECORD.$id.value,
+        'id': event.record.$id.value,
         'record': {
           'sys_isReady': {
             'value': 'true'
@@ -884,7 +981,7 @@
       //請求月が今より過去の場合
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
       var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+      if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
         alert('昔の請求書です。');
         return event;
       }
