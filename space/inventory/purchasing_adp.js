@@ -3,8 +3,8 @@
 
   // kintone.events.on('app.record.detail.process.proceed', function (event) {
   kintone.events.on(['app.record.create.submit', 'app.record.edit.submit'], function (event) {
-    const PAGE_RECORD = event.record;
-    var sendDate = PAGE_RECORD.arrivalDate.value;
+
+    var sendDate = event.record.arrivalDate.value;
     sendDate = sendDate.replace(/-/g, '');
     sendDate = sendDate.slice(0, -2);
     // var nStatus = event.nextStatus.value;
@@ -26,7 +26,7 @@
             }
           }
 
-          var arrivalList = PAGE_RECORD.arrivalList.value;
+          var arrivalList = event.record.arrivalList.value;
           // 商品管理に情報連携
           var deviceQuery = [];
           for (var i in arrivalList) {
@@ -41,9 +41,9 @@
             .then(function (resp) {
               var deviceRecords = resp.records;
               var putDevData = [];
-              if(PAGE_RECORD.currencyType.value == '米ドル＄'){
+              if(event.record.currencyType.value == '米ドル＄'){
                 var foreignCurrency = '$';
-              } else if (PAGE_RECORD.currencyType.value == 'ユーロ€'){
+              } else if (event.record.currencyType.value == 'ユーロ€'){
                 var foreignCurrency = '€';
               }else{
                 var foreignCurrency = '';
@@ -61,7 +61,7 @@
                           'value': arrivalList[i].value.totalUnitCost.value
                         },
                         'mCostUpdate': {
-                          'value': PAGE_RECORD.arrivalDate.value
+                          'value': event.record.arrivalDate.value
                         },
                         'deviceCost': {
                           'value': arrivalList[i].value.unitPrice.value

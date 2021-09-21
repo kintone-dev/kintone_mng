@@ -21,33 +21,33 @@
   });
 
   kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
-    const PAGE_RECORD = event.record;
-    if (PAGE_RECORD.ステータス.value == '納品準備中') {
+
+    if (event.record.ステータス.value == '納品準備中') {
       var types = ['SINGLE_LINE_TEXT', 'MULTI_LINE_TEXT', 'SUBTABLE', 'RICH_TEXT', 'NUMBER', 'DATE', 'DATETIME', 'TIME', 'DROP_DOWN', 'RADIO_BUTTON', 'CHECK_BOX', 'MULTI_SELECT', 'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'LINK', 'FILE'];
-      var arr = Object.keys(PAGE_RECORD);
+      var arr = Object.keys(event.record);
       arr.forEach(function (fcode) {
-        if (types.indexOf(PAGE_RECORD[fcode].type) >= 0) {
-          PAGE_RECORD[fcode].disabled = true;
+        if (types.indexOf(event.record[fcode].type) >= 0) {
+          event.record[fcode].disabled = true;
         }
       });
-      for (var i in PAGE_RECORD.deviceList.value) {
-        PAGE_RECORD.deviceList.value[i].value.mNickname.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.shipNum.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.subBtn.disabled = true;
-        PAGE_RECORD.deviceList.value[i].value.shipRemarks.disabled = true;
+      for (var i in event.record.deviceList.value) {
+        event.record.deviceList.value[i].value.mNickname.disabled = true;
+        event.record.deviceList.value[i].value.shipNum.disabled = true;
+        event.record.deviceList.value[i].value.subBtn.disabled = true;
+        event.record.deviceList.value[i].value.shipRemarks.disabled = true;
       }
-      PAGE_RECORD.sys_invoiceDate.disabled = false;
-      PAGE_RECORD.invoiceNum.disabled = false;
-      PAGE_RECORD.invoiceStatus.disabled = false;
+      event.record.sys_invoiceDate.disabled = false;
+      event.record.invoiceNum.disabled = false;
+      event.record.invoiceStatus.disabled = false;
     }
 
   });
 
 
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
-    const PAGE_RECORD = event.record;
-    PAGE_RECORD.cSales.disabled = false;
-    doSelection(PAGE_RECORD);
+
+    event.record.cSales.disabled = false;
+    doSelection(event.record);
     setFieldShown('sys_suptitle', true);
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
@@ -92,7 +92,7 @@
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
-          
+
                     // if (tabCase == 'arrival') {
                     //   doSelection(pageRecod);
                     // } else {
@@ -103,7 +103,7 @@
                     // }
           break;
         case '#設置先情報':
-          setPrjInfoShown(PAGE_RECORD, false, '');
+          setPrjInfoShown(event.record, false, '');
           setFieldShown('prjNum', false);
           setFieldShown('Exist_Project', false);
           setFieldShown('salesType', false);
@@ -301,8 +301,8 @@
   });
 
   kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection', 'app.record.create.change.sys_instAddress', 'app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_unitAddress', 'app.record.edit.change.sys_unitAddress'], function (event) {
-    const PAGE_RECORD = event.record;
-    doSelection(PAGE_RECORD);
+
+    doSelection(event.record);
 
     return event;
   });
@@ -956,7 +956,7 @@
 
   //wfpチェック
   kintone.events.on('app.record.detail.show', function (event) {
-    const PAGE_RECORD = event.record;
+
     var putData = [];
 
     if (sessionStorage.getItem('record_updated') === '1') {
@@ -964,9 +964,9 @@
       return event;
     }
 
-    if (PAGE_RECORD.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))) {
+    if (event.record.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))) {
       var putBody = {
-        'id': PAGE_RECORD.$id.value,
+        'id': event.record.$id.value,
         'record': {
           'sys_isReady': {
             'value': 'false'
@@ -979,7 +979,7 @@
       location.reload();
     } else {
       var putBody = {
-        'id': PAGE_RECORD.$id.value,
+        'id': event.record.$id.value,
         'record': {
           'sys_isReady': {
             'value': 'true'
@@ -1001,7 +1001,7 @@
       //請求月が今より過去の場合
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
       var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-      if (parseInt(nowDateFormat) > parseInt(PAGE_RECORD.sys_invoiceDate.value)) {
+      if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
         alert('昔の請求書です。');
         return event;
       }

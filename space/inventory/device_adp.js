@@ -106,22 +106,22 @@
 
   // 編集保存時アクション（現在編集不可）
   kintone.events.on('app.record.edit.submit.success', function (event) {
-    const PAGE_RECORD = event.record;
+
     /* 更新データ転送 */
     // 転送データ作成
     var putItemBody = {
       'app': '',
       'updateKey': {
         'field': 'mCode',
-        'value': PAGE_RECORD.mCode.value
+        'value': event.record.mCode.value
       },
       'record': {
-        'mName': PAGE_RECORD.mName,
-        'mNickname': PAGE_RECORD.mNickname,
-        'mType': PAGE_RECORD.mType,
-        'mVendor': PAGE_RECORD.mVendor,
-        'mClassification': PAGE_RECORD.mClassification,
-        'packageComp': PAGE_RECORD.packageComp
+        'mName': event.record.mName,
+        'mNickname': event.record.mNickname,
+        'mType': event.record.mType,
+        'mVendor': event.record.mVendor,
+        'mClassification': event.record.mClassification,
+        'packageComp': event.record.packageComp
       }
     };
     // 転送先指定

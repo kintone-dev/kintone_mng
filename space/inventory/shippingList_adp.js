@@ -3,15 +3,15 @@
 
   // 拠点情報取得＆繰り返し利用
   kintone.events.on('app.record.detail.process.proceed', function (event) {
-    const PAGE_RECORD = event.record;
+
     var nStatus = event.nextStatus.value;
 
     //ステータスが集荷待ちの場合
     if (nStatus === "集荷待ち") {
-      var deviceList = PAGE_RECORD.deviceList.value;
-      var shipmentName = PAGE_RECORD.shipment.value;
-      var sysShipmentCode = PAGE_RECORD.sys_shipmentCode.value;
-      var sysArrivalCode = PAGE_RECORD.sys_arrivalCode.value;
+      var deviceList = event.record.deviceList.value;
+      var shipmentName = event.record.shipment.value;
+      var sysShipmentCode = event.record.sys_shipmentCode.value;
+      var sysArrivalCode = event.record.sys_arrivalCode.value;
       var stockData = [];
       for (var sdl in deviceList) {
         var stockDataBody = {
@@ -20,7 +20,7 @@
         }
         stockData.push(stockDataBody);
       }
-      var sNums = sNumRecords(PAGE_RECORD.deviceList.value, 'table');
+      var sNums = sNumRecords(event.record.deviceList.value, 'table');
 
       //ID更新
       if (shipmentName == '矢倉倉庫') {
@@ -60,33 +60,33 @@
       //ID更新 end
 
       // 在庫処理
-      if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
+      if (event.record.shipType.value == '移動-販売' || event.record.shipType.value == '移動-サブスク') {
         stockCount('normal', sysShipmentCode, sysArrivalCode, stockData);
-      } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
+      } else if (event.record.shipType.value == '販売' || event.record.shipType.value == 'サブスク') {
         stockCount('normal', sysShipmentCode, sysArrivalCode, stockData);
-      } else if (PAGE_RECORD.shipType.value == '移動-拠点間' || PAGE_RECORD.shipType.value == '移動-ベンダー') {
+      } else if (event.record.shipType.value == '移動-拠点間' || event.record.shipType.value == '移動-ベンダー') {
         stockCount('normal', sysShipmentCode, sysArrivalCode, stockData);
-      } else if (PAGE_RECORD.shipType.value == '社内利用' || PAGE_RECORD.shipType.value == '貸与' || PAGE_RECORD.shipType.value == '修理') {
+      } else if (event.record.shipType.value == '社内利用' || event.record.shipType.value == '貸与' || event.record.shipType.value == '修理') {
         stockCount('shiponly', sysShipmentCode, sysArrivalCode, stockData);
-      } else if (PAGE_RECORD.shipType.value == '返品') {
+      } else if (event.record.shipType.value == '返品') {
         stockCount('shiponly', sysShipmentCode, sysArrivalCode, stockData);
       }
       // ステータスが出荷完了の場合
     } else if (nStatus === "出荷完了") {
       // 輸送情報連携
-      setDeliveryInfo(PAGE_RECORD);
+      setDeliveryInfo(event.record);
 
       // レポート処理
-      if (PAGE_RECORD.shipType.value == '移動-販売' || PAGE_RECORD.shipType.value == '移動-サブスク') {
-        reportCreate(PAGE_RECORD, 'distribute');
-      } else if (PAGE_RECORD.shipType.value == '販売' || PAGE_RECORD.shipType.value == 'サブスク') {
-        reportCreate(PAGE_RECORD, 'distribute');
-      } else if (PAGE_RECORD.shipType.value == '移動-拠点間' || PAGE_RECORD.shipType.value == '移動-ベンダー') {
-        reportCreate(PAGE_RECORD, 'arrival');
-      } else if (PAGE_RECORD.shipType.value == '社内利用' || PAGE_RECORD.shipType.value == '貸与' || PAGE_RECORD.shipType.value == '修理') {
-        reportCreate(PAGE_RECORD, 'shiponly');
-      } else if (PAGE_RECORD.shipType.value == '返品') {
-        reportCreate(PAGE_RECORD, 'shiponly');
+      if (event.record.shipType.value == '移動-販売' || event.record.shipType.value == '移動-サブスク') {
+        reportCreate(event.record, 'distribute');
+      } else if (event.record.shipType.value == '販売' || event.record.shipType.value == 'サブスク') {
+        reportCreate(event.record, 'distribute');
+      } else if (event.record.shipType.value == '移動-拠点間' || event.record.shipType.value == '移動-ベンダー') {
+        reportCreate(event.record, 'arrival');
+      } else if (event.record.shipType.value == '社内利用' || event.record.shipType.value == '貸与' || event.record.shipType.value == '修理') {
+        reportCreate(event.record, 'shiponly');
+      } else if (event.record.shipType.value == '返品') {
+        reportCreate(event.record, 'shiponly');
       }
     }
 
