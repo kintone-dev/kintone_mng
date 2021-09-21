@@ -52,9 +52,6 @@
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
 
-    // システム用フィールド非表示
-    setFieldShown('sys_unitAddress', false);
-    setFieldShown('sys_instAddress', false);
 
     // タブ表示切り替え
     function tabSwitch(onSelect) {
@@ -103,7 +100,6 @@
                     // }
           break;
         case '#設置先情報':
-          setPrjInfoShown(event.record, false, '');
           setFieldShown('prjNum', false);
           setFieldShown('Exist_Project', false);
           setFieldShown('salesType', false);
@@ -362,27 +358,6 @@
       return event;
     });
   */
-
-  //案件情報タブ表示処理
-  const setPrjInfoShown = function (pageRecod, param, tabCase) {
-
-  }
-
-  //設置先情報タブ表示処理
-  const setInstInfoShown = function (param) {
-  }
-
-  //納品依頼リストタブ表示処理
-  const setTarInfoShown = function (param) {
-  }
-
-  //宛先情報タブ表示処理
-  const setArrivalInfoShown = function (pageRecod, param, tabCase) {
-  }
-
-  //輸送情報タブ表示処理
-  const setShipInfoShown = function (param) {
-  }
 
   function doSelection(pageRecod) {
     var selection = pageRecod.dstSelection.value;
