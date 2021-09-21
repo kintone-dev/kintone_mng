@@ -19,9 +19,9 @@
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
   });
-  kintone.events.on(['app.record.create.change.sys_purchaseOrder','app.reocrd.edit.change.sys_purchaseOrder'], function(event){
-    if(event.record.purchaseOrder.value.length>0){ event.record.sys_purchaseOrder.value=='POI'; }
-    else{event.record.sys_purchaseOrder.value=='POI'; }
+  kintone.events.on(['app.record.create.change.purchaseOrder','app.reocrd.edit.change.purchaseOrder'], function(event){
+    if(event.record.purchaseOrder.value.length>0){ event.record.sys_purchaseOrder.value[0]=='POI'; }
+    else{event.record.sys_purchaseOrder.value[0]=='POI'; }
   })
   kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
 
