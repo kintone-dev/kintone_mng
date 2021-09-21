@@ -114,7 +114,7 @@
                   'app': sysid.INV.app_id.unit,
                   'query': 'uCode in (' + unitQuery.join() + ') order by 更新日時 asc'
                 };
-                kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
+                return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
                   .then(function (resp) {
                     var unitRecords = resp.records;
                     var putUniData = [];
