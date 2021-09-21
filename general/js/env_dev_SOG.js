@@ -5,6 +5,7 @@ var sysid = set_sysid('develop_sog');
     for(var fc=8; fc<fields.length; fc++){
       if(fields[fc].var.match(/sys_/)){
         setFieldShown(fields[fc].var, false);
+        console.log(event.record[fields[fc].var].value);
       }
     }
     return event;
