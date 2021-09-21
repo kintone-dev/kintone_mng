@@ -9,6 +9,7 @@
     sendDate = sendDate.slice(0, -2);
     // var nStatus = event.nextStatus.value;
 
+    // if(nStatus==="仕入完了"){
     //同じ月のレポート情報取得
     var getReportBody = {
       'app': sysid.INV.app_id.report,
@@ -27,9 +28,6 @@
         putDevice(PAGE_RECORD);
       }
     });
-
-
-    // if(nStatus==="仕入完了"){
     // }
   });
 
@@ -74,7 +72,7 @@
                   'value': arrivalList[i].value.addiUnitExpenses.value
                 },
                 'developCost': {
-                  'value': arrivalList[i].value.addiExpenses.value
+                  'value': arrivalList[i].value.addiCost.value
                 },
                 'uStockList': {
                   'value': deviceRecords[j].uStockList.value
