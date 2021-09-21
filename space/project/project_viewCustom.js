@@ -87,14 +87,14 @@
           setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
-          if (tabCase == 'arrival') {
-            doSelection(pageRecod);
-          } else {
-            setFieldShown('Contractor', false);
-            setFieldShown('instName', false);
-            setSpaceShown('btn_newINST', 'individual', 'none');
-            setSpaceShown('btn_unknowINST', 'individual', 'none');
-          }
+          // if (tabCase == 'arrival') {
+          //   doSelection(pageRecod);
+          // } else {
+          //   setFieldShown('Contractor', false);
+          //   setFieldShown('instName', false);
+          //   setSpaceShown('btn_newINST', 'individual', 'none');
+          //   setSpaceShown('btn_unknowINST', 'individual', 'none');
+          // }
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
