@@ -154,22 +154,22 @@
                     }
                   }
 
-                  for(var i in putRepoBody.record.inventoryList.value){
-                    for(var j in stockData){
-                      if(putRepoBody.record.inventoryList.value.some(item => item.value.sys_code.value === stockData[j].sysCode)){
-                        if(putRepoBody.record.inventoryList.value[i].value.sys_code.value == stockData[j].sysCode){
-                          putRepoBody.record.inventoryList.value[i].value.arrivalNum.value = stockData[j].arrivalNum
+                  for(var i in stockData){
+                    if(putRepoBody.record.inventoryList.value.some(item => item.value.sys_code.value === stockData[i].sysCode)){
+                      for(var j in putRepoBody.record.inventoryList.value){
+                        if(putRepoBody.record.inventoryList.value[j].value.sys_code.value == stockData[i].sysCode){
+                          putRepoBody.record.inventoryList.value[j].value.arrivalNum.value = stockData[i].arrivalNum
                         }
-                      }else{
-                        var newReportListBody = {
-                          'value': {
-                            'sys_code': stockData[j].sysCode,
-                            'stockLocation':stockData[j].uName,
-                            'arrivalNum': stockData[j].arrivalNum
-                          }
-                        }
-                        putRepoBody.record.inventoryList.value.push(newReportListBody);
                       }
+                    }else{
+                      var newReportListBody = {
+                        'value': {
+                          'sys_code': stockData[i].sysCode,
+                          'stockLocation':stockData[i].uName,
+                          'arrivalNum': stockData[i].arrivalNum
+                        }
+                      }
+                      putRepoBody.record.inventoryList.value.push(newReportListBody);
                     }
                   }
 
