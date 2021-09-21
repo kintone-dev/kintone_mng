@@ -168,7 +168,7 @@
                             'arrivalNum': stockData[j].arrivalNum
                           }
                         }
-                        putRepoBody.record.inventoryList.value[i].value.arrivalNum.value.push(newReportListBody);
+                        putRepoBody.record.inventoryList.value.push(newReportListBody);
                       }
                     }
                   }
