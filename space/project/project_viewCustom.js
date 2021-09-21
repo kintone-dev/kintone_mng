@@ -74,6 +74,7 @@
           setFieldShown('instDDday', false);
           setFieldShown('tarDate', false);
           setFieldShown('aboutDelivery', false);
+          setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('deviceList', false);
           setFieldShown('dstSelection', false);
           setFieldShown('zipcode', false);
