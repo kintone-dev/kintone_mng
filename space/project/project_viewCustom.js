@@ -60,11 +60,45 @@
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#案件情報':
-          setPrjInfoShown(PAGE_RECORD, true, 'prj');
-          setInstInfoShown(false);
-          setTarInfoShown(false);
-          setArrivalInfoShown(PAGE_RECORD, false, '')
-          setShipInfoShown(false);
+          setFieldShown('prjNum', true);
+          setFieldShown('Exist_Project', true);
+          setFieldShown('salesType', true);
+          setFieldShown('predictDate', true);
+          setFieldShown('purchaseOrder', true);
+          setFieldShown('purchaseOrder_status', true);
+          setFieldShown('prjMemo', true);
+          if (event.record.Exist_Project.value.length>0) { setFieldShown('samePRJ', true); }
+          else { setFieldShown('samePRJ', false); }
+          setFieldShown('cName', false);
+          setFieldShown('orgName', false);
+          setFieldShown('cSales', false);
+          setFieldShown('instStatus', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+          setFieldShown('tarDate', false);
+          setFieldShown('aboutDelivery', false);
+          setFieldShown('deviceList', false);
+          setFieldShown('dstSelection', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('phoneNum', false);
+          setFieldShown('address', false);
+          setFieldShown('buildingName', false);
+          setFieldShown('corpName', false);
+          setFieldShown('receiver', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
+          if (tabCase == 'arrival') {
+            doSelection(pageRecod);
+          } else {
+            setFieldShown('Contractor', false);
+            setFieldShown('instName', false);
+            setSpaceShown('btn_newINST', 'individual', 'none');
+            setSpaceShown('btn_unknowINST', 'individual', 'none');
+          }
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
           break;
         case '#設置先情報':
           setPrjInfoShown(PAGE_RECORD, false, '');
@@ -204,67 +238,23 @@
 
   //案件情報タブ表示処理
   const setPrjInfoShown = function (pageRecod, param, tabCase) {
-    setFieldShown('prjNum', param);
-    setFieldShown('Exist_Project', param);
-    setFieldShown('salesType', param);
-    setFieldShown('predictDate', param);
-    setFieldShown('purchaseOrder', param);
-    setFieldShown('prjMemo', param);
-    if (tabCase == 'prj') {
-      if (pageRecod.Exist_Project.value == '既存案件') {
-        setFieldShown('samePRJ', true);
-      } else {
-        setFieldShown('samePRJ', false);
-      }
-    } else {
-      setFieldShown('samePRJ', param);
-    }
+    
   }
 
   //設置先情報タブ表示処理
   const setInstInfoShown = function (param) {
-    setFieldShown('cName', param);
-    setFieldShown('orgName', param);
-    setFieldShown('cSales', param);
-    setFieldShown('instStatus', param);
-    setFieldShown('instDate', param);
-    setFieldShown('instDDday', param);
   }
 
   //納品依頼リストタブ表示処理
   const setTarInfoShown = function (param) {
-    setFieldShown('tarDate', param);
-    setFieldShown('aboutDelivery', param);
-    setFieldShown('deviceList', param);
   }
 
   //宛先情報タブ表示処理
   const setArrivalInfoShown = function (pageRecod, param, tabCase) {
-    setFieldShown('dstSelection', param);
-    setFieldShown('zipcode', param);
-    setFieldShown('phoneNum', param);
-    setFieldShown('address', param);
-    setFieldShown('buildingName', param);
-    setFieldShown('corpName', param);
-    setFieldShown('receiver', param);
-    setFieldShown('prefectures', param);
-    setFieldShown('city', param);
-    if (tabCase == 'arrival') {
-      doSelection(pageRecod);
-    } else {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
-      setSpaceShown('btn_newINST', 'individual', 'none');
-      setSpaceShown('btn_unknowINST', 'individual', 'none');
-    }
   }
 
   //輸送情報タブ表示処理
   const setShipInfoShown = function (param) {
-    setFieldShown('deliveryCorp', param);
-    setFieldShown('trckNum', param);
-    setFieldShown('sendDate', param);
-    setFieldShown('expArrivalDate', param);
   }
 
   function doSelection(pageRecod) {
