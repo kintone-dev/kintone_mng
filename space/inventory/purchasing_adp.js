@@ -1,13 +1,14 @@
 (function () {
   'use strict';
 
-  kintone.events.on('app.record.detail.process.proceed', function (event) {
+  // kintone.events.on('app.record.detail.process.proceed', function (event) {
+  kintone.events.on(['app.record.create.submit','app.record.edit.submit'], function (event) {
     const PAGE_RECORD = event.record;
     var nStatus = event.nextStatus.value;
 
-    if(nStatus==="仕入完了"){
-      putDevice(PAGE_RECORD);
-    }
+    putDevice(PAGE_RECORD);
+    // if(nStatus==="仕入完了"){
+    // }
   });
 
   const putDevice = function (pageRecod) {
