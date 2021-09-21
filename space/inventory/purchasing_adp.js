@@ -156,7 +156,7 @@
 
                   for(var i in putRepoBody.record.inventoryList.value){
                     for(var j in stockData){
-                      if(putRepoBody.record.inventoryList.value[j].some(item => item.value.sys_code.value === stockData[j].sysCode)){
+                      if(putRepoBody.record.inventoryList.value.some(item => item.value.sys_code.value === stockData[j].sysCode)){
                         if(putRepoBody.record.inventoryList.value[i].value.sys_code.value == stockData[j].sysCode){
                           putRepoBody.record.inventoryList.value[i].value.arrivalNum.value = stockData[j].arrivalNum
                         }
