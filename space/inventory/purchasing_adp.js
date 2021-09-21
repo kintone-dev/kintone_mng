@@ -105,6 +105,7 @@
                 'app': sysid.INV.app_id.unit,
                 'query': 'uCode in (' + unitQuery.join() + ') order by 更新日時 asc'
               };
+              console.log(JSON.stringify(getUnitBody, null, '\t'));
               kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
               .then(function (resp) {
                 var unitRecords = resp.records;
@@ -112,7 +113,7 @@
 
                 for (var i in arrivalList) {
                   for (var j in unitRecords) {
-                    if (arrivalList[i].value.uCode.value == unitRecords[j].uCode.value) {
+                    if (arrivalList[i].value.uCode.value==unitRecords[j].uCode.value) {
                       var putUniBody = {
                         'updateKey': {
                           'field': 'uCode',
@@ -142,6 +143,7 @@
                 }
 
                 console.log(JSON.stringify(putUniData, null, '\t'));
+                console.log(JSON.stringify(stockData, null, '\t'));
                 // putRecords(sysid.INV.app_id.device, putDevData);
                 // putRecords(sysid.INV.app_id.unit, putUniData);
               });
