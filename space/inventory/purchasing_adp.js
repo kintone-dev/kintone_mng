@@ -97,7 +97,8 @@
                           'uCode': putDevData[i].record.uStockList.value[j].value.uCode.value,
                           'sysCode': putDevData[i].updateKey.value + '-' + putDevData[i].record.uStockList.value[j].value.uCode.value,
                           'arrivalNum':arrivalList[k].value.arrivalNum.value,
-                          'stockNum': putDevData[i].record.uStockList.value[j].value.uStock.value
+                          'stockNum': putDevData[i].record.uStockList.value[j].value.uStock.value,
+                          'uName':''
                         }
                         stockData.push(stockBody);
                       }
@@ -171,9 +172,15 @@
                     }else{
                       var newReportListBody = {
                         'value': {
-                          'sys_code': stockData[i].sysCode,
-                          'stockLocation':stockData[i].uName,
-                          'arrivalNum': stockData[i].arrivalNum
+                          'sys_code': {
+                            'value':stockData[i].sysCode
+                          },
+                          'stockLocation':{
+                            'value':stockData[i].uName
+                          },
+                          'arrivalNum':{
+                            'value':stockData[i].arrivalNum
+                          }
                         }
                       }
                       putRepoBody.record.inventoryList.value.push(newReportListBody);
