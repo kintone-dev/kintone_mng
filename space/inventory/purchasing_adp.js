@@ -189,6 +189,7 @@
 
                   putRepoData.push(putRepoBody);
 
+                  console.log(JSON.stringify(putDevData, null, '\t'));
                   console.log(JSON.stringify(putRepoData, null, '\t'));
                   console.log(JSON.stringify(stockData, null, '\t'));
                   // putRecords(sysid.INV.app_id.device, putDevData);
