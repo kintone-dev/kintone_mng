@@ -41,6 +41,13 @@
             .then(function (resp) {
               var deviceRecords = resp.records;
               var putDevData = [];
+              if(PAGE_RECORD.currencyType.value == '米ドル＄'){
+                var foreignCurrency = '$';
+              } else if (PAGE_RECORD.currencyType.value == 'ユーロ€'){
+                var foreignCurrency = '€';
+              }else{
+                var foreignCurrency = '';
+              }
               for (var i in arrivalList) {
                 for (var j in deviceRecords) {
                   if (arrivalList[i].value.mCode.value == deviceRecords[j].mCode.value) {
@@ -60,7 +67,7 @@
                           'value': arrivalList[i].value.unitPrice.value
                         },
                         'deviceCost_foreign': {
-                          'value': arrivalList[i].value.unitPrice_foreign.value
+                            'value':foreignCurrency + arrivalList[i].value.unitPrice_foreign.value
                         },
                         'importExpenses': {
                           'value': arrivalList[i].value.addiUnitExpenses.value
