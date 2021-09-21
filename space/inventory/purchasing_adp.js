@@ -41,12 +41,10 @@
       'app': sysid.INV.app_id.device,
       'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
     };
-    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
+    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
     .then(function (resp) {
       var deviceRecords = resp.records;
-      console.log(deviceRecords);
       var putDevData = [];
-
       for(var i in arrivalList){
         for(var j in deviceRecords){
           if(arrivalList[i].value.mCode.value == deviceRecords[j].mCode.value){
@@ -80,6 +78,16 @@
               }
             }
             putDevData.push(putDevBody);
+          }
+        }
+      }
+
+      for(var i in putDevData){
+        for(var j in putDevData[i].record.uStockList.value){
+          for(var k in arrivalList){
+            if(putDevData[i].record.uStockList.value[j].value.uCode.value==arrivalList[k].value.uCode.value){
+              putDevData[i].record.uStockList.value[j].value.uStock.value = parseInt(putDevData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(arrivalList[k].value.arrivalNum.value || 0);
+            }
           }
         }
       }
