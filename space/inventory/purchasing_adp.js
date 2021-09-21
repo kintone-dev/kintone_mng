@@ -27,13 +27,44 @@
       console.log(deviceRecords);
       var putDevData = [];
 
-      // for(var i in arrivalList){
-      //   for(var j in deviceRecords){
-      //     if(arrivalList[i].value.mCode.value == deviceRecords.){
+      for(var i in arrivalList){
+        for(var j in deviceRecords){
+          if(arrivalList[i].value.mCode.value == deviceRecords[j].mCode.value){
+            var putDevBody = {
+              'updateKey': {
+                'field': 'mCode',
+                'value': arrivalList[i].value.mCode.value
+              },
+              'record': {
+                'mCost': {
+                  'value': arrivalList[i].value.totalUnitCost.value
+                },
+                'mCostUpdate': {
+                  'value': pageRecod.orderDate.value
+                },
+                'deviceCost': {
+                  'value': arrivalList[i].value.unitPrice.value
+                },
+                'deviceCost_foreign': {
+                  'value': arrivalList[i].value.unitPrice_foreign.value
+                },
+                'importExpenses': {
+                  'value': arrivalList[i].value.addiUnitExpenses.value
+                },
+                'developCost': {
+                  'value': arrivalList[i].value.addiExpenses.value
+                },
+                'uStockList': {
+                  'value': deviceRecords[j].uStockList.value
+                }
+              }
+            }
+            putDevData.push(putDevBody);
+          }
+        }
+      }
 
-      //     }
-      //   }
-      // }
+      console.log(JSON.stringify(putDevData, null, '\t'));
 
     });
 
