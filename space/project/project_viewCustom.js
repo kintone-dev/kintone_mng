@@ -65,25 +65,19 @@
           setFieldShown('salesType', true);
           setFieldShown('predictDate', true);
           setFieldShown('purchaseOrder', true);
+          setFieldShown('purchaseOrder_status', true);
           setFieldShown('prjMemo', true);
-          if (PAGE_RECORD.Exist_Project.value == '既存案件') {
-            setFieldShown('samePRJ', true);
-          } else {
-            setFieldShown('samePRJ', false);
-          }
-
+          if (event.record.Exist_Project.value.length>0) { setFieldShown('samePRJ', true); }
+          else { setFieldShown('samePRJ', false); }
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('cSales', false);
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
-
-
           setFieldShown('tarDate', false);
           setFieldShown('aboutDelivery', false);
           setFieldShown('deviceList', false);
-
           setFieldShown('dstSelection', false);
           setFieldShown('zipcode', false);
           setFieldShown('phoneNum', false);
@@ -93,11 +87,14 @@
           setFieldShown('receiver', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
-          setFieldShown('Contractor', false);
-          setFieldShown('instName', false);
-          setSpaceShown('btn_newINST', 'individual', 'none');
-          setSpaceShown('btn_unknowINST', 'individual', 'none');
-
+          // if (tabCase == 'arrival') {
+          //   doSelection(pageRecod);
+          // } else {
+          //   setFieldShown('Contractor', false);
+          //   setFieldShown('instName', false);
+          //   setSpaceShown('btn_newINST', 'individual', 'none');
+          //   setSpaceShown('btn_unknowINST', 'individual', 'none');
+          // }
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
@@ -363,6 +360,27 @@
       return event;
     });
   */
+
+  //案件情報タブ表示処理
+  const setPrjInfoShown = function (pageRecod, param, tabCase) {
+
+  }
+
+  //設置先情報タブ表示処理
+  const setInstInfoShown = function (param) {
+  }
+
+  //納品依頼リストタブ表示処理
+  const setTarInfoShown = function (param) {
+  }
+
+  //宛先情報タブ表示処理
+  const setArrivalInfoShown = function (pageRecod, param, tabCase) {
+  }
+
+  //輸送情報タブ表示処理
+  const setShipInfoShown = function (param) {
+  }
 
   function doSelection(pageRecod) {
     var selection = pageRecod.dstSelection.value;
