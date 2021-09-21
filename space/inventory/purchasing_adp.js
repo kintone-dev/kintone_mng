@@ -77,7 +77,7 @@
                 }
               }
 
-              var stockData =[]
+              var stockData = []
               for (var i in putDevData) {
                 for (var j in putDevData[i].record.uStockList.value) {
                   for (var k in arrivalList) {
@@ -85,9 +85,9 @@
                       if (putDevData[i].record.uStockList.value[j].value.uCode.value == arrivalList[k].value.uCode.value) {
                         putDevData[i].record.uStockList.value[j].value.uStock.value = parseInt(putDevData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(arrivalList[k].value.arrivalNum.value || 0);
                         var stockBody = {
-                          'mCode':putDevData[i].updateKey.value,
-                          'uCode':putDevData[i].record.uStockList.value[j].value.uCode.value,
-                          'stockNum':putDevData[i].record.uStockList.value[j].value.uStock.value
+                          'mCode': putDevData[i].updateKey.value,
+                          'uCode': putDevData[i].record.uStockList.value[j].value.uCode.value,
+                          'stockNum': putDevData[i].record.uStockList.value[j].value.uStock.value
                         }
                         stockData.push(stockBody);
                       }
@@ -105,48 +105,45 @@
                 'app': sysid.INV.app_id.unit,
                 'query': 'uCode in (' + unitQuery.join() + ') order by 更新日時 asc'
               };
-              console.log(JSON.stringify(getUnitBody, null, '\t'));
               kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
-              .then(function (resp) {
-                var unitRecords = resp.records;
-                var putUniData = [];
+                .then(function (resp) {
+                  var unitRecords = resp.records;
+                  var putUniData = [];
+                  console.log(unitRecords);
 
-                for (var i in arrivalList) {
-                  for (var j in unitRecords) {
-                    if (arrivalList[i].value.uCode.value==unitRecords[j].uCode.value) {
-                      var putUniBody = {
-                        'updateKey': {
-                          'field': 'uCode',
-                          'value': arrivalList[i].value.uCode.value
-                        },
-                        'record': {
-                          'mStockList': {
-                            'value': unitRecords[j].mStockList.value
+                  for (var i in unitRecords) {
+                    var putUniBody = {
+                      'updateKey': {
+                        'field': 'uCode',
+                        'value': unitRecords[i].uCode.value
+                      },
+                      'record': {
+                        'mStockList': {
+                          'value': unitRecords[i].mStockList.value
+                        }
+                      }
+                    }
+                    putUniData.push(putUniBody);
+                  }
+
+                  for (var i in putUniData) {
+                    for (var j in putUniData[i].record.mStockList.value) {
+                      for (var k in stockData) {
+                        if (stockData[k].uCode==putUniData[i].updateKey.value) {
+                          if (putUniData[i].record.mStockList.value[j].value.mCode.value == stockData[k].mCode) {
+                            putUniData[i].record.mStockList.value[j].value.mStock.value=stockData[k].stockNum;
+                            console.log('ok');
+                            console.log(putUniData[i].record.mStockList.value[j].value.mStock.value);
                           }
                         }
                       }
-                      putUniData.push(putUniBody);
                     }
                   }
-                }
 
-                for(var i in putUniData){
-                  for (var j in putUniData[i].record.mStockList.value) {
-                    for (var k in stockData) {
-                      if(stockData[k].uCode == putUniData[i].updateKey.value){
-                        if (putUniData[i].record.mStockList.value[j].value.mCode.value == stockData[k].mCode) {
-                          putUniData[i].record.mStockList.value[j].value.mStock.value == stockData[k].stockNum;
-                        }
-                      }
-                    }
-                  }
-                }
-
-                console.log(JSON.stringify(putUniData, null, '\t'));
-                console.log(JSON.stringify(stockData, null, '\t'));
-                // putRecords(sysid.INV.app_id.device, putDevData);
-                // putRecords(sysid.INV.app_id.unit, putUniData);
-              });
+                  console.log(JSON.stringify(putUniData, null, '\t'));
+                  // putRecords(sysid.INV.app_id.device, putDevData);
+                  // putRecords(sysid.INV.app_id.unit, putUniData);
+                });
             });
         }
       });
