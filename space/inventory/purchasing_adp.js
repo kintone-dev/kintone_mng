@@ -119,6 +119,9 @@
                         'value': unitRecords[i].uCode.value
                       },
                       'record': {
+                        'uName':{
+                          'value':unitRecords[i].uName.value
+                        },
                         'mStockList': {
                           'value': unitRecords[i].mStockList.value
                         }
@@ -133,6 +136,7 @@
                         if (stockData[k].uCode == putUniData[i].updateKey.value) {
                           if (putUniData[i].record.mStockList.value[j].value.mCode.value == stockData[k].mCode) {
                             putUniData[i].record.mStockList.value[j].value.mStock.value = stockData[k].stockNum;
+                            stockData[k].uName = putUniData[i].record.uName.value;
                           }
                         }
                       }
@@ -152,8 +156,19 @@
 
                   for(var i in putRepoBody.record.inventoryList.value){
                     for(var j in stockData){
-                      if(putRepoBody.record.inventoryList.value[i].value.sys_code.value == stockData[j].sysCode){
-                        putRepoBody.record.inventoryList.value[i].value.arrivalNum.value = stockData[j].arrivalNum
+                      if(putRepoBody.record.inventoryList.value[j].some(item => item.value.sys_code.value === stockData[j].sysCode)){
+                        if(putRepoBody.record.inventoryList.value[i].value.sys_code.value == stockData[j].sysCode){
+                          putRepoBody.record.inventoryList.value[i].value.arrivalNum.value = stockData[j].arrivalNum
+                        }
+                      }else{
+                        var newReportListBody = {
+                          'value': {
+                            'sys_code': stockData[j].sysCode,
+                            'stockLocation':stockData[j].uName,
+                            'arrivalNum': stockData[j].arrivalNum
+                          }
+                        }
+                        putRepoBody.record.inventoryList.value[i].value.arrivalNum.value.push(newReportListBody);
                       }
                     }
                   }
