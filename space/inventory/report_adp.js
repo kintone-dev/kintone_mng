@@ -19,11 +19,11 @@
     } else if (event.record.EoMcheck.value == '一時確認') {
       var forecastList = event.record.forecastList.value;
 
-      api_getRecords(sysid.INV.app_id.device)
+      return api_getRecords(sysid.INV.app_id.device)
         .then(function (resp) {
-
           for(var i in resp.records){
             if(forecastList.some(item => item.value.forecast_mCode.value !== resp.records[i].mCode.value)){
+              console.log('ok');
               var newForecastListBody = {
                 'value':{
                   'forecast_mCode':{
