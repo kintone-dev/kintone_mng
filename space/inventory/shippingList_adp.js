@@ -101,9 +101,10 @@
     };
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipBody)
       .then(function (resp) {
+        var records = [];
         var putStatusData = {
           'app': sysid.PM.app_id.shipment,
-          'records': []
+          'records': records
         }
         console.log(JSON.stringify(putStatusData, null, '\t'));
         for (var i in resp.records) {
@@ -112,7 +113,7 @@
               'id': resp.records[i].$id.value,
               'action': '処理開始'
             }
-            putStatusData.records.push(putStatusBody);
+            records.push(putStatusBody);
           }
         }
         console.log(JSON.stringify(putStatusData, null, '\t'));
