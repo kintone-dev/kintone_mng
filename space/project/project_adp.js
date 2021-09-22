@@ -188,7 +188,7 @@
                 for(var i in resp.ids){
                   var putStatusBody ={
                     'id': resp.ids[i],
-                    'action': '製品発送'
+                    'action': '処理開始'
                   }
                   putStatusData.records.push(putStatusBody);
                 }
