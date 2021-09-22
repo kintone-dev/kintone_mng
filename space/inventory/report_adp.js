@@ -6,43 +6,43 @@
 
     return api_getRecords(sysid.INV.app_id.device)
       .then(function (resp) {
-        for(var i in resp.records){
-          if(!forecastList.some(item => item.value.forecast_mCode.value === resp.records[i].mCode.value)){
+        for (var i in resp.records) {
+          if (!forecastList.some(item => item.value.forecast_mCode.value === resp.records[i].mCode.value)) {
             var newForecastListBody = {
-              'value':{
-                'forecast_mCode':{
+              'value': {
+                'forecast_mCode': {
                   'type': "SINGLE_LINE_TEXT",
                   'value': resp.records[i].mCode.value
                 },
-                'forecast_mName':{
+                'forecast_mName': {
                   'type': "SINGLE_LINE_TEXT",
                   'value': ''
                 },
-                'forecast_mStock':{
+                'forecast_mStock': {
                   'type': "NUMBER",
                   'value': ''
                 },
-                'mOrderingPoint':{
+                'mOrderingPoint': {
                   'type': "NUMBER",
                   'value': ''
                 },
-                'mLeadTime':{
+                'mLeadTime': {
                   'type': "NUMBER",
                   'value': ''
                 },
-                'forecast_shipNum':{
+                'forecast_shipNum': {
                   'type': "NUMBER",
                   'value': ''
                 },
-                'forecast_arrival':{
+                'forecast_arrival': {
                   'type': "NUMBER",
                   'value': ''
                 },
-                'afterLeadTimeStock':{
+                'afterLeadTimeStock': {
                   'type': "NUMBER",
                   'value': '2'
                 },
-                'remainingNum':{
+                'remainingNum': {
                   'type': "NUMBER",
                   'value': '2'
                 }
@@ -51,7 +51,7 @@
             forecastList.push(newForecastListBody);
           }
         }
-        for(var i in forecastList){
+        for (var i in forecastList) {
           forecastList[i].value.forecast_mCode.lookup = true;
         }
         return event;
@@ -74,20 +74,28 @@
       }
 
       event.record.inventoryList.value = newList;
-    } else if(event.record.EoMcheck.value == '一時確認'){
+    } else if (event.record.EoMcheck.value == '一時確認') {
       var forecastList = event.record.forecastList.value;
-      var sys_invoiceDate = event.record.sys_invoiceDate.value;
+      var invoiceYears = event.record.invoiceYears.value;
+      var invoiceMonth = event.record.invoiceMonth.value;
 
-      for(var i in event.record.forecastList.value){
-        var getArrivalBody = {
-          'app': sysid.INV.app_id.unit,
-          'query':'arrivalDate <= "2021-12-31" and ステータス in ("仕入完了")'
+      for (var i in event.record.forecastList.value) {
+        var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
+        var formatInvoiceMonth = parseInt(invoiceMonth) + parseInt(mLeadTime);
+        if (formatInvoiceMonth > 12) {
+          formatInvoiceMonth = parseInt(formatInvoiceMonth) - 12;
+        }
+        var queryData = invoiceYears + '-' + formatInvoiceMonth + '-' + 31;
+
+        var getPurchasingBody = {
+          'app': sysid.INV.app_id.purchasing,
+          'query': 'arrivalDate <= "' + queryData + '" and ステータス in ("仕入完了")'
         }
 
-        kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getArrivalBody)
-        .then(function (resp) {
-          console.log(resp);
-        });
+        kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody)
+          .then(function (resp) {
+            console.log(resp);
+          });
 
       }
     }
