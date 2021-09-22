@@ -91,7 +91,7 @@
           'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
         }
 
-        return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody)
+        kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody)
           .then(function (resp) {
             var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
             var totalArrivalNum = 0;
@@ -103,11 +103,12 @@
               }
             }
             event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
-
+            console.log(event.record.forecastList.value[i].value.forecast_arrival.value);
             return event;
           });
-
       }
+
+      return event;
     }
   });
 
