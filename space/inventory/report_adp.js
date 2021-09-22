@@ -28,11 +28,11 @@
                 'value':{
                   'forecast_mCode':{
                     'type': "SINGLE_LINE_TEXT",
-                    'value': resp.records[i].mCode.value
+                    'value': '1'
                   },
                   'forecast_mName':{
                     'type': "SINGLE_LINE_TEXT",
-                    'value': resp.records[i].mName.value
+                    'value': '2'
                   },
                   'forecast_mStock':{
                     'type': "NUMBER",
