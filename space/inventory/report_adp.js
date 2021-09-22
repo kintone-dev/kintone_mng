@@ -102,14 +102,14 @@
               nextMonthSyscode.push(putNewReport_body.record.inventoryList.value[nil].value.sys_code.value);
             }
             for (var nil in event.record.inventoryList.value) {
-                var nowMonthData = {
-                  'sysCode': event.record.inventoryList.value[nil].value.sys_code.value,
-                  'location': event.record.inventoryList.value[nil].value.stockLocation.value,
-                  'memo': event.record.inventoryList.value[nil].value.memo.value,
-                  'mCode': event.record.inventoryList.value[nil].value.mCode.value,
-                  'deductionNum': event.record.inventoryList.value[nil].value.deductionNum.value,
-                }
-                nowMonthSyscode.push(nowMonthData);
+              var nowMonthData = {
+                'sysCode': event.record.inventoryList.value[nil].value.sys_code.value,
+                'location': event.record.inventoryList.value[nil].value.stockLocation.value,
+                'memo': event.record.inventoryList.value[nil].value.memo.value,
+                'mCode': event.record.inventoryList.value[nil].value.mCode.value,
+                'deductionNum': event.record.inventoryList.value[nil].value.deductionNum.value,
+              }
+              nowMonthSyscode.push(nowMonthData);
             }
 
             for (var ril in event.record.inventoryList.value) {
@@ -145,6 +145,12 @@
           }
 
           return event;
+        });
+    } else if (event.record.EoMcheck.value == '一時確認') {
+
+      api_getRecords(sysid.INV.app_id.device)
+        .then(function (resp) {
+          console.log(resp);
         });
     } else {
       return event;

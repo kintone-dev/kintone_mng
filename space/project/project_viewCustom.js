@@ -53,7 +53,7 @@
     setFieldShown('mVendor', false);
     setFieldShown('mName', false);
     event.record.cSales.disabled = false;
-    
+
     setFieldShown('sys_suptitle', true);
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
@@ -73,7 +73,7 @@
           if (event.record.Exist_Project.value.length>0) { setFieldShown('samePRJ', true); }
           else { setFieldShown('samePRJ', false); }
 
-           
+
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
@@ -113,7 +113,7 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          
+
           setFieldShown('cName', true);
           setFieldShown('orgName', true);
           setFieldShown('instName', true);
@@ -159,7 +159,7 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          
+
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
@@ -199,7 +199,7 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          
+
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
@@ -239,7 +239,7 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          
+
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
