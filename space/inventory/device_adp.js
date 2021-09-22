@@ -138,4 +138,8 @@
     return event;
   });
 
+  kintone.events.on(['app.record.create.change.pc_mCode','app.record.edit.change.pc_mCode'], function (event) {
+    console.log(123);
+  });
+
 })();
