@@ -76,14 +76,15 @@
       event.record.inventoryList.value = newList;
     } else if(event.record.EoMcheck.value == '一時確認'){
       var forecastList = event.record.forecastList.value;
+      var sys_invoiceDate = event.record.sys_invoiceDate.value;
 
       for(var i in event.record.forecastList.value){
         var getArrivalBody = {
           'app': sysid.INV.app_id.unit,
-          'query':'arrivalDate <= "2021-12" and ステータス in ("仕入完了")'
+          'query':'arrivalDate <= "2021-12-31" and ステータス in ("仕入完了")'
         }
 
-        return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getArrivalBody)
+        kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getArrivalBody)
         .then(function (resp) {
           console.log(resp);
         });
