@@ -91,11 +91,11 @@
 
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody)
           .then(function (resp) {
-            var mCode = event.record.forecastList.value[i].value.mCode.value;
+            var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
             var totalArrivalNum = 0;
             for(var j in resp.records){
               for(var k in resp.records[j].arrivalList.value){
-                if(mCode == resp.records[j].arrivalList.value[k].value.mCode.value){
+                if(forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value){
                   totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
                 }
               }
