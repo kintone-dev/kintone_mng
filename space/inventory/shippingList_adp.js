@@ -95,6 +95,11 @@
 
   // 納品情報未確定ステータス変更
   kintone.events.on('app.record.index.show', function (event) {
+    if (sessionStorage.getItem('record_updated') === '1') {
+      sessionStorage.setItem('record_updated', '0');
+      return event;
+    }
+
     var getShipBody = {
       'app': sysid.INV.app_id.shipment,
       'query': 'prjId != "" order by レコード番号'
@@ -115,7 +120,9 @@
           }
         }
         console.log(JSON.stringify(putStatusData, null, '\t'));
-        return kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
+        kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
+        sessionStorage.setItem('record_updated', '1');
+        location.reload();
       });
   });
 
