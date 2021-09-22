@@ -12,10 +12,12 @@
   kintone.events.on(events_ced, function (event) {
 
     //パッケージ内容編集不可
-    event.record.pc_mVendor.disabled = true;
-    event.record.pc_mType.disabled = true;
-    event.record.pc_mName.disabled = true;
-    event.record.pc_mNickname.disabled = true;
+    for(var i in packageComp){
+      event.record.packageComp.value[i].value.pc_mVendor.disabled = true;
+      event.record.packageComp.value[i].value.pc_mType.disabled = true;
+      event.record.packageComp.value[i].value.pc_mName.disabled = true;
+      event.record.packageComp.value[i].value.pc_mNickname.disabled = true;
+    }
 
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     //sti: subTable i
