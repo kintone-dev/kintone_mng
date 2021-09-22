@@ -138,10 +138,11 @@
     return event;
   });
 
+  //パッケージ一覧編集時
   kintone.events.on(['app.record.create.change.pc_mCode','app.record.edit.change.pc_mCode'], function (event) {
     var deviceQuery = [];
     for(var i in event.record.packageComp.value){
-      deviceQuery.push('"' + event.record.packageComp.value[i].pc_mCode.value + '"');
+      deviceQuery.push('"' + event.record.packageComp.value[i].value.pc_mCode.value + '"');
     }
     var getPacBody = {
       'app': sysid.INV.app_id.device,
@@ -150,6 +151,19 @@
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPacBody)
     .then(function (resp) {
       console.log(resp.records);
+
+      for(var i in event.record.packageComp.value){
+        for(var j in resp.records){
+          if(event.record.packageComp.value[i].value.pc_mCode.value == resp.records[j].value.mCode.value){
+            event.record.packageComp.value[i].value.pc_mVendor.value = resp.records[j].value.mVendor.value;
+            event.record.packageComp.value[i].value.pc_mType.value = resp.records[j].value.mType.value;
+            event.record.packageComp.value[i].value.pc_mName.value = resp.records[j].value.mName.value;
+            event.record.packageComp.value[i].value.pc_mNickname.value = resp.records[j].value.mNickname.value;
+          }
+        }
+      }
+
+      return event;
     });
 });
 

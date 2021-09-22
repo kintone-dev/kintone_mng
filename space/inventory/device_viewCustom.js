@@ -152,7 +152,8 @@
         // event.record.packageComp.value[sti].value.pc_mVendor.disabled = false;
         // event.record.packageComp.value[sti].value.pc_mType.disabled = false;
         // event.record.packageComp.value[sti].value.pc_mName.disabled = false;
-        // event.record.packageComp.value[sti].value.pc_Num.disabled = false;
+        // event.record.packageComp.value[sti].value.pc_mNickname.disabled = false;
+        event.record.packageComp.value[sti].value.pc_Num.disabled = false;
         event.record.packageComp.value[sti].value.pc_mCode.disabled = false;
       }
     } else {
@@ -170,6 +171,7 @@
         event.record.packageComp.value[sti].value.pc_mType.disabled = true;
         event.record.packageComp.value[sti].value.pc_mCode.disabled = true;
         event.record.packageComp.value[sti].value.pc_mName.disabled = true;
+        event.record.packageComp.value[sti].value.pc_mNickname.disabled = true;
         event.record.packageComp.value[sti].value.pc_Num.disabled = true;
       }
     }
