@@ -139,7 +139,18 @@
   });
 
   kintone.events.on(['app.record.create.change.pc_mCode','app.record.edit.change.pc_mCode'], function (event) {
-    console.log(123);
-  });
+    var deviceQuery = [];
+    for(var i in event.record.packageComp.value){
+      deviceQuery.push('"' + event.record.packageComp.value[i].pc_mCode.value + '"');
+    }
+    var getPacBody = {
+      'app': sysid.INV.app_id.device,
+      'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
+    };
+    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPacBody)
+    .then(function (resp) {
+      console.log(resp.records);
+    });
+});
 
 })();

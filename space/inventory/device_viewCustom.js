@@ -10,15 +10,6 @@
     'app.record.edit.show'
   ];
   kintone.events.on(events_ced, function (event) {
-
-    //パッケージ内容編集不可
-    for(var i in event.record.packageComp.value){
-      event.record.packageComp.value[i].value.pc_mVendor.disabled = true;
-      event.record.packageComp.value[i].value.pc_mType.disabled = true;
-      event.record.packageComp.value[i].value.pc_mName.disabled = true;
-      event.record.packageComp.value[i].value.pc_mNickname.disabled = true;
-    }
-
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     //sti: subTable i
     for (var sti in event.record.uStockList.value) {
@@ -139,9 +130,9 @@
     for (var sti in event.record.packageComp.value) {
       event.record.packageComp.value[sti].value.pc_mVendor.disabled = true;
       event.record.packageComp.value[sti].value.pc_mType.disabled = true;
-      event.record.packageComp.value[sti].value.pc_mCode.disabled = true;
       event.record.packageComp.value[sti].value.pc_mName.disabled = true;
       event.record.packageComp.value[sti].value.pc_Num.disabled = true;
+      event.record.packageComp.value[sti].value.pc_mCode.disabled = true;
     }
     return event;
   });
@@ -158,11 +149,11 @@
       event.record.warranty.disabled = false;
       event.record.mClassification.disabled = false;
       for (var sti in event.record.packageComp.value) {
-        event.record.packageComp.value[sti].value.pc_mVendor.disabled = false;
-        event.record.packageComp.value[sti].value.pc_mType.disabled = false;
+        // event.record.packageComp.value[sti].value.pc_mVendor.disabled = false;
+        // event.record.packageComp.value[sti].value.pc_mType.disabled = false;
+        // event.record.packageComp.value[sti].value.pc_mName.disabled = false;
+        // event.record.packageComp.value[sti].value.pc_Num.disabled = false;
         event.record.packageComp.value[sti].value.pc_mCode.disabled = false;
-        event.record.packageComp.value[sti].value.pc_mName.disabled = false;
-        event.record.packageComp.value[sti].value.pc_Num.disabled = false;
       }
     } else {
       // チェックボックスがチェックされていない
