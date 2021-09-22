@@ -181,6 +181,7 @@
 
             return kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
               .then(function (resp) {
+                console.log(resp);
                 var putStatusData = {
                   'app': sysid.PM.app_id.shipment,
                   'records':[]
