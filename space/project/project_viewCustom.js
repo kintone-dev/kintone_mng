@@ -118,8 +118,8 @@
           setFieldShown('orgName', true);
           setFieldShown('instName', true);
           if(event.record.instName.value=='' || event.record.instName.value==undefined){
-            setSpaceShown('btn_newINST','individual','block');
-            setSpaceShown('btn_unknowINST','individual','block');
+            setSpaceShown('btn_newINST','individual','table-block');
+            setSpaceShown('btn_unknowINST','individual','table-block');
           }
           else{
             setSpaceShown('btn_newINST','individual','none');
@@ -510,29 +510,6 @@
     searchBtn.value = '検索';
     eSearchArea.appendChild(searchBtn);
 
-    // var searchType=document.createElement('div');
-    // searchType.id='SearchType';
-    // var sTypeSelection_or=document.createElement('input');
-    // sTypeSelection_or.id='sts_or';
-    // sTypeSelection_or.name='searchType';
-    // sTypeSelection_or.type='radio';
-    // sTypeSelection_or.value='or';
-    // searchType.appendChild(sTypeSelection_or);
-    // var sTypeLabel_or=document.createElement('label');
-    // sTypeLabel_or.htmlFor='sts_or';
-    // sTypeLabel_or.innerText='いずれかの条件を満たす';
-    // searchType.appendChild(sTypeLabel_or);
-    // var sTypeSelection_and=document.createElement('input');
-    // sTypeSelection_and.id='sts_and';
-    // sTypeSelection_and.name='searchType';
-    // sTypeSelection_and.type='radio';
-    // sTypeSelection_and.value='and';
-    // searchType.appendChild(sTypeSelection_and);
-    // var sTypeLabel_and=document.createElement('label');
-    // sTypeLabel_and.htmlFor='sts_and';
-    // sTypeLabel_and.innerText='すべての条件を満たす';
-    // searchType.appendChild(sTypeLabel_and);
-    // eSearchArea.appendChild(searchType);
     var searchTargetArea = document.createElement('form');
     searchTargetArea.id = 'searchTargets';
     searchTargetArea.name = 'searchTargets';
@@ -567,7 +544,12 @@
     setEasySearch({
       sID: 'eSearch',
       sPlaceholder: '総合検索',
-      sConditions: [{
+      sConditions: [
+        {
+          fCode: 'prjTitle',
+          fName: 'タイトル'
+        },
+        {
           fCode: 'invoiceNum',
           fName: '請求書番号'
         },
@@ -621,26 +603,6 @@
       // document.searchTargets.searchTarget[1].checked=true;
 
     });
-    // setEasySearch({
-    //   id:'eSearch',
-    //   placeholder:'総合検索',
-    //   target:['invoiceNum','prjNum']
-    //   // easySearch:{sID:'invoiceNum',sName:'請求書番号'},
-    //   // searchConditions:[
-    //   //   {sID:'invoiceNum',sName:'請求書番号'},
-    //   //   {sID:'prjNum',sName:'案件管理番号'}
-    //   // ]
-    // });
-    // ={
-    //   areaID:'prjSearch',
-    //   searchType:'or',
-    //   searchConditions:[
-    //     {tar_fCode:'invoiceNum',tar_fValue:''},
-    //     {tar_fCode:'prjNum',tar_fValue:''}
-    //   ]
-    // };
-    //GET引数に格納された直前の検索キーワードを取得して再表示
-
 
     return event;
   });
