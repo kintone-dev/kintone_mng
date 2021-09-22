@@ -11,7 +11,19 @@
   ];
   kintone.events.on(events_ced, function (event) {
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
-    //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
+    // [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
+
+    for (var i in event.record.forecastList.value) {
+      event.record.forecastList.value[i].value.afterLeadTimeStock.disabled = true;
+      event.record.forecastList.value[i].value.forecast_arrival.disabled = true;
+      event.record.forecastList.value[i].value.forecast_mName.disabled = true;
+      event.record.forecastList.value[i].value.forecast_mStock.disabled = true;
+      event.record.forecastList.value[i].value.forecast_shipNum.disabled = true;
+      event.record.forecastList.value[i].value.mLeadTime.disabled = true;
+      event.record.forecastList.value[i].value.mOrderingPoint.disabled = true;
+      event.record.forecastList.value[i].value.remainingNum.disabled = true;
+    }
+
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#概要':
@@ -24,6 +36,7 @@
           setFieldShown('subscription', true);
           setFieldShown('nonSalesAmount', true);
           setFieldShown('inventoryList', false);
+          setFieldShown('forecastList', false);
           setSpaceShown('itemSortBtn', 'line', 'none');
           setSpaceShown('locationSortBtn', 'line', 'none');
           break;
@@ -37,13 +50,28 @@
           setFieldShown('subscription', false);
           setFieldShown('nonSalesAmount', false);
           setFieldShown('inventoryList', true);
+          setFieldShown('forecastList', false);
           setSpaceShown('itemSortBtn', 'line', 'block');
           setSpaceShown('locationSortBtn', 'line', 'block');
           break;
+        case '#製品別在庫残数':
+          setFieldShown('totalInventoryAmount', false);
+          setFieldShown('finishProduct', false);
+          setFieldShown('inProcess', false);
+          setFieldShown('totalAmountArrival', false);
+          setFieldShown('acquisitionCost', false);
+          setFieldShown('developmentCost', false);
+          setFieldShown('subscription', false);
+          setFieldShown('nonSalesAmount', false);
+          setFieldShown('inventoryList', false);
+          setFieldShown('forecastList', true);
+          setSpaceShown('itemSortBtn', 'line', 'none');
+          setSpaceShown('locationSortBtn', 'line', 'none');
+          break;
       }
     }
-    tabSwitch('#在庫リスト');
-    tabMenu('tab_report', ['概要', '在庫リスト']); //タブメニュー作成
+    tabSwitch('#概要');
+    tabMenu('tab_report', ['概要', '在庫リスト','製品別在庫残数']); //タブメニュー作成
     $('.tabMenu a').on('click', function () { //タブメニュークリック時アクション
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
@@ -165,8 +193,4 @@
     });
     return table;
   };
-
-  function stopTimer(setInt) {
-    clearInterval(setInt);
-  }
 })();

@@ -50,8 +50,10 @@
 
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
 
+    setFieldShown('mVendor', false);
+    setFieldShown('mName', false);
     event.record.cSales.disabled = false;
-    doSelection(event.record);
+
     setFieldShown('sys_suptitle', true);
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
@@ -70,112 +72,39 @@
           setFieldShown('prjMemo', true);
           if (event.record.Exist_Project.value.length>0) { setFieldShown('samePRJ', true); }
           else { setFieldShown('samePRJ', false); }
-          setFieldShown('cName', false);
-          setFieldShown('orgName', false);
-          setFieldShown('cSales', false);
-          setFieldShown('instStatus', false);
-          setFieldShown('instDate', false);
-          setFieldShown('instDDday', false);
-          setFieldShown('tarDate', false);
-          setFieldShown('aboutDelivery', false);
-          setSpaceShown('calBtn', 'line', 'none');
-          setFieldShown('deviceList', false);
-          setFieldShown('dstSelection', false);
-          setFieldShown('zipcode', false);
-          setFieldShown('phoneNum', false);
-          setFieldShown('address', false);
-          setFieldShown('buildingName', false);
-          setFieldShown('corpName', false);
-          setFieldShown('receiver', false);
-          setFieldShown('prefectures', false);
-          setFieldShown('city', false);
-          setFieldShown('instName', false);
-          setFieldShown('deliveryCorp', false);
-          setFieldShown('trckNum', false);
-          setFieldShown('sendDate', false);
-          setFieldShown('expArrivalDate', false);
 
-                    // if (tabCase == 'arrival') {
-                    //   doSelection(pageRecod);
-                    // } else {
-                    //   setFieldShown('Contractor', false);
-                    //   setFieldShown('instName', false);
-                    //   setSpaceShown('btn_newINST', 'individual', 'none');
-                    //   setSpaceShown('btn_unknowINST', 'individual', 'none');
-                    // }
-          break;
-        case '#設置先情報':
-          setFieldShown('prjNum', false);
-          setFieldShown('Exist_Project', false);
-          setFieldShown('salesType', false);
-          setFieldShown('predictDate', false);
-          setFieldShown('purchaseOrder', false);
-          setFieldShown('prjMemo', false);
-          setFieldShown('samePRJ', false);
 
           setFieldShown('cName', true);
           setFieldShown('orgName', true);
+          setFieldShown('instName', true);
+          if(event.record.instName.value=='' || event.record.instName.value==undefined){
+            setSpaceShown('btn_newINST','individual','table-block');
+            setSpaceShown('btn_unknowINST','individual','table-block');
+          }
+          else{
+            setSpaceShown('btn_newINST','individual','none');
+          setSpaceShown('btn_unknowINST','individual','none');
+          }
           setFieldShown('cSales', true);
           setFieldShown('instStatus', true);
           setFieldShown('instDate', true);
           setFieldShown('instDDday', true);
+          setFieldShown('Contractor', false);
 
+          setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('tarDate', false);
           setFieldShown('aboutDelivery', false);
           setFieldShown('deviceList', false);
 
           setFieldShown('dstSelection', false);
-          setFieldShown('zipcode', false);
+          setFieldShown('receiver', false);
           setFieldShown('phoneNum', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
           setFieldShown('address', false);
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
-          setFieldShown('receiver', false);
-          setFieldShown('prefectures', false);
-          setFieldShown('city', false);
-          setFieldShown('Contractor', false);
-          setFieldShown('instName', false);
-          setSpaceShown('btn_newINST', 'individual', 'none');
-          setSpaceShown('btn_unknowINST', 'individual', 'none');
-
-          setFieldShown('deliveryCorp', false);
-          setFieldShown('trckNum', false);
-          setFieldShown('sendDate', false);
-          setFieldShown('expArrivalDate', false);
-          break;
-        case '#納品依頼リスト':
-          setFieldShown('prjNum', false);
-          setFieldShown('Exist_Project', false);
-          setFieldShown('salesType', false);
-          setFieldShown('predictDate', false);
-          setFieldShown('purchaseOrder', false);
-          setFieldShown('prjMemo', false);
-          setFieldShown('samePRJ', false);
-
-          setFieldShown('cName', false);
-          setFieldShown('orgName', false);
-          setFieldShown('cSales', false);
-          setFieldShown('instStatus', false);
-          setFieldShown('instDate', false);
-          setFieldShown('instDDday', false);
-
-          setFieldShown('tarDate', true);
-          setFieldShown('aboutDelivery', true);
-          setFieldShown('deviceList', true);
-
-          setFieldShown('dstSelection', false);
-          setFieldShown('zipcode', false);
-          setFieldShown('phoneNum', false);
-          setFieldShown('address', false);
-          setFieldShown('buildingName', false);
-          setFieldShown('corpName', false);
-          setFieldShown('receiver', false);
-          setFieldShown('prefectures', false);
-          setFieldShown('city', false);
-          setFieldShown('Contractor', false);
-          setFieldShown('instName', false);
-          setSpaceShown('btn_newINST', 'individual', 'none');
-          setSpaceShown('btn_unknowINST', 'individual', 'none');
 
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
@@ -183,35 +112,80 @@
           setFieldShown('expArrivalDate', false);
           break;
         case '#宛先情報':
-          var eRecord = kintone.app.record.get();
           setFieldShown('prjNum', false);
           setFieldShown('Exist_Project', false);
           setFieldShown('salesType', false);
           setFieldShown('predictDate', false);
           setFieldShown('purchaseOrder', false);
+          setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
 
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
+          setFieldShown('instName', false);
+          setSpaceShown('btn_newINST','individual','none');
+          setSpaceShown('btn_unknowINST','individual','none');
           setFieldShown('cSales', false);
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
 
+          setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('tarDate', false);
           setFieldShown('aboutDelivery', false);
           setFieldShown('deviceList', false);
+
+          setFieldShown('dstSelection', true);
+          setFieldShown('receiver', true);
+          setFieldShown('phoneNum', true);
+          setFieldShown('zipcode', true);
+          setFieldShown('prefectures', true);
+          setFieldShown('city', true);
+          setFieldShown('address', true);
+          setFieldShown('buildingName', true);
+          setFieldShown('corpName', true);
+
+          setFieldShown('deliveryCorp', false);
+          setFieldShown('trckNum', false);
+          setFieldShown('sendDate', false);
+          setFieldShown('expArrivalDate', false);
+          break;
+        case '#納品明細':
+          setFieldShown('prjNum', false);
+          setFieldShown('Exist_Project', false);
+          setFieldShown('salesType', false);
+          setFieldShown('predictDate', false);
+          setFieldShown('purchaseOrder', false);
+          setFieldShown('purchaseOrder_status', false);
+          setFieldShown('prjMemo', false);
+          setFieldShown('samePRJ', false);
+
+          setFieldShown('cName', false);
+          setFieldShown('orgName', false);
+          setFieldShown('instName', false);
+          setSpaceShown('btn_newINST','individual','none');
+          setSpaceShown('btn_unknowINST','individual','none');
+          setFieldShown('cSales', false);
+          setFieldShown('instStatus', false);
+          setFieldShown('instDate', false);
+          setFieldShown('instDDday', false);
+          setFieldShown('Contractor', false);
+
+          setSpaceShown('calBtn', 'line', 'block');
+          setFieldShown('tarDate', true);
+          setFieldShown('aboutDelivery', true);
+          setFieldShown('deviceList', true);
+
           setFieldShown('dstSelection', false);
-          setFieldShown('zipcode', false);
+          setFieldShown('receiver', false);
           setFieldShown('phoneNum', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
           setFieldShown('address', false);
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
-          setFieldShown('receiver', false);
-          setFieldShown('prefectures', false);
-          setFieldShown('city', false);
-          doSelection(pageRecod);
 
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
@@ -224,33 +198,35 @@
           setFieldShown('salesType', false);
           setFieldShown('predictDate', false);
           setFieldShown('purchaseOrder', false);
+          setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
 
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
+          setFieldShown('instName', false);
+          setSpaceShown('btn_newINST','individual','none');
+          setSpaceShown('btn_unknowINST','individual','none');
           setFieldShown('cSales', false);
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
+          setFieldShown('Contractor', false);
 
-          setFieldShown('tarDate', false);
+          setSpaceShown('calBtn', 'line', 'none');
+          setFieldShown('tarDate', true);
           setFieldShown('aboutDelivery', false);
           setFieldShown('deviceList', false);
 
           setFieldShown('dstSelection', false);
-          setFieldShown('zipcode', false);
+          setFieldShown('receiver', false);
           setFieldShown('phoneNum', false);
+          setFieldShown('zipcode', false);
+          setFieldShown('prefectures', false);
+          setFieldShown('city', false);
           setFieldShown('address', false);
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
-          setFieldShown('receiver', false);
-          setFieldShown('prefectures', false);
-          setFieldShown('city', false);
-          setFieldShown('Contractor', false);
-          setFieldShown('instName', false);
-          setSpaceShown('btn_newINST', 'individual', 'none');
-          setSpaceShown('btn_unknowINST', 'individual', 'none');
 
           setFieldShown('deliveryCorp', true);
           setFieldShown('trckNum', true);
@@ -261,7 +237,7 @@
     }
     tabSwitch('#案件情報');
     //タブメニュー作成
-    tabMenu('tab_project', ['案件情報', '設置先情報', '宛先情報', '納品依頼リスト', '輸送情報']);
+    tabMenu('tab_project', ['案件情報', '宛先情報', '納品明細', '輸送情報']);
     //タブ切り替え表示設定
     $('.tab_project a').on('click', function () {
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
@@ -303,7 +279,7 @@
 
   kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection', 'app.record.create.change.sys_instAddress', 'app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_unitAddress', 'app.record.edit.change.sys_unitAddress'], function (event) {
 
-    doSelection(event.record);
+    do_dstSelection(event.record);
 
     return event;
   });
@@ -364,94 +340,94 @@
     });
   */
 
-  function doSelection(pageRecod) {
-    var selection = pageRecod.dstSelection.value;
+  function do_dstSelection(eRecords) {
+    var selection = eRecords.dstSelection.value;
     if (selection == '施工業者/拠点へ納品') {
       setFieldShown('Contractor', true);
       setFieldShown('instName', false);
       setSpaceShown('btn_newINST', 'individual', 'none');
       setSpaceShown('btn_unknowINST', 'individual', 'none');
-      pageRecod.receiver.disabled = true;
-      pageRecod.phoneNum.disabled = true;
-      pageRecod.zipcode.disabled = true;
-      pageRecod.prefectures.disabled = true;
-      pageRecod.city.disabled = true;
-      pageRecod.address.disabled = true;
-      pageRecod.buildingName.disabled = true;
-      pageRecod.corpName.disabled = true;
-      if (pageRecod.sys_unitAddress.value !== undefined) {
-        var unitAddress = pageRecod.sys_unitAddress.value.split(',');
-        pageRecod.receiver.value = unitAddress[0];
-        pageRecod.phoneNum.value = unitAddress[1];
-        pageRecod.zipcode.value = unitAddress[2];
-        pageRecod.prefectures.value = unitAddress[3];
-        pageRecod.city.value = unitAddress[4];
-        pageRecod.address.value = unitAddress[5];
-        pageRecod.buildingName.value = unitAddress[6];
-        pageRecod.corpName.value = unitAddress[7];
+      eRecords.receiver.disabled = true;
+      eRecords.phoneNum.disabled = true;
+      eRecords.zipcode.disabled = true;
+      eRecords.prefectures.disabled = true;
+      eRecords.city.disabled = true;
+      eRecords.address.disabled = true;
+      eRecords.buildingName.disabled = true;
+      eRecords.corpName.disabled = true;
+      if (eRecords.sys_unitAddress.value !== undefined) {
+        var unitAddress = eRecords.sys_unitAddress.value.split(',');
+        eRecords.receiver.value = unitAddress[0];
+        eRecords.phoneNum.value = unitAddress[1];
+        eRecords.zipcode.value = unitAddress[2];
+        eRecords.prefectures.value = unitAddress[3];
+        eRecords.city.value = unitAddress[4];
+        eRecords.address.value = unitAddress[5];
+        eRecords.buildingName.value = unitAddress[6];
+        eRecords.corpName.value = unitAddress[7];
       }
     } else if (selection == '設置先と同じ') {
       setFieldShown('Contractor', false);
       setFieldShown('instName', true);
-      if (pageRecod.instName.value == undefined) {
+      if (eRecords.instName.value == undefined) {
         setSpaceShown('btn_newINST', 'individual', 'block');
         setSpaceShown('btn_unknowINST', 'individual', 'block');
       } else {
         setSpaceShown('btn_newINST', 'individual', 'none');
         setSpaceShown('btn_unknowINST', 'individual', 'none');
       }
-      pageRecod.receiver.disabled = false;
-      pageRecod.phoneNum.disabled = false;
-      pageRecod.zipcode.disabled = false;
-      pageRecod.prefectures.disabled = false;
-      pageRecod.city.disabled = false;
-      pageRecod.address.disabled = false;
-      pageRecod.buildingName.disabled = false;
-      pageRecod.corpName.disabled = false;
-      if (pageRecod.sys_instAddress.value !== undefined) {
-        var instAddress = pageRecod.sys_instAddress.value.split(',');
-        pageRecod.receiver.value = instAddress[0];
-        pageRecod.phoneNum.value = instAddress[1];
-        pageRecod.zipcode.value = instAddress[2];
-        pageRecod.prefectures.value = instAddress[3];
-        pageRecod.city.value = instAddress[4];
-        pageRecod.address.value = instAddress[5];
-        pageRecod.buildingName.value = instAddress[6];
-        pageRecod.corpName.value = instAddress[7];
+      eRecords.receiver.disabled = false;
+      eRecords.phoneNum.disabled = false;
+      eRecords.zipcode.disabled = false;
+      eRecords.prefectures.disabled = false;
+      eRecords.city.disabled = false;
+      eRecords.address.disabled = false;
+      eRecords.buildingName.disabled = false;
+      eRecords.corpName.disabled = false;
+      if (eRecords.sys_instAddress.value !== undefined) {
+        var instAddress = eRecords.sys_instAddress.value.split(',');
+        eRecords.receiver.value = instAddress[0];
+        eRecords.phoneNum.value = instAddress[1];
+        eRecords.zipcode.value = instAddress[2];
+        eRecords.prefectures.value = instAddress[3];
+        eRecords.city.value = instAddress[4];
+        eRecords.address.value = instAddress[5];
+        eRecords.buildingName.value = instAddress[6];
+        eRecords.corpName.value = instAddress[7];
       }
     } else if (selection == '担当手渡し') {
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
       setSpaceShown('btn_newINST', 'individual', 'none');
       setSpaceShown('btn_unknowINST', 'individual', 'none');
-      pageRecod.receiver.disabled = false;
-      pageRecod.phoneNum.disabled = false;
-      pageRecod.zipcode.disabled = true;
-      pageRecod.prefectures.disabled = true;
-      pageRecod.city.disabled = true;
-      pageRecod.address.disabled = true;
-      pageRecod.buildingName.disabled = true;
-      pageRecod.corpName.disabled = true;
+      eRecords.receiver.disabled = false;
+      eRecords.phoneNum.disabled = false;
+      eRecords.zipcode.disabled = true;
+      eRecords.prefectures.disabled = true;
+      eRecords.city.disabled = true;
+      eRecords.address.disabled = true;
+      eRecords.buildingName.disabled = true;
+      eRecords.corpName.disabled = true;
 
-      pageRecod.zipcode.value = '';
-      pageRecod.prefectures.value = '';
-      pageRecod.city.value = '';
-      pageRecod.address.value = '';
-      pageRecod.buildingName.value = '';
-      pageRecod.corpName.value = '';
+      eRecords.zipcode.value = '';
+      eRecords.prefectures.value = '';
+      eRecords.city.value = '';
+      eRecords.address.value = '';
+      eRecords.buildingName.value = '';
+      eRecords.corpName.value = '';
     } else {
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
       setSpaceShown('btn_newINST', 'individual', 'none');
       setSpaceShown('btn_unknowINST', 'individual', 'none');
-      pageRecod.receiver.disabled = false;
-      pageRecod.phoneNum.disabled = false;
-      pageRecod.zipcode.disabled = false;
-      pageRecod.prefectures.disabled = false;
-      pageRecod.city.disabled = false;
-      pageRecod.address.disabled = false;
-      pageRecod.buildingName.disabled = false;
-      pageRecod.corpName.disabled = false;
+      eRecords.receiver.disabled = false;
+      eRecords.phoneNum.disabled = false;
+      eRecords.zipcode.disabled = false;
+      eRecords.prefectures.disabled = false;
+      eRecords.city.disabled = false;
+      eRecords.address.disabled = false;
+      eRecords.buildingName.disabled = false;
+      eRecords.corpName.disabled = false;
     }
   }
   /**
@@ -497,29 +473,6 @@
     searchBtn.value = '検索';
     eSearchArea.appendChild(searchBtn);
 
-    // var searchType=document.createElement('div');
-    // searchType.id='SearchType';
-    // var sTypeSelection_or=document.createElement('input');
-    // sTypeSelection_or.id='sts_or';
-    // sTypeSelection_or.name='searchType';
-    // sTypeSelection_or.type='radio';
-    // sTypeSelection_or.value='or';
-    // searchType.appendChild(sTypeSelection_or);
-    // var sTypeLabel_or=document.createElement('label');
-    // sTypeLabel_or.htmlFor='sts_or';
-    // sTypeLabel_or.innerText='いずれかの条件を満たす';
-    // searchType.appendChild(sTypeLabel_or);
-    // var sTypeSelection_and=document.createElement('input');
-    // sTypeSelection_and.id='sts_and';
-    // sTypeSelection_and.name='searchType';
-    // sTypeSelection_and.type='radio';
-    // sTypeSelection_and.value='and';
-    // searchType.appendChild(sTypeSelection_and);
-    // var sTypeLabel_and=document.createElement('label');
-    // sTypeLabel_and.htmlFor='sts_and';
-    // sTypeLabel_and.innerText='すべての条件を満たす';
-    // searchType.appendChild(sTypeLabel_and);
-    // eSearchArea.appendChild(searchType);
     var searchTargetArea = document.createElement('form');
     searchTargetArea.id = 'searchTargets';
     searchTargetArea.name = 'searchTargets';
@@ -554,7 +507,12 @@
     setEasySearch({
       sID: 'eSearch',
       sPlaceholder: '総合検索',
-      sConditions: [{
+      sConditions: [
+        {
+          fCode: 'prjTitle',
+          fName: 'タイトル'
+        },
+        {
           fCode: 'invoiceNum',
           fName: '請求書番号'
         },
@@ -608,26 +566,6 @@
       // document.searchTargets.searchTarget[1].checked=true;
 
     });
-    // setEasySearch({
-    //   id:'eSearch',
-    //   placeholder:'総合検索',
-    //   target:['invoiceNum','prjNum']
-    //   // easySearch:{sID:'invoiceNum',sName:'請求書番号'},
-    //   // searchConditions:[
-    //   //   {sID:'invoiceNum',sName:'請求書番号'},
-    //   //   {sID:'prjNum',sName:'案件管理番号'}
-    //   // ]
-    // });
-    // ={
-    //   areaID:'prjSearch',
-    //   searchType:'or',
-    //   searchConditions:[
-    //     {tar_fCode:'invoiceNum',tar_fValue:''},
-    //     {tar_fCode:'prjNum',tar_fValue:''}
-    //   ]
-    // };
-    //GET引数に格納された直前の検索キーワードを取得して再表示
-
 
     return event;
   });

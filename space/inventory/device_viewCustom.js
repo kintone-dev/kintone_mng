@@ -10,7 +10,6 @@
     'app.record.edit.show'
   ];
   kintone.events.on(events_ced, function (event) {
-
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     //sti: subTable i
     for (var sti in event.record.uStockList.value) {
@@ -34,6 +33,7 @@
           setFieldShown('mMemo', true);
           setFieldShown('mCostUpdate', false);
           setFieldShown('deviceCost', false);
+          setFieldShown('deviceCost_foreign', false);
           setFieldShown('importExpenses', false);
           setFieldShown('developCost', false);
           setFieldShown('totalStock', false);
@@ -52,6 +52,7 @@
           setFieldShown('mCost', false);
           setFieldShown('mCostUpdate', false);
           setFieldShown('deviceCost', false);
+          setFieldShown('deviceCost_foreign', false);
           setFieldShown('importExpenses', false);
           setFieldShown('developCost', false);
           setFieldShown('totalStock', true);
@@ -70,6 +71,7 @@
           setFieldShown('mCost', true);
           setFieldShown('mCostUpdate', true);
           setFieldShown('deviceCost', true);
+          setFieldShown('deviceCost_foreign', true);
           setFieldShown('importExpenses', true);
           setFieldShown('developCost', true);
           setFieldShown('totalStock', false);
@@ -88,6 +90,7 @@
           setFieldShown('mCost', false);
           setFieldShown('mCostUpdate', false);
           setFieldShown('deviceCost', false);
+          setFieldShown('deviceCost_foreign', false);
           setFieldShown('importExpenses', false);
           setFieldShown('developCost', false);
           setFieldShown('totalStock', false);
@@ -127,9 +130,10 @@
     for (var sti in event.record.packageComp.value) {
       event.record.packageComp.value[sti].value.pc_mVendor.disabled = true;
       event.record.packageComp.value[sti].value.pc_mType.disabled = true;
-      event.record.packageComp.value[sti].value.pc_mCode.disabled = true;
       event.record.packageComp.value[sti].value.pc_mName.disabled = true;
       event.record.packageComp.value[sti].value.pc_Num.disabled = true;
+      event.record.packageComp.value[sti].value.pc_mNickname.disabled = true;
+      event.record.packageComp.value[sti].value.pc_mCode.disabled = true;
     }
     return event;
   });
@@ -146,11 +150,12 @@
       event.record.warranty.disabled = false;
       event.record.mClassification.disabled = false;
       for (var sti in event.record.packageComp.value) {
-        event.record.packageComp.value[sti].value.pc_mVendor.disabled = false;
-        event.record.packageComp.value[sti].value.pc_mType.disabled = false;
-        event.record.packageComp.value[sti].value.pc_mCode.disabled = false;
-        event.record.packageComp.value[sti].value.pc_mName.disabled = false;
+        // event.record.packageComp.value[sti].value.pc_mVendor.disabled = false;
+        // event.record.packageComp.value[sti].value.pc_mType.disabled = false;
+        // event.record.packageComp.value[sti].value.pc_mName.disabled = false;
+        // event.record.packageComp.value[sti].value.pc_mNickname.disabled = false;
         event.record.packageComp.value[sti].value.pc_Num.disabled = false;
+        event.record.packageComp.value[sti].value.pc_mCode.disabled = false;
       }
     } else {
       // チェックボックスがチェックされていない
@@ -167,6 +172,7 @@
         event.record.packageComp.value[sti].value.pc_mType.disabled = true;
         event.record.packageComp.value[sti].value.pc_mCode.disabled = true;
         event.record.packageComp.value[sti].value.pc_mName.disabled = true;
+        event.record.packageComp.value[sti].value.pc_mNickname.disabled = true;
         event.record.packageComp.value[sti].value.pc_Num.disabled = true;
       }
     }
@@ -191,23 +197,23 @@
     return event;
   })
 
-  // indexページでの編集、削除ボタン削除
-  var events_ced = [
-    'app.record.index.show',
-    'app.record.detail.show',
-    'app.record.create.show',
-    'app.record.edit.show',
-    'app.record.print.show',
-    'app.report.show',
-    'portal.show',
-    'space.portal.show'
-  ];
-  kintone.events.on(events_ced, function (event) {
-    $('.recordlist-edit-gaia').remove();
-    $('.recordlist-remove-gaia').remove();
-    $('.gaia-argoui-app-menu-edit').remove();
-    $('.gaia-argoui-app-menu-copy').remove();
-    return event;
-  });
+  // 編集、削除ボタン削除
+  // var events_ced = [
+  //   'app.record.index.show',
+  //   'app.record.detail.show',
+  //   'app.record.create.show',
+  //   'app.record.edit.show',
+  //   'app.record.print.show',
+  //   'app.report.show',
+  //   'portal.show',
+  //   'space.portal.show'
+  // ];
+  // kintone.events.on(events_ced, function (event) {
+  //   $('.recordlist-edit-gaia').remove();
+  //   $('.recordlist-remove-gaia').remove();
+  //   $('.gaia-argoui-app-menu-edit').remove();
+  //   $('.gaia-argoui-app-menu-copy').remove();
+  //   return event;
+  // });
 
 })();
