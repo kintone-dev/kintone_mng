@@ -165,6 +165,8 @@
 
       return event;
     });
+
+    return event;
 });
 
 })();
