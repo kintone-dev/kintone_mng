@@ -81,6 +81,7 @@
       var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
 
       for (var i in event.record.forecastList.value) {
+        console.log(i);
         var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
         var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
         var queryYears = String(reportDate.getFullYear());
