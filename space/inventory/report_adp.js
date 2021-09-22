@@ -23,7 +23,7 @@
         .then(function (resp) {
 
           for(var i in resp.records){
-            if(forecastList.some(item => item.value.forecast_mCode.value === resp.records[i].mCode.value)){
+            if(forecastList.some(item => item.value.forecast_mCode.value !== resp.records[i].mCode.value)){
               var newForecastListBody = {
                 'value':{
                   'forecast_mCode':{
