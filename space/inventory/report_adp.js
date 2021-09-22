@@ -78,18 +78,17 @@
       var forecastList = event.record.forecastList.value;
       var invoiceYears = event.record.invoiceYears.value;
       var invoiceMonth = event.record.invoiceMonth.value;
+      var reportDate = new Date(invoiceYears, invoiceMonth);
 
       for (var i in event.record.forecastList.value) {
         var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
-        var formatInvoiceMonth = parseInt(invoiceMonth) + parseInt(mLeadTime);
-        if (formatInvoiceMonth > 12) {
-          formatInvoiceMonth = parseInt(formatInvoiceMonth) - 12;
-        }
-        var queryData = invoiceYears + '-' + formatInvoiceMonth + '-' + 31;
+
+        var queryDate = String(reportDate.getFullYear()) + String(("0" + (reportDate.getMonth() + parseInt(mLeadTime))).slice(-2)) + 31;
+        console.log(queryDate);
 
         var getPurchasingBody = {
           'app': sysid.INV.app_id.purchasing,
-          'query': 'arrivalDate <= "' + queryData + '" and ステータス in ("仕入完了")'
+          'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
         }
 
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody)
