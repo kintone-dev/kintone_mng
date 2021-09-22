@@ -171,6 +171,8 @@
               postShipData.push(postShipSubBody);
             }
 
+            console.log(postShipData);
+
             // 入出荷管理に情報連携
             var postBody = {
               'app': sysid.INV.app_id.shipment,
