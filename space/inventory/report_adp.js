@@ -99,6 +99,7 @@
               for (var k in resp.records[j].arrivalList.value) {
                 if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
                   console.log('ok');
+                  console.log(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
                   totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
                 }
               }
