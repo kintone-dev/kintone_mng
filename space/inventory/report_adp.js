@@ -72,13 +72,15 @@
           newList.push(inventoryList[i]);
         }
       }
+
       event.record.inventoryList.value = newList;
+      return event;
     } else if(event.record.EoMcheck.value == '締切'){
-      var forecastList = event.record.forecastList.value;
-      forecastList[3].value.forecast_arrival.value = 10;
+      event.record.forecastList.value[3].value.forecast_arrival.value = 10;
+      return event;
     }
 
-    return event;
+
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
