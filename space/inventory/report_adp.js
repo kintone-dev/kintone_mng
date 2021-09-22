@@ -74,6 +74,8 @@
       }
 
       event.record.inventoryList.value = newList;
+
+      return event;
     } else if (event.record.EoMcheck.value == '一時確認') {
       // 製品別在庫残数処理
       var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
@@ -89,13 +91,13 @@
           'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
         }
 
-        kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody)
+        return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody)
           .then(function (resp) {
             var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
             var totalArrivalNum = 0;
-            for(var j in resp.records){
-              for(var k in resp.records[j].arrivalList.value){
-                if(forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value){
+            for (var j in resp.records) {
+              for (var k in resp.records[j].arrivalList.value) {
+                if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
                   totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
                 }
               }
@@ -107,7 +109,6 @@
 
       }
     }
-    return event;
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
