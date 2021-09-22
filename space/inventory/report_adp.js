@@ -73,6 +73,9 @@
         }
       }
       event.record.inventoryList.value = newList;
+    } else if(event.record.EoMcheck.value == '締切'){
+      var forecastList = event.record.forecastList.value;
+      forecastList[3].value.forecast_arrival.value = 10;
     }
 
     return event;
