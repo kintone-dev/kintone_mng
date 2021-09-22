@@ -78,46 +78,46 @@
       return event;
     } else if (event.record.EoMcheck.value == '一時確認') {
       // 製品別在庫残数処理
-      // var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
+      var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
 
-      // for (var i in event.record.forecastList.value) {
-      //   var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
-      //   var queryYears = String(reportDate.getFullYear());
-      //   var queryMonth = String(("0" + (reportDate.getMonth() + parseInt(mLeadTime))).slice(-2));
-      //   if (parseInt(queryMonth) > 12) {
-      //     queryMonth = parseInt(queryMonth) - 12;
-      //   }
-      //   var month31 = ['1', '3', '5', '7', '8', '10', '12'];
-      //   if (month31.includes(queryMonth)) {
-      //     var queryDate = 31;
-      //   } else {
-      //     var queryDate = 30;
-      //   }
-      //   var queryDate = queryYears + '-' + queryMonth + '-' + queryMonth;
-      //   var getPurchasingBody = {
-      //     'app': sysid.INV.app_id.purchasing,
-      //     'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
-      //   }
-      //   kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
-      //     console.log(resp);
-      //     var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
-      //     console.log(forecast_mCode);
-      //     var totalArrivalNum = 0;
-      //     for (var j in resp.records) {
-      //       for (var k in resp.records[j].arrivalList.value) {
-      //         console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
-      //         if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
-      //           totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
-      //         }
-      //       }
-      //     }
-      //     event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
-      //     console.log(event.record.forecastList.value[i].value.forecast_arrival.value);
-      //     return event;
-      //   }, function (e) {
-      //     console.error(e);
-      //   });
-      // }
+      for (var i in event.record.forecastList.value) {
+        var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
+        var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
+        var queryYears = String(reportDate.getFullYear());
+        var queryMonth = String(("0" + (reportDate.getMonth() + parseInt(mLeadTime))).slice(-2));
+        if (parseInt(queryMonth) > 12) {
+          queryMonth = parseInt(queryMonth) - 12;
+        }
+        var month31 = ['1', '3', '5', '7', '8', '10', '12'];
+        if (month31.includes(queryMonth)) {
+          var queryDate = 31;
+        } else {
+          var queryDate = 30;
+        }
+        var queryDate = queryYears + '-' + queryMonth + '-' + queryMonth;
+        var getPurchasingBody = {
+          'app': sysid.INV.app_id.purchasing,
+          'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
+        }
+        kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
+          console.log(resp);
+          console.log(forecast_mCode);
+          var totalArrivalNum = 0;
+          for (var j in resp.records) {
+            for (var k in resp.records[j].arrivalList.value) {
+              console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
+              if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
+                totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
+              }
+            }
+          }
+          event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
+          console.log(event.record.forecastList.value[i].value.forecast_arrival.value);
+          return event;
+        }, function (e) {
+          console.error(e);
+        });
+      }
 
       return event;
     }
