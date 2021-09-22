@@ -74,13 +74,11 @@
       }
 
       event.record.inventoryList.value = newList;
-      return event;
-    } else if(event.record.EoMcheck.value == '締切'){
+    } else if(event.record.EoMcheck.value == '一時確認'){
       event.record.forecastList.value[3].value.forecast_arrival.value = 10;
-      return event;
     }
 
-
+    return event;
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
