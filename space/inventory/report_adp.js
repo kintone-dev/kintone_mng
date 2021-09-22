@@ -75,9 +75,21 @@
 
       event.record.inventoryList.value = newList;
     } else if(event.record.EoMcheck.value == '一時確認'){
-      event.record.forecastList.value[3].value.forecast_arrival.value = 10;
-    }
+      var forecastList = event.record.forecastList.value;
 
+      for(var i in event.record.forecastList.value){
+        var getArrivalBody = {
+          'app': sysid.INV.app_id.unit,
+          'query':'arrivalDate <= "2021-12" and ステータス in ("仕入完了")'
+        }
+
+        return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
+        .then(function (resp) {
+          console.log(resp);
+        });
+
+      }
+    }
     return event;
   });
 
