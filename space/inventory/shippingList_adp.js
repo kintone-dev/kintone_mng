@@ -101,19 +101,17 @@
     };
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipBody)
       .then(function (resp) {
-        var records = [];
         var putStatusData = {
-          'app': sysid.PM.app_id.shipment,
-          'records': records
+          'app': sysid.INV.app_id.shipment,
+          'records': []
         }
-        console.log(JSON.stringify(putStatusData, null, '\t'));
         for (var i in resp.records) {
           if(resp.records[i].ステータス.value == '納品情報未確定'){
             var putStatusBody = {
               'id': resp.records[i].$id.value,
               'action': '処理開始'
             }
-            records.push(putStatusBody);
+            putStatusData.records.push(putStatusBody);
           }
         }
         console.log(JSON.stringify(putStatusData, null, '\t'));
