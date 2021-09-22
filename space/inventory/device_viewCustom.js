@@ -12,7 +12,7 @@
   kintone.events.on(events_ced, function (event) {
 
     //パッケージ内容編集不可
-    for(var i in packageComp){
+    for(var i in event.record.packageComp.value){
       event.record.packageComp.value[i].value.pc_mVendor.disabled = true;
       event.record.packageComp.value[i].value.pc_mType.disabled = true;
       event.record.packageComp.value[i].value.pc_mName.disabled = true;
