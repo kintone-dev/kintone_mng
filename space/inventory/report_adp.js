@@ -67,7 +67,7 @@
               forecastList.push(newForecastListBody);
             }
           }
-
+          console.log(forecastList);
           return event;
         });
     }
