@@ -9,74 +9,62 @@
     'app.record.edit.show',
     'app.record.create.show'
   ];
-  kintone.events.on(events_ced, function (event) {
-    setFieldShown('totalInventoryAmount', true);
-    setFieldShown('finishProduct', true);
-    setFieldShown('inProcess', true);
-    setFieldShown('totalAmountArrival', true);
-    setFieldShown('acquisitionCost', true);
-    setFieldShown('developmentCost', true);
-    setFieldShown('subscription', true);
-    setFieldShown('nonSalesAmount', true);
-    setFieldShown('inventoryList', false);
-    setSpaceShown('itemSortBtn', 'line', 'none');
-    setSpaceShown('locationSortBtn', 'line', 'none');
-
-    //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
-    [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
-    function tabSwitch(onSelect) {
-      switch (onSelect) {
-        case '#概要':
-          setFieldShown('totalInventoryAmount', true);
-          setFieldShown('finishProduct', true);
-          setFieldShown('inProcess', true);
-          setFieldShown('totalAmountArrival', true);
-          setFieldShown('acquisitionCost', true);
-          setFieldShown('developmentCost', true);
-          setFieldShown('subscription', true);
-          setFieldShown('nonSalesAmount', true);
-          setFieldShown('inventoryList', false);
-          setSpaceShown('itemSortBtn', 'line', 'none');
-          setSpaceShown('locationSortBtn', 'line', 'none');
-          break;
-        case '#在庫リスト':
-          setFieldShown('totalInventoryAmount', false);
-          setFieldShown('finishProduct', false);
-          setFieldShown('inProcess', false);
-          setFieldShown('totalAmountArrival', false);
-          setFieldShown('acquisitionCost', false);
-          setFieldShown('developmentCost', false);
-          setFieldShown('subscription', false);
-          setFieldShown('nonSalesAmount', false);
-          setFieldShown('inventoryList', true);
-          setSpaceShown('itemSortBtn', 'line', 'block');
-          setSpaceShown('locationSortBtn', 'line', 'block');
-          break;
-        case '#製品別在庫残数':
-          setFieldShown('totalInventoryAmount', false);
-          setFieldShown('finishProduct', false);
-          setFieldShown('inProcess', false);
-          setFieldShown('totalAmountArrival', false);
-          setFieldShown('acquisitionCost', false);
-          setFieldShown('developmentCost', false);
-          setFieldShown('subscription', false);
-          setFieldShown('nonSalesAmount', false);
-          setFieldShown('inventoryList', false);
-          setFieldShown('forecastList', true);
-          setSpaceShown('itemSortBtn', 'line', 'none');
-          setSpaceShown('locationSortBtn', 'line', 'none');
-          break;
-      }
-    }
-    tabSwitch('#在庫リスト');
-    tabMenu('tab_report', ['概要', '在庫リスト','製品別在庫残数']); //タブメニュー作成
-    $('.tabMenu a').on('click', function () { //タブメニュークリック時アクション
-      var idName = $(this).attr('href'); //タブ内のリンク名を取得
-      tabSwitch(idName); //tabをクリックした時の表示設定
-      return false;
-    });
-    return event;
-  });
+  // kintone.events.on(events_ced, function (event) {
+  //   //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
+  //   [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
+  //   function tabSwitch(onSelect) {
+  //     switch (onSelect) {
+  //       case '#概要':
+  //         setFieldShown('totalInventoryAmount', true);
+  //         setFieldShown('finishProduct', true);
+  //         setFieldShown('inProcess', true);
+  //         setFieldShown('totalAmountArrival', true);
+  //         setFieldShown('acquisitionCost', true);
+  //         setFieldShown('developmentCost', true);
+  //         setFieldShown('subscription', true);
+  //         setFieldShown('nonSalesAmount', true);
+  //         setFieldShown('inventoryList', false);
+  //         setSpaceShown('itemSortBtn', 'line', 'none');
+  //         setSpaceShown('locationSortBtn', 'line', 'none');
+  //         break;
+  //       case '#在庫リスト':
+  //         setFieldShown('totalInventoryAmount', false);
+  //         setFieldShown('finishProduct', false);
+  //         setFieldShown('inProcess', false);
+  //         setFieldShown('totalAmountArrival', false);
+  //         setFieldShown('acquisitionCost', false);
+  //         setFieldShown('developmentCost', false);
+  //         setFieldShown('subscription', false);
+  //         setFieldShown('nonSalesAmount', false);
+  //         setFieldShown('inventoryList', true);
+  //         setSpaceShown('itemSortBtn', 'line', 'block');
+  //         setSpaceShown('locationSortBtn', 'line', 'block');
+  //         break;
+  //       case '#製品別在庫残数':
+  //         setFieldShown('totalInventoryAmount', false);
+  //         setFieldShown('finishProduct', false);
+  //         setFieldShown('inProcess', false);
+  //         setFieldShown('totalAmountArrival', false);
+  //         setFieldShown('acquisitionCost', false);
+  //         setFieldShown('developmentCost', false);
+  //         setFieldShown('subscription', false);
+  //         setFieldShown('nonSalesAmount', false);
+  //         setFieldShown('inventoryList', false);
+  //         setFieldShown('forecastList', true);
+  //         setSpaceShown('itemSortBtn', 'line', 'none');
+  //         setSpaceShown('locationSortBtn', 'line', 'none');
+  //         break;
+  //     }
+  //   }
+  //   tabSwitch('#在庫リスト');
+  //   tabMenu('tab_report', ['概要', '在庫リスト','製品別在庫残数']); //タブメニュー作成
+  //   $('.tabMenu a').on('click', function () { //タブメニュークリック時アクション
+  //     var idName = $(this).attr('href'); //タブ内のリンク名を取得
+  //     tabSwitch(idName); //tabをクリックした時の表示設定
+  //     return false;
+  //   });
+  //   return event;
+  // });
 
   //ソートボタン表示、処理
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
@@ -191,8 +179,4 @@
     });
     return table;
   };
-
-  function stopTimer(setInt) {
-    clearInterval(setInt);
-  }
 })();
