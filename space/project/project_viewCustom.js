@@ -74,47 +74,6 @@
           else { setFieldShown('samePRJ', false); }
 
 
-          setFieldShown('cName', false);
-          setFieldShown('orgName', false);
-          setFieldShown('instName', false);
-          setSpaceShown('btn_newINST','individual','none');
-          setSpaceShown('btn_unknowINST','individual','none');
-          setFieldShown('cSales', false);
-          setFieldShown('instStatus', false);
-          setFieldShown('instDate', false);
-          setFieldShown('instDDday', false);
-          setFieldShown('Contractor', false);
-
-          setSpaceShown('calBtn', 'line', 'none');
-          setFieldShown('tarDate', false);
-          setFieldShown('aboutDelivery', false);
-          setFieldShown('deviceList', false);
-
-          setFieldShown('dstSelection', false);
-          setFieldShown('receiver', false);
-          setFieldShown('phoneNum', false);
-          setFieldShown('zipcode', false);
-          setFieldShown('prefectures', false);
-          setFieldShown('city', false);
-          setFieldShown('address', false);
-          setFieldShown('buildingName', false);
-          setFieldShown('corpName', false);
-
-          setFieldShown('deliveryCorp', false);
-          setFieldShown('trckNum', false);
-          setFieldShown('sendDate', false);
-          setFieldShown('expArrivalDate', false);
-          break;
-        case '#設置先情報':
-          setFieldShown('prjNum', false);
-          setFieldShown('Exist_Project', false);
-          setFieldShown('salesType', false);
-          setFieldShown('predictDate', false);
-          setFieldShown('purchaseOrder', false);
-          setFieldShown('purchaseOrder_status', false);
-          setFieldShown('prjMemo', false);
-          setFieldShown('samePRJ', false);
-
           setFieldShown('cName', true);
           setFieldShown('orgName', true);
           setFieldShown('instName', true);
@@ -278,7 +237,7 @@
     }
     tabSwitch('#案件情報');
     //タブメニュー作成
-    tabMenu('tab_project', ['案件情報', '設置先情報', '宛先情報', '納品明細', '輸送情報']);
+    tabMenu('tab_project', ['案件情報', '宛先情報', '納品明細', '輸送情報']);
     //タブ切り替え表示設定
     $('.tab_project a').on('click', function () {
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
