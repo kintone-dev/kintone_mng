@@ -83,6 +83,7 @@
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
+          setFieldShown('Contractor', false);
 
           setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('tarDate', false);
@@ -129,6 +130,7 @@
           setFieldShown('instStatus', true);
           setFieldShown('instDate', true);
           setFieldShown('instDDday', true);
+          setFieldShown('Contractor', false);
 
           setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('tarDate', false);
@@ -209,6 +211,7 @@
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
+          setFieldShown('Contractor', false);
 
           setSpaceShown('calBtn', 'line', 'block');
           setFieldShown('tarDate', true);
@@ -249,6 +252,7 @@
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
+          setFieldShown('Contractor', false);
 
           setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('tarDate', true);
