@@ -23,11 +23,43 @@
         .then(function (resp) {
           for(var i in resp.records){
             if(forecastList.some(item => item.value.forecast_mCode.value !== resp.records[i].mCode.value)){
-              console.log('ok');
               var newForecastListBody = {
                 'value':{
                   'forecast_mCode':{
+                    'type': "SINGLE_LINE_TEXT",
                     'value': resp.records[i].mCode.value
+                  },
+                  'forecast_mName':{
+                    'type': "SINGLE_LINE_TEXT",
+                    'value': resp.records[i].mName.value
+                  },
+                  'forecast_mStock':{
+                    'type': "NUMBER",
+                    'value': ''
+                  },
+                  'mOrderingPoint':{
+                    'type': "NUMBER",
+                    'value': ''
+                  },
+                  'mLeadTime':{
+                    'type': "NUMBER",
+                    'value': ''
+                  },
+                  'forecast_shipNum':{
+                    'type': "NUMBER",
+                    'value': ''
+                  },
+                  'forecast_arrival':{
+                    'type': "NUMBER",
+                    'value': ''
+                  },
+                  'afterLeadTimeStock':{
+                    'type': "NUMBER",
+                    'value': ''
+                  },
+                  'remainingNum':{
+                    'type': "NUMBER",
+                    'value': ''
                   }
                 }
               }
