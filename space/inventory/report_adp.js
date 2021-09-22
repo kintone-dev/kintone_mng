@@ -85,7 +85,7 @@
         if (formatInvoiceMonth > 12) {
           formatInvoiceMonth = parseInt(formatInvoiceMonth) - 12;
         }
-        var queryData = invoiceYears + formatInvoiceMonth + 31;
+        var queryData = invoiceYears + '-' + formatInvoiceMonth + '-' + 31;
 
         var getPurchasingBody = {
           'app': sysid.INV.app_id.purchasing,
