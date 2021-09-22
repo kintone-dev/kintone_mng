@@ -3,8 +3,9 @@
 
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', function (event) {
-
     var nStatus = event.nextStatus.value;
+
+    //入出荷管理に追加
     var getReportBody = {
       'app': sysid.INV.app_id.report,
       'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '" order by 更新日時 asc'
@@ -13,12 +14,11 @@
       .then(function (resp) {
         if (resp.records != 0) {
           for (var i in resp.records[0].EoMcheck.value) {
-            if (resp.records[0].EoMcheck.value[i] == '締切') {
+            if (resp.records[0].EoMcheck.value[i]=='締切') {
               event.error = '対応した日付のレポートは締切済みです。';
               return event;
             }
           }
-
           //ステータスが納品準備中の場合
           if (nStatus == '納品準備中') {
             var postShipData = [];
@@ -75,24 +75,97 @@
                 'value': event.record.$id.value
               }
             }
-            for (var pdv in event.record.deviceList.value) {
-              var devListBody = {
-                'value': {
-                  'mNickname': {
-                    'value': event.record.deviceList.value[pdv].value.mNickname.value
-                  },
-                  'shipNum': {
-                    'value': event.record.deviceList.value[pdv].value.shipNum.value
+            for (var i in event.record.deviceList.value) {
+              if(event.record.deviceList.value[i].value.subBtn.value == '通常'){
+                var devListBody = {
+                  'value': {
+                    'mNickname': {
+                      'value': event.record.deviceList.value[i].value.mNickname.value
+                    },
+                    'shipNum': {
+                      'value': event.record.deviceList.value[i].value.shipNum.value
+                    }
                   }
                 }
               }
               postShipBody.deviceList.value.push(devListBody);
             }
 
-            postShipData.push(postShipBody);
-            // 入出荷管理に情報連携
-            return postRecords(sysid.INV.app_id.shipment, postShipData);
+            var postShipSubBody = {
+              'aboutDelivery': {
+                'value': event.record.aboutDelivery.value
+              },
+              'tarDate': {
+                'value': event.record.tarDate.value
+              },
+              'dstSelection': {
+                'value': event.record.dstSelection.value
+              },
+              'Contractor': {
+                'value': event.record.Contractor.value
+              },
+              'instName': {
+                'value': event.record.instName.value
+              },
+              'receiver': {
+                'value': event.record.receiver.value
+              },
+              'phoneNum': {
+                'value': event.record.phoneNum.value
+              },
+              'zipcode': {
+                'value': event.record.zipcode.value
+              },
+              'prefectures': {
+                'value': event.record.prefectures.value
+              },
+              'city': {
+                'value': event.record.city.value
+              },
+              'address': {
+                'value': event.record.address.value
+              },
+              'buildingName': {
+                'value': event.record.buildingName.value
+              },
+              'corpName': {
+                'value': event.record.corpName.value
+              },
+              'sys_instAddress': {
+                'value': event.record.sys_instAddress.value
+              },
+              'sys_unitAddress': {
+                'value': event.record.sys_unitAddress.value
+              },
+              'deviceList': {
+                'value': []
+              },
+              'prjId': {
+                'value': event.record.$id.value
+              }
+            }
+            for (var i in event.record.deviceList.value) {
+              if(event.record.deviceList.value[i].value.subBtn.value == '予備'){
+                var devListBody = {
+                  'value': {
+                    'mNickname': {
+                      'value': event.record.deviceList.value[i].value.mNickname.value
+                    },
+                    'shipNum': {
+                      'value': event.record.deviceList.value[i].value.shipNum.value
+                    }
+                  }
+                }
+              }
+              postShipSubBody.deviceList.value.push(devListBody);
+            }
 
+            postShipData.push(postShipBody);
+            if(postShipSubBody.deviceList.value.length!=0){
+              postShipData.push(postShipSubBody);
+            }
+            // 入出荷管理に情報連携
+            postRecords(sysid.INV.app_id.shipment, postShipData);
           } else if (nStatus == '完了') {
             if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
               //積送在庫処理
