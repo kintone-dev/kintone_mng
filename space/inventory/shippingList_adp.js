@@ -105,6 +105,7 @@
           'app': sysid.PM.app_id.shipment,
           'records': []
         }
+        console.log(JSON.stringify(putStatusData, null, '\t'));
         for (var i in resp.records) {
           if(resp.records[i].ステータス.value == '納品情報未確定'){
             var putStatusBody = {
@@ -114,7 +115,6 @@
             putStatusData.records.push(putStatusBody);
           }
         }
-
         console.log(JSON.stringify(putStatusData, null, '\t'));
         return kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
       });
