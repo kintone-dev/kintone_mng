@@ -114,6 +114,8 @@
             putStatusData.records.push(putStatusBody);
           }
         }
+
+        console.log(JSON.stringify(putStatusData, null, '\t'));
         return kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
       });
   });
