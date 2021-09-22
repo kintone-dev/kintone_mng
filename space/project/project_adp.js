@@ -87,8 +87,8 @@
                     }
                   }
                 }
+                postShipBody.deviceList.value.push(devListBody);
               }
-              postShipBody.deviceList.value.push(devListBody);
             }
 
             var postShipSubBody = {
@@ -162,8 +162,8 @@
                     }
                   }
                 }
+                postShipSubBody.deviceList.value.push(devListBody);
               }
-              postShipSubBody.deviceList.value.push(devListBody);
             }
 
             postShipData.push(postShipBody);
