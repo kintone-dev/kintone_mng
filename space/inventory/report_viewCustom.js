@@ -51,6 +51,7 @@
           setFieldShown('inventoryList', true);
           setSpaceShown('itemSortBtn', 'line', 'block');
           setSpaceShown('locationSortBtn', 'line', 'block');
+          break;
         case '#製品別在庫残数':
           setFieldShown('totalInventoryAmount', false);
           setFieldShown('finishProduct', false);
@@ -61,6 +62,7 @@
           setFieldShown('subscription', false);
           setFieldShown('nonSalesAmount', false);
           setFieldShown('inventoryList', false);
+          setFieldShown('forecastList', true);
           setSpaceShown('itemSortBtn', 'line', 'none');
           setSpaceShown('locationSortBtn', 'line', 'none');
           break;

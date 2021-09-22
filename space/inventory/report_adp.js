@@ -150,7 +150,12 @@
 
       api_getRecords(sysid.INV.app_id.device)
         .then(function (resp) {
-          console.log(resp);
+          var putStockData = [];
+          for(var i in event.record.forecastList.value){
+            var putStockListBody = {
+
+            }
+          }
         });
     } else {
       return event;
