@@ -98,6 +98,7 @@
             for (var j in resp.records) {
               for (var k in resp.records[j].arrivalList.value) {
                 if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
+                  console.log('ok');
                   totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
                 }
               }
@@ -108,7 +109,6 @@
           });
       }
 
-      console.log(event.record);
       return event;
     }
   });
