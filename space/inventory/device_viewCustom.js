@@ -195,23 +195,23 @@
     return event;
   })
 
-  // indexページでの編集、削除ボタン削除
-  var events_ced = [
-    'app.record.index.show',
-    'app.record.detail.show',
-    'app.record.create.show',
-    'app.record.edit.show',
-    'app.record.print.show',
-    'app.report.show',
-    'portal.show',
-    'space.portal.show'
-  ];
-  kintone.events.on(events_ced, function (event) {
-    $('.recordlist-edit-gaia').remove();
-    $('.recordlist-remove-gaia').remove();
-    $('.gaia-argoui-app-menu-edit').remove();
-    $('.gaia-argoui-app-menu-copy').remove();
-    return event;
-  });
+  // 編集、削除ボタン削除
+  // var events_ced = [
+  //   'app.record.index.show',
+  //   'app.record.detail.show',
+  //   'app.record.create.show',
+  //   'app.record.edit.show',
+  //   'app.record.print.show',
+  //   'app.report.show',
+  //   'portal.show',
+  //   'space.portal.show'
+  // ];
+  // kintone.events.on(events_ced, function (event) {
+  //   $('.recordlist-edit-gaia').remove();
+  //   $('.recordlist-remove-gaia').remove();
+  //   $('.gaia-argoui-app-menu-edit').remove();
+  //   $('.gaia-argoui-app-menu-copy').remove();
+  //   return event;
+  // });
 
 })();
