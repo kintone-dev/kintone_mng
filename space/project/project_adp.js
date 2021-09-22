@@ -141,7 +141,7 @@
                 'value': []
               },
               'prjId': {
-                'value': event.record.$id.value
+                'value': event.record.$id.value + '-sub'
               }
             }
             for (var i in event.record.deviceList.value) {
