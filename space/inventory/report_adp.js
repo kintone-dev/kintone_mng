@@ -108,6 +108,7 @@
           });
       }
 
+      console.log(event.record);
       return event;
     }
   });
