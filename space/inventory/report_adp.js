@@ -99,6 +99,7 @@
           'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
         }
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
+          console.log(resp);
           var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
           var totalArrivalNum = 0;
           for (var j in resp.records) {
