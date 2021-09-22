@@ -140,15 +140,6 @@
 
   //パッケージ一覧編集時
   kintone.events.on(['app.record.create.change.pc_mCode','app.record.edit.change.pc_mCode'], function (event) {
-    for (var sti in event.record.packageComp.value) {
-      event.record.packageComp.value[sti].value.pc_mVendor.disabled = true;
-      event.record.packageComp.value[sti].value.pc_mType.disabled = true;
-      event.record.packageComp.value[sti].value.pc_mName.disabled = true;
-      event.record.packageComp.value[sti].value.pc_mNickname.disabled = true;
-      event.record.packageComp.value[sti].value.pc_Num.disabled = false;
-      event.record.packageComp.value[sti].value.pc_mCode.disabled = false;
-    }
-
     var deviceQuery = [];
     for(var i in event.record.packageComp.value){
       deviceQuery.push('"' + event.record.packageComp.value[i].value.pc_mCode.value + '"');
@@ -171,6 +162,16 @@
           }
         }
       }
+
+      for (var i in eRecord.record.packageComp.value) {
+        eRecord.record.packageComp.value[i].value.pc_mVendor.disabled = true;
+        eRecord.record.packageComp.value[i].value.pc_mType.disabled = true;
+        eRecord.record.packageComp.value[i].value.pc_mName.disabled = true;
+        eRecord.record.packageComp.value[i].value.pc_mNickname.disabled = true;
+        eRecord.record.packageComp.value[i].value.pc_Num.disabled = false;
+        eRecord.record.packageComp.value[i].value.pc_mCode.disabled = false;
+      }
+
 
       kintone.app.record.set(eRecord);
       return event;
