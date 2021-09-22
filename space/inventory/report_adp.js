@@ -2,6 +2,65 @@
   'use strict';
 
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+    var forecastList = event.record.forecastList.value;
+
+    return api_getRecords(sysid.INV.app_id.device)
+      .then(function (resp) {
+        for(var i in resp.records){
+          if(forecastList.some(item => item.value.forecast_mCode.value !== resp.records[i].mCode.value)){
+            var newForecastListBody = {
+              'value':{
+                'forecast_mCode':{
+                  'type': "SINGLE_LINE_TEXT",
+                  'value': resp.records[i].mCode.value
+                },
+                'forecast_mName':{
+                  'type': "SINGLE_LINE_TEXT",
+                  'value': ''
+                },
+                'forecast_mStock':{
+                  'type': "NUMBER",
+                  'value': ''
+                },
+                'mOrderingPoint':{
+                  'type': "NUMBER",
+                  'value': ''
+                },
+                'mLeadTime':{
+                  'type': "NUMBER",
+                  'value': ''
+                },
+                'forecast_shipNum':{
+                  'type': "NUMBER",
+                  'value': ''
+                },
+                'forecast_arrival':{
+                  'type': "NUMBER",
+                  'value': ''
+                },
+                'afterLeadTimeStock':{
+                  'type': "NUMBER",
+                  'value': '2'
+                },
+                'remainingNum':{
+                  'type': "NUMBER",
+                  'value': '2'
+                }
+              }
+            }
+            forecastList.push(newForecastListBody);
+          }
+        }
+
+        for(var i in forecastList){
+          forecastList[i].value.forecast_mCode.lookup = true;
+        }
+
+        return event;
+      });
+  });
+
+  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
 
     if (event.record.EoMcheck.value == '締切') {
       /**
@@ -16,63 +75,6 @@
         }
       }
       event.record.inventoryList.value = newList;
-    } else if (event.record.EoMcheck.value == '一時確認') {
-      var forecastList = event.record.forecastList.value;
-
-      return api_getRecords(sysid.INV.app_id.device)
-        .then(function (resp) {
-          console.log(resp.records);
-          for(var i in resp.records){
-            if(forecastList.some(item => item.value.forecast_mCode.value !== resp.records[i].mCode.value)){
-              var newForecastListBody = {
-                'value':{
-                  'forecast_mCode':{
-                    'type': "SINGLE_LINE_TEXT",
-                    'value': resp.records[i].mCode.value
-                  },
-                  'forecast_mName':{
-                    'type': "SINGLE_LINE_TEXT",
-                    'value': ''
-                  },
-                  'forecast_mStock':{
-                    'type': "NUMBER",
-                    'value': ''
-                  },
-                  'mOrderingPoint':{
-                    'type': "NUMBER",
-                    'value': ''
-                  },
-                  'mLeadTime':{
-                    'type': "NUMBER",
-                    'value': ''
-                  },
-                  'forecast_shipNum':{
-                    'type': "NUMBER",
-                    'value': ''
-                  },
-                  'forecast_arrival':{
-                    'type': "NUMBER",
-                    'value': ''
-                  },
-                  'afterLeadTimeStock':{
-                    'type': "NUMBER",
-                    'value': '2'
-                  },
-                  'remainingNum':{
-                    'type': "NUMBER",
-                    'value': '2'
-                  }
-                }
-              }
-              forecastList.push(newForecastListBody);
-            }
-          }
-          for(var i in forecastList){
-            forecastList[i].value.forecast_mCode.lookup = true;
-          }
-          console.log(forecastList);
-          return event;
-        });
     }
 
     return event;
