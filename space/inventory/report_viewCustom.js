@@ -24,6 +24,7 @@
           setFieldShown('subscription', true);
           setFieldShown('nonSalesAmount', true);
           setFieldShown('inventoryList', false);
+          setFieldShown('forecastList', false);
           setSpaceShown('itemSortBtn', 'line', 'none');
           setSpaceShown('locationSortBtn', 'line', 'none');
           break;
@@ -37,6 +38,7 @@
           setFieldShown('subscription', false);
           setFieldShown('nonSalesAmount', false);
           setFieldShown('inventoryList', true);
+          setFieldShown('forecastList', false);
           setSpaceShown('itemSortBtn', 'line', 'block');
           setSpaceShown('locationSortBtn', 'line', 'block');
           break;
