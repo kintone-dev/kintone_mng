@@ -21,6 +21,7 @@
 
       return api_getRecords(sysid.INV.app_id.device)
         .then(function (resp) {
+          console.log(resp);
           for(var i in resp.records){
             if(forecastList.some(item => item.value.forecast_mCode.value !== resp.records[i].mCode.value)){
               var newForecastListBody = {
