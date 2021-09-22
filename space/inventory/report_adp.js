@@ -21,6 +21,7 @@
 
       return api_getRecords(sysid.INV.app_id.device)
         .then(function (resp) {
+          console.log(resp.records);
           for(var i in resp.records){
             if(forecastList.some(item => item.value.forecast_mCode.value !== resp.records[i].mCode.value)){
               var newForecastListBody = {
@@ -29,21 +30,37 @@
                     'type': "SINGLE_LINE_TEXT",
                     'value': resp.records[i].mCode.value
                   },
+                  'forecast_mName':{
+                    'type': "SINGLE_LINE_TEXT",
+                    'value': ''
+                  },
+                  'forecast_mStock':{
+                    'type': "NUMBER",
+                    'value': ''
+                  },
+                  'mOrderingPoint':{
+                    'type': "NUMBER",
+                    'value': ''
+                  },
+                  'mLeadTime':{
+                    'type': "NUMBER",
+                    'value': ''
+                  },
                   'forecast_shipNum':{
                     'type': "NUMBER",
-                    'value': '1'
+                    'value': ''
                   },
                   'forecast_arrival':{
                     'type': "NUMBER",
-                    'value': '2'
+                    'value': ''
                   },
                   'afterLeadTimeStock':{
                     'type': "NUMBER",
-                    'value': '3'
+                    'value': '2'
                   },
                   'remainingNum':{
                     'type': "NUMBER",
-                    'value': '4'
+                    'value': '2'
                   }
                 }
               }
