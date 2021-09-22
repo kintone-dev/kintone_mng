@@ -21,51 +21,37 @@
 
       return api_getRecords(sysid.INV.app_id.device)
         .then(function (resp) {
-          console.log(resp.records);
           for(var i in resp.records){
             if(forecastList.some(item => item.value.forecast_mCode.value !== resp.records[i].mCode.value)){
               var newForecastListBody = {
                 'value':{
                   'forecast_mCode':{
                     'type': "SINGLE_LINE_TEXT",
-                    'value': '1'
-                  },
-                  'forecast_mName':{
-                    'type': "SINGLE_LINE_TEXT",
-                    'value': '2'
-                  },
-                  'forecast_mStock':{
-                    'type': "NUMBER",
-                    'value': ''
-                  },
-                  'mOrderingPoint':{
-                    'type': "NUMBER",
-                    'value': ''
-                  },
-                  'mLeadTime':{
-                    'type': "NUMBER",
-                    'value': ''
+                    'value': resp.records[i].mCode.value
                   },
                   'forecast_shipNum':{
                     'type': "NUMBER",
-                    'value': ''
+                    'value': '1'
                   },
                   'forecast_arrival':{
                     'type': "NUMBER",
-                    'value': ''
+                    'value': '2'
                   },
                   'afterLeadTimeStock':{
                     'type': "NUMBER",
-                    'value': ''
+                    'value': '3'
                   },
                   'remainingNum':{
                     'type': "NUMBER",
-                    'value': ''
+                    'value': '4'
                   }
                 }
               }
               forecastList.push(newForecastListBody);
             }
+          }
+          for(var i in forecastList){
+            forecastList[i].value.forecast_mCode.lookup = true;
           }
           console.log(forecastList);
           return event;
