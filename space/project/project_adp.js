@@ -14,7 +14,7 @@
       .then(function (resp) {
         if (resp.records != 0) {
           for (var i in resp.records[0].EoMcheck.value) {
-            if (resp.records[0].EoMcheck.value[i]=='締切') {
+            if (resp.records[0].EoMcheck.value[i] == '締切') {
               event.error = '対応した日付のレポートは締切済みです。';
               return event;
             }
@@ -76,7 +76,7 @@
               }
             }
             for (var i in event.record.deviceList.value) {
-              if(event.record.deviceList.value[i].value.subBtn.value == '通常'){
+              if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
                 var devListBody = {
                   'value': {
                     'mNickname': {
@@ -92,6 +92,9 @@
             }
 
             var postShipSubBody = {
+              'shipType': {
+                'value': '移動-拠点間'
+              },
               'aboutDelivery': {
                 'value': event.record.aboutDelivery.value
               },
@@ -102,7 +105,7 @@
                 'value': event.record.dstSelection.value
               },
               'Contractor': {
-                'value': event.record.Contractor.value
+                'value': '社内・社員予備機'
               },
               'instName': {
                 'value': event.record.instName.value
@@ -145,7 +148,7 @@
               }
             }
             for (var i in event.record.deviceList.value) {
-              if(event.record.deviceList.value[i].value.subBtn.value == '予備'){
+              if (event.record.deviceList.value[i].value.subBtn.value == '予備') {
                 var devListBody = {
                   'value': {
                     'mNickname': {
@@ -153,6 +156,9 @@
                     },
                     'shipNum': {
                       'value': event.record.deviceList.value[i].value.shipNum.value
+                    },
+                    'shipRemarks': {
+                      'value': '社員予備'
                     }
                   }
                 }
@@ -161,11 +167,33 @@
             }
 
             postShipData.push(postShipBody);
-            if(postShipSubBody.deviceList.value.length!=0){
+            if (postShipSubBody.deviceList.value.length != 0) {
               postShipData.push(postShipSubBody);
             }
+
             // 入出荷管理に情報連携
-            postRecords(sysid.INV.app_id.shipment, postShipData);
+            var postBody = {
+              'app': sysid.INV.app_id.shipment,
+              'records': postShipData,
+            }
+
+            return kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
+              .then(function (resp) {
+                var putStatusData = {
+                  'app': sysid.PM.app_id.shipment,
+                  'records':[]
+                }
+                for(var i in resp.ids){
+                  var putStatusBody ={
+                    'id': resp.ids[i],
+                    'action': '製品発送'
+                  }
+                  putStatusData.records.push(putStatusBody);
+                }
+
+                kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
+              });
+
           } else if (nStatus == '完了') {
             if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
               //積送在庫処理
@@ -269,7 +297,7 @@
                       };
                       return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
                         .then(function (resp) {
-                          if(resp.records.length != 0){
+                          if (resp.records.length != 0) {
                             //更新レポート情報格納配列
                             var reportStockData = [];
                             //更新レポート情報
@@ -330,7 +358,7 @@
 
     $.ajax({
       type: 'GET',
-      async:false
+      async: false
     }).done(function (data, status, xhr) {
       //請求月が今より過去の場合
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
