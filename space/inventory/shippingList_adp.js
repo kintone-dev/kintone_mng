@@ -93,6 +93,31 @@
     return event;
   });
 
+  // 納品情報未確定ステータス変更
+  kintone.events.on('app.record.index.show', function (event) {
+    var getShipBody = {
+      'app': sysid.INV.app_id.shipment,
+      'query': 'prjId != "" order by レコード番号'
+    };
+    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipBody)
+      .then(function (resp) {
+        var putStatusData = {
+          'app': sysid.PM.app_id.shipment,
+          'records': []
+        }
+        for (var i in resp.records) {
+          if(resp.records[i].ステータス.value == '納品情報未確定'){
+            var putStatusBody = {
+              'id': resp.records[i].$id.value,
+              'action': '処理開始'
+            }
+            putStatusData.records.push(putStatusBody);
+          }
+        }
+        return kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
+      });
+  });
+
   /* ---以下関数--- */
   // レポート処理
   const reportCreate = function (pageRecod, param) {
@@ -124,7 +149,7 @@
           var putReportData = [];
           //更新レポート情報
           var putReportBody = {
-            'id':resp.records[0].$id.value,
+            'id': resp.records[0].$id.value,
             'record': {
               'inventoryList': {
                 'value': resp.records[0].inventoryList.value

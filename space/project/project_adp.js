@@ -171,31 +171,8 @@
               postShipData.push(postShipSubBody);
             }
 
-            console.log(postShipData);
-
             // 入出荷管理に情報連携
-            var postBody = {
-              'app': sysid.INV.app_id.shipment,
-              'records': postShipData,
-            }
-
-            return kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
-              .then(function (resp) {
-                console.log(resp);
-                var putStatusData = {
-                  'app': sysid.PM.app_id.shipment,
-                  'records':[]
-                }
-                for(var i in resp.ids){
-                  var putStatusBody ={
-                    'id': resp.ids[i],
-                    'action': '処理開始'
-                  }
-                  putStatusData.records.push(putStatusBody);
-                }
-
-                kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
-              });
+            postRecords(sysid.INV.app_id.shipment, postShipData);
 
           } else if (nStatus == '完了') {
             if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
