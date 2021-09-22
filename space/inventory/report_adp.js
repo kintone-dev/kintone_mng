@@ -81,8 +81,6 @@
       var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
 
       for (var i in event.record.forecastList.value) {
-        var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
-        console.log(forecast_mCode);
         var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
         var queryYears = String(reportDate.getFullYear());
         var queryMonth = String(("0" + (reportDate.getMonth() + parseInt(mLeadTime))).slice(-2));
@@ -101,14 +99,14 @@
           'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
         }
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
-          console.log(resp);
-          console.log(forecast_mCode);
           var totalArrivalNum = 0;
-          for (var j in resp.records) {
-            for (var k in resp.records[j].arrivalList.value) {
-              console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
-              if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
-                totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
+          for(var a in event.record.forecastList.value){
+            for (var j in resp.records) {
+              for (var k in resp.records[j].arrivalList.value) {
+                console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
+                if (event.record.forecastList.value[a].value.forecast_mCode.value == resp.records[j].arrivalList.value[k].value.mCode.value) {
+                  totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
+                }
               }
             }
           }
