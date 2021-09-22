@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+  kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     var forecastList = event.record.forecastList.value;
 
     return api_getRecords(sysid.INV.app_id.device)
