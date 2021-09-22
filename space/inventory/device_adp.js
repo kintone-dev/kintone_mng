@@ -148,17 +148,17 @@
       'app': sysid.INV.app_id.device,
       'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
     };
-    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPacBody)
+    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPacBody)
     .then(function (resp) {
       console.log(resp.records);
 
       for(var i in event.record.packageComp.value){
         for(var j in resp.records){
-          if(event.record.packageComp.value[i].value.pc_mCode.value == resp.records[j].value.mCode.value){
-            event.record.packageComp.value[i].value.pc_mVendor.value = resp.records[j].value.mVendor.value;
-            event.record.packageComp.value[i].value.pc_mType.value = resp.records[j].value.mType.value;
-            event.record.packageComp.value[i].value.pc_mName.value = resp.records[j].value.mName.value;
-            event.record.packageComp.value[i].value.pc_mNickname.value = resp.records[j].value.mNickname.value;
+          if(event.record.packageComp.value[i].value.pc_mCode.value == resp.records[j].mCode.value){
+            event.record.packageComp.value[i].value.pc_mVendor.value = resp.records[j].mVendor.value;
+            event.record.packageComp.value[i].value.pc_mType.value = resp.records[j].mType.value;
+            event.record.packageComp.value[i].value.pc_mName.value = resp.records[j].mName.value;
+            event.record.packageComp.value[i].value.pc_mNickname.value = resp.records[j].mNickname.value;
           }
         }
       }

@@ -132,6 +132,7 @@
       event.record.packageComp.value[sti].value.pc_mType.disabled = true;
       event.record.packageComp.value[sti].value.pc_mName.disabled = true;
       event.record.packageComp.value[sti].value.pc_Num.disabled = true;
+      event.record.packageComp.value[sti].value.pc_mNickname.disabled = true;
       event.record.packageComp.value[sti].value.pc_mCode.disabled = true;
     }
     return event;
