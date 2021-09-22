@@ -16,8 +16,29 @@
         }
       }
       event.record.inventoryList.value = newList;
+    } else if (event.record.EoMcheck.value == '一時確認') {
+      var forecastList = event.record.forecastList.value;
 
+      api_getRecords(sysid.INV.app_id.device)
+        .then(function (resp) {
+
+          for(var i in resp.records){
+            if(forecastList.some(item => item.value.forecast_mCode.value === resp.records[i].mCode.value)){
+              var newForecastListBody = {
+                'value':{
+                  'forecast_mCode':{
+                    'value': resp.records[i].mCode.value
+                  }
+                }
+              }
+              forecastList.push(newForecastListBody);
+            }
+          }
+
+          return event;
+        });
     }
+
     return event;
   });
 
@@ -145,17 +166,6 @@
           }
 
           return event;
-        });
-    } else if (event.record.EoMcheck.value == '一時確認') {
-
-      api_getRecords(sysid.INV.app_id.device)
-        .then(function (resp) {
-          var putStockData = [];
-          for(var i in event.record.forecastList.value){
-            var putStockListBody = {
-
-            }
-          }
         });
     } else {
       return event;
