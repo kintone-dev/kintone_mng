@@ -84,10 +84,10 @@
         var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
         var queryYears = String(reportDate.getFullYear());
         var queryMonth = String(("0" + (reportDate.getMonth() + parseInt(mLeadTime))).slice(-2));
-        var month31 = ['1', '3', '5', '7', '8', '10', '12'];
         if (parseInt(queryMonth) > 12) {
           queryMonth = parseInt(queryMonth) - 12;
         }
+        var month31 = ['1', '3', '5', '7', '8', '10', '12'];
         if (month31.includes(queryMonth)) {
           var queryDate = 31;
         } else {
@@ -101,9 +101,11 @@
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
           console.log(resp);
           var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
+          console.log(forecast_mCode);
           var totalArrivalNum = 0;
           for (var j in resp.records) {
             for (var k in resp.records[j].arrivalList.value) {
+              console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
               if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
                 totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
               }
