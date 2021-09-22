@@ -93,17 +93,21 @@
 
         kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody)
           .then(function (resp) {
+            console.log(resp);
             var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
+
             var totalArrivalNum = 0;
             for (var j in resp.records) {
               for (var k in resp.records[j].arrivalList.value) {
+                console.log(forecast_mCode);
+                console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
                 if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
-                  console.log('ok');
                   console.log(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
                   totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
                 }
               }
             }
+
             event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
             console.log(event.record.forecastList.value[i].value.forecast_arrival.value);
             return event;
