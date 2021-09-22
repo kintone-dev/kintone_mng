@@ -83,7 +83,7 @@
           'query':'arrivalDate <= "2021-12" and ステータス in ("仕入完了")'
         }
 
-        return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
+        return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getArrivalBody)
         .then(function (resp) {
           console.log(resp);
         });
