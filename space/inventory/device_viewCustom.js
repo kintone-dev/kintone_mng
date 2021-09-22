@@ -34,6 +34,7 @@
           setFieldShown('mMemo', true);
           setFieldShown('mCostUpdate', false);
           setFieldShown('deviceCost', false);
+          setFieldShown('deviceCost_foreign', false);
           setFieldShown('importExpenses', false);
           setFieldShown('developCost', false);
           setFieldShown('totalStock', false);
@@ -52,6 +53,7 @@
           setFieldShown('mCost', false);
           setFieldShown('mCostUpdate', false);
           setFieldShown('deviceCost', false);
+          setFieldShown('deviceCost_foreign', false);
           setFieldShown('importExpenses', false);
           setFieldShown('developCost', false);
           setFieldShown('totalStock', true);
@@ -70,6 +72,7 @@
           setFieldShown('mCost', true);
           setFieldShown('mCostUpdate', true);
           setFieldShown('deviceCost', true);
+          setFieldShown('deviceCost_foreign', true);
           setFieldShown('importExpenses', true);
           setFieldShown('developCost', true);
           setFieldShown('totalStock', false);
@@ -88,6 +91,7 @@
           setFieldShown('mCost', false);
           setFieldShown('mCostUpdate', false);
           setFieldShown('deviceCost', false);
+          setFieldShown('deviceCost_foreign', false);
           setFieldShown('importExpenses', false);
           setFieldShown('developCost', false);
           setFieldShown('totalStock', false);
