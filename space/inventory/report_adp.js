@@ -4,6 +4,9 @@
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     var forecastList = event.record.forecastList.value;
 
+    /**
+     * 製品別在庫残数リストに全商品追加
+     */
     return api_getRecords(sysid.INV.app_id.device)
       .then(function (resp) {
         for (var i in resp.records) {
@@ -68,58 +71,63 @@
       var newList = [];
       //特定の拠点以外を抜き出して再度格納
       for (var i in inventoryList) {
-        if (inventoryList[i].value.stockLocation.value != '〇〇〇〇') {
+        if (!inventoryList[i].value.sys_code.value.match(/ns-|-〇〇/)){
           newList.push(inventoryList[i]);
         }
       }
-
       event.record.inventoryList.value = newList;
-
       return event;
     } else if (event.record.EoMcheck.value == '一時確認') {
-      // 製品別在庫残数処理
-      // var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
+      /**
+       * 製品別在庫残数処理
+       */
+      async function getPurchasing() {
+        for (var i in event.record.forecastList.value) {
+          var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
+          var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
+          reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime));
 
-      // for (var i in event.record.forecastList.value) {
-      //   var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
-      //   var queryYears = String(reportDate.getFullYear());
-      //   var queryMonth = String(("0" + (reportDate.getMonth() + parseInt(mLeadTime))).slice(-2));
-      //   if (parseInt(queryMonth) > 12) {
-      //     queryMonth = parseInt(queryMonth) - 12;
-      //   }
-      //   var month31 = ['1', '3', '5', '7', '8', '10', '12'];
-      //   if (month31.includes(queryMonth)) {
-      //     var queryDate = 31;
-      //   } else {
-      //     var queryDate = 30;
-      //   }
-      //   var queryDate = queryYears + '-' + queryMonth + '-' + queryMonth;
-      //   var getPurchasingBody = {
-      //     'app': sysid.INV.app_id.purchasing,
-      //     'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
-      //   }
-      //   kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
-      //     console.log(resp);
-      //     var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
-      //     console.log(forecast_mCode);
-      //     var totalArrivalNum = 0;
-      //     for (var j in resp.records) {
-      //       for (var k in resp.records[j].arrivalList.value) {
-      //         console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
-      //         if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
-      //           totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
-      //         }
-      //       }
-      //     }
-      //     event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
-      //     console.log(event.record.forecastList.value[i].value.forecast_arrival.value);
-      //     return event;
-      //   }, function (e) {
-      //     console.error(e);
-      //   });
-      // }
+          var queryYears = String(reportDate.getFullYear());
+          var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
+          var month31 = ['1', '3', '5', '7', '8', '10', '12'];
+          if (month31.includes(queryMonth)) {
+            var queryDay = 31;
+          } else {
+            var queryDay = 30;
+          }
+          var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
+          console.log(queryDate);
+          var getPurchasingBody = {
+            'app': sysid.INV.app_id.purchasing,
+            'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
+          }
 
-      return event;
+          var resp = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            return error;
+          });
+
+          var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
+          var totalArrivalNum = 0;
+          console.log(resp);
+          console.log(forecast_mCode);
+
+          for (var j in resp.records) {
+            for (var k in resp.records[j].arrivalList.value) {
+              if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
+                totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
+              }
+            }
+          }
+          event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
+        }
+        console.log(event);
+        return event;
+      }
+
+      return getPurchasing();
     }
   });
 
