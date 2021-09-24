@@ -840,6 +840,46 @@
                     }
                   }
                 }
+              } else if(String(shipTable[st].value.mCode.value).match(/ZSL10/)){
+                shipTable[st].value.shipRemarks.value = shipTable[st].value.shipRemarks.value.replace(/WFP/g, 'PAC')
+                newShipTable.push(shipTable[st]);
+                var escBody = {
+                  value: {
+                    mVendor: {
+                      type: "SINGLE_LINE_TEXT",
+                      value: ''
+                    },
+                    mType: {
+                      type: "SINGLE_LINE_TEXT",
+                      value: ''
+                    },
+                    mCode: {
+                      type: "SINGLE_LINE_TEXT",
+                      value: ''
+                    },
+                    mName: {
+                      type: "SINGLE_LINE_TEXT",
+                      value: ''
+                    },
+                    mNickname: {
+                      type: "SINGLE_LINE_TEXT",
+                      value: 'LOCK Pro用エスカッション'
+                    },
+                    subBtn: {
+                      type: "RADIO_BUTTON",
+                      value: '通常'
+                    },
+                    shipRemarks: {
+                      type: "MULTI_LINE_TEXT",
+                      value: ''
+                    },
+                    shipNum: {
+                      type: "NUMBER",
+                      value: parseInt(shipTable[st].value.shipNum.value)
+                    }
+                  }
+                }
+                newShipTable.push(escBody);
               }
             } else {
               newShipTable.push(shipTable[st]);
