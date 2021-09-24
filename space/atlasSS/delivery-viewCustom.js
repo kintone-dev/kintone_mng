@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   kintone.events.on('app.record.create.submit.success', function(event){
-    
+
     var application_type=event.record.application_type.value;
     if(application_type=='新規申込'){
       var new_memID={
@@ -15,7 +15,7 @@
           'toastcam_bizUserPassword': {'value': event.record.toastcam_bizUserPassword.value}
         }
       };
-      
+
       kintone.api(kintone.api.url('/k/v1/record', true), 'POST', new_memID).then(function(resp){
         console.log(resp);
       }).catch(function(error){
@@ -62,14 +62,14 @@
   kintone.events.on('app.record.detail.process.proceed',function(event){
     var nStatus = event.nextStatus.value;
     if(nStatus==="送付済み？"){
-      
+
       //パラメータsNumInfoにjsonデータ作成
-      var sNumInfo={'app': sysID.DIPM.app.sn, 'records': []};
-      
+      var sNumInfo={'app': sysid.DIPM.app.sn, 'records': []};
+
       var shipTable=event.record.deviceList.value;
       var shipIName=event.record.instName.value;
       var shipShipment=event.record.shipment.value;
-      
+
       for (var i in shipTable){
         var ship_member_id=shipTable[i].value.member_id.value;
         var ship_shipnum=shipTable[i].value.shipNum.value;
@@ -78,7 +78,7 @@
         var get_sNums=ship_sn.split(/\r\n|\n/);
         //except Boolean
         var sNums=get_sNums.filter(Boolean);
-        
+
         for(var y in sNums){
           var snRecord={
             'updateKey':{'field': 'sNum','value': sNums[y]},
