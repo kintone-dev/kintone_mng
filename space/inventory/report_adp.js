@@ -72,35 +72,33 @@
           newList.push(inventoryList[i]);
         }
       }
-
       event.record.inventoryList.value = newList;
 
       return event;
     } else if (event.record.EoMcheck.value == '一時確認') {
       // 製品別在庫残数処理
-      var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
-
       for (var i in event.record.forecastList.value) {
+        var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
         var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
+        reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime));
+
         var queryYears = String(reportDate.getFullYear());
-        var queryMonth = String(("0" + (reportDate.getMonth() + parseInt(mLeadTime))).slice(-2));
-        if (parseInt(queryMonth) > 12) {
-          queryMonth = parseInt(queryMonth) - 12;
-        }
+        var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
         var month31 = ['1', '3', '5', '7', '8', '10', '12'];
         if (month31.includes(queryMonth)) {
-          var queryDate = 31;
+          var queryDay = 31;
         } else {
-          var queryDate = 30;
+          var queryDay = 30;
         }
-        var queryDate = queryYears + '-' + queryMonth + '-' + queryMonth;
+        var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
+        console.log(queryDate);
         var getPurchasingBody = {
           'app': sysid.INV.app_id.purchasing,
           'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
         }
-        kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
+        return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
           var totalArrivalNum = 0;
-          for(var a in event.record.forecastList.value){
+          for (var a in event.record.forecastList.value) {
             for (var j in resp.records) {
               for (var k in resp.records[j].arrivalList.value) {
                 console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
