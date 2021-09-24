@@ -100,12 +100,26 @@
 
         async function getPurchasing() {
           var res = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
-          .then(function (resp) {
-            return resp;
-          }).catch(function (error) {
-            return error;
-          });
+            .then(function (resp) {
+              return resp;
+            }).catch(function (error) {
+              return error;
+            });
+          var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
+          var totalArrivalNum = 0;
           console.log(res);
+          console.log(forecast_mCode);
+
+          for (var j in resp.records) {
+            for (var k in resp.records[j].arrivalList.value) {
+              if (forecast_mCode == resp.records[j].arrivalList.value[k].value.mCode.value) {
+                totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
+              }
+            }
+          }
+
+          event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
+          return event;
         }
 
         getPurchasing();
