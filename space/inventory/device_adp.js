@@ -101,13 +101,20 @@
       postItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'POST', postItemBody);
     }
+
     return event;
   });
 
   // 編集保存時アクション（現在編集不可）
   kintone.events.on('app.record.edit.submit.success', function (event) {
 
-    /* 更新データ転送 */
+    // api実行先指定
+    var tarAPP = [
+      sysid.PM.app_id.item,
+      sysid.SUP.app_id.item,
+      sysid.ASS.app_id.item
+    ];
+    /* api実行データ作成 */
     // 転送データ作成
     var putItemBody = {
       'app': '',
@@ -124,17 +131,32 @@
         'packageComp': event.record.packageComp
       }
     };
-    // 転送先指定
-    var tarAPP = [
-      sysid.PM.app_id.item,
-      sysid.SUP.app_id.item,
-      sysid.ASS.app_id.item
-    ];
-    // 転送実行
+    // 削除データ作成
+    var getDelItemID={
+      'app': '',
+      'query': 'mCode="'+event.record.mCode.value+'"',
+      'fields': ['$id']
+    }
+    
+    
+    // api実行
     for (var pi in tarAPP) {
       putItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
+      if(event.record.endService.value.length>0){
+        getDelItemID.app=tarAPP[pi];
+        kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getDelItemID).then(function(resp){
+          if(resp.records.length>0){
+            kintone.api(kintone.api.url('/k/v1/records.json', true),'DELETE',{'app':tarAPP[pi],'ids':[resp.records[0].$id.value]}).then(function(delResp){
+              console.log(delResp);
+            });
+          }
+        }).catch(function(error){
+          console.erroe(error)
+        });
+      }
     }
+
     return event;
   });
 
