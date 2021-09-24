@@ -118,9 +118,9 @@
               }
             }
           }
-
           event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
         }
+        return event;
       }
 
       getPurchasing();
