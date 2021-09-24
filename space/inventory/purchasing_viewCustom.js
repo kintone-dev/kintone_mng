@@ -26,6 +26,7 @@
     return event;
   });
   kintone.events.on(['app.record.edit.show','app.record.create.show'], function(event){
+    
     setSpaceShown('btn_calculation','line','block');
     var calculation=setBtn('btn_calculation','原価算出');
     // $('#btn_calculation').on('click', function(){
@@ -88,4 +89,15 @@
     };
     return event;
   });
+  kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.create.change.mName','app.record.edit.change.mName'], function(event){
+    var arrivalListValue=event.record.arrivalList.value;
+    for(var i in arrivalListValue){
+      arrivalListValue[i].value.unitPriceSubtotal_foreign.disabled=true;
+      if(event.record.currencyType.value.match(/日本円/)){
+        arrivalListValue[i].value.unitPrice.disabled=true;
+      }else{
+        arrivalListValue[i].value.unitPrice.disabled=false;
+      }
+    }
+  })
 })();
