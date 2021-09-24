@@ -146,9 +146,11 @@
       if(event.record.endService.value.length>0){
         getDelItemID.app=tarAPP[pi];
         kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getDelItemID).then(function(resp){
-          return kintone.api(kintone.api.url('/', true),'DELETE',{'app':tarAPP[pi],'ids':[resp.records[0].$id.value]});
-        }).then(function(delResp){
-          console.log(delResp);
+          if(resp.records.length>0){
+            kintone.api(kintone.api.url('/k/v1/records.json', true),'DELETE',{'app':tarAPP[pi],'ids':[resp.records[0].$id.value]}).then(function(delResp){
+              console.log(delResp);
+            });
+          }
         }).catch(function(error){
           console.erroe(error)
         });
