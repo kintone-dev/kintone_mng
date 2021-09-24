@@ -97,9 +97,9 @@
       arrivalListValue[i].value.addiCost_foreign.disabled=true;
       arrivalListValue[i].value.addiCost.disabled=true;
       if(event.record.currencyType.value.match(/日本円/)){
-        arrivalListValue[i].value.unitPrice.disabled=true;
-      }else{
         arrivalListValue[i].value.unitPrice.disabled=false;
+      }else{
+        arrivalListValue[i].value.unitPrice.disabled=true;
       }
     }
     return event;
