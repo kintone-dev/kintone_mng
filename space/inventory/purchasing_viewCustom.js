@@ -102,5 +102,6 @@
         arrivalListValue[i].value.unitPrice.disabled=false;
       }
     }
-  })
+    return event;
+  });
 })();
