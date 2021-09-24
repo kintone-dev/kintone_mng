@@ -68,7 +68,7 @@
       var newList = [];
       //特定の拠点以外を抜き出して再度格納
       for (var i in inventoryList) {
-        if (!inventoryList[i].value.sys_code.value.match([/ns-|-〇〇/])){
+        if (!inventoryList[i].value.sys_code.value.match(/ns-|-〇〇/)){
           newList.push(inventoryList[i]);
         }
       }
