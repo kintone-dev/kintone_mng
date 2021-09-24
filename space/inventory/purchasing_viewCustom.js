@@ -1,5 +1,5 @@
 (function () {
-  kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show','app.record.create.change.currencyType','app.record.edit.change.currencyType','app.record.detail.change.currencyType'], function(event){
+  kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show','app.record.create.change.currencyType','app.record.edit.change.currencyType'], function(event){
     if(event.record.currencyType.value==undefined){
       alert('通貨種類を選択してください。');
       setSpaceShown('btn_calculation','line','none');
@@ -89,12 +89,22 @@
     };
     return event;
   });
-  kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.create.change.mCode','app.record.edit.change.mName'], function(event){
-    console.log('??');
+  kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.create.change.mCode','app.record.edit.change.mCode','app.record.create.change.currencyType','app.record.edit.change.currencyType'], function(event){
     var arrivalListValue=event.record.arrivalList.value;
     for(var i in arrivalListValue){
       arrivalListValue[i].value.unitPriceSubtotal_foreign.disabled=true;
+      arrivalListValue[i].value.unitPriceSubtotal.disabled=true;
       arrivalListValue[i].value.addiCost_foreign.disabled=true;
+      arrivalListValue[i].value.addiCost.disabled=true;
+      arrivalListValue[i].value.addiUnitCost.disabled=true;
+      arrivalListValue[i].value.compRatio.disabled=true;
+      arrivalListValue[i].value.addiExpenses.disabled=true;
+      arrivalListValue[i].value.addiUnitExpenses.disabled=true;
+      arrivalListValue[i].value.totalUnitCost.disabled=true;
+      arrivalListValue[i].value.totalCost.disabled=true;
+      arrivalListValue[i].value.addiCost.disabled=true;
+      arrivalListValue[i].value.addiCost.disabled=true;
+      arrivalListValue[i].value.addiCost.disabled=true;
       arrivalListValue[i].value.addiCost.disabled=true;
       if(event.record.currencyType.value.match(/日本円/)){
         arrivalListValue[i].value.unitPrice.disabled=false;
