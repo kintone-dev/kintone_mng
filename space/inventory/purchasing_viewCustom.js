@@ -85,7 +85,7 @@
       //   let totalcost=totalunitcost*arrivalnum;
       //   arrivalListValue[i].value.totalCost.value=totalcost;
       // }
-      kintone.app.record.set(event);
+      // kintone.app.record.set(event);
     };
     return event;
   });
