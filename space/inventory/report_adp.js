@@ -78,33 +78,34 @@
       /**
        * 製品別在庫残数処理
        */
-      for (var i in event.record.forecastList.value) {
-        var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
-        var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
-        reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime));
+      async function getPurchasing() {
+        for (var i in event.record.forecastList.value) {
+          var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
+          var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
+          reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime));
 
-        var queryYears = String(reportDate.getFullYear());
-        var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
-        var month31 = ['1', '3', '5', '7', '8', '10', '12'];
-        if (month31.includes(queryMonth)) {
-          var queryDay = 31;
-        } else {
-          var queryDay = 30;
-        }
-        var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
-        console.log(queryDate);
-        var getPurchasingBody = {
-          'app': sysid.INV.app_id.purchasing,
-          'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
-        }
+          var queryYears = String(reportDate.getFullYear());
+          var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
+          var month31 = ['1', '3', '5', '7', '8', '10', '12'];
+          if (month31.includes(queryMonth)) {
+            var queryDay = 31;
+          } else {
+            var queryDay = 30;
+          }
+          var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
+          console.log(queryDate);
+          var getPurchasingBody = {
+            'app': sysid.INV.app_id.purchasing,
+            'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
+          }
 
-        async function getPurchasing() {
           var res = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
-            .then(function (resp) {
-              return resp;
-            }).catch(function (error) {
-              return error;
-            });
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            return error;
+          });
+
           var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
           var totalArrivalNum = 0;
           console.log(res);
@@ -118,31 +119,11 @@
             }
           }
 
-          event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
-          return event;
+          event.record.forecastList.value[is].value.forecast_arrival.value = totalArrivalNum;
         }
-
-        getPurchasing();
-
-        // kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
-        //   var totalArrivalNum = 0;
-        //   var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
-        //   console.log(forecast_mCode);
-        //   for (var a in event.record.forecastList.value) {
-        //     for (var j in resp.records) {
-        //       for (var k in resp.records[j].arrivalList.value) {
-        //         if (event.record.forecastList.value[a].value.forecast_mCode.value == resp.records[j].arrivalList.value[k].value.mCode.value) {
-        //         }
-        //       }
-        //     }
-        //   }
-        //   totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
-        //   event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
-        //   return event;
-        // }, function (e) {
-        //   console.error(e);
-        // });
       }
+
+      getPurchasing();
 
       console.log(event.record);
       return event;
