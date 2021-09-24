@@ -119,7 +119,7 @@
             }
           }
 
-          event.record.forecastList.value[is].value.forecast_arrival.value = totalArrivalNum;
+          event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
         }
       }
 
