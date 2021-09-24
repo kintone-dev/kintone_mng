@@ -75,7 +75,6 @@
                 }
               }
             };
-
             postMemData.push(postBody_member);
             putWStatNewData.push(putBody_workStatNew);
           }
@@ -215,7 +214,7 @@
               作業ステータス：TOASTCAM登録待ち＞＞集荷待ち(by Jay)
               担当者：Accel Lab
               申込種別：故障交換（保証期間内）、故障交換（保証期間外）以外
-      
+
               ・記入されたシリアル番号に配送先リストの情報を追加する
             */
           var getNotDefBody = {
