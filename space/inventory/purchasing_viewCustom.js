@@ -90,6 +90,7 @@
     return event;
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.create.change.mName','app.record.edit.change.mName'], function(event){
+    console.log('??');
     var arrivalListValue=event.record.arrivalList.value;
     for(var i in arrivalListValue){
       arrivalListValue[i].value.unitPriceSubtotal_foreign.disabled=true;
