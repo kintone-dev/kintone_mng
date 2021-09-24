@@ -93,6 +93,8 @@
     var arrivalListValue=event.record.arrivalList.value;
     for(var i in arrivalListValue){
       arrivalListValue[i].value.unitPriceSubtotal_foreign.disabled=true;
+      arrivalListValue[i].value.addiCost_foreign.disabled=true;
+      arrivalListValue[i].value.addiCost.disabled=true;
       if(event.record.currencyType.value.match(/日本円/)){
         arrivalListValue[i].value.unitPrice.disabled=true;
       }else{
