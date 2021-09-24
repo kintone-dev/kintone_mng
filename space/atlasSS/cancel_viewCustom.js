@@ -2,7 +2,7 @@
   'use strict';
   kintone.events.on('app.record.index.show', function(event) {
     var setCancelBody={
-      'app': sysid.ASS.app.member,
+      'app': sysid.ASS.app_id.member,
       'updateKey': {
         'field': 'member_id',
         'value': event.record.member_id.value
