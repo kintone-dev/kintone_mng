@@ -96,20 +96,21 @@
           'app': sysid.INV.app_id.purchasing,
           'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
         }
-        return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
+        kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
           var totalArrivalNum = 0;
-          for (var a in event.record.forecastList.value) {
+          var eRecord = kintone.app.record.get();
+          for (var a in eRecord.record.forecastList.value) {
             for (var j in resp.records) {
               for (var k in resp.records[j].arrivalList.value) {
                 console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
-                if (event.record.forecastList.value[a].value.forecast_mCode.value == resp.records[j].arrivalList.value[k].value.mCode.value) {
+                if (eRecord.record.forecastList.value[a].value.forecast_mCode.value == resp.records[j].arrivalList.value[k].value.mCode.value) {
                   totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
                 }
               }
             }
           }
-          event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
-          console.log(event.record.forecastList.value[i].value.forecast_arrival.value);
+          eRecord.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
+          kintone.app.record.set(eRecord);
           return event;
         }, function (e) {
           console.error(e);
