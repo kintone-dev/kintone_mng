@@ -8,12 +8,12 @@
     //訪問 btn_onSite
     var new_onSite = setBtn('btn_onSite', '現地対応追加');
     $('#' + new_onSite.id).on('click', function () {
-      createNewREC(sysID.SUP.app.onsite, ['supNum', 'bName', 'ReportingDetail'], [supNum, bName, rDetail]);
+      createNewREC(sysid.SUP.app.onsite, ['supNum', 'bName', 'ReportingDetail'], [supNum, bName, rDetail]);
     });
     //配送 btn_onShip
     var new_onShip = setBtn('btn_onShip', '配送対応追加');
     $('#' + new_onShip.id).on('click', function () {
-      createNewREC(sysID.SUP.app.ship, ['supNum', 'bName'], [supNum, bName]);
+      createNewREC(sysid.SUP.app.ship, ['supNum', 'bName'], [supNum, bName]);
     });
 
 
