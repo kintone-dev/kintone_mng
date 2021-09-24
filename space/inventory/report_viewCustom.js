@@ -134,7 +134,7 @@
           })
         }
       }
-    }, 500);
+    }, 5000);
 
     if (event.record.EoMcheck.value == '締切' || event.record.EoMcheck.value == '一時締切') {
       setTimeout(function () {
