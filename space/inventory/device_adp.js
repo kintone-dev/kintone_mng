@@ -141,8 +141,6 @@
     
     // api実行
     for (var pi in tarAPP) {
-      putItemBody.app = tarAPP[pi];
-      kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
       if(event.record.endService.value.length>0){
         getDelItemID.app=tarAPP[pi];
         kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getDelItemID).then(function(resp){
@@ -154,6 +152,9 @@
         }).catch(function(error){
           console.erroe(error)
         });
+      }else{
+        putItemBody.app = tarAPP[pi];
+        kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
       }
     }
 
