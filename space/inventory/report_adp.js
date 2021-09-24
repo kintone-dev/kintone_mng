@@ -102,8 +102,8 @@
           for (var a in eRecord.record.forecastList.value) {
             for (var j in resp.records) {
               for (var k in resp.records[j].arrivalList.value) {
-                console.log(resp.records[j].arrivalList.value[k].value.mCode.value);
                 if (eRecord.record.forecastList.value[a].value.forecast_mCode.value == resp.records[j].arrivalList.value[k].value.mCode.value) {
+                  console.log('ok');
                   totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
                 }
               }
