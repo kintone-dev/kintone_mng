@@ -73,10 +73,11 @@
         }
       }
       event.record.inventoryList.value = newList;
-
       return event;
     } else if (event.record.EoMcheck.value == '一時確認') {
-      // 製品別在庫残数処理
+      /**
+       * 製品別在庫残数処理
+       */
       for (var i in event.record.forecastList.value) {
         var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
         var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
@@ -96,27 +97,40 @@
           'app': sysid.INV.app_id.purchasing,
           'query': 'arrivalDate <= "' + queryDate + '" and ステータス in ("仕入完了")'
         }
-        kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
-          var totalArrivalNum = 0;
-          var eRecord = kintone.app.record.get();
-          for (var a in eRecord.record.forecastList.value) {
-            for (var j in resp.records) {
-              for (var k in resp.records[j].arrivalList.value) {
-                if (eRecord.record.forecastList.value[a].value.forecast_mCode.value == resp.records[j].arrivalList.value[k].value.mCode.value) {
-                  console.log('ok');
-                  totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
-                }
-              }
-            }
-          }
-          eRecord.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
-          kintone.app.record.set(eRecord);
-          return event;
-        }, function (e) {
-          console.error(e);
-        });
+
+        async function getPurchasing() {
+          var res = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            return error;
+          });
+          console.log(res);
+        }
+
+        getPurchasing();
+
+        // kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPurchasingBody, function (resp) {
+        //   var totalArrivalNum = 0;
+        //   var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
+        //   console.log(forecast_mCode);
+        //   for (var a in event.record.forecastList.value) {
+        //     for (var j in resp.records) {
+        //       for (var k in resp.records[j].arrivalList.value) {
+        //         if (event.record.forecastList.value[a].value.forecast_mCode.value == resp.records[j].arrivalList.value[k].value.mCode.value) {
+        //         }
+        //       }
+        //     }
+        //   }
+        //   totalArrivalNum = parseInt(totalArrivalNum) + parseInt(resp.records[j].arrivalList.value[k].value.arrivalNum.value);
+        //   event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
+        //   return event;
+        // }, function (e) {
+        //   console.error(e);
+        // });
       }
 
+      console.log(event.record);
       return event;
     }
   });
