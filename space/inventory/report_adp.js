@@ -120,13 +120,11 @@
           }
           event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
         }
+        console.log(event);
         return event;
       }
 
-      getPurchasing();
-
-      console.log(event.record);
-      return event;
+      return getPurchasing();
     }
   });
 
