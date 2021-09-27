@@ -186,11 +186,7 @@
     createSelect.classList.add('selectCss');
     kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 
-    var option = document.createElement('option');
-
-    option.text = 'test';
-
-    $('.setShipment').appendChild(option);
+    $('#setShipment').append("<option>test</option>");
 
 
 
