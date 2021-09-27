@@ -57,7 +57,7 @@
     delete fieldsDev.properties.更新者;
     delete layoutDev.revision;
 
-    settingsDev.name = settings.name.replace(/\(DEV\)/g, '')
+    settingsDev.name = settingsDev.name.replace(/\(DEV\)/g, '')
     settingsDev.app = prodAppId;
     fieldsDev.app = prodAppId;
     layoutDev.app = prodAppId;
