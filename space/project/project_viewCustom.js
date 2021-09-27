@@ -79,8 +79,8 @@
           setFieldShown('instName', true);
           setFieldShown('Contractor', true);
           if(event.record.instName.value=='' || event.record.instName.value==undefined){
-            setSpaceShown('btn_newINST','individual','table-block');
-            setSpaceShown('btn_unknowINST','individual','table-block');
+            setSpaceShown('btn_newINST','individual','inline-block');
+            setSpaceShown('btn_unknowINST','individual','inline-block');
           }
           else{
             setSpaceShown('btn_newINST','individual','none');
