@@ -88,8 +88,6 @@
           var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
           reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime) - 1);
 
-          console.log(reportDate_current);
-          console.log(reportDate);
           var queryYears = String(reportDate.getFullYear());
           var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
           reportDate.setMonth(reportDate.getMonth() + 1);
@@ -109,7 +107,7 @@
           // 仕入管理処理
           var getPurchasingBody = {
             'app': sysid.INV.app_id.purchasing,
-            'query': 'arrivalDate >= "' + queryDate_current + '" and arrivalDate <= "' + queryDate + '" and ステータス not in ("仕入完了")'
+            'query': 'ステータス not in ("仕入完了") and arrivalDate >= "'+ queryDate_current +'" and arrivalDate <= "'+ queryDate +'"'
           }
           var purchasing = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
           .then(function (resp) {
