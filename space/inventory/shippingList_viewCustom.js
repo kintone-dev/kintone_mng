@@ -201,9 +201,9 @@
 
       console.log(allUnit);
 
-      // for(var i in allUnit){
-      //   $('#setShipment').append("<option>"+ allUnit[i].uName +"</option>");
-      // }
+      for(var i in allUnit.records){
+        $('#setShipment').append("<option>"+ allUnit.records[i].uName.value +"</option>");
+      }
     }
 
     setOption();
