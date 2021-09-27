@@ -146,6 +146,7 @@
       tabSwitch(idName); //tabをクリックした時の表示設定
       return false; //aタグを無効にする
     });
+
     return event;
   });
 
@@ -178,6 +179,48 @@
     }
     */
   });
+
+  // ドロップダウン作成
+  kintone.events.on('app.record.detail.show', function (event) {
+
+    var cStatus = event.record.ステータス.value;
+
+    if(cStatus === "処理中"){
+      var createSelect = document.createElement('select');
+      createSelect.id = 'setShipment';
+      createSelect.name = 'setShipment';
+      createSelect.classList.add('jsselect_header');
+      kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
+
+      async function setOption() {
+        var getUnitBody = {
+          'app': sysid.INV.app_id.unit,
+          'query': ''
+        }
+
+        var allUnit = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getUnitBody)
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            return error;
+          });
+
+        $('#setShipment').append('<option value="noSelect">選択して下さい</option>');
+
+        for(var i in allUnit.records){
+          $('#setShipment').append('<option value="' + allUnit.records[i].uCode.value +  '">'+ allUnit.records[i].uName.value +'</option>');
+        }
+      }
+
+      setOption();
+      setFieldShown('shipment', false);
+    } else{
+      setFieldShown('shipment', true);
+    }
+
+    return event;
+  });
+
   // 輸送業者を「担当手渡し」にした場合、追跡番号を「none」にする
   kintone.events.on(['app.record.create.change.deliveryCorp', 'app.record.edit.change.deliveryCorp'], function (event) {
     if (event.record.deliveryCorp.value == '担当手渡し') {

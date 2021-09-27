@@ -17,7 +17,7 @@
 	background:#F7F9FA;
 	border:solid 1px #E3E7E8;
 	border-bottom: 0;
-  
+
 }
 /* 選択された状態 */
 .tabMenu .active a{
@@ -46,9 +46,23 @@
 
 /* プルダウンメニュー */
 .jsselect_header{
-	color:#3A98D7;
-	margin:0px 10px;
-	padding:7px 20px;
-	background:#F7F9FA;
-	border:solid 1px #E3E7E8;
+	font-size: 14px;
+	line-height: 1;
+	color: #3498db;
+	text-overflow: ellipsis;
+	position: relative;
+
+	border: 1px solid #e3e7e8;
+	box-shadow: 1px 1px 1px #fff inset;
+	background-color: #f7f9fa;
+
+	margin-right: 8px;
+	margin-bottom: 0;
+	padding: 10px 20px;
+
+	cursor: pointer;
+	vertical-align: middle;
+	box-sizing: border-box;
+	overflow: visible;
+	display: inline-block;
 }

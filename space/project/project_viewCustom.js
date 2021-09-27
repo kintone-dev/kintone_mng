@@ -77,19 +77,20 @@
           setFieldShown('cName', true);
           setFieldShown('orgName', true);
           setFieldShown('instName', true);
+          setFieldShown('Contractor', true);
           if(event.record.instName.value=='' || event.record.instName.value==undefined){
-            setSpaceShown('btn_newINST','individual','table-block');
-            setSpaceShown('btn_unknowINST','individual','table-block');
+            setSpaceShown('btn_newINST','individual','inline-block');
+            setSpaceShown('btn_unknowINST','individual','inline-block');
           }
           else{
             setSpaceShown('btn_newINST','individual','none');
-          setSpaceShown('btn_unknowINST','individual','none');
+            setSpaceShown('btn_unknowINST','individual','none');
           }
+
           setFieldShown('cSales', true);
           setFieldShown('instStatus', true);
           setFieldShown('instDate', true);
           setFieldShown('instDDday', true);
-          setFieldShown('Contractor', false);
 
           setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('tarDate', false);
@@ -130,6 +131,7 @@
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
+          setFieldShown('Contractor', false);
 
           setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('tarDate', false);
@@ -256,6 +258,21 @@
     });
   });
 
+  kintone.events.on(['app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_instAddress'], function (event) {
+    if(event.record.instName.value=='' || event.record.instName.value==undefined){
+      setSpaceShown('btn_newINST','individual','inline-block');
+      setSpaceShown('btn_unknowINST','individual','inline-block');
+      console.log('no');
+    }
+    else{
+      setSpaceShown('btn_newINST','individual','none');
+      setSpaceShown('btn_unknowINST','individual','none');
+      console.log('ok');
+    }
+
+    return event;
+  });
+
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
     // 新規作成以外、案件管理番号編集と既存案件切り替え不可
     event.record.prjNum.disabled = true;
@@ -278,7 +295,6 @@
   });
 
   kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection', 'app.record.create.change.sys_instAddress', 'app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_unitAddress', 'app.record.edit.change.sys_unitAddress'], function (event) {
-
     do_dstSelection(event.record);
 
     return event;
@@ -343,10 +359,6 @@
   function do_dstSelection(eRecords) {
     var selection = eRecords.dstSelection.value;
     if (selection == '施工業者/拠点へ納品') {
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-      setSpaceShown('btn_newINST', 'individual', 'none');
-      setSpaceShown('btn_unknowINST', 'individual', 'none');
       eRecords.receiver.disabled = true;
       eRecords.phoneNum.disabled = true;
       eRecords.zipcode.disabled = true;
@@ -367,15 +379,6 @@
         eRecords.corpName.value = unitAddress[7];
       }
     } else if (selection == '設置先と同じ') {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', true);
-      if (eRecords.instName.value == undefined) {
-        setSpaceShown('btn_newINST', 'individual', 'block');
-        setSpaceShown('btn_unknowINST', 'individual', 'block');
-      } else {
-        setSpaceShown('btn_newINST', 'individual', 'none');
-        setSpaceShown('btn_unknowINST', 'individual', 'none');
-      }
       eRecords.receiver.disabled = false;
       eRecords.phoneNum.disabled = false;
       eRecords.zipcode.disabled = false;
@@ -396,10 +399,6 @@
         eRecords.corpName.value = instAddress[7];
       }
     } else if (selection == '担当手渡し') {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
-      setSpaceShown('btn_newINST', 'individual', 'none');
-      setSpaceShown('btn_unknowINST', 'individual', 'none');
       eRecords.receiver.disabled = false;
       eRecords.phoneNum.disabled = false;
       eRecords.zipcode.disabled = true;
@@ -408,7 +407,6 @@
       eRecords.address.disabled = true;
       eRecords.buildingName.disabled = true;
       eRecords.corpName.disabled = true;
-
       eRecords.zipcode.value = '';
       eRecords.prefectures.value = '';
       eRecords.city.value = '';
@@ -416,10 +414,6 @@
       eRecords.buildingName.value = '';
       eRecords.corpName.value = '';
     } else {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
-      setSpaceShown('btn_newINST', 'individual', 'none');
-      setSpaceShown('btn_unknowINST', 'individual', 'none');
       eRecords.receiver.disabled = false;
       eRecords.phoneNum.disabled = false;
       eRecords.zipcode.disabled = false;

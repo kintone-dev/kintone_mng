@@ -122,7 +122,7 @@
     }tabSwitch('#設置先概要');
     tabMenu('tab_inst', ['設置先概要','設置先住所','設置情報']);
     $('.tab_inst a').on('click', function(){
-      var idName = $(this).attr('href'); //タブ内のリンク名を取得  
+      var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
       return false;
     });
@@ -136,7 +136,7 @@
     var newORG=setBtn('btn_newORG','新規組織');
     $('#'+newORG.id).on('click', function(){
       // createNewREC(, 'prjNum', prjNumValue); // 実行内容例
-      window.open('https://accel-lab.cybozu.com/k/' + sysid.PM.app_id.organization + '/edit', 'example','scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200');
+      window.open('https://accel-lab.cybozu.com/k/' + sysid.PM.app_id.organization + '/edit', Math.random() + '-newWindow','scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200');
     });
     return event;
   });
