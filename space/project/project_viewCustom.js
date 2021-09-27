@@ -23,7 +23,7 @@
   kintone.events.on('app.record.detail.process.proceed', function(event){
     var nStatus=event.nextStatus.value;
     if(nStatus=='入力内容確認中'){
-      kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code:kintone.getLoginUser().code}).then(function(resp) {
+      return kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code:kintone.getLoginUser().code}).then(function(resp) {
         if(event.record.purchaseOrder.value.length<1){
           var inGroup=false;
           for(var i in resp.groups){
@@ -46,7 +46,7 @@
             event.error='請求書を添付するか営業責任者に承認を求めてください！';
           }
         }
-        kintone.app.record.set(event);
+        return event;
         // var inGroup;
         // var isConfirm;
         // for(var i in resp.groups){
