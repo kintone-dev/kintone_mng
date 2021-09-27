@@ -259,8 +259,7 @@
   });
 
   kintone.events.on(['app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_instAddress'], function (event) {
-    var eRecord = kintone.app.record.get();
-    if(eRecord.record.instName.value=='' || eRecord.record.instName.value==undefined){
+    if(event.record.instName.value=='' || event.record.instName.value==undefined){
       setSpaceShown('btn_newINST','individual','table-block');
       setSpaceShown('btn_unknowINST','individual','table-block');
     }
