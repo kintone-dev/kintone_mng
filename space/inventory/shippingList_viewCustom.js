@@ -195,6 +195,7 @@
     if(cStatus === "処理中"){
       var createSelect = document.createElement('select');
       createSelect.id = 'setShipment';
+      createSelect.name = 'setShipment';
       createSelect.classList.add('selectCss');
       kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 

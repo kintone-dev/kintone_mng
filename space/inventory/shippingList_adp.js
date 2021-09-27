@@ -128,6 +128,12 @@
       });
   });
 
+  // 保存時
+  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+    var txt = $('[name=setShipment] option:selected').text();
+    console.log(txt);
+  });
+
   /* ---以下関数--- */
   // レポート処理
   const reportCreate = function (pageRecod, param) {
