@@ -28,7 +28,7 @@
           var inGroup=false;
           for(var i in resp.groups){
             console.log(resp.groups[i].name);
-            if(resp.groups[i].name=='sysAdmin'){
+            if(resp.groups[i].name=='営業責任者' || esp.groups[i].name=='sysAdmin'){
               inGroup=true;
               break;
             }
