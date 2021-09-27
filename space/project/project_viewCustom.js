@@ -262,10 +262,12 @@
     if(event.record.instName.value=='' || event.record.instName.value==undefined){
       setSpaceShown('btn_newINST','individual','table-block');
       setSpaceShown('btn_unknowINST','individual','table-block');
+      console.log('no');
     }
     else{
       setSpaceShown('btn_newINST','individual','none');
       setSpaceShown('btn_unknowINST','individual','none');
+      console.log('ok');
     }
 
     return event;
