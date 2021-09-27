@@ -57,6 +57,10 @@
     // delete fieldsDev.properties.更新者;
     delete layoutDev.revision;
 
+    for(var i in Object.keys(fieldsProd.properties)){
+      console.log(i);
+    }
+
     settingsDev.name = settingsDev.name.replace(/\(DEV\)/g, '')
     settingsDev.app = prodAppId;
     fieldsDev.app = prodAppId;
