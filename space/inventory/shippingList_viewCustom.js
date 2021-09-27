@@ -152,6 +152,7 @@
       setFieldShown('shipment', false);
     } else{
       setFieldShown('shipment', true);
+      event.record.shipment.disabled = true;
     }
 
     return event;
