@@ -22,12 +22,19 @@
   });
   kintone.events.on('app.record.detail.process.proceed', function(event){
     var nStatus=event.nextStatus.value;
-    var loginUser=kintone.getLoginUser()
     if(nStatus=='入力内容確認中'){
-      kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code:kintone.getLoginUser()}).then(function(resp) {
-        console.log(resp);
-      }).catch(function(error){
-        console.log(error);
+      kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code:kintone.getLoginUser().code}).then(function(resp) {
+        var inGroup;
+        var isConfirm;
+        for(var i in resp.groups){
+          if(resp.groups[i].name=='営業責任者'){
+            isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか＞');
+          }else if(event.record.purchaseOrder.value.length<1){
+          // }else{
+            event.error='請求書を添付するか営業責任者の承認をとってください！';
+          }
+        }
+        kintone.app.record.set(event);
       });
     }
     return event;
