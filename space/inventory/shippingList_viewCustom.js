@@ -181,10 +181,18 @@
 
   // ドロップダウン作成
   kintone.events.on(['app.record.create.show', 'app.record.edit.show'], function (event) {
-    var contsBtn = document.createElement('select');
+    var createSelect = document.createElement('select');
     contsBtn.id = 'setShipment';
-    contsBtn.classList.add('selectCss'); //ボタンにCSS追加
-    kintone.app.record.getSpaceElement('setShipment').appendChild(contsBtn); //指定スペースフィールドにボタン設置
+    contsBtn.classList.add('selectCss');
+    kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
+
+    var option = document.createElement('option');
+
+    option.text = 'test';
+
+    $('.setShipment').appendChild(option);
+
+
 
     return event;
   });
