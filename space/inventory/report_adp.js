@@ -91,7 +91,7 @@
           console.log(reportDate_current);
           console.log(reportDate);
           var queryYears = String(reportDate.getFullYear());
-          var queryMonth = String(("0" + (reportDate.getMonth())).slice(-2));
+          var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
           reportDate.setMonth(reportDate.getMonth() + 1);
           reportDate.setDate(0);
           var queryDay = String(("0" + (reportDate.getDate())).slice(-2));
