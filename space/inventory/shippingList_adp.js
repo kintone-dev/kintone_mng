@@ -91,8 +91,12 @@
     } else if(nStatus === "受領待ち"){
       var txt = $('[name=setShipment] option:selected').text();
       var val = $('[name=setShipment] option:selected').val();
-      event.record.shipment.value = txt;
-      event.record.sys_shipmentCode.value = val;
+      if(val != 'noSelect'){
+        event.record.shipment.value = txt;
+        event.record.sys_shipmentCode.value = val;
+      } else{
+        event.error = '出荷ロケーションを選択して下さい。';
+      }
     }
 
     return event;
