@@ -182,8 +182,8 @@
   // ドロップダウン作成
   kintone.events.on(['app.record.create.show', 'app.record.edit.show'], function (event) {
     var createSelect = document.createElement('select');
-    contsBtn.id = 'setShipment';
-    contsBtn.classList.add('selectCss');
+    createSelect.id = 'setShipment';
+    createSelect.classList.add('selectCss');
     kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 
     var option = document.createElement('option');
