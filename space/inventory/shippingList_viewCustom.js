@@ -148,7 +148,7 @@
     });
 
     // 出荷ロケーション表示処理
-    if(event.ステータス.value === "処理中"){
+    if(event.record.ステータス.value === "処理中"){
       setFieldShown('shipment', false);
     } else{
       setFieldShown('shipment', true);
@@ -190,7 +190,7 @@
   // ドロップダウン作成
   kintone.events.on(['app.record.create.show', 'app.record.edit.show'], function (event) {
 
-    var cStatus = event.ステータス.value;
+    var cStatus = event.record.ステータス.value;
 
     if(cStatus === "処理中"){
       var createSelect = document.createElement('select');
