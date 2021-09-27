@@ -279,8 +279,7 @@
   });
 
   kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection', 'app.record.create.change.sys_instAddress', 'app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_unitAddress', 'app.record.edit.change.sys_unitAddress'], function (event) {
-
-    // do_dstSelection(event.record);
+    do_dstSelection(event.record);
 
     return event;
   });
@@ -344,10 +343,6 @@
   function do_dstSelection(eRecords) {
     var selection = eRecords.dstSelection.value;
     if (selection == '施工業者/拠点へ納品') {
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-      setSpaceShown('btn_newINST', 'individual', 'none');
-      setSpaceShown('btn_unknowINST', 'individual', 'none');
       eRecords.receiver.disabled = true;
       eRecords.phoneNum.disabled = true;
       eRecords.zipcode.disabled = true;
@@ -368,15 +363,6 @@
         eRecords.corpName.value = unitAddress[7];
       }
     } else if (selection == '設置先と同じ') {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', true);
-      if (eRecords.instName.value == undefined) {
-        setSpaceShown('btn_newINST', 'individual', 'block');
-        setSpaceShown('btn_unknowINST', 'individual', 'block');
-      } else {
-        setSpaceShown('btn_newINST', 'individual', 'none');
-        setSpaceShown('btn_unknowINST', 'individual', 'none');
-      }
       eRecords.receiver.disabled = false;
       eRecords.phoneNum.disabled = false;
       eRecords.zipcode.disabled = false;
@@ -397,10 +383,6 @@
         eRecords.corpName.value = instAddress[7];
       }
     } else if (selection == '担当手渡し') {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
-      setSpaceShown('btn_newINST', 'individual', 'none');
-      setSpaceShown('btn_unknowINST', 'individual', 'none');
       eRecords.receiver.disabled = false;
       eRecords.phoneNum.disabled = false;
       eRecords.zipcode.disabled = true;
@@ -409,7 +391,6 @@
       eRecords.address.disabled = true;
       eRecords.buildingName.disabled = true;
       eRecords.corpName.disabled = true;
-
       eRecords.zipcode.value = '';
       eRecords.prefectures.value = '';
       eRecords.city.value = '';
@@ -417,10 +398,6 @@
       eRecords.buildingName.value = '';
       eRecords.corpName.value = '';
     } else {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
-      setSpaceShown('btn_newINST', 'individual', 'none');
-      setSpaceShown('btn_unknowINST', 'individual', 'none');
       eRecords.receiver.disabled = false;
       eRecords.phoneNum.disabled = false;
       eRecords.zipcode.disabled = false;
