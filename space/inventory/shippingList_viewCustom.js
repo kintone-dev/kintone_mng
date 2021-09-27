@@ -178,6 +178,17 @@
     }
     */
   });
+
+  // ドロップダウン作成
+  kintone.events.on(['app.record.create.show', 'app.record.edit.show'], function (event) {
+    var contsBtn = document.createElement('select');
+    contsBtn.id = 'setShipment';
+    contsBtn.classList.add('selectCss'); //ボタンにCSS追加
+    kintone.app.record.getSpaceElement('setShipment').appendChild(contsBtn); //指定スペースフィールドにボタン設置
+
+    return event;
+  });
+
   // 輸送業者を「担当手渡し」にした場合、追跡番号を「none」にする
   kintone.events.on(['app.record.create.change.deliveryCorp', 'app.record.edit.change.deliveryCorp'], function (event) {
     if (event.record.deliveryCorp.value == '担当手渡し') {
