@@ -189,7 +189,7 @@
       var createSelect = document.createElement('select');
       createSelect.id = 'setShipment';
       createSelect.name = 'setShipment';
-      createSelect.classList.add('selectCss');
+      createSelect.classList.add('jsselect_header');
       kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 
       async function setOption() {
