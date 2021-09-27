@@ -93,7 +93,6 @@
       var val = $('[name=setShipment] option:selected').val();
       event.record.shipment.value = txt;
       event.record.sys_shipmentCode.value = val;
-
     }
 
     return event;

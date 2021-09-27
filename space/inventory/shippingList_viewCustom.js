@@ -147,8 +147,6 @@
       return false; //aタグを無効にする
     });
 
-    event.record.shipment.disabled = true;
-
     return event;
   });
 
@@ -213,6 +211,9 @@
       }
 
       setOption();
+      setFieldShown('shipment', false);
+    } else{
+      setFieldShown('shipment', true);
     }
 
     return event;
