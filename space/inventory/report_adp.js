@@ -91,15 +91,15 @@
           console.log(reportDate_current);
           console.log(reportDate);
           var queryYears = String(reportDate.getFullYear());
-          var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
+          var queryMonth = String(("0" + (reportDate.getMonth())).slice(-2));
           reportDate.setMonth(reportDate.getMonth() + 1);
           reportDate.setDate(0);
-          var queryDay = String(reportDate.getDate());
+          var queryDay = String(("0" + (reportDate.getDate())).slice(-2));
 
           var queryYears_current = String(reportDate_current.getFullYear());
           var queryMonth_current = String(("0" + (reportDate_current.getMonth() + 1)).slice(-2));
           reportDate_current.setDate(1);
-          var queryDay_current = String(reportDate_current.getDate());
+          var queryDay_current = String(("0" + (reportDate_current.getDate())).slice(-2));
 
           var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
           var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
