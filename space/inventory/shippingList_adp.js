@@ -88,6 +88,12 @@
       } else if (event.record.shipType.value == '返品') {
         reportCreate(event.record, 'shiponly');
       }
+    } else if(nStatus === "受領待ち"){
+      var txt = $('[name=setShipment] option:selected').text();
+      var val = $('[name=setShipment] option:selected').val();
+      event.record.shipment.value = txt;
+      event.record.sys_shipmentCode.value = val;
+
     }
 
     return event;
@@ -126,16 +132,6 @@
           location.reload();
         }
       });
-  });
-
-  // 保存時ドロップダウン内の名前をルックアップに挿入
-  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
-    var txt = $('[name=setShipment] option:selected').text();
-    var val = $('[name=setShipment] option:selected').val();
-    event.record.shipment.value = txt;
-    event.record.sys_shipmentCode.value = val;
-
-    return event;
   });
 
   /* ---以下関数--- */

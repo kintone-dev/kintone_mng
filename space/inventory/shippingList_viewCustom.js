@@ -147,13 +147,7 @@
       return false; //aタグを無効にする
     });
 
-    // 出荷ロケーション表示処理
-    if(event.record.ステータス.value === "処理中"){
-      setFieldShown('shipment', false);
-    } else{
-      setFieldShown('shipment', true);
-      event.record.shipment.disabled = true;
-    }
+    event.record.shipment.disabled = true;
 
     return event;
   });
@@ -189,7 +183,7 @@
   });
 
   // ドロップダウン作成
-  kintone.events.on(['app.record.create.show', 'app.record.edit.show'], function (event) {
+  kintone.events.on('app.record.detail.show', function (event) {
 
     var cStatus = event.record.ステータス.value;
 
