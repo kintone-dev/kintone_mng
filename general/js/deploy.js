@@ -62,8 +62,8 @@
     fieldsDev.app = prodAppId;
     layoutDev.app = prodAppId;
 
-    console.log(JSON.parse(Object.keys(JSON.stringify(fieldsProd.properties))).length);
-    console.log(JSON.parse(Object.keys(JSON.stringify(fieldsDev.properties))).length);
+    console.log(Object.keys(fieldsProd.properties).length);
+    console.log(Object.keys(fieldsDev.properties).length);
     console.log(settingsDev);
     console.log(fieldsDev);
     console.log(layoutDev);
