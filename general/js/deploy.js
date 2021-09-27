@@ -62,8 +62,8 @@
     fieldsDev.app = prodAppId;
     layoutDev.app = prodAppId;
 
-    console.log(JSON.parse(fieldsProd.properties));
-    console.log(JSON.parse(fieldsDev.properties));
+    console.log(JSON.parse(JSON.stringify(fieldsProd.properties)));
+    console.log(JSON.parse(JSON.stringify(fieldsDev.properties)));
     console.log(settingsDev);
     console.log(fieldsDev);
     console.log(layoutDev);
