@@ -27,19 +27,14 @@
         if(event.record.purchaseOrder.value.length<1){
           var inGroup=false;
           for(var i in resp.groups){
-            console.log(resp.groups[i].name);
             if(resp.groups[i].name=='営業責任者' || resp.groups[i].name=='sysAdmin'){
               inGroup=true;
               break;
             }
-            console.log('inGroup: '+inGroup);
           }
           if(inGroup){
-            console.log('inGroup: '+inGroup)
             var isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
-            console.log('isConfirm: '+isConfirm)
             if(!isConfirm){
-              console.log('isConfirm: '+isConfirm)
               event.error='請求書を添付するか営業責任者に承認を求めてください！';
             }
           }else{
