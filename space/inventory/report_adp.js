@@ -107,6 +107,8 @@
           var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
           var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
 
+          console.log(queryDate);
+          console.log(queryDate_current);
           // 仕入管理処理
           var getPurchasingBody = {
             'app': sysid.INV.app_id.purchasing,
@@ -134,7 +136,7 @@
           //案件導入管理処理
           var getProjectBody = {
             'app': sysid.INV.app_id.project,
-            'query': 'predictDate >= "' + queryDate_current + '" and predictDate <= "' + queryDate + '" and ステータス not in ("仕入完了")'
+            'query': 'predictDate >= "' + queryDate_current + '" and predictDate <= "' + queryDate + '"'
           }
           var project = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getProjectBody)
           .then(function (resp) {
