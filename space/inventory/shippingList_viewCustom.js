@@ -199,9 +199,11 @@
           return error;
         });
 
-      for(var i in allUnit){
-        $('#setShipment').append("<option>"+ allUnit[i].uName +"</option>");
-      }
+      console.log(allUnit);
+
+      // for(var i in allUnit){
+      //   $('#setShipment').append("<option>"+ allUnit[i].uName +"</option>");
+      // }
     }
 
     setOption();
