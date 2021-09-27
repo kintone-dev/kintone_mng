@@ -24,22 +24,42 @@
     var nStatus=event.nextStatus.value;
     if(nStatus=='入力内容確認中'){
       kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code:kintone.getLoginUser().code}).then(function(resp) {
-        var inGroup;
-        var isConfirm;
-        for(var i in resp.groups){
-          if(event.record.purchaseOrder.value.length<1 && resp.groups[i].name=='営業責任者'){
-            isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
-            break;
+        if(event.record.purchaseOrder.value.length<1){
+          var inGroup=false;
+          for(var i in resp.groups){
+            console.log(resp.groups[i].name);
+            if(resp.groups[i].name=='営業責任者'){
+              inGroup=true;
+              break;
+            }
+            console.log(inGroup);
+          }
+          if(inGroup){
+            var isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
+            if(!isConfirm){
+              event.error='請求書を添付するか営業責任者に承認を求めてください！';
+            }
           }else{
-            isConfirm=false;
+            event.error='請求書を添付するか営業責任者に承認を求めてください！';
           }
         }
-        if(!isConfirm){
-          event.error='請求書を添付するか営業責任者に承認を求めてください！';
-        }else if(event.record.purchaseOrder.value.length<1){
-          event.error='請求書を添付するか営業責任者に承認を求めてください！';
-        }
         kintone.app.record.set(event);
+        // var inGroup;
+        // var isConfirm;
+        // for(var i in resp.groups){
+        //   if(event.record.purchaseOrder.value.length<1 && resp.groups[i].name=='営業責任者'){
+        //     isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
+        //     break;
+        //   }else{
+        //     isConfirm=false;
+        //   }
+        // }
+        // if(!isConfirm){
+        //   event.error='請求書を添付するか営業責任者に承認を求めてください！';
+        // }else if(event.record.purchaseOrder.value.length<1){
+        //   event.error='請求書を添付するか営業責任者に承認を求めてください！';
+        // }
+        // kintone.app.record.set(event);
       });
     }
     return event;
