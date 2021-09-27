@@ -122,6 +122,7 @@
           }).catch(function (error) {
             return error;
           });
+          console.log(purchasing);
 
           var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
           var totalArrivalNum = 0;
@@ -146,6 +147,7 @@
           }).catch(function (error) {
             return error;
           });
+          console.log(project);
 
           var totalShipNum = 0;
           for (var j in project.records) {
