@@ -63,7 +63,7 @@
     layoutDev.app = prodAppId;
 
     console.log(settingsDev);
-    console.log(fieldsProd.length);
+    console.log(fieldsProd);
     console.log(fieldsDev);
     console.log(layoutDev);
 
