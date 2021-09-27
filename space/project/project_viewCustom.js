@@ -20,7 +20,8 @@
     else setFieldShown('invoiceStatus', true);
     return event;
   });
-  kintone.events.on(['app.record.create.change.purchaseOrder','app.reocrd.edit.change.purchaseOrder'], function(event){
+  kintone.events.on(['app.record.create.submit','app.reocrd.edit.submit'], function(event){
+  // kintone.events.on(['app.record.create.change.purchaseOrder','app.reocrd.edit.change.purchaseOrder'], function(event){
     if(event.record.purchaseOrder.value.length>0){ event.record.sys_purchaseOrder.value==['POI']; }
     else{event.record.sys_purchaseOrder.value==[]; }
     console.log(event.record.sys_purchaseOrder.value);
