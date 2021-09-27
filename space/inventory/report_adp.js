@@ -87,25 +87,19 @@
           var reportDate_current = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
           var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
           reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime));
-          reportDate_current.setMonth(reportDate.getMonth() + 1);
+          // reportDate_current.setMonth(reportDate.getMonth() + 1);
 
-          console.log(reportDate);
           console.log(reportDate_current);
+          console.log(reportDate);
           var queryYears = String(reportDate.getFullYear());
-          var queryYears_current = String(reportDate_current.getFullYear());
           var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
+          reportDate.setMonth(reportDate.getMonth() + 1);
+          var queryDay = reportDate.setDate(0);
+
+          var queryYears_current = String(reportDate_current.getFullYear());
           var queryMonth_current = String(("0" + (reportDate_current.getMonth() + 1)).slice(-2));
-          var month31 = ['1', '3', '5', '7', '8', '10', '12'];
-          if (month31.includes(queryMonth)) {
-            var queryDay = 31;
-          } else {
-            var queryDay = 30;
-          }
-          if (month31.includes(queryMonth_current)) {
-            var queryDay_current = 31;
-          } else {
-            var queryDay_current = 30;
-          }
+          var queryDay_current = reportDate_current.setDate(1);
+
           var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
           var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
 
