@@ -59,17 +59,11 @@
 
     var putFieldsBody = {};
 
-    for(var i in fieldsProd.properties){
-      for(var j in fieldsProdDev.properties){
-        if(i==j){
-          console.log('aru');
-        } else{
-          console.log('nai');
-        }
-      }
+    for(var j in fieldsDev.properties){
+
     }
 
-    settingsDev.name = settingsDev.name.replace(/\(DEV\)/g, '')
+    settingsDev.name = settingsDev.name.replace(/\(DEV\)/g, '');
     settingsDev.app = prodAppId;
     fieldsDev.app = prodAppId;
     layoutDev.app = prodAppId;
