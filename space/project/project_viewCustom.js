@@ -32,11 +32,14 @@
               inGroup=true;
               break;
             }
-            console.log(inGroup);
+            console.log('inGroup: '+inGroup);
           }
           if(inGroup){
+            console.log('inGroup: '+inGroup)
             var isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
+            console.log('isConfirm: '+isConfirm)
             if(!isConfirm){
+              console.log('isConfirm: '+isConfirm)
               event.error='請求書を添付するか営業責任者に承認を求めてください！';
             }
           }else{
