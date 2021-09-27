@@ -57,7 +57,7 @@
     // delete fieldsDev.properties.更新者;
     delete layoutDev.revision;
 
-    for(var i in Object.keys(fieldsProd.properties)){
+    for(var i in fieldsProd.properties){
       console.log(i);
     }
 
@@ -66,8 +66,6 @@
     fieldsDev.app = prodAppId;
     layoutDev.app = prodAppId;
 
-    console.log(Object.keys(fieldsProd.properties).length);
-    console.log(Object.keys(fieldsDev.properties).length);
     console.log(settingsDev);
     console.log(fieldsDev);
     console.log(layoutDev);
