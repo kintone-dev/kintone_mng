@@ -213,7 +213,7 @@
           });
 
         for(var i in allUnit.records){
-          $('#setShipment').append("<option>"+ allUnit.records[i].uName.value +"</option>");
+          $('#setShipment').append("<option value=" + allUnit.records[i].uCode.value +  ">"+ allUnit.records[i].uName.value +"</option>");
         }
       }
 
