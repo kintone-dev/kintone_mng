@@ -89,6 +89,8 @@
           reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime));
           reportDate_current.setMonth(reportDate.getMonth() + 1);
 
+          console.log(reportDate);
+          console.log(reportDate_current);
           var queryYears = String(reportDate.getFullYear());
           var queryYears_current = String(reportDate_current.getFullYear());
           var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
