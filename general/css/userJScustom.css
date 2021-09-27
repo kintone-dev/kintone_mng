@@ -56,11 +56,9 @@
 	box-shadow: 1px 1px 1px #fff inset;
 	background-color: #f7f9fa;
 
-	height: 40px;
 	margin-right: 8px;
 	margin-bottom: 0;
-	padding: 0 40px 0 16px;
-	padding-right: 40px;
+	padding: 7px 20px;
 
 	cursor: pointer;
 	vertical-align: middle;
