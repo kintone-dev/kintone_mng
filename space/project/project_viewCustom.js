@@ -258,6 +258,19 @@
     });
   });
 
+  kintone.events.on(['app.record.edit.change.instName', 'app.record.create.change.instName'], function (event) {
+    if(event.record.instName.value=='' || event.record.instName.value==undefined){
+      setSpaceShown('btn_newINST','individual','table-block');
+      setSpaceShown('btn_unknowINST','individual','table-block');
+    }
+    else{
+      setSpaceShown('btn_newINST','individual','none');
+      setSpaceShown('btn_unknowINST','individual','none');
+    }
+
+    return event;
+  });
+
   kintone.events.on(['app.record.index.edit.show', 'app.record.edit.show'], function (event) {
     // 新規作成以外、案件管理番号編集と既存案件切り替え不可
     event.record.prjNum.disabled = true;
