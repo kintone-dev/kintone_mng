@@ -20,11 +20,16 @@
     else setFieldShown('invoiceStatus', true);
     return event;
   });
-  kintone.events.on(['app.record.create.submit','app.reocrd.edit.submit'], function(event){
-  // kintone.events.on(['app.record.create.change.purchaseOrder','app.reocrd.edit.change.purchaseOrder'], function(event){
-    if(event.record.purchaseOrder.value.length>0){ event.record.sys_purchaseOrder.value==['POI']; }
-    else{event.record.sys_purchaseOrder.value==[]; }
-    console.log(event.record.sys_purchaseOrder.value);
+  kintone.events.on('app.record.detail.process.proceed', function(event){
+    var nStatus=event.nextStatus.value;
+    var loginUser=kintone.getLoginUser()
+    if(nStatus=='入力内容確認中'){
+      kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code:kintone.getLoginUser()}).then(function(resp) {
+        console.log(resp);
+      }).catch(function(error){
+        console.log(error);
+      });
+    }
     return event;
   });
   kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
