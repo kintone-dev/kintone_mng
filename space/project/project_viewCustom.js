@@ -259,6 +259,7 @@
   });
 
   kintone.events.on(['app.record.edit.change.instName', 'app.record.create.change.instName'], function (event) {
+    console.log('change');
     if(event.record.instName.value=='' || event.record.instName.value==undefined){
       setSpaceShown('btn_newINST','individual','table-block');
       setSpaceShown('btn_unknowINST','individual','table-block');
