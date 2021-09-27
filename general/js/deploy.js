@@ -57,8 +57,16 @@
     // delete fieldsDev.properties.更新者;
     delete layoutDev.revision;
 
+    var putFieldsBody = {};
+
     for(var i in fieldsProd.properties){
-      console.log(i);
+      for(var j in fieldsProdDev.properties){
+        if(i==j){
+          console.log('aru');
+        } else{
+          console.log('nai');
+        }
+      }
     }
 
     settingsDev.name = settingsDev.name.replace(/\(DEV\)/g, '')
