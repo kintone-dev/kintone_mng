@@ -109,8 +109,8 @@
           var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
           var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
 
-          console.log(queryDate);
           console.log(queryDate_current);
+          console.log(queryDate);
           // 仕入管理処理
           var getPurchasingBody = {
             'app': sysid.INV.app_id.purchasing,
