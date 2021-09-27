@@ -186,9 +186,25 @@
     createSelect.classList.add('selectCss');
     kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 
-    $('#setShipment').append("<option>test</option>");
+    async function setOption() {
+      var getUnitBody = {
+        'app': sysid.INV.app_id.unit,
+        'query': ''
+      }
 
+      var allUnit = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getUnitBody)
+        .then(function (resp) {
+          return resp;
+        }).catch(function (error) {
+          return error;
+        });
 
+      for(var i in allUnit){
+        $('#setShipment').append("<option>"+ allUnit[i].uName +"</option>");
+      }
+    }
+
+    setOption();
 
     return event;
   });
