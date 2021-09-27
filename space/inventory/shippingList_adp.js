@@ -131,7 +131,7 @@
   // 保存時ドロップダウン内の名前をルックアップに挿入
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
     var txt = $('[name=setShipment] option:selected').text();
-    event.record.shipment.value = txt;
+    event.record.shipment.value = "test";
     event.record.shipment.lookup = true;
 
     return event;
