@@ -83,8 +83,9 @@
           }
           else{
             setSpaceShown('btn_newINST','individual','none');
-          setSpaceShown('btn_unknowINST','individual','none');
+            setSpaceShown('btn_unknowINST','individual','none');
           }
+
           setFieldShown('cSales', true);
           setFieldShown('instStatus', true);
           setFieldShown('instDate', true);
@@ -279,7 +280,7 @@
 
   kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection', 'app.record.create.change.sys_instAddress', 'app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_unitAddress', 'app.record.edit.change.sys_unitAddress'], function (event) {
 
-    do_dstSelection(event.record);
+    // do_dstSelection(event.record);
 
     return event;
   });
