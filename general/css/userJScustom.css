@@ -57,8 +57,6 @@
 	background-color: #f7f9fa;
 
 	height: 40px;
-	min-width: 80px;
-	max-width: 280px;
 	margin-right: 8px;
 	margin-bottom: 0;
 	padding: 0 40px 0 16px;
@@ -70,14 +68,3 @@
 	overflow: visible;
 	display: inline-block;
 }
-
-.jsselect_header::before{
-	width: 40px;
-	border: 0 none;
-	background: url(https://static.cybozu.com/contents/k/image/argo/form/arrow-link.png) no-repeat 16px center transparent;
-	box-shadow: none;
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-
