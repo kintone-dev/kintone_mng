@@ -89,6 +89,8 @@
           reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime));
           reportDate_current.setMonth(reportDate.getMonth() + 1);
 
+          console.log(reportDate);
+          console.log(reportDate_current);
           var queryYears = String(reportDate.getFullYear());
           var queryYears_current = String(reportDate_current.getFullYear());
           var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
@@ -107,8 +109,8 @@
           var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
           var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
 
-          console.log(queryDate);
           console.log(queryDate_current);
+          console.log(queryDate);
           // 仕入管理処理
           var getPurchasingBody = {
             'app': sysid.INV.app_id.purchasing,
