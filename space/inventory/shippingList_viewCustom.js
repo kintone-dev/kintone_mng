@@ -146,6 +146,14 @@
       tabSwitch(idName); //tabをクリックした時の表示設定
       return false; //aタグを無効にする
     });
+
+    // 出荷ロケーション表示処理
+    if(event.ステータス.value === "処理中"){
+      setFieldShown('shipment', false);
+    } else{
+      setFieldShown('shipment', true);
+    }
+
     return event;
   });
 
@@ -181,32 +189,35 @@
 
   // ドロップダウン作成
   kintone.events.on(['app.record.create.show', 'app.record.edit.show'], function (event) {
-    var createSelect = document.createElement('select');
-    createSelect.id = 'setShipment';
-    createSelect.classList.add('selectCss');
-    kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 
-    async function setOption() {
-      var getUnitBody = {
-        'app': sysid.INV.app_id.unit,
-        'query': ''
+    var cStatus = event.ステータス.value;
+
+    if(cStatus === "処理中"){
+      var createSelect = document.createElement('select');
+      createSelect.id = 'setShipment';
+      createSelect.classList.add('selectCss');
+      kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
+
+      async function setOption() {
+        var getUnitBody = {
+          'app': sysid.INV.app_id.unit,
+          'query': ''
+        }
+
+        var allUnit = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getUnitBody)
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            return error;
+          });
+
+        for(var i in allUnit.records){
+          $('#setShipment').append("<option>"+ allUnit.records[i].uName.value +"</option>");
+        }
       }
 
-      var allUnit = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getUnitBody)
-        .then(function (resp) {
-          return resp;
-        }).catch(function (error) {
-          return error;
-        });
-
-      console.log(allUnit);
-
-      for(var i in allUnit.records){
-        $('#setShipment').append("<option>"+ allUnit.records[i].uName.value +"</option>");
-      }
+      setOption();
     }
-
-    setOption();
 
     return event;
   });
