@@ -58,7 +58,7 @@
     delete layoutDev.revision;
 
     for(var i in Object.keys(fieldsProd.properties)){
-      console.log(Object.keys(fieldsProd.properties[i]));
+      console.log(i);
     }
 
     settingsDev.name = settingsDev.name.replace(/\(DEV\)/g, '')
