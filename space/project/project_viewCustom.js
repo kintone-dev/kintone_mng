@@ -18,11 +18,13 @@
   kintone.events.on('app.record.edit.change.invoiceNum', function (event) {
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
+    return event;
   });
   kintone.events.on(['app.record.create.change.purchaseOrder','app.reocrd.edit.change.purchaseOrder'], function(event){
     if(event.record.purchaseOrder.value.length>0){ event.record.sys_purchaseOrder.value==['POI']; }
     else{event.record.sys_purchaseOrder.value==[]; }
     console.log(event.record.sys_purchaseOrder.value);
+    return event;
   });
   kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
 
@@ -44,7 +46,7 @@
       event.record.invoiceNum.disabled = false;
       event.record.invoiceStatus.disabled = false;
     }
-
+    return event;
   });
 
 
