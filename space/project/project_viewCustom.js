@@ -27,12 +27,17 @@
         var inGroup;
         var isConfirm;
         for(var i in resp.groups){
-          if(resp.groups[i].name=='営業責任者'){
-            isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか＞');
-          }else if(event.record.purchaseOrder.value.length<1){
-          // }else{
-            event.error='請求書を添付するか営業責任者の承認をとってください！';
+          if(event.record.purchaseOrder.value.length<1 && resp.groups[i].name=='営業責任者'){
+            isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
+            break;
+          }else{
+            isConfirm=false;
           }
+        }
+        if(!isConfirm){
+          event.error='請求書を添付するか営業責任者に承認を求めてください！';
+        }else if(event.record.purchaseOrder.value.length<1){
+          event.error='請求書を添付するか営業責任者に承認を求めてください！';
         }
         kintone.app.record.set(event);
       });
