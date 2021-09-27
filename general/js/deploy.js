@@ -47,14 +47,14 @@
 
     delete settingsDev.revision;
     delete fieldsDev.revision;
-    delete fieldsDev.properties.レコード番号;
-    delete fieldsDev.properties.カテゴリー;
-    delete fieldsDev.properties.ステータス;
-    delete fieldsDev.properties.作成日時;
-    delete fieldsDev.properties.作成者;
-    delete fieldsDev.properties.作業者;
-    delete fieldsDev.properties.更新日時;
-    delete fieldsDev.properties.更新者;
+    // delete fieldsDev.properties.レコード番号;
+    // delete fieldsDev.properties.カテゴリー;
+    // delete fieldsDev.properties.ステータス;
+    // delete fieldsDev.properties.作成日時;
+    // delete fieldsDev.properties.作成者;
+    // delete fieldsDev.properties.作業者;
+    // delete fieldsDev.properties.更新日時;
+    // delete fieldsDev.properties.更新者;
     delete layoutDev.revision;
 
     settingsDev.name = settingsDev.name.replace(/\(DEV\)/g, '')
@@ -62,8 +62,9 @@
     fieldsDev.app = prodAppId;
     layoutDev.app = prodAppId;
 
+    console.log(JSON.parse(fieldsProd.properties));
+    console.log(JSON.parse(fieldsDev.properties));
     console.log(settingsDev);
-    console.log(fieldsProd);
     console.log(fieldsDev);
     console.log(layoutDev);
 
