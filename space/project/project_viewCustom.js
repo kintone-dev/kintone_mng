@@ -77,6 +77,7 @@
           setFieldShown('cName', true);
           setFieldShown('orgName', true);
           setFieldShown('instName', true);
+          setFieldShown('Contractor', true);
           if(event.record.instName.value=='' || event.record.instName.value==undefined){
             setSpaceShown('btn_newINST','individual','table-block');
             setSpaceShown('btn_unknowINST','individual','table-block');
@@ -90,7 +91,6 @@
           setFieldShown('instStatus', true);
           setFieldShown('instDate', true);
           setFieldShown('instDDday', true);
-          setFieldShown('Contractor', false);
 
           setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('tarDate', false);
@@ -131,6 +131,7 @@
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
           setFieldShown('instDDday', false);
+          setFieldShown('Contractor', false);
 
           setSpaceShown('calBtn', 'line', 'none');
           setFieldShown('tarDate', false);
