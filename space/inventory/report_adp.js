@@ -104,7 +104,7 @@
 
           console.log(queryDate_current);
           console.log(queryDate);
-          // 仕入管理処理
+          // 仕入管理情報取得
           var getPurchasingBody = {
             'app': sysid.INV.app_id.purchasing,
             'query': 'ステータス not in ("仕入完了") and arrivalDate >= "'+ queryDate_current +'" and arrivalDate <= "'+ queryDate +'"'
@@ -127,9 +127,10 @@
               }
             }
           }
+          // 仕入予定数挿入
           event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
 
-          //案件導入管理処理
+          // 案件導入管理取得
           var getProjectBody = {
             'app': sysid.PM.app_id.project,
             'query': 'predictDate >= "' + queryDate_current + '" and predictDate <= "' + queryDate + '"'
@@ -150,7 +151,11 @@
               }
             }
           }
+          // 出荷予定数挿入
           event.record.forecastList.value[i].value.forecast_shipNum.value = totalShipNum;
+
+          //リードタイム後残数
+          event.record.forecastList.value[i].value.afterLeadTimeStock.value = event.record.forecastList.value[i].forecast_mStock.value - totalArrivalNum - totalShipNum;
 
         }
         console.log(event);
