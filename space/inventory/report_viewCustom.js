@@ -108,7 +108,6 @@
   kintone.events.on('app.record.detail.show', function (event) {
 
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
-    console.log(GET_FIELD_CODE);
     var iListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id;
     var fListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '製品別在庫残数').id;
     var inventoryData = [];
