@@ -176,6 +176,7 @@
 
           } else if (nStatus == '完了') {
             if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
+
               //積送在庫処理
               var stockData = []
               //納品リストからmCodeと納品数を取得
