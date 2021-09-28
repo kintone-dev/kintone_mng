@@ -512,7 +512,7 @@ const deleteRecords = async (app, records) => {
 
 /**
  * 指定月のレポートが締切の場合エラー表示
- * @param {*} event kintoneのevent
+ * @param {*} event kintone event
  * @param {*} reportDate 判別したいレポートの月 例)202109
  * @returns
  */
@@ -542,6 +542,7 @@ const checkEoMReport = async (event, reportDate) => {
 
 /* 商品管理、拠点管理の在庫処理 */
 const stockCtrl = async () => {
+
 };
 
 
