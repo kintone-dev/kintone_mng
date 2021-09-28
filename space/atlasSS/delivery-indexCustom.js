@@ -4,7 +4,6 @@
   kintone.events.on('app.record.index.show', function (event) {
     var del_records = setBtn_index('btn_del_records', 'KT-処理済みデータ削除');
     var sync_kintone = setBtn_index('btn_sync_kintone', 'KT-情報連携');
-
     //処理済みデータ削除
     $('#' + del_records.id).on('click', function () {
       var deleteReqBody = {
@@ -30,7 +29,6 @@
         });
       return event;
     });
-
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', function () {
       /*①
@@ -52,7 +50,7 @@
           }).catch(function (error) {
             return error;
           });
-        console.log(getNewMemData);
+        console.log(newMemData);
 
         var newMemList = newMemData.records;
         //新規申込データ作成
@@ -327,9 +325,9 @@
           var bizInList = toastData.records;
           //故障交換ステータスデータ作成
           var putStatData = [];
-          for (var bil in bizInList) {
+          for (var i in bizInList) {
             var putBody_workStat = {
-              'id': bizInList[ri].レコード番号.value,
+              'id': bizInList[i].レコード番号.value,
               'record': {
                 'working_status': {
                   'value': '必要情報入力済み'
