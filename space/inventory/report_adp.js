@@ -71,7 +71,7 @@
       var newList = [];
       //特定の拠点以外を抜き出して再度格納
       for (var i in inventoryList) {
-        if (!inventoryList[i].value.sys_code.value.match(/ns-|-〇〇/)){
+        if (!inventoryList[i].value.sys_code.value.match(/ns-|-〇〇/)) {
           newList.push(inventoryList[i]);
         }
       }
@@ -81,7 +81,7 @@
       /**
        * 製品別在庫残数処理
        */
-      async function forecastListFunc() {
+      return (async function forecastListFunc() {
         for (var i in event.record.forecastList.value) {
           var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
           var reportDate_current = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
@@ -107,14 +107,14 @@
           // 仕入管理情報取得
           var getPurchasingBody = {
             'app': sysid.INV.app_id.purchasing,
-            'query': 'ステータス not in ("仕入完了") and arrivalDate >= "'+ queryDate_current +'" and arrivalDate <= "'+ queryDate +'"'
+            'query': 'ステータス not in ("仕入完了") and arrivalDate >= "' + queryDate_current + '" and arrivalDate <= "' + queryDate + '"'
           }
           var purchasing = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
-          .then(function (resp) {
-            return resp;
-          }).catch(function (error) {
-            return error;
-          });
+            .then(function (resp) {
+              return resp;
+            }).catch(function (error) {
+              return error;
+            });
           console.log(purchasing);
 
           var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
@@ -136,11 +136,11 @@
             'query': 'predictDate >= "' + queryDate_current + '" and predictDate <= "' + queryDate + '"'
           }
           var project = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getProjectBody)
-          .then(function (resp) {
-            return resp;
-          }).catch(function (error) {
-            return error;
-          });
+            .then(function (resp) {
+              return resp;
+            }).catch(function (error) {
+              return error;
+            });
           console.log(project);
 
           var totalShipNum = 0;
@@ -163,9 +163,8 @@
         }
         console.log(event);
         return event;
-      }
+      }());
 
-      return forecastListFunc();
     }
   });
 

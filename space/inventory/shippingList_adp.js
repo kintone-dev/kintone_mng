@@ -192,7 +192,7 @@
           for (var dl in deviceList) {
             var shipSysData = {
               'sysCode': deviceList[dl].value.mCode.value + '-' + sysShipmentCode,
-              'shipNum': deviceList[dl].value.shipNum.value,
+              'shipNum': deviceList[dl].value.shipNum.value
             }
             shipSysCode.push(shipSysData);
           }
@@ -306,7 +306,7 @@
           for (var dl in deviceList) {
             var shipSysData = {
               'sysCode': deviceList[dl].value.mCode.value + '-' + sysShipmentCode,
-              'shipNum': deviceList[dl].value.shipNum.value,
+              'shipNum': deviceList[dl].value.shipNum.value
             }
             shipSysCode.push(shipSysData);
           }
@@ -585,7 +585,7 @@
       'app': sysid.PM.app_id.project,
       'id': pageRecod.prjId.value,
       'action': '製品発送'
-    }
+    };
 
     putRecords(sysid.PM.app_id.project, putDeliveryData);
     kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody);
