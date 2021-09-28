@@ -157,6 +157,9 @@
           //リードタイム後残数
           event.record.forecastList.value[i].value.afterLeadTimeStock.value = event.record.forecastList.value[i].forecast_mStock.value - totalArrivalNum - totalShipNum;
 
+          //差引残数
+          event.record.forecastList.value[i].value.afterLeadTimeStock.value = event.record.forecastList.value[i].value.afterLeadTimeStock.value - event.record.forecastList.value[i].value.mOrderingPoint.value;
+
         }
         console.log(event);
         return event;
