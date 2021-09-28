@@ -155,10 +155,10 @@
           event.record.forecastList.value[i].value.forecast_shipNum.value = totalShipNum;
 
           //リードタイム後残数
-          event.record.forecastList.value[i].value.afterLeadTimeStock.value = event.record.forecastList.value[i].value.forecast_mStock.value - totalArrivalNum - totalShipNum;
+          event.record.forecastList.value[i].value.afterLeadTimeStock.value = (parseInt(event.record.forecastList.value[i].value.forecast_mStock.value) || 0) - (parseInt(totalArrivalNum) || 0) - (parseInt(totalShipNum) || 0);
 
           //差引残数
-          event.record.forecastList.value[i].value.afterLeadTimeStock.value = event.record.forecastList.value[i].value.afterLeadTimeStock.value - event.record.forecastList.value[i].value.mOrderingPoint.value;
+          event.record.forecastList.value[i].value.afterLeadTimeStock.value = (parseInt(event.record.forecastList.value[i].value.afterLeadTimeStock.value) || 0) - (parseInt(event.record.forecastList.value[i].value.mOrderingPoint.value) || 0);
 
         }
         console.log(event);
