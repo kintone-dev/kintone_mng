@@ -108,8 +108,9 @@
   kintone.events.on('app.record.detail.show', function (event) {
 
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
-    var tableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id
-    var deductionData = []
+    console.log(GET_FIELD_CODE);
+    var tableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id;
+    var deductionData = [];
 
     //テーブルデータ取得
     for (var i in event.record.inventoryList.value) {
