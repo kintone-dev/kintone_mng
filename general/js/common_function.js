@@ -438,13 +438,15 @@ var railConf = function (spec) {
 
 /* その他 */
 function orgRound(value, base) {
-  return Math.round(value * base) / base;
+	return Math.round(value * base) / base;
 }
+
 function orgCeil(value, base) {
-  return Math.ceil(value * base) / base;
+	return Math.ceil(value * base) / base;
 }
+
 function orgFloor(value, base) {
-  return Math.floor(value * base) / base;
+	return Math.floor(value * base) / base;
 }
 // 全レコード呼び出し
 function api_getRecords(appID) {
@@ -507,3 +509,42 @@ const deleteRecords = async (app, records) => {
 		DELETE_RECORDS.splice(0, 100);
 	}
 }
+
+/**
+ * 指定月のレポートが締切の場合エラー表示
+ * @param {*} event kintoneのevent
+ * @param {*} reportDate 判別したいレポートの月 例)202109
+ * @returns
+ */
+const checkEoMReport = async (event, reportDate) => {
+	var getReportBody = {
+		'app': sysid.INV.app_id.report,
+		'query': 'sys_invoiceDate = "' + reportDate + '"'
+	};
+	var reportData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	if (reportRecords.length != 0) {
+		for (var i in reportData.records[0].EoMcheck.value) {
+			if (reportData.records[0].EoMcheck.value[i] == '締切') {
+				event.error = '対応した日付のレポートは締切済みです。';
+				return event;
+			}
+		}
+	} else {
+		return event;
+	}
+};
+
+/* 商品管理、拠点管理の在庫処理 */
+const stockCtrl = async () => {
+};
+
+
+
+
+
