@@ -138,8 +138,8 @@
     //   'query': 'mCode="'+event.record.mCode.value+'"',
     //   'fields': ['$id']
     // }
-    
-    
+
+
     // api実行
     for (var pi in tarAPP) {
       // if(event.record.endService.value.length>0){
@@ -165,9 +165,9 @@
   });
 
   //パッケージ一覧編集時
-  kintone.events.on(['app.record.create.change.pc_mCode','app.record.edit.change.pc_mCode'], function (event) {
+  kintone.events.on(['app.record.create.change.pc_mCode', 'app.record.edit.change.pc_mCode'], function (event) {
     var deviceQuery = [];
-    for(var i in event.record.packageComp.value){
+    for (var i in event.record.packageComp.value) {
       deviceQuery.push('"' + event.record.packageComp.value[i].value.pc_mCode.value + '"');
     }
     var getPacBody = {
@@ -175,33 +175,32 @@
       'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPacBody)
-    .then(function (resp) {
-      var eRecord = kintone.app.record.get();
+      .then(function (resp) {
+        var eRecord = kintone.app.record.get();
 
-      for(var i in eRecord.record.packageComp.value){
-        for(var j in resp.records){
-          if(eRecord.record.packageComp.value[i].value.pc_mCode.value == resp.records[j].mCode.value){
-            eRecord.record.packageComp.value[i].value.pc_mVendor.value = resp.records[j].mVendor.value;
-            eRecord.record.packageComp.value[i].value.pc_mType.value = resp.records[j].mType.value;
-            eRecord.record.packageComp.value[i].value.pc_mName.value = resp.records[j].mName.value;
-            eRecord.record.packageComp.value[i].value.pc_mNickname.value = resp.records[j].mNickname.value;
+        for (var i in eRecord.record.packageComp.value) {
+          for (var j in resp.records) {
+            if (eRecord.record.packageComp.value[i].value.pc_mCode.value == resp.records[j].mCode.value) {
+              eRecord.record.packageComp.value[i].value.pc_mVendor.value = resp.records[j].mVendor.value;
+              eRecord.record.packageComp.value[i].value.pc_mType.value = resp.records[j].mType.value;
+              eRecord.record.packageComp.value[i].value.pc_mName.value = resp.records[j].mName.value;
+              eRecord.record.packageComp.value[i].value.pc_mNickname.value = resp.records[j].mNickname.value;
+            }
           }
         }
-      }
 
-      for (var i in eRecord.record.packageComp.value) {
-        eRecord.record.packageComp.value[i].value.pc_mVendor.disabled = true;
-        eRecord.record.packageComp.value[i].value.pc_mType.disabled = true;
-        eRecord.record.packageComp.value[i].value.pc_mName.disabled = true;
-        eRecord.record.packageComp.value[i].value.pc_mNickname.disabled = true;
-        eRecord.record.packageComp.value[i].value.pc_Num.disabled = false;
-        eRecord.record.packageComp.value[i].value.pc_mCode.disabled = false;
-      }
+        for (var i in eRecord.record.packageComp.value) {
+          eRecord.record.packageComp.value[i].value.pc_mVendor.disabled = true;
+          eRecord.record.packageComp.value[i].value.pc_mType.disabled = true;
+          eRecord.record.packageComp.value[i].value.pc_mName.disabled = true;
+          eRecord.record.packageComp.value[i].value.pc_mNickname.disabled = true;
+          eRecord.record.packageComp.value[i].value.pc_Num.disabled = false;
+          eRecord.record.packageComp.value[i].value.pc_mCode.disabled = false;
+        }
 
-
-      kintone.app.record.set(eRecord);
-      return event;
-    });
-});
+        kintone.app.record.set(eRecord);
+        return event;
+      });
+  });
 
 })();

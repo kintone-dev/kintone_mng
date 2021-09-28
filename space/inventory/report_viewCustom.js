@@ -170,7 +170,7 @@
       if(alertData!=0){
         var alertTxt = '以下の商品は、差引残数が発注点の10%以下です。\n'
         for(var i in alertData){
-          alertTxt = alertTxt + alertData[i] + '\n'
+          alertTxt = alertTxt + alertData[i] + '\n';
         }
         alert(alertTxt);
       }
