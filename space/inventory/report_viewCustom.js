@@ -148,6 +148,7 @@
           })
         }
       }
+
       for(var i in forecastData){
         //差引残数が発注点の10%以下のものを赤背景に
         if(parseInt(forecastData[i].mOrderingPoint) * 0.1 >= parseInt(forecastData[i].remainingNum)){
