@@ -108,7 +108,6 @@
       sessionStorage.setItem('record_updated', '0');
       return event;
     }
-
     var getShipBody = {
       'app': sysid.INV.app_id.shipment,
       'query': 'prjId != "" order by レコード番号'
@@ -129,7 +128,6 @@
               putStatusData.records.push(putStatusBody);
             }
           }
-          console.log(JSON.stringify(putStatusData, null, '\t'));
           kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
           sessionStorage.setItem('record_updated', '1');
           location.reload();
