@@ -18,11 +18,49 @@
   kintone.events.on('app.record.edit.change.invoiceNum', function (event) {
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
+    return event;
   });
-  kintone.events.on(['app.record.create.change.purchaseOrder','app.reocrd.edit.change.purchaseOrder'], function(event){
-    if(event.record.purchaseOrder.value.length>0){ event.record.sys_purchaseOrder.value[0]=='POI'; }
-    else{event.record.sys_purchaseOrder.value[0]==''; }
-    console.log(event.record.sys_purchaseOrder.value);
+  kintone.events.on('app.record.detail.process.proceed', function(event){
+    var nStatus=event.nextStatus.value;
+    if(nStatus=='入力内容確認中'){
+      return kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code:kintone.getLoginUser().code}).then(function(resp) {
+        if(event.record.purchaseOrder.value.length<1){
+          var inGroup=false;
+          for(var i in resp.groups){
+            if(resp.groups[i].name=='営業責任者' || resp.groups[i].name=='sysAdmin'){
+              inGroup=true;
+              break;
+            }
+          }
+          if(inGroup){
+            var isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
+            if(!isConfirm){
+              event.error='請求書を添付するか営業責任者に承認を求めてください！';
+            }
+          }else{
+            event.error='請求書を添付するか営業責任者に承認を求めてください！';
+          }
+        }
+        return event;
+        // var inGroup;
+        // var isConfirm;
+        // for(var i in resp.groups){
+        //   if(event.record.purchaseOrder.value.length<1 && resp.groups[i].name=='営業責任者'){
+        //     isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
+        //     break;
+        //   }else{
+        //     isConfirm=false;
+        //   }
+        // }
+        // if(!isConfirm){
+        //   event.error='請求書を添付するか営業責任者に承認を求めてください！';
+        // }else if(event.record.purchaseOrder.value.length<1){
+        //   event.error='請求書を添付するか営業責任者に承認を求めてください！';
+        // }
+        // kintone.app.record.set(event);
+      });
+    }
+    return event;
   });
   kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
 
@@ -44,7 +82,7 @@
       event.record.invoiceNum.disabled = false;
       event.record.invoiceStatus.disabled = false;
     }
-
+    return event;
   });
 
 
@@ -292,6 +330,7 @@
       autoNum('PRJ_', 'prjNum');
       event.record.prjNum.disabled = true;
     }
+    return event;
   });
 
   kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection', 'app.record.create.change.sys_instAddress', 'app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_unitAddress', 'app.record.edit.change.sys_unitAddress'], function (event) {

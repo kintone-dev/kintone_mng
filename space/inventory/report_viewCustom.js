@@ -108,54 +108,94 @@
   kintone.events.on('app.record.detail.show', function (event) {
 
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
-    var tableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id
-    var deductionData = []
+    var iListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id;
+    var fListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '製品別在庫残数').id;
+    var inventoryData = [];
+    var forecastData = [];
+    var alertData = [];
 
-    //テーブルデータ取得
+    //在庫一覧テーブルデータ取得
     for (var i in event.record.inventoryList.value) {
-      var deductionBody = {
+      var inventoryBody = {
         'rowNum': parseInt(i) + 1,
         'deductionNum': event.record.inventoryList.value[i].value.deductionNum.value,
         'location': event.record.inventoryList.value[i].value.stockLocation.value
       }
-      deductionData.push(deductionBody);
+      inventoryData.push(inventoryBody);
+    }
+
+    //製品別在庫残数テーブルデータ取得
+    for (var i in event.record.forecastList.value) {
+      var forecastBody = {
+        'rowNum': parseInt(i) + 1,
+        'remainingNum': event.record.forecastList.value[i].value.remainingNum.value,
+        'mOrderingPoint':event.record.forecastList.value[i].value.mOrderingPoint.value,
+        'forecast_mName':event.record.forecastList.value[i].value.forecast_mName.value
+      }
+      forecastData.push(forecastBody);
     }
 
     //データ表示後動かす
     setTimeout(function () {
-      for (var i in deductionData) {
+      for (var i in inventoryData) {
         //差引数量マイナスのものを赤背景に
-        if (parseInt(deductionData[i].deductionNum) < 0) {
-          $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ')').css({
+        if (parseInt(inventoryData[i].deductionNum) < 0) {
+          $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ')').css({
             'background-color': 'red'
           });
-          $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ') td div').css({
+          $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ') td div').css({
             'color': 'white'
           })
         }
+      }
+
+      for(var i in forecastData){
+        //差引残数が発注点の10%以下のものを赤背景に
+        if(parseInt(forecastData[i].mOrderingPoint) * 0.1 >= parseInt(forecastData[i].remainingNum)){
+          $('.' + fListTableClass + ' tr:nth-child(' + forecastData[i].rowNum + ')').css({
+            'background-color': 'red'
+          });
+          $('.' + fListTableClass + ' tr:nth-child(' + forecastData[i].rowNum + ') td div').css({
+            'color': 'white'
+          })
+          alertData.push(forecastData[i].forecast_mName);
+          //差引残数が発注点の30%以下のものを赤背景に
+        }else if(parseInt(forecastData[i].mOrderingPoint) * 0.3 >= parseInt(forecastData[i].remainingNum)){
+          $('.' + fListTableClass + ' tr:nth-child(' + forecastData[i].rowNum + ')').css({
+            'background-color': 'yellow'
+          });
+        }
+      }
+
+      if(alertData!=0){
+        var alertTxt = '以下の商品は、差引残数が発注点の10%以下です。\n'
+        for(var i in alertData){
+          alertTxt = alertTxt + alertData[i] + '\n'
+        }
+        alert(alertTxt);
       }
     }, 5000);
 
     if (event.record.EoMcheck.value == '締切' || event.record.EoMcheck.value == '一時締切') {
       setTimeout(function () {
-        for (var i in deductionData) {
+        for (var i in inventoryData) {
           //差引数量0の文字色を青色に
-          if (parseInt(deductionData[i].deductionNum) == 0) {
-            $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ') td div').css({
+          if (parseInt(inventoryData[i].deductionNum) == 0) {
+            $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ') td div').css({
               'color': 'blue',
               'font-weight': 'bold'
             });
           }
 
           //特定拠点の文字色を緑に
-          if (deductionData[i].location == '〇〇〇〇') {
-            $('.' + tableClass + ' tr:nth-child(' + deductionData[i].rowNum + ') td div').css({
+          if (inventoryData[i].location == '〇〇〇〇') {
+            $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ') td div').css({
               'color': 'green',
               'font-weight': 'bold'
             });
           }
         }
-      }, 500);
+      }, 5000);
     }
 
   });
