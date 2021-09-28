@@ -192,7 +192,7 @@
       createSelect.classList.add('jsselect_header');
       kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 
-      async function setOption() {
+      (async function setOption() {
         var getUnitBody = {
           'app': sysid.INV.app_id.unit,
           'query': ''
@@ -210,9 +210,8 @@
         for(var i in allUnit.records){
           $('#setShipment').append('<option value="' + allUnit.records[i].uCode.value +  '">'+ allUnit.records[i].uName.value +'</option>');
         }
-      }
+      }());
 
-      setOption();
       setFieldShown('shipment', false);
     } else{
       setFieldShown('shipment', true);
