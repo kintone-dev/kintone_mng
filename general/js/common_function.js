@@ -545,28 +545,26 @@ const createStockJson = async (event) => {
 		'arr':[],
 		'ship':[]
 	};
-	var stockBody = {
-		'arrOrShip': '',
-		'devCode': '',
-		'uniCode': '',
-		'stockNum': 0
-	};
 
 	//入出荷管理の場合
 	if (event.appId == sysid.INV.app_id.shipment) {
 		var arrShipType = ['移動-販売','移動-サブスク','販売','サブスク','移動-拠点間','移動-ベンダー'];
 		for (var i in event.record.deviceList.value) {
-			stockBody.arrOrShip = 'ship';
-			stockBody.devCode = event.record.deviceList.value[i].value.mCode.value;
-			stockBody.uniCode = event.record.sys_arrivalCode.value;;
-			stockBody.stockNum = event.record.deviceList.value[i].value.shipNum.value;
-			stockData.arr.push(stockBody);
+			var stockShipBody = {
+				'arrOrShip': 'ship',
+				'devCode': event.record.deviceList.value[i].value.mCode.value,
+				'uniCode': event.record.sys_arrivalCode.value,
+				'stockNum': event.record.deviceList.value[i].value.shipNum.value
+			};
+			stockData.ship.push(stockShipBody);
 			if (arrShipType.includes(event.record.shipType.value)) {
-				stockBody.arrOrShip = 'arr';
-				stockBody.devCode = event.record.deviceList.value[i].value.mCode.value;
-				stockBody.uniCode = event.record.sys_shipmentCode.value;;
-				stockBody.stockNum = event.record.deviceList.value[i].value.shipNum.value;
-				stockData.ship.push(stockBody)
+				var stockArrBody = {
+					'arrOrShip': 'arr',
+					'devCode': event.record.deviceList.value[i].value.mCode.value,
+					'uniCode': event.record.sys_shipmentCode.value,
+					'stockNum': event.record.deviceList.value[i].value.shipNum.value
+				};
+				stockData.arr.push(stockArrBody)
 			}
 		}
 
