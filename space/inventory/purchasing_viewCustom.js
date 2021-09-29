@@ -1,6 +1,6 @@
 (function () {
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show','app.record.create.change.currencyType','app.record.edit.change.currencyType'], function(event){
-    console.log(createStockJson(event));
+    console.log(stockCtrl(event));
 
     if(event.record.currencyType.value==undefined){
       alert('通貨種類を選択してください。');

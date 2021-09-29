@@ -545,7 +545,7 @@ const checkEoMReport = async (event, reportDate) => {
  * @param {*} event kintone event
  * @returns
  */
-const createStockJson = function (event) {
+function createStockJson(event) {
 	var stockData = {
 		'arr': [],
 		'ship': [],
@@ -616,7 +616,7 @@ const createStockJson = function (event) {
 				'devCode': event.record.arrivalList.value[i].value.mCode.value,
 				'uniCode': event.record.arrivalList.value[i].value.uCode.value,
 				'stockNum': event.record.arrivalList.value[i].value.arrivalNum.value,
-				'costInfo':{
+				'costInfo': {
 					'mCost': event.record.arrivalList.value[i].value.totalUnitCost.value,
 					'mCostUpdate': event.record.arrivalDate.value,
 					'deviceCost': event.record.arrivalList.value[i].value.unitPrice.value,
@@ -634,7 +634,18 @@ const createStockJson = function (event) {
 	return false;
 };
 
-const stockCtrl = async (event) => {
+async function stockCtrl(event) {
 	var stockData = createStockJson(event);
+
+	//商品管理クエリ
+	var devQuery = [];
+	for (var i in stockData.arr) {
+		devQuery.push('"' + stockData.arr[i].devCode + '"');
+	}
+	for (var i in stockData.ship) {
+		devQuery.push('"' + stockData.ship[i].devCode + '"');
+	}
+
+	return devQuery;
 
 };
