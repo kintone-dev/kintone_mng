@@ -457,11 +457,11 @@ function api_getRecords(appID) {
 }
 
 // 100件以上のレコード登録
-const postRecords = async (app, records) => {
+const postRecords = async (sendApp, records) => {
 	const POST_RECORDS = records;
 	while (POST_RECORDS.length) {
 		var postBody = {
-			'app': app,
+			'app': sendApp,
 			'records': POST_RECORDS.slice(0, 100),
 		}
 		await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
@@ -475,11 +475,11 @@ const postRecords = async (app, records) => {
 }
 
 // 100件以上のレコード更新
-const putRecords = async (app, records) => {
+const putRecords = async (sendApp, records) => {
 	const PUT_RECORDS = records;
 	while (PUT_RECORDS.length) {
 		var putBody = {
-			'app': app,
+			'app': sendApp,
 			'records': PUT_RECORDS.slice(0, 100),
 		}
 		await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody)
@@ -493,11 +493,11 @@ const putRecords = async (app, records) => {
 }
 
 // 100件以上のレコード削除
-const deleteRecords = async (app, records) => {
+const deleteRecords = async (sendApp, records) => {
 	const DELETE_RECORDS = records;
 	while (DELETE_RECORDS.length) {
 		var deleteBody = {
-			'app': app,
+			'app': sendApp,
 			'ids': DELETE_RECORDS.slice(0, 100),
 		}
 		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody)
@@ -535,17 +535,26 @@ const checkEoMReport = async (event, reportDate) => {
 				return event;
 			}
 		}
-	} else {
-		return false;
 	}
+	return false;
 };
 
 /* 商品管理、拠点管理の在庫処理 */
-const stockCtrl = async () => {
+const createStockJson = async (event, currentApp) => {
+
+	if (currentApp == sysid.INV.app_id.shipment) {
+		return event;
+	}
+	var stockJsonData = [];
+	var stockJsonBody = {
+		'arrOrShip': 'arr',
+		'location': 'ygr',
+		'device': 'LS152',
+		'num': 50
+	};
 
 };
 
+const stockCtrl = async () => {
 
-
-
-
+};

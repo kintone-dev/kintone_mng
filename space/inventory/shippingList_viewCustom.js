@@ -185,7 +185,7 @@
 
     var cStatus = event.record.ステータス.value;
 
-    if(cStatus === "処理中"){
+    if (cStatus === "処理中") {
       var createSelect = document.createElement('select');
       createSelect.id = 'setShipment';
       createSelect.name = 'setShipment';
@@ -207,13 +207,13 @@
 
         $('#setShipment').append('<option value="noSelect">選択して下さい</option>');
 
-        for(var i in allUnit.records){
-          $('#setShipment').append('<option value="' + allUnit.records[i].uCode.value +  '">'+ allUnit.records[i].uName.value +'</option>');
+        for (var i in allUnit.records) {
+          $('#setShipment').append('<option value="' + allUnit.records[i].uCode.value + '">' + allUnit.records[i].uName.value + '</option>');
         }
       }());
 
       setFieldShown('shipment', false);
-    } else{
+    } else {
       setFieldShown('shipment', true);
     }
 
@@ -247,6 +247,7 @@
 
   // 計算ボタン
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
+    console.log(createStockJson(event, kintone.app.getId()));
     setBtn('calBtn', '計算');
     $('#calBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
