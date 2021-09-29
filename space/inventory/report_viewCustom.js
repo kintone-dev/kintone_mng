@@ -101,6 +101,10 @@
       kintone.app.record.set(eRecord);
     });
 
+    for(var i in event.record.inventoryList.value){
+      event.record.inventoryList.value[i].value.mCode.lookup = true;
+    }
+
     return event;
   });
 
