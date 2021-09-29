@@ -647,7 +647,7 @@ async function stockCtrl(event) {
 		devQuery.push('"' + stockData.arr[i].devCode + '"');
 	}
 	for (var i in stockData.ship) {
-		devQuery.push('"' + stockData.arr[i].devCode + '"');
+		devQuery.push('"' + stockData.ship[i].devCode + '"');
 	}
 	// 配列内の重複した要素の削除
 	devQuery = Array.from(new Set(devQuery));
@@ -668,10 +668,10 @@ async function stockCtrl(event) {
 	/* 拠点管理情報取得 */
 	var uniQuery = [];
 	for (var i in stockData.arr) {
-		uniQuery.push('\"' + stockData.arr[i].uniCode + '\"');
+		uniQuery.push('"' + stockData.arr[i].uniCode + '"');
 	}
 	for (var i in stockData.ship) {
-		uniQuery.push('\"' + stockData.arr[i].uniCode + '\"');
+		uniQuery.push('"' + stockData.ship[i].uniCode + '"');
 	}
 	// 配列内の重複した要素の削除
 	uniQuery = Array.from(new Set(uniQuery));
