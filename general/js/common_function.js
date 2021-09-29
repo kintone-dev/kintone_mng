@@ -666,6 +666,7 @@ async function stockCtrl(event) {
 	/* 商品管理情報取得 end */
 
 	/* 拠点管理情報取得 */
+	//拠点管理クエリ作成
 	var uniQuery = [];
 	for (var i in stockData.arr) {
 		uniQuery.push('"' + stockData.arr[i].uniCode + '"');
