@@ -636,6 +636,7 @@ function createStockJson(event) {
 
 async function stockCtrl(event) {
 	var stockData = createStockJson(event);
+	console.log(stockData);
 	var unitStockData = [];
 	var deviceStockData = [];
 
@@ -647,9 +648,9 @@ async function stockCtrl(event) {
 	for (var i in stockData.ship) {
 		devQuery.push(stockData.arr[i].devCode);
 	}
+	// 配列ないで重複した要素の削除
 	devQuery = Array.from(new Set(devQuery));
 
 
 	return devQuery;
-
 };
