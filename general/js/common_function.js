@@ -635,5 +635,7 @@ const createStockJson = function (event) {
 };
 
 const stockCtrl = async (event) => {
+	var stockData = createStockJson(event);
+
 
 };
