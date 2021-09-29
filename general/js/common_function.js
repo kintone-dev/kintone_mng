@@ -542,7 +542,7 @@ const checkEoMReport = async (event, reportDate) => {
 /* 商品管理、拠点管理の在庫処理 */
 const createStockJson = async (event, currentApp) => {
 
-	if (currentApp == sysid.INV.app_id.unit) {
+	if (currentApp == sysid.INV.app_id.shipment) {
 		return event;
 	}
 	var stockJsonData = [];
@@ -552,6 +552,7 @@ const createStockJson = async (event, currentApp) => {
 		'device': 'LS152',
 		'num': 50
 	};
+
 	return false;
 };
 
