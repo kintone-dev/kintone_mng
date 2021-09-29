@@ -706,12 +706,23 @@ async function stockCtrl(event) {
 		deviceStockData.push(putDevBody);
 	}
 
-	// 商品管理、出荷情報挿入
+	// 商品管理、入荷情報挿入 (指定数分＋する)
 	for(var i in deviceStockData){
 		for(var j in deviceStockData[i].record.uStockList.value){
 			for(var k in stockData.arr){
 				if(stockData.arr[k].devCode == deviceStockData[i].updateKey.value && stockData.arr[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value){
-					console.log(stockData.arr[k]);
+					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
+				}
+			}
+		}
+	}
+
+	// 商品管理、出荷情報挿入 (指定数分-する)
+	for(var i in deviceStockData){
+		for(var j in deviceStockData[i].record.uStockList.value){
+			for(var k in stockData.ship){
+				if(stockData.ship[k].devCode == deviceStockData[i].updateKey.value && stockData.ship[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value){
+					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
 				}
 			}
 		}
