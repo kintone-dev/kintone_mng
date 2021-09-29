@@ -655,6 +655,7 @@ async function stockCtrl(event) {
 		'app': sysid.INV.app_id.device,
 		'query': 'mCode in (' + devQuery.join() + ')'
 	};
+	console.log(getDeviceBody.query);
 	var deviceRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
 		.then(function (resp) {
 			return resp;
@@ -667,10 +668,10 @@ async function stockCtrl(event) {
 	/* 拠点管理情報取得 */
 	var uniQuery = [];
 	for (var i in stockData.arr) {
-		uniQuery.push('"' + stockData.arr[i].uniCode + '"');
+		uniQuery.push('\"' + stockData.arr[i].uniCode + '\"');
 	}
 	for (var i in stockData.ship) {
-		uniQuery.push('"' + stockData.arr[i].uniCode + '"');
+		uniQuery.push('\"' + stockData.arr[i].uniCode + '\"');
 	}
 	// 配列内の重複した要素の削除
 	uniQuery = Array.from(new Set(uniQuery));
@@ -678,6 +679,7 @@ async function stockCtrl(event) {
 		'app': sysid.INV.app_id.unit,
 		'query': 'uCode in (' + uniQuery.join() + ')'
 	};
+	console.log(getUnitBody.query);
 	var unitRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
 		.then(function (resp) {
 			return resp;
