@@ -536,7 +536,7 @@ const checkEoMReport = async (event, reportDate) => {
 			}
 		}
 	} else {
-		return event;
+		return false;
 	}
 };
 
