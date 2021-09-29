@@ -540,6 +540,11 @@ const checkEoMReport = async (event, reportDate) => {
 };
 
 /* 商品管理、拠点管理の在庫処理 */
+/**
+ * ストック情報をまとめたjson作成
+ * @param {*} event kintone event
+ * @returns
+ */
 const createStockJson = function (event) {
 	var stockData = {
 		'arr': [],
