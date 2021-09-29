@@ -541,12 +541,39 @@ const checkEoMReport = async (event, reportDate) => {
 
 /* 商品管理、拠点管理の在庫処理 */
 const createStockJson = async (event) => {
+	var stockData = {
+		'arr':[],
+		'ship':[]
+	};
+	var stockBody = {
+		'arrOrShip': '',
+		'devCode': '',
+		'uniCode': '',
+		'stockNum': 0
+	};
 
+	//入出荷管理の場合
 	if (event.appId == sysid.INV.app_id.shipment) {
-		return event;
+		var arrShipType = ['移動-販売','移動-サブスク','販売','サブスク','移動-拠点間','移動-ベンダー'];
+		for (var i in event.record.deviceList.value) {
+			stockBody.arrOrShip = 'ship';
+			stockBody.devCode = event.record.deviceList.value[i].value.mCode.value;
+			stockBody.uniCode = event.record.sys_arrivalCode.value;;
+			stockBody.stockNum = event.record.deviceList.value[i].value.shipNum.value;
+			stockData.arr.push(stockBody);
+			if (arrShipType.includes(event.record.shipType.value)) {
+				stockBody.arrOrShip = 'arr';
+				stockBody.devCode = event.record.deviceList.value[i].value.mCode.value;
+				stockBody.uniCode = event.record.sys_shipmentCode.value;;
+				stockBody.stockNum = event.record.deviceList.value[i].value.shipNum.value;
+				stockData.ship.push(stockBody)
+			}
+		}
+
+		return stockData;
 	}
 
-	return false;
+	return event;
 };
 
 const stockCtrl = async () => {
