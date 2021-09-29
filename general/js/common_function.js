@@ -543,7 +543,7 @@ const checkEoMReport = async (event, reportDate) => {
 const createStockJson = async (event, currentApp) => {
 
 	if (currentApp == sysid.INV.app_id.shipment) {
-		return event;
+		return true;
 	}
 	var stockJsonData = [];
 	var stockJsonBody = {
