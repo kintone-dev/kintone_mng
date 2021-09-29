@@ -636,6 +636,8 @@ function createStockJson(event) {
 
 async function stockCtrl(event) {
 	var stockData = createStockJson(event);
+	var unitStockData = [];
+	var deviceStockData = [];
 
 	//商品管理クエリ
 	var devQuery = [];
@@ -645,6 +647,8 @@ async function stockCtrl(event) {
 	for (var i in stockData.ship) {
 		devQuery.push(stockData.arr[i].devCode);
 	}
+	devQuery = Array.from(new Set(devQuery));
+
 
 	return devQuery;
 
