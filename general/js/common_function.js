@@ -542,7 +542,6 @@ const checkEoMReport = async (event, reportDate) => {
 /* 商品管理、拠点管理の在庫処理 */
 const createStockJson = function (event) {
 	var stockData = {
-		'appId': '',
 		'arr': [],
 		'ship': [],
 	};
@@ -611,19 +610,16 @@ const createStockJson = function (event) {
 				'devCode': event.record.arrivalList.value[i].value.mCode.value,
 				'uniCode': event.record.arrivalList.value[i].value.uCode.value,
 				'stockNum': event.record.arrivalList.value[i].value.arrivalNum.value,
-
+				'costInfo':{
+					'mCost': event.record.arrivalList.value[i].value.totalUnitCost.value,
+					'mCostUpdate': event.record.arrivalDate.value,
+					'deviceCost': event.record.arrivalList.value[i].value.unitPrice.value,
+					'deviceCost_foreign': foreignCurrency + event.record.arrivalList.value[i].value.unitPrice_foreign.value,
+					'importExpenses': event.record.arrivalList.value[i].value.addiUnitExpenses.value,
+					'developCost': event.record.arrivalList.value[i].value.addiCost.value
+				}
 			};
 			stockData.arr.push(stockArrBody);
-		}
-
-		// stockdataに原価情報を追加
-		stockData.costInfo = {
-			'mCost': event.record.arrivalList.value[i].value.totalUnitCost.value,
-			'mCostUpdate': event.record.arrivalDate.value,
-			'deviceCost': event.record.arrivalList.value[i].value.unitPrice.value,
-			'deviceCost_foreign': foreignCurrency + event.record.arrivalList.value[i].value.unitPrice_foreign.value,
-			'importExpenses': event.record.arrivalList.value[i].value.addiUnitExpenses.value,
-			'developCost': event.record.arrivalList.value[i].value.addiCost.value
 		}
 
 		return stockData;
