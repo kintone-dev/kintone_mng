@@ -540,7 +540,7 @@ const checkEoMReport = async (event, reportDate) => {
 };
 
 /* 商品管理、拠点管理の在庫処理 */
-const createStockJson = async (event) => {
+const createStockJson = function (event) {
 	var stockData = {
 		'appId': '',
 		'arr': [],
