@@ -640,10 +640,10 @@ async function stockCtrl(event) {
 	//商品管理クエリ
 	var devQuery = [];
 	for (var i in stockData.arr) {
-		devQuery.push('"' + stockData.arr[i].devCode + '"');
+		devQuery.push(stockData.arr[i].devCode);
 	}
 	for (var i in stockData.ship) {
-		devQuery.push('"' + stockData.ship[i].devCode + '"');
+		devQuery.push(stockData.arr[i].devCode);
 	}
 
 	return devQuery;
