@@ -640,7 +640,8 @@ async function stockCtrl(event) {
 	var unitStockData = [];
 	var deviceStockData = [];
 
-	//商品管理クエリ
+	/* 商品管理情報取得 */
+	//商品管理クエリ作成
 	var devQuery = [];
 	for (var i in stockData.arr) {
 		devQuery.push(stockData.arr[i].devCode);
@@ -648,9 +649,45 @@ async function stockCtrl(event) {
 	for (var i in stockData.ship) {
 		devQuery.push(stockData.arr[i].devCode);
 	}
-	// 配列ないで重複した要素の削除
+	// 配列内の重複した要素の削除
 	devQuery = Array.from(new Set(devQuery));
+	var getDeviceBody = {
+		'app': sysid.INV.app_id.device,
+		'query': 'mCode in (' + devQuery.join() + ')'
+	};
+	var deviceRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	/* 商品管理情報取得 end */
 
+	/* 拠点管理情報取得 */
+	var uniQuery = [];
+	for (var i in stockData.arr) {
+		uniQuery.push(stockData.arr[i].uniCode);
+	}
+	for (var i in stockData.ship) {
+		uniQuery.push(stockData.arr[i].uniCode);
+	}
+	// 配列内の重複した要素の削除
+	uniQuery = Array.from(new Set(uniQuery));
+	var getUnitBody = {
+		'app': sysid.INV.app_id.unit,
+		'query': 'uCode in (' + uniQuery.join() + ')'
+	};
+	var unitRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+		/* 拠点管理情報取得 end */
 
+	console.log(deviceRecords);
+	console.log(unitRecords);
 	return devQuery;
 };
