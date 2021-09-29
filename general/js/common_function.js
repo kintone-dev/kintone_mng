@@ -548,7 +548,7 @@ const createStockJson = function (event) {
 
 	//入出荷管理の場合
 	if (event.appId == sysid.INV.app_id.shipment) {
-		stockData.appId == event.appId;
+		stockData.appId = event.appId;
 		var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
 		for (var i in event.record.deviceList.value) {
 			// 出荷情報を作成
@@ -573,7 +573,7 @@ const createStockJson = function (event) {
 		return stockData;
 		//案件管理の場合
 	} else if (event.appId == sysid.PM.app_id.project) {
-		stockData.appId == event.appId;
+		stockData.appId = event.appId;
 		var distributeSalesType = ['販売', 'サブスク'];
 		// 提供形態がdistributeSalesTypeに含まれる場合のみ出荷情報作成
 		if (distributeSalesType.includes(event.record.salesType.value)) {
@@ -594,7 +594,8 @@ const createStockJson = function (event) {
 		return false;
 		// 仕入管理の場合
 	} else if (event.appId == sysid.INV.app_id.purchasing) {
-		stockData.appId == event.appId;
+		stockData.appId = event.appId;
+
 		// 通貨種類によって先頭の記号変更
 		if (event.record.currencyType.value == '米ドル＄') {
 			var foreignCurrency = '$';
