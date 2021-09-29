@@ -712,6 +712,7 @@ async function stockCtrl(event) {
 			for(var k in stockData.arr){
 				if(stockData.arr[k].devCode == deviceStockData[i].updateKey.value && stockData.arr[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value){
 					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
+					console.log(stockData.arr[k]);
 				}
 			}
 		}
@@ -723,6 +724,7 @@ async function stockCtrl(event) {
 			for(var k in stockData.ship){
 				if(stockData.ship[k].devCode == deviceStockData[i].updateKey.value && stockData.ship[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value){
 					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
+					console.log(stockData.arr[k]);
 				}
 			}
 		}
