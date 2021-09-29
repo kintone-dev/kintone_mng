@@ -548,8 +548,9 @@ const createStockJson = async (event) => {
 
 	//入出荷管理の場合
 	if (event.appId == sysid.INV.app_id.shipment) {
-		var arrShipType = ['移動-販売','移動-サブスク','販売','サブスク','移動-拠点間','移動-ベンダー'];
+		var arrivalShipType = ['移動-販売','移動-サブスク','販売','サブスク','移動-拠点間','移動-ベンダー'];
 		for (var i in event.record.deviceList.value) {
+			// 出荷情報を作成
 			var stockShipBody = {
 				'arrOrShip': 'ship',
 				'devCode': event.record.deviceList.value[i].value.mCode.value,
@@ -557,7 +558,8 @@ const createStockJson = async (event) => {
 				'stockNum': event.record.deviceList.value[i].value.shipNum.value
 			};
 			stockData.ship.push(stockShipBody);
-			if (arrShipType.includes(event.record.shipType.value)) {
+			// 出荷区分がarrivalShipTypeに含まれる場合のみ入荷情報を作成
+			if (arrivalShipType.includes(event.record.shipType.value)) {
 				var stockArrBody = {
 					'arrOrShip': 'arr',
 					'devCode': event.record.deviceList.value[i].value.mCode.value,
@@ -569,9 +571,31 @@ const createStockJson = async (event) => {
 		}
 
 		return stockData;
+		//案件管理の場合
+	} else if(event.appId == sysid.PM.app_id.project){
+		var distributeSalesType = ['販売','サブスク'];
+		// 提供形態がdistributeSalesTypeに含まれる場合のみ出荷情報作成
+		if(distributeSalesType.includes(event.record.salesType.value)){
+			for (var i in event.record.deviceList.value) {
+				if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
+					//出荷情報は積送からのみ
+					var stockShipBody = {
+						'arrOrShip': 'ship',
+						'devCode': event.record.deviceList.value[i].value.mCode.value,
+						'uniCode': 'distribute',
+						'stockNum': event.record.deviceList.value[i].value.shipNum.value
+					};
+					stockData.ship.push(stockShipBody);
+				}
+			}
+			return stockData;
+		}
+		return false;
+	} else if(event.appId == sysid.PM.app_id.purchasing){
+
 	}
 
-	return event;
+	return false;
 };
 
 const stockCtrl = async () => {
