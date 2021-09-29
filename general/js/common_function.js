@@ -594,7 +594,7 @@ const createStockJson = async (event) => {
 		}
 		return false;
 		// 仕入管理の場合
-	} else if (event.appId == sysid.PM.app_id.purchasing) {
+	} else if (event.appId == sysid.INV.app_id.purchasing) {
 		stockData.appId == event.appId;
 		// 通貨種類によって先頭の記号変更
 		if (event.record.currencyType.value == '米ドル＄') {
