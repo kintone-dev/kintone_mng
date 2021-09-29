@@ -637,9 +637,6 @@ function createStockJson(event) {
 async function stockCtrl(event) {
 	var stockData = createStockJson(event);
 	console.log(stockData);
-	var unitStockData = [];
-	var deviceStockData = [];
-
 	/* 商品管理情報取得 */
 	//商品管理クエリ作成
 	var devQuery = [];
@@ -690,7 +687,38 @@ async function stockCtrl(event) {
 		});
 	/* 拠点管理情報取得 end */
 
-	console.log(deviceRecords);
+	// 情報更新用配列
+	var deviceStockData = [];
+	var unitStockData = [];
+
+	for (var i in deviceRecords.records) {
+		var putDevBody = {
+			'updateKey': {
+				'field': 'mCode',
+				'value': deviceRecords.records[i].mCode.value
+			},
+			'record': {
+				'uStockList': {
+					'value': deviceRecords.records[i].uStockList.value
+				}
+			}
+		}
+		deviceStockData.push(putDevBody);
+	}
+
+	// 商品管理、出荷情報挿入
+	for(var i in deviceStockData){
+		for(var j in deviceStockData[i].record.uStockList.value){
+			for(var k in stockData.arr){
+				if(stockData.arr[k].devCode == deviceStockData[i].updateKey.value && stockData.arr[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value){
+					console.log(stockData.arr[k]);
+				}
+			}
+		}
+	}
+
+
+	console.log(deviceStockData);
 	console.log(unitRecords);
 	return devQuery;
 };
