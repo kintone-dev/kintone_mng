@@ -247,6 +247,7 @@
 
   // 計算ボタン
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
+    console.log(stockCtrl(event));
     setBtn('calBtn', '計算');
     $('#calBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
