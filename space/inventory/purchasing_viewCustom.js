@@ -1,5 +1,7 @@
 (function () {
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.detail.show','app.record.create.change.currencyType','app.record.edit.change.currencyType'], function(event){
+    console.log(createStockJson(event));
+
     if(event.record.currencyType.value==undefined){
       alert('通貨種類を選択してください。');
       setSpaceShown('btn_calculation','line','none');
@@ -26,7 +28,7 @@
     return event;
   });
   kintone.events.on(['app.record.edit.show','app.record.create.show'], function(event){
-    
+
     setSpaceShown('btn_calculation','line','block');
     var calculation=setBtn('btn_calculation','原価算出');
     // $('#btn_calculation').on('click', function(){

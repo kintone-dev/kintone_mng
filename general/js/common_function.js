@@ -542,13 +542,15 @@ const checkEoMReport = async (event, reportDate) => {
 /* 商品管理、拠点管理の在庫処理 */
 const createStockJson = async (event) => {
 	var stockData = {
-		'arr':[],
-		'ship':[]
+		'appId': '',
+		'arr': [],
+		'ship': [],
 	};
 
 	//入出荷管理の場合
 	if (event.appId == sysid.INV.app_id.shipment) {
-		var arrivalShipType = ['移動-販売','移動-サブスク','販売','サブスク','移動-拠点間','移動-ベンダー'];
+		stockData.appId == event.appId;
+		var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
 		for (var i in event.record.deviceList.value) {
 			// 出荷情報を作成
 			var stockShipBody = {
@@ -569,13 +571,13 @@ const createStockJson = async (event) => {
 				stockData.arr.push(stockArrBody)
 			}
 		}
-
 		return stockData;
 		//案件管理の場合
-	} else if(event.appId == sysid.PM.app_id.project){
-		var distributeSalesType = ['販売','サブスク'];
+	} else if (event.appId == sysid.PM.app_id.project) {
+		stockData.appId == event.appId;
+		var distributeSalesType = ['販売', 'サブスク'];
 		// 提供形態がdistributeSalesTypeに含まれる場合のみ出荷情報作成
-		if(distributeSalesType.includes(event.record.salesType.value)){
+		if (distributeSalesType.includes(event.record.salesType.value)) {
 			for (var i in event.record.deviceList.value) {
 				if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
 					//出荷情報は積送からのみ
@@ -591,8 +593,40 @@ const createStockJson = async (event) => {
 			return stockData;
 		}
 		return false;
-	} else if(event.appId == sysid.PM.app_id.purchasing){
+		// 仕入管理の場合
+	} else if (event.appId == sysid.PM.app_id.purchasing) {
+		stockData.appId == event.appId;
+		// 通貨種類によって先頭の記号変更
+		if (event.record.currencyType.value == '米ドル＄') {
+			var foreignCurrency = '$';
+		} else if (event.record.currencyType.value == 'ユーロ€') {
+			var foreignCurrency = '€';
+		} else {
+			var foreignCurrency = '';
+		}
+		// 入荷情報作成
+		for (var i in event.record.arrivalList.value) {
+			var stockArrBody = {
+				'arrOrShip': 'arr',
+				'devCode': event.record.arrivalList.value[i].value.mCode.value,
+				'uniCode': event.record.arrivalList.value[i].value.uCode.value,
+				'stockNum': event.record.arrivalList.value[i].value.arrivalNum.value,
 
+			};
+			stockData.arr.push(stockArrBody);
+		}
+
+		// stockdataに原価情報を追加
+		stockData.costInfo = {
+			'mCost': event.record.arrivalList.value[i].value.totalUnitCost.value,
+			'mCostUpdate': event.record.arrivalDate.value,
+			'deviceCost': event.record.arrivalList.value[i].value.unitPrice.value,
+			'deviceCost_foreign': foreignCurrency + event.record.arrivalList.value[i].value.unitPrice_foreign.value,
+			'importExpenses': event.record.arrivalList.value[i].value.addiUnitExpenses.value,
+			'developCost': event.record.arrivalList.value[i].value.addiCost.value
+		}
+
+		return stockData;
 	}
 
 	return false;
