@@ -634,6 +634,6 @@ const createStockJson = function (event) {
 	return false;
 };
 
-const stockCtrl = async () => {
+const stockCtrl = async (event) => {
 
 };
