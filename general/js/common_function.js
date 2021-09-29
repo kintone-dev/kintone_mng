@@ -644,10 +644,10 @@ async function stockCtrl(event) {
 	//商品管理クエリ作成
 	var devQuery = [];
 	for (var i in stockData.arr) {
-		devQuery.push(stockData.arr[i].devCode);
+		devQuery.push('"' + stockData.arr[i].devCode + '"');
 	}
 	for (var i in stockData.ship) {
-		devQuery.push(stockData.arr[i].devCode);
+		devQuery.push('"' + stockData.arr[i].devCode + '"');
 	}
 	// 配列内の重複した要素の削除
 	devQuery = Array.from(new Set(devQuery));
@@ -667,10 +667,10 @@ async function stockCtrl(event) {
 	/* 拠点管理情報取得 */
 	var uniQuery = [];
 	for (var i in stockData.arr) {
-		uniQuery.push(stockData.arr[i].uniCode);
+		uniQuery.push('"' + stockData.arr[i].uniCode + '"');
 	}
 	for (var i in stockData.ship) {
-		uniQuery.push(stockData.arr[i].uniCode);
+		uniQuery.push('"' + stockData.arr[i].uniCode + '"');
 	}
 	// 配列内の重複した要素の削除
 	uniQuery = Array.from(new Set(uniQuery));
@@ -685,7 +685,7 @@ async function stockCtrl(event) {
 			console.log(error);
 			return error;
 		});
-		/* 拠点管理情報取得 end */
+	/* 拠点管理情報取得 end */
 
 	console.log(deviceRecords);
 	console.log(unitRecords);
