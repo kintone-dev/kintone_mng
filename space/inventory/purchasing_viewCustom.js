@@ -25,7 +25,8 @@
     }
     return event;
   });
-  kintone.events.on(['app.record.edit.show','app.record.create.show'], function(event){
+  kintone.events.on(['app.record.edit.show','app.record.create.show'],async function(event){
+    await reportCtrl(event, kintone.app.getId());
 
     setSpaceShown('btn_calculation','line','block');
     var calculation=setBtn('btn_calculation','原価算出');
