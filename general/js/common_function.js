@@ -875,8 +875,7 @@ async function reportCtrl(event, appId) {
 			'sys_code': stockData.arr[i].devCode + '-' + stockData.arr[i].uniCode,
 			'devCode': stockData.arr[i].devCode,
 			'uniCode': stockData.arr[i].uniCode,
-			'stockNum': stockData.arr[i].stockNum,
-			'uName':''
+			'stockNum': stockData.arr[i].stockNum
 		}
 		getUniNameArray.push('"' + stockData.arr[i].uniCode + '"');
 		reportUpdateData.push(reportUpdateBody);
@@ -887,8 +886,7 @@ async function reportCtrl(event, appId) {
 			'sys_code': stockData.ship[i].devCode + '-' + stockData.arr[i].uniCode,
 			'devCode': stockData.ship[i].devCode,
 			'uniCode': stockData.ship[i].uniCode,
-			'stockNum': stockData.ship[i].stockNum,
-			'uName':''
+			'stockNum': stockData.ship[i].stockNum
 		}
 		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
 		reportUpdateData.push(reportUpdateBody);
@@ -913,6 +911,7 @@ async function reportCtrl(event, appId) {
 		for(var i in reportUpdateData){
 			for(var j in unitRecords.records){
 				if(reportUpdateData[i].uniCode == unitRecords.records[j].uCode.Value){
+					console.log(reportUpdateData[i]);
 					reportUpdateData[i].uName = unitRecords.records[j].uName.Value;
 				}
 			}
