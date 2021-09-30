@@ -848,6 +848,7 @@ async function stockCtrl(event, appId) {
  * @returns
  */
 async function reportCtrl(event, appId) {
+	console.log(event);
 	var stockData = createStockJson(event, appId);
 	console.log(stockData);
 
