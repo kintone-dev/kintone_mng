@@ -545,17 +545,15 @@ const checkEoMReport = async (event, reportDate) => {
  * @param {*} event kintone event
  * @returns
  */
-function createStockJson(event) {
+function createStockJson(event,appId) {
 	var stockData = {
 		'arr': [],
 		'ship': []
 	};
 
-	console.log(event);
-
 	//入出荷管理の場合
-	if (event.appId == sysid.INV.app_id.shipment) {
-		stockData.appId = event.appId;
+	if (appId == sysid.INV.app_id.shipment) {
+		stockData.appId = appId;
 		var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
 		for (var i in event.record.deviceList.value) {
 			// 出荷情報を作成
@@ -579,8 +577,8 @@ function createStockJson(event) {
 		}
 		return stockData;
 		//案件管理の場合
-	} else if (event.appId == sysid.PM.app_id.project) {
-		stockData.appId = event.appId;
+	} else if (appId == sysid.PM.app_id.project) {
+		stockData.appId = appId;
 		var distributeSalesType = ['販売', 'サブスク'];
 		// 提供形態がdistributeSalesTypeに含まれる場合のみ出荷情報作成
 		if (distributeSalesType.includes(event.record.salesType.value)) {
@@ -600,8 +598,8 @@ function createStockJson(event) {
 		}
 		return false;
 		// 仕入管理の場合
-	} else if (event.appId == sysid.INV.app_id.purchasing) {
-		stockData.appId = event.appId;
+	} else if (appId == sysid.INV.app_id.purchasing) {
+		stockData.appId = appId;
 
 		// 通貨種類によって先頭の記号変更
 		if (event.record.currencyType.value == '米ドル＄') {
@@ -641,8 +639,8 @@ function createStockJson(event) {
  * @param {*} event kintone event
  * @returns
  */
-async function stockCtrl(event) {
-	var stockData = createStockJson(event);
+async function stockCtrl(event,appId) {
+	var stockData = createStockJson(event,appId);
 	console.log(stockData);
 	/* 商品管理情報取得 */
 	//商品管理クエリ作成
