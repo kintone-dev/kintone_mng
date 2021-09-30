@@ -4,9 +4,12 @@
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     var nStatus = event.nextStatus.value;
-    var EoMcheck = checkEoMReport(event.record.sys_invoiceDate.value);
+    var EoMcheck = checkEoMReport(event.record.sys_invoiceDate.value)
+      .then(function (resp) {
+        return (resp)
+      });
     console.log(EoMcheck);
-    if(EoMcheck == true){
+    if (EoMcheck == true) {
       event.error = '対応した日付のレポートは締切済みです。';
       return event;
     }
@@ -165,7 +168,7 @@
       // 入出荷管理に情報連携
       postRecords(sysid.INV.app_id.shipment, postShipData);
 
-    } else if (nStatus == '完了') {  //ステータスが完了の場合
+    } else if (nStatus == '完了') { //ステータスが完了の場合
       if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') { //提供形態が販売、サブスクの場合
         var stockData = stockCtrl(event, kintone.app.getId());
         console.log(stockData);
