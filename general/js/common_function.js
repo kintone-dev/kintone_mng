@@ -910,7 +910,7 @@ async function reportCtrl(event, appId) {
 		for(var i in reportUpdateData){
 			for(var j in unitRecords.records){
 				if(reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value){
-					reportUpdateData[i].uName = unitRecords.records[j].uName.Value;
+					reportUpdateData[i].uName = unitRecords.records[j].uName.value;
 				}
 			}
 		}
