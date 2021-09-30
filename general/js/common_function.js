@@ -909,9 +909,7 @@ async function reportCtrl(event, appId) {
 
 		for(var i in reportUpdateData){
 			for(var j in unitRecords.records){
-				console.log(reportUpdateData[i].uniCode);
-				console.log(unitRecords.records[j].uCode.Value);
-				if(reportUpdateData[i].uniCode == unitRecords.records[j].uCode.Value){
+				if(reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value){
 					reportUpdateData[i].uName = unitRecords.records[j].uName.Value;
 				}
 			}
