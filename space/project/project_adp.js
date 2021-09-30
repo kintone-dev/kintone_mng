@@ -6,6 +6,7 @@
     var nStatus = event.nextStatus.value;
     var EoMcheck = checkEoMReport(event.record.sys_invoiceDate.value)
       .then(function (resp) {
+        console.log(resp);
         return resp
       });
     console.log(EoMcheck);
