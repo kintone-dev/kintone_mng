@@ -784,7 +784,7 @@ async function stockCtrl(event) {
 		for(var j in unitStockData[i].record.mStockList.value){
 			for(var k in stockData.arr){
 				if(stockData.arr[k].uniCode == unitStockData[i].updateKey.value && stockData.arr[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value){
-					unitStockData[i].record.mStockList.value[j].value.uStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
+					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
 				}
 			}
 		}
@@ -795,7 +795,7 @@ async function stockCtrl(event) {
 		for(var j in unitStockData[i].record.mStockList.value){
 			for(var k in stockData.ship){
 				if(stockData.ship[k].uniCode == unitStockData[i].updateKey.value && stockData.ship[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value){
-					unitStockData[i].record.mStockList.value[j].value.uStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
+					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
 				}
 			}
 		}
