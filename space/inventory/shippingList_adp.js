@@ -7,18 +7,7 @@
 
     //ステータスが集荷待ちの場合
     if (nStatus === "集荷待ち") {
-      var deviceList = event.record.deviceList.value;
       var shipmentName = event.record.shipment.value;
-      var sysShipmentCode = event.record.sys_shipmentCode.value;
-      var sysArrivalCode = event.record.sys_arrivalCode.value;
-      var stockData = [];
-      for (var sdl in deviceList) {
-        var stockDataBody = {
-          'mCode': deviceList[sdl].value.mCode.value,
-          'shipNum': deviceList[sdl].value.shipNum.value
-        }
-        stockData.push(stockDataBody);
-      }
       var sNums = sNumRecords(event.record.deviceList.value, 'table');
 
       //ID更新
