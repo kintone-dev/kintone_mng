@@ -177,7 +177,7 @@
           } else if (nStatus == '完了') {
             if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
               var stockData = stockCtrl(event, kintone.app.getId());
-
+              console.log(stockData);
               //レポートクエリ
               // var getReportBody = {
               //   'app': sysid.INV.app_id.report,
