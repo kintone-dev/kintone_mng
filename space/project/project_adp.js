@@ -168,7 +168,6 @@
     } else if (nStatus == '完了') { //ステータスが完了の場合
       if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') { //提供形態が販売、サブスクの場合
         var stockData = await stockCtrl(event, kintone.app.getId());
-        console.log(stockData);
 
         //レポートクエリ
         // var getReportBody = {
