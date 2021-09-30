@@ -641,7 +641,6 @@ function createStockJson(event,appId) {
  */
 async function stockCtrl(event,appId) {
 	var stockData = createStockJson(event,appId);
-	console.log(stockData);
 	/* 商品管理情報取得 */
 	//商品管理クエリ作成
 	var devQuery = [];
@@ -799,6 +798,9 @@ async function stockCtrl(event,appId) {
 			}
 		}
 	}
+
+	console.log(deviceStockData);
+	console.log(unitStockData);
 
 	//商品管理、拠点管理を更新
 	var putDeviceBody = {
