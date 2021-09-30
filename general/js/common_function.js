@@ -530,18 +530,20 @@ async function checkEoMReport(reportDate) {
 	if (reportData.length != 0) {
 		for (var i in reportData.records[0].EoMcheck.value) {
 			if (reportData.records[0].EoMcheck.value[i] == '締切') {
-				return reportData;
+				return false;
 			}
 		}
 	}
-	return false;
+	return reportData;
 };
 
 /* 商品管理、拠点管理の在庫処理 */
+
 /**
  * ストック情報をまとめたjson作成
  * @param {*} event kintone event
- * @returns
+ * @param {*} appId 関数を使ったアプリのID
+ * @returns json
  */
 function createStockJson(event, appId) {
 	var stockData = {
@@ -551,6 +553,10 @@ function createStockJson(event, appId) {
 
 	if (appId == sysid.INV.app_id.shipment) { //入出荷管理の場合
 		stockData.appId = appId;
+		var sendDate = pageRecod.sendDate.value;
+		sendDate = sendDate.replace(/-/g, '');
+		sendDate = sendDate.slice(0, -2);
+		stockData.date = sendDate;
 		var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
 		for (var i in event.record.deviceList.value) {
 			// 出荷情報を作成
@@ -575,6 +581,7 @@ function createStockJson(event, appId) {
 		return stockData;
 	} else if (appId == sysid.PM.app_id.project) { //案件管理の場合
 		stockData.appId = appId;
+		stockData.date = event.record.sys_invoiceDate.value;
 		var distributeSalesType = ['販売', 'サブスク'];
 		// 提供形態がdistributeSalesTypeに含まれる場合のみ出荷情報作成
 		if (distributeSalesType.includes(event.record.salesType.value)) {
@@ -595,6 +602,10 @@ function createStockJson(event, appId) {
 		return false;
 	} else if (appId == sysid.INV.app_id.purchasing) { // 仕入管理の場合
 		stockData.appId = appId;
+		var sendDate = event.record.arrivalDate.value;
+		sendDate = sendDate.replace(/-/g, '');
+		sendDate = sendDate.slice(0, -2);
+		stockData.date = sendDate;
 		// 通貨種類によって先頭の記号変更
 		if (event.record.currencyType.value == '米ドル＄') {
 			var foreignCurrency = '$';
@@ -627,10 +638,10 @@ function createStockJson(event, appId) {
 	return false;
 };
 
-/* 商品管理、拠点管理の在庫処理 */
 /**
  * 受け取ったjsonから商品管理、拠点管理に在庫情報を挿入
  * @param {*} event kintone event
+ * @param {*} appId 関数を使ったアプリのID
  * @returns
  */
 async function stockCtrl(event, appId) {
@@ -827,4 +838,95 @@ async function stockCtrl(event, appId) {
 	};
 
 	return totalStockdata;
+};
+
+/* レポート処理 */
+/**
+ * 受け取ったjsonから月次レポートに情報を挿入
+ * @param {*} event kintone event
+ * @param {*} appId 関数を使ったアプリのID
+ * @returns
+ */
+async function reportCtrl(event, appId) {
+	var stockData = createStockJson(event, appId);
+	console.log(stockData);
+
+	/* 月次レポート情報取得 */
+	// 月次レポートクエリ作成
+	var getReportBody = {
+		'app': sysid.INV.app_id.report,
+		'query': 'sys_invoiceDate = "' + stockData.date + '" order by 更新日時 asc'
+	};
+	var reportRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	/* 月次レポート情報取得 end */
+
+	/* レポート更新用情報作成 */
+	var reportUpdateData = [];
+	var getUniNameArray = [];
+	for (var i in stockData.arr) {
+		var reportUpdateBody = {
+			'arrOrShip': stockData.arr[i].arrOrShip,
+			'sys_code': stockData.arr[i].devCode + '-' + stockData.arr[i].uniCode,
+			'devCode': stockData.arr[i].devCode,
+			'uniCode': stockData.arr[i].uniCode,
+			'stockNum': stockData.arr[i].stockNum
+		}
+		getUniNameArray.push('"' + stockData.arr[i].uniCode + '"');
+		reportUpdateData.push(reportUpdateBody);
+	}
+	for (var i in stockData.ship) {
+		var reportUpdateBody = {
+			'arrOrShip': stockData.ship[i].arrOrShip,
+			'sys_code': stockData.ship[i].devCode + '-' + stockData.arr[i].uniCode,
+			'devCode': stockData.ship[i].devCode,
+			'uniCode': stockData.ship[i].uniCode,
+			'stockNum': stockData.ship[i].stockNum
+		}
+		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
+		reportUpdateData.push(reportUpdateBody);
+	}
+
+	//拠点名取得
+	getUniNameArray = Array.from(new Set(getUniNameArray));
+	var getUnitBody = {
+		'app': sysid.INV.app_id.unit,
+		'query': 'uCode in (' + getUniNameArray.join() + ')'
+	};
+	var unitRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+
+		for(var i in reportUpdateData){
+			for(var j in unitRecords.records){
+				if(reportUpdateData[i].uniCode == unitRecords.records[j].uCode.Value){
+					reportUpdateData[i].uName = unitRecords.records[j].uName.Value;
+				}
+			}
+		}
+	/* レポート更新用情報作成 end */
+
+	if (reportRecords.records.length != 0) { //対応したレポートがある場合
+		//更新レポート情報
+		var putReportData = {
+			'id': reportRecords.records[0].$id.value,
+			'record': {
+				'inventoryList': {
+					'value': reportRecords.records[0].inventoryList.value
+				}
+			}
+		}
+	}
+
+	console.log(reportUpdateData);
+	return reportUpdateData;
 };

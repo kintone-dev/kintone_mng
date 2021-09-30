@@ -5,7 +5,7 @@
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
     var nStatus = event.nextStatus.value;
     var reportData = await checkEoMReport(event.record.sys_invoiceDate.value);
-    if (reportData != false) {
+    if (reportData == false) {
       event.error = '対応した日付のレポートは締切済みです。';
       return event;
     }
