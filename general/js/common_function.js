@@ -515,7 +515,7 @@ const deleteRecords = async (sendApp, records) => {
  * @param {*} reportDate 判別したいレポートの月 例)202109
  * @returns
  */
-const checkEoMReport = async (reportDate) => {
+async function checkEoMReport(reportDate) {
 	var getReportBody = {
 		'app': sysid.INV.app_id.report,
 		'query': 'sys_invoiceDate = "' + reportDate + '"'
@@ -822,8 +822,8 @@ async function stockCtrl(event, appId) {
 
 	// 作成したjsonを配列に格納
 	var totalStockdata = {
-		'device':deviceStockData,
-		'unit':unitStockData
+		'device': deviceStockData,
+		'unit': unitStockData
 	};
 
 	return totalStockdata;
