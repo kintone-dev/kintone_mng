@@ -530,7 +530,7 @@ async function checkEoMReport(reportDate) {
 	if (reportData.length != 0) {
 		for (var i in reportData.records[0].EoMcheck.value) {
 			if (reportData.records[0].EoMcheck.value[i] == '締切') {
-				return true;
+				return reportData;
 			}
 		}
 	}
