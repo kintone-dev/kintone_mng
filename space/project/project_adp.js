@@ -2,14 +2,9 @@
   'use strict';
 
   //ステータス変更時
-  kintone.events.on('app.record.detail.process.proceed', function (event) {
+  kintone.events.on('app.record.detail.process.proceed', async function (event) {
     var nStatus = event.nextStatus.value;
-    var EoMcheck = checkEoMReport(event.record.sys_invoiceDate.value)
-      .then(function (resp) {
-        console.log(resp);
-        return resp
-      });
-    console.log(EoMcheck);
+    var EoMcheck = await checkEoMReport(event.record.sys_invoiceDate.value);
     if (EoMcheck == true) {
       event.error = '対応した日付のレポートは締切済みです。';
       return event;
