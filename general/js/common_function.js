@@ -734,7 +734,7 @@ async function stockCtrl(event) {
 	}
 
 	// 仕入管理の場合のみ商品管理jsonに在庫情報を入れる
-	if(stockData.appId == ysid.INV.app_id.purchasing){
+	if(stockData.appId == sysid.INV.app_id.purchasing){
 		for(var i in deviceStockData){
 			for(var j in stockData.arr){
 				if(stockData.arr[j].devCode == deviceStockData[i].updateKey.value){
