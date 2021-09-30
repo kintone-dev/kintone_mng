@@ -176,135 +176,38 @@
 
           } else if (nStatus == '完了') {
             if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
+              var stockData = stockCtrl(event, kintone.app.getId());
 
-              //積送在庫処理
-              var stockData = []
-              //納品リストからmCodeと納品数を取得
-              for (var i in event.record.deviceList.value) {
-                if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
-                  var stockBody = {
-                    'mCode': event.record.deviceList.value[i].value.mCode.value,
-                    'shipNum': event.record.deviceList.value[i].value.shipNum.value
-                  }
-                  stockData.push(stockBody);
-                }
-              }
-              var getDistributeBody = {
-                'app': sysid.INV.app_id.unit,
-                //積送拠点のid
-                'id': 3
-              };
-              // 積送拠点の情報取得
-              return kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', getDistributeBody)
-                .then(function (resp) {
-                  var distRecord = resp.record;
-                  var unitStockData = [];
-                  //在庫情報
-                  var totalStockData = [];
-                  var unitStockBody = {
-                    'updateKey': {
-                      'field': 'uCode',
-                      'value': 'distribute'
-                    },
-                    'record': {
-                      'mStockList': {
-                        'value': distRecord.mStockList.value
-                      }
-                    }
-                  }
-
-                  for (var i in unitStockBody.record.mStockList.value) {
-                    for (var j in stockData) {
-                      //積送拠点の在庫mCodeと案件管理の納品リストmCodeが一致した時
-                      if (stockData[j].mCode == unitStockBody.record.mStockList.value[i].value.mCode.value) {
-                        //在庫数書き換え
-                        unitStockBody.record.mStockList.value[i].value.mStock.value = parseInt(unitStockBody.record.mStockList.value[i].value.mStock.value || 0) - parseInt(stockData[j].shipNum || 0);
-                        var totalStockBody = {
-                          'mCode': unitStockBody.record.mStockList.value[i].value.mCode.value,
-                          'stockNum': unitStockBody.record.mStockList.value[i].value.mStock.value
-                        }
-                        totalStockData.push(totalStockBody);
-                      }
-                    }
-                  }
-                  //拠点在庫情報のbodyをset
-                  unitStockData.push(unitStockBody);
-
-                  //商品管理情報クエリ
-                  var deviceQuery = [];
-                  for (var i in stockData) {
-                    deviceQuery.push('"' + stockData[i].mCode + '"');
-                  }
-                  var getDeviceBody = {
-                    'app': sysid.INV.app_id.device,
-                    'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
-                  };
-
-                  //商品管理情報取得
-                  return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
-                    .then(function (resp) {
-                      var deviceRecords = resp.records;
-                      var deviceStockData = [];
-
-                      for (var i in deviceRecords) {
-                        var deviceStockBody = {
-                          'updateKey': {
-                            'field': 'mCode',
-                            'value': deviceRecords[i].mCode.value
-                          },
-                          'record': {
-                            'uStockList': {
-                              'value': deviceRecords[i].uStockList.value
-                            }
-                          }
-                        }
-                        for (var j in totalStockData) {
-                          if (totalStockData[j].mCode == deviceStockBody.updateKey.value) {
-                            for (var k in deviceStockBody.record.uStockList.value) {
-                              if (deviceStockBody.record.uStockList.value[k].value.uCode.value == 'distribute') {
-                                deviceStockBody.record.uStockList.value[k].value.uStock.value = totalStockData[j].stockNum
-                              }
-                            }
-                          }
-                        }
-                        //商品在庫情報のbodyをset
-                        deviceStockData.push(deviceStockBody);
-                      }
-
-                      //レポートクエリ
-                      var getReportBody = {
-                        'app': sysid.INV.app_id.report,
-                        'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '" order by 更新日時 asc'
-                      };
-                      return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
-                        .then(function (resp) {
-                          if (resp.records.length != 0) {
-                            //更新レポート情報格納配列
-                            var reportStockData = [];
-                            //更新レポート情報
-                            var reportStockBody = {
-                              'id': resp.records[0].$id.value,
-                              'record': {
-                                'inventoryList': {
-                                  'value': resp.records[0].inventoryList.value
-                                }
-                              }
-                            }
-                            for (var i in reportStockBody.record.inventoryList.value) {
-                              for (var j in stockData) {
-                                if (reportStockBody.record.inventoryList.value[i].value.sys_code.value == (stockData[j].mCode + '-distribute')) {
-                                  reportStockBody.record.inventoryList.value[i].value.shipNum.value = stockData[j].shipNum
-                                }
-                              }
-                            }
-                            reportStockData.push(reportStockBody);
-                            putRecords(sysid.INV.app_id.unit, unitStockData);
-                            putRecords(sysid.INV.app_id.device, deviceStockData);
-                            putRecords(sysid.INV.app_id.report, reportStockData);
-                          }
-                        });
-                    });
-                });
+              //レポートクエリ
+              // var getReportBody = {
+              //   'app': sysid.INV.app_id.report,
+              //   'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '" order by 更新日時 asc'
+              // };
+              // return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+              //   .then(function (resp) {
+              //     if (resp.records.length != 0) {
+              //       //更新レポート情報格納配列
+              //       var reportStockData = [];
+              //       //更新レポート情報
+              //       var reportStockBody = {
+              //         'id': resp.records[0].$id.value,
+              //         'record': {
+              //           'inventoryList': {
+              //             'value': resp.records[0].inventoryList.value
+              //           }
+              //         }
+              //       }
+              //       for (var i in reportStockBody.record.inventoryList.value) {
+              //         for (var j in stockData) {
+              //           if (reportStockBody.record.inventoryList.value[i].value.sys_code.value == (stockData[j].mCode + '-distribute')) {
+              //             reportStockBody.record.inventoryList.value[i].value.shipNum.value = stockData[j].shipNum
+              //           }
+              //         }
+              //       }
+              //       reportStockData.push(reportStockBody);
+              //       putRecords(sysid.INV.app_id.report, reportStockData);
+              //     }
+              //   });
             }
           }
         }

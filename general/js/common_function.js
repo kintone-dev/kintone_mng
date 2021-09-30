@@ -545,14 +545,13 @@ const checkEoMReport = async (event, reportDate) => {
  * @param {*} event kintone event
  * @returns
  */
-function createStockJson(event,appId) {
+function createStockJson(event, appId) {
 	var stockData = {
 		'arr': [],
 		'ship': []
 	};
 
-	//入出荷管理の場合
-	if (appId == sysid.INV.app_id.shipment) {
+	if (appId == sysid.INV.app_id.shipment) { //入出荷管理の場合
 		stockData.appId = appId;
 		var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
 		for (var i in event.record.deviceList.value) {
@@ -576,8 +575,7 @@ function createStockJson(event,appId) {
 			}
 		}
 		return stockData;
-		//案件管理の場合
-	} else if (appId == sysid.PM.app_id.project) {
+	} else if (appId == sysid.PM.app_id.project) { //案件管理の場合
 		stockData.appId = appId;
 		var distributeSalesType = ['販売', 'サブスク'];
 		// 提供形態がdistributeSalesTypeに含まれる場合のみ出荷情報作成
@@ -597,8 +595,7 @@ function createStockJson(event,appId) {
 			return stockData;
 		}
 		return false;
-		// 仕入管理の場合
-	} else if (appId == sysid.INV.app_id.purchasing) {
+	} else if (appId == sysid.INV.app_id.purchasing) { // 仕入管理の場合
 		stockData.appId = appId;
 		// 通貨種類によって先頭の記号変更
 		if (event.record.currencyType.value == '米ドル＄') {
@@ -638,8 +635,8 @@ function createStockJson(event,appId) {
  * @param {*} event kintone event
  * @returns
  */
-async function stockCtrl(event,appId) {
-	var stockData = createStockJson(event,appId);
+async function stockCtrl(event, appId) {
+	var stockData = createStockJson(event, appId);
 	console.log(stockData);
 	/* 商品管理情報取得 */
 	//商品管理クエリ作成
@@ -710,10 +707,10 @@ async function stockCtrl(event,appId) {
 	}
 
 	// 商品管理、入荷情報挿入 (指定数分＋する)
-	for(var i in deviceStockData){
-		for(var j in deviceStockData[i].record.uStockList.value){
-			for(var k in stockData.arr){
-				if(stockData.arr[k].devCode == deviceStockData[i].updateKey.value && stockData.arr[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value){
+	for (var i in deviceStockData) {
+		for (var j in deviceStockData[i].record.uStockList.value) {
+			for (var k in stockData.arr) {
+				if (stockData.arr[k].devCode == deviceStockData[i].updateKey.value && stockData.arr[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value) {
 					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
 				}
 			}
@@ -721,10 +718,10 @@ async function stockCtrl(event,appId) {
 	}
 
 	// 商品管理、出荷情報挿入 (指定数分-する)
-	for(var i in deviceStockData){
-		for(var j in deviceStockData[i].record.uStockList.value){
-			for(var k in stockData.ship){
-				if(stockData.ship[k].devCode == deviceStockData[i].updateKey.value && stockData.ship[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value){
+	for (var i in deviceStockData) {
+		for (var j in deviceStockData[i].record.uStockList.value) {
+			for (var k in stockData.ship) {
+				if (stockData.ship[k].devCode == deviceStockData[i].updateKey.value && stockData.ship[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value) {
 					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
 				}
 			}
@@ -732,27 +729,27 @@ async function stockCtrl(event,appId) {
 	}
 
 	// 仕入管理の場合のみ商品管理jsonに在庫情報を入れる
-	if(stockData.appId == sysid.INV.app_id.purchasing){
-		for(var i in deviceStockData){
-			for(var j in stockData.arr){
-				if(stockData.arr[j].devCode == deviceStockData[i].updateKey.value){
+	if (stockData.appId == sysid.INV.app_id.purchasing) {
+		for (var i in deviceStockData) {
+			for (var j in stockData.arr) {
+				if (stockData.arr[j].devCode == deviceStockData[i].updateKey.value) {
 					deviceStockData[i].record.mCost = {
-						'value':stockData.arr[j].costInfo.mCost
+						'value': stockData.arr[j].costInfo.mCost
 					};
 					deviceStockData[i].record.mCostUpdate = {
-						'value':stockData.arr[j].costInfo.mCostUpdate
+						'value': stockData.arr[j].costInfo.mCostUpdate
 					};
 					deviceStockData[i].record.deviceCost = {
-						'value':stockData.arr[j].costInfo.deviceCost
+						'value': stockData.arr[j].costInfo.deviceCost
 					};
 					deviceStockData[i].record.deviceCost_foreign = {
-						'value':stockData.arr[j].costInfo.deviceCost_foreign
+						'value': stockData.arr[j].costInfo.deviceCost_foreign
 					};
 					deviceStockData[i].record.importExpenses = {
-						'value':stockData.arr[j].costInfo.importExpenses
+						'value': stockData.arr[j].costInfo.importExpenses
 					};
 					deviceStockData[i].record.developCost = {
-						'value':stockData.arr[j].costInfo.developCost
+						'value': stockData.arr[j].costInfo.developCost
 					};
 				}
 			}
@@ -778,10 +775,10 @@ async function stockCtrl(event,appId) {
 
 	// 減らしたり増やしたりする
 	// 拠点管理、入荷情報挿入 (指定数分＋する)
-	for(var i in unitStockData){
-		for(var j in unitStockData[i].record.mStockList.value){
-			for(var k in stockData.arr){
-				if(stockData.arr[k].uniCode == unitStockData[i].updateKey.value && stockData.arr[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value){
+	for (var i in unitStockData) {
+		for (var j in unitStockData[i].record.mStockList.value) {
+			for (var k in stockData.arr) {
+				if (stockData.arr[k].uniCode == unitStockData[i].updateKey.value && stockData.arr[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value) {
 					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
 				}
 			}
@@ -789,10 +786,10 @@ async function stockCtrl(event,appId) {
 	}
 
 	// 拠点管理、出荷情報挿入 (指定数分-する)
-	for(var i in unitStockData){
-		for(var j in unitStockData[i].record.mStockList.value){
-			for(var k in stockData.ship){
-				if(stockData.ship[k].uniCode == unitStockData[i].updateKey.value && stockData.ship[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value){
+	for (var i in unitStockData) {
+		for (var j in unitStockData[i].record.mStockList.value) {
+			for (var k in stockData.ship) {
+				if (stockData.ship[k].uniCode == unitStockData[i].updateKey.value && stockData.ship[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value) {
 					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
 				}
 			}
