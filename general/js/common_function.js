@@ -634,6 +634,12 @@ function createStockJson(event) {
 	return false;
 };
 
+/* 商品管理、拠点管理の在庫処理 */
+/**
+ * 受け取ったjsonから商品管理、拠点管理に在庫情報を挿入
+ * @param {*} event kintone event
+ * @returns
+ */
 async function stockCtrl(event) {
 	var stockData = createStockJson(event);
 	console.log(stockData);
@@ -727,6 +733,23 @@ async function stockCtrl(event) {
 		}
 	}
 
+	// 仕入管理の場合のみ商品管理jsonに在庫情報を入れる
+	if(stockData.appId == ysid.INV.app_id.purchasing){
+		for(var i in deviceStockData){
+			for(var j in stockData.arr){
+				if(stockData.arr[j].devCode == deviceStockData[i].updateKey.value){
+					deviceStockData.record.mCost = stockData.arr[j].mCost;
+					deviceStockData.record.mCostUpdate = stockData.arr[j].mCostUpdate;
+					deviceStockData.record.deviceCost = stockData.arr[j].deviceCost;
+					deviceStockData.record.deviceCost_foreign = stockData.arr[j].deviceCost_foreign;
+					deviceStockData.record.importExpenses = stockData.arr[j].importExpenses;
+					deviceStockData.record.developCost = stockData.arr[j].developCost;
+				}
+			}
+		}
+	}
+
+
 	// 拠点管理情報作成
 	for (var i in unitRecords.records) {
 		var putUniBody = {
@@ -743,7 +766,28 @@ async function stockCtrl(event) {
 		unitStockData.push(putUniBody);
 	}
 
+	// 減らしたり増やしたりする
+	// 拠点管理、入荷情報挿入 (指定数分＋する)
+	for(var i in unitStockData){
+		for(var j in unitStockData[i].record.mStockList.value){
+			for(var k in stockData.arr){
+				if(stockData.arr[k].uniCode == unitStockData[i].updateKey.value && stockData.arr[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value){
+					unitStockData[i].record.mStockList.value[j].value.uStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
+				}
+			}
+		}
+	}
 
+	// 拠点管理、出荷情報挿入 (指定数分-する)
+	for(var i in unitStockData){
+		for(var j in unitStockData[i].record.mStockList.value){
+			for(var k in stockData.ship){
+				if(stockData.ship[k].uniCode == unitStockData[i].updateKey.value && stockData.ship[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value){
+					unitStockData[i].record.mStockList.value[j].value.uStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
+				}
+			}
+		}
+	}
 
 	console.log(deviceStockData);
 	console.log(unitStockData);
