@@ -560,7 +560,7 @@ function createStockJson(event,appId) {
 			var stockShipBody = {
 				'arrOrShip': 'ship',
 				'devCode': event.record.deviceList.value[i].value.mCode.value,
-				'uniCode': event.record.sys_arrivalCode.value,
+				'uniCode': event.record.sys_shipmentCode.value,
 				'stockNum': event.record.deviceList.value[i].value.shipNum.value
 			};
 			stockData.ship.push(stockShipBody);
@@ -569,7 +569,7 @@ function createStockJson(event,appId) {
 				var stockArrBody = {
 					'arrOrShip': 'arr',
 					'devCode': event.record.deviceList.value[i].value.mCode.value,
-					'uniCode': event.record.sys_shipmentCode.value,
+					'uniCode': event.record.sys_arrivalCode.value,
 					'stockNum': event.record.deviceList.value[i].value.shipNum.value
 				};
 				stockData.arr.push(stockArrBody)
@@ -600,7 +600,6 @@ function createStockJson(event,appId) {
 		// 仕入管理の場合
 	} else if (appId == sysid.INV.app_id.purchasing) {
 		stockData.appId = appId;
-
 		// 通貨種類によって先頭の記号変更
 		if (event.record.currencyType.value == '米ドル＄') {
 			var foreignCurrency = '$';
