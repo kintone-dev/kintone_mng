@@ -4,8 +4,8 @@
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     var nStatus = event.nextStatus.value;
-
-    if(checkEoMReport(event.record.sys_invoiceDate.value)==true){
+    console.log(checkEoMReport(event.record.sys_invoiceDate.value));
+    if(checkEoMReport(event.record.sys_invoiceDate.value)){
       event.error = '対応した日付のレポートは締切済みです。';
       return event;
     }
@@ -204,6 +204,7 @@
       }
     }
 
+    return event;
   });
 
   //保存ボタン押下時、対応したレポートが締め切り済の場合保存できないように
