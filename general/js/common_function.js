@@ -898,6 +898,7 @@ async function reportCtrl(event, appId) {
 		'app': sysid.INV.app_id.unit,
 		'query': 'uCode in (' + getUniNameArray.join() + ')'
 	};
+	console.log(getUnitBody);
 	var unitRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
 		.then(function (resp) {
 			return resp;
@@ -905,6 +906,7 @@ async function reportCtrl(event, appId) {
 			console.log(error);
 			return error;
 		});
+		console.log(unitRecords);
 
 		for(var i in reportUpdateData){
 			for(var j in unitRecords.records){

@@ -14,7 +14,6 @@
 
     if (nStatus === '仕入完了') {
       var stockData = await stockCtrl(event, kintone.app.getId());
-      console.log(stockData);
       await reportCtrl(event, kintone.app.getId());
 
     // 月次処理に情報連携
