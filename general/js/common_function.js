@@ -801,7 +801,36 @@ async function stockCtrl(event) {
 		}
 	}
 
-	console.log(deviceStockData);
-	console.log(unitStockData);
-	return devQuery;
+	//商品管理、拠点管理を更新
+	var putDeviceBody = {
+		'app': sysid.INV.app_id.diveice,
+		'records': deviceStockData,
+	}
+	await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putDeviceBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+
+	var putUnitBody = {
+		'app': sysid.INV.app_id.unit,
+		'records': unitStockData,
+	}
+	await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putUnitBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+
+
+	// 作成したjsonを配列に格納
+	var totalStockdata = [];
+	totalStockdata.push(deviceStockData);
+	totalStockdata.push(unitStockData);
+
+	return totalStockdata;
 };
