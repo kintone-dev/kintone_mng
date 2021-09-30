@@ -4,10 +4,12 @@
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
     var nStatus = event.nextStatus.value;
-    if (await checkEoMReport(event.record.sys_invoiceDate.value) != false) {
+    var reportData = await checkEoMReport(event.record.sys_invoiceDate.value);
+    if (reportData != false) {
       event.error = '対応した日付のレポートは締切済みです。';
       return event;
     }
+
 
     if (nStatus == '納品準備中') { //ステータスが納品準備中の場合
       var postShipData = [];
@@ -168,8 +170,6 @@
         var stockData = await stockCtrl(event, kintone.app.getId());
         console.log(stockData);
 
-        // var stockData = stockCtrl(event, kintone.app.getId());
-        // console.log(stockData);
         //レポートクエリ
         // var getReportBody = {
         //   'app': sysid.INV.app_id.report,
