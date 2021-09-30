@@ -5,6 +5,9 @@
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     var nStatus = event.nextStatus.value;
 
+    var stockData = stockCtrl(event, kintone.app.getId());
+    console.log(stockData);
+
     //入出荷管理に追加
     var getReportBody = {
       'app': sysid.INV.app_id.report,
@@ -176,8 +179,8 @@
 
           } else if (nStatus == '完了') {
             if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
-              var stockData = stockCtrl(event, kintone.app.getId());
-              console.log(stockData);
+              // var stockData = stockCtrl(event, kintone.app.getId());
+              // console.log(stockData);
               //レポートクエリ
               // var getReportBody = {
               //   'app': sysid.INV.app_id.report,
