@@ -799,12 +799,9 @@ async function stockCtrl(event,appId) {
 		}
 	}
 
-	console.log(deviceStockData);
-	console.log(unitStockData);
-
 	//商品管理、拠点管理を更新
 	var putDeviceBody = {
-		'app': sysid.INV.app_id.diveice,
+		'app': sysid.INV.app_id.device,
 		'records': deviceStockData,
 	}
 	await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putDeviceBody)
