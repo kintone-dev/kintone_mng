@@ -534,7 +534,6 @@ const checkEoMReport = async (reportDate) => {
 			}
 		}
 	}
-	return false;
 };
 
 /* 商品管理、拠点管理の在庫処理 */
