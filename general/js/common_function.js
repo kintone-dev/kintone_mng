@@ -870,7 +870,6 @@ async function stockCtrl(event, appId) {
 			return error;
 		});
 
-
 	// 作成したjsonを配列に格納
 	var totalStockdata = {
 		'device': deviceStockData,
