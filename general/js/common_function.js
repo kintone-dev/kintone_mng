@@ -527,7 +527,7 @@ const checkEoMReport = async (reportDate) => {
 			console.log(error);
 			return error;
 		});
-	if (reportRecords.length != 0) {
+	if (reportData.length != 0) {
 		for (var i in reportData.records[0].EoMcheck.value) {
 			if (reportData.records[0].EoMcheck.value[i] == '締切') {
 				return true;
