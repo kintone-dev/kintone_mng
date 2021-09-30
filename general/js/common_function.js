@@ -530,11 +530,11 @@ const checkEoMReport = async (reportDate) => {
 	if (reportData.length != 0) {
 		for (var i in reportData.records[0].EoMcheck.value) {
 			if (reportData.records[0].EoMcheck.value[i] == '締切') {
-				return 1;
+				return true;
 			}
 		}
 	}
-	return 0;
+	return false;
 };
 
 /* 商品管理、拠点管理の在庫処理 */
