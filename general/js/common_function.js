@@ -738,12 +738,12 @@ async function stockCtrl(event) {
 		for(var i in deviceStockData){
 			for(var j in stockData.arr){
 				if(stockData.arr[j].devCode == deviceStockData[i].updateKey.value){
-					deviceStockData.record.mCost = stockData.arr[j].mCost;
-					deviceStockData.record.mCostUpdate = stockData.arr[j].mCostUpdate;
-					deviceStockData.record.deviceCost = stockData.arr[j].deviceCost;
-					deviceStockData.record.deviceCost_foreign = stockData.arr[j].deviceCost_foreign;
-					deviceStockData.record.importExpenses = stockData.arr[j].importExpenses;
-					deviceStockData.record.developCost = stockData.arr[j].developCost;
+					deviceStockData[i].record.mCost.value = stockData.arr[j].mCost;
+					deviceStockData[i].record.mCostUpdate.value = stockData.arr[j].mCostUpdate;
+					deviceStockData[i].record.deviceCost.value = stockData.arr[j].deviceCost;
+					deviceStockData[i].record.deviceCost_foreign.value = stockData.arr[j].deviceCost_foreign;
+					deviceStockData[i].record.importExpenses.value = stockData.arr[j].importExpenses;
+					deviceStockData[i].record.developCost.value = stockData.arr[j].developCost;
 				}
 			}
 		}
