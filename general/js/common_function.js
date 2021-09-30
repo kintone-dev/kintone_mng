@@ -823,9 +823,10 @@ async function stockCtrl(event, appId) {
 
 
 	// 作成したjsonを配列に格納
-	var totalStockdata = [];
-	totalStockdata.push(deviceStockData);
-	totalStockdata.push(unitStockData);
+	var totalStockdata = {
+		'device':deviceStockData,
+		'unit':unitStockData
+	};
 
 	return totalStockdata;
 };
