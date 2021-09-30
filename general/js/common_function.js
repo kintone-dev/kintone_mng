@@ -848,7 +848,9 @@ async function stockCtrl(event, appId) {
  * @returns
  */
 async function reportCtrl(event, appId) {
-	console.log(event.nextStatus);
+	if(event.nextStatus=='仕入完了'){
+		console.log(event.nextStatus);
+	}
 	var stockData = createStockJson(event, appId);
 	console.log(stockData);
 
