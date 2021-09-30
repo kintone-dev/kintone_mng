@@ -548,8 +548,10 @@ const checkEoMReport = async (event, reportDate) => {
 function createStockJson(event) {
 	var stockData = {
 		'arr': [],
-		'ship': [],
+		'ship': []
 	};
+
+	console.log(event);
 
 	//入出荷管理の場合
 	if (event.appId == sysid.INV.app_id.shipment) {
@@ -627,7 +629,6 @@ function createStockJson(event) {
 			};
 			stockData.arr.push(stockArrBody);
 		}
-
 		return stockData;
 	}
 
