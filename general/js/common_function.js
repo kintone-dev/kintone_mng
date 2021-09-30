@@ -557,28 +557,68 @@ function createStockJson(event, appId) {
 		sendDate = sendDate.replace(/-/g, '');
 		sendDate = sendDate.slice(0, -2);
 		stockData.date = sendDate;
-		var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
-		for (var i in event.record.deviceList.value) {
-			// 出荷情報を作成
-			var stockShipBody = {
-				'arrOrShip': 'ship',
-				'devCode': event.record.deviceList.value[i].value.mCode.value,
-				'uniCode': event.record.sys_shipmentCode.value,
-				'stockNum': event.record.deviceList.value[i].value.shipNum.value
-			};
-			stockData.ship.push(stockShipBody);
-			// 出荷区分がarrivalShipTypeに含まれる場合のみ入荷情報を作成
-			if (arrivalShipType.includes(event.record.shipType.value)) {
-				var stockArrBody = {
-					'arrOrShip': 'arr',
-					'devCode': event.record.deviceList.value[i].value.mCode.value,
-					'uniCode': event.record.sys_arrivalCode.value,
-					'stockNum': event.record.deviceList.value[i].value.shipNum.value
-				};
-				stockData.arr.push(stockArrBody)
+		if (event.nextStatus) {
+			if (event.nextStatus.value == '集荷待ち') {
+				var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
+				for (var i in event.record.deviceList.value) {
+					// 出荷情報を作成
+					var stockShipBody = {
+						'arrOrShip': 'ship',
+						'devCode': event.record.deviceList.value[i].value.mCode.value,
+						'uniCode': event.record.sys_shipmentCode.value,
+						'stockNum': event.record.deviceList.value[i].value.shipNum.value
+					};
+					stockData.ship.push(stockShipBody);
+					// 出荷区分がarrivalShipTypeに含まれる場合のみ入荷情報を作成
+					if (arrivalShipType.includes(event.record.shipType.value)) {
+						var stockArrBody = {
+							'arrOrShip': 'arr',
+							'devCode': event.record.deviceList.value[i].value.mCode.value,
+							'uniCode': event.record.sys_arrivalCode.value,
+							'stockNum': event.record.deviceList.value[i].value.shipNum.value
+						};
+						stockData.arr.push(stockArrBody)
+					}
+				}
+				return stockData;
+			} else if (event.nextStatus.value == '出荷完了') {
+				var arrivalShipType_dist = ['移動-販売', '移動-サブスク', '販売', 'サブスク'];
+				var arrivalShipType_arr = ['移動-拠点間', '移動-ベンダー'];
+				for (var i in event.record.deviceList.value) {
+					// 出荷情報を作成
+					var stockShipBody = {
+						'arrOrShip': 'ship',
+						'devCode': event.record.deviceList.value[i].value.mCode.value,
+						'uniCode': event.record.sys_shipmentCode.value,
+						'stockNum': event.record.deviceList.value[i].value.shipNum.value
+					};
+					stockData.ship.push(stockShipBody);
+
+					if(arrivalShipType_dist.includes(event.record.shipType.value)){ // 出荷区分がarrivalShipType_distに含まれる場合のみ入荷情報を作成
+						var stockArrBody = {
+							'arrOrShip': 'arr',
+							'devCode': event.record.deviceList.value[i].value.mCode.value,
+							'uniCode': 'distribute',
+							'stockNum': event.record.deviceList.value[i].value.shipNum.value
+						};
+						stockData.arr.push(stockArrBody)
+					}else if (arrivalShipType_arr.includes(event.record.shipType.value)) { // 出荷区分がarrivalShipType_arrに含まれる場合のみ入荷情報を作成
+						var stockArrBody = {
+							'arrOrShip': 'arr',
+							'devCode': event.record.deviceList.value[i].value.mCode.value,
+							'uniCode': event.record.sys_arrivalCode.value,
+							'stockNum': event.record.deviceList.value[i].value.shipNum.value
+						};
+						stockData.arr.push(stockArrBody)
+					}
+				}
+				return stockData;
+			} else {
+				return false;
 			}
+		} else {
+			return false;
 		}
-		return stockData;
 	} else if (appId == sysid.PM.app_id.project) { //案件管理の場合
 		stockData.appId = appId;
 		stockData.date = event.record.sys_invoiceDate.value;
@@ -848,13 +888,6 @@ async function stockCtrl(event, appId) {
  * @returns
  */
 async function reportCtrl(event, appId) {
-	if(event.nextStatus){
-		if(event.nextStatus.value =='仕入完了'){
-			console.log(event);
-		}
-	} else{
-		console.log('ない');
-	}
 	var stockData = createStockJson(event, appId);
 	console.log(stockData);
 
@@ -912,15 +945,15 @@ async function reportCtrl(event, appId) {
 			console.log(error);
 			return error;
 		});
-		console.log(unitRecords);
+	console.log(unitRecords);
 
-		for(var i in reportUpdateData){
-			for(var j in unitRecords.records){
-				if(reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value){
-					reportUpdateData[i].uName = unitRecords.records[j].uName.value;
-				}
+	for (var i in reportUpdateData) {
+		for (var j in unitRecords.records) {
+			if (reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value) {
+				reportUpdateData[i].uName = unitRecords.records[j].uName.value;
 			}
 		}
+	}
 	/* レポート更新用情報作成 end */
 
 	if (reportRecords.records.length != 0) { //対応したレポートがある場合
