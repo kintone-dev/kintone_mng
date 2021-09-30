@@ -512,11 +512,10 @@ const deleteRecords = async (sendApp, records) => {
 
 /**
  * 指定月のレポートが締切の場合エラー表示
- * @param {*} event kintone event
  * @param {*} reportDate 判別したいレポートの月 例)202109
  * @returns
  */
-const checkEoMReport = async (event, reportDate) => {
+const checkEoMReport = async (reportDate) => {
 	var getReportBody = {
 		'app': sysid.INV.app_id.report,
 		'query': 'sys_invoiceDate = "' + reportDate + '"'
@@ -531,8 +530,7 @@ const checkEoMReport = async (event, reportDate) => {
 	if (reportRecords.length != 0) {
 		for (var i in reportData.records[0].EoMcheck.value) {
 			if (reportData.records[0].EoMcheck.value[i] == '締切') {
-				event.error = '対応した日付のレポートは締切済みです。';
-				return event;
+				return true;
 			}
 		}
 	}
