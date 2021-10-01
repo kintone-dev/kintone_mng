@@ -154,8 +154,8 @@
           postItemData.app = tarAPP[i];
           await kintone.api(kintone.api.url('/k/v1/records', true), 'POST', postItemData);
         }
+        return event;
       }
-      return event;
     });
 
     return event;
