@@ -674,7 +674,6 @@ function createStockJson(event, appId) {
 		}
 		return stockData;
 	}
-
 	return false;
 };
 
@@ -998,7 +997,7 @@ async function reportCtrl(event, appId) {
 							'sys_code': {
 								'value': reportUpdateData[i].sysCode
 							},
-							'mCode':{
+							'mCode': {
 								'value': reportUpdateData[i].devCode
 							},
 							'stockLocation': {
@@ -1049,7 +1048,7 @@ async function reportCtrl(event, appId) {
 						'sys_code': {
 							'value': reportUpdateData[i].sysCode
 						},
-						'mCode':{
+						'mCode': {
 							'value': reportUpdateData[i].devCode
 						},
 						'stockLocation': {
@@ -1066,7 +1065,7 @@ async function reportCtrl(event, appId) {
 						'sys_code': {
 							'value': reportUpdateData[i].sysCode
 						},
-						'mCode':{
+						'mCode': {
 							'value': reportUpdateData[i].devCode
 						},
 						'stockLocation': {

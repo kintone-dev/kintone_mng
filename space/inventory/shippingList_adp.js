@@ -49,7 +49,6 @@
 
       //在庫処理
       await stockCtrl(event, kintone.app.getId());
-
       // ステータスが出荷完了の場合
     } else if (nStatus === "出荷完了") {
       // 輸送情報連携
@@ -127,15 +126,12 @@
       }
     }
     putDeliveryData.push(putDeliveryBody);
-
     var putStatusBody = {
       'app': sysid.PM.app_id.project,
       'id': pageRecod.prjId.value,
       'action': '製品発送'
     };
-
     putRecords(sysid.PM.app_id.project, putDeliveryData);
     kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody);
   }
-
 })();
