@@ -18,7 +18,15 @@
       event.record.uStockList.value[sti].value.uStock.disabled = true;
     }
     //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
-
+    $('.subtable-5524711').find('.subtable-operation-gaia').css('display','none');
+    function subtableControl(params) {
+      for (var sti in event.record.uStockList.value) {
+        event.record.uStockList.value[sti].value.uCode.disabled = true;
+        event.record.uStockList.value[sti].value.uName.disabled = true;
+        event.record.uStockList.value[sti].value.uStock.disabled = true;
+      }
+      [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
+    }
     //tabメニューの選択肢による表示設定
     function tabSwitch(onSelect) {
       switch (onSelect) {
