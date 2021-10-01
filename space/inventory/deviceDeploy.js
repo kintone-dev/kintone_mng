@@ -11,7 +11,7 @@
         var getDeviceQuery = {
           'app': sysid.INV.app_id.device,
           'query': ''
-        }
+        };
         var deviceData = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getDeviceQuery)
           .then(function (resp) {
             return resp;
@@ -23,7 +23,7 @@
         var getUnitQuery = {
           'app': sysid.INV.app_id.unit,
           'query': ''
-        }
+        };
         var unitData = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getUnitQuery)
           .then(function (resp) {
             return resp;
@@ -76,7 +76,7 @@
         var getPrjItemQuery = {
           'app': sysid.PM.app_id.item,
           'query': ''
-        }
+        };
         var prjItemData = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPrjItemQuery)
           .then(function (resp) {
             return resp;
@@ -93,7 +93,7 @@
         var getSupItemQuery = {
           'app': sysid.SUP.app_id.item,
           'query': ''
-        }
+        };
         var supItemData = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getSupItemQuery)
           .then(function (resp) {
             return resp;
@@ -110,7 +110,7 @@
         var getAssItemQuery = {
           'app': sysid.ASS.app_id.item,
           'query': ''
-        }
+        };
         var assItemData = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getAssItemQuery)
           .then(function (resp) {
             return resp;
@@ -130,7 +130,7 @@
         var postItemData = {
           'app':'',
           'records':[]
-        }
+        };
         for(var i in deviceData.records){
           var postItemBody = {
             'mName': deviceData.records[i].mName,
