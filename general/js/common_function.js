@@ -921,7 +921,7 @@ async function reportCtrl(event, appId) {
 	for (var i in stockData.ship) {
 		var reportUpdateBody = {
 			'arrOrShip': stockData.ship[i].arrOrShip,
-			'sysCode': stockData.ship[i].devCode + '-' + stockData.arr[i].uniCode,
+			'sysCode': stockData.ship[i].devCode + '-' + stockData.ship[i].uniCode,
 			'devCode': stockData.ship[i].devCode,
 			'uniCode': stockData.ship[i].uniCode,
 			'stockNum': stockData.ship[i].stockNum
