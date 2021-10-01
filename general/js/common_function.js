@@ -869,7 +869,6 @@ async function stockCtrl(event, appId) {
 		'device': deviceStockData,
 		'unit': unitStockData
 	};
-
 	return totalStockdata;
 };
 
