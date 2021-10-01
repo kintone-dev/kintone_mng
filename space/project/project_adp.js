@@ -10,7 +10,6 @@
       return event;
     }
 
-
     if (nStatus == '納品準備中') { //ステータスが納品準備中の場合
       var postShipData = [];
       var postShipBody = {
