@@ -1014,7 +1014,6 @@ async function reportCtrl(event, appId) {
 		}
 
 		putReportData.push(putRepoBody);
-
 		var putReport = {
 			'app': sysid.INV.app_id.report,
 			'records': putReportData,
@@ -1026,7 +1025,6 @@ async function reportCtrl(event, appId) {
 				console.log(error);
 				return error;
 			});
-
 	} else { //対応したレポートがない場合
 		//レポート新規作成
 		var postReportData = [];
@@ -1077,7 +1075,6 @@ async function reportCtrl(event, appId) {
 		}
 
 		postReportData.push(postReportBody);
-
 		var postReport = {
 			'app': sysid.INV.app_id.report,
 			'records': postReportData,

@@ -13,10 +13,10 @@
     }
 
     if (nStatus === '仕入完了') {
-      var stockData = await stockCtrl(event, kintone.app.getId());
+      // 在庫処理
+      await stockCtrl(event, kintone.app.getId());
+      // レポート処理
       await reportCtrl(event, kintone.app.getId());
-
-
     }
   });
 })();
