@@ -15,7 +15,7 @@
     for (var sti in event.record.uStockList.value) {
       event.record.uStockList.value[sti].value.uCode.disabled = true;
       event.record.uStockList.value[sti].value.uName.disabled = true;
-      event.recosrd.uStockList.value[sti].value.uStock.disabled = true;
+      event.record.uStockList.value[sti].value.uStock.disabled = true;
     }
     //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     $('.subtable-5524711').find('.subtable-operation-gaia').css('display','none');
