@@ -101,7 +101,6 @@
     // 情報編集チェックボックスが on でなければ、編集させない
     if (event.record.editinfo.value[0] === '情報編集') {
       // チェックボックスがチェックされている
-      event.record.uCode.disabled=false;
       event.record.uType.disabled=false;
       event.record.uName.disabled=false;
       event.record.uCharge.disabled=false;

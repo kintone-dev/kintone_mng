@@ -50,7 +50,6 @@
     // 品目情報を拠点リストに転送
     getUNITdata.then(function (resp) {
       var tarRecords = resp.records;
-
       // 拠点管理アプリの品目リストに上書きするデータ作成
       var NewPrdInfo = {
         'app': sysid.INV.app_id.unit,
@@ -108,6 +107,34 @@
   // 編集保存時アクション（現在編集不可）
   kintone.events.on('app.record.edit.submit.success', function (event) {
 
+    getUNITdata.then(function (resp) {
+      var tarRecords = resp.records;
+      // 拠点管理アプリの品目リストに上書きするデータ作成
+      var NewPrdInfo = {
+        'app': sysid.INV.app_id.unit,
+        'records': []
+      };
+      //spd: set product data
+      for (var spd in tarRecords) {
+        var records_set = {
+          'id': tarRecords[spd].$id.value,
+          'record': {
+            'mStockList': tarRecords[spd].mStockList
+          }
+        };
+        NewPrdInfo.records.push(records_set);
+      }
+      //編集した品目名を反映
+      for(var i in NewPrdInfo.records){
+        for(var j in NewPrdInfo.records[i].record.mStockList){
+          if(NewPrdInfo.records[i].record.mStockList[j].value.mCode.value == event.record.mCode.value){
+            NewPrdInfo.records[i].record.mStockList[j].value.mName.value = event.record.mName.value;
+          }
+        }
+      }
+      return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
+    });
+
     // api実行先指定
     var tarAPP = [
       sysid.PM.app_id.item,
@@ -132,31 +159,9 @@
         'endService': event.record.endService
       }
     };
-    // // 削除データ作成
-    // var getDelItemID={
-    //   'app': '',
-    //   'query': 'mCode="'+event.record.mCode.value+'"',
-    //   'fields': ['$id']
-    // }
-
 
     // api実行
     for (var pi in tarAPP) {
-      // if(event.record.endService.value.length>0){
-      //   getDelItemID.app=tarAPP[pi];
-      //   kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getDelItemID).then(function(resp){
-      //     if(resp.records.length>0){
-      //       kintone.api(kintone.api.url('/k/v1/records.json', true),'DELETE',{'app':tarAPP[pi],'ids':[resp.records[0].$id.value]}).then(function(delResp){
-      //         console.log(delResp);
-      //       });
-      //     }
-      //   }).catch(function(error){
-      //     console.erroe(error)
-      //   });
-      // }else{
-      //   putItemBody.app = tarAPP[pi];
-      //   kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
-      // }
       putItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
     }
