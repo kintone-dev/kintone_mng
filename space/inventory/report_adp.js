@@ -69,9 +69,12 @@
        */
       var inventoryList = event.record.inventoryList.value;
       var newList = [];
+      var ignoreUnitArray = ['ns-','-ygr','-xx','-zz','-aa'];
+      var ignoreUnit = new RegExp(ignoreUnitArray.join('|'));
+      console.log(ignoreUnit);
       //特定の拠点以外を抜き出して再度格納
       for (var i in inventoryList) {
-        if (!inventoryList[i].value.sys_code.value.match(/ns-|-〇〇/)) {
+        if (!inventoryList[i].value.sys_code.value.match(ignoreUnit)) {
           newList.push(inventoryList[i]);
         }
       }
