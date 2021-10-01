@@ -630,7 +630,7 @@ async function stockCtrl(event, appId) {
 					'value': deviceRecords.records[i].uStockList.value
 				}
 			}
-		}
+		};
 		deviceStockData.push(putDevBody);
 	}
 
@@ -695,7 +695,7 @@ async function stockCtrl(event, appId) {
 					'value': unitRecords.records[i].mStockList.value
 				}
 			}
-		}
+		};
 		unitStockData.push(putUniBody);
 	}
 	// 減らしたり増やしたりする
@@ -723,7 +723,7 @@ async function stockCtrl(event, appId) {
 	var putDeviceBody = {
 		'app': sysid.INV.app_id.device,
 		'records': deviceStockData,
-	}
+	};
 	await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putDeviceBody)
 		.then(function (resp) {
 			return resp;
@@ -735,7 +735,7 @@ async function stockCtrl(event, appId) {
 	var putUnitBody = {
 		'app': sysid.INV.app_id.unit,
 		'records': unitStockData,
-	}
+	};
 	await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putUnitBody)
 		.then(function (resp) {
 			return resp;
@@ -788,7 +788,7 @@ async function reportCtrl(event, appId) {
 			'devCode': stockData.arr[i].devCode,
 			'uniCode': stockData.arr[i].uniCode,
 			'stockNum': stockData.arr[i].stockNum
-		}
+		};
 		getUniNameArray.push('"' + stockData.arr[i].uniCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
@@ -799,7 +799,7 @@ async function reportCtrl(event, appId) {
 			'devCode': stockData.ship[i].devCode,
 			'uniCode': stockData.ship[i].uniCode,
 			'stockNum': stockData.ship[i].stockNum
-		}
+		};
 		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
@@ -838,7 +838,7 @@ async function reportCtrl(event, appId) {
 					'value': reportRecords.records[0].inventoryList.value
 				}
 			}
-		}
+		};
 
 		for (var i in reportUpdateData) {
 			if (putReportBody.record.inventoryList.value.some(item => item.value.sys_code.value === reportUpdateData[i].sysCode)) {
@@ -882,7 +882,7 @@ async function reportCtrl(event, appId) {
 								'value': reportUpdateData[i].stockNum
 							}
 						}
-					}
+					};
 				}
 				putRepoBody.record.inventoryList.value.push(newReportListBody);
 			}
@@ -913,7 +913,7 @@ async function reportCtrl(event, appId) {
 			'inventoryList': {
 				'value': []
 			}
-		}
+		};
 
 		// レポート更新情報をリストに格納
 		for (var i in reportUpdateData) {
@@ -933,7 +933,7 @@ async function reportCtrl(event, appId) {
 							'value': reportUpdateData[i].stockNum
 						}
 					}
-				}
+				};
 			} else if (reportUpdateData[i].arrOrShip == 'arr') {
 				var newReportListBody = {
 					'value': {
@@ -950,7 +950,7 @@ async function reportCtrl(event, appId) {
 							'value': reportUpdateData[i].stockNum
 						}
 					}
-				}
+				};
 			}
 			postReportBody.inventoryList.value.push(newReportListBody);
 		}
@@ -959,7 +959,7 @@ async function reportCtrl(event, appId) {
 		var postReport = {
 			'app': sysid.INV.app_id.report,
 			'records': postReportData,
-		}
+		};
 		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postReport)
 			.then(function (resp) {
 				return resp;
