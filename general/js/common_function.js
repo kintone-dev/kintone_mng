@@ -682,7 +682,7 @@ function createStockJson(event, appId) {
  * 受け取ったjsonから商品管理、拠点管理に在庫情報を挿入
  * @param {*} event kintone event
  * @param {*} appId 関数を使ったアプリのID
- * @returns
+ * @returns json
  */
 async function stockCtrl(event, appId) {
 	var stockData = createStockJson(event, appId);
@@ -883,7 +883,7 @@ async function stockCtrl(event, appId) {
  * 受け取ったjsonから月次レポートに情報を挿入
  * @param {*} event kintone event
  * @param {*} appId 関数を使ったアプリのID
- * @returns
+ * @returns json
  */
 async function reportCtrl(event, appId) {
 	var stockData = createStockJson(event, appId);
