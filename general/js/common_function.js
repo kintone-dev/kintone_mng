@@ -1071,7 +1071,7 @@ async function reportCtrl(event, appId) {
 					}
 				}
 			}
-			postReportBody.record.inventoryList.value.push(newReportListBody);
+			postReportBody.inventoryList.value.push(newReportListBody);
 		}
 
 		postReportData.push(postReportBody);
