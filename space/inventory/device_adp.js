@@ -50,7 +50,6 @@
     // 品目情報を拠点リストに転送
     getUNITdata.then(function (resp) {
       var tarRecords = resp.records;
-
       // 拠点管理アプリの品目リストに上書きするデータ作成
       var NewPrdInfo = {
         'app': sysid.INV.app_id.unit,
@@ -66,8 +65,8 @@
         };
         var addRowData = {
           'value': {
-            'mCode': event.record.mCode,
-            'mName': event.record.mName
+            'mCode': event.record.mCode.value,
+            'mName': event.record.mName.value
           }
         };
         records_set.record.mStockList.value.push(addRowData);
@@ -108,6 +107,34 @@
   // 編集保存時アクション（現在編集不可）
   kintone.events.on('app.record.edit.submit.success', function (event) {
 
+    getUNITdata.then(function (resp) {
+      var tarRecords = resp.records;
+      // 拠点管理アプリの品目リストに上書きするデータ作成
+      var NewPrdInfo = {
+        'app': sysid.INV.app_id.unit,
+        'records': []
+      };
+      //spd: set product data
+      for (var spd in tarRecords) {
+        var records_set = {
+          'id': tarRecords[spd].$id.value,
+          'record': {
+            'mStockList': tarRecords[spd].mStockList
+          }
+        };
+        NewPrdInfo.records.push(records_set);
+      }
+      //編集した品目名を反映
+      for(var i in NewPrdInfo.records){
+        for(var j in NewPrdInfo.records[i].record.mStockList.value){
+          if(NewPrdInfo.records[i].record.mStockList.value[j].value.mCode.value == event.record.mCode.value){
+            NewPrdInfo.records[i].record.mStockList.value[j].value.mName.value = event.record.mName.value;
+          }
+        }
+      }
+      return kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', NewPrdInfo);
+    });
+
     // api実行先指定
     var tarAPP = [
       sysid.PM.app_id.item,
@@ -132,31 +159,9 @@
         'endService': event.record.endService
       }
     };
-    // // 削除データ作成
-    // var getDelItemID={
-    //   'app': '',
-    //   'query': 'mCode="'+event.record.mCode.value+'"',
-    //   'fields': ['$id']
-    // }
-    
-    
+
     // api実行
     for (var pi in tarAPP) {
-      // if(event.record.endService.value.length>0){
-      //   getDelItemID.app=tarAPP[pi];
-      //   kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getDelItemID).then(function(resp){
-      //     if(resp.records.length>0){
-      //       kintone.api(kintone.api.url('/k/v1/records.json', true),'DELETE',{'app':tarAPP[pi],'ids':[resp.records[0].$id.value]}).then(function(delResp){
-      //         console.log(delResp);
-      //       });
-      //     }
-      //   }).catch(function(error){
-      //     console.erroe(error)
-      //   });
-      // }else{
-      //   putItemBody.app = tarAPP[pi];
-      //   kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
-      // }
       putItemBody.app = tarAPP[pi];
       kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
     }
@@ -165,9 +170,9 @@
   });
 
   //パッケージ一覧編集時
-  kintone.events.on(['app.record.create.change.pc_mCode','app.record.edit.change.pc_mCode'], function (event) {
+  kintone.events.on(['app.record.create.change.pc_mCode', 'app.record.edit.change.pc_mCode'], function (event) {
     var deviceQuery = [];
-    for(var i in event.record.packageComp.value){
+    for (var i in event.record.packageComp.value) {
       deviceQuery.push('"' + event.record.packageComp.value[i].value.pc_mCode.value + '"');
     }
     var getPacBody = {
@@ -175,33 +180,32 @@
       'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPacBody)
-    .then(function (resp) {
-      var eRecord = kintone.app.record.get();
+      .then(function (resp) {
+        var eRecord = kintone.app.record.get();
 
-      for(var i in eRecord.record.packageComp.value){
-        for(var j in resp.records){
-          if(eRecord.record.packageComp.value[i].value.pc_mCode.value == resp.records[j].mCode.value){
-            eRecord.record.packageComp.value[i].value.pc_mVendor.value = resp.records[j].mVendor.value;
-            eRecord.record.packageComp.value[i].value.pc_mType.value = resp.records[j].mType.value;
-            eRecord.record.packageComp.value[i].value.pc_mName.value = resp.records[j].mName.value;
-            eRecord.record.packageComp.value[i].value.pc_mNickname.value = resp.records[j].mNickname.value;
+        for (var i in eRecord.record.packageComp.value) {
+          for (var j in resp.records) {
+            if (eRecord.record.packageComp.value[i].value.pc_mCode.value == resp.records[j].mCode.value) {
+              eRecord.record.packageComp.value[i].value.pc_mVendor.value = resp.records[j].mVendor.value;
+              eRecord.record.packageComp.value[i].value.pc_mType.value = resp.records[j].mType.value;
+              eRecord.record.packageComp.value[i].value.pc_mName.value = resp.records[j].mName.value;
+              eRecord.record.packageComp.value[i].value.pc_mNickname.value = resp.records[j].mNickname.value;
+            }
           }
         }
-      }
 
-      for (var i in eRecord.record.packageComp.value) {
-        eRecord.record.packageComp.value[i].value.pc_mVendor.disabled = true;
-        eRecord.record.packageComp.value[i].value.pc_mType.disabled = true;
-        eRecord.record.packageComp.value[i].value.pc_mName.disabled = true;
-        eRecord.record.packageComp.value[i].value.pc_mNickname.disabled = true;
-        eRecord.record.packageComp.value[i].value.pc_Num.disabled = false;
-        eRecord.record.packageComp.value[i].value.pc_mCode.disabled = false;
-      }
+        for (var i in eRecord.record.packageComp.value) {
+          eRecord.record.packageComp.value[i].value.pc_mVendor.disabled = true;
+          eRecord.record.packageComp.value[i].value.pc_mType.disabled = true;
+          eRecord.record.packageComp.value[i].value.pc_mName.disabled = true;
+          eRecord.record.packageComp.value[i].value.pc_mNickname.disabled = true;
+          eRecord.record.packageComp.value[i].value.pc_Num.disabled = false;
+          eRecord.record.packageComp.value[i].value.pc_mCode.disabled = false;
+        }
 
-
-      kintone.app.record.set(eRecord);
-      return event;
-    });
-});
+        kintone.app.record.set(eRecord);
+        return event;
+      });
+  });
 
 })();

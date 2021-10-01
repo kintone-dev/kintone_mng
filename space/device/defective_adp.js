@@ -23,7 +23,7 @@
           'value': '検証待ち'
         }
       }
-    }
+    };
     putDefectiveData.push(putDefectiveBody);
     putRecords(sysid.DEV.app_id.sNum, putDefectiveData);
 
@@ -58,7 +58,7 @@
           'value': event.record.repaired.value
         },
         'record': {}
-      }
+      };
 
       putRepairedBody.record = respRecords[0];
 

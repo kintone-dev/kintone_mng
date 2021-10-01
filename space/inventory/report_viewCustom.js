@@ -101,11 +101,16 @@
       kintone.app.record.set(eRecord);
     });
 
+    for(var i in event.record.inventoryList.value){
+      event.record.inventoryList.value[i].value.mCode.lookup = true;
+    }
+
     return event;
   });
 
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
+    console.log(event);
 
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
     var iListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id;
@@ -170,11 +175,11 @@
       if(alertData!=0){
         var alertTxt = '以下の商品は、差引残数が発注点の10%以下です。\n'
         for(var i in alertData){
-          alertTxt = alertTxt + alertData[i] + '\n'
+          alertTxt = alertTxt + alertData[i] + '\n';
         }
         alert(alertTxt);
       }
-    }, 5000);
+    }, 3000);
 
     if (event.record.EoMcheck.value == '締切' || event.record.EoMcheck.value == '一時締切') {
       setTimeout(function () {
@@ -195,9 +200,27 @@
             });
           }
         }
-      }, 5000);
+      }, 3000);
     }
 
+  });
+
+  // 締切保存時 特定の拠点を削除
+  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+    if (event.record.EoMcheck.value == '締切') {
+      var inventoryList = event.record.inventoryList.value;
+      var newList = [];
+      var ignoreUnitArray = ['ns-','-oo','-xx','-zz','-aa'];
+      var ignoreUnit = new RegExp(ignoreUnitArray.join('|'));
+      //特定の拠点以外を抜き出して再度格納
+      for (var i in inventoryList) {
+        if (!inventoryList[i].value.sys_code.value.match(ignoreUnit)) {
+          newList.push(inventoryList[i]);
+        }
+      }
+      event.record.inventoryList.value = newList;
+      return event;
+    }
   });
 
   //商品順ソート関数

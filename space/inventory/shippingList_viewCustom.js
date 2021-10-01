@@ -185,14 +185,14 @@
 
     var cStatus = event.record.ステータス.value;
 
-    if(cStatus === "処理中"){
+    if (cStatus === "処理中") {
       var createSelect = document.createElement('select');
       createSelect.id = 'setShipment';
       createSelect.name = 'setShipment';
       createSelect.classList.add('jsselect_header');
       kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 
-      async function setOption() {
+      (async function setOption() {
         var getUnitBody = {
           'app': sysid.INV.app_id.unit,
           'query': ''
@@ -207,14 +207,13 @@
 
         $('#setShipment').append('<option value="noSelect">選択して下さい</option>');
 
-        for(var i in allUnit.records){
-          $('#setShipment').append('<option value="' + allUnit.records[i].uCode.value +  '">'+ allUnit.records[i].uName.value +'</option>');
+        for (var i in allUnit.records) {
+          $('#setShipment').append('<option value="' + allUnit.records[i].uCode.value + '">' + allUnit.records[i].uName.value + '</option>');
         }
-      }
+      }());
 
-      setOption();
       setFieldShown('shipment', false);
-    } else{
+    } else {
       setFieldShown('shipment', true);
     }
 
@@ -464,7 +463,6 @@
             eRecord.record.deviceList.value[i].value.mNickname.lookup = true;
           }
           kintone.app.record.set(eRecord);
-
         });
     });
 
