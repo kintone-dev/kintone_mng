@@ -998,6 +998,9 @@ async function reportCtrl(event, appId) {
 							'sys_code': {
 								'value': reportUpdateData[i].sysCode
 							},
+							'mCode':{
+								'value': reportUpdateData[i].devCode
+							},
 							'stockLocation': {
 								'value': reportUpdateData[i].uName
 							},
@@ -1046,6 +1049,9 @@ async function reportCtrl(event, appId) {
 						'sys_code': {
 							'value': reportUpdateData[i].sysCode
 						},
+						'mCode':{
+							'value': reportUpdateData[i].devCode
+						},
 						'stockLocation': {
 							'value': reportUpdateData[i].uName
 						},
@@ -1059,6 +1065,9 @@ async function reportCtrl(event, appId) {
 					'value': {
 						'sys_code': {
 							'value': reportUpdateData[i].sysCode
+						},
+						'mCode':{
+							'value': reportUpdateData[i].devCode
 						},
 						'stockLocation': {
 							'value': reportUpdateData[i].uName
