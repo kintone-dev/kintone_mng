@@ -16,42 +16,6 @@
       var stockData = await stockCtrl(event, kintone.app.getId());
       await reportCtrl(event, kintone.app.getId());
 
-    // 月次処理に情報連携
-    // var putRepoData = [];
-    // var putRepoBody = {
-    //   'id': reportData.records[0].$id.value,
-    //   'record': {
-    //     'inventoryList': {
-    //       'value': reportData.records[0].inventoryList.value
-    //     }
-    //   }
-    // }
-    // for (var i in stockData) {
-    //   if (putRepoBody.record.inventoryList.value.some(item => item.value.sys_code.value === stockData[i].sysCode)) {
-    //     for (var j in putRepoBody.record.inventoryList.value) {
-    //       if (putRepoBody.record.inventoryList.value[j].value.sys_code.value == stockData[i].sysCode) {
-    //         putRepoBody.record.inventoryList.value[j].value.arrivalNum.value = stockData[i].arrivalNum
-    //       }
-    //     }
-    //   } else {
-    //     var newReportListBody = {
-    //       'value': {
-    //         'sys_code': {
-    //           'value': stockData[i].sysCode
-    //         },
-    //         'stockLocation': {
-    //           'value': stockData[i].uName
-    //         },
-    //         'arrivalNum': {
-    //           'value': stockData[i].arrivalNum
-    //         }
-    //       }
-    //     }
-    //     putRepoBody.record.inventoryList.value.push(newReportListBody);
-    //   }
-    // }
-    // putRepoData.push(putRepoBody);
-    // putRecords(sysid.INV.app_id.report, putRepoData);
 
     }
   });

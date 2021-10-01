@@ -169,36 +169,6 @@
       if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') { //提供形態が販売、サブスクの場合
         var stockData = await stockCtrl(event, kintone.app.getId());
 
-        //レポートクエリ
-        // var getReportBody = {
-        //   'app': sysid.INV.app_id.report,
-        //   'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '" order by 更新日時 asc'
-        // };
-        // return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
-        //   .then(function (resp) {
-        //     if (resp.records.length != 0) {
-        //       //更新レポート情報格納配列
-        //       var reportStockData = [];
-        //       //更新レポート情報
-        //       var reportStockBody = {
-        //         'id': resp.records[0].$id.value,
-        //         'record': {
-        //           'inventoryList': {
-        //             'value': resp.records[0].inventoryList.value
-        //           }
-        //         }
-        //       }
-        //       for (var i in reportStockBody.record.inventoryList.value) {
-        //         for (var j in stockData) {
-        //           if (reportStockBody.record.inventoryList.value[i].value.sys_code.value == (stockData[j].mCode + '-distribute')) {
-        //             reportStockBody.record.inventoryList.value[i].value.shipNum.value = stockData[j].shipNum
-        //           }
-        //         }
-        //       }
-        //       reportStockData.push(reportStockBody);
-        //       putRecords(sysid.INV.app_id.report, reportStockData);
-        //     }
-        //   });
       }
     }
 
