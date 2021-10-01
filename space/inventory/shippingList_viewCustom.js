@@ -463,7 +463,6 @@
             eRecord.record.deviceList.value[i].value.mNickname.lookup = true;
           }
           kintone.app.record.set(eRecord);
-
         });
     });
 
