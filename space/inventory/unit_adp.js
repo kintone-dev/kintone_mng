@@ -102,9 +102,9 @@
       }
       //編集した拠点名を反映
       for(var i in NewPrdInfo.records){
-        for(var j in NewPrdInfo.records[i].record.uStockList){
-          if(NewPrdInfo.records[i].record.uStockList[j].value.uCode.value == event.record.uCode.value){
-            NewPrdInfo.records[i].record.uStockList[j].value.uName.value = event.record.uName.value;
+        for(var j in NewPrdInfo.records[i].record.uStockList.value){
+          if(NewPrdInfo.records[i].record.uStockList.value[j].value.uCode.value == event.record.uCode.value){
+            NewPrdInfo.records[i].record.uStockList.value[j].value.uName.value = event.record.uName.value;
           }
         }
       }

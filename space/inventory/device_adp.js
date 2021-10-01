@@ -126,9 +126,9 @@
       }
       //編集した品目名を反映
       for(var i in NewPrdInfo.records){
-        for(var j in NewPrdInfo.records[i].record.mStockList){
-          if(NewPrdInfo.records[i].record.mStockList[j].value.mCode.value == event.record.mCode.value){
-            NewPrdInfo.records[i].record.mStockList[j].value.mName.value = event.record.mName.value;
+        for(var j in NewPrdInfo.records[i].record.mStockList.value){
+          if(NewPrdInfo.records[i].record.mStockList.value[j].value.mCode.value == event.record.mCode.value){
+            NewPrdInfo.records[i].record.mStockList.value[j].value.mName.value = event.record.mName.value;
           }
         }
       }
