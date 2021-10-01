@@ -839,7 +839,6 @@ async function stockCtrl(event, appId) {
 			}
 		}
 	}
-
 	//商品管理、拠点管理を更新
 	var putDeviceBody = {
 		'app': sysid.INV.app_id.device,
