@@ -527,7 +527,7 @@ async function checkEoMReport(reportDate) {
 			console.log(error);
 			return error;
 		});
-	if (reportData.length != 0) {
+	if (reportData.records.length != 0) {
 		for (var i in reportData.records[0].EoMcheck.value) {
 			if (reportData.records[0].EoMcheck.value[i] == '締切') {
 				return false;
@@ -553,7 +553,7 @@ function createStockJson(event, appId) {
 
 	if (appId == sysid.INV.app_id.shipment) { //入出荷管理の場合
 		stockData.appId = appId;
-		var sendDate = pageRecod.sendDate.value;
+		var sendDate = event.record.sendDate.value;
 		sendDate = sendDate.replace(/-/g, '');
 		sendDate = sendDate.slice(0, -2);
 		stockData.date = sendDate;
@@ -594,7 +594,7 @@ function createStockJson(event, appId) {
 					};
 					stockData.ship.push(stockShipBody);
 
-					if(arrivalShipType_dist.includes(event.record.shipType.value)){ // 出荷区分がarrivalShipType_distに含まれる場合のみ入荷情報を作成
+					if (arrivalShipType_dist.includes(event.record.shipType.value)) { // 出荷区分がarrivalShipType_distに含まれる場合のみ入荷情報を作成
 						var stockArrBody = {
 							'arrOrShip': 'arr',
 							'devCode': event.record.deviceList.value[i].value.mCode.value,
@@ -602,7 +602,7 @@ function createStockJson(event, appId) {
 							'stockNum': event.record.deviceList.value[i].value.shipNum.value
 						};
 						stockData.arr.push(stockArrBody)
-					}else if (arrivalShipType_arr.includes(event.record.shipType.value)) { // 出荷区分がarrivalShipType_arrに含まれる場合のみ入荷情報を作成
+					} else if (arrivalShipType_arr.includes(event.record.shipType.value)) { // 出荷区分がarrivalShipType_arrに含まれる場合のみ入荷情報を作成
 						var stockArrBody = {
 							'arrOrShip': 'arr',
 							'devCode': event.record.deviceList.value[i].value.mCode.value,
@@ -682,7 +682,7 @@ function createStockJson(event, appId) {
  * 受け取ったjsonから商品管理、拠点管理に在庫情報を挿入
  * @param {*} event kintone event
  * @param {*} appId 関数を使ったアプリのID
- * @returns
+ * @returns json
  */
 async function stockCtrl(event, appId) {
 	var stockData = createStockJson(event, appId);
@@ -805,7 +805,6 @@ async function stockCtrl(event, appId) {
 		}
 	}
 
-
 	// 拠点管理情報作成
 	for (var i in unitRecords.records) {
 		var putUniBody = {
@@ -884,7 +883,7 @@ async function stockCtrl(event, appId) {
  * 受け取ったjsonから月次レポートに情報を挿入
  * @param {*} event kintone event
  * @param {*} appId 関数を使ったアプリのID
- * @returns
+ * @returns json
  */
 async function reportCtrl(event, appId) {
 	var stockData = createStockJson(event, appId);
@@ -911,7 +910,7 @@ async function reportCtrl(event, appId) {
 	for (var i in stockData.arr) {
 		var reportUpdateBody = {
 			'arrOrShip': stockData.arr[i].arrOrShip,
-			'sys_code': stockData.arr[i].devCode + '-' + stockData.arr[i].uniCode,
+			'sysCode': stockData.arr[i].devCode + '-' + stockData.arr[i].uniCode,
 			'devCode': stockData.arr[i].devCode,
 			'uniCode': stockData.arr[i].uniCode,
 			'stockNum': stockData.arr[i].stockNum
@@ -922,7 +921,7 @@ async function reportCtrl(event, appId) {
 	for (var i in stockData.ship) {
 		var reportUpdateBody = {
 			'arrOrShip': stockData.ship[i].arrOrShip,
-			'sys_code': stockData.ship[i].devCode + '-' + stockData.arr[i].uniCode,
+			'sysCode': stockData.ship[i].devCode + '-' + stockData.ship[i].uniCode,
 			'devCode': stockData.ship[i].devCode,
 			'uniCode': stockData.ship[i].uniCode,
 			'stockNum': stockData.ship[i].stockNum
@@ -944,8 +943,6 @@ async function reportCtrl(event, appId) {
 			console.log(error);
 			return error;
 		});
-	console.log(unitRecords);
-
 	for (var i in reportUpdateData) {
 		for (var j in unitRecords.records) {
 			if (reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value) {
@@ -955,9 +952,12 @@ async function reportCtrl(event, appId) {
 	}
 	/* レポート更新用情報作成 end */
 
+	// 情報更新用配列
+	var putReportData = [];
+
 	if (reportRecords.records.length != 0) { //対応したレポートがある場合
 		//更新レポート情報
-		var putReportData = {
+		var putReportBody = {
 			'id': reportRecords.records[0].$id.value,
 			'record': {
 				'inventoryList': {
@@ -965,8 +965,138 @@ async function reportCtrl(event, appId) {
 				}
 			}
 		}
+
+		for (var i in reportUpdateData) {
+			if (putReportBody.record.inventoryList.value.some(item => item.value.sys_code.value === reportUpdateData[i].sysCode)) {
+				for (var j in putReportBody.record.inventoryList.value) {
+					if (putReportBody.record.inventoryList.value[j].value.sys_code.value == reportUpdateData[i].sysCode) {
+						if (reportUpdateData[i].arrOrShip == 'ship') {
+							putReportBody.record.inventoryList.value[j].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.shipNum.value || 0) - parseInt(reportUpdateData[i].stockNum || 0);
+						} else if (reportUpdateData[i].arrOrShip == 'arr') {
+							putReportBody.record.inventoryList.value[j].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
+						}
+					}
+				}
+			} else {
+				if (reportUpdateData[i].arrOrShip == 'ship') {
+					var newReportListBody = {
+						'value': {
+							'sys_code': {
+								'value': reportUpdateData[i].sysCode
+							},
+							'stockLocation': {
+								'value': reportUpdateData[i].uName
+							},
+							'shipNum': {
+								'value': reportUpdateData[i].stockNum
+							}
+						}
+					}
+				} else if (reportUpdateData[i].arrOrShip == 'arr') {
+					var newReportListBody = {
+						'value': {
+							'sys_code': {
+								'value': reportUpdateData[i].sysCode
+							},
+							'mCode':{
+								'value': reportUpdateData[i].devCode
+							},
+							'stockLocation': {
+								'value': reportUpdateData[i].uName
+							},
+							'arrivalNum': {
+								'value': reportUpdateData[i].stockNum
+							}
+						}
+					}
+				}
+				putRepoBody.record.inventoryList.value.push(newReportListBody);
+			}
+		}
+
+		putReportData.push(putRepoBody);
+		var putReport = {
+			'app': sysid.INV.app_id.report,
+			'records': putReportData,
+		}
+		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', putReport)
+			.then(function (resp) {
+				return resp;
+			}).catch(function (error) {
+				console.log(error);
+				return error;
+			});
+	} else { //対応したレポートがない場合
+		//レポート新規作成
+		var postReportData = [];
+		var postReportBody = {
+			'invoiceYears': {
+				'value': stockData.date.slice(0, -2)
+			},
+			'invoiceMonth': {
+				'value': stockData.date.slice(4)
+			},
+			'inventoryList': {
+				'value': []
+			}
+		}
+
+		// レポート更新情報をリストに格納
+		for (var i in reportUpdateData) {
+			if (reportUpdateData[i].arrOrShip == 'ship') {
+				var newReportListBody = {
+					'value': {
+						'sys_code': {
+							'value': reportUpdateData[i].sysCode
+						},
+						'mCode':{
+							'value': reportUpdateData[i].devCode
+						},
+						'stockLocation': {
+							'value': reportUpdateData[i].uName
+						},
+						'shipNum': {
+							'value': reportUpdateData[i].stockNum
+						}
+					}
+				}
+			} else if (reportUpdateData[i].arrOrShip == 'arr') {
+				var newReportListBody = {
+					'value': {
+						'sys_code': {
+							'value': reportUpdateData[i].sysCode
+						},
+						'mCode':{
+							'value': reportUpdateData[i].devCode
+						},
+						'stockLocation': {
+							'value': reportUpdateData[i].uName
+						},
+						'arrivalNum': {
+							'value': reportUpdateData[i].stockNum
+						}
+					}
+				}
+			}
+			postReportBody.inventoryList.value.push(newReportListBody);
+		}
+
+		postReportData.push(postReportBody);
+		var postReport = {
+			'app': sysid.INV.app_id.report,
+			'records': postReportData,
+		}
+		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postReport)
+			.then(function (resp) {
+				return resp;
+			}).catch(function (error) {
+				console.log(error);
+				return error;
+			});
 	}
 
-	console.log(reportUpdateData);
+	console.log(putReportData);
+	console.log(postReportData);
+
 	return reportUpdateData;
 };
