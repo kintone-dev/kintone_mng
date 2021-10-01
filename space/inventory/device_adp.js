@@ -65,8 +65,8 @@
         };
         var addRowData = {
           'value': {
-            'mCode': event.record.mCode,
-            'mName': event.record.mName
+            'mCode': event.record.mCode.value,
+            'mName': event.record.mName.value
           }
         };
         records_set.record.mStockList.value.push(addRowData);
