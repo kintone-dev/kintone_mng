@@ -63,24 +63,7 @@
 
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
 
-    if (event.record.EoMcheck.value == '締切') {
-      /**
-       * 特定の拠点を削除
-       */
-      var inventoryList = event.record.inventoryList.value;
-      var newList = [];
-      var ignoreUnitArray = ['ns-','-oo','-xx','-zz','-aa'];
-      var ignoreUnit = new RegExp(ignoreUnitArray.join('|'));
-
-      //特定の拠点以外を抜き出して再度格納
-      for (var i in inventoryList) {
-        if (!inventoryList[i].value.sys_code.value.match(ignoreUnit)) {
-          newList.push(inventoryList[i]);
-        }
-      }
-      event.record.inventoryList.value = newList;
-      return event;
-    } else if (event.record.EoMcheck.value == '一時確認') {
+    if (event.record.EoMcheck.value == '一時確認') {
       /**
        * 製品別在庫残数処理
        */

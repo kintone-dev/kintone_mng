@@ -205,6 +205,24 @@
 
   });
 
+  // 締切保存時 特定の拠点を削除
+  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+    if (event.record.EoMcheck.value == '締切') {
+      var inventoryList = event.record.inventoryList.value;
+      var newList = [];
+      var ignoreUnitArray = ['ns-','-oo','-xx','-zz','-aa'];
+      var ignoreUnit = new RegExp(ignoreUnitArray.join('|'));
+      //特定の拠点以外を抜き出して再度格納
+      for (var i in inventoryList) {
+        if (!inventoryList[i].value.sys_code.value.match(ignoreUnit)) {
+          newList.push(inventoryList[i]);
+        }
+      }
+      event.record.inventoryList.value = newList;
+      return event;
+    }
+  });
+
   //商品順ソート関数
   var sortItemTable = function (table, orderBy, isDesc) {
     table.sort(function (a, b) {
