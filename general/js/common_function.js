@@ -616,6 +616,7 @@ function createStockJson(event, appId) {
 			} else {
 				return false;
 			}
+
 		} else {
 			return false;
 		}
