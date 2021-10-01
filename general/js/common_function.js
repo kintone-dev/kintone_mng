@@ -943,8 +943,6 @@ async function reportCtrl(event, appId) {
 			console.log(error);
 			return error;
 		});
-	console.log(unitRecords);
-
 	for (var i in reportUpdateData) {
 		for (var j in unitRecords.records) {
 			if (reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value) {
@@ -1033,7 +1031,7 @@ async function reportCtrl(event, appId) {
 				'value': stockData.date.slice(0, -2)
 			},
 			'invoiceMonth': {
-				'value': stockData.date.slice(3)
+				'value': stockData.date.slice(4)
 			},
 			'inventoryList': {
 				'value': []
