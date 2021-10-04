@@ -29,6 +29,8 @@
 
       var currentDate = new Date(getNowDate().getResponseHeader('Date'));
       var createDate = new Date(deleteReqdata.records[0].arrival_datetime.value);
+      console.log(currentDate);
+      console.log(createDate);
 
       var deleteData = [];
       //90日以上経ったデータを配列に格納
