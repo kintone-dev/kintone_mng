@@ -421,7 +421,7 @@ async function checkEoMReport(reportDate) {
 
 /**
  * ストック情報をまとめたjson作成
- * @param {*} event kintone event
+ * @param {*} event kintone event, ASS配送先リストの場合のみ指定の情報
  * @param {*} appId 関数を使ったアプリのID
  * @returns json
  */
@@ -430,9 +430,8 @@ function createStockJson(event, appId) {
 		'arr': [],
 		'ship': []
 	};
-
+	stockData.appId = appId;
 	if (appId == sysid.INV.app_id.shipment) { //入出荷管理の場合
-		stockData.appId = appId;
 		var sendDate = event.record.sendDate.value;
 		sendDate = sendDate.replace(/-/g, '');
 		sendDate = sendDate.slice(0, -2);
@@ -500,7 +499,6 @@ function createStockJson(event, appId) {
 			return false;
 		}
 	} else if (appId == sysid.PM.app_id.project) { //案件管理の場合
-		stockData.appId = appId;
 		stockData.date = event.record.sys_invoiceDate.value;
 		var distributeSalesType = ['販売', 'サブスク'];
 		// 提供形態がdistributeSalesTypeに含まれる場合のみ出荷情報作成
@@ -521,7 +519,6 @@ function createStockJson(event, appId) {
 		}
 		return false;
 	} else if (appId == sysid.INV.app_id.purchasing) { // 仕入管理の場合
-		stockData.appId = appId;
 		var sendDate = event.record.arrivalDate.value;
 		sendDate = sendDate.replace(/-/g, '');
 		sendDate = sendDate.slice(0, -2);
@@ -552,6 +549,25 @@ function createStockJson(event, appId) {
 			};
 			stockData.arr.push(stockArrBody);
 		}
+		return stockData;
+	} else if(appId == sysid.ASS.app_id.shipment){
+		//出荷情報セット
+		for (var i in event) {
+			for(var j in event[0]){
+
+			}
+			if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
+				//出荷情報は積送からのみ
+				var stockShipBody = {
+					'arrOrShip': 'ship',
+					'devCode': event.record.deviceList.value[i].value.mCode.value,
+					'uniCode': 'distribute',
+					'stockNum': event.record.deviceList.value[i].value.shipNum.value
+				};
+				stockData.ship.push(stockShipBody);
+			}
+		}
+
 		return stockData;
 	}
 	return false;

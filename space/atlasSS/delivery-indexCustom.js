@@ -9,7 +9,7 @@
     $('#' + del_records.id).on('click', function () {
       var deleteReqBody = {
         'app': kintone.app.getId(),
-        'query': 'working_status in (\"登録完了\") and person_in_charge in (\"ATLAS Smart Security\") order by 更新日時 asc'
+        'query': 'working_status in (\"登録完了\") and person_in_charge in (\"ATLAS Smart Security\")'
       };
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody)
         .then(function (resp) {
@@ -30,6 +30,7 @@
         });
       return event;
     });
+
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', async function () {
       /*①
@@ -42,7 +43,7 @@
       */
       var getNewMemBody = {
         'app': kintone.app.getId(),
-        'query': 'working_status in ("準備中") and application_type in ("新規申込") and al_result = "" order by 更新日時 asc'
+        'query': 'working_status in ("準備中") and application_type in ("新規申込") and al_result = ""'
       };
       var newMemData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNewMemBody)
         .then(function (resp) {
@@ -106,8 +107,8 @@
       */
       var getReqBody = {
         'app': kintone.app.getId(),
-        // 'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
-        'query': 'working_status in ("集荷待ち") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+        // 'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）")'
+        'query': 'working_status in ("集荷待ち") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）")'
       };
 
       var DefRepData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
@@ -226,8 +227,8 @@
       */
       var getNotDefBody = {
         'app': kintone.app.getId(),
-        //'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
-        'query': 'working_status in ("集荷待ち") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）") order by 更新日時 asc'
+        //'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）")'
+        'query': 'working_status in ("集荷待ち") and application_type not in ("故障交換（保証期間内）", "故障交換（保証期間外）")'
       };
 
       var notDefData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNotDefBody)
@@ -295,6 +296,27 @@
         });
 
       /*
+        作業ステータス：出荷完了
+        担当者：--------
+        申込種別：新規申込、デバイス追加、故障交換（保証期間外）
+
+        ・デバイスの個数分積送（ASS）の商品を増やし、forNeedsの商品を減らす（在庫管理、商品管理）
+        ・月次レポートの対応欄の出荷数、入荷数を変更
+       */
+      var getShipCompBody = {
+        'app': kintone.app.getId(),
+        'query': 'working_status in ("出荷完了") and application_type in ("新規申込", "デバイス追加","故障交換（保証期間外）") and toastcam_bizUserId != ""'
+      };
+      var shipCompData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipCompBody)
+      .then(function (resp) {
+        return resp;
+      }).catch(function (error) {
+        return error;
+      });
+      console.log(shipCompData);
+      // createStockJson(shipCompData,kintone.app.getId());
+
+      /*
         作業ステータス：TOASTCAM登録待ち
         担当者：Accel Lab
         申込種別：--------
@@ -302,24 +324,21 @@
 
         ・作業ステータスを必要情報入力済みに
       */
-      var getStaBody = {
+      var getBizIdCompBody = {
         'app': kintone.app.getId(),
-        'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and toastcam_bizUserId != "" order by 更新日時 asc'
+        'query': 'working_status in ("TOASTCAM登録待ち") and person_in_charge in ("Accel Lab") and toastcam_bizUserId != ""'
       };
-
-      var toastData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getStaBody)
+      var toastData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getBizIdCompBody)
         .then(function (resp) {
           return resp;
         }).catch(function (error) {
           return error;
         });
-      console.log();
-      var bizInList = toastData.records;
       //故障交換ステータスデータ作成
       var putStatData = [];
-      for (var i in bizInList) {
+      for (var i in toastData.records) {
         var putBody_workStat = {
-          'id': bizInList[i].レコード番号.value,
+          'id': toastData.records[i].レコード番号.value,
           'record': {
             'working_status': {
               'value': '必要情報入力済み'
@@ -329,15 +348,6 @@
         putStatData.push(putBody_workStat);
       }
       putRecords(kintone.app.getId(), putStatData);
-
-      /*
-        作業ステータス：出荷完了
-        担当者：--------
-        申込種別：新規申込、デバイス追加、故障交換（保証期間外）
-
-        ・デバイスの個数分積送（ASS）の商品を増やし、forNeedsの商品を減らす（在庫管理、商品管理）
-        ・月次レポートの対応欄の出荷数、入荷数を変更
-       */
 
       return event;
     });
