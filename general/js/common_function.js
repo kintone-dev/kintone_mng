@@ -550,7 +550,7 @@ function createStockJson(event, appId) {
 		}
 		return stockData;
 	} else if (appId == sysid.ASS.app_id.shipment) { //ASS配送先リストの場合
-		var sendDate = event.record.application_datetime.value;
+		var sendDate = event.application_datetime.value;
 		var sendDate = sendDate.getFullYear() + sendDate.getMonth();
 		console.log(sendDate);
 		// sendDate = sendDate.replace(/-/g, '');
