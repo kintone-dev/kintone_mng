@@ -947,11 +947,11 @@ async function reportCtrl(event, appId) {
 						}
 					};
 				}
-				putRepoBody.record.inventoryList.value.push(newReportListBody);
+				putReportBody.record.inventoryList.value.push(newReportListBody);
 			}
 		}
 
-		putReportData.push(putRepoBody);
+		putReportData.push(putReportBody);
 		var putReport = {
 			'app': sysid.INV.app_id.report,
 			'records': putReportData,
