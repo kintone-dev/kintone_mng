@@ -573,18 +573,16 @@ function createStockJson(event, appId) {
 				}
 			} else if (event[i].working_status.value == '着荷完了') {
 				if (event[i].application_type.value == '新規申込') {
-					var nowDate = $.ajax({
-						type: 'GET',
-						async: false
-					}).done(function (data, status, xhr) {
-						//請求月が今より過去の場合
-						var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-						var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-						if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
-							event.error = '請求月が間違っています。';
-							return event;
-						}
-					});
+					function getNowDate() {
+						return $.ajax({
+							type: 'GET',
+							async: false
+						}).done(function (data, status, xhr) {
+							return xhr;
+						});
+					}
+					var currentDate = new Date(getNowDate().getResponseHeader('Date'));
+					var createDate = new Date(event[i].arrival_datetime.value);
 
 
 				} else if (arrCompAddType.includes(event[i].application_type.value)) {

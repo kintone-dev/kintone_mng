@@ -18,18 +18,17 @@
           return error;
         });
 
-      var currentDate = new Date();
-      console.log(currentDate);
-
       function getNowDate() {
         return $.ajax({
           type: 'GET',
           async: false
-        }).done(function (data, status, xhr){
+        }).done(function (data, status, xhr) {
           return xhr;
         });
       }
-      console.log(new Date(getNowDate().getResponseHeader('Date')));
+
+      var currentDate = new Date(getNowDate().getResponseHeader('Date'));
+      var createDate = new Date(deleteReqdata.records[0].arrival_datetime.value);
 
       var deleteData = [];
       //90日以上経ったデータを配列に格納
