@@ -25,7 +25,7 @@
         return $.ajax({
           type: 'GET',
           async: false
-        }).responseText;
+        });
       }
       var nowDate = getNowDate().done(function(xhr){
         //請求月が今より過去の場合
