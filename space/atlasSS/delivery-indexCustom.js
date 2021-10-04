@@ -21,7 +21,7 @@
       var currentDate = new Date();
       console.log(currentDate);
       function nowDate(){
-        $.ajax({
+        var date = $.ajax({
           type: 'GET',
           async: false
         }).done(function (data, status, xhr) {
@@ -30,6 +30,7 @@
           var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
           return nowDateFormat;
         });
+        return date;
       }
       console.log(nowDate());
 
