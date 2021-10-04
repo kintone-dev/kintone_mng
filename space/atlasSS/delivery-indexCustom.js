@@ -26,14 +26,7 @@
           return xhr;
         });
       }
-
       var currentDate = new Date(getNowDate().getResponseHeader('Date'));
-      var arrDate = new Date(deleteReqdata.records[0].arrival_datetime.value);
-      var dateCompArr = currentDate.getTime() - arrDate.getTime();
-      console.log(currentDate);
-      console.log(arrDate);
-      console.log(dateCompArr);
-
       var deleteData = [];
       //90日以上経ったデータを配列に格納
       for (var i in deleteReqdata.records) {

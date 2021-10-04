@@ -584,9 +584,17 @@ function createStockJson(event, appId) {
 					var currentDate = new Date(getNowDate().getResponseHeader('Date'));
 					var arrDate = new Date(event[i].arrival_datetime.value);
 					var dateComp = currentDate.getTime() - arrDate.getTime();
+					// 着荷日から7日以上立っている場合
 					if (dateComp > 604800 * 1000) {
+						//出荷情報は積送ASSから
+						var stockShipBody = {
+							'arrOrShip': 'ship',
+							'devCode': event[i].deviceList.value[j].value.mCode.value,
+							'uniCode': 'distribute-ASS',
+							'stockNum': event[i].deviceList.value[j].value.shipNum.value
+						};
+						stockData.ship.push(stockShipBody);
 					}
-
 				} else if (arrCompAddType.includes(event[i].application_type.value)) {
 					for (var j in event[i].deviceList.value) { //出荷情報をセット
 						//出荷情報は積送ASSから
