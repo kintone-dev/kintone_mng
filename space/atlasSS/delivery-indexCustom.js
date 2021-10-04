@@ -31,7 +31,7 @@
           return nowDateFormat;
         });
       }
-      console.log(nowDate);
+      console.log(nowDate());
 
       var deleteData = [];
       //90日以上経ったデータを配列に格納
