@@ -551,8 +551,8 @@ function createStockJson(event, appId) {
 		return stockData;
 	} else if (appId == sysid.ASS.app_id.shipment) { //ASS配送先リストの場合
 		var sendDate = new Date(event.application_datetime.value);
-		var sendYears = String(reportDate.getFullYear());
-		var sendMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
+		var sendYears = String(sendDate.getFullYear());
+		var sendMonth = String(("0" + (sendDate.getMonth() + 1)).slice(-2));
 		var reportDate = sendYears + sendMonth;
 		console.log(reportDate);
 		stockData.date = reportDate;
