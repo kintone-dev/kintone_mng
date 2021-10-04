@@ -550,64 +550,69 @@ function createStockJson(event, appId) {
 		}
 		return stockData;
 	} else if (appId == sysid.ASS.app_id.shipment) { //ASS配送先リストの場合
+		var sendDate = event.record.application_datetime.value;
+		var sendDate = sendDate.getFullYear() + sendDate.getMonth();
+		console.log(sendDate);
+		// sendDate = sendDate.replace(/-/g, '');
+		// sendDate = sendDate.slice(0, -2);
+		// stockData.date = sendDate;
+
 		var arrCompAddType = ['デバイス追加', '故障交換（保証期間外）'];
-		for (var i in event) {
-			if (event[i].working_status.value == '出荷完了') {
-				for (var j in event[i].deviceList.value) { //出荷、入荷情報をセット
-					//出荷情報はForNeedsから
-					var stockShipBody = {
-						'arrOrShip': 'ship',
-						'devCode': event[i].deviceList.value[j].value.mCode.value,
-						'uniCode': 'forNeeds',
-						'stockNum': event[i].deviceList.value[j].value.shipNum.value
-					};
-					//入荷情報は積送ASSに
-					var stockArrBody = {
-						'arrOrShip': 'arr',
-						'devCode': event[i].deviceList.value[j].value.mCode.value,
-						'uniCode': 'distribute-ASS',
-						'stockNum': event[i].deviceList.value[j].value.shipNum.value
-					};
-					stockData.ship.push(stockShipBody);
-					stockData.arr.push(stockArrBody)
+		if (event.working_status.value == '出荷完了') {
+			for (var i in event.deviceList.value) { //出荷、入荷情報をセット
+				//出荷情報はForNeedsから
+				var stockShipBody = {
+					'arrOrShip': 'ship',
+					'devCode': event.deviceList.value[i].value.mCode.value,
+					'uniCode': 'forNeeds',
+					'stockNum': event.deviceList.value[i].value.shipNum.value
+				};
+				//入荷情報は積送ASSに
+				var stockArrBody = {
+					'arrOrShip': 'arr',
+					'devCode': event.deviceList.value[i].value.mCode.value,
+					'uniCode': 'distribute-ASS',
+					'stockNum': event.deviceList.value[i].value.shipNum.value
+				};
+				stockData.ship.push(stockShipBody);
+				stockData.arr.push(stockArrBody)
+			}
+		} else if (event.working_status.value == '着荷完了') {
+			if (event.application_type.value == '新規申込') {
+				function getNowDate() {
+					return $.ajax({
+						type: 'GET',
+						async: false
+					}).done(function (data, status, xhr) {
+						return xhr;
+					});
 				}
-			} else if (event[i].working_status.value == '着荷完了') {
-				if (event[i].application_type.value == '新規申込') {
-					function getNowDate() {
-						return $.ajax({
-							type: 'GET',
-							async: false
-						}).done(function (data, status, xhr) {
-							return xhr;
-						});
-					}
-					var currentDate = new Date(getNowDate().getResponseHeader('Date'));
-					var arrDate = new Date(event[i].arrival_datetime.value);
-					var dateComp = currentDate.getTime() - arrDate.getTime();
-					// 着荷日から7日以上立っている場合
-					if (dateComp > 604800 * 1000) {
-						for (var j in event[i].deviceList.value) { //出荷情報をセット
-							//出荷情報は積送ASSから
-							var stockShipBody = {
-								'arrOrShip': 'ship',
-								'devCode': event[i].deviceList.value[j].value.mCode.value,
-								'uniCode': 'distribute-ASS',
-								'stockNum': event[i].deviceList.value[j].value.shipNum.value
-							};
-							stockData.ship.push(stockShipBody);
-						}
-					}
-				} else if (arrCompAddType.includes(event[i].application_type.value)) {
-					for (var j in event[i].deviceList.value) { //出荷情報をセット
+				var currentDate = new Date(getNowDate().getResponseHeader('Date'));
+				var arrDate = new Date(event.arrival_datetime.value);
+				var dateComp = currentDate.getTime() - arrDate.getTime();
+				// 着荷日から7日以上立っている場合
+				if (dateComp > 604800 * 1000) {
+					for (var j in event.deviceList.value) { //出荷情報をセット
 						//出荷情報は積送ASSから
 						var stockShipBody = {
 							'arrOrShip': 'ship',
-							'devCode': event[i].deviceList.value[j].value.mCode.value,
+							'devCode': event.deviceList.value[j].value.mCode.value,
 							'uniCode': 'distribute-ASS',
-							'stockNum': event[i].deviceList.value[j].value.shipNum.value
+							'stockNum': event.deviceList.value[j].value.shipNum.value
 						};
 						stockData.ship.push(stockShipBody);
 					}
+				}
+			} else if (arrCompAddType.includes(event.application_type.value)) {
+				for (var i in event.deviceList.value) { //出荷情報をセット
+					//出荷情報は積送ASSから
+					var stockShipBody = {
+						'arrOrShip': 'ship',
+						'devCode': event.deviceList.value[i].value.mCode.value,
+						'uniCode': 'distribute-ASS',
+						'stockNum': event.deviceList.value[i].value.shipNum.value
+					};
+					stockData.ship.push(stockShipBody);
 				}
 			}
 		}

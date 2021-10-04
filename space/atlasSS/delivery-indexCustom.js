@@ -325,8 +325,11 @@
           return error;
         });
       console.log(shipCompData);
-      await stockCtrl(shipCompData.records, kintone.app.getId());
-      await reportCtrl(shipCompData.records, kintone.app.getId());
+      for(var i in shipCompData.records){
+        createStockJson(shipCompData.records[i], kintone.app.getId());
+        // await stockCtrl(shipCompData.records[i], kintone.app.getId());
+        // await reportCtrl(shipCompData.records[i], kintone.app.getId());
+      }
 
       /*
         作業ステータス：着荷完了
@@ -347,8 +350,11 @@
           return error;
         });
       console.log(arrCompNewData);
-      await stockCtrl(arrCompNewData.records, kintone.app.getId());
-      await reportCtrl(arrCompNewData.records, kintone.app.getId());
+      for(var i in arrCompNewData.records){
+        createStockJson(shipCompData.records[i], kintone.app.getId());
+        // await stockCtrl(arrCompNewData.records[i], kintone.app.getId());
+        // await reportCtrl(arrCompNewData.records[i], kintone.app.getId());
+      }
 
       /*
         作業ステータス：着荷完了
@@ -369,8 +375,11 @@
           return error;
         });
       console.log(arrCompAddData);
-      await stockCtrl(arrCompAddData.records, kintone.app.getId());
-      await reportCtrl(arrCompAddData.records, kintone.app.getId());
+      for(var i in arrCompAddData.records){
+        createStockJson(shipCompData.records[i], kintone.app.getId());
+        // await stockCtrl(arrCompAddData.records[i], kintone.app.getId());
+        // await reportCtrl(arrCompAddData.records[i], kintone.app.getId());
+      }
 
       /*
         作業ステータス：TOASTCAM登録待ち
