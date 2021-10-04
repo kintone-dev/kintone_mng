@@ -7,9 +7,7 @@
     'app.record.create.show',
     'app.record.edit.show',
     'app.record.print.show',
-    'app.report.show',
-    'portal.show',
-    'space.portal.show'
+    'app.report.show'
   ];
   // indexページでの新規、編集、複製ボタン非表示
   kintone.events.on(events_ced, function (event) {
