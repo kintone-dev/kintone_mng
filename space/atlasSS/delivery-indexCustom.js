@@ -25,16 +25,9 @@
         return $.ajax({
           type: 'GET',
           async: false
-        })
+        }).responseText;
       }
-      var nowDate = await getNowDate().then(function(xhr){
-        //請求月が今より過去の場合
-        var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-        var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-        console.log(nowDateFormat);
-        return nowDateFormat;
-      });
-      console.log(nowDate);
+      console.log(getNowDate());
 
       var deleteData = [];
       //90日以上経ったデータを配列に格納
