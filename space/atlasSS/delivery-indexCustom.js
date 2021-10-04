@@ -20,7 +20,7 @@
 
       var currentDate = new Date();
       console.log(currentDate);
-      await function nowDate(){
+      function nowDate(){
         $.ajax({
           type: 'GET',
           async: false
