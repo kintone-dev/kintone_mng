@@ -551,12 +551,11 @@ function createStockJson(event, appId) {
 		return stockData;
 	} else if (appId == sysid.ASS.app_id.shipment) { //ASS配送先リストの場合
 		var sendDate = new Date(event.application_datetime.value);
-		var sendDate = sendDate.getFullYear() + sendDate.getMonth();
-		console.log(sendDate);
-		// sendDate = sendDate.replace(/-/g, '');
-		// sendDate = sendDate.slice(0, -2);
-		// stockData.date = sendDate;
-
+		var sendYears = String(reportDate.getFullYear());
+		var sendMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
+		var reportDate = sendYears + sendMonth;
+		console.log(reportDate);
+		stockData.date = reportDate;
 		var arrCompAddType = ['デバイス追加', '故障交換（保証期間外）'];
 		if (event.working_status.value == '出荷完了') {
 			for (var i in event.deviceList.value) { //出荷、入荷情報をセット
