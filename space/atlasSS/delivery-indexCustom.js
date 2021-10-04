@@ -33,7 +33,7 @@
       var deleteData = [];
       //90日以上経ったデータを配列に格納
       for (var i in deleteReqdata.records) {
-        var createDate = new Date(deleteReqdata.records[di].更新日時.value);
+        var createDate = new Date(deleteReqdata.records[i].更新日時.value);
         var dateComp = currentDate.getTime() - createDate.getTime();
 
         if (dateComp > 7776000 * 1000) {
