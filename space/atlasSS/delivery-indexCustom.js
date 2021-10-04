@@ -70,20 +70,20 @@
       var postMemData = [];
       //新規申込作業ステータスデータ作成
       var putWStatNewData = [];
-
+      //新規申込内容作成
       for (var i in newMemList) {
         var postBody_member = {
           'member_id': {
-            value: newMemList[i].member_id.value
+            'value': newMemList[i].member_id.value
           },
           'member_type': {
-            value: newMemList[i].member_type.value
+            'value': newMemList[i].member_type.value
           },
           'application_datetime': {
-            value: newMemList[i].application_datetime.value
+            'value': newMemList[i].application_datetime.value
           },
           'application_type': {
-            value: newMemList[i].application_type.value
+            'value': newMemList[i].application_type.value
           }
         };
 
@@ -123,6 +123,7 @@
         'query': 'working_status in ("集荷待ち") and application_type in ("故障交換（保証期間内）", "故障交換（保証期間外）")'
       };
 
+      //取得した配送先リスト情報
       var DefRepData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReqBody)
         .then(function (resp) {
           return resp;
@@ -137,13 +138,15 @@
       var putRepData = [];
       //交換品query
       var getRepQueryArray = [];
+      //api用変数
       var getRepBody = {
         'app': sysid.DEV.app_id.sNum,
         'query': ''
       };
       // sNum更新データ作成
       for (let ri in shipList) {
-        var dateCutter = shipList[ri].shipping_datetime.value.indexOf('T')
+        //日時をTで区切る
+        var dateCutter = shipList[ri].shipping_datetime.value.indexOf('T');
         var putDefBody_sNum = {
           'updateKey': {
             'field': 'sNum',

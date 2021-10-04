@@ -11,7 +11,9 @@
     }
 
     if (nStatus == '納品準備中') { //ステータスが納品準備中の場合
+      // 入出荷管理post用配列
       var postShipData = [];
+      // 入出荷管理post内容
       var postShipBody = {
         'aboutDelivery': {
           'value': event.record.aboutDelivery.value
@@ -64,7 +66,7 @@
         'prjId': {
           'value': event.record.$id.value
         }
-      }
+      };
       for (var i in event.record.deviceList.value) {
         if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
           var devListBody = {
@@ -76,11 +78,12 @@
                 'value': event.record.deviceList.value[i].value.shipNum.value
               }
             }
-          }
+          };
           postShipBody.deviceList.value.push(devListBody);
         }
       }
 
+      // 社内・社員予備機用post用サブデータ
       var postShipSubBody = {
         'shipType': {
           'value': '移動-拠点間'
