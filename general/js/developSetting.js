@@ -14,7 +14,7 @@
   // indexページでの新規、編集、複製ボタン非表示
   kintone.events.on(events_ced, function (event) {
     var ignoreUser = ['sysdev','kintone_mng@accel-lab.com']
-    if(ignoreUser.includes(kintone.getLoginUser().code)){
+    if(!ignoreUser.includes(kintone.getLoginUser().code)){
       $('.gaia-argoui-app-menu-add').remove();
       $('.recordlist-edit-gaia').remove();
       $('.recordlist-remove-gaia').remove();
