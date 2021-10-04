@@ -315,7 +315,6 @@ var railConf = function (spec) {
 };
 
 // 検索エンジン
-
 /* その他 */
 function orgRound(value, base) {
 	return Math.round(value * base) / base;
@@ -550,24 +549,59 @@ function createStockJson(event, appId) {
 			stockData.arr.push(stockArrBody);
 		}
 		return stockData;
-	} else if(appId == sysid.ASS.app_id.shipment){
-		//出荷情報セット
+	} else if (appId == sysid.ASS.app_id.shipment) { //ASS配送先リストの場合
+		var arrCompAddType = ['デバイス追加', '故障交換（保証期間外）'];
 		for (var i in event) {
-			for(var j in event[0]){
+			if (event[i].working_status.value == '出荷完了') {
+				for (var j in event[i].deviceList.value) { //出荷、入荷情報をセット
+					//出荷情報はForNeedsから
+					var stockShipBody = {
+						'arrOrShip': 'ship',
+						'devCode': event[i].deviceList.value[j].value.mCode.value,
+						'uniCode': 'forNeeds',
+						'stockNum': event[i].deviceList.value[j].value.shipNum.value
+					};
+					//入荷情報は積送ASSに
+					var stockArrBody = {
+						'arrOrShip': 'arr',
+						'devCode': event[i].deviceList.value[j].value.mCode.value,
+						'uniCode': 'distribute-ASS',
+						'stockNum': event[i].deviceList.value[j].value.shipNum.value
+					};
+					stockData.ship.push(stockShipBody);
+					stockData.arr.push(stockArrBody)
+				}
+			} else if (event[i].working_status.value == '着荷完了') {
+				if (event[i].application_type.value == '新規申込') {
+					var nowDate = $.ajax({
+						type: 'GET',
+						async: false
+					}).done(function (data, status, xhr) {
+						//請求月が今より過去の場合
+						var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
+						var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+						if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
+							event.error = '請求月が間違っています。';
+							return event;
+						}
+					});
 
-			}
-			if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
-				//出荷情報は積送からのみ
-				var stockShipBody = {
-					'arrOrShip': 'ship',
-					'devCode': event.record.deviceList.value[i].value.mCode.value,
-					'uniCode': 'distribute',
-					'stockNum': event.record.deviceList.value[i].value.shipNum.value
-				};
-				stockData.ship.push(stockShipBody);
+
+				} else if (arrCompAddType.includes(event[i].application_type.value)) {
+					for (var j in event[i].deviceList.value) { //出荷情報をセット
+						//出荷情報は積送ASSから
+						var stockShipBody = {
+							'arrOrShip': 'ship',
+							'devCode': event[i].deviceList.value[j].value.mCode.value,
+							'uniCode': 'distribute-ASS',
+							'stockNum': event[i].deviceList.value[j].value.shipNum.value
+						};
+						stockData.ship.push(stockShipBody);
+					}
+				}
 			}
 		}
-
+		console.log(stockData);
 		return stockData;
 	}
 	return false;

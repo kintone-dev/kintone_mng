@@ -6,28 +6,43 @@
     var sync_kintone = setBtn_index('btn_sync_kintone', 'KT-情報連携');
 
     //処理済みデータ削除
-    $('#' + del_records.id).on('click', function () {
+    $('#' + del_records.id).on('click', async function () {
       var deleteReqBody = {
         'app': kintone.app.getId(),
         'query': 'working_status in (\"登録完了\") and person_in_charge in (\"ATLAS Smart Security\")'
       };
-      kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody)
+      var deleteReqdata = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', deleteReqBody)
         .then(function (resp) {
-          var currentDate = new Date();
-          var deleteData = [];
-          //90日以上経ったデータを配列に格納
-          for (var di in resp.records) {
-            var createDate = new Date(resp.records[di].更新日時.value);
-            var dateComp = currentDate.getTime() - createDate.getTime();
-
-            if (dateComp > 7776000 * 1000) {
-              deleteData.push(resp.records[di].$id.value)
-            }
-          }
-          deleteRecords(kintone.app.getId(), deleteData);
+          return resp;
         }).catch(function (error) {
-          console.log(error);
+          return error;
         });
+
+      var currentDate = new Date();
+      console.log(currentDate);
+      var nowDate = $.ajax({
+        type: 'GET',
+        async: false
+      }).done(function (data, status, xhr) {
+        //請求月が今より過去の場合
+        var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
+        var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+        return nowDateFormat;
+      });
+      console.log(nowDate);
+
+      var deleteData = [];
+      //90日以上経ったデータを配列に格納
+      for (var i in deleteReqdata.records) {
+        var createDate = new Date(deleteReqdata.records[di].更新日時.value);
+        var dateComp = currentDate.getTime() - createDate.getTime();
+
+        if (dateComp > 7776000 * 1000) {
+          deleteData.push(deleteReqdata.records[i].$id.value)
+        }
+      }
+      await deleteRecords(kintone.app.getId(), deleteData);
+
       return event;
     });
 
@@ -305,16 +320,58 @@
        */
       var getShipCompBody = {
         'app': kintone.app.getId(),
-        'query': 'working_status in ("出荷完了") and application_type in ("新規申込", "デバイス追加","故障交換（保証期間外）") and toastcam_bizUserId != ""'
+        'query': 'working_status in ("出荷完了") and application_type in ("新規申込", "デバイス追加","故障交換（保証期間外）")'
       };
       var shipCompData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipCompBody)
-      .then(function (resp) {
-        return resp;
-      }).catch(function (error) {
-        return error;
-      });
+        .then(function (resp) {
+          return resp;
+        }).catch(function (error) {
+          return error;
+        });
       console.log(shipCompData);
-      // createStockJson(shipCompData,kintone.app.getId());
+      await createStockJson(shipCompData.records, kintone.app.getId());
+
+      /*
+        作業ステータス：着荷完了
+        担当者：--------
+        申込種別：新規申込
+
+        ・着荷日から7日以上過ぎたものの個数分積送（ASS）から減らす
+        ・月次レポートの対応欄の出荷数を変更
+       */
+      var getArrCompNewBody = {
+        'app': kintone.app.getId(),
+        'query': 'working_status in ("着荷完了") and application_type in ("新規申込")'
+      };
+      var arrCompNewData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getArrCompNewBody)
+        .then(function (resp) {
+          return resp;
+        }).catch(function (error) {
+          return error;
+        });
+      console.log(arrCompNewData);
+      await createStockJson(arrCompNewData.records, kintone.app.getId());
+
+      /*
+        作業ステータス：着荷完了
+        担当者：--------
+        申込種別：デバイス追加、故障交換（保証期間外）
+
+        ・デバイスの個数分積送（ASS）から減らす
+        ・月次レポートの対応欄の出荷数を変更
+       */
+      var getArrCompAddBody = {
+        'app': kintone.app.getId(),
+        'query': 'working_status in ("着荷完了") and application_type in ("新規申込")'
+      };
+      var arrCompAddData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getArrCompAddBody)
+        .then(function (resp) {
+          return resp;
+        }).catch(function (error) {
+          return error;
+        });
+      console.log(arrCompAddData);
+      await createStockJson(arrCompAddData.records, kintone.app.getId());
 
       /*
         作業ステータス：TOASTCAM登録待ち
