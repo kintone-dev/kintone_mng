@@ -15,7 +15,7 @@
     var ignoreUser = ['sysdev','kintone_mng@accel-lab.com'];
     //編集を表示しないページ
     var deletePage = [sysid.INV.app_id.report];
-    if(ignoreUser.includes(kintone.getLoginUser().code)){
+    if(!ignoreUser.includes(kintone.getLoginUser().code)){
       if(deletePage.includes(kintone.app.getId())){
         $('.gaia-argoui-app-menu-add').remove();
         $('.recordlist-edit-gaia').remove();
