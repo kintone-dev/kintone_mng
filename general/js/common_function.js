@@ -550,7 +550,7 @@ function createStockJson(event, appId) {
 		}
 		return stockData;
 	} else if (appId == sysid.ASS.app_id.shipment) { //ASS配送先リストの場合
-		var sendDate = new Date(event.application_datetime.value);
+		var sendDate = new Date(event.shipping_datetime.value);
 		var sendYears = String(sendDate.getFullYear());
 		var sendMonth = String(("0" + (sendDate.getMonth() + 1)).slice(-2));
 		var reportDate = sendYears + sendMonth;
@@ -578,30 +578,30 @@ function createStockJson(event, appId) {
 			}
 		} else if (event.working_status.value == '着荷完了') {
 			if (event.application_type.value == '新規申込') {
-				function getNowDate() {
-					return $.ajax({
-						type: 'GET',
-						async: false
-					}).done(function (data, status, xhr) {
-						return xhr;
-					});
-				}
-				var currentDate = new Date(getNowDate().getResponseHeader('Date'));
-				var arrDate = new Date(event.arrival_datetime.value);
-				var dateComp = currentDate.getTime() - arrDate.getTime();
-				// 着荷日から7日以上立っている場合
-				if (dateComp > 604800 * 1000) {
-					for (var j in event.deviceList.value) { //出荷情報をセット
-						//出荷情報は積送ASSから
-						var stockShipBody = {
-							'arrOrShip': 'ship',
-							'devCode': event.deviceList.value[j].value.mCode.value,
-							'uniCode': 'distribute-ASS',
-							'stockNum': event.deviceList.value[j].value.shipNum.value
-						};
-						stockData.ship.push(stockShipBody);
-					}
-				}
+				// function getNowDate() {
+				// 	return $.ajax({
+				// 		type: 'GET',
+				// 		async: false
+				// 	}).done(function (data, status, xhr) {
+				// 		return xhr;
+				// 	});
+				// }
+				// var currentDate = new Date(getNowDate().getResponseHeader('Date'));
+				// var arrDate = new Date(event.arrival_datetime.value);
+				// var dateComp = currentDate.getTime() - arrDate.getTime();
+				// // 着荷日から7日以上立っている場合
+				// if (dateComp > 604800 * 1000) {
+				// 	for (var j in event.deviceList.value) { //出荷情報をセット
+				// 		//出荷情報は積送ASSから
+				// 		var stockShipBody = {
+				// 			'arrOrShip': 'ship',
+				// 			'devCode': event.deviceList.value[j].value.mCode.value,
+				// 			'uniCode': 'distribute-ASS',
+				// 			'stockNum': event.deviceList.value[j].value.shipNum.value
+				// 		};
+				// 		stockData.ship.push(stockShipBody);
+				// 	}
+				// }
 			} else if (arrCompAddType.includes(event.application_type.value)) {
 				for (var i in event.deviceList.value) { //出荷情報をセット
 					//出荷情報は積送ASSから
