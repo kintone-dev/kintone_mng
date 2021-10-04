@@ -184,6 +184,7 @@
       var getDefQuery = getRepQueryArray.join('');
       getRepBody.query = getDefQuery;
 
+      //故障品sNum情報を取得
       var repData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getRepBody)
         .then(function (resp) {
           return resp;
