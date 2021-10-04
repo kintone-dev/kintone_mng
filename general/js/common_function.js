@@ -761,7 +761,6 @@ async function stockCtrl(event, appId) {
 		};
 		unitStockData.push(putUniBody);
 	}
-	// 減らしたり増やしたりする
 	// 拠点管理、入荷情報挿入 (指定数分＋する)
 	for (var i in unitStockData) {
 		for (var j in unitStockData[i].record.mStockList.value) {
