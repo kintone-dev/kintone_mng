@@ -893,7 +893,7 @@ async function reportCtrl(event, appId) {
 	var putReportData = [];
 
 	if (reportRecords.records.length != 0) { //対応したレポートがある場合
-		//更新レポート情報
+		//更新レポート情報作成
 		var putReportBody = {
 			'id': reportRecords.records[0].$id.value,
 			'record': {
@@ -902,7 +902,6 @@ async function reportCtrl(event, appId) {
 				}
 			}
 		};
-
 		for (var i in reportUpdateData) {
 			if (putReportBody.record.inventoryList.value.some(item => item.value.sys_code.value === reportUpdateData[i].sysCode)) {
 				for (var j in putReportBody.record.inventoryList.value) {
@@ -1018,6 +1017,7 @@ async function reportCtrl(event, appId) {
 			postReportBody.inventoryList.value.push(newReportListBody);
 		}
 
+		//レポート情報ポスト
 		postReportData.push(postReportBody);
 		var postReport = {
 			'app': sysid.INV.app_id.report,
