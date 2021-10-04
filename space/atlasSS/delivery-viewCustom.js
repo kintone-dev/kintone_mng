@@ -11,8 +11,7 @@
           'member_type': {'value': event.record.member_type.value},
           'application_datetime': {'value': event.record.application_datetime.value},
           'toastcam_bizUserId': {'value': event.record.toastcam_bizUserId.value},
-          'application_type': { 'value':event.record.application_type.value},
-          'toastcam_bizUserPassword': {'value': event.record.toastcam_bizUserPassword.value}
+          'application_type': { 'value':event.record.application_type.value}
         }
       };
 
