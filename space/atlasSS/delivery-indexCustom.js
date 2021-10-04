@@ -34,7 +34,7 @@
         console.log(nowDateFormat);
         return nowDateFormat;
       });
-      console.log(nowDate);
+      console.log(new Date(xhr.getResponseHeader('Date')));
 
       var deleteData = [];
       //90日以上経ったデータを配列に格納
