@@ -141,6 +141,7 @@
         'app': sysid.DEV.app_id.sNum,
         'query': ''
       };
+      // sNum更新データ作成
       for (let ri in shipList) {
         var dateCutter = shipList[ri].shipping_datetime.value.indexOf('T')
         var putDefBody_sNum = {
