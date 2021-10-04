@@ -326,9 +326,8 @@
         });
       console.log(shipCompData);
       for(var i in shipCompData.records){
-        createStockJson(shipCompData.records[i], kintone.app.getId());
-        // await stockCtrl(shipCompData.records[i], kintone.app.getId());
-        // await reportCtrl(shipCompData.records[i], kintone.app.getId());
+        await stockCtrl(shipCompData.records[i], kintone.app.getId());
+        await reportCtrl(shipCompData.records[i], kintone.app.getId());
       }
 
       /*
@@ -351,9 +350,8 @@
         });
       console.log(arrCompNewData);
       for(var i in arrCompNewData.records){
-        createStockJson(shipCompData.records[i], kintone.app.getId());
-        // await stockCtrl(arrCompNewData.records[i], kintone.app.getId());
-        // await reportCtrl(arrCompNewData.records[i], kintone.app.getId());
+        await stockCtrl(arrCompNewData.records[i], kintone.app.getId());
+        await reportCtrl(arrCompNewData.records[i], kintone.app.getId());
       }
 
       /*
@@ -376,9 +374,8 @@
         });
       console.log(arrCompAddData);
       for(var i in arrCompAddData.records){
-        createStockJson(shipCompData.records[i], kintone.app.getId());
-        // await stockCtrl(arrCompAddData.records[i], kintone.app.getId());
-        // await reportCtrl(arrCompAddData.records[i], kintone.app.getId());
+        await stockCtrl(arrCompAddData.records[i], kintone.app.getId());
+        await reportCtrl(arrCompAddData.records[i], kintone.app.getId());
       }
 
       /*
