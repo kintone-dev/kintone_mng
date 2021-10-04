@@ -20,15 +20,17 @@
 
       var currentDate = new Date();
       console.log(currentDate);
-      var nowDate = await $.ajax({
-        type: 'GET',
-        async: false
-      }).done(function (data, status, xhr) {
-        //請求月が今より過去の場合
-        var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-        var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-        return nowDateFormat;
-      });
+      await function nowDate(){
+        $.ajax({
+          type: 'GET',
+          async: false
+        }).done(function (data, status, xhr) {
+          //請求月が今より過去の場合
+          var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
+          var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+          return nowDateFormat;
+        });
+      }
       console.log(nowDate);
 
       var deleteData = [];
