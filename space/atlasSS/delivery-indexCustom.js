@@ -325,7 +325,8 @@
           return error;
         });
       console.log(shipCompData);
-      await createStockJson(shipCompData.records, kintone.app.getId());
+      await stockCtrl(shipCompData.records, kintone.app.getId());
+      await reportCtrl(shipCompData.records, kintone.app.getId());
 
       /*
         作業ステータス：着荷完了
@@ -346,7 +347,8 @@
           return error;
         });
       console.log(arrCompNewData);
-      await createStockJson(arrCompNewData.records, kintone.app.getId());
+      await stockCtrl(arrCompNewData.records, kintone.app.getId());
+      await reportCtrl(arrCompNewData.records, kintone.app.getId());
 
       /*
         作業ステータス：着荷完了
@@ -367,7 +369,8 @@
           return error;
         });
       console.log(arrCompAddData);
-      await createStockJson(arrCompAddData.records, kintone.app.getId());
+      await stockCtrl(arrCompAddData.records, kintone.app.getId());
+      await reportCtrl(arrCompAddData.records, kintone.app.getId());
 
       /*
         作業ステータス：TOASTCAM登録待ち
