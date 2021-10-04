@@ -29,7 +29,7 @@
         var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
         return nowDateFormat;
       });
-      console.log(nowDate);
+      console.log(nowDateFormat);
 
       var deleteData = [];
       //90日以上経ったデータを配列に格納
