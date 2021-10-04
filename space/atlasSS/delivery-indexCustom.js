@@ -37,6 +37,7 @@
           deleteData.push(deleteReqdata.records[i].$id.value)
         }
       }
+      // 削除
       await deleteRecords(kintone.app.getId(), deleteData);
 
       return event;
@@ -325,6 +326,7 @@
           return error;
         });
       console.log(shipCompData);
+      //対象のレコード数分実行
       for(var i in shipCompData.records){
         await stockCtrl(shipCompData.records[i], kintone.app.getId());
         await reportCtrl(shipCompData.records[i], kintone.app.getId());
@@ -349,6 +351,7 @@
           return error;
         });
       console.log(arrCompNewData);
+      //対象のレコード数分実行
       for(var i in arrCompNewData.records){
         await stockCtrl(arrCompNewData.records[i], kintone.app.getId());
         await reportCtrl(arrCompNewData.records[i], kintone.app.getId());
@@ -373,6 +376,7 @@
           return error;
         });
       console.log(arrCompAddData);
+      //対象のレコード数分実行
       for(var i in arrCompAddData.records){
         await stockCtrl(arrCompAddData.records[i], kintone.app.getId());
         await reportCtrl(arrCompAddData.records[i], kintone.app.getId());
