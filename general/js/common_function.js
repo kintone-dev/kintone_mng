@@ -584,7 +584,7 @@ function createStockJson(event, appId) {
 					var currentDate = new Date(getNowDate().getResponseHeader('Date'));
 					var arrDate = new Date(event[i].arrival_datetime.value);
 					var dateComp = currentDate.getTime() - arrDate.getTime();
-					if (dateComp > 7776000 * 1000) {
+					if (dateComp > 604800 * 1000) {
 					}
 
 				} else if (arrCompAddType.includes(event[i].application_type.value)) {

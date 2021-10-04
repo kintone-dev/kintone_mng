@@ -40,7 +40,7 @@
         var createDate = new Date(deleteReqdata.records[i].更新日時.value);
         var dateComp = currentDate.getTime() - createDate.getTime();
 
-        if (dateComp > 604800 * 1000) {
+        if (dateComp > 7776000 * 1000) {
           deleteData.push(deleteReqdata.records[i].$id.value)
         }
       }
