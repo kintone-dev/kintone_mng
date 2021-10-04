@@ -87,13 +87,13 @@
           var putStatusData = {
             'app': sysid.INV.app_id.shipment,
             'records': []
-          }
+          };
           for (var i in resp.records) {
             if (resp.records[i].ステータス.value == '納品情報未確定') {
               var putStatusBody = {
                 'id': resp.records[i].$id.value,
                 'action': '処理開始'
-              }
+              };
               putStatusData.records.push(putStatusBody);
             }
           }
