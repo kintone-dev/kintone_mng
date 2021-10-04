@@ -20,19 +20,16 @@
 
       var currentDate = new Date();
       console.log(currentDate);
-      function nowDate(){
-        var date = $.ajax({
-          type: 'GET',
-          async: false
-        }).done(function (data, status, xhr) {
-          //請求月が今より過去の場合
-          var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-          var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-          return nowDateFormat;
-        });
-        return date;
-      }
-      console.log(nowDate());
+      var nowDate = $.ajax({
+        type: 'GET',
+        async: false
+      }).done(function (data, status, xhr) {
+        //請求月が今より過去の場合
+        var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
+        var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
+        return nowDateFormat;
+      });
+      console.log(nowDate.done);
 
       var deleteData = [];
       //90日以上経ったデータを配列に格納
