@@ -358,7 +358,7 @@
        */
       var getArrCompAddBody = {
         'app': kintone.app.getId(),
-        'query': 'working_status in ("着荷完了") and application_type in ("新規申込")'
+        'query': 'working_status in ("着荷完了") and application_type in ("デバイス追加","故障交換（保証期間外）")'
       };
       var arrCompAddData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getArrCompAddBody)
         .then(function (resp) {
