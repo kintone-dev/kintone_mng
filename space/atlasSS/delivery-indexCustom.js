@@ -29,7 +29,6 @@
           return xhr;
         });
       }
-        var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
       console.log(new Date(getNowDate().getResponseHeader('Date')));
 
       var deleteData = [];
