@@ -62,12 +62,12 @@
   });
 
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
-
     if (event.record.EoMcheck.value == '一時確認') {
       /**
        * 製品別在庫残数処理
        */
       return (async function forecastListFunc() {
+        dispLoad();
         for (var i in event.record.forecastList.value) {
           var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
           var reportDate_current = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
@@ -148,6 +148,7 @@
 
         }
         console.log(event);
+        remLoad();
         return event;
       }());
 
