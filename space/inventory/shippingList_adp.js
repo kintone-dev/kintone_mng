@@ -7,9 +7,13 @@
 
     //ステータスが集荷待ちの場合
     if (nStatus === "集荷待ち") {
-      var shipmentName = event.record.shipment.value;
-      var sNums = sNumRecords(event.record.deviceList.value, 'table');
+      //エラー処理
+      if(event.record.sendDate.value==null){
+        event.error='送付日を記入して下さい。'
+        return event;
+      }
 
+      var sNums = sNumRecords(event.record.deviceList.value, 'table');
       //ID更新
       var putSnumData = [];
       for (var y in sNums) {
@@ -30,7 +34,7 @@
       putRecords(sysid.DEV.app_id.sNum, putSnumData);
       //ID更新 end
 
-      // if (shipmentName == '矢倉倉庫') {
+      // if (event.record.shipment.value == '矢倉倉庫') {
       //   var postSnumData = [];
       //   for (var y in sNums) {
       //     var snRecord = {

@@ -438,7 +438,6 @@ function createStockJson(event, appId) {
 	if (appId == sysid.INV.app_id.shipment) { //入出荷管理
 		//レポート用日付作成
 		var sendDate = event.record.sendDate.value;
-		console.log(sendDate);
 		sendDate = sendDate.replace(/-/g, '');
 		sendDate = sendDate.slice(0, -2);
 		stockData.date = sendDate;
