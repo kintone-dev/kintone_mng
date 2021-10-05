@@ -168,7 +168,7 @@
       postRecords(sysid.INV.app_id.shipment, postShipData);
 
     } else if (nStatus == '完了') { //ステータスが完了の場合
-      if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') { //提供形態が販売、サブスクの場合
+      if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
         // 在庫処理
         await stockCtrl(event, kintone.app.getId());
         // レポート処理
