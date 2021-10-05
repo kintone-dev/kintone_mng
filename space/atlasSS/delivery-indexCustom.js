@@ -45,7 +45,7 @@
 
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', async function () {
-      console.log('start');
+      dispLoad();
 
       /*①
         作業ステータス：準備中
@@ -421,7 +421,7 @@
       }
       putRecords(kintone.app.getId(), putStatData);
 
-      console.log('end');
+      remLoad();
 
       return event;
     })

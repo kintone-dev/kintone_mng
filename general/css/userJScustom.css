@@ -66,3 +66,23 @@
 	overflow: visible;
 	display: inline-block;
 }
+
+/* ローディング画面 */
+#loading{
+	background-color: rgba(102, 194, 255, 0.5);
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+}
+
+.loadingMsg{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.loadingMsg p{
+	font-size: 24px;
+}
