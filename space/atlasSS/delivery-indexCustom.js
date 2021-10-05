@@ -262,9 +262,8 @@
       for (var ndl in notDefList) {
         var sNumsArray = sNumRecords(notDefList[ndl].deviceList.value, 'table');
         for (var snl in sNumsArray) {
-          var dateCutter1 = notDefList[ndl].shipping_datetime.value.indexOf('T')
-          var dateCutter2 = notDefList[ndl].application_datetime.value.indexOf('T')
-
+          var dateCutter1 = notDefList[ndl].shipping_datetime.value.indexOf('T');
+          var dateCutter2 = notDefList[ndl].application_datetime.value.indexOf('T');
           var putSnumBody = {
             'updateKey': {
               'field': 'sNum',
