@@ -921,7 +921,7 @@ async function reportCtrl(event, appId) {
 				for (var j in putReportBody.record.inventoryList.value) {
 					if (putReportBody.record.inventoryList.value[j].value.sys_code.value == reportUpdateData[i].sysCode) {
 						if (reportUpdateData[i].arrOrShip == 'ship') {
-							putReportBody.record.inventoryList.value[j].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.shipNum.value || 0) - parseInt(reportUpdateData[i].stockNum || 0);
+							putReportBody.record.inventoryList.value[j].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
 						} else if (reportUpdateData[i].arrOrShip == 'arr') {
 							putReportBody.record.inventoryList.value[j].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.arrivalNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
 						}
