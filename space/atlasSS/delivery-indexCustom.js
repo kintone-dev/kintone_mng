@@ -421,7 +421,7 @@
       }
       putRecords(kintone.app.getId(), putStatData);
 
-      // remLoad();
+      remLoad();
 
       return event;
     })
