@@ -11,41 +11,42 @@
       var sNums = sNumRecords(event.record.deviceList.value, 'table');
 
       //ID更新
-      if (shipmentName == '矢倉倉庫') {
-        var postSnumData = [];
-        for (var y in sNums) {
-          var snRecord = {
-            'sNum': {
-              'value': sNums[y]
-            },
+      var putSnumData = [];
+      for (var y in sNums) {
+        var snRecord = {
+          'updateKey': {
+            'field': 'sNum',
+            'value': sNums[y]
+          },
+          'record': {
             'shipment': event.record.shipment,
             'sendDate': event.record.sendDate,
             'shipType': event.record.shipType,
             'instName': event.record.instName
-          };
-          postSnumData.push(snRecord);
-        }
-        postRecords(sysid.DEV.app_id.sNum, postSnumData);
-      } else {
-        var putSnumData = [];
-        for (var y in sNums) {
-          var snRecord = {
-            'updateKey': {
-              'field': 'sNum',
-              'value': sNums[y]
-            },
-            'record': {
-              'shipment': event.record.shipment,
-              'sendDate': event.record.sendDate,
-              'shipType': event.record.shipType,
-              'instName': event.record.instName
-            }
-          };
-          putSnumData.push(snRecord);
-        }
-        putRecords(sysid.DEV.app_id.sNum, putSnumData);
+          }
+        };
+        putSnumData.push(snRecord);
       }
+      putRecords(sysid.DEV.app_id.sNum, putSnumData);
       //ID更新 end
+
+      // if (shipmentName == '矢倉倉庫') {
+      //   var postSnumData = [];
+      //   for (var y in sNums) {
+      //     var snRecord = {
+      //       'sNum': {
+      //         'value': sNums[y]
+      //       },
+      //       'shipment': event.record.shipment,
+      //       'sendDate': event.record.sendDate,
+      //       'shipType': event.record.shipType,
+      //       'instName': event.record.instName
+      //     };
+      //     postSnumData.push(snRecord);
+      //   }
+      //   postRecords(sysid.DEV.app_id.sNum, postSnumData);
+      // } else {
+      // }
 
       //在庫処理
       await stockCtrl(event, kintone.app.getId());
