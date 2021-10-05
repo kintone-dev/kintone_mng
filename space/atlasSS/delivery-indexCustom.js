@@ -103,7 +103,7 @@
 
       postRecords(sysid.ASS.app_id.member, postMemData)
         .then(function (resp) {
-          alert('新規申込情報連携に成功しました。');
+          console.log('新規申込情報連携に成功しました。');
           putRecords(kintone.app.getId(), putWStatNewData);
         }).catch(function (error) {
           console.log(error);
@@ -307,7 +307,7 @@
       // シリアル管理情報更新
       putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .then(function (resp) {
-          alert('シリアル番号情報連携に成功しました。');
+          console.log('シリアル番号情報連携に成功しました。');
         }).catch(function (error) {
           console.log(error);
           alert('シリアル番号情報連携に失敗しました。システム管理者に連絡してください。');
