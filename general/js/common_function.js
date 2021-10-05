@@ -934,6 +934,9 @@ async function reportCtrl(event, appId) {
 							'sys_code': {
 								'value': reportUpdateData[i].sysCode
 							},
+							'mCode': {
+								'value': reportUpdateData[i].devCode
+							},
 							'stockLocation': {
 								'value': reportUpdateData[i].uName
 							},
