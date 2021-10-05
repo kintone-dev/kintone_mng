@@ -965,8 +965,8 @@ async function reportCtrl(event, appId) {
 				putReportBody.record.inventoryList.value.push(newReportListBody);
 			}
 		}
-
 		putReportData.push(putReportBody);
+		//レポート更新
 		var putReport = {
 			'app': sysid.INV.app_id.report,
 			'records': putReportData,
