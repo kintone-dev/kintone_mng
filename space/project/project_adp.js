@@ -184,7 +184,7 @@
     //対応レポート取得
     var getReportBody = {
       'app': sysid.INV.app_id.report,
-      'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '" order by 更新日時 asc'
+      'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '"'
     };
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {

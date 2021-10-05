@@ -177,7 +177,7 @@
     }
     var getPacBody = {
       'app': sysid.INV.app_id.device,
-      'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
+      'query': 'mCode in (' + deviceQuery.join() + ')'
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPacBody)
       .then(function (resp) {
