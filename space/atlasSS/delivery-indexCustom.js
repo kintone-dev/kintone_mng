@@ -420,7 +420,10 @@
       putRecords(kintone.app.getId(), putStatData);
 
       return event;
-    });
+    }).then(function (resp) {
+      console.log(resp);
+			return resp;
+		});
 
     return event;
   });
