@@ -809,7 +809,6 @@ async function stockCtrl(event, appId) {
 			console.log(error);
 			return error;
 		});
-
 	var putUnitBody = {
 		'app': sysid.INV.app_id.unit,
 		'records': unitStockData,
