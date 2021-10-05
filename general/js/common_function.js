@@ -425,21 +425,34 @@ async function checkEoMReport(reportDate) {
  * @returns json
  */
 function createStockJson(event, appId) {
+	/**
+	 * 在庫管理用json
+	 * arr 入荷データ
+	 * ship 出荷データ
+	 */
 	var stockData = {
 		'arr': [],
 		'ship': []
 	};
 	stockData.appId = appId;
-	if (appId == sysid.INV.app_id.shipment) { //入出荷管理の場合
+	if (appId == sysid.INV.app_id.shipment) { //入出荷管理
+		//レポート用日付作成
 		var sendDate = event.record.sendDate.value;
 		sendDate = sendDate.replace(/-/g, '');
 		sendDate = sendDate.slice(0, -2);
 		stockData.date = sendDate;
+		//レポート用日付作成 end
 		if (event.nextStatus) {
 			if (event.nextStatus.value == '集荷待ち') {
 				var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
 				for (var i in event.record.deviceList.value) {
-					// 出荷情報を作成
+					/**
+					 * 出荷用json作成
+					 * arrOrShip 入荷か出荷かの識別子
+					 * devCode 商品コード
+					 * uniCode 拠点コード
+					 * stockNum 依頼数
+					 */
 					var stockShipBody = {
 						'arrOrShip': 'ship',
 						'devCode': event.record.deviceList.value[i].value.mCode.value,
@@ -447,8 +460,14 @@ function createStockJson(event, appId) {
 						'stockNum': event.record.deviceList.value[i].value.shipNum.value
 					};
 					stockData.ship.push(stockShipBody);
-					// 出荷区分がarrivalShipTypeに含まれる場合のみ入荷情報を作成
-					if (arrivalShipType.includes(event.record.shipType.value)) {
+					if (arrivalShipType.includes(event.record.shipType.value)) { // 出荷区分がarrivalShipTypeに含まれる場合のみ入荷情報を作成
+						/**
+						 * 入荷用json作成
+						 * arrOrShip 入荷か出荷かの識別子
+						 * devCode 商品コード
+						 * uniCode 拠点コード
+						 * stockNum 依頼数
+						 */
 						var stockArrBody = {
 							'arrOrShip': 'arr',
 							'devCode': event.record.deviceList.value[i].value.mCode.value,
@@ -471,7 +490,6 @@ function createStockJson(event, appId) {
 						'stockNum': event.record.deviceList.value[i].value.shipNum.value
 					};
 					stockData.ship.push(stockShipBody);
-
 					if (arrivalShipType_dist.includes(event.record.shipType.value)) { // 出荷区分がarrivalShipType_distに含まれる場合のみ入荷情報を作成
 						var stockArrBody = {
 							'arrOrShip': 'arr',
@@ -497,13 +515,12 @@ function createStockJson(event, appId) {
 		} else {
 			return false;
 		}
-	} else if (appId == sysid.PM.app_id.project) { //案件管理の場合
+	} else if (appId == sysid.PM.app_id.project) { //案件管理
 		stockData.date = event.record.sys_invoiceDate.value;
 		var distributeSalesType = ['販売', 'サブスク'];
-		// 提供形態がdistributeSalesTypeに含まれる場合のみ出荷情報作成
 		if (distributeSalesType.includes(event.record.salesType.value)) {
 			for (var i in event.record.deviceList.value) {
-				if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
+				if (event.record.deviceList.value[i].value.subBtn.value == '通常') { // 予備機が通常のもののみ
 					//出荷情報は積送からのみ
 					var stockShipBody = {
 						'arrOrShip': 'ship',
@@ -517,7 +534,7 @@ function createStockJson(event, appId) {
 			return stockData;
 		}
 		return false;
-	} else if (appId == sysid.INV.app_id.purchasing) { // 仕入管理の場合
+	} else if (appId == sysid.INV.app_id.purchasing) { // 仕入管理
 		var sendDate = event.record.arrivalDate.value;
 		sendDate = sendDate.replace(/-/g, '');
 		sendDate = sendDate.slice(0, -2);
@@ -549,12 +566,11 @@ function createStockJson(event, appId) {
 			stockData.arr.push(stockArrBody);
 		}
 		return stockData;
-	} else if (appId == sysid.ASS.app_id.shipment) { //ASS配送先リストの場合
+	} else if (appId == sysid.ASS.app_id.shipment) { //ASS配送先リスト
 		var sendDate = new Date(event.shipping_datetime.value);
 		var sendYears = String(sendDate.getFullYear());
 		var sendMonth = String(("0" + (sendDate.getMonth() + 1)).slice(-2));
 		var reportDate = sendYears + sendMonth;
-		console.log(reportDate);
 		stockData.date = reportDate;
 		var arrCompAddType = ['デバイス追加', '故障交換（保証期間外）'];
 		if (event.working_status.value == '出荷完了') {
