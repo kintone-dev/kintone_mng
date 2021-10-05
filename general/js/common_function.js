@@ -972,7 +972,7 @@ async function reportCtrl(event, appId) {
 			'app': sysid.INV.app_id.report,
 			'records': putReportData,
 		}
-		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', putReport)
+		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putReport)
 			.then(function (resp) {
 				return resp;
 			}).catch(function (error) {
