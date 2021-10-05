@@ -120,7 +120,7 @@
           var getProjectBody = {
             'app': sysid.PM.app_id.project,
             'query': 'predictDate >= "' + queryDate_current + '" and predictDate <= "' + queryDate + '"'
-          }
+          };
           var project = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getProjectBody)
             .then(function (resp) {
               return resp;
@@ -139,15 +139,11 @@
           }
           // 出荷予定数挿入
           event.record.forecastList.value[i].value.forecast_shipNum.value = totalShipNum;
-
           //リードタイム後残数
           event.record.forecastList.value[i].value.afterLeadTimeStock.value = (parseInt(event.record.forecastList.value[i].value.forecast_mStock.value) || 0) - (parseInt(totalArrivalNum) || 0) + (parseInt(totalShipNum) || 0);
-
           //差引残数
           event.record.forecastList.value[i].value.remainingNum.value = (parseInt(event.record.forecastList.value[i].value.afterLeadTimeStock.value) || 0) - (parseInt(event.record.forecastList.value[i].value.mOrderingPoint.value) || 0);
-
         }
-        console.log(event);
         remLoad();
         return event;
       }());
@@ -156,8 +152,6 @@
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], function (event) {
-
-    // レポートが締切の場合
     if (event.record.EoMcheck.value == '締切') {
       /**
        * 次月のレポート作成処理
@@ -169,7 +163,7 @@
       // 次月のレポートを取得
       var getNextMonthReportBody = {
         'app': sysid.INV.app_id.report,
-        'query': 'sys_invoiceDate = "' + NEXT_DATE + '" order by 更新日時 asc'
+        'query': 'sys_invoiceDate = "' + NEXT_DATE + '"'
       };
       return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNextMonthReportBody)
         .then(function (resp) {
@@ -232,17 +226,17 @@
             var nowMonthSyscode = [];
             var nextMonthSyscode = [];
 
-            for (var nil in putNewReport_body.record.inventoryList.value) {
-              nextMonthSyscode.push(putNewReport_body.record.inventoryList.value[nil].value.sys_code.value);
+            for (var i in putNewReport_body.record.inventoryList.value) {
+              nextMonthSyscode.push(putNewReport_body.record.inventoryList.value[i].value.sys_code.value);
             }
-            for (var nil in event.record.inventoryList.value) {
+            for (var i in event.record.inventoryList.value) {
               var nowMonthData = {
-                'sysCode': event.record.inventoryList.value[nil].value.sys_code.value,
-                'location': event.record.inventoryList.value[nil].value.stockLocation.value,
-                'memo': event.record.inventoryList.value[nil].value.memo.value,
-                'mCode': event.record.inventoryList.value[nil].value.mCode.value,
-                'deductionNum': event.record.inventoryList.value[nil].value.deductionNum.value,
-              }
+                'sysCode': event.record.inventoryList.value[i].value.sys_code.value,
+                'location': event.record.inventoryList.value[i].value.stockLocation.value,
+                'memo': event.record.inventoryList.value[i].value.memo.value,
+                'mCode': event.record.inventoryList.value[i].value.mCode.value,
+                'deductionNum': event.record.inventoryList.value[i].value.deductionNum.value,
+              };
               nowMonthSyscode.push(nowMonthData);
             }
 
@@ -250,10 +244,10 @@
               if (nextMonthSyscode.includes(nowMonthSyscode[ril].sysCode)) {
                 for (var nil in putNewReport_body.record.inventoryList.value) {
                   if (putNewReport_body.record.inventoryList.value[nil].value.sys_code.value == event.record.inventoryList.value[ril].value.sys_code.value) {
-                    putNewReport_body.record.inventoryList.value[nil].value.mLastStock.value = event.record.inventoryList.value[ril].value.deductionNum.value
-                    putNewReport_body.record.inventoryList.value[nil].value.mCode.value = event.record.inventoryList.value[ril].value.mCode.value
-                    putNewReport_body.record.inventoryList.value[nil].value.stockLocation.value = event.record.inventoryList.value[ril].value.stockLocation.value
-                    putNewReport_body.record.inventoryList.value[nil].value.memo.value = event.record.inventoryList.value[ril].value.memo.value
+                    putNewReport_body.record.inventoryList.value[nil].value.mLastStock.value = event.record.inventoryList.value[ril].value.deductionNum.value;
+                    putNewReport_body.record.inventoryList.value[nil].value.mCode.value = event.record.inventoryList.value[ril].value.mCode.value;
+                    putNewReport_body.record.inventoryList.value[nil].value.stockLocation.value = event.record.inventoryList.value[ril].value.stockLocation.value;
+                    putNewReport_body.record.inventoryList.value[nil].value.memo.value = event.record.inventoryList.value[ril].value.memo.value;
                   }
                 }
               } else {
@@ -267,17 +261,15 @@
                       'mCode': nowMonthSyscode[ril].mCode,
                       'mLastStock': nowMonthSyscode[ril].deductionNum,
                     }
-                  }
+                  };
                   putNewReport_body.record.inventoryList.value.push(putNewInventoryBody);
                 }
               }
             }
-
             putNewReportData.push(putNewReport_body);
             //次月のレポートを更新
             putRecords(sysid.INV.app_id.report, putNewReportData);
           }
-
           return event;
         });
     } else {
