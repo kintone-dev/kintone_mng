@@ -904,10 +904,9 @@ async function reportCtrl(event, appId) {
 	}
 	/* レポート更新用情報作成 end */
 
-	// 情報更新用配列
-	var putReportData = [];
-
 	if (reportRecords.records.length != 0) { //対応したレポートがある場合
+		// 情報更新用配列
+		var putReportData = [];
 		//更新レポート情報作成
 		var putReportBody = {
 			'id': reportRecords.records[0].$id.value,
