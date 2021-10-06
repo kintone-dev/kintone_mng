@@ -177,6 +177,7 @@
         }
         alert(alertTxt);
       }
+      remLoad();
     }, 3000);
 
     if (event.record.EoMcheck.value == '締切' || event.record.EoMcheck.value == '一時締切') {
@@ -201,7 +202,6 @@
       }, 3000);
     }
 
-    remLoad();
     return event;
   });
 
