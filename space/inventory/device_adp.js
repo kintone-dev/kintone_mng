@@ -38,7 +38,7 @@
       kintone.app.record.set(eRecord);
     }).catch(function (error) {
       console.log(error);
-      console.log('拠点データを取得できませんでした。' + error.message);
+      console.log('拠点データを取得できませんでした。\n' + error.message);
     });
     return event;
   });
