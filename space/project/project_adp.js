@@ -9,7 +9,6 @@
       event.error = '対応した日付のレポートは締切済みです。';
       return event;
     }
-
     if (nStatus == '納品準備中') { //ステータスが納品準備中の場合
       // 入出荷管理post用配列
       var postShipData = [];
