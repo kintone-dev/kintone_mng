@@ -64,7 +64,6 @@
 
       //パラメータsNumInfoにjsonデータ作成
       var sNumInfo={'app': sysid.DIPM.app.sn, 'records': []};
-
       var shipTable=event.record.deviceList.value;
       var shipIName=event.record.instName.value;
       var shipShipment=event.record.shipment.value;
