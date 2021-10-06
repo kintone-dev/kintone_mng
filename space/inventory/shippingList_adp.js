@@ -129,7 +129,7 @@
           'value': pageRecod.expArrivalDate.value
         }
       }
-    }
+    };
     putDeliveryData.push(putDeliveryBody);
     var putStatusBody = {
       'app': sysid.PM.app_id.project,

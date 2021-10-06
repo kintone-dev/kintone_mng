@@ -831,7 +831,7 @@ async function stockCtrl(event, appId) {
 
 /* レポート処理 */
 /**
- * 受け取ったjsonから月次レポートに情報を挿入
+ * createStockJsonから月次レポートに情報を挿入
  * @param {*} event kintone event
  * @param {*} appId 関数を使ったアプリのID
  * @returns json
@@ -880,9 +880,9 @@ async function reportCtrl(event, appId) {
 		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
+	getUniNameArray = Array.from(new Set(getUniNameArray));
 
 	//拠点名取得
-	getUniNameArray = Array.from(new Set(getUniNameArray));
 	var getUnitBody = {
 		'app': sysid.INV.app_id.unit,
 		'query': 'uCode in (' + getUniNameArray.join() + ')'
