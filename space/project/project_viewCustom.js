@@ -673,7 +673,7 @@
 
     $('#calBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
-      calBtnFunc(eRecord);
+      calBtnFunc(eRecord,kintone.app.getId());
     });
 
     return event;

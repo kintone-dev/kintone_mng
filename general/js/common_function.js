@@ -1056,7 +1056,7 @@ async function reportCtrl(event, appId) {
 
 /* 計算ボタン処理 */
 
-async function calBtnFunc(eRecord) {
+async function calBtnFunc(eRecord, appId) {
 	var eRecord = kintone.app.record.get();
 	var shipTable = eRecord.record.deviceList.value;
 	var lengthStr = '';
@@ -1198,10 +1198,6 @@ async function calBtnFunc(eRecord) {
 								type: "SINGLE_LINE_TEXT",
 								value: JSON.stringify(railItems[j].value.mNickname.value).replace(/\"/g, '')
 							},
-							subBtn: {
-								type: "RADIO_BUTTON",
-								value: '通常'
-							},
 							shipRemarks: {
 								type: "MULTI_LINE_TEXT",
 								value: JSON.stringify(railItems[j].value.shipRemarks.value).replace(/\"/g, '')
@@ -1210,6 +1206,12 @@ async function calBtnFunc(eRecord) {
 								type: "NUMBER",
 								value: JSON.stringify(railItems[j].value.shipNum.value).replace(/\"/g, '')
 							}
+						}
+					}
+					if(appId==sysid.PM.app_id.project){
+						railItemBody.value.subBtn = {
+							type: "RADIO_BUTTON",
+							value: '通常'
 						}
 					}
 					newShipTable.push(railItemBody);
@@ -1242,10 +1244,6 @@ async function calBtnFunc(eRecord) {
 										type: "SINGLE_LINE_TEXT",
 										value: calDevice.records[j].packageComp.value[k].value.pc_mNickname.value
 									},
-									subBtn: {
-										type: "RADIO_BUTTON",
-										value: '通常'
-									},
 									shipRemarks: {
 										type: "MULTI_LINE_TEXT",
 										value: ''
@@ -1254,6 +1252,12 @@ async function calBtnFunc(eRecord) {
 										type: "NUMBER",
 										value: parseInt(calDevice.records[j].packageComp.value[k].value.pc_Num.value) * parseInt(shipTable[i].value.shipNum.value)
 									}
+								}
+							}
+							if(appId==sysid.PM.app_id.project){
+								pkgBody.value.subBtn = {
+									type: "RADIO_BUTTON",
+									value: '通常'
 								}
 							}
 							newShipTable.push(pkgBody);
@@ -1285,10 +1289,6 @@ async function calBtnFunc(eRecord) {
 							type: "SINGLE_LINE_TEXT",
 							value: 'LOCK Pro用エスカッション'
 						},
-						subBtn: {
-							type: "RADIO_BUTTON",
-							value: '通常'
-						},
 						shipRemarks: {
 							type: "MULTI_LINE_TEXT",
 							value: ''
@@ -1297,6 +1297,12 @@ async function calBtnFunc(eRecord) {
 							type: "NUMBER",
 							value: parseInt(shipTable[i].value.shipNum.value)
 						}
+					}
+				}
+				if(appId==sysid.PM.app_id.project){
+					escBody.value.subBtn = {
+						type: "RADIO_BUTTON",
+						value: '通常'
 					}
 				}
 				newShipTable.push(escBody);
