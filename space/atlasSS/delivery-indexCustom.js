@@ -88,7 +88,6 @@
             'value': newMemList[i].application_type.value
           }
         };
-
         var putBody_workStatNew = {
           'id': newMemList[i].レコード番号.value,
           'record': {
