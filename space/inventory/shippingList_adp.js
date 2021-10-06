@@ -8,8 +8,8 @@
     //ステータスが集荷待ちの場合
     if (nStatus === "集荷待ち") {
       //エラー処理
-      if(event.record.sendDate.value==null){
-        event.error='送付日を記入して下さい。'
+      if (event.record.sendDate.value == null) {
+        event.error = '送付日を記入して下さい。'
         return event;
       }
 
@@ -77,36 +77,43 @@
   });
 
   // 納品情報未確定のものをステータス変更
-  kintone.events.on('app.record.index.show', function (event) {
+  kintone.events.on('app.record.index.show', async function (event) {
     if (sessionStorage.getItem('record_updated') === '1') {
       sessionStorage.setItem('record_updated', '0');
       return event;
     }
     var getShipBody = {
       'app': sysid.INV.app_id.shipment,
-      'query': 'prjId != "" order by レコード番号'
+      'query': 'prjId != ""'
     };
-    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipBody)
+    var prjIdRecord = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipBody)
       .then(function (resp) {
-        if (resp.records != 0) {
-          var putStatusData = {
-            'app': sysid.INV.app_id.shipment,
-            'records': []
-          };
-          for (var i in resp.records) {
-            if (resp.records[i].ステータス.value == '納品情報未確定') {
-              var putStatusBody = {
-                'id': resp.records[i].$id.value,
-                'action': '処理開始'
-              };
-              putStatusData.records.push(putStatusBody);
-            }
-          }
-          kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
-          sessionStorage.setItem('record_updated', '1');
-          location.reload();
-        }
+        return resp;
+      }).catch(function (error) {
+        console.log(error);
+        return error;
       });
+
+    if (prjIdRecord.records != 0) {
+      var putStatusData = {
+        'app': sysid.INV.app_id.shipment,
+        'records': []
+      };
+      for (var i in resp.records) {
+        if (resp.records[i].ステータス.value == '納品情報未確定') {
+          var putStatusBody = {
+            'id': resp.records[i].$id.value,
+            'action': '処理開始'
+          };
+          putStatusData.records.push(putStatusBody);
+        }
+      }
+      kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
+      sessionStorage.setItem('record_updated', '1');
+      location.reload();
+    }
+
+    return event;
   });
 
   /* ---以下関数--- */
