@@ -1176,42 +1176,79 @@ async function calBtnFunc(eRecord, appId) {
 				}
 				var railItems = railConf(spec);
 				for (var j in railItems) {
-					var railItemBody = {
-						value: {
-							mVendor: {
-								type: "SINGLE_LINE_TEXT",
-								value: JSON.stringify(railItems[j].value.mVendor.value).replace(/\"/g, '')
-							},
-							mType: {
-								type: "SINGLE_LINE_TEXT",
-								value: JSON.stringify(railItems[j].value.mType.value).replace(/\"/g, '')
-							},
-							mCode: {
-								type: "SINGLE_LINE_TEXT",
-								value: JSON.stringify(railItems[j].value.mCode.value).replace(/\"/g, '')
-							},
-							mName: {
-								type: "SINGLE_LINE_TEXT",
-								value: JSON.stringify(railItems[j].value.mName.value).replace(/\"/g, '')
-							},
-							mNickname: {
-								type: "SINGLE_LINE_TEXT",
-								value: JSON.stringify(railItems[j].value.mNickname.value).replace(/\"/g, '')
-							},
-							shipRemarks: {
-								type: "MULTI_LINE_TEXT",
-								value: JSON.stringify(railItems[j].value.shipRemarks.value).replace(/\"/g, '')
-							},
-							shipNum: {
-								type: "NUMBER",
-								value: JSON.stringify(railItems[j].value.shipNum.value).replace(/\"/g, '')
+					if (appId == sysid.PM.app_id.project) {
+						var railItemBody = {
+							value: {
+								mVendor: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mVendor.value).replace(/\"/g, '')
+								},
+								mType: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mType.value).replace(/\"/g, '')
+								},
+								mCode: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mCode.value).replace(/\"/g, '')
+								},
+								mName: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mName.value).replace(/\"/g, '')
+								},
+								mNickname: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mNickname.value).replace(/\"/g, '')
+								},
+								subBtn: {
+									type: "RADIO_BUTTON",
+									value: '通常'
+								},
+								shipRemarks: {
+									type: "MULTI_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.shipRemarks.value).replace(/\"/g, '')
+								},
+								shipNum: {
+									type: "NUMBER",
+									value: JSON.stringify(railItems[j].value.shipNum.value).replace(/\"/g, '')
+								}
 							}
 						}
-					}
-					if(appId==sysid.PM.app_id.project){
-						railItemBody.value.subBtn = {
-							type: "RADIO_BUTTON",
-							value: '通常'
+					} else if (appId == sysid.INV.app_id.shipment) {
+						var railItemBody = {
+							value: {
+								mVendor: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mVendor.value).replace(/\"/g, '')
+								},
+								mType: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mType.value).replace(/\"/g, '')
+								},
+								mCode: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mCode.value).replace(/\"/g, '')
+								},
+								mName: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mName.value).replace(/\"/g, '')
+								},
+								mNickname: {
+									type: "SINGLE_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.mNickname.value).replace(/\"/g, '')
+								},
+								sNum: {
+									type: "MULTI_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.sNum.value).replace(/\"/g, '')
+								},
+								shipRemarks: {
+									type: "MULTI_LINE_TEXT",
+									value: JSON.stringify(railItems[j].value.shipRemarks.value).replace(/\"/g, '')
+								},
+								shipNum: {
+									type: "NUMBER",
+									value: JSON.stringify(railItems[j].value.shipNum.value).replace(/\"/g, '')
+								}
+							}
 						}
 					}
 					newShipTable.push(railItemBody);
@@ -1222,42 +1259,79 @@ async function calBtnFunc(eRecord, appId) {
 				for (var j in calDevice.records) {
 					if (shipTable[i].value.mCode.value == calDevice.records[j].mCode.value) {
 						for (var k in calDevice.records[j].packageComp.value) {
-							var pkgBody = {
-								value: {
-									mVendor: {
-										type: "SINGLE_LINE_TEXT",
-										value: calDevice.records[j].packageComp.value[k].value.pc_mVendor.value
-									},
-									mType: {
-										type: "SINGLE_LINE_TEXT",
-										value: calDevice.records[j].packageComp.value[k].value.pc_mType.value
-									},
-									mCode: {
-										type: "SINGLE_LINE_TEXT",
-										value: calDevice.records[j].packageComp.value[k].value.pc_mCode.value
-									},
-									mName: {
-										type: "SINGLE_LINE_TEXT",
-										value: calDevice.records[j].packageComp.value[k].value.pc_mName.value
-									},
-									mNickname: {
-										type: "SINGLE_LINE_TEXT",
-										value: calDevice.records[j].packageComp.value[k].value.pc_mNickname.value
-									},
-									shipRemarks: {
-										type: "MULTI_LINE_TEXT",
-										value: ''
-									},
-									shipNum: {
-										type: "NUMBER",
-										value: parseInt(calDevice.records[j].packageComp.value[k].value.pc_Num.value) * parseInt(shipTable[i].value.shipNum.value)
+							if (appId == sysid.PM.app_id.project) {
+								var pkgBody = {
+									value: {
+										mVendor: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mVendor.value
+										},
+										mType: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mType.value
+										},
+										mCode: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mCode.value
+										},
+										mName: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mName.value
+										},
+										mNickname: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mNickname.value
+										},
+										subBtn: {
+											type: "RADIO_BUTTON",
+											value: '通常'
+										},
+										shipRemarks: {
+											type: "MULTI_LINE_TEXT",
+											value: ''
+										},
+										shipNum: {
+											type: "NUMBER",
+											value: parseInt(calDevice.records[j].packageComp.value[k].value.pc_Num.value) * parseInt(shipTable[i].value.shipNum.value)
+										}
 									}
 								}
-							}
-							if(appId==sysid.PM.app_id.project){
-								pkgBody.value.subBtn = {
-									type: "RADIO_BUTTON",
-									value: '通常'
+							} else if (appId == sysid.INV.app_id.shipment) {
+								var pkgBody = {
+									value: {
+										mVendor: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mVendor.value
+										},
+										mType: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mType.value
+										},
+										mCode: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mCode.value
+										},
+										mName: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mName.value
+										},
+										mNickname: {
+											type: "SINGLE_LINE_TEXT",
+											value: calDevice.records[j].packageComp.value[k].value.pc_mNickname.value
+										},
+										sNum: {
+											type: "MULTI_LINE_TEXT",
+											value: ''
+										},
+										shipRemarks: {
+											type: "MULTI_LINE_TEXT",
+											value: ''
+										},
+										shipNum: {
+											type: "NUMBER",
+											value: parseInt(calDevice.records[j].packageComp.value[k].value.pc_Num.value) * parseInt(shipTable[i].value.shipNum.value)
+										}
+									}
 								}
 							}
 							newShipTable.push(pkgBody);
@@ -1267,42 +1341,79 @@ async function calBtnFunc(eRecord, appId) {
 			} else if (String(shipTable[i].value.mCode.value).match(/ZSL10/)) {
 				shipTable[i].value.shipRemarks.value = shipTable[i].value.shipRemarks.value.replace(/WFP/g, 'PAC')
 				newShipTable.push(shipTable[i]);
-				var escBody = {
-					value: {
-						mVendor: {
-							type: "SINGLE_LINE_TEXT",
-							value: ''
-						},
-						mType: {
-							type: "SINGLE_LINE_TEXT",
-							value: ''
-						},
-						mCode: {
-							type: "SINGLE_LINE_TEXT",
-							value: ''
-						},
-						mName: {
-							type: "SINGLE_LINE_TEXT",
-							value: ''
-						},
-						mNickname: {
-							type: "SINGLE_LINE_TEXT",
-							value: 'LOCK Pro用エスカッション'
-						},
-						shipRemarks: {
-							type: "MULTI_LINE_TEXT",
-							value: ''
-						},
-						shipNum: {
-							type: "NUMBER",
-							value: parseInt(shipTable[i].value.shipNum.value)
+				if (appId == sysid.PM.app_id.project) {
+					var escBody = {
+						value: {
+							mVendor: {
+								type: "SINGLE_LINE_TEXT",
+								value: ''
+							},
+							mType: {
+								type: "SINGLE_LINE_TEXT",
+								value: ''
+							},
+							mCode: {
+								type: "SINGLE_LINE_TEXT",
+								value: ''
+							},
+							mName: {
+								type: "SINGLE_LINE_TEXT",
+								value: ''
+							},
+							mNickname: {
+								type: "SINGLE_LINE_TEXT",
+								value: 'LOCK Pro用エスカッション'
+							},
+							subBtn: {
+								type: "RADIO_BUTTON",
+								value: '通常'
+							},
+							shipRemarks: {
+								type: "MULTI_LINE_TEXT",
+								value: ''
+							},
+							shipNum: {
+								type: "NUMBER",
+								value: parseInt(shipTable[i].value.shipNum.value)
+							}
 						}
 					}
-				}
-				if(appId==sysid.PM.app_id.project){
-					escBody.value.subBtn = {
-						type: "RADIO_BUTTON",
-						value: '通常'
+				} else if (appId == sysid.INV.app_id.shipment) {
+					var escBody = {
+						value: {
+							mVendor: {
+								type: "SINGLE_LINE_TEXT",
+								value: ''
+							},
+							mType: {
+								type: "SINGLE_LINE_TEXT",
+								value: ''
+							},
+							mCode: {
+								type: "SINGLE_LINE_TEXT",
+								value: ''
+							},
+							mName: {
+								type: "SINGLE_LINE_TEXT",
+								value: ''
+							},
+							mNickname: {
+								type: "SINGLE_LINE_TEXT",
+								value: 'LOCK Pro用エスカッション'
+							},
+							sNum: {
+								type: "MULTI_LINE_TEXT",
+								value: ''
+							},
+							shipRemarks: {
+								type: "MULTI_LINE_TEXT",
+								value: ''
+							},
+							shipNum: {
+								type: "NUMBER",
+								value: parseInt(shipTable[i].value.shipNum.value)
+							}
+						}
 					}
 				}
 				newShipTable.push(escBody);
