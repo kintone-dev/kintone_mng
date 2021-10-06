@@ -87,6 +87,6 @@
 .loadingMsg p{
 	font-size: 24px;
 	background: white;
-	padding: 20px 30px;
-	border-radius: 20px;
+	padding: 10px 30px;
+	border-radius: 15px;
 }
