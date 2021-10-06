@@ -1055,7 +1055,12 @@ async function reportCtrl(event, appId) {
 };
 
 /* 計算ボタン処理 */
-
+/**
+ * 計算ボタン押下時、パッケージ品、TRT-DYに対応した商品を挿入
+ * @param {*} eRecord kintone.app.record.get();
+ * @param {*} appId 関数を使ったアプリのID
+ * @returns
+ */
 async function calBtnFunc(eRecord, appId) {
 	var eRecord = kintone.app.record.get();
 	var shipTable = eRecord.record.deviceList.value;

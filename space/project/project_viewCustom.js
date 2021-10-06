@@ -20,25 +20,27 @@
     else setFieldShown('invoiceStatus', true);
     return event;
   });
-  kintone.events.on('app.record.detail.process.proceed', function(event){
-    var nStatus=event.nextStatus.value;
-    if(nStatus=='入力内容確認中'){
-      return kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code:kintone.getLoginUser().code}).then(function(resp) {
-        if(event.record.purchaseOrder.value.length<1){
-          var inGroup=false;
-          for(var i in resp.groups){
-            if(resp.groups[i].name=='営業責任者' || resp.groups[i].name=='sysAdmin'){
-              inGroup=true;
+  kintone.events.on('app.record.detail.process.proceed', function (event) {
+    var nStatus = event.nextStatus.value;
+    if (nStatus == '入力内容確認中') {
+      return kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {
+        code: kintone.getLoginUser().code
+      }).then(function (resp) {
+        if (event.record.purchaseOrder.value.length < 1) {
+          var inGroup = false;
+          for (var i in resp.groups) {
+            if (resp.groups[i].name == '営業責任者' || resp.groups[i].name == 'sysAdmin') {
+              inGroup = true;
               break;
             }
           }
-          if(inGroup){
-            var isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
-            if(!isConfirm){
-              event.error='請求書を添付するか営業責任者に承認を求めてください！';
+          if (inGroup) {
+            var isConfirm = window.confirm('注文書なしで納品を先行してもよろしいですか?');
+            if (!isConfirm) {
+              event.error = '請求書を添付するか営業責任者に承認を求めてください！';
             }
-          }else{
-            event.error='請求書を添付するか営業責任者に承認を求めてください！';
+          } else {
+            event.error = '請求書を添付するか営業責任者に承認を求めてください！';
           }
         }
         return event;
@@ -108,21 +110,23 @@
           setFieldShown('purchaseOrder', true);
           setFieldShown('purchaseOrder_status', true);
           setFieldShown('prjMemo', true);
-          if (event.record.Exist_Project.value.length>0) { setFieldShown('samePRJ', true); }
-          else { setFieldShown('samePRJ', false); }
+          if (event.record.Exist_Project.value.length > 0) {
+            setFieldShown('samePRJ', true);
+          } else {
+            setFieldShown('samePRJ', false);
+          }
 
 
           setFieldShown('cName', true);
           setFieldShown('orgName', true);
           setFieldShown('instName', true);
           setFieldShown('Contractor', true);
-          if(event.record.instName.value=='' || event.record.instName.value==undefined){
-            setSpaceShown('btn_newINST','individual','inline-block');
-            setSpaceShown('btn_unknowINST','individual','inline-block');
-          }
-          else{
-            setSpaceShown('btn_newINST','individual','none');
-            setSpaceShown('btn_unknowINST','individual','none');
+          if (event.record.instName.value == '' || event.record.instName.value == undefined) {
+            setSpaceShown('btn_newINST', 'individual', 'inline-block');
+            setSpaceShown('btn_unknowINST', 'individual', 'inline-block');
+          } else {
+            setSpaceShown('btn_newINST', 'individual', 'none');
+            setSpaceShown('btn_unknowINST', 'individual', 'none');
           }
 
           setFieldShown('cSales', true);
@@ -163,8 +167,8 @@
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
-          setSpaceShown('btn_newINST','individual','none');
-          setSpaceShown('btn_unknowINST','individual','none');
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
           setFieldShown('cSales', false);
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
@@ -204,8 +208,8 @@
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
-          setSpaceShown('btn_newINST','individual','none');
-          setSpaceShown('btn_unknowINST','individual','none');
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
           setFieldShown('cSales', false);
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
@@ -245,8 +249,8 @@
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
-          setSpaceShown('btn_newINST','individual','none');
-          setSpaceShown('btn_unknowINST','individual','none');
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
           setFieldShown('cSales', false);
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
@@ -297,14 +301,13 @@
   });
 
   kintone.events.on(['app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_instAddress'], function (event) {
-    if(event.record.instName.value=='' || event.record.instName.value==undefined){
-      setSpaceShown('btn_newINST','individual','inline-block');
-      setSpaceShown('btn_unknowINST','individual','inline-block');
+    if (event.record.instName.value == '' || event.record.instName.value == undefined) {
+      setSpaceShown('btn_newINST', 'individual', 'inline-block');
+      setSpaceShown('btn_unknowINST', 'individual', 'inline-block');
       console.log('no');
-    }
-    else{
-      setSpaceShown('btn_newINST','individual','none');
-      setSpaceShown('btn_unknowINST','individual','none');
+    } else {
+      setSpaceShown('btn_newINST', 'individual', 'none');
+      setSpaceShown('btn_unknowINST', 'individual', 'none');
       console.log('ok');
     }
 
@@ -540,8 +543,7 @@
     setEasySearch({
       sID: 'eSearch',
       sPlaceholder: '総合検索',
-      sConditions: [
-        {
+      sConditions: [{
           fCode: 'prjTitle',
           fName: 'タイトル'
         },
@@ -672,8 +674,7 @@
     setBtn('calBtn', '計算');
 
     $('#calBtn').on('click', function () {
-      var eRecord = kintone.app.record.get();
-      calBtnFunc(eRecord,kintone.app.getId());
+      calBtnFunc(kintone.app.record.get(), kintone.app.getId());
     });
 
     return event;
