@@ -94,8 +94,8 @@
       sysid.ASS.app_id.item
     ];
     // 品目マスターに転送実行
-    for (var pi in tarAPP) {
-      postItemBody.app = tarAPP[pi];
+    for (var i in tarAPP) {
+      postItemBody.app = tarAPP[i];
       kintone.api(kintone.api.url('/k/v1/record', true), 'POST', postItemBody);
     }
 
@@ -158,8 +158,8 @@
     };
 
     // api実行
-    for (var pi in tarAPP) {
-      putItemBody.app = tarAPP[pi];
+    for (var i in tarAPP) {
+      putItemBody.app = tarAPP[i];
       kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
     }
 
