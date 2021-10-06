@@ -14,7 +14,6 @@
     //$('.gaia-app-statusbar').css('display', 'none');
     disableSet(event);
     doSelection(event);
-
     // システム用フィールド非表示
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
@@ -146,7 +145,6 @@
       tabSwitch(idName); //tabをクリックした時の表示設定
       return false; //aタグを無効にする
     });
-
     return event;
   });
 
@@ -182,9 +180,7 @@
 
   // ドロップダウン作成
   kintone.events.on('app.record.detail.show', function (event) {
-
     var cStatus = event.record.ステータス.value;
-
     if (cStatus === "処理中") {
       var createSelect = document.createElement('select');
       createSelect.id = 'setShipment';

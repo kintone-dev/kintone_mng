@@ -4,23 +4,20 @@
   // 拠点情報取得＆繰り返し利用
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
     var nStatus = event.nextStatus.value;
-
-    //ステータスが集荷待ちの場合
     if (nStatus === "集荷待ち") {
-      //エラー処理
+      //送付日未記入の場合エラー
       if (event.record.sendDate.value == null) {
         event.error = '送付日を記入して下さい。'
         return event;
       }
-
-      var sNums = sNumRecords(event.record.deviceList.value, 'table');
       //ID更新
+      var sNums = sNumRecords(event.record.deviceList.value, 'table');
       var putSnumData = [];
-      for (var y in sNums) {
+      for (var i in sNums) {
         var snRecord = {
           'updateKey': {
             'field': 'sNum',
-            'value': sNums[y]
+            'value': sNums[i]
           },
           'record': {
             'shipment': event.record.shipment,
@@ -54,11 +51,9 @@
 
       //在庫処理
       await stockCtrl(event, kintone.app.getId());
-      // ステータスが出荷完了の場合
     } else if (nStatus === "出荷完了") {
       // 輸送情報連携
       setDeliveryInfo(event.record);
-
       // レポート処理
       await reportCtrl(event, kintone.app.getId());
 
