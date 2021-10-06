@@ -247,7 +247,6 @@
     $('#calBtn').on('click', function () {
       calBtnFunc(kintone.app.record.get(),kintone.app.getId());
     });
-
     return event;
   });
 
