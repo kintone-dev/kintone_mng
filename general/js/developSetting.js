@@ -18,6 +18,7 @@
     var deletePage = [sysid.INV.app_id.report];
     //一覧編集、複製を表示しないページ
     var noIndexEditPage = [sysid.PM.app_id.project];
+
     if (!ignoreUser.includes(kintone.getLoginUser().code)) {
       if (deletePage.includes(kintone.app.getId())){
         $('.gaia-argoui-app-menu-add').remove();
