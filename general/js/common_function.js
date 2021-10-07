@@ -1467,7 +1467,6 @@ function setEasySearch(eSearchParms){
 		searchTarget.name = 'searchTarget';
 		searchTarget.type = 'checkbox';
 		searchTarget.value = eSearchParms.sConditions[i].fCode;
-		searchTarget.onchange = 'test(this.value)';
 		if (i == 0) {
 			searchTarget.checked = true;
 		}
@@ -1476,7 +1475,13 @@ function setEasySearch(eSearchParms){
 		searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
 		searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
 		searchTargetArea.appendChild(searchTargetValue);
+
+		$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
+			console.log(i);
+		});
 	}
 	eSearchArea.appendChild(searchTargetArea);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
+
+
 }
