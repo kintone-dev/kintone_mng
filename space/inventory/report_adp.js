@@ -86,14 +86,11 @@
 
           var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
           var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
-
-          console.log(queryDate_current);
-          console.log(queryDate);
           // 仕入管理情報取得
           var getPurchasingBody = {
             'app': sysid.INV.app_id.purchasing,
             'query': 'ステータス not in ("仕入完了") and arrivalDate >= "' + queryDate_current + '" and arrivalDate <= "' + queryDate + '"'
-          }
+          };
           var purchasing = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
             .then(function (resp) {
               return resp;
@@ -146,7 +143,6 @@
         remLoad();
         return event;
       }());
-
     }
   });
 
