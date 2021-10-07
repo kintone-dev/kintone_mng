@@ -1,4 +1,4 @@
-function dispLoad(msg) {
+function startLoad(msg) {
   if (msg == undefined) {
     msg = '処理中です';
   }
@@ -8,6 +8,6 @@ function dispLoad(msg) {
   }
 }
 
-function remLoad(){
+function endLoad(){
   $("#loading").remove();
 }

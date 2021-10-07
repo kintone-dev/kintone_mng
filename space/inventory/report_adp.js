@@ -66,7 +66,7 @@
        * 製品別在庫残数処理
        */
       return (async function forecastListFunc() {
-        dispLoad();
+        startLoad();
         for (var i in event.record.forecastList.value) {
           var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
           var reportDate_current = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
@@ -140,7 +140,7 @@
           //差引残数
           event.record.forecastList.value[i].value.remainingNum.value = (parseInt(event.record.forecastList.value[i].value.afterLeadTimeStock.value) || 0) - (parseInt(event.record.forecastList.value[i].value.mOrderingPoint.value) || 0);
         }
-        remLoad();
+        endLoad();
         return event;
       }());
     }
