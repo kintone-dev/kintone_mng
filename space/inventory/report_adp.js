@@ -217,10 +217,8 @@
                 }
               }
             };
-
             var nowMonthSyscode = [];
             var nextMonthSyscode = [];
-
             for (var i in putNewReport_body.record.inventoryList.value) {
               nextMonthSyscode.push(putNewReport_body.record.inventoryList.value[i].value.sys_code.value);
             }
