@@ -712,7 +712,7 @@
             'value': 'false'
           }
         }
-      }
+      };
       putData.push(putBody);
       putRecords(kintone.app.getId(), putData);
       sessionStorage.setItem('record_updated', '1');
@@ -725,7 +725,7 @@
             'value': 'true'
           }
         }
-      }
+      };
       putData.push(putBody);
       putRecords(kintone.app.getId(), putData);
       sessionStorage.setItem('record_updated', '1');
