@@ -192,7 +192,7 @@
         var getUnitBody = {
           'app': sysid.INV.app_id.unit,
           'query': ''
-        }
+        };
 
         var allUnit = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getUnitBody)
           .then(function (resp) {
