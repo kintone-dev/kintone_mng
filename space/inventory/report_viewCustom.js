@@ -110,7 +110,7 @@
 
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
-    dispLoad();
+    dispLoad('処理中です。1分ほどお待ちください。\n更新しないでください。');
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
     var iListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id;
     var fListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '製品別在庫残数').id;
@@ -178,7 +178,7 @@
         alert(alertTxt);
       }
       remLoad();
-    }, 3000);
+    }, 60000);
 
     if (event.record.EoMcheck.value == '締切' || event.record.EoMcheck.value == '一時締切') {
       setTimeout(function () {
@@ -199,7 +199,7 @@
             });
           }
         }
-      }, 3000);
+      }, 60000);
     }
 
     return event;
