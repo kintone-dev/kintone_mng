@@ -10,13 +10,14 @@
     'app.report.show'
   ];
   //編集を表示するユーザー
-  var ignoreUser = ['sysdev','kintone_mng@accel-lab.com'];
+  // var ignoreUser = ['sysdev','kintone_mng@accel-lab.com'];
+  var ignoreUser = ['kintone_mng@accel-lab.com'];
   // indexページでの新規、編集、複製ボタン非表示
   kintone.events.on(events_ced, function (event) {
     //編集を表示しないページ
-    var deletePage = [sysid.INV.app_id.report];
-    if(!ignoreUser.includes(kintone.getLoginUser().code)){
-      if(deletePage.includes(kintone.app.getId())){
+    var deletePage = [sysid.INV.app_id.report, sysid.PM.app_id.project];
+    if (!ignoreUser.includes(kintone.getLoginUser().code)) {
+      if (deletePage.includes(kintone.app.getId())) {
         $('.gaia-argoui-app-menu-add').remove();
         $('.recordlist-edit-gaia').remove();
         $('.recordlist-remove-gaia').remove();
@@ -26,9 +27,10 @@
     }
     return event;
   });
+
   kintone.events.on('app.record.index.show', function (event) {
-    if(ignoreUser.includes(kintone.getLoginUser().code)){
-      if(kintone.app.getId()==sysid.INV.app_id.device){
+    if (ignoreUser.includes(kintone.getLoginUser().code)) {
+      if (kintone.app.getId() == sysid.INV.app_id.device) {
         var deployBtn = setBtn_index('device_deply_btn', '商品情報強制更新');
         //商品情報強制デプロイ
         $('#' + deployBtn.id).on('click', async function () {
@@ -153,10 +155,10 @@
             /* 新規データ転送 */
             // 転送データ作成
             var postItemData = {
-              'app':'',
-              'records':[]
+              'app': '',
+              'records': []
             };
-            for(var i in deviceData.records){
+            for (var i in deviceData.records) {
               var postItemBody = {
                 'mName': deviceData.records[i].mName,
                 'mCode': deviceData.records[i].mCode,
