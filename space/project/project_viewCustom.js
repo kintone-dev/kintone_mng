@@ -89,16 +89,12 @@
 
 
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
-
     setFieldShown('mVendor', false);
     setFieldShown('mName', false);
     event.record.cSales.disabled = false;
-
     setFieldShown('sys_suptitle', true);
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
-
-
     // タブ表示切り替え
     function tabSwitch(onSelect) {
       switch (onSelect) {
@@ -115,7 +111,6 @@
           } else {
             setFieldShown('samePRJ', false);
           }
-
 
           setFieldShown('cName', true);
           setFieldShown('orgName', true);
