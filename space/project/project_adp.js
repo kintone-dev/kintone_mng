@@ -138,7 +138,7 @@
         'prjId': {
           'value': event.record.$id.value + '-sub'
         }
-      }
+      };
       for (var i in event.record.deviceList.value) {
         if (event.record.deviceList.value[i].value.subBtn.value == '予備') {
           var devListBody = {
@@ -153,7 +153,7 @@
                 'value': '社員予備'
               }
             }
-          }
+          };
           postShipSubBody.deviceList.value.push(devListBody);
         }
       }
