@@ -14,14 +14,20 @@
   var ignoreUser = ['kintone_mng@accel-lab.com'];
   // indexページでの新規、編集、複製ボタン非表示
   kintone.events.on(events_ced, function (event) {
-    //編集を表示しないページ
-    var deletePage = [sysid.INV.app_id.report, sysid.PM.app_id.project];
+    //一覧編集、編集、追加、複製を表示しないページ
+    var deletePage = [sysid.INV.app_id.report];
+    //一覧編集、複製を表示しないページ
+    var noIndexEditPage = [sysid.PM.app_id.project];
     if (!ignoreUser.includes(kintone.getLoginUser().code)) {
-      if (deletePage.includes(kintone.app.getId())) {
+      if (deletePage.includes(kintone.app.getId())){
         $('.gaia-argoui-app-menu-add').remove();
         $('.recordlist-edit-gaia').remove();
         $('.recordlist-remove-gaia').remove();
         $('.gaia-argoui-app-menu-edit').remove();
+        $('.gaia-argoui-app-menu-copy').remove();
+      } else if(noIndexEditPage.includes(kintone.app.getId())){
+        $('.recordlist-edit-gaia').remove();
+        $('.recordlist-remove-gaia').remove();
         $('.gaia-argoui-app-menu-copy').remove();
       }
     }
