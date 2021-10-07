@@ -3,7 +3,6 @@
 
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     var forecastList = event.record.forecastList.value;
-
     /**
      * 製品別在庫残数リストに全商品追加
      */
@@ -50,7 +49,7 @@
                   'value': '2'
                 }
               }
-            }
+            };
             forecastList.push(newForecastListBody);
           }
         }
