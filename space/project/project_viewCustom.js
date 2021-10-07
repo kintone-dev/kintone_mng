@@ -466,82 +466,15 @@
    *
    *
    */
-  var setEasySearch = function (eSearchParms) {
-    var eSearchArea = document.createElement('div');
-    eSearchArea.ID = eSearchParms.sID;
-
-    var eSearch = document.createElement('input');
-    eSearch.id = 's_' + eSearchParms.sID;
-    eSearch.type = 'text';
-    eSearch.placeholder = eSearchParms.sPlaceholder;
-    eSearch.classList.add('testclass');
-    eSearch.onkeydown = function () {
-      if (window.event.keyCode == 13) {
-        console.log(window.event.keyCode)
-        document.getElementById("btn_eSearch").click();
-      }
-    }
-    eSearchArea.appendChild(eSearch);
-
-    var searchBtn = document.createElement('input');
-    searchBtn.type = 'submit';
-    searchBtn.id = 'btn_' + eSearchParms.sID;
-    searchBtn.value = '検索';
-    eSearchArea.appendChild(searchBtn);
-
-    var searchTargetArea = document.createElement('form');
-    searchTargetArea.id = 'searchTargets';
-    searchTargetArea.name = 'searchTargets';
-
-    for (var i in eSearchParms.sConditions) {
-      var searchTarget = document.createElement('input');
-      searchTarget.id = eSearchParms.sConditions[i].fCode;
-      searchTarget.name = 'searchTarget'; //eSearchParms.sConditions[i].fCode;
-      searchTarget.type = 'checkbox';
-      if (i == 0) {
-        searchTarget.checked = true;
-      }
-      searchTargetArea.appendChild(searchTarget);
-      var searchTargetValue = document.createElement('label');
-      searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
-      searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
-      searchTargetArea.appendChild(searchTargetValue);
-    }
-    eSearchArea.appendChild(searchTargetArea);
-
-
-    kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
-  }
   //検索したいフィールドの設定値
   //ふぃーるどフィールドコードは一対一
-  const FIELD_CODE = 'invoiceNum';
-  const FIELD_CODE2 = 'prjNum';
-  //andかorを小文字で入れる、今回はor
-  const AND_OR = "or";
   kintone.events.on('app.record.index.show', function (event) {
+    setEasySearch(prjSerchJson);
 
-    setEasySearch({
-      sID: 'eSearch',
-      sPlaceholder: '総合検索',
-      sConditions: [{
-          fCode: 'prjTitle',
-          fName: 'タイトル'
-        },
-        {
-          fCode: 'invoiceNum',
-          fName: '請求書番号'
-        },
-        {
-          fCode: 'prjNum',
-          fName: '案件管理番号'
-        }
-      ]
-    });
     $('#btn_eSearch').on('click', function () {
       // var testC=document.s_eSearch.value;
       // var keyword=document.eSearch.s_eSearch.value;
       var keyword = document.getElementById('s_eSearch').value;
-
       var result = {};
       //クエリから、URL固定部分(?query=)を無視して取り出す
       var query = window.location.search.substring(7);
@@ -571,15 +504,8 @@
       if (keyword == "" || keyword == undefined) {
         str_query = "";
       }
-      // else if(keyword != ""){
-      //   // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
-      // }
       // 検索結果のURLへ
       document.location = location.origin + location.pathname + str_query;
-
-      // document.getElementById('s_eSearch').value=keyword;
-      // document.searchTargets.searchTarget[1].checked=true;
-
     });
 
     return event;

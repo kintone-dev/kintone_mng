@@ -1433,3 +1433,49 @@ async function calBtnFunc(eRecord, appId) {
 	}
 	return kintone.app.record.set(eRecord);
 }
+
+/* 検索窓処理 */
+function setEasySearch(eSearchParms){
+	var eSearchArea = document.createElement('div');
+	eSearchArea.ID = eSearchParms.sID;
+
+	// var eSearch = document.createElement('input');
+	// eSearch.id = 's_' + eSearchParms.sID;
+	// eSearch.type = 'text';
+	// eSearch.placeholder = eSearchParms.sPlaceholder;
+	// eSearch.classList.add('testclass');
+	// eSearch.onkeydown = function () {
+	// 	if (window.event.keyCode == 13) {
+	// 		console.log(window.event.keyCode)
+	// 		document.getElementById("btn_eSearch").click();
+	// 	}
+	// }
+	// eSearchArea.appendChild(eSearch);
+
+	// var searchBtn = document.createElement('input');
+	// searchBtn.type = 'submit';
+	// searchBtn.id = 'btn_' + eSearchParms.sID;
+	// searchBtn.value = '検索';
+	// eSearchArea.appendChild(searchBtn);
+
+	var searchTargetArea = document.createElement('form');
+	searchTargetArea.id = 'searchTargets';
+	searchTargetArea.name = 'searchTargets';
+
+	for (var i in eSearchParms.sConditions) {
+		var searchTarget = document.createElement('input');
+		searchTarget.id = eSearchParms.sConditions[i].fCode;
+		searchTarget.name = 'searchTarget';
+		searchTarget.type = 'checkbox';
+		if (i == 0) {
+			searchTarget.checked = true;
+		}
+		searchTargetArea.appendChild(searchTarget);
+		var searchTargetValue = document.createElement('label');
+		searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
+		searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
+		searchTargetArea.appendChild(searchTargetValue);
+	}
+	eSearchArea.appendChild(searchTargetArea);
+	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
+}

@@ -118,3 +118,21 @@ function set_sysid(env) {
 	}
 	return sysid;
 }
+
+var prjSerchJson = {
+	sID: 'eSearch',
+	sPlaceholder: '総合検索',
+	sConditions: [{
+			fCode: 'prjTitle',
+			fName: 'タイトル'
+		},
+		{
+			fCode: 'invoiceNum',
+			fName: '請求書番号'
+		},
+		{
+			fCode: 'prjNum',
+			fName: '案件管理番号'
+		}
+	]
+}
