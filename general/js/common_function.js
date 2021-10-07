@@ -1461,12 +1461,13 @@ function setEasySearch(eSearchParms){
 	var searchTargetArea = document.createElement('form');
 	searchTargetArea.id = 'searchTargets';
 	searchTargetArea.name = 'searchTargets';
-
 	for (var i in eSearchParms.sConditions) {
 		var searchTarget = document.createElement('input');
 		searchTarget.id = eSearchParms.sConditions[i].fCode;
 		searchTarget.name = 'searchTarget';
 		searchTarget.type = 'checkbox';
+		searchTarget.value = eSearchParms.sConditions[i].fCode;
+		searchTarget.onchange = 'test(this.value)';
 		if (i == 0) {
 			searchTarget.checked = true;
 		}
