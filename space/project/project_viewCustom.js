@@ -20,6 +20,7 @@
     else setFieldShown('invoiceStatus', true);
     return event;
   });
+
   kintone.events.on('app.record.detail.process.proceed', function (event) {
     var nStatus = event.nextStatus.value;
     if (nStatus == '入力内容確認中') {
@@ -44,22 +45,6 @@
           }
         }
         return event;
-        // var inGroup;
-        // var isConfirm;
-        // for(var i in resp.groups){
-        //   if(event.record.purchaseOrder.value.length<1 && resp.groups[i].name=='営業責任者'){
-        //     isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
-        //     break;
-        //   }else{
-        //     isConfirm=false;
-        //   }
-        // }
-        // if(!isConfirm){
-        //   event.error='請求書を添付するか営業責任者に承認を求めてください！';
-        // }else if(event.record.purchaseOrder.value.length<1){
-        //   event.error='請求書を添付するか営業責任者に承認を求めてください！';
-        // }
-        // kintone.app.record.set(event);
       });
     }
     return event;
@@ -689,59 +674,58 @@
     return event;
   });
 
-  //wfpチェック
-  kintone.events.on('app.record.detail.show', function (event) {
-
-    var putData = [];
-
+  //wfpチェック,添付書類チェック
+  kintone.events.on('app.record.detail.show', async function (event) {
     if (sessionStorage.getItem('record_updated') === '1') {
       sessionStorage.setItem('record_updated', '0');
       return event;
     }
+    var putData = [];
+    var putBody = {
+      'id': event.record.$id.value,
+      'record': {}
+    };
 
     if (event.record.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))) {
-      var putBody = {
-        'id': event.record.$id.value,
-        'record': {
-          'sys_isReady': {
-            'value': 'false'
-          }
-        }
-      };
-      putData.push(putBody);
-      putRecords(kintone.app.getId(), putData);
-      sessionStorage.setItem('record_updated', '1');
-      location.reload();
+      putBody.record.sys_isReady = {
+        'value':'false'
+      }
     } else {
-      var putBody = {
-        'id': event.record.$id.value,
-        'record': {
-          'sys_isReady': {
-            'value': 'true'
-          }
-        }
-      };
-      putData.push(putBody);
-      putRecords(kintone.app.getId(), putData);
-      sessionStorage.setItem('record_updated', '1');
-      location.reload();
+      putBody.record.sys_isReady = {
+        'value':'true'
+      }
     }
 
-    //サーバー時間取得
-    $.ajax({
-      type: 'GET',
-      cache: false,
-      async: false
-    }).done(function (data, status, xhr) {
-      //請求月が今より過去の場合
-      var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-      if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
-        alert('昔の請求書です。');
-        return event;
+    if(event.record.purchaseOrder.value.length >= 1){
+      putBody.record.sys_purchaseOrder = {
+        'value':['POI']
       }
-    });
+    }else{
+      putBody.record.sys_purchaseOrder = {
+        'value':[]
+      }
+    }
 
+    putData.push(putBody);
+    putRecords(kintone.app.getId(), putData);
+    sessionStorage.setItem('record_updated', '1');
+    location.reload();
+
+    //サーバー時間取得
+    function getNowDate() {
+      return $.ajax({
+        type: 'GET',
+        async: false
+      }).done(function (data, status, xhr) {
+        return xhr;
+      });
+    }
+    var currentDate = new Date(getNowDate().getResponseHeader('Date'));
+    var nowDateFormat = String(currentDate.getFullYear()) + String(("0" + (currentDate.getMonth() + 1)).slice(-2));
+    if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
+      alert('昔の請求書です。');
+      return event;
+    }
     return event;
   });
 
