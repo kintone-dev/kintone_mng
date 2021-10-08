@@ -1521,6 +1521,7 @@ function setEasySearch(eSearchParms) {
 			}
 		} else {
 			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
+			var queryText = encodeURIComponent(queryText);
 			var str_query = '?query=' + queryText;
 			console.log(str_query);
 		}
