@@ -1596,11 +1596,11 @@ function startLoad2(msgType){
   dispMsg.classList.add('loadingMsg');
   var textLine=document.createElement('p');
 	switch(msgType){
-		case ''||undefined:
-			textLine.innerText=='処理中';
+		case ''||undefined||null:
+			textLine.innerText='処理中';
 			break;
 		case 'type_m1':
-			textLine.innerText=='<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。';
+			textLine.innerText='<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。';
 			break;
 	}
   dispMsg.appendChild(textLine);
