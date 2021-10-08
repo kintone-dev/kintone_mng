@@ -1545,6 +1545,9 @@ function setEasySearch(eSearchParms) {
 
 	$(`#${searchBtn_id}`).on('click', function () {
 		sessionStorage.setItem('searched', 'true');
+		for(var i in eSearchParms.sConditions){
+			sessionStorage.removeItem(eSearchParms.sConditions[i].fCode);
+		}
 		//作成したテキストボックスから値を格納
 		var inputText = $(".searchInput").map(function (index, element) {
 			var val = $(this).val();
