@@ -1470,6 +1470,7 @@ function setEasySearch(eSearchParms) {
 				var eSearch = document.createElement('input');
 				eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
 				eSearch.type = 'text';
+				eSearch.name = eSearchParms.sConditions[i].fCode;
 				eSearch.placeholder = eSearchParms.sConditions[i].fName;
 				eSearch.classList.add('searchInput');
 				inputArea.appendChild(eSearch);
@@ -1486,6 +1487,7 @@ function setEasySearch(eSearchParms) {
 	var eSearch = document.createElement('input');
 	eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
 	eSearch.type = 'text';
+	eSearch.name = eSearchParms.sConditions[0].fCode;
 	eSearch.placeholder = eSearchParms.sConditions[0].fName;
 	eSearch.classList.add('searchInput');
 	inputArea.appendChild(eSearch);
@@ -1504,13 +1506,23 @@ function setEasySearch(eSearchParms) {
 	$('#btn_eSearch').on('click', function () {
 		// var keyword = document.getElementById('s_eSearch').value;
 		// var result = {};
-		const ItemList = document.getElementsByClassName("searchInput");
+		var inputText = $(".searchInput").map(function (index, el) {
+			var val = $(this).val();
+			var name = $(this).attr('name');
+			var inputJson ={
+				'name': name,
+				'value':val
+			};
+			return inputJson
+		});
 
-		console.log(ItemList);
+		for(var i in inputText){
+			console.log(inputText[i]);
+		}
 
 		//クエリから、URL固定部分(?query=)を無視して取り出す
 		// var query = window.location.search.substring(7);
-		// // //フィールドコード名と検索キーワードに分割する
+		// //フィールドコード名と検索キーワードに分割する
 		// for (var i in query) {
 		// 	var element = query[i].split('like');
 		// 	var param_field_code = encodeURIComponent(element[0]);
