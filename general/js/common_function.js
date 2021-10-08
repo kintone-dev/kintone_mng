@@ -1504,15 +1504,17 @@ function setEasySearch(eSearchParms) {
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
 
 	$('#btn_eSearch').on('click', function () {
-		var inputText = $(".searchInput").each(function (index, element) {
-			var val = element.value;
-			var name = element.name;
+		var inputText = $(".searchInput").map(function (index, element) {
+			var val = $(this).val();
+			var name = $(this).attr('name');
 			var inputJson ={
 				'name': name,
 				'value':val
 			};
 			return inputJson
 		}).get();
+
+		console.log(inputText);
 
 		for(var i in inputText){
 			console.log(inputText[i]);
