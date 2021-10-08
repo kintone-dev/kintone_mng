@@ -1056,7 +1056,7 @@ async function reportCtrl(event, appId) {
 
 /* 計算ボタン処理 */
 /**
- * 計算ボタン押下時、パッケージ品、TRT-DYに対応した商品を挿入
+ * 計算ボタン押下時、パッケージ品、KRT-DYに対応した商品を挿入
  * @param {*} eRecord kintone.app.record.get();
  * @param {*} appId 関数を使ったアプリのID
  * @returns
@@ -1114,7 +1114,7 @@ async function calBtnFunc(eRecord, appId) {
 
 	for (var i in shipTable) {
 		if (String(shipTable[i].value.shipRemarks.value).match(/WFP/)) {
-			if (shipTable[i].value.mCode.value == 'TRT-DY') {
+			if (shipTable[i].value.mCode.value == 'KRT-DY') {
 				shipTable[i].value.shipRemarks.value = shipTable[i].value.shipRemarks.value.replace(/WFP/g, 'PAC')
 				newShipTable.push(shipTable[i]);
 				var railSpecs = (String(shipTable[i].value.shipRemarks.value)).split(/,\n|\n/);
@@ -1504,8 +1504,12 @@ function setEasySearch(eSearchParms) {
 	$('#btn_eSearch').on('click', function () {
 		// var keyword = document.getElementById('s_eSearch').value;
 		// var result = {};
+		var inputJson ={
+
+		}
 		var inputText = $(".searchInput").map(function (index, el) {
-			return $(this).val();
+			var val = $(this).val();
+			var name = $(this).attr('name');
 		});
 
 		for(var i in inputText){
@@ -1513,15 +1517,15 @@ function setEasySearch(eSearchParms) {
 		}
 
 		//クエリから、URL固定部分(?query=)を無視して取り出す
-		// var query = window.location.search.substring(7);
+		var query = window.location.search.substring(7);
 		// //フィールドコード名と検索キーワードに分割する
-		// for (var i in query) {
-		// 	var element = query[i].split('like');
-		// 	var param_field_code = encodeURIComponent(element[0]);
-		// 	var param_search_word = encodeURIComponent(element[1]);
-		// 	//空白スペースを取り除いて、配列に格納
-		// 	result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
-		// }
+		for (var i in query) {
+			var element = query[i].split('like');
+			var param_field_code = encodeURIComponent(element[0]);
+			var param_search_word = encodeURIComponent(element[1]);
+			//空白スペースを取り除いて、配列に格納
+			result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
+		}
 		// var str_query = '?query=';
 		// var isSearchConditions = []
 		// for (var st in document.searchTargets.searchTarget) {
