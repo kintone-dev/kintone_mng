@@ -1532,34 +1532,6 @@ function setEasySearch(eSearchParms) {
 		var queryText = encodeURIComponent(queryText);
 		var str_query = '?query=' + queryText;
 		console.log(str_query);
-		// document.location = location.origin + location.pathname + str_query;
+		document.location = location.origin + location.pathname + str_query;
 	});
-
 }
-
-// //クエリから、URL固定部分(?query=)を無視して取り出す
-// var query = window.location.search.substring(7);
-// //フィールドコード名と検索キーワードに分割する
-// for (var i in query) {
-// 	var element = query[i].split('like');
-// 	var param_field_code = encodeURIComponent(element[0]);
-// 	var param_search_word = encodeURIComponent(element[1]);
-// 	//空白スペースを取り除いて、配列に格納
-// 	result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
-// }
-// var isSearchConditions = []
-// for (var st in document.searchTargets.searchTarget) {
-// 	isSearchConditions.push(document.searchTargets.searchTarget[st].checked);
-// 	if (document.searchTargets.searchTarget[st].checked) {
-// 		str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '"';
-// 		var st_a = Number(st) + 1;
-// 		if (st_a < document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st_a].checked) {
-// 			str_query = str_query + ' or ';
-// 		}
-// 	}
-// }
-// if (keyword == "" || keyword == undefined) {
-// 	str_query = "";
-// }
-// // 検索結果のURLへ
-// document.location = location.origin + location.pathname + str_query;
