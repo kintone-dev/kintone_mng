@@ -1526,15 +1526,12 @@ function setEasySearch(eSearchParms) {
 				queryArray.push(queryBody);
 			}
 			var queryText = queryArray.join(' and ');
-			var queryText = encodeURIComponent(queryText);
-			var str_query = '?query=' + queryText;
-			console.log(str_query);
 		} else if(inputText.length == 1) {
 			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
-			var queryText = encodeURIComponent(queryText);
-			var str_query = '?query=' + queryText;
-			document.location = location.origin + location.pathname + str_query;
 		}
+		var queryText = encodeURIComponent(queryText);
+		var str_query = '?query=' + queryText;
+		document.location = location.origin + location.pathname + str_query;
 	});
 
 }
