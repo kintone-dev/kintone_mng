@@ -1587,3 +1587,21 @@ function setEasySearch(eSearchParms) {
 		document.location = location.origin + location.pathname + str_query;
 	});
 }
+
+// ロード中のページ表示凍結
+function startLoad2(msgType){
+  var logingFrame=document.createElement('div');
+  var dispMsg=document.createElement('div');
+  dispMsg.classList.add('loadingMsg');
+  var textLine1=document.createElement('p');
+  textLine1.innerText=lodingMSG(msgType);
+  dispMsg.appendChild(textLine1);
+  logingFrame.appendChild(dispMsg);
+  if ($("#loading").length == 0) {
+    $("body").appendChild(logingFrame);
+  }
+}
+
+function endLoad(){
+  $("#loading").remove();
+}
