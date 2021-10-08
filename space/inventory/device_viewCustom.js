@@ -11,19 +11,18 @@
   ];
   kintone.events.on(events_ced, function (event) {
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
-    //sti: subTable i
-    for (var sti in event.record.uStockList.value) {
-      event.record.uStockList.value[sti].value.uCode.disabled = true;
-      event.record.uStockList.value[sti].value.uName.disabled = true;
-      event.record.uStockList.value[sti].value.uStock.disabled = true;
+    for (var i in event.record.uStockList.value) {
+      event.record.uStockList.value[i].value.uCode.disabled = true;
+      event.record.uStockList.value[i].value.uName.disabled = true;
+      event.record.uStockList.value[i].value.uStock.disabled = true;
     }
     //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     $('.subtable-5524711').find('.subtable-operation-gaia').css('display','none');
     function subtableControl(params) {
-      for (var sti in event.record.uStockList.value) {
-        event.record.uStockList.value[sti].value.uCode.disabled = true;
-        event.record.uStockList.value[sti].value.uName.disabled = true;
-        event.record.uStockList.value[sti].value.uStock.disabled = true;
+      for (var i in event.record.uStockList.value) {
+        event.record.uStockList.value[i].value.uCode.disabled = true;
+        event.record.uStockList.value[i].value.uName.disabled = true;
+        event.record.uStockList.value[i].value.uStock.disabled = true;
       }
       [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     }
@@ -158,10 +157,6 @@
       event.record.warranty.disabled = false;
       event.record.mClassification.disabled = false;
       for (var sti in event.record.packageComp.value) {
-        // event.record.packageComp.value[sti].value.pc_mVendor.disabled = false;
-        // event.record.packageComp.value[sti].value.pc_mType.disabled = false;
-        // event.record.packageComp.value[sti].value.pc_mName.disabled = false;
-        // event.record.packageComp.value[sti].value.pc_mNickname.disabled = false;
         event.record.packageComp.value[sti].value.pc_Num.disabled = false;
         event.record.packageComp.value[sti].value.pc_mCode.disabled = false;
       }
@@ -203,25 +198,49 @@
     // レコード追加＆詳細閲覧時は「情報編集」フィールドは非表示
     setFieldShown('editinfo', false);
     return event;
-  })
-
-  // 編集、削除ボタン削除
-  // var events_ced = [
-  //   'app.record.index.show',
-  //   'app.record.detail.show',
-  //   'app.record.create.show',
-  //   'app.record.edit.show',
-  //   'app.record.print.show',
-  //   'app.report.show',
-  //   'portal.show',
-  //   'space.portal.show'
-  // ];
-  // kintone.events.on(events_ced, function (event) {
-  //   $('.recordlist-edit-gaia').remove();
-  //   $('.recordlist-remove-gaia').remove();
-  //   $('.gaia-argoui-app-menu-edit').remove();
-  //   $('.gaia-argoui-app-menu-copy').remove();
-  //   return event;
-  // });
-
+  });
+  
+  // 品目区分における品目コード制御
+  kintone.events.on(['app.record.create.change.mType'], function(event){
+    var mcode=event.record.mCode;
+    var mtype=event.record.mType;
+    if(mtype.value=='パッケージ品'){
+      if(mcode.value==undefined){
+        mcode.value='pkg_';
+      }
+      else if(!mcode.value.match('pkg_') && !mcode.value.match('ns_')){
+        mcode.value='pkg_'+mcode.value;
+      }
+      else if(!mcode.value.match('pkg_') && mcode.value.match('ns_')){
+        mcode.value='ns_pkg_'+mcode.value.substr(3, mcode.value.length);
+      }
+    }else{
+      if(mcode.value!=undefined){
+        if(mcode.value.match('pkg_')){
+          mcode.value=mcode.value.replace('pkg_','');
+        }
+      }
+    }
+    return event;
+  });
+  // 取扱区分における品目コード制御
+  kintone.events.on(['app.record.create.change.mClassification'], function(event){
+    var mcode=event.record.mCode;
+    var mclassification=event.record.mClassification;
+    if(mclassification.value=='非在庫'){
+      if(mcode.value==undefined){
+        mcode.value='ns_';
+      }
+      else if(!mcode.value.match('ns_')){
+        mcode.value='ns_'+mcode.value;
+      }
+    }else{
+      if(mcode.value!=undefined){
+        if(mcode.value.match('ns_')){
+          mcode.value=mcode.value.replace('ns_','');
+        }
+      }
+    }
+    return event;
+  });
 })();

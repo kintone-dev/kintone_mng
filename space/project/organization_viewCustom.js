@@ -14,14 +14,11 @@
         console.log('このブラウザでは対応していません。\n手動で顧客名をコピーするか、案件管理で請求先をもう一度検索してください。');
       }
     };
-
     kintone.app.record.getSpaceElement('btn_copy_cName').appendChild(copy_cName);
-
     return event;
   });
 
   kintone.events.on(['app.record.create.change.cName', 'app.record.edit.change.cName'], function (event) {
-    console.log('gogogo')
     event.record.BMC.value = event.record.cName.value;
     event.record.RRMC.value = event.record.cName.value;
     return event;

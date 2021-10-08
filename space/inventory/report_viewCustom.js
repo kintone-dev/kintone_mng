@@ -71,7 +71,7 @@
       }
     }
     tabSwitch('#概要');
-    tabMenu('tab_report', ['概要', '在庫リスト','製品別在庫残数']); //タブメニュー作成
+    tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数']); //タブメニュー作成
     $('.tabMenu a').on('click', function () { //タブメニュークリック時アクション
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
@@ -101,7 +101,7 @@
       kintone.app.record.set(eRecord);
     });
 
-    for(var i in event.record.inventoryList.value){
+    for (var i in event.record.inventoryList.value) {
       event.record.inventoryList.value[i].value.mCode.lookup = true;
     }
 
@@ -110,15 +110,13 @@
 
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
-    console.log(event);
-
+    startLoad('<span>ただいま処理中です。</span><br>処理完了まで1分ほどお待ちください。<br>※更新とページバックはしないでください。');
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
     var iListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id;
     var fListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '製品別在庫残数').id;
     var inventoryData = [];
     var forecastData = [];
     var alertData = [];
-
     //在庫一覧テーブルデータ取得
     for (var i in event.record.inventoryList.value) {
       var inventoryBody = {
@@ -134,8 +132,8 @@
       var forecastBody = {
         'rowNum': parseInt(i) + 1,
         'remainingNum': event.record.forecastList.value[i].value.remainingNum.value,
-        'mOrderingPoint':event.record.forecastList.value[i].value.mOrderingPoint.value,
-        'forecast_mName':event.record.forecastList.value[i].value.forecast_mName.value
+        'mOrderingPoint': event.record.forecastList.value[i].value.mOrderingPoint.value,
+        'forecast_mName': event.record.forecastList.value[i].value.forecast_mName.value
       }
       forecastData.push(forecastBody);
     }
@@ -154,9 +152,9 @@
         }
       }
 
-      for(var i in forecastData){
+      for (var i in forecastData) {
         //差引残数が発注点の10%以下のものを赤背景に
-        if(parseInt(forecastData[i].mOrderingPoint) * 0.1 >= parseInt(forecastData[i].remainingNum)){
+        if (parseInt(forecastData[i].mOrderingPoint) * 0.1 >= parseInt(forecastData[i].remainingNum)) {
           $('.' + fListTableClass + ' tr:nth-child(' + forecastData[i].rowNum + ')').css({
             'background-color': 'red'
           });
@@ -165,21 +163,22 @@
           })
           alertData.push(forecastData[i].forecast_mName);
           //差引残数が発注点の30%以下のものを赤背景に
-        }else if(parseInt(forecastData[i].mOrderingPoint) * 0.3 >= parseInt(forecastData[i].remainingNum)){
+        } else if (parseInt(forecastData[i].mOrderingPoint) * 0.3 >= parseInt(forecastData[i].remainingNum)) {
           $('.' + fListTableClass + ' tr:nth-child(' + forecastData[i].rowNum + ')').css({
             'background-color': 'yellow'
           });
         }
       }
 
-      if(alertData!=0){
+      if (alertData != 0) {
         var alertTxt = '以下の商品は、差引残数が発注点の10%以下です。\n'
-        for(var i in alertData){
+        for (var i in alertData) {
           alertTxt = alertTxt + alertData[i] + '\n';
         }
         alert(alertTxt);
       }
-    }, 3000);
+      endLoad();
+    }, 60000);
 
     if (event.record.EoMcheck.value == '締切' || event.record.EoMcheck.value == '一時締切') {
       setTimeout(function () {
@@ -200,9 +199,10 @@
             });
           }
         }
-      }, 3000);
+      }, 60000);
     }
 
+    return event;
   });
 
   // 締切保存時 特定の拠点を削除
@@ -210,7 +210,7 @@
     if (event.record.EoMcheck.value == '締切') {
       var inventoryList = event.record.inventoryList.value;
       var newList = [];
-      var ignoreUnitArray = ['ns-','-oo','-xx','-zz','-aa'];
+      var ignoreUnitArray = ['ns-', '-oo', '-xx', '-zz', '-aa'];
       var ignoreUnit = new RegExp(ignoreUnitArray.join('|'));
       //特定の拠点以外を抜き出して再度格納
       for (var i in inventoryList) {

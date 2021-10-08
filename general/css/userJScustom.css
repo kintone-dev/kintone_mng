@@ -66,3 +66,34 @@
 	overflow: visible;
 	display: inline-block;
 }
+
+/* ローディング画面 */
+#loading{
+	background-color: rgba(146, 211, 255, 0.4);
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+}
+
+.loadingMsg{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.loadingMsg p{
+	font-size: 24px;
+	background: white;
+	padding: 10px 30px;
+	border-radius: 15px;
+	text-align: center;
+}
+
+.loadingMsg p span{
+	font-size: 1.2em;
+	font-weight: bold;
+}
+

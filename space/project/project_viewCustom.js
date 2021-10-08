@@ -20,44 +20,31 @@
     else setFieldShown('invoiceStatus', true);
     return event;
   });
-  kintone.events.on('app.record.detail.process.proceed', function(event){
-    var nStatus=event.nextStatus.value;
-    if(nStatus=='入力内容確認中'){
-      return kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code:kintone.getLoginUser().code}).then(function(resp) {
-        if(event.record.purchaseOrder.value.length<1){
-          var inGroup=false;
-          for(var i in resp.groups){
-            if(resp.groups[i].name=='営業責任者' || resp.groups[i].name=='sysAdmin'){
-              inGroup=true;
+
+  kintone.events.on('app.record.detail.process.proceed', function (event) {
+    var nStatus = event.nextStatus.value;
+    if (nStatus == '入力内容確認中') {
+      return kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {
+        code: kintone.getLoginUser().code
+      }).then(function (resp) {
+        if (event.record.purchaseOrder.value.length < 1) {
+          var inGroup = false;
+          for (var i in resp.groups) {
+            if (resp.groups[i].name == '営業責任者' || resp.groups[i].name == 'sysAdmin') {
+              inGroup = true;
               break;
             }
           }
-          if(inGroup){
-            var isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
-            if(!isConfirm){
-              event.error='請求書を添付するか営業責任者に承認を求めてください！';
+          if (inGroup) {
+            var isConfirm = window.confirm('注文書なしで納品を先行してもよろしいですか?');
+            if (!isConfirm) {
+              event.error = '請求書を添付するか営業責任者に承認を求めてください！';
             }
-          }else{
-            event.error='請求書を添付するか営業責任者に承認を求めてください！';
+          } else {
+            event.error = '請求書を添付するか営業責任者に承認を求めてください！';
           }
         }
         return event;
-        // var inGroup;
-        // var isConfirm;
-        // for(var i in resp.groups){
-        //   if(event.record.purchaseOrder.value.length<1 && resp.groups[i].name=='営業責任者'){
-        //     isConfirm=window.confirm('注文書なしで納品を先行してもよろしいですか?');
-        //     break;
-        //   }else{
-        //     isConfirm=false;
-        //   }
-        // }
-        // if(!isConfirm){
-        //   event.error='請求書を添付するか営業責任者に承認を求めてください！';
-        // }else if(event.record.purchaseOrder.value.length<1){
-        //   event.error='請求書を添付するか営業責任者に承認を求めてください！';
-        // }
-        // kintone.app.record.set(event);
       });
     }
     return event;
@@ -87,16 +74,12 @@
 
 
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
-
     setFieldShown('mVendor', false);
     setFieldShown('mName', false);
     event.record.cSales.disabled = false;
-
     setFieldShown('sys_suptitle', true);
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
-
-
     // タブ表示切り替え
     function tabSwitch(onSelect) {
       switch (onSelect) {
@@ -108,21 +91,22 @@
           setFieldShown('purchaseOrder', true);
           setFieldShown('purchaseOrder_status', true);
           setFieldShown('prjMemo', true);
-          if (event.record.Exist_Project.value.length>0) { setFieldShown('samePRJ', true); }
-          else { setFieldShown('samePRJ', false); }
-
+          if (event.record.Exist_Project.value.length > 0) {
+            setFieldShown('samePRJ', true);
+          } else {
+            setFieldShown('samePRJ', false);
+          }
 
           setFieldShown('cName', true);
           setFieldShown('orgName', true);
           setFieldShown('instName', true);
           setFieldShown('Contractor', true);
-          if(event.record.instName.value=='' || event.record.instName.value==undefined){
-            setSpaceShown('btn_newINST','individual','inline-block');
-            setSpaceShown('btn_unknowINST','individual','inline-block');
-          }
-          else{
-            setSpaceShown('btn_newINST','individual','none');
-            setSpaceShown('btn_unknowINST','individual','none');
+          if (event.record.instName.value == '' || event.record.instName.value == undefined) {
+            setSpaceShown('btn_newINST', 'individual', 'inline-block');
+            setSpaceShown('btn_unknowINST', 'individual', 'inline-block');
+          } else {
+            setSpaceShown('btn_newINST', 'individual', 'none');
+            setSpaceShown('btn_unknowINST', 'individual', 'none');
           }
 
           setFieldShown('cSales', true);
@@ -163,8 +147,8 @@
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
-          setSpaceShown('btn_newINST','individual','none');
-          setSpaceShown('btn_unknowINST','individual','none');
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
           setFieldShown('cSales', false);
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
@@ -204,8 +188,8 @@
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
-          setSpaceShown('btn_newINST','individual','none');
-          setSpaceShown('btn_unknowINST','individual','none');
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
           setFieldShown('cSales', false);
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
@@ -245,8 +229,8 @@
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
           setFieldShown('instName', false);
-          setSpaceShown('btn_newINST','individual','none');
-          setSpaceShown('btn_unknowINST','individual','none');
+          setSpaceShown('btn_newINST', 'individual', 'none');
+          setSpaceShown('btn_unknowINST', 'individual', 'none');
           setFieldShown('cSales', false);
           setFieldShown('instStatus', false);
           setFieldShown('instDate', false);
@@ -297,14 +281,13 @@
   });
 
   kintone.events.on(['app.record.edit.change.sys_instAddress', 'app.record.create.change.sys_instAddress'], function (event) {
-    if(event.record.instName.value=='' || event.record.instName.value==undefined){
-      setSpaceShown('btn_newINST','individual','inline-block');
-      setSpaceShown('btn_unknowINST','individual','inline-block');
+    if (event.record.instName.value == '' || event.record.instName.value == undefined) {
+      setSpaceShown('btn_newINST', 'individual', 'inline-block');
+      setSpaceShown('btn_unknowINST', 'individual', 'inline-block');
       console.log('no');
-    }
-    else{
-      setSpaceShown('btn_newINST','individual','none');
-      setSpaceShown('btn_unknowINST','individual','none');
+    } else {
+      setSpaceShown('btn_newINST', 'individual', 'none');
+      setSpaceShown('btn_unknowINST', 'individual', 'none');
       console.log('ok');
     }
 
@@ -463,472 +446,19 @@
       eRecords.corpName.disabled = false;
     }
   }
-  /**
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   */
-  var setEasySearch = function (eSearchParms) {
-    var eSearchArea = document.createElement('div');
-    eSearchArea.ID = eSearchParms.sID;
 
-    var eSearch = document.createElement('input');
-    eSearch.id = 's_' + eSearchParms.sID;
-    eSearch.type = 'text';
-    eSearch.placeholder = eSearchParms.sPlaceholder;
-    eSearch.classList.add('testclass');
-    eSearch.onkeydown = function () {
-      if (window.event.keyCode == 13) {
-        console.log(window.event.keyCode)
-        document.getElementById("btn_eSearch").click();
-      }
-    }
-    eSearchArea.appendChild(eSearch);
-
-    var searchBtn = document.createElement('input');
-    searchBtn.type = 'submit';
-    searchBtn.id = 'btn_' + eSearchParms.sID;
-    searchBtn.value = '検索';
-    eSearchArea.appendChild(searchBtn);
-
-    var searchTargetArea = document.createElement('form');
-    searchTargetArea.id = 'searchTargets';
-    searchTargetArea.name = 'searchTargets';
-
-    for (var i in eSearchParms.sConditions) {
-      var searchTarget = document.createElement('input');
-      searchTarget.id = eSearchParms.sConditions[i].fCode;
-      searchTarget.name = 'searchTarget'; //eSearchParms.sConditions[i].fCode;
-      searchTarget.type = 'checkbox';
-      if (i == 0) {
-        searchTarget.checked = true;
-      }
-      searchTargetArea.appendChild(searchTarget);
-      var searchTargetValue = document.createElement('label');
-      searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
-      searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
-      searchTargetArea.appendChild(searchTargetValue);
-    }
-    eSearchArea.appendChild(searchTargetArea);
-
-
-    kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
-  }
-  //検索したいフィールドの設定値
-  //ふぃーるどフィールドコードは一対一
-  const FIELD_CODE = 'invoiceNum';
-  const FIELD_CODE2 = 'prjNum';
-  //andかorを小文字で入れる、今回はor
-  const AND_OR = "or";
+  //検索窓設置
   kintone.events.on('app.record.index.show', function (event) {
-
-    setEasySearch({
-      sID: 'eSearch',
-      sPlaceholder: '総合検索',
-      sConditions: [
-        {
-          fCode: 'prjTitle',
-          fName: 'タイトル'
-        },
-        {
-          fCode: 'invoiceNum',
-          fName: '請求書番号'
-        },
-        {
-          fCode: 'prjNum',
-          fName: '案件管理番号'
-        }
-      ]
-    });
-    $('#btn_eSearch').on('click', function () {
-      // var testC=document.s_eSearch.value;
-      // var keyword=document.eSearch.s_eSearch.value;
-      var keyword = document.getElementById('s_eSearch').value;
-
-      var result = {};
-      //クエリから、URL固定部分(?query=)を無視して取り出す
-      var query = window.location.search.substring(7);
-      //フィールドコード名と検索キーワードに分割する
-      for (var i in query) {
-        var element = query[i].split('like');
-        var param_field_code = encodeURIComponent(element[0]);
-        var param_search_word = encodeURIComponent(element[1]);
-        //空白スペースを取り除いて、配列に格納
-        result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
-      }
-      var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
-      var str_query = '?query=';
-      // var searchtarget = document.forms.searchTarget;
-      var isSearchConditions = []
-      for (var st in document.searchTargets.searchTarget) {
-        // console.log(document.forms.searchTarget[st].checked)
-        isSearchConditions.push(document.searchTargets.searchTarget[st].checked);
-        if (document.searchTargets.searchTarget[st].checked) {
-          str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '"';
-          var st_a = Number(st) + 1;
-          if (st_a < document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st_a].checked) {
-            str_query = str_query + ' or ';
-          }
-        }
-      }
-      if (keyword == "" || keyword == undefined) {
-        str_query = "";
-      }
-      // else if(keyword != ""){
-      //   // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
-      // }
-      // 検索結果のURLへ
-      document.location = location.origin + location.pathname + str_query;
-
-      // document.getElementById('s_eSearch').value=keyword;
-      // document.searchTargets.searchTarget[1].checked=true;
-
-    });
-
+    setEasySearch(prjSerchJson);
     return event;
   });
-  /*
-    const tar_fCode=['invoiceNum','prjNum'];
-    const searchType='or';
-
-  //検索したいフィールドの設定値
-  //ふぃーるどフィールドコードは一対一
-  const FIELD_CODE = 'invoiceNum';
-  const FIELD_CODE2 = 'prjNum';
-  //andかorを小文字で入れる、今回はor
-  const AND_OR = "or";
-    kintone.events.on("app.record.index.show", function (event) {
-      //GET引数に格納された直前の検索キーワードを取得して再表示
-      var result = {};
-      //クエリから、URL固定部分(?query=)を無視して取り出す
-      var query = window.location.search.substring(7);
-      //フィールドコード名と検索キーワードに分割する
-      for(var i = 0;i < query.length;i++){
-        var element = query[i].split('like');
-        var param_field_code = encodeURIComponent(element[0]);
-        var param_search_word = encodeURIComponent(element[1]);
-        //空白スペースを取り除いて、配列に格納
-        result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
-      }
-      //検索キーワード
-      var search_word = document.createElement('input');
-      search_word.type = 'text';
-      //検索ボタン
-      var search_button = document.createElement('input');
-      search_button.type = 'submit';
-      search_button.value = 'search';
-      search_button.onclick = function () {
-        keyword_search();
-      };
-      //キーワード検索の関数
-      function keyword_search(){
-        var keyword = search_word.value;
-        // var str_query = '?query='+ FIELD_CODE +' like "' + keyword;
-        // ここがクエリ
-        // var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"' + AND_OR +' '+ FIELD_CODE3 +' like "' + keyword + '"';
-        var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
-
-        if(keyword == ""){
-          str_query = "";
-        }else if(keyword != ""){
-          // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
-        }
-        // 検索結果のURLへ
-        document.location = location.origin + location.pathname + str_query
-      }
-      // 重複を避けるため要素をあらかじめクリアしておく
-      var node_space = kintone.app.getHeaderMenuSpaceElement()
-      for (var i =node_space.childNodes.length-1; i>=0; i--) {
-        node_space.removeChild(node_space.childNodes[i]);
-      }
-      var label = document.createElement('label');
-      label.appendChild(document.createTextNode('レコード内検索'));
-      label.appendChild(document.createTextNode(' '));
-      label.appendChild(search_word);
-      label.appendChild(document.createTextNode(' '));
-      label.appendChild(search_button);
-      kintone.app.getHeaderMenuSpaceElement().appendChild(label);
-    　
-      return event;
-    });
-    */
 
   // 計算ボタン
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('calBtn', '計算');
     $('#calBtn').on('click', function () {
-      const ERECORD = kintone.app.record.get();
-      var shipTable = ERECORD.record.deviceList.value;
-      var lengthStr = '';
-      var openType = '';
-      var methodType = '';
-      var shipNum = '';
-      var numRegExp = new RegExp(/^([1-9]\d*|0)$/);
-      var openRegExp = new RegExp(/^[sw]/i);
-      var methodRegExp = new RegExp(/壁付[sw]|天井/i);
-      var newShipTable = [];
-
-      // 依頼数空欄時エラー
-      for (var st in shipTable) {
-        if (numRegExp.test(shipTable[st].value.shipNum.value)) {
-          shipNum = shipTable[st].value.shipNum.value;
-          shipTable[st].value.shipNum.error = null;
-        } else {
-          shipTable[st].value.shipNum.error = '入力形式が間違えています';
-        }
-      }
-
-      // パッケージ品取得
-      var pkgQuery = [];
-      for (var st in shipTable) {
-        if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
-          if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
-            pkgQuery.push('"' + shipTable[st].value.mCode.value + '"');
-          }
-        }
-      }
-      if (pkgQuery.length != 0) {
-        var getPkg = {
-          'app': sysid.INV.app_id.device,
-          'query': 'mCode in (' + pkgQuery.join() + ') order by 更新日時 asc',
-        };
-      } else {
-        var getPkg = {
-          'app': sysid.INV.app_id.device,
-          'query': 'order by 更新日時 asc',
-        };
-      }
-      kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getPkg)
-        .then(function (resp) {
-          const RESP_RECORDS = resp.records;
-
-          for (var st in shipTable) {
-            if (String(shipTable[st].value.shipRemarks.value).match(/WFP/)) {
-              if (shipTable[st].value.mCode.value == 'TRT-DY') {
-                shipTable[st].value.shipRemarks.value = shipTable[st].value.shipRemarks.value.replace(/WFP/g, 'PAC')
-                newShipTable.push(shipTable[st]);
-                var railSpecs = (String(shipTable[st].value.shipRemarks.value)).split(/,\n|\n/);
-                var numCutter = railSpecs[1].indexOf('：');
-                railSpecs[0] = railSpecs[1].slice(numCutter + 1);
-                var openCutter = railSpecs[2].indexOf('：');
-                railSpecs[1] = railSpecs[2].slice(openCutter + 1);
-                var methodCutter = railSpecs[3].indexOf('：');
-                railSpecs[2] = railSpecs[3].slice(methodCutter + 1);
-
-                if (railSpecs[1] == '(S)片開き') {
-                  railSpecs[1] = 's';
-                } else if (railSpecs[1] == '(W)両開き') {
-                  railSpecs[1] = 'w';
-                } else {
-                  railSpecs[1] = '';
-                }
-
-                railSpecs.pop();
-
-                for (var i in railSpecs) {
-                  if (numRegExp.test(railSpecs[i])) {
-                    if (parseInt(railSpecs[i]) >= 580) {
-                      lengthStr = railSpecs[i];
-
-                      shipTable[st].value.shipRemarks.error = null;
-                    } else {
-                      shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-                      break;
-                    }
-                  } else {
-                    shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-                  }
-
-                  if (openRegExp.test(railSpecs[i])) {
-                    if (railSpecs[i].length === 1) {
-                      openType = railSpecs[i];
-                      openType = openType.toLowerCase();
-
-                      shipTable[st].value.shipRemarks.error = null;
-                    } else {
-                      shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-                      break;
-                    }
-                  } else {
-                    shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-                  }
-
-                  if (methodRegExp.test(railSpecs[i])) {
-                    if (railSpecs[i].match(/壁付s/i)) {
-                      methodType = '壁付s';
-                    } else if (railSpecs[i].match(/壁付w/i)) {
-                      methodType = '壁付w';
-                    } else {
-                      methodType = '天井';
-                    }
-                    shipTable[st].value.shipRemarks.error = null;
-                  } else {
-                    shipTable[st].value.shipRemarks.error = '入力形式が間違えています';
-                  }
-                }
-                var spec = {
-                  rLength: lengthStr,
-                  rType: openType,
-                  rMethod: methodType,
-                  shipNum: shipTable[st].value.shipNum.value
-                }
-                var railItems = railConf(spec);
-                for (var ril in railItems) {
-                  var railItemBody = {
-                    value: {
-                      mVendor: {
-                        type: "SINGLE_LINE_TEXT",
-                        value: JSON.stringify(railItems[ril].value.mVendor.value).replace(/\"/g, '')
-                      },
-                      mType: {
-                        type: "SINGLE_LINE_TEXT",
-                        value: JSON.stringify(railItems[ril].value.mType.value).replace(/\"/g, '')
-                      },
-                      mCode: {
-                        type: "SINGLE_LINE_TEXT",
-                        value: JSON.stringify(railItems[ril].value.mCode.value).replace(/\"/g, '')
-                      },
-                      mName: {
-                        type: "SINGLE_LINE_TEXT",
-                        value: JSON.stringify(railItems[ril].value.mName.value).replace(/\"/g, '')
-                      },
-                      mNickname: {
-                        type: "SINGLE_LINE_TEXT",
-                        value: JSON.stringify(railItems[ril].value.mNickname.value).replace(/\"/g, '')
-                      },
-                      subBtn: {
-                        type: "RADIO_BUTTON",
-                        value: '通常'
-                      },
-                      shipRemarks: {
-                        type: "MULTI_LINE_TEXT",
-                        value: JSON.stringify(railItems[ril].value.shipRemarks.value).replace(/\"/g, '')
-                      },
-                      shipNum: {
-                        type: "NUMBER",
-                        value: JSON.stringify(railItems[ril].value.shipNum.value).replace(/\"/g, '')
-                      }
-                    }
-                  }
-                  newShipTable.push(railItemBody);
-                }
-              } else if (String(shipTable[st].value.mCode.value).match(/pkg_/)) {
-                shipTable[st].value.shipRemarks.value = shipTable[st].value.shipRemarks.value.replace(/WFP/g, 'PAC')
-                newShipTable.push(shipTable[st]);
-                for (var rr in RESP_RECORDS) {
-                  if (shipTable[st].value.mCode.value == RESP_RECORDS[rr].mCode.value) {
-                    for (var pkgr in RESP_RECORDS[rr].packageComp.value) {
-                      var pkgBody = {
-                        value: {
-                          mVendor: {
-                            type: "SINGLE_LINE_TEXT",
-                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mVendor.value
-                          },
-                          mType: {
-                            type: "SINGLE_LINE_TEXT",
-                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mType.value
-                          },
-                          mCode: {
-                            type: "SINGLE_LINE_TEXT",
-                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mCode.value
-                          },
-                          mName: {
-                            type: "SINGLE_LINE_TEXT",
-                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mName.value
-                          },
-                          mNickname: {
-                            type: "SINGLE_LINE_TEXT",
-                            value: RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_mNickname.value
-                          },
-                          subBtn: {
-                            type: "RADIO_BUTTON",
-                            value: '通常'
-                          },
-                          shipRemarks: {
-                            type: "MULTI_LINE_TEXT",
-                            value: ''
-                          },
-                          shipNum: {
-                            type: "NUMBER",
-                            value: parseInt(RESP_RECORDS[rr].packageComp.value[pkgr].value.pc_Num.value) * parseInt(shipTable[st].value.shipNum.value)
-                          }
-                        }
-                      }
-                      newShipTable.push(pkgBody);
-                    }
-                  }
-                }
-              } else if(String(shipTable[st].value.mCode.value).match(/ZSL10/)){
-                shipTable[st].value.shipRemarks.value = shipTable[st].value.shipRemarks.value.replace(/WFP/g, 'PAC')
-                newShipTable.push(shipTable[st]);
-                var escBody = {
-                  value: {
-                    mVendor: {
-                      type: "SINGLE_LINE_TEXT",
-                      value: ''
-                    },
-                    mType: {
-                      type: "SINGLE_LINE_TEXT",
-                      value: ''
-                    },
-                    mCode: {
-                      type: "SINGLE_LINE_TEXT",
-                      value: ''
-                    },
-                    mName: {
-                      type: "SINGLE_LINE_TEXT",
-                      value: ''
-                    },
-                    mNickname: {
-                      type: "SINGLE_LINE_TEXT",
-                      value: 'LOCK Pro用エスカッション'
-                    },
-                    subBtn: {
-                      type: "RADIO_BUTTON",
-                      value: '通常'
-                    },
-                    shipRemarks: {
-                      type: "MULTI_LINE_TEXT",
-                      value: ''
-                    },
-                    shipNum: {
-                      type: "NUMBER",
-                      value: parseInt(shipTable[st].value.shipNum.value)
-                    }
-                  }
-                }
-                newShipTable.push(escBody);
-              }
-            } else {
-              newShipTable.push(shipTable[st]);
-            }
-          }
-
-          ERECORD.record.deviceList.value = newShipTable;
-          console.log(ERECORD.record.deviceList.value);
-          for (var i in ERECORD.record.deviceList.value) {
-            ERECORD.record.deviceList.value[i].value.mNickname.lookup = true;
-          }
-          kintone.app.record.set(ERECORD);
-
-        });
+      calBtnFunc(kintone.app.record.get(), kintone.app.getId());
     });
-
     return event;
   });
 
@@ -938,7 +468,7 @@
       if (!String(event.record.deviceList.value[i].value.shipRemarks.value).match(/PAC/)) {
         var mCodeValue = event.record.deviceList.value[i].value.mCode.value;
         if (mCodeValue === undefined) event.record.deviceList.value[i].value.shipRemarks.value = '';
-        else if (mCodeValue == 'TRT-DY') event.record.deviceList.value[i].value.shipRemarks.value = 'WFP\nカーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
+        else if (mCodeValue == 'KRT-DY') event.record.deviceList.value[i].value.shipRemarks.value = 'WFP\nカーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
         else if (mCodeValue.match(/pkg_/)) event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
         else if (mCodeValue.match(/ZSL10/)) event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
       }
@@ -946,59 +476,58 @@
     return event;
   });
 
-  //wfpチェック
-  kintone.events.on('app.record.detail.show', function (event) {
-
-    var putData = [];
-
+  //wfpチェック,添付書類チェック
+  kintone.events.on('app.record.detail.show', async function (event) {
     if (sessionStorage.getItem('record_updated') === '1') {
       sessionStorage.setItem('record_updated', '0');
       return event;
     }
+    var putData = [];
+    var putBody = {
+      'id': event.record.$id.value,
+      'record': {}
+    };
 
     if (event.record.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))) {
-      var putBody = {
-        'id': event.record.$id.value,
-        'record': {
-          'sys_isReady': {
-            'value': 'false'
-          }
-        }
+      putBody.record.sys_isReady = {
+        'value':'false'
       }
-      putData.push(putBody);
-      putRecords(kintone.app.getId(), putData);
-      sessionStorage.setItem('record_updated', '1');
-      location.reload();
     } else {
-      var putBody = {
-        'id': event.record.$id.value,
-        'record': {
-          'sys_isReady': {
-            'value': 'true'
-          }
-        }
+      putBody.record.sys_isReady = {
+        'value':'true'
       }
-      putData.push(putBody);
-      putRecords(kintone.app.getId(), putData);
-      sessionStorage.setItem('record_updated', '1');
-      location.reload();
     }
 
-    //サーバー時間取得
-    $.ajax({
-      type: 'GET',
-      cache: false,
-      async: false
-    }).done(function (data, status, xhr) {
-      //請求月が今より過去の場合
-      var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-      if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
-        alert('昔の請求書です。');
-        return event;
+    if(event.record.purchaseOrder.value.length >= 1){
+      putBody.record.sys_purchaseOrder = {
+        'value':['POI']
       }
-    });
+    }else{
+      putBody.record.sys_purchaseOrder = {
+        'value':[]
+      }
+    }
 
+    putData.push(putBody);
+    putRecords(kintone.app.getId(), putData);
+    sessionStorage.setItem('record_updated', '1');
+    location.reload();
+
+    //サーバー時間取得
+    function getNowDate() {
+      return $.ajax({
+        type: 'GET',
+        async: false
+      }).done(function (data, status, xhr) {
+        return xhr;
+      });
+    }
+    var currentDate = new Date(getNowDate().getResponseHeader('Date'));
+    var nowDateFormat = String(currentDate.getFullYear()) + String(("0" + (currentDate.getMonth() + 1)).slice(-2));
+    if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
+      alert('昔の請求書です。');
+      return event;
+    }
     return event;
   });
 

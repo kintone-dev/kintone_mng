@@ -15,9 +15,6 @@
     $('#' + new_onShip.id).on('click', function () {
       createNewREC(sysid.SUP.app.ship, ['supNum', 'bName'], [supNum, bName]);
     });
-
-
-
   });
 
   var events_ced = [
@@ -37,8 +34,6 @@
 
     setFieldShown('nonService', false);
 
-
-
     setFieldShown('sup_mean', true);
     setFieldShown('device_status', true);
     setFieldShown('sup_logInfo', true);
@@ -47,10 +42,8 @@
     setFieldShown('ReportingDetail', false);
     setFieldShown('ReportingResult', false);
 
-
     //setSpaceShown('btn_onSite', 'none');
     //setSpaceShown('btn_onShip', 'none');
-
 
     function tabSwitch(onSelect) {
       switch (onSelect) {
@@ -90,7 +83,6 @@
     return event;
   });
 
-
   var events_issueType = [
     'app.record.edit.change.issueType',
     'app.record.create.change.issueType'
@@ -105,7 +97,6 @@
     event.record.aboutDevice.value = [];
     event.record.scadminIssue.value = [];
     event.record.nonService.value = [];
-
     //問題種別による表示切り替え
     switch (event.record.issueType.value) {
 
@@ -168,7 +159,6 @@
     return event;
   });
 
-
   var events_serviceType = [
     'app.record.edit.change.serviceType',
     'app.record.create.change.serviceType'
@@ -178,7 +168,6 @@
     event.record.swIssue.value = [];
     event.record.aboutDevice.value = [];
     event.record.scadminIssue.value = [];
-
     //サービス区分
     switch (event.record.serviceType.value) {
       default:
@@ -202,7 +191,6 @@
         setFieldShown('scadminIssue', true);
         break;
     }
-
     return event;
   });
 })();

@@ -9,9 +9,10 @@
       event.error = '対応した日付のレポートは締切済みです。';
       return event;
     }
-
     if (nStatus == '納品準備中') { //ステータスが納品準備中の場合
+      // 入出荷管理post用配列
       var postShipData = [];
+      // 入出荷管理post内容
       var postShipBody = {
         'aboutDelivery': {
           'value': event.record.aboutDelivery.value
@@ -64,7 +65,7 @@
         'prjId': {
           'value': event.record.$id.value
         }
-      }
+      };
       for (var i in event.record.deviceList.value) {
         if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
           var devListBody = {
@@ -76,11 +77,12 @@
                 'value': event.record.deviceList.value[i].value.shipNum.value
               }
             }
-          }
+          };
           postShipBody.deviceList.value.push(devListBody);
         }
       }
 
+      // 社内・社員予備機用post用サブデータ
       var postShipSubBody = {
         'shipType': {
           'value': '移動-拠点間'
@@ -136,7 +138,7 @@
         'prjId': {
           'value': event.record.$id.value + '-sub'
         }
-      }
+      };
       for (var i in event.record.deviceList.value) {
         if (event.record.deviceList.value[i].value.subBtn.value == '予備') {
           var devListBody = {
@@ -151,7 +153,7 @@
                 'value': '社員予備'
               }
             }
-          }
+          };
           postShipSubBody.deviceList.value.push(devListBody);
         }
       }
@@ -165,7 +167,7 @@
       postRecords(sysid.INV.app_id.shipment, postShipData);
 
     } else if (nStatus == '完了') { //ステータスが完了の場合
-      if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') { //提供形態が販売、サブスクの場合
+      if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
         // 在庫処理
         await stockCtrl(event, kintone.app.getId());
         // レポート処理
@@ -181,7 +183,7 @@
     //対応レポート取得
     var getReportBody = {
       'app': sysid.INV.app_id.report,
-      'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '" order by 更新日時 asc'
+      'query': 'sys_invoiceDate = "' + event.record.sys_invoiceDate.value + '"'
     };
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
       .then(function (resp) {

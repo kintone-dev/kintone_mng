@@ -13,16 +13,15 @@
       //各拠点情報を当アプリの拠点リストに格納する
       //最初の空白の1行目を削除
       eRecord.record.uStockList.value.splice(0, 1);
-      //aul: auto uint list
-      for (var aul in tarRecords) {
+      for (var i in tarRecords) {
         eRecord.record.uStockList.value.push({
           value: {
             uCode: {
-              value: tarRecords[aul].uCode.value,
+              value: tarRecords[i].uCode.value,
               type: 'SINGLE_LINE_TEXT'
             },
             uName: {
-              value: tarRecords[aul].uName.value,
+              value: tarRecords[i].uName.value,
               type: 'SINGLE_LINE_TEXT'
             },
             uStock: {
@@ -31,15 +30,15 @@
             }
           }
         });
-        eRecord.record.uStockList.value[aul].value.uCode.disabled = true;
-        eRecord.record.uStockList.value[aul].value.uName.disabled = true;
-        eRecord.record.uStockList.value[aul].value.uStock.disabled = true;
+        eRecord.record.uStockList.value[i].value.uCode.disabled = true;
+        eRecord.record.uStockList.value[i].value.uName.disabled = true;
+        eRecord.record.uStockList.value[i].value.uStock.disabled = true;
         kintone.app.record.set(eRecord);
       }
       kintone.app.record.set(eRecord);
     }).catch(function (error) {
       console.log(error);
-      console.log('拠点データを取得できませんでした。' + error.message);
+      console.log('拠点データを取得できませんでした。\n' + error.message);
     });
     return event;
   });
@@ -55,12 +54,11 @@
         'app': sysid.INV.app_id.unit,
         'records': []
       };
-      //spd: set product data
-      for (var spd in tarRecords) {
+      for (var i in tarRecords) {
         var records_set = {
-          'id': tarRecords[spd].$id.value,
+          'id': tarRecords[i].$id.value,
           'record': {
-            'mStockList': tarRecords[spd].mStockList
+            'mStockList': tarRecords[i].mStockList
           }
         };
         var addRowData = {
@@ -96,8 +94,8 @@
       sysid.ASS.app_id.item
     ];
     // 品目マスターに転送実行
-    for (var pi in tarAPP) {
-      postItemBody.app = tarAPP[pi];
+    for (var i in tarAPP) {
+      postItemBody.app = tarAPP[i];
       kintone.api(kintone.api.url('/k/v1/record', true), 'POST', postItemBody);
     }
 
@@ -114,12 +112,11 @@
         'app': sysid.INV.app_id.unit,
         'records': []
       };
-      //spd: set product data
-      for (var spd in tarRecords) {
+      for (var i in tarRecords) {
         var records_set = {
-          'id': tarRecords[spd].$id.value,
+          'id': tarRecords[i].$id.value,
           'record': {
-            'mStockList': tarRecords[spd].mStockList
+            'mStockList': tarRecords[i].mStockList
           }
         };
         NewPrdInfo.records.push(records_set);
@@ -161,8 +158,8 @@
     };
 
     // api実行
-    for (var pi in tarAPP) {
-      putItemBody.app = tarAPP[pi];
+    for (var i in tarAPP) {
+      putItemBody.app = tarAPP[i];
       kintone.api(kintone.api.url('/k/v1/record', true), 'PUT', putItemBody);
     }
 
@@ -177,7 +174,7 @@
     }
     var getPacBody = {
       'app': sysid.INV.app_id.device,
-      'query': 'mCode in (' + deviceQuery.join() + ') order by 更新日時 asc'
+      'query': 'mCode in (' + deviceQuery.join() + ')'
     };
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPacBody)
       .then(function (resp) {
