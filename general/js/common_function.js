@@ -1463,11 +1463,11 @@ function setEasySearch(eSearchParms) {
 		searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
 		searchTargetArea.appendChild(searchTargetValue);
 
-		$(document).on("click", `#${eSearchParms.sConditions[x].fCode}`, function () {
+		$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
 			var eSearch = document.createElement('input');
-			eSearch.id = 's_' + eSearchParms.sConditions[x].fCode;
+			eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
 			eSearch.type = 'text';
-			eSearch.placeholder = eSearchParms.sConditions[x].fName;
+			eSearch.placeholder = eSearchParms.sConditions[i].fName;
 			eSearch.classList.add('searchInput');
 			eSearchArea.appendChild(eSearch);
 		});
