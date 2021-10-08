@@ -1596,7 +1596,7 @@ function startLoad2(msgType){
   dispMsg.classList.add('loadingMsg');
   var textLine=document.createElement('p');
 	switch(msgType){
-		case '':
+		case ''||undefined:
 			textLine.innerText=='処理中';
 			break;
 		case 'type_m1':
