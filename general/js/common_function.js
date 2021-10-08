@@ -1598,7 +1598,8 @@ function startLoad2(msgType){
   dispMsg.appendChild(textLine1);
   logingFrame.appendChild(dispMsg);
   if ($("#loading").length == 0) {
-    $("body").appendChild(logingFrame);
+		// document.getElementsByTagName('body').appendChild(logingFrame);
+    $("body").append(logingFrame);
   }
 }
 
