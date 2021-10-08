@@ -117,7 +117,7 @@ function set_sysid(env) {
 			break;
 	}
 	return sysid;
-}
+};
 
 var prjSerchJson = {
 	sID: 'eSearch',
@@ -139,4 +139,12 @@ var prjSerchJson = {
 			matchType:'='
 		}
 	]
+};
+
+var lodingMSG=function(msgType){
+	var msg={
+		default:'処理中',
+		type_m1:'<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。'
+	};
+	return msg[msgType];
 }

@@ -12,12 +12,9 @@ function startLoad2(msgType){
   var logingFrame=document.createElement('div');
   var dispMsg=document.createElement('div');
   dispMsg.classList.add('loadingMsg');
-  switch(msgType){
-    default:
-      var textLine1=document.createElement('p');
-      textLine1.innerText='処理中';
-      dispMsg.appendChild(textLine1);
-  }
+  var textLine1=document.createElement('p');
+  textLine1.innerText=lodingMSG(msgType);
+  dispMsg.appendChild(textLine1);
   logingFrame.appendChild(dispMsg);
   if ($("#loading").length == 0) {
     $("body").appendChild(logingFrame);
