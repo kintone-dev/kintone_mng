@@ -1480,17 +1480,15 @@ function setEasySearch(eSearchParms) {
 		});
 		if (i == 0) {
 			searchTarget.checked = true;
+			var eSearch = document.createElement('input');
+			eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
+			eSearch.type = 'text';
+			eSearch.name = eSearchParms.sConditions[0].fCode + '_' + eSearchParms.sConditions[0].matchType;
+			eSearch.placeholder = eSearchParms.sConditions[0].fName;
+			eSearch.classList.add('searchInput');
+			inputArea.appendChild(eSearch);
 		}
 	}
-
-	//一番初めの要素のみ最初に作成
-	var eSearch = document.createElement('input');
-	eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
-	eSearch.type = 'text';
-	eSearch.name = eSearchParms.sConditions[0].fCode + '_' + eSearchParms.sConditions[0].matchType;
-	eSearch.placeholder = eSearchParms.sConditions[0].fName;
-	eSearch.classList.add('searchInput');
-	inputArea.appendChild(eSearch);
 
 	//検索ボタン作成
 	var searchBtn = document.createElement('button');
