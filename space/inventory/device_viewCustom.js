@@ -234,6 +234,7 @@
       }
     }
     event.record.mName.value='test';
+    mcode.value='test';
     return event;
   });
 
