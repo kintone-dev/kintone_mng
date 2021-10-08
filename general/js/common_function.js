@@ -1443,13 +1443,6 @@ function setEasySearch(eSearchParms) {
 	searchTargetArea.id = 'searchTargets';
 	searchTargetArea.name = 'searchTargets';
 
-	//検索ボタン作成
-	var searchBtn = document.createElement('input');
-	searchBtn.type = 'submit';
-	searchBtn.id = 'btn_' + eSearchParms.sID;
-	searchBtn.value = '検索';
-	searchTargetArea.appendChild(searchBtn);
-
 	//検索種別作成
 	for (let i in eSearchParms.sConditions) {
 		var searchTarget = document.createElement('input');
@@ -1477,14 +1470,24 @@ function setEasySearch(eSearchParms) {
 		});
 		if (i == 0) {
 			searchTarget.checked = true;
-			var eSearch = document.createElement('input');
-			eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
-			eSearch.type = 'text';
-			eSearch.placeholder = eSearchParms.sConditions[i].fName;
-			eSearch.classList.add('searchInput');
-			eSearchArea.appendChild(eSearch);
 		}
 	}
+
+	//一番初めの要素のみ最初に作成
+	var eSearch = document.createElement('input');
+	eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
+	eSearch.type = 'text';
+	eSearch.placeholder = eSearchParms.sConditions[0].fName;
+	eSearch.classList.add('searchInput');
+	eSearchArea.appendChild(eSearch);
+
+	//検索ボタン作成
+	var searchBtn = document.createElement('input');
+	searchBtn.type = 'submit';
+	searchBtn.id = 'btn_' + eSearchParms.sID;
+	searchBtn.value = '検索';
+	searchTargetArea.appendChild(searchBtn);
+
 	eSearchArea.appendChild(searchTargetArea);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
 
