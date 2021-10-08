@@ -1056,7 +1056,7 @@ async function reportCtrl(event, appId) {
 
 /* 計算ボタン処理 */
 /**
- * 計算ボタン押下時、パッケージ品、TRT-DYに対応した商品を挿入
+ * 計算ボタン押下時、パッケージ品、KRT-DYに対応した商品を挿入
  * @param {*} eRecord kintone.app.record.get();
  * @param {*} appId 関数を使ったアプリのID
  * @returns
@@ -1114,7 +1114,7 @@ async function calBtnFunc(eRecord, appId) {
 
 	for (var i in shipTable) {
 		if (String(shipTable[i].value.shipRemarks.value).match(/WFP/)) {
-			if (shipTable[i].value.mCode.value == 'TRT-DY') {
+			if (shipTable[i].value.mCode.value == 'KRT-DY') {
 				shipTable[i].value.shipRemarks.value = shipTable[i].value.shipRemarks.value.replace(/WFP/g, 'PAC')
 				newShipTable.push(shipTable[i]);
 				var railSpecs = (String(shipTable[i].value.shipRemarks.value)).split(/,\n|\n/);
@@ -1466,14 +1466,15 @@ function setEasySearch(eSearchParms) {
 		checkboxArea.appendChild(searchTargetValue);
 
 		$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
-			if($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true){
+			if ($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true) {
 				var eSearch = document.createElement('input');
 				eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
 				eSearch.type = 'text';
+				eSearch.name = eSearchParms.sConditions[i].fCode;
 				eSearch.placeholder = eSearchParms.sConditions[i].fName;
 				eSearch.classList.add('searchInput');
 				inputArea.appendChild(eSearch);
-			}else{
+			} else {
 				$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
 			}
 		});
@@ -1486,6 +1487,7 @@ function setEasySearch(eSearchParms) {
 	var eSearch = document.createElement('input');
 	eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
 	eSearch.type = 'text';
+	eSearch.name = eSearchParms.sConditions[0].fCode;
 	eSearch.placeholder = eSearchParms.sConditions[0].fName;
 	eSearch.classList.add('searchInput');
 	inputArea.appendChild(eSearch);
@@ -1497,8 +1499,52 @@ function setEasySearch(eSearchParms) {
 	searchBtn.value = '検索';
 	checkboxArea.appendChild(searchBtn);
 
+	//ヘッダースペースに追加
 	eSearchArea.appendChild(searchTargetArea);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
 
+	$('#btn_eSearch').on('click', function () {
+		var inputText = $(".searchInput").each(function (index, element) {
+			var val = element.value;
+			var name = element.name;
+			var inputJson ={
+				'name': name,
+				'value':val
+			};
+			return inputJson
+		}).get();
+
+		for(var i in inputText){
+			console.log(inputText[i]);
+		}
+	});
 
 }
+
+		//クエリから、URL固定部分(?query=)を無視して取り出す
+		// var query = window.location.search.substring(7);
+		// //フィールドコード名と検索キーワードに分割する
+		// for (var i in query) {
+		// 	var element = query[i].split('like');
+		// 	var param_field_code = encodeURIComponent(element[0]);
+		// 	var param_search_word = encodeURIComponent(element[1]);
+		// 	//空白スペースを取り除いて、配列に格納
+		// 	result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
+		// }
+		// var str_query = '?query=';
+		// var isSearchConditions = []
+		// for (var st in document.searchTargets.searchTarget) {
+		// 	isSearchConditions.push(document.searchTargets.searchTarget[st].checked);
+		// 	if (document.searchTargets.searchTarget[st].checked) {
+		// 		str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '"';
+		// 		var st_a = Number(st) + 1;
+		// 		if (st_a < document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st_a].checked) {
+		// 			str_query = str_query + ' or ';
+		// 		}
+		// 	}
+		// }
+		// if (keyword == "" || keyword == undefined) {
+		// 	str_query = "";
+		// }
+		// // 検索結果のURLへ
+		// document.location = location.origin + location.pathname + str_query;

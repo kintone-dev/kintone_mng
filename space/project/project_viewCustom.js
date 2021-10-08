@@ -446,143 +446,19 @@
       eRecords.corpName.disabled = false;
     }
   }
-  /**
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   *
-   */
-  //検索したいフィールドの設定値
-  //ふぃーるどフィールドコードは一対一
+
+  //検索窓設置
   kintone.events.on('app.record.index.show', function (event) {
     setEasySearch(prjSerchJson);
-
-    $('#btn_eSearch').on('click', function () {
-      // var testC=document.s_eSearch.value;
-      // var keyword=document.eSearch.s_eSearch.value;
-      var keyword = document.getElementById('s_eSearch').value;
-      var result = {};
-      //クエリから、URL固定部分(?query=)を無視して取り出す
-      var query = window.location.search.substring(7);
-      //フィールドコード名と検索キーワードに分割する
-      for (var i in query) {
-        var element = query[i].split('like');
-        var param_field_code = encodeURIComponent(element[0]);
-        var param_search_word = encodeURIComponent(element[1]);
-        //空白スペースを取り除いて、配列に格納
-        result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
-      }
-      var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
-      var str_query = '?query=';
-      // var searchtarget = document.forms.searchTarget;
-      var isSearchConditions = []
-      for (var st in document.searchTargets.searchTarget) {
-        // console.log(document.forms.searchTarget[st].checked)
-        isSearchConditions.push(document.searchTargets.searchTarget[st].checked);
-        if (document.searchTargets.searchTarget[st].checked) {
-          str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '"';
-          var st_a = Number(st) + 1;
-          if (st_a < document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st_a].checked) {
-            str_query = str_query + ' or ';
-          }
-        }
-      }
-      if (keyword == "" || keyword == undefined) {
-        str_query = "";
-      }
-      // 検索結果のURLへ
-      document.location = location.origin + location.pathname + str_query;
-    });
-
     return event;
   });
-  /*
-    const tar_fCode=['invoiceNum','prjNum'];
-    const searchType='or';
-
-  //検索したいフィールドの設定値
-  //ふぃーるどフィールドコードは一対一
-  const FIELD_CODE = 'invoiceNum';
-  const FIELD_CODE2 = 'prjNum';
-  //andかorを小文字で入れる、今回はor
-  const AND_OR = "or";
-    kintone.events.on("app.record.index.show", function (event) {
-      //GET引数に格納された直前の検索キーワードを取得して再表示
-      var result = {};
-      //クエリから、URL固定部分(?query=)を無視して取り出す
-      var query = window.location.search.substring(7);
-      //フィールドコード名と検索キーワードに分割する
-      for(var i = 0;i < query.length;i++){
-        var element = query[i].split('like');
-        var param_field_code = encodeURIComponent(element[0]);
-        var param_search_word = encodeURIComponent(element[1]);
-        //空白スペースを取り除いて、配列に格納
-        result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
-      }
-      //検索キーワード
-      var search_word = document.createElement('input');
-      search_word.type = 'text';
-      //検索ボタン
-      var search_button = document.createElement('input');
-      search_button.type = 'submit';
-      search_button.value = 'search';
-      search_button.onclick = function () {
-        keyword_search();
-      };
-      //キーワード検索の関数
-      function keyword_search(){
-        var keyword = search_word.value;
-        // var str_query = '?query='+ FIELD_CODE +' like "' + keyword;
-        // ここがクエリ
-        // var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"' + AND_OR +' '+ FIELD_CODE3 +' like "' + keyword + '"';
-        var str_query = '?query='+ FIELD_CODE +' like "' + keyword + '" ' + AND_OR +' '+ FIELD_CODE2 +' like "' + keyword + '"';
-
-        if(keyword == ""){
-          str_query = "";
-        }else if(keyword != ""){
-          // str_query = '?query='+ FIELD_CODE +' like "' + keyword + '"'; //コメントアウト
-        }
-        // 検索結果のURLへ
-        document.location = location.origin + location.pathname + str_query
-      }
-      // 重複を避けるため要素をあらかじめクリアしておく
-      var node_space = kintone.app.getHeaderMenuSpaceElement()
-      for (var i =node_space.childNodes.length-1; i>=0; i--) {
-        node_space.removeChild(node_space.childNodes[i]);
-      }
-      var label = document.createElement('label');
-      label.appendChild(document.createTextNode('レコード内検索'));
-      label.appendChild(document.createTextNode(' '));
-      label.appendChild(search_word);
-      label.appendChild(document.createTextNode(' '));
-      label.appendChild(search_button);
-      kintone.app.getHeaderMenuSpaceElement().appendChild(label);
-      return event;
-    });
-    */
 
   // 計算ボタン
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('calBtn', '計算');
-
     $('#calBtn').on('click', function () {
       calBtnFunc(kintone.app.record.get(), kintone.app.getId());
     });
-
     return event;
   });
 
@@ -592,7 +468,7 @@
       if (!String(event.record.deviceList.value[i].value.shipRemarks.value).match(/PAC/)) {
         var mCodeValue = event.record.deviceList.value[i].value.mCode.value;
         if (mCodeValue === undefined) event.record.deviceList.value[i].value.shipRemarks.value = '';
-        else if (mCodeValue == 'TRT-DY') event.record.deviceList.value[i].value.shipRemarks.value = 'WFP\nカーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
+        else if (mCodeValue == 'KRT-DY') event.record.deviceList.value[i].value.shipRemarks.value = 'WFP\nカーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
         else if (mCodeValue.match(/pkg_/)) event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
         else if (mCodeValue.match(/ZSL10/)) event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
       }
