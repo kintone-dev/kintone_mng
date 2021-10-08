@@ -1470,7 +1470,6 @@ function setEasySearch(eSearchParms) {
 			eSearch.placeholder = eSearchParms.sConditions[x].fName;
 			eSearch.classList.add('searchInput');
 			eSearchArea.appendChild(eSearch);
-
 		});
 	}
 	eSearchArea.appendChild(searchTargetArea);
