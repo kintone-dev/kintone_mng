@@ -10,8 +10,8 @@
     'app.report.show'
   ];
   //編集を表示するユーザー
-  // var ignoreUser = ['sysdev','kintone_mng@accel-lab.com'];
-  var ignoreUser = ['kintone_mng@accel-lab.com'];
+  var ignoreUser = ['sysdev','kintone_mng@accel-lab.com'];
+  // var ignoreUser = ['kintone_mng@accel-lab.com'];
   // indexページでの新規、編集、複製ボタン非表示
   kintone.events.on(events_ced, function (event) {
     //一覧編集、編集、追加、複製を表示しないページ
