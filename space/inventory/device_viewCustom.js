@@ -235,6 +235,7 @@
     }
     event.record.mName.value='test';
     mcode.value='test';
+    event.record.mCode.value='ns_';
     return event;
   });
 
