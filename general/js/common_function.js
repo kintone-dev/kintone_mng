@@ -1518,8 +1518,6 @@ function setEasySearch(eSearchParms) {
 			};
 			return inputJson
 		}).get();
-		console.log(inputText);
-
 		if (inputText.length > 1) {
 			var queryArray = [];
 			for (var i in inputText) {
@@ -1528,7 +1526,7 @@ function setEasySearch(eSearchParms) {
 			}
 			var queryText = queryArray.join(' and ');
 		} else if (inputText.length == 1) {
-			var queryText = inputText[0].name + ` ${inputText[i].matchType} ` + '"' + inputText[0].value + '"';
+			var queryText = inputText[0].name + ` ${inputText[0].matchType} ` + '"' + inputText[0].value + '"';
 		}
 		var queryText = encodeURIComponent(queryText);
 		var str_query = '?query=' + queryText;
