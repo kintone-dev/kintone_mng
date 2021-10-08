@@ -472,8 +472,6 @@
     setEasySearch(prjSerchJson);
 
     $('#btn_eSearch').on('click', function () {
-      // var testC=document.s_eSearch.value;
-      // var keyword=document.eSearch.s_eSearch.value;
       var keyword = document.getElementById('s_eSearch').value;
       var result = {};
       //クエリから、URL固定部分(?query=)を無視して取り出す
@@ -486,7 +484,7 @@
         //空白スペースを取り除いて、配列に格納
         result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
       }
-      var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
+      // var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
       var str_query = '?query=';
       // var searchtarget = document.forms.searchTarget;
       var isSearchConditions = []
