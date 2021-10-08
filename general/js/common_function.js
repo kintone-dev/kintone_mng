@@ -1439,19 +1439,6 @@ function setEasySearch(eSearchParms) {
 	var eSearchArea = document.createElement('div');
 	eSearchArea.ID = eSearchParms.sID;
 
-	// var eSearch = document.createElement('input');
-	// eSearch.id = 's_' + eSearchParms.sID;
-	// eSearch.type = 'text';
-	// eSearch.placeholder = eSearchParms.sPlaceholder;
-	// eSearch.classList.add('testclass');
-	// eSearch.onkeydown = function () {
-	// 	if (window.event.keyCode == 13) {
-	// 		console.log(window.event.keyCode)
-	// 		document.getElementById("btn_eSearch").click();
-	// 	}
-	// }
-	// eSearchArea.appendChild(eSearch);
-
 	// var searchBtn = document.createElement('input');
 	// searchBtn.type = 'submit';
 	// searchBtn.id = 'btn_' + eSearchParms.sID;
@@ -1479,7 +1466,13 @@ function setEasySearch(eSearchParms) {
 		(function () {
 			var x = i;
 			$(document).on("click", `#${eSearchParms.sConditions[x].fCode}`, function () {
-				console.log(x);
+				var eSearch = document.createElement('input');
+				eSearch.id = 's_' + eSearchParms.sConditions[x].fCode;
+				eSearch.type = 'text';
+				eSearch.placeholder = eSearchParms.sConditions[x].fName;
+				eSearch.classList.add('searchInput');
+				eSearchArea.appendChild(eSearch);
+
 			});
 		})();
 	}
