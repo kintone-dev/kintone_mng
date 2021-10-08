@@ -1448,7 +1448,7 @@ function setEasySearch(eSearchParms) {
 	var searchTargetArea = document.createElement('form');
 	searchTargetArea.id = 'searchTargets';
 	searchTargetArea.name = 'searchTargets';
-	for (var i in eSearchParms.sConditions) {
+	for (let i in eSearchParms.sConditions) {
 		var searchTarget = document.createElement('input');
 		searchTarget.id = eSearchParms.sConditions[i].fCode;
 		searchTarget.name = 'searchTarget';
@@ -1463,18 +1463,15 @@ function setEasySearch(eSearchParms) {
 		searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
 		searchTargetArea.appendChild(searchTargetValue);
 
-		(function () {
-			var x = i;
-			$(document).on("click", `#${eSearchParms.sConditions[x].fCode}`, function () {
-				var eSearch = document.createElement('input');
-				eSearch.id = 's_' + eSearchParms.sConditions[x].fCode;
-				eSearch.type = 'text';
-				eSearch.placeholder = eSearchParms.sConditions[x].fName;
-				eSearch.classList.add('searchInput');
-				eSearchArea.appendChild(eSearch);
+		$(document).on("click", `#${eSearchParms.sConditions[x].fCode}`, function () {
+			var eSearch = document.createElement('input');
+			eSearch.id = 's_' + eSearchParms.sConditions[x].fCode;
+			eSearch.type = 'text';
+			eSearch.placeholder = eSearchParms.sConditions[x].fName;
+			eSearch.classList.add('searchInput');
+			eSearchArea.appendChild(eSearch);
 
-			});
-		})();
+		});
 	}
 	eSearchArea.appendChild(searchTargetArea);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
