@@ -1522,10 +1522,13 @@ function setEasySearch(eSearchParms) {
 		if (inputText.length > 1) {
 			var queryArray = [];
 			for (var i in inputText) {
-				var queryText = inputText[i].name + ' = "' + inputText[i].value+'"';
-				queryArray.push(queryText);
+				var queryBody = inputText[i].name + ' = "' + inputText[i].value+'"';
+				queryArray.push(queryBody);
 			}
-			console.log(queryArray.join(' and '));
+			var queryText = queryArray.join(' and ');
+			var queryText = encodeURIComponent(queryText);
+			var str_query = '?query=' + queryText;
+			console.log(str_query);
 		} else if(inputText.length == 1) {
 			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
 			var queryText = encodeURIComponent(queryText);
