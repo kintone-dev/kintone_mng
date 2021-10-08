@@ -1516,18 +1516,15 @@ function setEasySearch(eSearchParms) {
 			return inputJson
 		}).get();
 
-		console.log(location.origin);
-		console.log(location.pathname);
-
 		if (inputText.length > 1) {
 			var queryArray = [];
 			for (var i in inputText) {
-				var queryBody = inputText[i].name + ' = "' + inputText[i].value+'"';
+				var queryBody = inputText[i].name + ' like "' + inputText[i].value+'"';
 				queryArray.push(queryBody);
 			}
 			var queryText = queryArray.join(' and ');
 		} else if(inputText.length == 1) {
-			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
+			var queryText = inputText[0].name + ' like "' + inputText[0].value+'"';
 		}
 		var queryText = encodeURIComponent(queryText);
 		var str_query = '?query=' + queryText;
