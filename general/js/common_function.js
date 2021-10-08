@@ -1520,17 +1520,14 @@ function setEasySearch(eSearchParms) {
 		console.log(location.pathname);
 
 		if (inputText.length > 1) {
-			console.log(2);
 			for (var i in inputText) {
 				console.log(inputText[i]);
 			}
-		} else {
-			console.log(1);
+		} else if(inputText.length == 1) {
 			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
 			var queryText = encodeURIComponent(queryText);
 			var str_query = '?query=' + queryText;
-			document.location = location.origin + location.pathname;
-			// document.location = location.origin + location.pathname + str_query;
+			document.location = location.origin + location.pathname + str_query;
 		}
 	});
 
