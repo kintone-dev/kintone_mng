@@ -1464,12 +1464,16 @@ function setEasySearch(eSearchParms) {
 		searchTargetArea.appendChild(searchTargetValue);
 
 		$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
-			var eSearch = document.createElement('input');
-			eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
-			eSearch.type = 'text';
-			eSearch.placeholder = eSearchParms.sConditions[i].fName;
-			eSearch.classList.add('searchInput');
-			eSearchArea.appendChild(eSearch);
+			if($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true){
+				var eSearch = document.createElement('input');
+				eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
+				eSearch.type = 'text';
+				eSearch.placeholder = eSearchParms.sConditions[i].fName;
+				eSearch.classList.add('searchInput');
+				eSearchArea.appendChild(eSearch);
+			}else{
+				$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
+			}
 		});
 	}
 	eSearchArea.appendChild(searchTargetArea);
