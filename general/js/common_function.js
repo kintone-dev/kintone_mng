@@ -1451,7 +1451,7 @@ function setEasySearch(eSearchParms) {
 	inputArea.id = 'inputWrap';
 	searchTargetArea.appendChild(inputArea);
 
-	if(sessionStorage.getItem('searched')=='true'){
+	if(sessionStorage.getItem('searched')){
 		console.log('ok');
 		for (let i in eSearchParms.sConditions) {
 			var searchTarget = document.createElement('input');
@@ -1466,6 +1466,18 @@ function setEasySearch(eSearchParms) {
 			searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
 			checkboxArea.appendChild(searchTargetValue);
 
+			if(sessionStorage.getItem(eSearchParms.sConditions[i].fCode)){
+				searchTarget.checked = true;
+				var eSearch = document.createElement('input');
+				eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
+				eSearch.type = 'text';
+				eSearch.name = eSearchParms.sConditions[0].fCode + '_' + eSearchParms.sConditions[0].matchType;
+				eSearch.value = sessionStorage.getItem(eSearchParms.sConditions[i].fCode);
+				eSearch.placeholder = eSearchParms.sConditions[0].fName;
+				eSearch.classList.add('searchInput');
+				inputArea.appendChild(eSearch);
+			}
+
 			$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
 				if ($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true) {
 					var eSearch = document.createElement('input');
@@ -1479,16 +1491,6 @@ function setEasySearch(eSearchParms) {
 					$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
 				}
 			});
-			if (i == 0) {
-				searchTarget.checked = true;
-				var eSearch = document.createElement('input');
-				eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
-				eSearch.type = 'text';
-				eSearch.name = eSearchParms.sConditions[0].fCode + '_' + eSearchParms.sConditions[0].matchType;
-				eSearch.placeholder = eSearchParms.sConditions[0].fName;
-				eSearch.classList.add('searchInput');
-				inputArea.appendChild(eSearch);
-			}
 		}
 	} else{
 		for (let i in eSearchParms.sConditions) {
