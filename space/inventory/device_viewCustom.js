@@ -202,37 +202,38 @@
   
   // 品目区分における品目コード制御
   kintone.events.on(['app.record.create.change.mType'], function(event){
-    var mCodeValue=event.record.mCode.value;
-    var mTypeValue=event.record.mType.value;
-    console.log(mCodeValue);
-    console.log(mTypeValue);
-    if(mTypeValue=='パッケージ品'){
-      if(mCodeValue==undefined){
-        mCodeValue='pkg_'
+    var mcode=event.record.mCode;
+    var mtype=event.record.mType;
+    console.log(mcode.value);
+    console.log(mtype.value);
+    if(mtype.value=='パッケージ品'){
+      if(mcode.value==undefined){
+        mcode.value='pkg_';
       }
-      else if(!mCodeValue.match('pkg_') && !mCodeValue.match('ns_')){
-        event.record.mCode.value='pkg_'+mCodeValue;
+      else if(!mcode.value.match('pkg_') && !mcode.value.match('ns_')){
+        mcode.value='pkg_'+mcode.value;
       }
-      else if(!mCodeValue.match('pkg_') && mCodeValue.match('ns_')){
-        event.record.mCode.value='ns_pkg_'+mCodeValue.substr(3, mCodeValue.length);
+      else if(!mcode.value.match('pkg_') && mcode.value.match('ns_')){
+        mcode.value='ns_pkg_'+mcode.value.substr(3, mcode.value.length);
       }
     }
     return event;
   });
   // 取扱区分における品目コード制御
   kintone.events.on(['app.record.create.change.mClassification'], function(event){
-    var mCodeValue=event.record.mCode.value;
-    var mTypeValue=event.record.mType.value;
-    console.log(mCodeValue);
-    console.log(mTypeValue);
-    if(mTypeValue=='非在庫'){
-      if(mCodeValue==undefined){
-        event.record.mCode.value='ns_'
+    var mcode=event.record.mCode;
+    var mtype=event.record.mType;
+    console.log(mcode.value);
+    console.log(mtype.value);
+    if(mtype.value=='非在庫'){
+      if(mcode.value==undefined){
+        event.record.mCode.value='ns_';
       }
-      else if(!mCodeValue.match('ns_')){
-        event.record.mCode.value='pkg_'+mCodeValue;
+      else if(!mcode.value.match('ns_')){
+        event.record.mCode.value='pkg_'+mcode.value;
       }
     }
+    event.record.mName.value='test';
     return event;
   });
 
