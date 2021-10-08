@@ -142,9 +142,13 @@ var prjSerchJson = {
 };
 
 var lodingMSG=function(msgType){
-	var msg={
-		default:'処理中',
-		type_m1:'<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。'
-	};
-	return msg[msgType];
+	switch(msgType){
+		default:
+			var msg='処理中';
+			break;
+		case 'type_m1':
+			var msg='<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。';
+			break;
+	}
+	return msg;
 }
