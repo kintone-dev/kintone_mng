@@ -1504,28 +1504,20 @@ function setEasySearch(eSearchParms) {
 	$('#btn_eSearch').on('click', function () {
 		// var keyword = document.getElementById('s_eSearch').value;
 		// var result = {};
-		var inputJson ={
+		const ItemList = document.getElementsByClassName("searchInput");
 
-		}
-		var inputText = $(".searchInput").map(function (index, el) {
-			var val = $(this).val();
-			var name = $(this).attr('name');
-		});
-
-		for(var i in inputText){
-			console.log(inputText[i]);
-		}
+		console.log(ItemList);
 
 		//クエリから、URL固定部分(?query=)を無視して取り出す
-		var query = window.location.search.substring(7);
-		// //フィールドコード名と検索キーワードに分割する
-		for (var i in query) {
-			var element = query[i].split('like');
-			var param_field_code = encodeURIComponent(element[0]);
-			var param_search_word = encodeURIComponent(element[1]);
-			//空白スペースを取り除いて、配列に格納
-			result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
-		}
+		// var query = window.location.search.substring(7);
+		// // //フィールドコード名と検索キーワードに分割する
+		// for (var i in query) {
+		// 	var element = query[i].split('like');
+		// 	var param_field_code = encodeURIComponent(element[0]);
+		// 	var param_search_word = encodeURIComponent(element[1]);
+		// 	//空白スペースを取り除いて、配列に格納
+		// 	result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
+		// }
 		// var str_query = '?query=';
 		// var isSearchConditions = []
 		// for (var st in document.searchTargets.searchTarget) {
