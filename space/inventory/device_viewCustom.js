@@ -203,24 +203,30 @@
   // 品目区分における品目コード制御
   kintone.events.on(['app.record.create.change.mType'], function(event){
     var mCodeValue=event.record.mCode.value;
-    if(mCodeValue==undefined){
-      mCodeValue='pkg_'
-    }
-    else if(!mCodeValue.match('pkg_') && !mCodeValue.match('ns_')){
-      mCodeValue='pkg_'+mCodeValue;
-    }
-    else if(!mCodeValue.match('pkg_') && mCodeValue.match('ns_')){
-      mCodeValue='ns_pkg_'+mCodeValue.substr(3, mCodeValue.length);
+    var mTypeValue=event.record.mType.value;
+    if(mTypeValue=='パッケージ品'){
+      if(mCodeValue==undefined){
+        mCodeValue='pkg_'
+      }
+      else if(!mCodeValue.match('pkg_') && !mCodeValue.match('ns_')){
+        mCodeValue='pkg_'+mCodeValue;
+      }
+      else if(!mCodeValue.match('pkg_') && mCodeValue.match('ns_')){
+        mCodeValue='ns_pkg_'+mCodeValue.substr(3, mCodeValue.length);
+      }
     }
   });
   // 取扱区分における品目コード制御
   kintone.events.on(['app.record.create.change.mClassification'], function(event){
     var mCodeValue=event.record.mCode.value;
-    if(mCodeValue==undefined){
-      mCodeValue='ns_'
-    }
-    else if(!mCodeValue.match('ns_')){
-      mCodeValue='pkg_'+mCodeValue;
+    var mTypeValue=event.record.mType.value;
+    if(mTypeValue=='非在庫'){
+      if(mCodeValue==undefined){
+        mCodeValue='ns_'
+      }
+      else if(!mCodeValue.match('ns_')){
+        mCodeValue='pkg_'+mCodeValue;
+      }
     }
   });
 
