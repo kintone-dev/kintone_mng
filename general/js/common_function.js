@@ -1524,8 +1524,8 @@ function setEasySearch(eSearchParms) {
 			for (var i in inputText) {
 				var queryText = inputText[i].name + ' = "' + inputText[i].value+'"';
 				queryArray.push(queryText);
-				console.log(queryArray.join(' and '));
 			}
+			console.log(queryArray.join(' and '));
 		} else if(inputText.length == 1) {
 			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
 			var queryText = encodeURIComponent(queryText);
