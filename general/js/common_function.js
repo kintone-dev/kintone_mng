@@ -1439,11 +1439,11 @@ function setEasySearch(eSearchParms) {
 	var eSearchArea = document.createElement('div');
 	eSearchArea.ID = eSearchParms.sID;
 
-	// var searchBtn = document.createElement('input');
-	// searchBtn.type = 'submit';
-	// searchBtn.id = 'btn_' + eSearchParms.sID;
-	// searchBtn.value = '検索';
-	// eSearchArea.appendChild(searchBtn);
+	var searchBtn = document.createElement('input');
+	searchBtn.type = 'submit';
+	searchBtn.id = 'btn_' + eSearchParms.sID;
+	searchBtn.value = '検索';
+	eSearchArea.appendChild(searchBtn);
 
 	var searchTargetArea = document.createElement('form');
 	searchTargetArea.id = 'searchTargets';
@@ -1456,6 +1456,12 @@ function setEasySearch(eSearchParms) {
 		searchTarget.value = eSearchParms.sConditions[i].fCode;
 		if (i == 0) {
 			searchTarget.checked = true;
+			var eSearch = document.createElement('input');
+			eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
+			eSearch.type = 'text';
+			eSearch.placeholder = eSearchParms.sConditions[i].fName;
+			eSearch.classList.add('searchInput');
+			eSearchArea.appendChild(eSearch);
 		}
 		searchTargetArea.appendChild(searchTarget);
 		var searchTargetValue = document.createElement('label');
