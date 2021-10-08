@@ -1435,7 +1435,7 @@ async function calBtnFunc(eRecord, appId) {
 }
 
 /* 検索窓処理 */
-function setEasySearch(eSearchParms){
+function setEasySearch(eSearchParms) {
 	var eSearchArea = document.createElement('div');
 	eSearchArea.ID = eSearchParms.sID;
 
@@ -1476,9 +1476,11 @@ function setEasySearch(eSearchParms){
 		searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
 		searchTargetArea.appendChild(searchTargetValue);
 
-		$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
-			console.log(i);
-		});
+		(function () {
+			$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
+				console.log(i);
+			});
+		})();
 	}
 	eSearchArea.appendChild(searchTargetArea);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
