@@ -1509,7 +1509,8 @@ function setEasySearch(eSearchParms) {
 			var nameArray = $(this).attr('name').split('_');
 			var name = nameArray[0];
 			var matchType = nameArray[1];
-			sessionStorage.setItem(name, val);
+			sessionStorage.setItem('name', name);
+			sessionStorage.setItem('value', val);
 			if(val==""){
 				var inputJson = {
 					'name': name,
