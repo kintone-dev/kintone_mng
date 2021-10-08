@@ -198,6 +198,30 @@
     // レコード追加＆詳細閲覧時は「情報編集」フィールドは非表示
     setFieldShown('editinfo', false);
     return event;
-  })
+  });
+  
+  // 品目区分における品目コード制御
+  kintone.events.on(['app.record.create.change.mType'], function(event){
+    var mCodeValue=event.record.mCode.value;
+    if(mCodeValue==undefined){
+      mCodeValue='pkg_'
+    }
+    else if(!mCodeValue.match('pkg_') && !mCodeValue.match('ns_')){
+      mCodeValue='pkg_'+mCodeValue;
+    }
+    else if(!mCodeValue.match('pkg_') && mCodeValue.match('ns_')){
+      mCodeValue='ns_pkg_'+mCodeValue.substr(3, mCodeValue.length);
+    }
+  });
+  // 取扱区分における品目コード制御
+  kintone.events.on(['app.record.create.change.mClassification'], function(event){
+    var mCodeValue=event.record.mCode.value;
+    if(mCodeValue==undefined){
+      mCodeValue='ns_'
+    }
+    else if(!mCodeValue.match('ns_')){
+      mCodeValue='pkg_'+mCodeValue;
+    }
+  });
 
 })();
