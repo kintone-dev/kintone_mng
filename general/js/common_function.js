@@ -1591,6 +1591,7 @@ function setEasySearch(eSearchParms) {
 // ロード中のページ表示凍結
 function startLoad2(msgType){
   var logingFrame=document.createElement('div');
+	logingFrame.id='loading';
   var dispMsg=document.createElement('div');
   dispMsg.classList.add('loadingMsg');
   var textLine1=document.createElement('p');
