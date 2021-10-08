@@ -204,8 +204,6 @@
   kintone.events.on(['app.record.create.change.mType'], function(event){
     var mcode=event.record.mCode;
     var mtype=event.record.mType;
-    console.log(mcode.value);
-    console.log(mtype.value);
     if(mtype.value=='パッケージ品'){
       if(mcode.value==undefined){
         mcode.value='pkg_';
@@ -229,10 +227,8 @@
   // 取扱区分における品目コード制御
   kintone.events.on(['app.record.create.change.mClassification'], function(event){
     var mcode=event.record.mCode;
-    var mtype=event.record.mType;
-    console.log(mcode.value);
-    console.log(mtype.value);
-    if(mtype.value=='非在庫'){
+    var mclassification=event.record.mClassification;
+    if(mclassification.value=='非在庫'){
       if(mcode.value==undefined){
         mcode.value='ns_';
       }
@@ -249,5 +245,4 @@
     console.log('after: '+mcode.value);
     return event;
   });
-
 })();
