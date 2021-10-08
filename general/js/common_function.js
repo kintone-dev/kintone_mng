@@ -1512,7 +1512,7 @@ function setEasySearch(eSearchParms) {
 				'value':val
 			};
 			return inputJson
-		});
+		}).get();
 
 		for(var i in inputText){
 			console.log(inputText[i]);
