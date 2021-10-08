@@ -1515,7 +1515,7 @@ function setEasySearch(eSearchParms) {
 			return inputJson
 		}).get();
 
-		if (inputText > 1) {
+		if (inputText.length > 1) {
 			for (var i in inputText) {
 				console.log(inputText[i]);
 			}
