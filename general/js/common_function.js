@@ -1445,9 +1445,11 @@ function setEasySearch(eSearchParms) {
 
 	var checkboxArea = document.createElement('div');
 	checkboxArea.id = 'checkboxWrap';
+	searchTargetArea.appendChild(checkboxArea);
 
 	var inputArea = document.createElement('div');
 	inputArea.id = 'inputWrap';
+	searchTargetArea.appendChild(inputArea);
 
 	//検索種別作成
 	for (let i in eSearchParms.sConditions) {
