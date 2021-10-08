@@ -1437,11 +1437,17 @@ async function calBtnFunc(eRecord, appId) {
 /* 検索窓処理 */
 function setEasySearch(eSearchParms) {
 	var eSearchArea = document.createElement('div');
-	eSearchArea.ID = eSearchParms.sID;
+	eSearchArea.id = eSearchParms.sID;
 
 	var searchTargetArea = document.createElement('form');
 	searchTargetArea.id = 'searchTargets';
 	searchTargetArea.name = 'searchTargets';
+
+	var checkboxArea = document.createElement('div');
+	checkboxArea.id = 'checkboxWrap';
+
+	var inputArea = document.createElement('div');
+	inputArea.id = 'inputWrap';
 
 	//検索種別作成
 	for (let i in eSearchParms.sConditions) {
@@ -1450,11 +1456,12 @@ function setEasySearch(eSearchParms) {
 		searchTarget.name = 'searchTarget';
 		searchTarget.type = 'checkbox';
 		searchTarget.value = eSearchParms.sConditions[i].fCode;
-		searchTargetArea.appendChild(searchTarget);
+		checkboxArea.appendChild(searchTarget);
+
 		var searchTargetValue = document.createElement('label');
 		searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
 		searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
-		searchTargetArea.appendChild(searchTargetValue);
+		checkboxArea.appendChild(searchTargetValue);
 
 		$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
 			if($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true){
@@ -1463,7 +1470,7 @@ function setEasySearch(eSearchParms) {
 				eSearch.type = 'text';
 				eSearch.placeholder = eSearchParms.sConditions[i].fName;
 				eSearch.classList.add('searchInput');
-				eSearchArea.appendChild(eSearch);
+				inputArea.appendChild(eSearch);
 			}else{
 				$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
 			}
@@ -1479,14 +1486,14 @@ function setEasySearch(eSearchParms) {
 	eSearch.type = 'text';
 	eSearch.placeholder = eSearchParms.sConditions[0].fName;
 	eSearch.classList.add('searchInput');
-	eSearchArea.appendChild(eSearch);
+	inputArea.appendChild(eSearch);
 
 	//検索ボタン作成
 	var searchBtn = document.createElement('input');
 	searchBtn.type = 'submit';
 	searchBtn.id = 'btn_' + eSearchParms.sID;
 	searchBtn.value = '検索';
-	searchTargetArea.appendChild(searchBtn);
+	checkboxArea.appendChild(searchBtn);
 
 	eSearchArea.appendChild(searchTargetArea);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
