@@ -1520,8 +1520,11 @@ function setEasySearch(eSearchParms) {
 		console.log(location.pathname);
 
 		if (inputText.length > 1) {
+			var queryArray = [];
 			for (var i in inputText) {
-				console.log(inputText[i]);
+				var queryText = inputText[i].name + ' = "' + inputText[i].value+'"';
+				queryArray.push(queryText);
+				console.log(queryArray.join(' and '));
 			}
 		} else if(inputText.length == 1) {
 			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
