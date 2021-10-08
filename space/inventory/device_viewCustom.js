@@ -217,6 +217,7 @@
         mcode.value='ns_pkg_'+mcode.value.substr(3, mcode.value.length);
       }
     }
+    console.log('after: '+mcode.value);
     return event;
   });
   // 取扱区分における品目コード制御
@@ -227,15 +228,13 @@
     console.log(mtype.value);
     if(mtype.value=='非在庫'){
       if(mcode.value==undefined){
-        event.record.mCode.value='ns_';
+        mcode.value='ns_';
       }
       else if(!mcode.value.match('ns_')){
-        event.record.mCode.value='pkg_'+mcode.value;
+        mcode.value='pkg_'+mcode.value;
       }
     }
-    event.record.mName.value='test';
-    mcode.value='test';
-    event.record.mCode.value='ns_';
+    console.log('after: '+mcode.value);
     return event;
   });
 
