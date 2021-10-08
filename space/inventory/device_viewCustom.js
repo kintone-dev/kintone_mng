@@ -217,8 +217,10 @@
         mcode.value='ns_pkg_'+mcode.value.substr(3, mcode.value.length);
       }
     }else{
-      if(mcode.value!=undefined && mcode.value.match('pkg_')){
-        mcode.value=mcode.value.replace('pkg_','');
+      if(mcode.value!=undefined){
+        if(mcode.value.match('pkg_')){
+          mcode.value=mcode.value.replace('pkg_','');
+        }
       }
     }
     console.log('after: '+mcode.value);
@@ -238,8 +240,10 @@
         mcode.value='ns_'+mcode.value;
       }
     }else{
-      if(mcode.value!=undefined && mcode.value.match('ns_')){
-        mcode.value=mcode.value.replace('ns_','');
+      if(mcode.value!=undefined){
+        if(mcode.value.match('ns_')){
+          mcode.value=mcode.value.replace('ns_','');
+        }
       }
     }
     console.log('after: '+mcode.value);
