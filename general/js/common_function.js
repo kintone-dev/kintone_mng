@@ -1495,7 +1495,8 @@ function setEasySearch(eSearchParms) {
 	//検索ボタン作成
 	var searchBtn = document.createElement('input');
 	searchBtn.type = 'submit';
-	searchBtn.id = 'btn_' + eSearchParms.sID;
+	var searchBtn_id = 'searchbtn_' + eSearchParms.sID;
+	searchBtn.id = searchBtn_id;
 	searchBtn.value = '検索';
 	checkboxArea.appendChild(searchBtn);
 
@@ -1503,7 +1504,7 @@ function setEasySearch(eSearchParms) {
 	eSearchArea.appendChild(searchTargetArea);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
 
-	$('#btn_eSearch').on('click', function () {
+	$(`#${searchBtn_id}`).on('click', function () {
 		//作成したテキストボックスから値を格納
 		var inputText = $(".searchInput").map(function (index, element) {
 			var val = $(this).val();
