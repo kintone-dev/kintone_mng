@@ -1589,25 +1589,13 @@ function setEasySearch(eSearchParms) {
 }
 
 // ロード中のページ表示凍結
-function startLoad2(msgType){
-  var logingFrame=document.createElement('div');
-	logingFrame.id='loading';
-  var dispMsg=document.createElement('div');
-  dispMsg.classList.add('loadingMsg');
-  var textLine=document.createElement('p');
-	switch(msgType){
-		case ''||undefined||null:
-			textLine.innerText='処理中';
-			break;
-		case 'type_m1':
-			textLine.innerText='<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。';
-			break;
-	}
-  dispMsg.appendChild(textLine);
-  logingFrame.appendChild(dispMsg);
+function startLoad(msg) {
+  if (msg == undefined) {
+    msg = '処理中です';
+  }
+  var dispMsg = "<div class='loadingMsg'><p>" + msg + "</p></div>";
   if ($("#loading").length == 0) {
-		// document.getElementsByTagName('body').appendChild(logingFrame);
-    $("body").append(logingFrame);
+    $("body").append("<div id='loading'>" + dispMsg + "</div>");
   }
 }
 
