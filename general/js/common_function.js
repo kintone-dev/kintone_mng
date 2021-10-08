@@ -1502,8 +1502,8 @@ function setEasySearch(eSearchParms) {
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
 
 	$('#btn_eSearch').on('click', function () {
-		var keyword = document.getElementById('s_eSearch').value;
-		var result = {};
+		// var keyword = document.getElementById('s_eSearch').value;
+		// var result = {};
 		var inputText = $(".searchInput").map(function (index, el) {
 			return $(this).val();
 		});
