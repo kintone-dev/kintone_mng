@@ -1594,9 +1594,16 @@ function startLoad2(msgType){
 	logingFrame.id='loading';
   var dispMsg=document.createElement('div');
   dispMsg.classList.add('loadingMsg');
-  var textLine1=document.createElement('p');
-  textLine1.innerText=lodingMSG(msgType);
-  dispMsg.appendChild(textLine1);
+  var textLine=document.createElement('p');
+	switch(msgType){
+		default:
+			textLine.innerText=='処理中';
+			break;
+		case 'type_m1':
+			textLine.innerText=='<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。';
+			break;
+	}
+  dispMsg.appendChild(textLine);
   logingFrame.appendChild(dispMsg);
   if ($("#loading").length == 0) {
 		// document.getElementsByTagName('body').appendChild(logingFrame);
