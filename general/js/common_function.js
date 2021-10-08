@@ -1594,7 +1594,7 @@ function startLoad2(msgType){
   var dispMsg=document.createElement('div');
   dispMsg.classList.add('loadingMsg');
   var textLine1=document.createElement('p');
-  textLine1.innerText=lodingMSG(msgType);
+  textLine1.innerText="'"+lodingMSG(msgType)+"'";
   dispMsg.appendChild(textLine1);
   logingFrame.appendChild(dispMsg);
   if ($("#loading").length == 0) {
