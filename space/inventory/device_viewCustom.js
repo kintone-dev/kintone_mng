@@ -221,7 +221,6 @@
         }
       }
     }
-    console.log('after: '+mcode.value);
     return event;
   });
   // 取扱区分における品目コード制御
@@ -242,7 +241,6 @@
         }
       }
     }
-    console.log('after: '+mcode.value);
     return event;
   });
 })();
