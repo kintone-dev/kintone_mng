@@ -1533,10 +1533,11 @@ function setEasySearch(eSearchParms) {
 			var queryText = queryArray.join(' and ');
 		} else if (inputText.length == 1) {
 			var queryText = inputText[0].name + ` ${inputText[0].matchType} ` + '"' + inputText[0].value + '"';
+		} else{
+			var queryText =''
 		}
-		var queryText = encodeURIComponent(queryText);
+		queryText = encodeURIComponent(queryText);
 		var str_query = '?query=' + queryText;
-		console.log(str_query);
 		document.location = location.origin + location.pathname + str_query;
 	});
 }
