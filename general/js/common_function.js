@@ -1505,8 +1505,8 @@ function setEasySearch(eSearchParms) {
 
 	$('#btn_eSearch').on('click', function () {
 		var inputText = $(".searchInput").each(function (index, element) {
-			var val = $(this).val();
-			var name = $(this).attr('name');
+			var val = element.value;
+			var name = element.name;
 			var inputJson ={
 				'name': name,
 				'value':val
