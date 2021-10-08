@@ -211,12 +211,13 @@
         mCodeValue='pkg_'
       }
       else if(!mCodeValue.match('pkg_') && !mCodeValue.match('ns_')){
-        mCodeValue='pkg_'+mCodeValue;
+        event.record.mCode.value='pkg_'+mCodeValue;
       }
       else if(!mCodeValue.match('pkg_') && mCodeValue.match('ns_')){
-        mCodeValue='ns_pkg_'+mCodeValue.substr(3, mCodeValue.length);
+        event.record.mCode.value='ns_pkg_'+mCodeValue.substr(3, mCodeValue.length);
       }
     }
+    return event;
   });
   // 取扱区分における品目コード制御
   kintone.events.on(['app.record.create.change.mClassification'], function(event){
@@ -226,10 +227,10 @@
     console.log(mTypeValue);
     if(mTypeValue=='非在庫'){
       if(mCodeValue==undefined){
-        mCodeValue='ns_'
+        event.record.mCode.value='ns_'
       }
       else if(!mCodeValue.match('ns_')){
-        mCodeValue='pkg_'+mCodeValue;
+        event.record.mCode.value='pkg_'+mCodeValue;
       }
     }
     return event;
