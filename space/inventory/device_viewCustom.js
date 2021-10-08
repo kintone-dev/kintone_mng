@@ -204,6 +204,8 @@
   kintone.events.on(['app.record.create.change.mType'], function(event){
     var mCodeValue=event.record.mCode.value;
     var mTypeValue=event.record.mType.value;
+    console.log(mCodeValue);
+    console.log(mTypeValue);
     if(mTypeValue=='パッケージ品'){
       if(mCodeValue==undefined){
         mCodeValue='pkg_'
@@ -220,6 +222,8 @@
   kintone.events.on(['app.record.create.change.mClassification'], function(event){
     var mCodeValue=event.record.mCode.value;
     var mTypeValue=event.record.mType.value;
+    console.log(mCodeValue);
+    console.log(mTypeValue);
     if(mTypeValue=='非在庫'){
       if(mCodeValue==undefined){
         mCodeValue='ns_'
