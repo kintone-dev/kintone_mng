@@ -1497,7 +1497,7 @@ function setEasySearch(eSearchParms) {
 	searchBtn.type = 'button';
 	var searchBtn_id = 'searchbtn_' + eSearchParms.sID;
 	searchBtn.id = searchBtn_id;
-	searchBtn.value = '検索';
+	searchBtn.innerHTML = '検索';
 	checkboxArea.appendChild(searchBtn);
 
 	//ヘッダースペースに追加
