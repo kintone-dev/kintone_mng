@@ -122,17 +122,21 @@ function set_sysid(env) {
 var prjSerchJson = {
 	sID: 'eSearch',
 	sPlaceholder: '総合検索',
+	//matchType：likeは部分一致、=は完全一致
 	sConditions: [{
 			fCode: 'prjTitle',
-			fName: 'タイトル'
+			fName: 'タイトル',
+			matchType:'like'
 		},
 		{
 			fCode: 'invoiceNum',
-			fName: '請求書番号'
+			fName: '請求書番号',
+			matchType:'='
 		},
 		{
 			fCode: 'prjNum',
-			fName: '案件管理番号'
+			fName: '案件管理番号',
+			matchType:'='
 		}
 	]
 }

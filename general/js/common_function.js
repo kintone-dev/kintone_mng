@@ -1470,7 +1470,7 @@ function setEasySearch(eSearchParms) {
 				var eSearch = document.createElement('input');
 				eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
 				eSearch.type = 'text';
-				eSearch.name = eSearchParms.sConditions[i].fCode;
+				eSearch.name = eSearchParms.sConditions[i].fCode + '_' + eSearchParms.sConditions[i].matchType;
 				eSearch.placeholder = eSearchParms.sConditions[i].fName;
 				eSearch.classList.add('searchInput');
 				inputArea.appendChild(eSearch);
@@ -1487,7 +1487,7 @@ function setEasySearch(eSearchParms) {
 	var eSearch = document.createElement('input');
 	eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
 	eSearch.type = 'text';
-	eSearch.name = eSearchParms.sConditions[0].fCode;
+	eSearch.name = eSearchParms.sConditions[0].fCode + '_' + eSearchParms.sConditions[0].matchType;
 	eSearch.placeholder = eSearchParms.sConditions[0].fName;
 	eSearch.classList.add('searchInput');
 	inputArea.appendChild(eSearch);
@@ -1508,10 +1508,13 @@ function setEasySearch(eSearchParms) {
 		//作成したテキストボックスから値を格納
 		var inputText = $(".searchInput").map(function (index, element) {
 			var val = $(this).val();
-			var name = $(this).attr('name');
+			var nameArray = $(this).attr('name').split('_');
+			var name = nameArray[0];
+			var matchType = nameArray[1];
 			var inputJson = {
 				'name': name,
-				'value': val
+				'value': val,
+				'matchType': matchType
 			};
 			return inputJson
 		}).get();
@@ -1519,12 +1522,12 @@ function setEasySearch(eSearchParms) {
 		if (inputText.length > 1) {
 			var queryArray = [];
 			for (var i in inputText) {
-				var queryBody = inputText[i].name + ' like "' + inputText[i].value+'"';
+				var queryBody = inputText[i].name + ` ${inputText[i].matchType} ` + '"' + inputText[i].value + '"';
 				queryArray.push(queryBody);
 			}
 			var queryText = queryArray.join(' and ');
-		} else if(inputText.length == 1) {
-			var queryText = inputText[0].name + ' like "' + inputText[0].value+'"';
+		} else if (inputText.length == 1) {
+			var queryText = inputText[0].name + ` ${inputText[i].matchType} ` + '"' + inputText[0].value + '"';
 		}
 		var queryText = encodeURIComponent(queryText);
 		var str_query = '?query=' + queryText;
