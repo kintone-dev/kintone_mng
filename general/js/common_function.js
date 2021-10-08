@@ -1520,7 +1520,7 @@ function setEasySearch(eSearchParms) {
 				console.log(inputText[i]);
 			}
 		} else {
-			var queryText = inputText[0].name + ' = ' + inputText[0].value;
+			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
 			var str_query = '?query=' + queryText;
 			console.log(str_query);
 		}
