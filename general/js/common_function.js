@@ -1453,45 +1453,80 @@ function setEasySearch(eSearchParms) {
 
 	if(sessionStorage.getItem('searched')=='true'){
 		console.log('ok');
-	}
+		for (let i in eSearchParms.sConditions) {
+			var searchTarget = document.createElement('input');
+			searchTarget.id = eSearchParms.sConditions[i].fCode;
+			searchTarget.name = 'searchTarget';
+			searchTarget.type = 'checkbox';
+			searchTarget.value = eSearchParms.sConditions[i].fCode;
+			checkboxArea.appendChild(searchTarget);
 
+			var searchTargetValue = document.createElement('label');
+			searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
+			searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
+			checkboxArea.appendChild(searchTargetValue);
 
-	//検索種別作成
-	for (let i in eSearchParms.sConditions) {
-		var searchTarget = document.createElement('input');
-		searchTarget.id = eSearchParms.sConditions[i].fCode;
-		searchTarget.name = 'searchTarget';
-		searchTarget.type = 'checkbox';
-		searchTarget.value = eSearchParms.sConditions[i].fCode;
-		checkboxArea.appendChild(searchTarget);
-
-		var searchTargetValue = document.createElement('label');
-		searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
-		searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
-		checkboxArea.appendChild(searchTargetValue);
-
-		$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
-			if ($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true) {
+			$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
+				if ($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true) {
+					var eSearch = document.createElement('input');
+					eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
+					eSearch.type = 'text';
+					eSearch.name = eSearchParms.sConditions[i].fCode + '_' + eSearchParms.sConditions[i].matchType;
+					eSearch.placeholder = eSearchParms.sConditions[i].fName;
+					eSearch.classList.add('searchInput');
+					inputArea.appendChild(eSearch);
+				} else {
+					$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
+				}
+			});
+			if (i == 0) {
+				searchTarget.checked = true;
 				var eSearch = document.createElement('input');
-				eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
+				eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
 				eSearch.type = 'text';
-				eSearch.name = eSearchParms.sConditions[i].fCode + '_' + eSearchParms.sConditions[i].matchType;
-				eSearch.placeholder = eSearchParms.sConditions[i].fName;
+				eSearch.name = eSearchParms.sConditions[0].fCode + '_' + eSearchParms.sConditions[0].matchType;
+				eSearch.placeholder = eSearchParms.sConditions[0].fName;
 				eSearch.classList.add('searchInput');
 				inputArea.appendChild(eSearch);
-			} else {
-				$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
 			}
-		});
-		if (i == 0) {
-			searchTarget.checked = true;
-			var eSearch = document.createElement('input');
-			eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
-			eSearch.type = 'text';
-			eSearch.name = eSearchParms.sConditions[0].fCode + '_' + eSearchParms.sConditions[0].matchType;
-			eSearch.placeholder = eSearchParms.sConditions[0].fName;
-			eSearch.classList.add('searchInput');
-			inputArea.appendChild(eSearch);
+		}
+	} else{
+		for (let i in eSearchParms.sConditions) {
+			var searchTarget = document.createElement('input');
+			searchTarget.id = eSearchParms.sConditions[i].fCode;
+			searchTarget.name = 'searchTarget';
+			searchTarget.type = 'checkbox';
+			searchTarget.value = eSearchParms.sConditions[i].fCode;
+			checkboxArea.appendChild(searchTarget);
+
+			var searchTargetValue = document.createElement('label');
+			searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
+			searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
+			checkboxArea.appendChild(searchTargetValue);
+
+			$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
+				if ($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true) {
+					var eSearch = document.createElement('input');
+					eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
+					eSearch.type = 'text';
+					eSearch.name = eSearchParms.sConditions[i].fCode + '_' + eSearchParms.sConditions[i].matchType;
+					eSearch.placeholder = eSearchParms.sConditions[i].fName;
+					eSearch.classList.add('searchInput');
+					inputArea.appendChild(eSearch);
+				} else {
+					$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
+				}
+			});
+			if (i == 0) {
+				searchTarget.checked = true;
+				var eSearch = document.createElement('input');
+				eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
+				eSearch.type = 'text';
+				eSearch.name = eSearchParms.sConditions[0].fCode + '_' + eSearchParms.sConditions[0].matchType;
+				eSearch.placeholder = eSearchParms.sConditions[0].fName;
+				eSearch.classList.add('searchInput');
+				inputArea.appendChild(eSearch);
+			}
 		}
 	}
 
