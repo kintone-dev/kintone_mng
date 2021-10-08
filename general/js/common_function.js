@@ -1515,6 +1515,9 @@ function setEasySearch(eSearchParms) {
 			return inputJson
 		}).get();
 
+		console.log(location.origin);
+		console.log(location.pathname);
+
 		if (inputText.length > 1) {
 			for (var i in inputText) {
 				console.log(inputText[i]);
@@ -1523,7 +1526,7 @@ function setEasySearch(eSearchParms) {
 			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
 			var queryText = encodeURIComponent(queryText);
 			var str_query = '?query=' + queryText;
-			document.location = location.origin + location.pathname + str_query;
+			// document.location = location.origin + location.pathname + str_query;
 		}
 	});
 
