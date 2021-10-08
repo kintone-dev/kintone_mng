@@ -471,41 +471,6 @@
   kintone.events.on('app.record.index.show', function (event) {
     setEasySearch(prjSerchJson);
 
-    $('#btn_eSearch').on('click', function () {
-      var keyword = document.getElementById('s_eSearch').value;
-      var result = {};
-      //クエリから、URL固定部分(?query=)を無視して取り出す
-      var query = window.location.search.substring(7);
-      //フィールドコード名と検索キーワードに分割する
-      for (var i in query) {
-        var element = query[i].split('like');
-        var param_field_code = encodeURIComponent(element[0]);
-        var param_search_word = encodeURIComponent(element[1]);
-        //空白スペースを取り除いて、配列に格納
-        result[param_field_code.replace(/^\s+|\s+$/g, "")] = param_search_word.replace(/^[\s|\"]+|[\s|\"]+$/g, "");
-      }
-      // var str_query1 = '?query=' + FIELD_CODE + ' like "' + keyword + '" ' + AND_OR + ' ' + FIELD_CODE2 + ' like "' + keyword + '"';
-      var str_query = '?query=';
-      // var searchtarget = document.forms.searchTarget;
-      var isSearchConditions = []
-      for (var st in document.searchTargets.searchTarget) {
-        // console.log(document.forms.searchTarget[st].checked)
-        isSearchConditions.push(document.searchTargets.searchTarget[st].checked);
-        if (document.searchTargets.searchTarget[st].checked) {
-          str_query = str_query + document.searchTargets.searchTarget[st].id + ' like "' + keyword + '"';
-          var st_a = Number(st) + 1;
-          if (st_a < document.searchTargets.searchTarget.length && document.searchTargets.searchTarget[st_a].checked) {
-            str_query = str_query + ' or ';
-          }
-        }
-      }
-      if (keyword == "" || keyword == undefined) {
-        str_query = "";
-      }
-      // 検索結果のURLへ
-      document.location = location.origin + location.pathname + str_query;
-    });
-
     return event;
   });
   /*
