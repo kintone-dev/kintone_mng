@@ -1511,11 +1511,19 @@ function setEasySearch(eSearchParms) {
 			var nameArray = $(this).attr('name').split('_');
 			var name = nameArray[0];
 			var matchType = nameArray[1];
-			var inputJson = {
-				'name': name,
-				'value': val,
-				'matchType': matchType
-			};
+			if(name=""){
+				var inputJson = {
+					'name': name,
+					'value': val,
+					'matchType': '='
+				};
+			}else{
+				var inputJson = {
+					'name': name,
+					'value': val,
+					'matchType': matchType
+				};
+			}
 			return inputJson
 		}).get();
 		if (inputText.length > 1) {
