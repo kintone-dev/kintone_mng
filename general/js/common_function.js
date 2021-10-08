@@ -1493,8 +1493,8 @@ function setEasySearch(eSearchParms) {
 	inputArea.appendChild(eSearch);
 
 	//検索ボタン作成
-	var searchBtn = document.createElement('input');
-	searchBtn.type = 'submit';
+	var searchBtn = document.createElement('button');
+	searchBtn.type = 'button';
 	var searchBtn_id = 'searchbtn_' + eSearchParms.sID;
 	searchBtn.id = searchBtn_id;
 	searchBtn.value = '検索';
