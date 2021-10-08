@@ -1439,30 +1439,24 @@ function setEasySearch(eSearchParms) {
 	var eSearchArea = document.createElement('div');
 	eSearchArea.ID = eSearchParms.sID;
 
+	var searchTargetArea = document.createElement('form');
+	searchTargetArea.id = 'searchTargets';
+	searchTargetArea.name = 'searchTargets';
+
+	//検索ボタン作成
 	var searchBtn = document.createElement('input');
 	searchBtn.type = 'submit';
 	searchBtn.id = 'btn_' + eSearchParms.sID;
 	searchBtn.value = '検索';
-	eSearchArea.appendChild(searchBtn);
+	searchTargetArea.appendChild(searchBtn);
 
-	var searchTargetArea = document.createElement('form');
-	searchTargetArea.id = 'searchTargets';
-	searchTargetArea.name = 'searchTargets';
+	//検索種別作成
 	for (let i in eSearchParms.sConditions) {
 		var searchTarget = document.createElement('input');
 		searchTarget.id = eSearchParms.sConditions[i].fCode;
 		searchTarget.name = 'searchTarget';
 		searchTarget.type = 'checkbox';
 		searchTarget.value = eSearchParms.sConditions[i].fCode;
-		if (i == 0) {
-			searchTarget.checked = true;
-			var eSearch = document.createElement('input');
-			eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
-			eSearch.type = 'text';
-			eSearch.placeholder = eSearchParms.sConditions[i].fName;
-			eSearch.classList.add('searchInput');
-			eSearchArea.appendChild(eSearch);
-		}
 		searchTargetArea.appendChild(searchTarget);
 		var searchTargetValue = document.createElement('label');
 		searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
@@ -1481,6 +1475,15 @@ function setEasySearch(eSearchParms) {
 				$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
 			}
 		});
+		if (i == 0) {
+			searchTarget.checked = true;
+			var eSearch = document.createElement('input');
+			eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
+			eSearch.type = 'text';
+			eSearch.placeholder = eSearchParms.sConditions[i].fName;
+			eSearch.classList.add('searchInput');
+			eSearchArea.appendChild(eSearch);
+		}
 	}
 	eSearchArea.appendChild(searchTargetArea);
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
