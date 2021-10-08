@@ -1497,7 +1497,7 @@ function setEasySearch(eSearchParms) {
 	searchBtn.type = 'button';
 	var searchBtn_id = 'searchbtn_' + eSearchParms.sID;
 	searchBtn.id = searchBtn_id;
-	searchBtn.value = '検索';
+	searchBtn.innerHTML = '検索';
 	checkboxArea.appendChild(searchBtn);
 
 	//ヘッダースペースに追加
@@ -1520,17 +1520,17 @@ function setEasySearch(eSearchParms) {
 		console.log(location.pathname);
 
 		if (inputText.length > 1) {
-			console.log(2);
+			var queryArray = [];
 			for (var i in inputText) {
-				console.log(inputText[i]);
+				var queryText = inputText[i].name + ' = "' + inputText[i].value+'"';
+				queryArray.push(queryText);
 			}
-		} else {
-			console.log(1);
+			console.log(queryArray.join(' and '));
+		} else if(inputText.length == 1) {
 			var queryText = inputText[0].name + ' = "' + inputText[0].value+'"';
 			var queryText = encodeURIComponent(queryText);
 			var str_query = '?query=' + queryText;
-			document.location = location.origin + location.pathname;
-			// document.location = location.origin + location.pathname + str_query;
+			document.location = location.origin + location.pathname + str_query;
 		}
 	});
 
