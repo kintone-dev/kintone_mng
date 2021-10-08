@@ -1477,8 +1477,9 @@ function setEasySearch(eSearchParms) {
 		searchTargetArea.appendChild(searchTargetValue);
 
 		(function () {
-			$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
-				console.log(i);
+			var x = i;
+			$(document).on("click", `#${eSearchParms.sConditions[x].fCode}`, function () {
+				console.log(x);
 			});
 		})();
 	}
