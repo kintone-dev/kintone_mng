@@ -1451,6 +1451,11 @@ function setEasySearch(eSearchParms) {
 	inputArea.id = 'inputWrap';
 	searchTargetArea.appendChild(inputArea);
 
+	if(sessionStorage.getItem('searched')=='true'){
+		console.log('ok');
+	}
+
+
 	//検索種別作成
 	for (let i in eSearchParms.sConditions) {
 		var searchTarget = document.createElement('input');
@@ -1503,6 +1508,7 @@ function setEasySearch(eSearchParms) {
 	kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
 
 	$(`#${searchBtn_id}`).on('click', function () {
+		sessionStorage.setItem('searched', 'true');
 		//作成したテキストボックスから値を格納
 		var inputText = $(".searchInput").map(function (index, element) {
 			var val = $(this).val();
