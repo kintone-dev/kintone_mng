@@ -1507,7 +1507,10 @@ function setEasySearch(eSearchParms) {
 		var inputText = $(".searchInput").map(function (index, el) {
 			return $(this).val();
 		});
-		console.log(inputText);
+
+		for(var i in inputText){
+			console.log(inputText[i]);
+		}
 
 		//クエリから、URL固定部分(?query=)を無視して取り出す
 		// var query = window.location.search.substring(7);
