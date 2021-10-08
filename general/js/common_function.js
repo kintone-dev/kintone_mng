@@ -1511,7 +1511,7 @@ function setEasySearch(eSearchParms) {
 			var nameArray = $(this).attr('name').split('_');
 			var name = nameArray[0];
 			var matchType = nameArray[1];
-			if(name=""){
+			if(val==""){
 				var inputJson = {
 					'name': name,
 					'value': val,
