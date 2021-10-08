@@ -1534,7 +1534,7 @@ function setEasySearch(eSearchParms) {
 		} else if (inputText.length == 1) {
 			var queryText = inputText[0].name + ` ${inputText[0].matchType} ` + '"' + inputText[0].value + '"';
 		} else{
-			var queryText =''
+			var queryText ='';
 		}
 		queryText = encodeURIComponent(queryText);
 		var str_query = '?query=' + queryText;
