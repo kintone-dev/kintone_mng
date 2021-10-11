@@ -1835,6 +1835,12 @@ function setSearch(searchParms) {
 		var str_query = '?query=' + queryText;
 		document.location = location.origin + location.pathname + str_query;
 	});
+
+	//検索リセット
+	$(`#${eSearchResetBtn_id}`).on('click', function () {
+		document.location = location.origin + location.pathname;
+	});
+
 }
 
 // ロード中のページ表示凍結
