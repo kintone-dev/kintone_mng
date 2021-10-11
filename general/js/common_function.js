@@ -1572,6 +1572,7 @@ function setSearch(searchParms) {
 	eSearchResetBtn.type = 'button';
 	var eSearchResetBtn_id = 'eSearchReset_' + searchParms.sID;
 	eSearchResetBtn.id = eSearchResetBtn_id;
+	eSearchResetBtn.classList.add('searchReset');
 	eSearchResetBtn.innerHTML = '検索リセット';
 	eSearchCheckboxArea.appendChild(eSearchResetBtn);
 
@@ -1580,7 +1581,7 @@ function setSearch(searchParms) {
 	eSearchClearBtn.type = 'button';
 	var eSearchClearBtn_id = 'eSearchClear_' + searchParms.sID;
 	eSearchClearBtn.id = eSearchClearBtn_id;
-	eSearchClearBtn.innerHTML = '検索リセット';
+	eSearchClearBtn.innerHTML = 'クリア';
 	eSearchCheckboxArea.appendChild(eSearchClearBtn);
 
 	// 詳細検索モーダル表示ボタン作成,表示機能
