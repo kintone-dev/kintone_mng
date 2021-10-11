@@ -1460,10 +1460,12 @@ function setSearch(searchParms) {
 
 	var eSearchCheckboxArea = document.createElement('div');
 	eSearchCheckboxArea.id = 'easySearchCheckboxWrap';
+	eSearchCheckboxArea.classList.add('checkBoxWrap');
 	eSearchTargetArea.appendChild(eSearchCheckboxArea);
 
 	var eSearchInputArea = document.createElement('div');
 	eSearchInputArea.id = 'easySearchInputWrap';
+	eSearchInputArea.classList.add('inputWrap');
 	eSearchTargetArea.appendChild(eSearchInputArea);
 
 
