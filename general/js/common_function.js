@@ -1454,6 +1454,11 @@ function setSearch(searchParms) {
 	eSearchArea.id = 'easySearch';
 	eSearchArea.classList.add('searchWindow');
 
+	var eSearchTitle = document.createElement('p');
+	eSearchTitle.classList.add('searchTitle');
+	eSearchTitle.innerText = '簡易検索';
+	eSearchArea.appendChild(eSearchTitle);
+
 	var eSearchTargetArea = document.createElement('form');
 	eSearchTargetArea.id = 'easySearchTargets';
 	eSearchTargetArea.name = 'easySearchTargets';
@@ -1529,6 +1534,11 @@ function setSearch(searchParms) {
 	var dSearchArea = document.createElement('div');
 	dSearchArea.id = 'detailSearch';
 	dSearchArea.classList.add('searchWindow');
+
+	var dSearchTitle = document.createElement('p');
+	dSearchTitle.classList.add('searchTitle');
+	dSearchTitle.innerText = '詳細検索';
+	dSearchArea.appendChild(dSearchTitle);
 
 	var dSearchTargetArea = document.createElement('form');
 	dSearchTargetArea.id = 'detailSearchTargets';
