@@ -1602,7 +1602,7 @@ function setSearch(searchParms) {
 	eSearchArea.appendChild(eSearchTargetArea);
 	eSearchArea.appendChild(closeBtn);
 	dSearchArea.appendChild(dSearchTargetArea);
-	// dSearchArea.appendChild(closeBtn);
+	dSearchArea.appendChild(closeBtn);
 	searchWrap.appendChild(eSearchArea);
 	searchWrap.appendChild(dSearchArea);
 	$("body").append(searchWrap);
