@@ -1507,7 +1507,7 @@ function setSearch(searchParms) {
 			});
 
 			if (sessionStorage.getItem(searchParms.sConditions[i].fCode)) {
-				searchTarget.checked = true;
+				eSearchTarget.checked = true;
 				var eSearch = document.createElement('input');
 				eSearch.id = 'esi_' + searchParms.sConditions[i].fCode;
 				eSearch.type = 'text';
@@ -1549,7 +1549,7 @@ function setSearch(searchParms) {
 			});
 
 			if (i == 0) {
-				searchTarget.checked = true;
+				eSearchTarget.checked = true;
 				var eSearch = document.createElement('input');
 				eSearch.id = 'esi_' + searchParms.sConditions[0].fCode;
 				eSearch.type = 'text';
@@ -1650,7 +1650,7 @@ function setSearch(searchParms) {
 			});
 
 			if (sessionStorage.getItem(searchParms.sConditions[i].fCode)) {
-				searchTarget.checked = true;
+				dSearchTarget.checked = true;
 				var eSearch = document.createElement('input');
 				dSearch.id = 'dsi_' + searchParms.sConditions[i].fCode;
 				dSearch.type = 'text';
@@ -1692,7 +1692,7 @@ function setSearch(searchParms) {
 			});
 
 			if (i == 0) {
-				searchTarget.checked = true;
+				dSearchTarget.checked = true;
 				var eSearch = document.createElement('input');
 				eSearch.id = 'dsi_' + searchParms.sConditions[0].fCode;
 				eSearch.type = 'text';
