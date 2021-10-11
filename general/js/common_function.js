@@ -1720,7 +1720,7 @@ function setSearch(searchParms) {
 	dSearchResetBtn.id = dSearchResetBtn_id;
 	dSearchResetBtn.classList.add('searchReset');
 	dSearchResetBtn.innerHTML = '検索リセット';
-	dSearchCheckboxArea.appendChild(eSearchResetBtn);
+	dSearchCheckboxArea.appendChild(dSearchResetBtn);
 
 	//検索クリアボタン作成
 	var dSearchClearBtn = document.createElement('button');
@@ -1729,7 +1729,7 @@ function setSearch(searchParms) {
 	dSearchClearBtn.id = dSearchClearBtn_id;
 	dSearchClearBtn.classList.add('searchClear');
 	dSearchClearBtn.innerHTML = 'クリア';
-	dSearchCheckboxArea.appendChild(eSearchClearBtn);
+	dSearchCheckboxArea.appendChild(dSearchClearBtn);
 
 
 	//閉じるボタン作成
