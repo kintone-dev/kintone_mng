@@ -16,7 +16,7 @@
       var deliveryArrangements=['receiver','phoneNum','zipcode','prefectures','city','address','aboutDelivery','tarDate','deviceList'];
       for(var sri in deliveryArrangements){
         if(event.record[deliveryArrangements[sri]].value==undefined || event.record[deliveryArrangements[sri]].value==''){
-          event.record[deliveryArrangements[sri]].error='ステータスを進めるに必要な項目です。';
+          // event.record[deliveryArrangements[sri]].error='ステータスを進めるに必要な項目です。';
           sResult=false;
           break;
         }else{
@@ -24,7 +24,7 @@
         }
       }
       if(event.record.aboutDelivery.value=='確認中'){
-        event.record.aboutDelivery.error='この項目が確認中のままではステータスを進められません。'
+        // event.record.aboutDelivery.error='この項目が確認中のままではステータスを進められません。'
         sResult=false;
       }
       // ステータスを進めるための条件判定結果により処理実行
