@@ -1452,7 +1452,7 @@ function setSearch(searchParms) {
 	// 簡易検索モーダル作成
 	var eSearchArea = document.createElement('div');
 	eSearchArea.id = 'easySearch';
-	showEasySearchBtn.classList.add('searchWindow');
+	eSearchArea.classList.add('searchWindow');
 
 	var eSearchTargetArea = document.createElement('form');
 	eSearchTargetArea.id = 'easySearchTargets';
@@ -1530,7 +1530,7 @@ function setSearch(searchParms) {
 	var showDetailSearchBtn = document.createElement('button');
 	showDetailSearchBtn.type = 'button';
 	showDetailSearchBtn.id = 'showDetailSearch';
-	showEasySearchBtn.classList.add('showModalBtn');
+	showDetailSearchBtn.classList.add('showModalBtn');
 	showDetailSearchBtn.innerHTML = '詳細検索';
 	kintone.app.getHeaderMenuSpaceElement().appendChild(showDetailSearchBtn);
 
