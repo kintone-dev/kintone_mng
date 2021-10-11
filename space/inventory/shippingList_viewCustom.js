@@ -138,6 +138,8 @@
     }
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
+      console.log(sessionStorage.getItem('tabSelect'));
+      console.log('#出荷情報');
       tabSwitch(sessionStorage.getItem('tabSelect'));
     } else {
       tabSwitch('#出荷情報');
