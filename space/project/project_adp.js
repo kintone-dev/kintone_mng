@@ -3,6 +3,7 @@
 
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
+    startLoad();
     var nStatus = event.nextStatus.value;
     var reportData = await checkEoMReport(event.record.sys_invoiceDate.value);
     if (reportData == false) {
@@ -188,7 +189,7 @@
         await reportCtrl(event, kintone.app.getId());
       }
     }
-
+    endLoad();
     return event;
   });
 
