@@ -1642,7 +1642,7 @@ function setSearch(searchParms) {
 					dSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
 					dSearch.placeholder = searchParms.sConditions[i].fName;
 					dSearch.classList.add('searchInput');
-					eSearch.classList.add('dSearchInput');
+					dSearch.classList.add('dSearchInput');
 					dSearchInputArea.appendChild(dSearch);
 				} else {
 					$(`#dsi_${searchParms.sConditions[i].fCode}`).remove();
@@ -1658,7 +1658,7 @@ function setSearch(searchParms) {
 				dSearch.value = sessionStorage.getItem(searchParms.sConditions[i].fCode);
 				dSearch.placeholder = searchParms.sConditions[i].fName;
 				dSearch.classList.add('searchInput');
-				eSearch.classList.add('dSearchInput');
+				dSearch.classList.add('dSearchInput');
 				dSearchInputArea.appendChild(dSearch);
 			}
 		}
