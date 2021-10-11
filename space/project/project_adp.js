@@ -164,7 +164,7 @@
       }
 
       // 入出荷管理に情報連携
-      postRecords(sysid.INV.app_id.shipment, postShipData);
+      await postRecords(sysid.INV.app_id.shipment, postShipData);
 
     } else if (nStatus == '完了') { //ステータスが完了の場合
       if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {

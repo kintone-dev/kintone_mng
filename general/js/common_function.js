@@ -1593,20 +1593,34 @@ function setSearch(searchParms) {
 	dSearchBtn.innerHTML = '検索';
 	dSearchCheckboxArea.appendChild(dSearchBtn);
 
+	//閉じるボタン作成
+	var closeBtn = document.createElement('div');
+	closeBtn.classList.add('searchClose');
+	closeBtn.innerHTML = '<p>×</p>';
+
 	//bodyに追加
 	eSearchArea.appendChild(eSearchTargetArea);
+	eSearchArea.appendChild(searchClose);
+	dSearchArea.appendChild(dSearchTargetArea);
+	dSearchArea.appendChild(searchClose);
 	searchWrap.appendChild(eSearchArea);
 	searchWrap.appendChild(dSearchArea);
 	$("body").append(searchWrap);
 
 	$(document).on("click", `#${showEasySearchBtn.id}`, function () {
-		$(`#${searchWrap.id}`).fadeToggle();
-		$(`#${eSearchArea.id}`).fadeToggle();
+		$(`#${searchWrap.id}`).fadeIn();
+		$(`#${eSearchArea.id}`).fadeIn();
 	});
 
 	$(document).on("click", `#${showDetailSearchBtn.id}`, function () {
-		$(`#${searchWrap.id}`).fadeToggle();
-		$(`#${dSearchArea.id}`).fadeToggle();
+		$(`#${searchWrap.id}`).fadeIn();
+		$(`#${dSearchArea.id}`).fadeIn();
+	});
+
+	$(document).on("click", '.searchClose', function () {
+		$(`#${searchWrap.id}`).fadeOut();
+		$(`#${eSearchArea.id}`).fadeOut();
+		$(`#${dSearchArea.id}`).fadeOut();
 	});
 
 
