@@ -139,7 +139,12 @@
     tabSwitch('#出荷情報'); //tab初期表示設定
     //タブメニュー作成
     tabMenu('tab_ship', ['出荷情報', '宛先情報', '品目情報', '輸送情報']);
-
+    //タブ切り替え表示設定
+    $('.tabMenu a').on('click', function () {
+      var idName = $(this).attr('href'); //タブ内のリンク名を取得
+      tabSwitch(idName); //tabをクリックした時の表示設定
+      return false; //aタグを無効にする
+    });
     return event;
   });
 

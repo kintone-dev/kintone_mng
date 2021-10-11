@@ -86,14 +86,6 @@ function tabMenu(tabID, tabList) {
 		$(parentElm).addClass("active"); //クリックした要素に改めてCSS設定を付与
 		return false;
 	});
-
-	//タブ切り替え表示設定
-	$('.tabMenu a').on('click', function () {
-		var idName = $(this).attr('href'); //タブ内のリンク名を取得
-		tabSwitch(idName); //tabをクリックした時の表示設定
-		return false; //aタグを無効にする
-	});
-
 }
 /* 使い方
 *function tabSwitch(onSelect){ //タブメニュー選択肢
