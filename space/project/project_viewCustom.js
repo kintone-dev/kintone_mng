@@ -46,9 +46,8 @@
         }
 
         var confTxt = '';
-        for(var i in confirmSetting.fCode){
-          console.log(event.record[confirmSetting.fCode[i]].value);
-          confTxt = confTxt + confirmSetting.fCode[i] + '：' + event.record[confirmSetting.fCode[i]].value + '\n';
+        for(var i in confirmSetting){
+          confTxt = confTxt + confirmSetting[i].fName + '：' + event.record[confirmSetting[i].fCode].value + '\n';
         }
         if(confirm(confTxt)){
           return event;

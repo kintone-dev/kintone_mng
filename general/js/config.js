@@ -121,13 +121,20 @@ function set_sysid(env) {
 
 //案件管理
 //納品依頼実行時confirm表示
-var confirmSetting = {
-	fCode:[
-		'prjTitle',
-		'salesType',
-		'prjNum'
-	]
-}
+var confirmSetting = [
+	{
+		'fCode':'prjTitle',
+		'fName':'タイトル',
+	},
+	{
+		'fCode':'salesType',
+		'fName':'提供形態',
+	},
+	{
+		'fCode':'prjNum',
+		'fName':'案件管理番号',
+	}
+]
 
 //検索窓設定
 var prjSerchJson = {
