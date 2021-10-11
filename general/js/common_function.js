@@ -1651,7 +1651,7 @@ function setSearch(searchParms) {
 
 			if (sessionStorage.getItem(searchParms.sConditions[i].fCode)) {
 				dSearchTarget.checked = true;
-				var eSearch = document.createElement('input');
+				var dSearch = document.createElement('input');
 				dSearch.id = 'dsi_' + searchParms.sConditions[i].fCode;
 				dSearch.type = 'text';
 				dSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
@@ -1835,6 +1835,12 @@ function setSearch(searchParms) {
 		var str_query = '?query=' + queryText;
 		document.location = location.origin + location.pathname + str_query;
 	});
+
+	//検索リセット
+	$(`#${eSearchResetBtn_id}`).on('click', function () {
+		document.location = location.origin + location.pathname;
+	});
+
 }
 
 // ロード中のページ表示凍結

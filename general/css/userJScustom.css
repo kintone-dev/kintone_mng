@@ -124,6 +124,8 @@
 
 .inputWrap{
 	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
 .searchClose{
@@ -144,4 +146,8 @@
 	text-align: center;
 	font-size: 24px;
 	cursor: pointer;
+}
+
+.searchInput{
+	width: 31%;
 }
