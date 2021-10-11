@@ -1576,6 +1576,7 @@ function setSearch(searchParms) {
 	eSearchCheckboxArea.appendChild(eSearchResetBtn);
 
 	//検索クリアボタン作成
+	var eSearchClearBtn = document.createElement('button');
 	eSearchClearBtn.type = 'button';
 	var eSearchClearBtn_id = 'eSearchClear_' + searchParms.sID;
 	eSearchClearBtn.id = eSearchClearBtn_id;
