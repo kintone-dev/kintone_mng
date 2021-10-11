@@ -349,8 +349,8 @@ const postRecords = async (sendApp, records) => {
 				console.log(resp);
 			}).catch(function (error) {
 				console.log(error);
-				eRecord=kintone.app.record.get();
-				eRecord.error=error;
+				eRecord = kintone.app.record.get();
+				eRecord.error = error;
 				kintone.app.record.set(eRecord);
 			});
 		POST_RECORDS.splice(0, 100);
@@ -1713,6 +1713,24 @@ function setSearch(searchParms) {
 	dSearchBtn.innerHTML = '検索';
 	dSearchCheckboxArea.appendChild(dSearchBtn);
 
+	//検索リセットボタン作成
+	var dSearchResetBtn = document.createElement('button');
+	dSearchResetBtn.type = 'button';
+	var dSearchResetBtn_id = 'eSearchReset_' + searchParms.sID;
+	dSearchResetBtn.id = dSearchResetBtn_id;
+	dSearchResetBtn.classList.add('searchReset');
+	dSearchResetBtn.innerHTML = '検索リセット';
+	dSearchCheckboxArea.appendChild(eSearchResetBtn);
+
+	//検索クリアボタン作成
+	var dSearchClearBtn = document.createElement('button');
+	dSearchClearBtn.type = 'button';
+	var dSearchClearBtn_id = 'eSearchClear_' + searchParms.sID;
+	dSearchClearBtn.id = dSearchClearBtn_id;
+	dSearchClearBtn.innerHTML = 'クリア';
+	dSearchCheckboxArea.appendChild(eSearchClearBtn);
+
+
 	//閉じるボタン作成
 	var esCloseBtn = document.createElement('div');
 	esCloseBtn.classList.add('searchClose');
@@ -1749,7 +1767,7 @@ function setSearch(searchParms) {
 	//簡易検索
 	$(`#${eSearchBtn_id}`).on('click', function () {
 		sessionStorage.setItem('searched', 'true');
-		for(var i in searchParms.sConditions){
+		for (var i in searchParms.sConditions) {
 			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
 		}
 		//作成したテキストボックスから値を格納
@@ -1759,13 +1777,13 @@ function setSearch(searchParms) {
 			var name = nameArray[0];
 			var matchType = nameArray[1];
 			sessionStorage.setItem(name, val);
-			if(val==""){
+			if (val == "") {
 				var inputJson = {
 					'name': name,
 					'value': val,
 					'matchType': '='
 				};
-			}else{
+			} else {
 				var inputJson = {
 					'name': name,
 					'value': val,
@@ -1783,8 +1801,8 @@ function setSearch(searchParms) {
 			var queryText = queryArray.join(' or ');
 		} else if (inputText.length == 1) {
 			var queryText = inputText[0].name + ` ${inputText[0].matchType} ` + '"' + inputText[0].value + '"';
-		} else{
-			var queryText ='';
+		} else {
+			var queryText = '';
 		}
 		queryText = encodeURIComponent(queryText);
 		var str_query = '?query=' + queryText;
@@ -1794,7 +1812,7 @@ function setSearch(searchParms) {
 	// 詳細検索
 	$(`#${dSearchBtn_id}`).on('click', function () {
 		sessionStorage.setItem('searched', 'true');
-		for(var i in searchParms.sConditions){
+		for (var i in searchParms.sConditions) {
 			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
 		}
 		//作成したテキストボックスから値を格納
@@ -1804,13 +1822,13 @@ function setSearch(searchParms) {
 			var name = nameArray[0];
 			var matchType = nameArray[1];
 			sessionStorage.setItem(name, val);
-			if(val==""){
+			if (val == "") {
 				var inputJson = {
 					'name': name,
 					'value': val,
 					'matchType': '='
 				};
-			}else{
+			} else {
 				var inputJson = {
 					'name': name,
 					'value': val,
@@ -1829,8 +1847,8 @@ function setSearch(searchParms) {
 			var queryText = queryArray.join(' and ');
 		} else if (inputText.length == 1) {
 			var queryText = inputText[0].name + ` ${inputText[0].matchType} ` + '"' + inputText[0].value + '"';
-		} else{
-			var queryText ='';
+		} else {
+			var queryText = '';
 		}
 		queryText = encodeURIComponent(queryText);
 		var str_query = '?query=' + queryText;
@@ -1838,9 +1856,9 @@ function setSearch(searchParms) {
 	});
 
 	//検索リセット
-	$(`#${eSearchResetBtn_id}`).on('click', function () {
+	$('.searchReset').on('click', function () {
 		sessionStorage.removeItem('searched');
-		for(var i in searchParms.sConditions){
+		for (var i in searchParms.sConditions) {
 			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
 		}
 		document.location = location.origin + location.pathname;
