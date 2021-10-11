@@ -346,8 +346,12 @@ const postRecords = async (sendApp, records) => {
 		await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
 			.then(function (resp) {
 				console.log(postBody);
+				console.log(resp);
 			}).catch(function (error) {
 				console.log(error);
+				eRecord=kintone.app.record.get();
+				eRecord.error=error;
+				kintone.app.record.set(eRecord);
 			});
 		POST_RECORDS.splice(0, 100);
 	}
