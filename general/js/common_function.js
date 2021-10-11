@@ -1473,46 +1473,91 @@ function setSearch(searchParms) {
 	eSearchInputArea.classList.add('inputWrap');
 	eSearchTargetArea.appendChild(eSearchInputArea);
 
+	if (sessionStorage.getItem('searched')) {
+		for (let i in searchParms.sConditions) {
+			var eSearchTarget = document.createElement('input');
+			eSearchTarget.id = 'esc_' + searchParms.sConditions[i].fCode;
+			eSearchTarget.name = 'eSearchTarget';
+			eSearchTarget.type = 'checkbox';
+			eSearchTarget.value = searchParms.sConditions[i].fCode;
+			eSearchCheckboxArea.appendChild(eSearchTarget);
 
-	for (let i in searchParms.sConditions) {
-		var eSearchTarget = document.createElement('input');
-		eSearchTarget.id = 'esc_' + searchParms.sConditions[i].fCode;
-		eSearchTarget.name = 'eSearchTarget';
-		eSearchTarget.type = 'checkbox';
-		eSearchTarget.value = searchParms.sConditions[i].fCode;
-		eSearchCheckboxArea.appendChild(eSearchTarget);
+			var eSearchTargetValue = document.createElement('label');
+			eSearchTargetValue.htmlFor = 'esc_' + searchParms.sConditions[i].fCode;
+			eSearchTargetValue.innerText = searchParms.sConditions[i].fName;
+			eSearchCheckboxArea.appendChild(eSearchTargetValue);
 
-		var eSearchTargetValue = document.createElement('label');
-		eSearchTargetValue.htmlFor = 'esc_' + searchParms.sConditions[i].fCode;
-		eSearchTargetValue.innerText = searchParms.sConditions[i].fName;
-		eSearchCheckboxArea.appendChild(eSearchTargetValue);
+			$(document).on("click", `#esc_${searchParms.sConditions[i].fCode}`, function () {
+				if ($(`#esc_${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
+					var eSearch = document.createElement('input');
+					eSearch.id = 'esi_' + searchParms.sConditions[i].fCode;
+					eSearch.type = 'text';
+					eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+					eSearch.placeholder = searchParms.sConditions[i].fName;
+					eSearch.classList.add('searchInput');
+					eSearch.classList.add('eSearchInput');
+					eSearchInputArea.appendChild(eSearch);
+				} else {
+					$(`#esi_${searchParms.sConditions[i].fCode}`).remove();
+				}
+			});
 
-		$(document).on("click", `#esc_${searchParms.sConditions[i].fCode}`, function () {
-			if ($(`#esc_${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
+			if (sessionStorage.getItem(searchParms.sConditions[i].fCode)) {
+				searchTarget.checked = true;
 				var eSearch = document.createElement('input');
 				eSearch.id = 'esi_' + searchParms.sConditions[i].fCode;
 				eSearch.type = 'text';
-				eSearch.name = 'es_' + searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+				eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+				eSearch.value = sessionStorage.getItem(searchParms.sConditions[i].fCode);
 				eSearch.placeholder = searchParms.sConditions[i].fName;
 				eSearch.classList.add('searchInput');
+				eSearch.classList.add('eSearchInput');
 				eSearchInputArea.appendChild(eSearch);
-			} else {
-				$(`#esi_${searchParms.sConditions[i].fCode}`).remove();
 			}
-		});
+		}
+	} else {
+		for (let i in searchParms.sConditions) {
+			var eSearchTarget = document.createElement('input');
+			eSearchTarget.id = 'esc_' + searchParms.sConditions[i].fCode;
+			eSearchTarget.name = 'eSearchTarget';
+			eSearchTarget.type = 'checkbox';
+			eSearchTarget.value = searchParms.sConditions[i].fCode;
+			eSearchCheckboxArea.appendChild(eSearchTarget);
 
-		if (sessionStorage.getItem(searchParms.sConditions[i].fCode)) {
-			searchTarget.checked = true;
-			var eSearch = document.createElement('input');
-			eSearch.id = 'esi_' + searchParms.sConditions[i].fCode;
-			eSearch.type = 'text';
-			eSearch.name = 'es_' + searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
-			eSearch.value = sessionStorage.getItem(searchParms.sConditions[i].fCode);
-			eSearch.placeholder = searchParms.sConditions[i].fName;
-			eSearch.classList.add('searchInput');
-			eSearchInputArea.appendChild(eSearch);
+			var eSearchTargetValue = document.createElement('label');
+			eSearchTargetValue.htmlFor = 'esc_' + searchParms.sConditions[i].fCode;
+			eSearchTargetValue.innerText = searchParms.sConditions[i].fName;
+			eSearchCheckboxArea.appendChild(eSearchTargetValue);
+
+			$(document).on("click", `#esc_${searchParms.sConditions[i].fCode}`, function () {
+				if ($(`#esc_${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
+					var eSearch = document.createElement('input');
+					eSearch.id = 'esi_' + searchParms.sConditions[i].fCode;
+					eSearch.type = 'text';
+					eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+					eSearch.placeholder = searchParms.sConditions[i].fName;
+					eSearch.classList.add('searchInput');
+					eSearch.classList.add('eSearchInput');
+					eSearchInputArea.appendChild(eSearch);
+				} else {
+					$(`#esi_${searchParms.sConditions[i].fCode}`).remove();
+				}
+			});
+
+			if (i == 0) {
+				searchTarget.checked = true;
+				var eSearch = document.createElement('input');
+				eSearch.id = 'esi_' + searchParms.sConditions[0].fCode;
+				eSearch.type = 'text';
+				eSearch.name = searchParms.sConditions[0].fCode + '_' + searchParms.sConditions[0].matchType;
+				eSearch.placeholder = searchParms.sConditions[0].fName;
+				eSearch.classList.add('searchInput');
+				eSearch.classList.add('eSearchInput');
+				inputArea.appendChild(eSearch);
+			}
 		}
 	}
+
 
 	//簡易検索ボタン作成
 	var eSearchBtn = document.createElement('button');
@@ -1554,44 +1599,88 @@ function setSearch(searchParms) {
 	dSearchInputArea.classList.add('inputWrap');
 	dSearchTargetArea.appendChild(dSearchInputArea);
 
+	if (sessionStorage.getItem('searched')) {
+		for (let i in searchParms.sConditions) {
+			var dSearchTarget = document.createElement('input');
+			dSearchTarget.id = 'dsc_' + searchParms.sConditions[i].fCode;
+			dSearchTarget.name = 'dSearchTarget';
+			dSearchTarget.type = 'checkbox';
+			dSearchTarget.value = searchParms.sConditions[i].fCode;
+			dSearchCheckboxArea.appendChild(dSearchTarget);
 
-	for (let i in searchParms.sConditions) {
-		var dSearchTarget = document.createElement('input');
-		dSearchTarget.id = 'dsc_' + searchParms.sConditions[i].fCode;
-		dSearchTarget.name = 'dSearchTarget';
-		dSearchTarget.type = 'checkbox';
-		dSearchTarget.value = searchParms.sConditions[i].fCode;
-		dSearchCheckboxArea.appendChild(dSearchTarget);
+			var dSearchTargetValue = document.createElement('label');
+			dSearchTargetValue.htmlFor = 'dsc_' + searchParms.sConditions[i].fCode;
+			dSearchTargetValue.innerText = searchParms.sConditions[i].fName;
+			dSearchCheckboxArea.appendChild(dSearchTargetValue);
 
-		var dSearchTargetValue = document.createElement('label');
-		dSearchTargetValue.htmlFor = 'dsc_' + searchParms.sConditions[i].fCode;
-		dSearchTargetValue.innerText = searchParms.sConditions[i].fName;
-		dSearchCheckboxArea.appendChild(dSearchTargetValue);
+			$(document).on("click", `#dsc_${searchParms.sConditions[i].fCode}`, function () {
+				if ($(`#dsc_${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
+					var dSearch = document.createElement('input');
+					dSearch.id = 'dsi_' + searchParms.sConditions[i].fCode;
+					dSearch.type = 'text';
+					dSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+					dSearch.placeholder = searchParms.sConditions[i].fName;
+					dSearch.classList.add('searchInput');
+					eSearch.classList.add('dSearchInput');
+					dSearchInputArea.appendChild(dSearch);
+				} else {
+					$(`#dsi_${searchParms.sConditions[i].fCode}`).remove();
+				}
+			});
 
-		$(document).on("click", `#dsc_${searchParms.sConditions[i].fCode}`, function () {
-			if ($(`#dsc_${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
-				var dSearch = document.createElement('input');
+			if (sessionStorage.getItem(searchParms.sConditions[i].fCode)) {
+				searchTarget.checked = true;
+				var eSearch = document.createElement('input');
 				dSearch.id = 'dsi_' + searchParms.sConditions[i].fCode;
 				dSearch.type = 'text';
-				dSearch.name = 'ds_' + searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+				dSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+				dSearch.value = sessionStorage.getItem(searchParms.sConditions[i].fCode);
 				dSearch.placeholder = searchParms.sConditions[i].fName;
 				dSearch.classList.add('searchInput');
+				eSearch.classList.add('dSearchInput');
 				dSearchInputArea.appendChild(dSearch);
-			} else {
-				$(`#dsi_${searchParms.sConditions[i].fCode}`).remove();
 			}
-		});
+		}
+	} else {
+		for (let i in searchParms.sConditions) {
+			var dSearchTarget = document.createElement('input');
+			dSearchTarget.id = 'dsc_' + searchParms.sConditions[i].fCode;
+			dSearchTarget.name = 'dSearchTarget';
+			dSearchTarget.type = 'checkbox';
+			dSearchTarget.value = searchParms.sConditions[i].fCode;
+			dSearchCheckboxArea.appendChild(dSearchTarget);
 
-		if (sessionStorage.getItem(searchParms.sConditions[i].fCode)) {
-			searchTarget.checked = true;
-			var eSearch = document.createElement('input');
-			dSearch.id = 'dsi_' + searchParms.sConditions[i].fCode;
-			dSearch.type = 'text';
-			dSearch.name = 'ds_' + searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
-			dSearch.value = sessionStorage.getItem(searchParms.sConditions[i].fCode);
-			dSearch.placeholder = searchParms.sConditions[i].fName;
-			dSearch.classList.add('searchInput');
-			dSearchInputArea.appendChild(dSearch);
+			var dSearchTargetValue = document.createElement('label');
+			dSearchTargetValue.htmlFor = 'dsc_' + searchParms.sConditions[i].fCode;
+			dSearchTargetValue.innerText = searchParms.sConditions[i].fName;
+			dSearchCheckboxArea.appendChild(dSearchTargetValue);
+
+			$(document).on("click", `#dsc_${searchParms.sConditions[i].fCode}`, function () {
+				if ($(`#dsc_${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
+					var dSearch = document.createElement('input');
+					dSearch.id = 'dsi_' + searchParms.sConditions[i].fCode;
+					dSearch.type = 'text';
+					dSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+					dSearch.placeholder = searchParms.sConditions[i].fName;
+					dSearch.classList.add('searchInput');
+					dSearch.classList.add('dSearchInput');
+					dSearchInputArea.appendChild(dSearch);
+				} else {
+					$(`#dsi_${searchParms.sConditions[i].fCode}`).remove();
+				}
+			});
+
+			if (i == 0) {
+				searchTarget.checked = true;
+				var eSearch = document.createElement('input');
+				eSearch.id = 'dsi_' + searchParms.sConditions[0].fCode;
+				eSearch.type = 'text';
+				eSearch.name = searchParms.sConditions[0].fCode + '_' + searchParms.sConditions[0].matchType;
+				eSearch.placeholder = searchParms.sConditions[0].fName;
+				eSearch.classList.add('searchInput');
+				dSearch.classList.add('dSearchInput');
+				inputArea.appendChild(eSearch);
+			}
 		}
 	}
 
@@ -1638,157 +1727,95 @@ function setSearch(searchParms) {
 		$(`#${dSearchArea.id}`).fadeOut();
 	});
 
+	//簡易検索
+	$(`#${eSearchBtn_id}`).on('click', function () {
+		sessionStorage.setItem('searched', 'true');
+		for(var i in searchParms.sConditions){
+			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
+		}
+		//作成したテキストボックスから値を格納
+		var inputText = $(".eSearchInput").map(function (index, element) {
+			var val = $(this).val();
+			var nameArray = $(this).attr('name').split('_');
+			var name = nameArray[0];
+			var matchType = nameArray[1];
+			sessionStorage.setItem(name, val);
+			if(val==""){
+				var inputJson = {
+					'name': name,
+					'value': val,
+					'matchType': '='
+				};
+			}else{
+				var inputJson = {
+					'name': name,
+					'value': val,
+					'matchType': matchType
+				};
+			}
+			return inputJson
+		}).get();
+		if (inputText.length > 1) {
+			var queryArray = [];
+			for (var i in inputText) {
+				var queryBody = inputText[i].name + ` ${inputText[i].matchType} ` + '"' + inputText[i].value + '"';
+				queryArray.push(queryBody);
+			}
+			var queryText = queryArray.join(' or ');
+		} else if (inputText.length == 1) {
+			var queryText = inputText[0].name + ` ${inputText[0].matchType} ` + '"' + inputText[0].value + '"';
+		} else{
+			var queryText ='';
+		}
+		queryText = encodeURIComponent(queryText);
+		var str_query = '?query=' + queryText;
+		document.location = location.origin + location.pathname + str_query;
+	});
 
-	// var eSearchArea = document.createElement('div');
-	// eSearchArea.id = searchParms.sID;
-
-	// var searchTargetArea = document.createElement('form');
-	// searchTargetArea.id = 'searchTargets';
-	// searchTargetArea.name = 'searchTargets';
-
-	// var checkboxArea = document.createElement('div');
-	// checkboxArea.id = 'checkboxWrap';
-	// searchTargetArea.appendChild(checkboxArea);
-
-	// var inputArea = document.createElement('div');
-	// inputArea.id = 'inputWrap';
-	// searchTargetArea.appendChild(inputArea);
-
-	// if(sessionStorage.getItem('searched')){
-	// for (let i in searchParms.sConditions) {
-	// 	var searchTarget = document.createElement('input');
-	// 	searchTarget.id = searchParms.sConditions[i].fCode;
-	// 	searchTarget.name = 'searchTarget';
-	// 	searchTarget.type = 'checkbox';
-	// 	searchTarget.value = searchParms.sConditions[i].fCode;
-	// 	checkboxArea.appendChild(searchTarget);
-
-	// 	var searchTargetValue = document.createElement('label');
-	// 	searchTargetValue.htmlFor = searchParms.sConditions[i].fCode;
-	// 	searchTargetValue.innerText = searchParms.sConditions[i].fName;
-	// 	checkboxArea.appendChild(searchTargetValue);
-
-	// 	$(document).on("click", `#${searchParms.sConditions[i].fCode}`, function () {
-	// 		if ($(`#${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
-	// 			var eSearch = document.createElement('input');
-	// 			eSearch.id = 's_' + searchParms.sConditions[i].fCode;
-	// 			eSearch.type = 'text';
-	// 			eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
-	// 			eSearch.placeholder = searchParms.sConditions[i].fName;
-	// 			eSearch.classList.add('searchInput');
-	// 			inputArea.appendChild(eSearch);
-	// 		} else {
-	// 			$(`#s_${searchParms.sConditions[i].fCode}`).remove();
-	// 		}
-	// 	});
-
-	// 	if(sessionStorage.getItem(searchParms.sConditions[i].fCode)){
-	// 		searchTarget.checked = true;
-	// 		var eSearch = document.createElement('input');
-	// 		eSearch.id = 's_' + searchParms.sConditions[i].fCode;
-	// 		eSearch.type = 'text';
-	// 		eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
-	// 		eSearch.value = sessionStorage.getItem(searchParms.sConditions[i].fCode);
-	// 		eSearch.placeholder = searchParms.sConditions[i].fName;
-	// 		eSearch.classList.add('searchInput');
-	// 		inputArea.appendChild(eSearch);
-	// 	}
-	// }
-	// } else{
-	// for (let i in searchParms.sConditions) {
-	// 	var searchTarget = document.createElement('input');
-	// 	searchTarget.id = searchParms.sConditions[i].fCode;
-	// 	searchTarget.name = 'searchTarget';
-	// 	searchTarget.type = 'checkbox';
-	// 	searchTarget.value = searchParms.sConditions[i].fCode;
-	// 	checkboxArea.appendChild(searchTarget);
-
-	// 	var searchTargetValue = document.createElement('label');
-	// 	searchTargetValue.htmlFor = searchParms.sConditions[i].fCode;
-	// 	searchTargetValue.innerText = searchParms.sConditions[i].fName;
-	// 	checkboxArea.appendChild(searchTargetValue);
-
-	// 	$(document).on("click", `#${searchParms.sConditions[i].fCode}`, function () {
-	// 		if ($(`#${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
-	// 			var eSearch = document.createElement('input');
-	// 			eSearch.id = 's_' + searchParms.sConditions[i].fCode;
-	// 			eSearch.type = 'text';
-	// 			eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
-	// 			eSearch.placeholder = searchParms.sConditions[i].fName;
-	// 			eSearch.classList.add('searchInput');
-	// 			inputArea.appendChild(eSearch);
-	// 		} else {
-	// 			$(`#s_${searchParms.sConditions[i].fCode}`).remove();
-	// 		}
-	// 	});
-	// 	if (i == 0) {
-	// 		searchTarget.checked = true;
-	// 		var eSearch = document.createElement('input');
-	// 		eSearch.id = 's_' + searchParms.sConditions[0].fCode;
-	// 		eSearch.type = 'text';
-	// 		eSearch.name = searchParms.sConditions[0].fCode + '_' + searchParms.sConditions[0].matchType;
-	// 		eSearch.placeholder = searchParms.sConditions[0].fName;
-	// 		eSearch.classList.add('searchInput');
-	// 		inputArea.appendChild(eSearch);
-	// 	}
-	// }
-	// }
-
-	// //検索ボタン作成
-	// var searchBtn = document.createElement('button');
-	// searchBtn.type = 'button';
-	// var searchBtn_id = 'searchbtn_' + searchParms.sID;
-	// searchBtn.id = searchBtn_id;
-	// searchBtn.innerHTML = '検索';
-	// checkboxArea.appendChild(searchBtn);
-
-	// //ヘッダースペースに追加
-	// eSearchArea.appendChild(searchTargetArea);
-	// kintone.app.getHeaderMenuSpaceElement().appendChild(eSearchArea);
-
-	// $(`#${searchBtn_id}`).on('click', function () {
-	// 	sessionStorage.setItem('searched', 'true');
-	// 	for(var i in searchParms.sConditions){
-	// 		sessionStorage.removeItem(searchParms.sConditions[i].fCode);
-	// 	}
-	// 	//作成したテキストボックスから値を格納
-	// 	var inputText = $(".searchInput").map(function (index, element) {
-	// 		var val = $(this).val();
-	// 		var nameArray = $(this).attr('name').split('_');
-	// 		var name = nameArray[0];
-	// 		var matchType = nameArray[1];
-	// 		sessionStorage.setItem(name, val);
-	// 		if(val==""){
-	// 			var inputJson = {
-	// 				'name': name,
-	// 				'value': val,
-	// 				'matchType': '='
-	// 			};
-	// 		}else{
-	// 			var inputJson = {
-	// 				'name': name,
-	// 				'value': val,
-	// 				'matchType': matchType
-	// 			};
-	// 		}
-	// 		return inputJson
-	// 	}).get();
-	// 	if (inputText.length > 1) {
-	// 		var queryArray = [];
-	// 		for (var i in inputText) {
-	// 			var queryBody = inputText[i].name + ` ${inputText[i].matchType} ` + '"' + inputText[i].value + '"';
-	// 			queryArray.push(queryBody);
-	// 		}
-	// 		var queryText = queryArray.join(' and ');
-	// 	} else if (inputText.length == 1) {
-	// 		var queryText = inputText[0].name + ` ${inputText[0].matchType} ` + '"' + inputText[0].value + '"';
-	// 	} else{
-	// 		var queryText ='';
-	// 	}
-	// 	queryText = encodeURIComponent(queryText);
-	// 	var str_query = '?query=' + queryText;
-	// 	document.location = location.origin + location.pathname + str_query;
-	// });
+	// 詳細検索
+	$(`#${dSearchBtn_id}`).on('click', function () {
+		sessionStorage.setItem('searched', 'true');
+		for(var i in searchParms.sConditions){
+			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
+		}
+		//作成したテキストボックスから値を格納
+		var inputText = $(".dSearchInput").map(function (index, element) {
+			var val = $(this).val();
+			var nameArray = $(this).attr('name').split('_');
+			var name = nameArray[0];
+			var matchType = nameArray[1];
+			sessionStorage.setItem(name, val);
+			if(val==""){
+				var inputJson = {
+					'name': name,
+					'value': val,
+					'matchType': '='
+				};
+			}else{
+				var inputJson = {
+					'name': name,
+					'value': val,
+					'matchType': matchType
+				};
+			}
+			return inputJson
+		}).get();
+		if (inputText.length > 1) {
+			var queryArray = [];
+			for (var i in inputText) {
+				var queryBody = inputText[i].name + ` ${inputText[i].matchType} ` + '"' + inputText[i].value + '"';
+				queryArray.push(queryBody);
+			}
+			var queryText = queryArray.join(' and ');
+		} else if (inputText.length == 1) {
+			var queryText = inputText[0].name + ` ${inputText[0].matchType} ` + '"' + inputText[0].value + '"';
+		} else{
+			var queryText ='';
+		}
+		queryText = encodeURIComponent(queryText);
+		var str_query = '?query=' + queryText;
+		document.location = location.origin + location.pathname + str_query;
+	});
 }
 
 // ロード中のページ表示凍結
