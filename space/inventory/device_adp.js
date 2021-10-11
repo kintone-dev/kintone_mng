@@ -85,8 +85,7 @@
         'mVendor': event.record.mVendor,
         'mClassification': event.record.mClassification,
         'packageComp': event.record.packageComp,
-        'endService': event.record.endService,
-        'mImg': event.record.mImg
+        'endService': event.record.endService
       }
     };
     // 転送先指定
@@ -155,8 +154,7 @@
         'mVendor': event.record.mVendor,
         'mClassification': event.record.mClassification,
         'packageComp': event.record.packageComp,
-        'endService': event.record.endService,
-        'mImg': event.record.mImg
+        'endService': event.record.endService
       }
     };
 
