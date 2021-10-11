@@ -13,7 +13,7 @@
     if (nStatus == '納品準備中') { //ステータスが納品準備中の場合
       // ステータスを進めるための条件を満たしたが確認
       var sResult=false;
-      var deliveryArrangements=['receiver','phoneNum','zipcode','prefectures','city','address','tarDate','deviceList'];
+      var deliveryArrangements=['receiver','phoneNum','zipcode','prefectures','city','address','aboutDelivery','tarDate','deviceList'];
       for(var sri in deliveryArrangements){
         if(event.record[deliveryArrangements[sri]].value==undefined || event.record[deliveryArrangements[sri]].value==''){
           sResult=false;
@@ -21,6 +21,9 @@
         }else{
           sResult=true;
         }
+      }
+      if(event.record.aboutDelivery.value=='確認中'){
+        sResult=false;
       }
       // ステータスを進めるための条件判定結果により処理実行
       if(sResult){
