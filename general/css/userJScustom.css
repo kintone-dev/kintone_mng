@@ -98,7 +98,7 @@
 }
 
 /* プロジェクト管理検索関連 */
-.searchWrap{
+#searchWrap{
 	background-color: rgba(224, 224, 224, 0.4);
 	position: relative;
 	left: 0;

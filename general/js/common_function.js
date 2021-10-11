@@ -1521,7 +1521,7 @@ function setSearch(searchParms) {
 	$("body").append(searchWrap);
 
 	$(document).on("click", `#${showEasySearchBtn.id}`, function () {
-		$(`#${eSearchArea.id}`).fadeToggle();
+		$(`#${searchWrap.id}`).fadeToggle();
 	});
 
 
