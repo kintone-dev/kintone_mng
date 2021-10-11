@@ -1838,7 +1838,7 @@ function setSearch(searchParms) {
 
 	//検索リセット
 	$(`#${eSearchResetBtn_id}`).on('click', function () {
-		sessionStorage.setItem('searched', 'false');
+		sessionStorage.removeItem('searched');
 		for(var i in searchParms.sConditions){
 			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
 		}
