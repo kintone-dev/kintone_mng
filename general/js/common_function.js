@@ -1567,6 +1567,21 @@ function setSearch(searchParms) {
 	eSearchBtn.innerHTML = '検索';
 	eSearchCheckboxArea.appendChild(eSearchBtn);
 
+	//検索リセットボタン作成
+	var eSearchResetBtn = document.createElement('button');
+	eSearchResetBtn.type = 'button';
+	var eSearchResetBtn_id = 'eSearchReset_' + searchParms.sID;
+	eSearchResetBtn.id = eSearchResetBtn_id;
+	eSearchResetBtn.innerHTML = '検索リセット';
+	eSearchCheckboxArea.appendChild(eSearchResetBtn);
+
+	//検索クリアボタン作成
+	eSearchClearBtn.type = 'button';
+	var eSearchClearBtn_id = 'eSearchClear_' + searchParms.sID;
+	eSearchClearBtn.id = eSearchClearBtn_id;
+	eSearchClearBtn.innerHTML = '検索リセット';
+	eSearchCheckboxArea.appendChild(eSearchClearBtn);
+
 	// 詳細検索モーダル表示ボタン作成,表示機能
 	var showDetailSearchBtn = document.createElement('button');
 	showDetailSearchBtn.type = 'button';
@@ -1696,8 +1711,6 @@ function setSearch(searchParms) {
 	var esCloseBtn = document.createElement('div');
 	esCloseBtn.classList.add('searchClose');
 	esCloseBtn.innerHTML = '<p>×</p>';
-
-	//閉じるボタン作成
 	var dsCloseBtn = document.createElement('div');
 	dsCloseBtn.classList.add('searchClose');
 	dsCloseBtn.innerHTML = '<p>×</p>';
