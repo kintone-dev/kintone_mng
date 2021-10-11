@@ -1750,19 +1750,20 @@ function setSearch(searchParms) {
 	searchWrap.appendChild(dSearchArea);
 	$("body").append(searchWrap);
 
-	$(document).on("click", `#${showEasySearchBtn.id}`, function (e) {
-		e.stopPropagation();
+	$(document).on("click", `#${showEasySearchBtn.id}`, function (event) {
+		event.stopPropagation();
 		$(`#${searchWrap.id}`).fadeIn();
 		$(`#${eSearchArea.id}`).fadeIn();
 	});
 
-	$(document).on("click", `#${showDetailSearchBtn.id}`, function (e) {
-		e.stopPropagation();
+	$(document).on("click", `#${showDetailSearchBtn.id}`, function (event) {
+		event.stopPropagation();
 		$(`#${searchWrap.id}`).fadeIn();
 		$(`#${dSearchArea.id}`).fadeIn();
 	});
 
-	$(document).on("click", '.searchClose, .searchWrap', function () {
+	$(document).on("click", '.searchClose, .searchWrap', function (event) {
+		event.stopPropagation();
 		$(`#${searchWrap.id}`).fadeOut();
 		$(`#${eSearchArea.id}`).fadeOut();
 		$(`#${dSearchArea.id}`).fadeOut();
