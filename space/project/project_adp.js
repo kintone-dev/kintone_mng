@@ -13,6 +13,7 @@
     if (nStatus == '納品準備中') { //ステータスが納品準備中の場合
       // ステータスを進めるための条件を満たしたが確認
       var sResult=false;
+      var deliveryArrangements=['tarDate',];
       for(var sri in deliveryArrangements){
         if(event.record[deliveryArrangements[sri]].value==undefined || event.record[deliveryArrangements[sri]].value==''){
           sResult=false;
