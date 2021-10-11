@@ -139,7 +139,7 @@
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
       console.log(sessionStorage.getItem('tabSelect'));
-      tabSwitch(sessionStorage.getItem('tabSelect'));
+      // tabSwitch(sessionStorage.getItem('tabSelect'));
     } else {
       console.log('no');
       tabSwitch('#出荷情報');
