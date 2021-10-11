@@ -1435,21 +1435,101 @@ async function calBtnFunc(eRecord, appId) {
 }
 
 /* 検索窓処理 */
-function setSearch(eSearchParms) {
+function setSearch(searchParms) {
 	// 簡易検索モーダル表示ボタン作成,表示機能
 	var showEasySearchBtn = document.createElement('button');
 	showEasySearchBtn.type = 'button';
 	showEasySearchBtn.id = 'showEasySearch';
+	showEasySearchBtn.classList.add('showModalBtn');
 	showEasySearchBtn.innerHTML = '簡易検索';
 	kintone.app.getHeaderMenuSpaceElement().appendChild(showEasySearchBtn);
+
+	// モーダルWrap作成
+	var searchWrap = document.createElement('div');
+	searchWrap.id = 'searchWrap';
+	searchWrap.classList.add('searchWrap');
+
+	// 簡易検索モーダル作成
+	var eSearchArea = document.createElement('div');
+	eSearchArea.id = 'easySearch';
+	showEasySearchBtn.classList.add('searchWindow');
+
+	var eSearchTargetArea = document.createElement('form');
+	eSearchTargetArea.id = 'easySearchTargets';
+	eSearchTargetArea.name = 'easySearchTargets';
+
+	var eSearchCheckboxArea = document.createElement('div');
+	eSearchCheckboxArea.id = 'easySearchCheckboxWrap';
+	eSearchTargetArea.appendChild(eSearchCheckboxArea);
+
+	var eSearchInputArea = document.createElement('div');
+	eSearchInputArea.id = 'easySearchInputWrap';
+	eSearchInputArea.appendChild(eSearchInputArea);
+
+
+	for (let i in searchParms.sConditions) {
+		var eSearchTarget = document.createElement('input');
+		eSearchTarget.id = 'esc_' + searchParms.sConditions[i].fCode;
+		eSearchTarget.name = 'eSearchTarget';
+		eSearchTarget.type = 'checkbox';
+		eSearchTarget.value = searchParms.sConditions[i].fCode;
+		eSearchCheckboxArea.appendChild(eSearchTarget);
+
+		var eSearchTargetValue = document.createElement('label');
+		eSearchTargetValue.htmlFor = 's_' + searchParms.sConditions[i].fCode;
+		eSearchTargetValue.innerText = searchParms.sConditions[i].fName;
+		eSearchCheckboxArea.appendChild(eSearchTargetValue);
+
+		$(document).on("click", `#esc_${searchParms.sConditions[i].fCode}`, function () {
+			if ($(`#${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
+				var eSearch = document.createElement('input');
+				eSearch.id = 'esi_' + searchParms.sConditions[i].fCode;
+				eSearch.type = 'text';
+				eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+				eSearch.placeholder = searchParms.sConditions[i].fName;
+				eSearch.classList.add('searchInput');
+				eSearchInputArea.appendChild(eSearch);
+			} else {
+				$(`#esi_${searchParms.sConditions[i].fCode}`).remove();
+			}
+		});
+
+		if (sessionStorage.getItem(searchParms.sConditions[i].fCode)) {
+			searchTarget.checked = true;
+			var eSearch = document.createElement('input');
+			eSearch.id = 'esi_' + searchParms.sConditions[i].fCode;
+			eSearch.type = 'text';
+			eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+			eSearch.value = sessionStorage.getItem(searchParms.sConditions[i].fCode);
+			eSearch.placeholder = searchParms.sConditions[i].fName;
+			eSearch.classList.add('searchInput');
+			eSearchInputArea.appendChild(eSearch);
+		}
+	}
+
+	//検索ボタン作成
+	var eSearchBtn = document.createElement('button');
+	eSearchBtn.type = 'button';
+	var eSearchBtn_id = 'eSearchBtn_' + searchParms.sID;
+	eSearchBtn.id = eSearchBtn_id;
+	eSearchBtn.innerHTML = '検索';
+	eSearchCheckboxArea.appendChild(eSearchBtn);
+
+	//bodyに追加
+	eSearchArea.appendChild(eSearchTargetArea);
+	searchWrap.appendChild(eSearchArea);
+	$("body").append(searchWrap);
+
 	$(document).on("click", `#${showEasySearchBtn.id}`, function () {
-		console.log(1);
+		$(`#${eSearchArea.id}`).fadeToggle();
 	});
+
 
 	// 詳細検索モーダル表示ボタン作成,表示機能
 	var showDetailSearchBtn = document.createElement('button');
 	showDetailSearchBtn.type = 'button';
 	showDetailSearchBtn.id = 'showDetailSearch';
+	showEasySearchBtn.classList.add('showModalBtn');
 	showDetailSearchBtn.innerHTML = '詳細検索';
 	kintone.app.getHeaderMenuSpaceElement().appendChild(showDetailSearchBtn);
 
@@ -1460,8 +1540,8 @@ function setSearch(eSearchParms) {
 
 
 
-	// var eSearchArea = document.createElement('div');
-	// eSearchArea.id = eSearchParms.sID;
+	var eSearchArea = document.createElement('div');
+	eSearchArea.id = searchParms.sID;
 
 	// var searchTargetArea = document.createElement('form');
 	// searchTargetArea.id = 'searchTargets';
@@ -1476,79 +1556,79 @@ function setSearch(eSearchParms) {
 	// searchTargetArea.appendChild(inputArea);
 
 	// if(sessionStorage.getItem('searched')){
-	// for (let i in eSearchParms.sConditions) {
+	// for (let i in searchParms.sConditions) {
 	// 	var searchTarget = document.createElement('input');
-	// 	searchTarget.id = eSearchParms.sConditions[i].fCode;
+	// 	searchTarget.id = searchParms.sConditions[i].fCode;
 	// 	searchTarget.name = 'searchTarget';
 	// 	searchTarget.type = 'checkbox';
-	// 	searchTarget.value = eSearchParms.sConditions[i].fCode;
+	// 	searchTarget.value = searchParms.sConditions[i].fCode;
 	// 	checkboxArea.appendChild(searchTarget);
 
 	// 	var searchTargetValue = document.createElement('label');
-	// 	searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
-	// 	searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
+	// 	searchTargetValue.htmlFor = searchParms.sConditions[i].fCode;
+	// 	searchTargetValue.innerText = searchParms.sConditions[i].fName;
 	// 	checkboxArea.appendChild(searchTargetValue);
 
-	// 	$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
-	// 		if ($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true) {
+	// 	$(document).on("click", `#${searchParms.sConditions[i].fCode}`, function () {
+	// 		if ($(`#${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
 	// 			var eSearch = document.createElement('input');
-	// 			eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
+	// 			eSearch.id = 's_' + searchParms.sConditions[i].fCode;
 	// 			eSearch.type = 'text';
-	// 			eSearch.name = eSearchParms.sConditions[i].fCode + '_' + eSearchParms.sConditions[i].matchType;
-	// 			eSearch.placeholder = eSearchParms.sConditions[i].fName;
+	// 			eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+	// 			eSearch.placeholder = searchParms.sConditions[i].fName;
 	// 			eSearch.classList.add('searchInput');
 	// 			inputArea.appendChild(eSearch);
 	// 		} else {
-	// 			$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
+	// 			$(`#s_${searchParms.sConditions[i].fCode}`).remove();
 	// 		}
 	// 	});
 
-	// 	if(sessionStorage.getItem(eSearchParms.sConditions[i].fCode)){
+	// 	if(sessionStorage.getItem(searchParms.sConditions[i].fCode)){
 	// 		searchTarget.checked = true;
 	// 		var eSearch = document.createElement('input');
-	// 		eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
+	// 		eSearch.id = 's_' + searchParms.sConditions[i].fCode;
 	// 		eSearch.type = 'text';
-	// 		eSearch.name = eSearchParms.sConditions[i].fCode + '_' + eSearchParms.sConditions[i].matchType;
-	// 		eSearch.value = sessionStorage.getItem(eSearchParms.sConditions[i].fCode);
-	// 		eSearch.placeholder = eSearchParms.sConditions[i].fName;
+	// 		eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+	// 		eSearch.value = sessionStorage.getItem(searchParms.sConditions[i].fCode);
+	// 		eSearch.placeholder = searchParms.sConditions[i].fName;
 	// 		eSearch.classList.add('searchInput');
 	// 		inputArea.appendChild(eSearch);
 	// 	}
 	// }
 	// } else{
-	// for (let i in eSearchParms.sConditions) {
+	// for (let i in searchParms.sConditions) {
 	// 	var searchTarget = document.createElement('input');
-	// 	searchTarget.id = eSearchParms.sConditions[i].fCode;
+	// 	searchTarget.id = searchParms.sConditions[i].fCode;
 	// 	searchTarget.name = 'searchTarget';
 	// 	searchTarget.type = 'checkbox';
-	// 	searchTarget.value = eSearchParms.sConditions[i].fCode;
+	// 	searchTarget.value = searchParms.sConditions[i].fCode;
 	// 	checkboxArea.appendChild(searchTarget);
 
 	// 	var searchTargetValue = document.createElement('label');
-	// 	searchTargetValue.htmlFor = eSearchParms.sConditions[i].fCode;
-	// 	searchTargetValue.innerText = eSearchParms.sConditions[i].fName;
+	// 	searchTargetValue.htmlFor = searchParms.sConditions[i].fCode;
+	// 	searchTargetValue.innerText = searchParms.sConditions[i].fName;
 	// 	checkboxArea.appendChild(searchTargetValue);
 
-	// 	$(document).on("click", `#${eSearchParms.sConditions[i].fCode}`, function () {
-	// 		if ($(`#${eSearchParms.sConditions[i].fCode}`).prop("checked") == true) {
+	// 	$(document).on("click", `#${searchParms.sConditions[i].fCode}`, function () {
+	// 		if ($(`#${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
 	// 			var eSearch = document.createElement('input');
-	// 			eSearch.id = 's_' + eSearchParms.sConditions[i].fCode;
+	// 			eSearch.id = 's_' + searchParms.sConditions[i].fCode;
 	// 			eSearch.type = 'text';
-	// 			eSearch.name = eSearchParms.sConditions[i].fCode + '_' + eSearchParms.sConditions[i].matchType;
-	// 			eSearch.placeholder = eSearchParms.sConditions[i].fName;
+	// 			eSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+	// 			eSearch.placeholder = searchParms.sConditions[i].fName;
 	// 			eSearch.classList.add('searchInput');
 	// 			inputArea.appendChild(eSearch);
 	// 		} else {
-	// 			$(`#s_${eSearchParms.sConditions[i].fCode}`).remove();
+	// 			$(`#s_${searchParms.sConditions[i].fCode}`).remove();
 	// 		}
 	// 	});
 	// 	if (i == 0) {
 	// 		searchTarget.checked = true;
 	// 		var eSearch = document.createElement('input');
-	// 		eSearch.id = 's_' + eSearchParms.sConditions[0].fCode;
+	// 		eSearch.id = 's_' + searchParms.sConditions[0].fCode;
 	// 		eSearch.type = 'text';
-	// 		eSearch.name = eSearchParms.sConditions[0].fCode + '_' + eSearchParms.sConditions[0].matchType;
-	// 		eSearch.placeholder = eSearchParms.sConditions[0].fName;
+	// 		eSearch.name = searchParms.sConditions[0].fCode + '_' + searchParms.sConditions[0].matchType;
+	// 		eSearch.placeholder = searchParms.sConditions[0].fName;
 	// 		eSearch.classList.add('searchInput');
 	// 		inputArea.appendChild(eSearch);
 	// 	}
@@ -1558,7 +1638,7 @@ function setSearch(eSearchParms) {
 	// //検索ボタン作成
 	// var searchBtn = document.createElement('button');
 	// searchBtn.type = 'button';
-	// var searchBtn_id = 'searchbtn_' + eSearchParms.sID;
+	// var searchBtn_id = 'searchbtn_' + searchParms.sID;
 	// searchBtn.id = searchBtn_id;
 	// searchBtn.innerHTML = '検索';
 	// checkboxArea.appendChild(searchBtn);
@@ -1569,8 +1649,8 @@ function setSearch(eSearchParms) {
 
 	// $(`#${searchBtn_id}`).on('click', function () {
 	// 	sessionStorage.setItem('searched', 'true');
-	// 	for(var i in eSearchParms.sConditions){
-	// 		sessionStorage.removeItem(eSearchParms.sConditions[i].fCode);
+	// 	for(var i in searchParms.sConditions){
+	// 		sessionStorage.removeItem(searchParms.sConditions[i].fCode);
 	// 	}
 	// 	//作成したテキストボックスから値を格納
 	// 	var inputText = $(".searchInput").map(function (index, element) {
@@ -1614,15 +1694,15 @@ function setSearch(eSearchParms) {
 
 // ロード中のページ表示凍結
 function startLoad(msg) {
-  if (msg == undefined) {
-    msg = '処理中です';
-  }
-  var dispMsg = "<div class='loadingMsg'><p>" + msg + "</p></div>";
-  if ($("#loading").length == 0) {
-    $("body").append("<div id='loading'>" + dispMsg + "</div>");
-  }
+	if (msg == undefined) {
+		msg = '処理中です';
+	}
+	var dispMsg = "<div class='loadingMsg'><p>" + msg + "</p></div>";
+	if ($("#loading").length == 0) {
+		$("body").append("<div id='loading'>" + dispMsg + "</div>");
+	}
 }
 
-function endLoad(){
-  $("#loading").remove();
+function endLoad() {
+	$("#loading").remove();
 }

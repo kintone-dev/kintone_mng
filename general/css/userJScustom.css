@@ -97,3 +97,19 @@
 	font-weight: bold;
 }
 
+/* プロジェクト管理検索関連 */
+.searchWrap{
+	background-color: rgba(224, 224, 224, 0.4);
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.searchWindow{
+	display: none;
+}
