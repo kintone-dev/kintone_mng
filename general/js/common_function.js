@@ -1651,7 +1651,7 @@ function setSearch(searchParms) {
 
 			if (sessionStorage.getItem(searchParms.sConditions[i].fCode)) {
 				dSearchTarget.checked = true;
-				var eSearch = document.createElement('input');
+				var dSearch = document.createElement('input');
 				dSearch.id = 'dsi_' + searchParms.sConditions[i].fCode;
 				dSearch.type = 'text';
 				dSearch.name = searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
