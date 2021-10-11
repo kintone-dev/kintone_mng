@@ -15,7 +15,7 @@
       var sResult=false;
       var deliveryArrangements=['tarDate',];
       for(var sri in deliveryArrangements){
-        if(event.record[deliveryArrangements[sri]].value==undefined || event.record[deliveryArrangements[sri]].value==''){
+        if(event.record.deliveryArrangements[sri].value==undefined || event.record[deliveryArrangements[sri]].value==''){
           sResult=false;
           break;
         }else{
