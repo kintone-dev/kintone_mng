@@ -46,7 +46,7 @@
       for(var y in arrivalListValue){
         // 単価（￥）外貨から換算した場合
         if(!eRecord.record.currencyType.value.match('日本円')){
-          if(eRecord.record.averageRate.value==undefined){
+          if(eRecord.record.averageRate.value=='NaN'){
             eRecord.record.devCost_foreign.error='レートを入れてください。';
           }else{
             var unitprice=arrivalListValue[y].value.unitPrice_foreign.value*eRecord.record.averageRate.value
