@@ -10,7 +10,20 @@
       event.error = '対応した日付のレポートは締切済みです。';
       return event;
     }
-    if (nStatus == '納品準備中') { //ステータスが納品準備中の場合
+
+    if(nStatus == '入力内容確認中'){
+      var confTxt = '';
+      for(var i in confirmSetting.fCode){
+        console.log(event.record[confirmSetting.fCode[i]].value);
+        confTxt = confTxt + confirmSetting.fCode[i] + ':' + event.record[confirmSetting.fCode[i]].value + '\n';
+      }
+      if(confirm(confTxt)){
+        return event;
+      } else{
+        return false;
+      }
+
+    } else if (nStatus == '納品準備中') { //ステータスが納品準備中の場合
       // ステータスを進めるための条件を満たしたが確認
       var sResult=false;
       var deliveryArrangements=['receiver','phoneNum','zipcode','prefectures','city','address','aboutDelivery','tarDate','deviceList'];

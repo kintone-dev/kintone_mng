@@ -119,6 +119,17 @@ function set_sysid(env) {
 	return sysid;
 };
 
+//案件管理
+//納品依頼実行時confirm表示
+var confirmSetting = {
+	fCode:[
+		'prjTitle',
+		'salesType',
+		'prjNum'
+	]
+}
+
+//検索窓設定
 var prjSerchJson = {
 	sID: 'eSearch',
 	sPlaceholder: '総合検索',
