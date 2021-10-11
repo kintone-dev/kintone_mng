@@ -16,6 +16,7 @@
       var deliveryArrangements=['receiver','phoneNum','zipcode','prefectures','city','address','aboutDelivery','tarDate','deviceList'];
       for(var sri in deliveryArrangements){
         if(event.record[deliveryArrangements[sri]].value==undefined || event.record[deliveryArrangements[sri]].value==''){
+          event.record[deliveryArrangements[sri]].error='ステータスを進めるに必要な項目です。';
           sResult=false;
           break;
         }else{
@@ -23,6 +24,7 @@
         }
       }
       if(event.record.aboutDelivery.value=='確認中'){
+        event.record.aboutDelivery.error='この項目が確認中のままではステータスを進められません。'
         sResult=false;
       }
       // ステータスを進めるための条件判定結果により処理実行
@@ -229,7 +231,7 @@
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
       var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
       if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
-        event.error = '請求月が間違っています。';
+        event.error = '過去の請求つきが入力されています。';
         return event;
       }
     });
