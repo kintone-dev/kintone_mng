@@ -1476,12 +1476,12 @@ function setSearch(searchParms) {
 		eSearchCheckboxArea.appendChild(eSearchTarget);
 
 		var eSearchTargetValue = document.createElement('label');
-		eSearchTargetValue.htmlFor = 's_' + searchParms.sConditions[i].fCode;
+		eSearchTargetValue.htmlFor = 'esc_' + searchParms.sConditions[i].fCode;
 		eSearchTargetValue.innerText = searchParms.sConditions[i].fName;
 		eSearchCheckboxArea.appendChild(eSearchTargetValue);
 
 		$(document).on("click", `#esc_${searchParms.sConditions[i].fCode}`, function () {
-			if ($(`#${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
+			if ($(`#esc_${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
 				var eSearch = document.createElement('input');
 				eSearch.id = 'esi_' + searchParms.sConditions[i].fCode;
 				eSearch.type = 'text';
