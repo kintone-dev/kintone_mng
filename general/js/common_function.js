@@ -1700,7 +1700,7 @@ function setSearch(searchParms) {
 				dSearch.placeholder = searchParms.sConditions[0].fName;
 				dSearch.classList.add('searchInput');
 				dSearch.classList.add('dSearchInput');
-				dSearchInputArea.appendChild(eSearch);
+				dSearchInputArea.appendChild(dSearch);
 			}
 		}
 	}
