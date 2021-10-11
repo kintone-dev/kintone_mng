@@ -44,7 +44,17 @@
             event.error = '請求書を添付するか営業責任者に承認を求めてください！';
           }
         }
-        return event;
+
+        var confTxt = '';
+        for(var i in confirmSetting.fCode){
+          console.log(event.record[confirmSetting.fCode[i]].value);
+          confTxt = confTxt + confirmSetting.fCode[i] + ':' + event.record[confirmSetting.fCode[i]].value + '\n';
+        }
+        if(confirm(confTxt)){
+          return event;
+        } else{
+          return false;
+        }
       });
     }
     return event;
