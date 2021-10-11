@@ -1464,7 +1464,7 @@ function setSearch(searchParms) {
 
 	var eSearchInputArea = document.createElement('div');
 	eSearchInputArea.id = 'easySearchInputWrap';
-	eSearchInputArea.appendChild(eSearchInputArea);
+	eSearchTargetArea.appendChild(eSearchInputArea);
 
 
 	for (let i in searchParms.sConditions) {
