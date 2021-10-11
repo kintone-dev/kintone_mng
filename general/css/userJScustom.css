@@ -97,7 +97,11 @@
 	font-weight: bold;
 }
 
-/* プロジェクト管理検索関連 */
+/* 案件管理 検索窓関連 */
+.showModalBtn{
+	margin: 0 10px 0;
+}
+
 #searchWrap{
 	background-color: rgba(141, 141, 141, 0.4);
 	position: fixed;
