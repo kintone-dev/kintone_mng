@@ -1571,9 +1571,9 @@ function setSearch(searchParms) {
 		$(document).on("click", `#dsc_${searchParms.sConditions[i].fCode}`, function () {
 			if ($(`#dsc_${searchParms.sConditions[i].fCode}`).prop("checked") == true) {
 				var dSearch = document.createElement('input');
-				dSearch.id = 'esi_' + searchParms.sConditions[i].fCode;
+				dSearch.id = 'dsi_' + searchParms.sConditions[i].fCode;
 				dSearch.type = 'text';
-				dSearch.name = 'es_' + searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+				dSearch.name = 'ds_' + searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
 				dSearch.placeholder = searchParms.sConditions[i].fName;
 				dSearch.classList.add('searchInput');
 				dSearchInputArea.appendChild(dSearch);
@@ -1587,7 +1587,7 @@ function setSearch(searchParms) {
 			var eSearch = document.createElement('input');
 			dSearch.id = 'dsi_' + searchParms.sConditions[i].fCode;
 			dSearch.type = 'text';
-			dSearch.name = 'es_' + searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
+			dSearch.name = 'ds_' + searchParms.sConditions[i].fCode + '_' + searchParms.sConditions[i].matchType;
 			dSearch.value = sessionStorage.getItem(searchParms.sConditions[i].fCode);
 			dSearch.placeholder = searchParms.sConditions[i].fName;
 			dSearch.classList.add('searchInput');
