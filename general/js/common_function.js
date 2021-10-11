@@ -1600,9 +1600,9 @@ function setSearch(searchParms) {
 
 	//bodyに追加
 	eSearchArea.appendChild(eSearchTargetArea);
-	eSearchArea.appendChild(searchClose);
+	eSearchArea.appendChild(closeBtn);
 	dSearchArea.appendChild(dSearchTargetArea);
-	dSearchArea.appendChild(searchClose);
+	dSearchArea.appendChild(closeBtn);
 	searchWrap.appendChild(eSearchArea);
 	searchWrap.appendChild(dSearchArea);
 	$("body").append(searchWrap);
