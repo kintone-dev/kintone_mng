@@ -1436,6 +1436,11 @@ async function calBtnFunc(eRecord, appId) {
 
 /* 検索窓処理 */
 function setSearch(searchParms) {
+	// モーダルWrap作成
+	var searchWrap = document.createElement('div');
+	searchWrap.id = 'searchWrap';
+	searchWrap.classList.add('searchWrap');
+
 	// 簡易検索モーダル表示ボタン作成,表示機能
 	var showEasySearchBtn = document.createElement('button');
 	showEasySearchBtn.type = 'button';
@@ -1443,11 +1448,6 @@ function setSearch(searchParms) {
 	showEasySearchBtn.classList.add('showModalBtn');
 	showEasySearchBtn.innerHTML = '簡易検索';
 	kintone.app.getHeaderMenuSpaceElement().appendChild(showEasySearchBtn);
-
-	// モーダルWrap作成
-	var searchWrap = document.createElement('div');
-	searchWrap.id = 'searchWrap';
-	searchWrap.classList.add('searchWrap');
 
 	// 簡易検索モーダル作成
 	var eSearchArea = document.createElement('div');

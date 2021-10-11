@@ -100,7 +100,7 @@
 /* プロジェクト管理検索関連 */
 #searchWrap{
 	background-color: rgba(141, 141, 141, 0.4);
-	position: relative;
+	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100vw;
