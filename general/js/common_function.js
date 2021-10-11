@@ -1838,6 +1838,10 @@ function setSearch(searchParms) {
 
 	//検索リセット
 	$(`#${eSearchResetBtn_id}`).on('click', function () {
+		sessionStorage.setItem('searched', 'false');
+		for(var i in searchParms.sConditions){
+			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
+		}
 		document.location = location.origin + location.pathname;
 	});
 
