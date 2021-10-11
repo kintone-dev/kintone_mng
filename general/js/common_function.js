@@ -1557,7 +1557,7 @@ function setSearch(searchParms) {
 				eSearch.placeholder = searchParms.sConditions[0].fName;
 				eSearch.classList.add('searchInput');
 				eSearch.classList.add('eSearchInput');
-				inputArea.appendChild(eSearch);
+				eSearchInputArea.appendChild(eSearch);
 			}
 		}
 	}
@@ -1693,14 +1693,14 @@ function setSearch(searchParms) {
 
 			if (i == 0) {
 				dSearchTarget.checked = true;
-				var eSearch = document.createElement('input');
-				eSearch.id = 'dsi_' + searchParms.sConditions[0].fCode;
-				eSearch.type = 'text';
-				eSearch.name = searchParms.sConditions[0].fCode + '_' + searchParms.sConditions[0].matchType;
-				eSearch.placeholder = searchParms.sConditions[0].fName;
-				eSearch.classList.add('searchInput');
+				var dSearch = document.createElement('input');
+				dSearch.id = 'dsi_' + searchParms.sConditions[0].fCode;
+				dSearch.type = 'text';
+				dSearch.name = searchParms.sConditions[0].fCode + '_' + searchParms.sConditions[0].matchType;
+				dSearch.placeholder = searchParms.sConditions[0].fName;
+				dSearch.classList.add('searchInput');
 				dSearch.classList.add('dSearchInput');
-				inputArea.appendChild(eSearch);
+				dSearchInputArea.appendChild(eSearch);
 			}
 		}
 	}
