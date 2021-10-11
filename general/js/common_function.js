@@ -1727,6 +1727,7 @@ function setSearch(searchParms) {
 	dSearchClearBtn.type = 'button';
 	var dSearchClearBtn_id = 'eSearchClear_' + searchParms.sID;
 	dSearchClearBtn.id = dSearchClearBtn_id;
+	dSearchClearBtn.classList.add('searchClear');
 	dSearchClearBtn.innerHTML = 'クリア';
 	dSearchCheckboxArea.appendChild(eSearchClearBtn);
 
@@ -1862,6 +1863,11 @@ function setSearch(searchParms) {
 			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
 		}
 		document.location = location.origin + location.pathname;
+	});
+
+	//検索クリア
+	$('.searchClear').on('click', function () {
+		$('.searchInput').val('');
 	});
 
 }
