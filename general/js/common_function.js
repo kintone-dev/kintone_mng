@@ -1819,6 +1819,7 @@ function setSearch(searchParms) {
 			}
 			return inputJson
 		}).get();
+		console.log(inputText.length);
 		if (inputText.length > 1) {
 			var queryArray = [];
 			for (var i in inputText) {
