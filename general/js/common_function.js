@@ -1760,7 +1760,7 @@ function setSearch(searchParms) {
 		$(`#${dSearchArea.id}`).fadeIn();
 	});
 
-	$(document).on("click", '.searchClose', function () {
+	$(document).on("click", '.searchClose, .searchWrap', function () {
 		$(`#${searchWrap.id}`).fadeOut();
 		$(`#${eSearchArea.id}`).fadeOut();
 		$(`#${dSearchArea.id}`).fadeOut();
