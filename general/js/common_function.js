@@ -1509,7 +1509,7 @@ function setSearch(searchParms) {
 		}
 	}
 
-	//検索ボタン作成
+	//簡易検索ボタン作成
 	var eSearchBtn = document.createElement('button');
 	eSearchBtn.type = 'button';
 	var eSearchBtn_id = 'eSearchBtn_' + searchParms.sID;
@@ -1585,7 +1585,7 @@ function setSearch(searchParms) {
 		}
 	}
 
-	//検索ボタン作成
+	//詳細検索ボタン作成
 	var dSearchBtn = document.createElement('button');
 	dSearchBtn.type = 'button';
 	var dSearchBtn_id = 'dSearchBtn_' + searchParms.sID;
