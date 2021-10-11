@@ -449,7 +449,7 @@
 
   //検索窓設置
   kintone.events.on('app.record.index.show', function (event) {
-    setEasySearch(prjSerchJson);
+    setSearch(prjSerchJson);
     return event;
   });
 
