@@ -136,13 +136,19 @@
           break;
       }
     }
-    tabSwitch('#出荷情報'); //tab初期表示設定
+    if (sessionStorage.getItem('tabSelect')) {
+      tabSwitch('#' + sessionStorage.getItem('tabSelect')); //tab初期表示設定
+    } else {
+      tabSwitch('#出荷情報'); //tab初期表示設定
+    }
     //タブメニュー作成
     tabMenu('tab_ship', ['出荷情報', '宛先情報', '品目情報', '輸送情報']);
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function () {
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
+      sessionStorage.setItem('tabSelect', idName);
+
       return false; //aタグを無効にする
     });
     return event;
@@ -245,7 +251,7 @@
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('calBtn', '計算');
     $('#calBtn').on('click', function () {
-      calBtnFunc(kintone.app.record.get(),kintone.app.getId());
+      calBtnFunc(kintone.app.record.get(), kintone.app.getId());
     });
     return event;
   });
