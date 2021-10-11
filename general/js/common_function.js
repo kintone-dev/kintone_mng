@@ -1594,15 +1594,20 @@ function setSearch(searchParms) {
 	dSearchCheckboxArea.appendChild(dSearchBtn);
 
 	//閉じるボタン作成
-	var closeBtn = document.createElement('div');
-	closeBtn.classList.add('searchClose');
-	closeBtn.innerHTML = '<p>×</p>';
+	var esCloseBtn = document.createElement('div');
+	esCloseBtn.classList.add('searchClose');
+	esCloseBtn.innerHTML = '<p>×</p>';
+
+	//閉じるボタン作成
+	var dsCloseBtn = document.createElement('div');
+	dsCloseBtn.classList.add('searchClose');
+	dsCloseBtn.innerHTML = '<p>×</p>';
 
 	//bodyに追加
 	eSearchArea.appendChild(eSearchTargetArea);
-	eSearchArea.appendChild(closeBtn);
+	eSearchArea.appendChild(esCloseBtn);
 	dSearchArea.appendChild(dSearchTargetArea);
-	dSearchArea.appendChild(closeBtn);
+	dSearchArea.appendChild(dsCloseBtn);
 	searchWrap.appendChild(eSearchArea);
 	searchWrap.appendChild(dSearchArea);
 	$("body").append(searchWrap);
