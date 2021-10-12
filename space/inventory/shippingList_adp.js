@@ -47,6 +47,7 @@
               }
               delete putSnumData[x].updateKey;
             }
+            console.log(putSnumData);
             var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, putSnumData)
             .catch(function(error){
               event.error = 'シリアル番号追加でエラーが発生しました。';
