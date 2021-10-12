@@ -122,14 +122,9 @@
       endLoad();
     });
 
-
     for (var i in event.record.inventoryList.value) {
       event.record.inventoryList.value[i].value.mCode.lookup = true;
     }
-
-    setTimeout(function () {
-      $('#locationSortBtn').trigger('click');
-    }, 3000);
 
     return event;
   });
