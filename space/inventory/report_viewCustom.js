@@ -100,15 +100,15 @@
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
 
-    (function(){
-      var eRecord = kintone.app.record.get();
-      var table = eRecord.record.inventoryList.value
-      table = sortLocTable(table, 'sys_code', true);
-      for (var i in eRecord.record.inventoryList.value) {
-        eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
-      }
-      kintone.app.record.set(eRecord);
-    }());
+    // (function(){
+    //   var eRecord = kintone.app.record.get();
+    //   var table = eRecord.record.inventoryList.value
+    //   table = sortLocTable(table, 'sys_code', true);
+    //   for (var i in eRecord.record.inventoryList.value) {
+    //     eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
+    //   }
+    //   kintone.app.record.set(eRecord);
+    // }());
 
     $('#itemSortBtn').on('click', async function () {
       startLoad();
