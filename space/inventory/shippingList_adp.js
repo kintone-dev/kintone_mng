@@ -35,12 +35,13 @@
         'app': sysid.DEV.app_id.sNum,
         'records': putSnumData,
       }
-      await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putSnumBody)
+      var putSnum = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putSnumBody)
         .catch(function (error) {
           event.error = 'シリアル番号追加でエラーが発生しました。';
-          return event;
+          return error;
         });
       //ID更新 end
+      console.log(putSnum);
 
       //在庫処理
       await stockCtrl(event, kintone.app.getId());
