@@ -129,7 +129,6 @@
 
     setTimeout(function () {
       $('#locationSortBtn').trigger('click');
-      endLoad();
     }, 3000);
 
     return event;
