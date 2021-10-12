@@ -139,9 +139,9 @@
     tabMenu('tab_ship', ['出荷情報', '宛先情報', '品目情報', '輸送情報']);
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
-      $('.tab_ship li').removeClass("active"); //li要素のCSS設定を削除
+      $('.tabMenu li').removeClass("active");
       tabSwitch(sessionStorage.getItem('tabSelect'), sessionStorage.getItem('shipType'));
-      $('.tab_ship li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
+      $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
       sessionStorage.removeItem('tabSelect');
       sessionStorage.removeItem('actSelect');
       sessionStorage.removeItem('shipType');
@@ -153,7 +153,7 @@
       var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName, eRecord.record.shipType.value); //tabをクリックした時の表示設定
-      var actIndex = $('.tab_ship li.active').index();
+      var actIndex = $('.tabMenu li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
       sessionStorage.setItem('shipType', eRecord.record.shipType.value);
