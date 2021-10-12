@@ -40,7 +40,10 @@
       // ステータスを進めるための条件判定結果により処理実行
       if(sResult){
         // 入出荷管理post用配列
-        var postShipData = [];
+        var postShipData = {
+          'app': sysid.INV.app_id.shipment,
+          'records': []
+        };
         if(event.record.salesType.value=='無償提供'){
           // 入出荷管理post内容
           var postShipBody = {
@@ -131,9 +134,9 @@
           }
         }
         //post用データを格納（予備機がある場合は予備データも）
-        postShipData.push(postShipBody);
+        postShipData.records.push(postShipBody);
         if (postShipSubBody.deviceList.value.length != 0) {
-          postShipData.push(postShipSubBody);
+          postShipData.records.push(postShipSubBody);
         }
         // 入出荷管理に情報連携
         // var shipmentResault = await postRecords(sysid.INV.app_id.shipment, postShipData);
@@ -145,7 +148,6 @@
         // for()
         console.log('postShipData:');
         console.log(postShipData);
-        alert('wait');
       }else{
         event.error='ステータスを進めるに必要な項目が未入力です。';
       }
