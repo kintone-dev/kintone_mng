@@ -148,6 +148,23 @@
         // for()
         console.log('postShipData:');
         console.log(postShipData);
+        kintone.api(kintone.api.url('/k/v1/records', true), "POST", postShipData).then(function(resp){
+          console.log(resp);
+          var eRecord=kintone.app.record.get();
+          var sys_shipment_id='';
+          for(var i in resp.ids){
+            if(i<resp.ids.length){
+              sys_shipment_id+=resp.ids[i]+',';
+            }else{
+              sys_shipment_id+=resp.ids[i];
+            }
+          }
+          console.log(sys_shipment_id);
+          eRecord.record.sys_shipment_ID.value=sys_shipment_id;
+          kinotne.app.record.set(eRecord);
+        }).catch(function(error){
+          console.log(error)
+        })
       }else{
         event.error='ステータスを進めるに必要な項目が未入力です。';
       }
