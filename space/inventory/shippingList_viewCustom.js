@@ -153,6 +153,7 @@
       var actIndex = $('.tab_ship li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
+      console.log(event.record);
       return false; //aタグを無効にする
     });
     return event;
