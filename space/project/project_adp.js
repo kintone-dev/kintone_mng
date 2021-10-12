@@ -1,9 +1,5 @@
 (function () {
   'use strict';
-kintone.events.on('app.record.detail.show', function(event){
-  event.record.sys_shipment_ID.value='sys_shipment_id';
-  return event;
-})
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
     startLoad();
@@ -145,22 +141,23 @@ kintone.events.on('app.record.detail.show', function(event){
         console.log('postShipData:');
         console.log(postShipData);
         kintone.api(kintone.api.url('/k/v1/records', true), "POST", postShipData).then(function(resp){
+          var sys_shipment_id='';
+          for(var i in resp.ids){
+            if(i<resp.ids.length-1){
+              sys_shipment_id+=resp.ids[i]+',';
+            }else{
+              sys_shipment_id+=resp.ids[i];
+            }
+          }
+          return kintone.api(kintone.api.url('/k/v1/record', true), "PUT", {
+            'app': kintone.app.getId(),
+            'id': kintone.app.record.getId(),
+            'record': {
+              'sys_shipment_ID': {'value': sys_shipment_id}
+            }
+          });
+        }).then(function(resp){
           console.log(resp);
-          // setTimeout(function(){
-          // },1000);
-          var eRecord=kintone.app.record.get();
-          // var sys_shipment_id='';
-          // for(var i in resp.ids){
-          //   if(i<resp.ids.length-1){
-          //     sys_shipment_id+=resp.ids[i]+',';
-          //   }else{
-          //     sys_shipment_id+=resp.ids[i];
-          //   }
-          // }
-          // console.log(sys_shipment_id);
-          // console.log(eRecord.record.sys_shipment_ID.value);
-          eRecord.record.sys_shipment_ID.value='sys_shipment_id';
-          kintone.app.record.set(eRecord);
         }).catch(function(error){
           console.log(error)
         })
