@@ -18,10 +18,9 @@
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
     //tabメニューの選択肢による表示設定
-    function tabSwitch(onSelect) {
+    function tabSwitch(onSelect, shipType) {
       switch (onSelect) {
         case '#宛先情報':
-          var eRecord = kintone.app.record.get();
           disableSet(event);
           doSelection(event);
           kintone.app.record.setFieldShown('dstSelection', true);
@@ -45,13 +44,13 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn', 'line', 'none');
-          if (eRecord.record.shipType.value == '移動-拠点間') {
+          if (shipType == '移動-拠点間') {
             setFieldShown('Contractor', true);
             setFieldShown('instName', false);
-          } else if (eRecord.record.shipType.value == '移動-ベンダー') {
+          } else if (shipType == '移動-ベンダー') {
             setFieldShown('Contractor', true);
             setFieldShown('instName', false);
-          } else if (eRecord.record.shipType.value == '返品') {
+          } else if (shipType == '返品') {
             setFieldShown('Contractor', true);
             setFieldShown('instName', false);
           } else {
@@ -144,17 +143,17 @@
       tabSwitch(sessionStorage.getItem('tabSelect'));
       $('.tab_ship li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
     } else {
-      tabSwitch('#出荷情報');
+      tabSwitch('#出荷情報', '');
     }
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function () {
       var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
-      tabSwitch(idName); //tabをクリックした時の表示設定
+      console.log(eRecord.record.shipType.value);
+      tabSwitch(idName, eRecord.record.shipType.value); //tabをクリックした時の表示設定
       var actIndex = $('.tab_ship li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
-      console.log(eRecord.record);
       return false; //aタグを無効にする
     });
     return event;
