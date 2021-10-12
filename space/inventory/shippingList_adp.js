@@ -48,6 +48,7 @@
     } else if (nStatus === "出荷完了") {
       // 輸送情報連携
       setDeliveryInfo(event.record);
+
       // レポート処理
       await reportCtrl(event, kintone.app.getId());
 
