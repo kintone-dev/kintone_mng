@@ -356,6 +356,7 @@ const postRecords = async (sendApp, records) => {
 		}
 		POST_RECORDS.splice(0, 100);
 	}
+	return;
 }
 
 // 100件以上のレコード更新
