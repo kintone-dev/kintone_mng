@@ -274,8 +274,10 @@
       $('.tabMenu li').removeClass("active");
       tabSwitch(sessionStorage.getItem('tabSelect'));
       $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
-      sessionStorage.removeItem('tabSelect');
-      sessionStorage.removeItem('actSelect');
+      if (sessionStorage.getItem('record_updated') === '0') {
+        sessionStorage.removeItem('tabSelect');
+        sessionStorage.removeItem('actSelect');
+      }
     } else {
       tabSwitch('#案件情報');
     }
