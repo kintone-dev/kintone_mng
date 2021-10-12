@@ -343,6 +343,7 @@ const postRecords = async (sendApp, records) => {
 			'app': sendApp,
 			'records': POST_RECORDS.slice(0, 100),
 		}
+		console.log(postBody);
 		var postResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
 			.then(function (resp) {
 				console.log(postBody);
