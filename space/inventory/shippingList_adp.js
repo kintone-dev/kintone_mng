@@ -38,8 +38,28 @@
       }
       var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .catch(function (error) {
-          event.error = 'シリアル番号追加でエラーが発生しました。';
-          return 'error';
+          var isPOST=confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？');
+          if(isPOST){
+            for(var x in putSnumData){
+              putSnumData[x].record.sNum={
+                type: 'SINGLE_LINE_TEXT',
+                value: sNums[x]
+              }
+              delete putSnumData[x].updateKey;
+            }
+            var postSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
+            .catch(function(error){
+              event.error = 'シリアル番号追加でエラーが発生しました。';
+              return 'error';
+            });
+            if (postSnumResult == 'error') {
+              endLoad();
+              return event;
+            }
+          }else{
+            event.error = 'シリアル番号更新でエラーが発生しました。';
+            return 'error';
+          }
         });
       if (putSnumResult == 'error') {
         endLoad();
