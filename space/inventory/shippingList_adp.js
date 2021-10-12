@@ -39,7 +39,7 @@
           event.error = 'シリアル番号追加でエラーが発生しました。';
           return 'error';
         });
-      if (putSnumResult == 'error') {
+      if (putSnumResult=='error') {
         endLoad();
         return event;
       }
