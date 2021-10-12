@@ -38,10 +38,12 @@
       var putSnum = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putSnumBody)
         .catch(function (error) {
           event.error = 'シリアル番号追加でエラーが発生しました。';
-          return error;
+          return 0;
         });
       //ID更新 end
-      console.log(putSnum);
+      if(putSnum == 0){
+        return event;
+      }
 
       //在庫処理
       await stockCtrl(event, kintone.app.getId());
