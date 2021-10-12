@@ -46,6 +46,8 @@
                 value: sNums[x]
               }
               delete putSnumData[x].updateKey;
+              putSnumData.records.push(putSnumData[x].record);
+              delete putSnumData[x].record;
             }
             console.log(putSnumData);
             var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, putSnumData)

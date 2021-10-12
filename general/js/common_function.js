@@ -660,7 +660,7 @@ function createStockJson(event, appId) {
  */
 async function stockCtrl(event, appId) {
 	var stockData = createStockJson(event, appId);
-	console.log(stockData);
+	// console.log(stockData);
 	/* 商品管理情報取得 */
 	//商品管理クエリ作成
 	var devQuery = [];
