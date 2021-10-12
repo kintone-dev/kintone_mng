@@ -349,10 +349,11 @@ const postRecords = async (sendApp, records) => {
 				return 'success';
 			}).catch(function (error) {
 				console.log(error);
-				return error;
+				var error = error;
+				return 'error';
 			});
-			if(postResult!='success'){
-				return postResult;
+			if(postResult=='error'){
+				return error;
 			}
 		POST_RECORDS.splice(0, 100);
 	}
@@ -372,10 +373,11 @@ const putRecords = async (sendApp, records) => {
 				return 'success';
 			}).catch(function (error) {
 				console.log(error);
-				return error;
+				var error = error;
+				return 'error';
 			});
-		if(putResult!='success'){
-			return putResult;
+		if(putResult=='error'){
+			return error;
 		}
 		PUT_RECORDS.splice(0, 100);
 	}
