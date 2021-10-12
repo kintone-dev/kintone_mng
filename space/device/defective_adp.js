@@ -7,6 +7,7 @@
   ];
 
   kintone.events.on(events_ced, function (event) {
+    startLoad();
     //故障品情報格納配列
     var putDefectiveData = [];
     //故障品情報
@@ -71,6 +72,7 @@
 
     // defective(event.record.defective.value, event.record.repaired.value);
 
+    endLoad();
     return event;
   });
 

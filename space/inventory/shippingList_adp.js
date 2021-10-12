@@ -3,6 +3,7 @@
 
   // 拠点情報取得＆繰り返し利用
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
+    startLoad();
     var nStatus = event.nextStatus.value;
     if (nStatus === "集荷待ち") {
       //送付日未記入の場合エラー
@@ -67,7 +68,7 @@
         event.error = '出荷ロケーションを選択して下さい。';
       }
     }
-
+    endLoad();
     return event;
   });
 
