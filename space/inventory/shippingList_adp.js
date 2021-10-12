@@ -31,7 +31,7 @@
         };
         putSnumData.push(snRecord);
       }
-      putRecords(sysid.DEV.app_id.sNum, putSnumData)
+      var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .catch(function (error) {
           event.error = 'シリアル番号追加でエラーが発生しました。';
           return error;
