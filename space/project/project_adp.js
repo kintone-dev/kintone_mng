@@ -1,6 +1,9 @@
 (function () {
   'use strict';
-
+kintone.events.on('app.record.detail.show', function(event){
+  event.record.sys_shipment_ID.value='sys_shipment_id';
+  return event;
+})
   //ステータス変更時
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
     startLoad();
@@ -139,13 +142,6 @@
           postShipData.records.push(postShipSubBody);
         }
         // 入出荷管理に情報連携
-        // var shipmentResault = await postRecords(sysid.INV.app_id.shipment, postShipData);
-        // shipmentResault.then(function(resp){
-        //   var eRecord=kintone.app.record.get();
-        //   eRecord.record.sys_shipment_ID.value=resp.id;
-        //   kintone.app.record.set(eRecord);
-        // })
-        // for()
         console.log('postShipData:');
         console.log(postShipData);
         kintone.api(kintone.api.url('/k/v1/records', true), "POST", postShipData).then(function(resp){
