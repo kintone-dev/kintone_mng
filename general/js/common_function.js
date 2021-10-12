@@ -352,9 +352,9 @@ const postRecords = async (sendApp, records) => {
 				var error = error;
 				return 'error';
 			});
-			if(postResult=='error'){
-				return error;
-			}
+		if (putResult == 'error') {
+			throw new Error(error);
+		}
 		POST_RECORDS.splice(0, 100);
 	}
 }
@@ -376,7 +376,7 @@ const putRecords = async (sendApp, records) => {
 				var error = error;
 				return 'error';
 			});
-		if(putResult=='error'){
+		if (putResult == 'error') {
 			throw new Error(error);
 		}
 		PUT_RECORDS.splice(0, 100);
@@ -397,11 +397,12 @@ const deleteRecords = async (sendApp, records) => {
 				return 'success';
 			}).catch(function (error) {
 				console.log(error);
-				return error;
+				var error = error;
+				return 'error';
 			});
-			if(deleteResult!='success'){
-				return deleteResult;
-			}
+		if (putResult == 'error') {
+			throw new Error(error);
+		}
 		DELETE_RECORDS.splice(0, 100);
 	}
 }
