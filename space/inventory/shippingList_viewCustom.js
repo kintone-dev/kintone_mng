@@ -141,7 +141,6 @@
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
       tabSwitch(sessionStorage.getItem('tabSelect'));
-      $('.tab_ship li').removeClass("active"); //li要素のCSS設定を削除
 
     } else {
       tabSwitch('#出荷情報');
@@ -150,7 +149,7 @@
     $('.tabMenu a').on('click', function () {
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
-      var actIndex = $('tabMenu li.active').index();
+      var actIndex = $('.tab_ship li.active').index();
       console.log(actIndex);
       sessionStorage.setItem('tabSelect', idName);
       return false; //aタグを無効にする
