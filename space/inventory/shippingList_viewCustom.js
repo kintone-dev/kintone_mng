@@ -140,7 +140,7 @@
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
       $('.tab_ship li').removeClass("active"); //li要素のCSS設定を削除
-      tabSwitch(sessionStorage.getItem('tabSelect'));
+      tabSwitch(sessionStorage.getItem('tabSelect'), sessionStorage.getItem('shipType'));
       $('.tab_ship li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
     } else {
       tabSwitch('#出荷情報', '');
@@ -149,11 +149,11 @@
     $('.tabMenu a').on('click', function () {
       var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
-      console.log(eRecord.record.shipType.value);
       tabSwitch(idName, eRecord.record.shipType.value); //tabをクリックした時の表示設定
       var actIndex = $('.tab_ship li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
+      sessionStorage.setItem('shipType', eRecord.record.shipType.value);
       return false; //aタグを無効にする
     });
     return event;
