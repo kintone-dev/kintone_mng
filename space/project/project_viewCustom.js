@@ -471,8 +471,8 @@
     return event;
   });
 
-  // 計算ボタン
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
+    // 計算ボタン
     setBtn('calBtn', '計算');
     $('#calBtn').on('click', function () {
       calBtnFunc(kintone.app.record.get(), kintone.app.getId());
