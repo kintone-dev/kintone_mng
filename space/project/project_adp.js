@@ -144,6 +144,7 @@
         await reportCtrl(event, kintone.app.getId());
       }
     }
+
     endLoad();
     return event;
   });
