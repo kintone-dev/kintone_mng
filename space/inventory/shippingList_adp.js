@@ -16,6 +16,8 @@
       //ID更新
       var sNums = sNumRecords(event.record.deviceList.value, 'table');
       var putSnumData = [];
+      var instNameValue=event.record.instName.value;
+      if(instNameValue==undefined) instNameValue='';
       for (var i in sNums) {
         var snRecord = {
           'updateKey': {
@@ -26,7 +28,7 @@
             'shipment': event.record.shipment,
             'sendDate': event.record.sendDate,
             'shipType': event.record.shipType,
-            'instName': event.record.instName
+            'instName': {type: 'SINGLE_LINE_TEXT', value: instNameValue}
           }
         };
         putSnumData.push(snRecord);
