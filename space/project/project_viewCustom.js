@@ -534,7 +534,7 @@
     var currentDate = new Date(getNowDate().getResponseHeader('Date'));
     var nowDateFormat = String(currentDate.getFullYear()) + String(("0" + (currentDate.getMonth() + 1)).slice(-2));
     if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
-      alert('昔の請求書です。');
+      alert('過去の請求つきになっています。請求つきをご確認ください。');
       return event;
     }
     return event;
