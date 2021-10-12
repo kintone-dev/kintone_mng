@@ -37,7 +37,6 @@
       }
       await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putSnumBody)
         .catch(function (error) {
-          console.log('error');
           event.error = 'シリアル番号追加でエラーが発生しました。';
           return event;
         });
