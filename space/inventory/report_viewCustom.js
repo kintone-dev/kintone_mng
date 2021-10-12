@@ -72,18 +72,19 @@
     }
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
-      $('.tab_ship li').removeClass("active"); //li要素のCSS設定を削除
+      $('.tab_report li').removeClass("active"); //li要素のCSS設定を削除
       tabSwitch(sessionStorage.getItem('tabSelect'));
-      $('.tab_ship li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
+      $('.tab_report li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
+      sessionStorage.removeItem('tabSelect');
+      sessionStorage.removeItem('actSelect');
     } else {
       tabSwitch('#概要');
     }
-
     tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数']); //タブメニュー作成
     $('.tabMenu a').on('click', function () { //タブメニュークリック時アクション
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
-      var actIndex = $('.tab_ship li.active').index();
+      var actIndex = $('.tab_report li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
       return false;

@@ -142,6 +142,9 @@
       $('.tab_ship li').removeClass("active"); //li要素のCSS設定を削除
       tabSwitch(sessionStorage.getItem('tabSelect'), sessionStorage.getItem('shipType'));
       $('.tab_ship li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
+      sessionStorage.removeItem('tabSelect');
+      sessionStorage.removeItem('actSelect');
+      sessionStorage.removeItem('shipType');
     } else {
       tabSwitch('#出荷情報', '');
     }
