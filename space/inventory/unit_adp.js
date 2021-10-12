@@ -4,7 +4,7 @@
   var getDEVdata = api_getRecords(sysid.INV.app_id.device);
 
   //新規拠点作成時アクション
-  kintone.events.on('app.record.create.show', function (event) {
+  kintone.events.on('app.record.create.show', async function (event) {
     startLoad();
     var getDevBody = {
       'app': sysid.INV.app_id.device,
