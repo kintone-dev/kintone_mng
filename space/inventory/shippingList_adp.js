@@ -40,17 +40,28 @@
         .catch(async function (error) {
           var isPOST=confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？');
           if(isPOST){
+            var postSnumData=[];
             for(var x in putSnumData){
-              putSnumData[x].record.sNum={
-                type: 'SINGLE_LINE_TEXT',
-                value: sNums[x]
-              }
-              delete putSnumData[x].updateKey;
-              putSnumData.records.push(putSnumData[x].record);
-              delete putSnumData[x].record;
+              // putSnumData[x].record.sNum={
+              //   type: 'SINGLE_LINE_TEXT',
+              //   value: sNums[x]
+              // }
+              // delete putSnumData[x].updateKey;
+              // putSnumData.records.push(putSnumData[x].record);
+              // delete putSnumData[x].record;
+              postSnumData.push({
+                'sNum': sNums[x],
+                'shipment': event.record.shipment,
+                'sendDate': event.record.sendDate,
+                'shipType': event.record.shipType,
+                'instName': {
+                  type: 'SINGLE_LINE_TEXT',
+                  value: instNameValue
+                }
+              });
             }
-            console.log(putSnumData);
-            var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, putSnumData)
+            console.log(postSnumData);
+            var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, postSnumData)
             .catch(function(error){
               event.error = 'シリアル番号追加でエラーが発生しました。';
               return 'error';
