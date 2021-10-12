@@ -31,20 +31,31 @@
         };
         putSnumData.push(snRecord);
       }
-      var putSnumBody = {
-        'app': sysid.DEV.app_id.sNum,
-        'records': putSnumData,
-      }
-      var putSnumResult = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putSnumBody)
+      putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .catch(function (error) {
           event.error = 'シリアル番号追加でエラーが発生しました。';
-          return 0;
+          return error;
         });
-      //ID更新 end
-      if(putSnumResult == 0){
+      if (putSnumResult == error) {
         endLoad();
         return event;
       }
+
+
+      // var putSnumBody = {
+      //   'app': sysid.DEV.app_id.sNum,
+      //   'records': putSnumData,
+      // }
+      // var putSnumResult = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putSnumBody)
+      //   .catch(function (error) {
+      //     event.error = 'シリアル番号追加でエラーが発生しました。';
+      //     return 0;
+      //   });
+      // //ID更新 end
+      // if(putSnumResult == 0){
+      //   endLoad();
+      //   return event;
+      // }
 
       //在庫処理
       await stockCtrl(event, kintone.app.getId());
