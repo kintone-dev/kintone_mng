@@ -209,7 +209,7 @@
       var setSelectLabel=document.createElement('label');
       setSelectLabel.htmlFor='setShipment';
       setSelectLabel.innerText='出荷ロケーション';
-      createSelect.appendChild(setSelectLabel);
+      kintone.app.record.getSpaceElement('setShipment').appendChild(setSelectLabel);
       kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 
       (async function setOption() {
