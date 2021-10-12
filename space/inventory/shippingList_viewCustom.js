@@ -44,6 +44,7 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn', 'line', 'none');
+          setSpaceShown('setShipment', 'line', 'none');
           if (shipType == '移動-拠点間') {
             setFieldShown('Contractor', true);
             setFieldShown('instName', false);
@@ -82,6 +83,7 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn', 'line', 'block');
+          setSpaceShown('setShipment', 'line', 'none');
           break;
         case '#出荷情報':
           setFieldShown('dstSelection', false);
@@ -132,6 +134,7 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn', 'line', 'none');
+          setSpaceShown('setShipment', 'line', 'none');
           break;
       }
     }
