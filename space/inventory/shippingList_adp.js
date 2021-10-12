@@ -42,6 +42,7 @@
         });
       //ID更新 end
       if(putSnumResult == 0){
+        endLoad();
         return event;
       }
 
