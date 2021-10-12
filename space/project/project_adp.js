@@ -37,7 +37,6 @@
       if(sResult){
         // 入出荷管理post用配列
         var postShipData = [];
-          'city': { 'value': event.record.city.value },
         if(event.record.salesType.value=='無償提供'){
           // 入出荷管理post内容
           var postShipBody = {
