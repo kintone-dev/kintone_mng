@@ -19,9 +19,9 @@
     setFieldShown('sys_instAddress', false);
     //tabメニューの選択肢による表示設定
     function tabSwitch(onSelect) {
-      var eRecord = kintone.app.record.get();
       switch (onSelect) {
         case '#宛先情報':
+          var eRecord = kintone.app.record.get();
           disableSet(event);
           doSelection(event);
           kintone.app.record.setFieldShown('dstSelection', true);
