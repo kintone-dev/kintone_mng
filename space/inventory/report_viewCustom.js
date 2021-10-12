@@ -10,7 +10,6 @@
     'app.record.create.show'
   ];
   kintone.events.on(events_ced, function (event) {
-    startLoad();
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     // [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
 
@@ -90,7 +89,6 @@
       sessionStorage.setItem('actSelect', actIndex);
       return false;
     });
-    endLoad();
     return event;
   });
 
@@ -131,7 +129,6 @@
 
     setTimeout(function () {
       $('#locationSortBtn').trigger('click');
-      endLoad();
     }, 3000);
 
     return event;
