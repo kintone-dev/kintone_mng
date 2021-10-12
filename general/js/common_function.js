@@ -373,12 +373,13 @@ const putRecords = async (sendApp, records) => {
 				return 'success';
 			}).catch(function (error) {
 				console.log(error);
-				var error = error;
-				return 'error';
+				throw new Error(error);
+				// return 'error';
 			});
-		if (putResult == 'error') {
-			throw new Error(error);
-		}
+			console.log('ok');
+		// if (putResult == 'error') {
+		// 	throw new Error(error);
+		// }
 		PUT_RECORDS.splice(0, 100);
 	}
 }
