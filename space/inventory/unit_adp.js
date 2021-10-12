@@ -1,13 +1,13 @@
 (function () {
   'use strict';
   //新規拠点作成時アクション
-  kintone.events.on('app.record.create.show', async function (event) {
+  kintone.events.on('app.record.create.show', function (event) {
     startLoad();
     var getDevBody = {
       'app': sysid.INV.app_id.device,
       'query': null
     };
-    await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDevBody)
+    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDevBody)
       .then(function (resp) {
         var eRecord = kintone.app.record.get();
         //反転して格納
@@ -37,13 +37,13 @@
           eRecord.record.mStockList.value[i].value.mStock.disabled = true;
           kintone.app.record.set(event);
         }
-        return kintone.app.record.set(eRecord);
+        kintone.app.record.set(eRecord);
+        endLoad();
       }).catch(function (error) {
         console.log(error);
         return error;
       });
 
-    endLoad();
     return event;
   });
 
