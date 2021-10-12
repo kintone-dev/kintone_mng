@@ -105,19 +105,25 @@
       var table = eRecord.record.inventoryList.value
       table = sortItemTable(table, 'sys_code', true);
       kintone.app.record.set(eRecord);
+      for (var i in event.record.inventoryList.value) {
+        event.record.inventoryList.value[i].value.mCode.lookup = true;
+      }
     });
 
     $('#locationSortBtn').on('click', function () {
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
       table = sortLocTable(table, 'sys_code', true);
-
       kintone.app.record.set(eRecord);
+      for (var i in event.record.inventoryList.value) {
+        event.record.inventoryList.value[i].value.mCode.lookup = true;
+      }
     });
 
     for (var i in event.record.inventoryList.value) {
       event.record.inventoryList.value[i].value.mCode.lookup = true;
     }
+
     endLoad();
     return event;
   });
