@@ -46,12 +46,12 @@
         }
 
         var confTxt = '';
-        for(var i in confirmSetting){
+        for (var i in confirmSetting) {
           confTxt = confTxt + confirmSetting[i].fName + '：' + event.record[confirmSetting[i].fCode].value + '\n';
         }
-        if(confirm(confTxt)){
+        if (confirm(confTxt)) {
           return event;
-        } else{
+        } else {
           return false;
         }
       });
@@ -274,10 +274,6 @@
       $('.tabMenu li').removeClass("active");
       tabSwitch(sessionStorage.getItem('tabSelect'));
       $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
-      if (sessionStorage.getItem('record_updated') === '0') {
-        sessionStorage.removeItem('tabSelect');
-        sessionStorage.removeItem('actSelect');
-      }
     } else {
       tabSwitch('#案件情報');
     }
@@ -502,6 +498,8 @@
   kintone.events.on('app.record.detail.show', async function (event) {
     if (sessionStorage.getItem('record_updated') === '1') {
       sessionStorage.setItem('record_updated', '0');
+      sessionStorage.removeItem('tabSelect');
+      sessionStorage.removeItem('actSelect');
       return event;
     }
     var putData = [];
@@ -512,28 +510,23 @@
 
     if (event.record.deviceList.value.some(item => item.value.shipRemarks.value.match(/WFP/))) {
       putBody.record.sys_isReady = {
-        'value':'false'
+        'value': 'false'
       }
     } else {
       putBody.record.sys_isReady = {
-        'value':'true'
+        'value': 'true'
       }
     }
 
-    if(event.record.purchaseOrder.value.length >= 1){
+    if (event.record.purchaseOrder.value.length >= 1) {
       putBody.record.sys_purchaseOrder = {
-        'value':['POI']
+        'value': ['POI']
       }
-    }else{
+    } else {
       putBody.record.sys_purchaseOrder = {
-        'value':[]
+        'value': []
       }
     }
-
-    putData.push(putBody);
-    putRecords(kintone.app.getId(), putData);
-    sessionStorage.setItem('record_updated', '1');
-    location.reload();
 
     //サーバー時間取得
     function getNowDate() {
@@ -550,6 +543,12 @@
       alert('過去の請求月になっています。請求月をご確認ください。');
       return event;
     }
+
+    putData.push(putBody);
+    putRecords(kintone.app.getId(), putData);
+    sessionStorage.setItem('record_updated', '1');
+    location.reload();
+
     return event;
   });
 
