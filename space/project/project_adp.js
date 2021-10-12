@@ -145,6 +145,7 @@
         // for()
         console.log('postShipData:');
         console.log(postShipData);
+        alert('wait');
       }else{
         event.error='ステータスを進めるに必要な項目が未入力です。';
       }
