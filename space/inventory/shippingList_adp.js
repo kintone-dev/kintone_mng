@@ -37,7 +37,7 @@
         putSnumData.push(snRecord);
       }
       var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
-        .catch(function (error) {
+        .catch(async function (error) {
           var isPOST=confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？');
           if(isPOST){
             for(var x in putSnumData){
@@ -47,7 +47,7 @@
               }
               delete putSnumData[x].updateKey;
             }
-            var postSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
+            var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, putSnumData)
             .catch(function(error){
               event.error = 'シリアル番号追加でエラーが発生しました。';
               return 'error';
