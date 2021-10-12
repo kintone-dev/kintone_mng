@@ -343,16 +343,17 @@ const postRecords = async (sendApp, records) => {
 			'app': sendApp,
 			'records': POST_RECORDS.slice(0, 100),
 		}
-		await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
+		var postResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
 			.then(function (resp) {
 				console.log(postBody);
 				console.log(resp);
 			}).catch(function (error) {
 				console.log(error);
-				eRecord = kintone.app.record.get();
-				eRecord.error = error;
-				kintone.app.record.set(eRecord);
+				return 0;
 			});
+			if(postResult==0){
+				return error;
+			}
 		POST_RECORDS.splice(0, 100);
 	}
 }
@@ -373,7 +374,6 @@ const putRecords = async (sendApp, records) => {
 				return 0;
 			});
 		if(putResult==0){
-			console.log('error');
 			return error;
 		}
 		PUT_RECORDS.splice(0, 100);
@@ -388,12 +388,16 @@ const deleteRecords = async (sendApp, records) => {
 			'app': sendApp,
 			'ids': DELETE_RECORDS.slice(0, 100),
 		}
-		await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody)
+		var deleteResult = await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody)
 			.then(function (resp) {
 				console.log(deleteBody);
 			}).catch(function (error) {
 				console.log(error);
+				return 0;
 			});
+			if(deleteResult==0){
+				return error;
+			}
 		DELETE_RECORDS.splice(0, 100);
 	}
 }
