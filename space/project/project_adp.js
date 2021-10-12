@@ -19,8 +19,8 @@
       for(var sri in deliveryArrangements){
         if(event.record.dstSelection.value=='担当手渡し'){
           sri=6;
-          console.log(deliveryArrangements[sri]);
         }
+        console.log(deliveryArrangements[sri]+': '+event.record[deliveryArrangements[sri]].value);
         if(event.record[deliveryArrangements[sri]].value==undefined || event.record[deliveryArrangements[sri]].value==''){
           // event.record[deliveryArrangements[sri]].error='ステータスを進めるに必要な項目です。';
           sResult=false;
