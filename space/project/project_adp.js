@@ -229,18 +229,21 @@
 
   //保存ボタン押下時、請求月が今より過去の場合
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
-    $.ajax({
-      type: 'GET',
-      async: false
-    }).done(function (data, status, xhr) {
-      //請求月が今より過去の場合
-      var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
-      var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
-      if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
-        event.error = '過去の請求つきが入力されています。';
-        return event;
-      }
-    });
+    //サーバー時間取得
+    function getNowDate() {
+      return $.ajax({
+        type: 'GET',
+        async: false
+      }).done(function (data, status, xhr) {
+        return xhr;
+      });
+    }
+    var currentDate = new Date(getNowDate().getResponseHeader('Date'));
+    var nowDateFormat = String(currentDate.getFullYear()) + String(("0" + (currentDate.getMonth() + 1)).slice(-2));
+    if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
+      alert('過去の請求月になっています。請求月をご確認ください。');
+      return event;
+    }
     return event;
   });
 
