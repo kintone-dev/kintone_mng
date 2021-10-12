@@ -32,12 +32,12 @@
         putSnumData.push(snRecord);
       }
       var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
-        .then(function (resp) {
-          console.log(resp);
+        .catch(function (error) {
+          console.log(error);
           event.error = 'シリアル番号追加でエラーが発生しました。';
-          return 0;
+          return 'error';
         });
-      if (putSnumResult == 0) {
+      if (putSnumResult=='error') {
         endLoad();
         return event;
       }
