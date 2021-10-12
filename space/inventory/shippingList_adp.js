@@ -50,14 +50,11 @@
               // putSnumData.records.push(putSnumData[x].record);
               // delete putSnumData[x].record;
               postSnumData.push({
-                'sNum': sNums[x],
+                'sNum': { type: 'SINGLE_LINE_TEXT', value: sNums[x] },
                 'shipment': event.record.shipment,
                 'sendDate': event.record.sendDate,
                 'shipType': event.record.shipType,
-                'instName': {
-                  type: 'SINGLE_LINE_TEXT',
-                  value: instNameValue
-                }
+                'instName': { type: 'SINGLE_LINE_TEXT', value: instNameValue }
               });
             }
             console.log(postSnumData);
