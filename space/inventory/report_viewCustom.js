@@ -129,8 +129,6 @@
       event.record.inventoryList.value[i].value.mCode.lookup = true;
     }
 
-    $('#locationSortBtn').trigger('click');
-
     endLoad();
     return event;
   });
