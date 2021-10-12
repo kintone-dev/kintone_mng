@@ -162,7 +162,7 @@
           console.log(sys_shipment_id);
           eRecord.record.sys_shipment_ID.value=sys_shipment_id;
           console.log(eRecord.record.sys_shipment_ID.value);
-          kinotne.app.record.set(eRecord);
+          kintone.app.record.set(eRecord);
         }).catch(function(error){
           console.log(error)
         })
