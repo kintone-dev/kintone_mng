@@ -137,11 +137,11 @@
       }
     }
     //tab初期表示設定
-    // if (sessionStorage.getItem('tabSelect')) {
-    //   tabSwitch(sessionStorage.getItem('tabSelect'));
-    // } else {
-    // }
-    tabSwitch('#出荷情報');
+    if (sessionStorage.getItem('tabSelect')) {
+      tabSwitch(sessionStorage.getItem('tabSelect'));
+    } else {
+      tabSwitch('#出荷情報');
+    }
     //タブメニュー作成
     tabMenu('tab_ship', ['出荷情報', '宛先情報', '品目情報', '輸送情報']);
     //タブ切り替え表示設定
