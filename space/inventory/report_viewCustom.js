@@ -106,9 +106,10 @@
       table = sortItemTable(table, 'sys_code', true);
       kintone.app.record.set(eRecord);
       for (var i in eRecord.record.inventoryList.value) {
+        console.log(i);
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
-      endLoad();
+      // endLoad();
     });
 
     $('#locationSortBtn').on('click', async function () {
