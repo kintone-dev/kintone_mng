@@ -96,11 +96,11 @@
 
   //ソートボタン表示、処理
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
-    startLoad();
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
 
     $('#itemSortBtn').on('click', function () {
+      startLoad();
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
       table = sortItemTable(table, 'sys_code', true);
@@ -108,9 +108,11 @@
       for (var i in event.record.inventoryList.value) {
         event.record.inventoryList.value[i].value.mCode.lookup = true;
       }
+      endLoad();
     });
 
     $('#locationSortBtn').on('click', function () {
+      startLoad();
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
       table = sortLocTable(table, 'sys_code', true);
@@ -118,13 +120,13 @@
       for (var i in event.record.inventoryList.value) {
         event.record.inventoryList.value[i].value.mCode.lookup = true;
       }
+      endLoad();
     });
 
     for (var i in event.record.inventoryList.value) {
       event.record.inventoryList.value[i].value.mCode.lookup = true;
     }
 
-    endLoad();
     return event;
   });
 
