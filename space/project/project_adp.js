@@ -237,7 +237,7 @@
       var serverDate = new Date(xhr.getResponseHeader('Date')); //サーバー時刻を代入
       var nowDateFormat = String(serverDate.getFullYear()) + String(("0" + (serverDate.getMonth() + 1)).slice(-2));
       if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
-        event.error = '過去の請求つきが入力されています。';
+        event.error = '過去の請求月になっています。請求月をご確認ください。';
         return event;
       }
     });
