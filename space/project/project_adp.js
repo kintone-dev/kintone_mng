@@ -153,7 +153,7 @@
           var eRecord=kintone.app.record.get();
           var sys_shipment_id='';
           for(var i in resp.ids){
-            if(i<resp.ids.length){
+            if(i<resp.ids.length-1){
               sys_shipment_id+=resp.ids[i]+',';
             }else{
               sys_shipment_id+=resp.ids[i];
@@ -161,7 +161,8 @@
           }
           console.log(sys_shipment_id);
           eRecord.record.sys_shipment_ID.value=sys_shipment_id;
-          kinotne.app.record.set(eRecord);
+          console.log(eRecord.record.sys_shipment_ID.value);
+          kintone.app.record.set(eRecord);
         }).catch(function(error){
           console.log(error)
         })
