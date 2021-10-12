@@ -268,13 +268,24 @@
           break;
       }
     }
-    tabSwitch('#案件情報');
     //タブメニュー作成
     tabMenu('tab_project', ['案件情報', '宛先情報', '納品明細', '輸送情報']);
+    if (sessionStorage.getItem('tabSelect')) {
+      $('.tabMenu li').removeClass("active");
+      tabSwitch(sessionStorage.getItem('tabSelect'));
+      $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
+      sessionStorage.removeItem('tabSelect');
+      sessionStorage.removeItem('actSelect');
+    } else {
+      tabSwitch('#案件情報');
+    }
     //タブ切り替え表示設定
     $('.tab_project a').on('click', function () {
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
+      var actIndex = $('.tabMenu li.active').index();
+      sessionStorage.setItem('tabSelect', idName);
+      sessionStorage.setItem('actSelect', actIndex);
       return false; //aタグを無効にする
     });
     var newINST = setBtn('btn_newINST', '新規設置先');

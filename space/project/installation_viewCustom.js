@@ -131,7 +131,6 @@
     } else {
       tabSwitch('#設置先概要');
     }
-
     $('.tab_inst a').on('click', function () {
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
