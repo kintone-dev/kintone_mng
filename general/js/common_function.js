@@ -370,9 +370,10 @@ const putRecords = async (sendApp, records) => {
 				console.log(putBody);
 			}).catch(function (error) {
 				console.log(error);
-				return error;
+				return 0;
 			});
-		if(putResult==error){
+		if(putResult==0){
+			console.log('error');
 			return error;
 		}
 		PUT_RECORDS.splice(0, 100);
