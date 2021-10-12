@@ -148,12 +148,13 @@
     }
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function () {
+      var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
       var actIndex = $('.tab_ship li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
-      console.log(event.record);
+      console.log(eRecord.record);
       return false; //aタグを無効にする
     });
     return event;
