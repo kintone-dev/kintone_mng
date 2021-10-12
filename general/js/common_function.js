@@ -346,13 +346,13 @@ const postRecords = async (sendApp, records) => {
 		var postResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
 			.then(function (resp) {
 				console.log(postBody);
-				console.log(resp);
+				return 'success';
 			}).catch(function (error) {
 				console.log(error);
-				return 0;
-			});
-			if(postResult==0){
 				return error;
+			});
+			if(postResult!='success'){
+				return postResult;
 			}
 		POST_RECORDS.splice(0, 100);
 	}
@@ -369,12 +369,13 @@ const putRecords = async (sendApp, records) => {
 		var putResult = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody)
 			.then(function (resp) {
 				console.log(putBody);
+				return 'success';
 			}).catch(function (error) {
 				console.log(error);
-				return 0;
+				return error;
 			});
-		if(putResult==0){
-			return error;
+		if(putResult!='success'){
+			return putResult;
 		}
 		PUT_RECORDS.splice(0, 100);
 	}
@@ -391,12 +392,13 @@ const deleteRecords = async (sendApp, records) => {
 		var deleteResult = await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody)
 			.then(function (resp) {
 				console.log(deleteBody);
+				return 'success';
 			}).catch(function (error) {
 				console.log(error);
-				return 0;
-			});
-			if(deleteResult==0){
 				return error;
+			});
+			if(deleteResult!='success'){
+				return deleteResult;
 			}
 		DELETE_RECORDS.splice(0, 100);
 	}
