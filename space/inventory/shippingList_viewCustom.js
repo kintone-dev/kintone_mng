@@ -149,7 +149,6 @@
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
       sessionStorage.setItem('tabSelect', idName);
-
       return false; //aタグを無効にする
     });
     return event;
