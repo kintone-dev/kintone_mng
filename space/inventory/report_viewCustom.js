@@ -107,7 +107,7 @@
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
       kintone.app.record.set(eRecord);
-      endLoad();
+      // endLoad();
     });
 
     $('#locationSortBtn').on('click', async function () {
@@ -119,7 +119,7 @@
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
       kintone.app.record.set(eRecord);
-      endLoad();
+      // endLoad();
     });
 
 
