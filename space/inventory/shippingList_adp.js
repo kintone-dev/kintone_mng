@@ -31,7 +31,10 @@
         };
         putSnumData.push(snRecord);
       }
-      putRecords(sysid.DEV.app_id.sNum, putSnumData);
+      await putRecords(sysid.DEV.app_id.sNum, putSnumData)
+        .catch(function (error) {
+          console.log(error);
+        });
       //ID更新 end
 
       //在庫処理
