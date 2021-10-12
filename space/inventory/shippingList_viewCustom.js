@@ -140,8 +140,9 @@
     tabMenu('tab_ship', ['出荷情報', '宛先情報', '品目情報', '輸送情報']);
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
+      $('.tab_ship li').removeClass("active"); //li要素のCSS設定を削除
       tabSwitch(sessionStorage.getItem('tabSelect'));
-
+      $('.tab_ship li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
     } else {
       tabSwitch('#出荷情報');
     }
@@ -150,8 +151,8 @@
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
       var actIndex = $('.tab_ship li.active').index();
-      console.log(actIndex);
       sessionStorage.setItem('tabSelect', idName);
+      sessionStorage.setItem('actSelect', actIndex);
       return false; //aタグを無効にする
     });
     return event;
