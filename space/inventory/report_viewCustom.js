@@ -75,7 +75,7 @@
     if (sessionStorage.getItem('tabSelect')) {
       $('.tabMenu li').removeClass("active"); //li要素のCSS設定を削除
       tabSwitch(sessionStorage.getItem('tabSelect'));
-      // $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
+      $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
       sessionStorage.removeItem('tabSelect');
       sessionStorage.removeItem('actSelect');
     } else {
