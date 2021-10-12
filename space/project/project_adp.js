@@ -18,7 +18,7 @@
       var deliveryArrangements=['receiver','phoneNum','zipcode','prefectures','city','address','aboutDelivery','tarDate','deviceList'];
       for(var sri in deliveryArrangements){
         if(event.record.dstSelection.value=='担当手渡し'){
-          sri=5;
+          sri=6;
           console.log(deliveryArrangements[sri]);
         }
         if(event.record[deliveryArrangements[sri]].value==undefined || event.record[deliveryArrangements[sri]].value==''){
@@ -39,68 +39,30 @@
         var postShipData = [];
         // 入出荷管理post内容
         var postShipBody = {
-          'aboutDelivery': {
-            'value': event.record.aboutDelivery.value
-          },
-          'tarDate': {
-            'value': event.record.tarDate.value
-          },
-          'dstSelection': {
-            'value': event.record.dstSelection.value
-          },
-          'Contractor': {
-            'value': event.record.Contractor.value
-          },
-          'instName': {
-            'value': event.record.instName.value
-          },
-          'receiver': {
-            'value': event.record.receiver.value
-          },
-          'phoneNum': {
-            'value': event.record.phoneNum.value
-          },
-          'zipcode': {
-            'value': event.record.zipcode.value
-          },
-          'prefectures': {
-            'value': event.record.prefectures.value
-          },
-          'city': {
-            'value': event.record.city.value
-          },
-          'address': {
-            'value': event.record.address.value
-          },
-          'buildingName': {
-            'value': event.record.buildingName.value
-          },
-          'corpName': {
-            'value': event.record.corpName.value
-          },
-          'sys_instAddress': {
-            'value': event.record.sys_instAddress.value
-          },
-          'sys_unitAddress': {
-            'value': event.record.sys_unitAddress.value
-          },
-          'deviceList': {
-            'value': []
-          },
-          'prjId': {
-            'value': event.record.$id.value
-          }
+          'aboutDelivery': { 'value': event.record.aboutDelivery.value },
+          'tarDate': { 'value': event.record.tarDate.value },
+          'dstSelection': { 'value': event.record.dstSelection.value },
+          'Contractor': { 'value': event.record.Contractor.value },
+          'instName': { 'value': event.record.instName.value },
+          'receiver': { 'value': event.record.receiver.value },
+          'phoneNum': { 'value': event.record.phoneNum.value },
+          'zipcode': { 'value': event.record.zipcode.value },
+          'prefectures': { 'value': event.record.prefectures.value },
+          'city': { 'value': event.record.city.value },
+          'address': { 'value': event.record.address.value },
+          'buildingName': { 'value': event.record.buildingName.value },
+          'corpName': { 'value': event.record.corpName.value },
+          'sys_instAddress': { 'value': event.record.sys_instAddress.value },
+          'sys_unitAddress': { 'value': event.record.sys_unitAddress.value },
+          'deviceList': { 'value': [] },
+          'prjId': { 'value': event.record.$id.value }
         };
         for (var i in event.record.deviceList.value) {
           if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
             var devListBody = {
               'value': {
-                'mNickname': {
-                  'value': event.record.deviceList.value[i].value.mNickname.value
-                },
-                'shipNum': {
-                  'value': event.record.deviceList.value[i].value.shipNum.value
-                }
+                'mNickname': { 'value': event.record.deviceList.value[i].value.mNickname.value },
+                'shipNum': { 'value': event.record.deviceList.value[i].value.shipNum.value }
               }
             };
             postShipBody.deviceList.value.push(devListBody);
@@ -109,74 +71,32 @@
 
         // 社内・社員予備機用post用サブデータ
         var postShipSubBody = {
-          'shipType': {
-            'value': '移動-拠点間'
-          },
-          'aboutDelivery': {
-            'value': event.record.aboutDelivery.value
-          },
-          'tarDate': {
-            'value': event.record.tarDate.value
-          },
-          'dstSelection': {
-            'value': event.record.dstSelection.value
-          },
-          'Contractor': {
-            'value': '社内・社員予備機'
-          },
-          'instName': {
-            'value': event.record.instName.value
-          },
-          'receiver': {
-            'value': event.record.receiver.value
-          },
-          'phoneNum': {
-            'value': event.record.phoneNum.value
-          },
-          'zipcode': {
-            'value': event.record.zipcode.value
-          },
-          'prefectures': {
-            'value': event.record.prefectures.value
-          },
-          'city': {
-            'value': event.record.city.value
-          },
-          'address': {
-            'value': event.record.address.value
-          },
-          'buildingName': {
-            'value': event.record.buildingName.value
-          },
-          'corpName': {
-            'value': event.record.corpName.value
-          },
-          'sys_instAddress': {
-            'value': event.record.sys_instAddress.value
-          },
-          'sys_unitAddress': {
-            'value': event.record.sys_unitAddress.value
-          },
-          'deviceList': {
-            'value': []
-          },
-          'prjId': {
-            'value': event.record.$id.value + '-sub'
-          }
+          'shipType': { 'value': '移動-拠点間' },
+          'aboutDelivery': { 'value': event.record.aboutDelivery.value },
+          'tarDate': { 'value': event.record.tarDate.value },
+          'dstSelection': { 'value': event.record.dstSelection.value },
+          'Contractor': { 'value': '社内・社員予備機' },
+          'instName': { 'value': event.record.instName.value },
+          'receiver': { 'value': event.record.receiver.value },
+          'phoneNum': { 'value': event.record.phoneNum.value },
+          'zipcode': { 'value': event.record.zipcode.value },
+          'prefectures': { 'value': event.record.prefectures.value },
+          'city': { 'value': event.record.city.value },
+          'address': { 'value': event.record.address.value },
+          'buildingName': { 'value': event.record.buildingName.value },
+          'corpName': { 'value': event.record.corpName.value },
+          'sys_instAddress': { 'value': event.record.sys_instAddress.value },
+          'sys_unitAddress': { 'value': event.record.sys_unitAddress.value },
+          'deviceList': { 'value': [] },
+          'prjId': { 'value': event.record.$id.value + '-sub' }
         };
         for (var i in event.record.deviceList.value) {
           if (event.record.deviceList.value[i].value.subBtn.value == '予備') {
             var devListBody = {
               'value': {
-                'mNickname': {
-                  'value': event.record.deviceList.value[i].value.mNickname.value
-                },
-                'shipNum': {
-                  'value': event.record.deviceList.value[i].value.shipNum.value
-                },
-                'shipRemarks': {
-                  'value': '社員予備'
-                }
+                'mNickname': { 'value': event.record.deviceList.value[i].value.mNickname.value },
+                'shipNum': { 'value': event.record.deviceList.value[i].value.shipNum.value },
+                'shipRemarks': { 'value': '社員予備' }
               }
             };
             postShipSubBody.deviceList.value.push(devListBody);
