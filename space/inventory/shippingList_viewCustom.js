@@ -202,13 +202,14 @@
   kintone.events.on('app.record.detail.show', function (event) {
     var cStatus = event.record.ステータス.value;
     if (cStatus === "処理中") {
+      setSpaceShown('setShipment', 'line', 'block');
       var createSelect = document.createElement('select');
       createSelect.id = 'setShipment';
       createSelect.name = 'setShipment';
       createSelect.classList.add('jsselect_header');
       var setSelectLabel=document.createElement('label');
       setSelectLabel.htmlFor='setShipment';
-      setSelectLabel.style='display: block;';
+      setSelectLabel.style='display: block; margin-bottom:5px;';
       setSelectLabel.innerText='出荷ロケーション';
       kintone.app.record.getSpaceElement('setShipment').appendChild(setSelectLabel);
       kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
@@ -234,6 +235,8 @@
       }());
 
       setFieldShown('shipment', false);
+    }else{
+      setSpaceShown('setShipment', 'line', 'none');
     }
 
     return event;
