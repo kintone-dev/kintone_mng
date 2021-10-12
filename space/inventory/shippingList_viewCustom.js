@@ -109,6 +109,9 @@
           setFieldShown('shipNote', true);
           setFieldShown('aboutDelivery', true);
           setSpaceShown('calBtn', 'line', 'none');
+          if(event.record.ステータス.value=='処理中'){
+            setSpaceShown('setShipment', 'line', 'block');
+          }
           break;
         case '#輸送情報':
           setFieldShown('dstSelection', false);
