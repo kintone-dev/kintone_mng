@@ -31,7 +31,11 @@
         };
         putSnumData.push(snRecord);
       }
-      await putRecords(sysid.DEV.app_id.sNum, putSnumData)
+      var putSnumBody = {
+        'app': sysid.DEV.app_id.sNum,
+        'records': putSnumData,
+      }
+      await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putSnumBody)
         .catch(function (error) {
           console.log(error);
         });
