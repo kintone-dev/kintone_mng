@@ -73,7 +73,7 @@
     tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数']); //タブメニュー作成
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
-      $('.tabMenu li').removeClass("active"); //li要素のCSS設定を削除
+      $('.tabMenu li').removeClass("active");
       tabSwitch(sessionStorage.getItem('tabSelect'));
       $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
       sessionStorage.removeItem('tabSelect');
