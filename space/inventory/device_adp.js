@@ -127,7 +127,7 @@
   });
 
   // 編集保存時アクション（現在編集不可）
-  kintone.events.on('app.record.edit.submit.success', function (event) {
+  kintone.events.on('app.record.edit.submit.success', async function (event) {
     startLoad();
     var getUniBody = {
       'app': sysid.INV.app_id.unit,
