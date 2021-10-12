@@ -70,8 +70,6 @@
       console.log(error);
     });
 
-    // defective(event.record.defective.value, event.record.repaired.value);
-
     endLoad();
     return event;
   });

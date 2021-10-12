@@ -8,6 +8,7 @@
     var reportData = await checkEoMReport(event.record.sys_invoiceDate.value);
     if (reportData == false) {
       event.error = '対応した日付のレポートは締切済みです。';
+      endLoad();
       return event;
     }
 
