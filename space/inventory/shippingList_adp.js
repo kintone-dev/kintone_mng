@@ -15,7 +15,6 @@
 
       //ID更新
       var sNums = sNumRecords(event.record.deviceList.value, 'table');
-      console.log(sNums);
       var putSnumData = [];
       for (var i in sNums) {
         var snRecord = {
