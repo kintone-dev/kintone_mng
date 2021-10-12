@@ -365,12 +365,16 @@ const putRecords = async (sendApp, records) => {
 			'app': sendApp,
 			'records': PUT_RECORDS.slice(0, 100),
 		}
-		await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody)
+		var putResult = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody)
 			.then(function (resp) {
 				console.log(putBody);
 			}).catch(function (error) {
 				console.log(error);
+				return error;
 			});
+		if(putResult==error){
+			return error;
+		}
 		PUT_RECORDS.splice(0, 100);
 	}
 }
