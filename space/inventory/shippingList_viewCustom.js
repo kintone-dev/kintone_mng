@@ -263,10 +263,11 @@
           // event.record.deviceList.value[i].value.shipRemarks.value = 'WFP\nカーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
           krtSetting();
           $('#krtSetBtn').on('click', function () {
+            var eRecord = kintone.app.record.get();
             var krtLength = $('.length').val();
             var krtOpenType = $('input[name=openType]:checked').val();
             var krtMethodType = $('input[name=methodType]:checked').val();
-            event.record.deviceList.value[i].value.shipRemarks.value = `WFP\nカーテンレール全長(mm)：${krtLength}\n開き勝手：${krtOpenType}\n取り付け方法：${krtMethodType}`;
+            eRecord.record.deviceList.value[i].value.shipRemarks.value = `WFP\nカーテンレール全長(mm)：${krtLength}\n開き勝手：${krtOpenType}\n取り付け方法：${krtMethodType}`;
             $('#mwFrame').fadeOut(1000,function(){$('#mwFrame').remove();});
           });
         } else if (mCodeValue.match(/pkg_/)) {
