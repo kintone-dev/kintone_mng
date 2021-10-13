@@ -205,10 +205,10 @@
       createSelect.id = 'setShipment';
       createSelect.name = 'setShipment';
       createSelect.classList.add('jsselect_header');
-      var setSelectLabel=document.createElement('label');
-      setSelectLabel.htmlFor='setShipment';
-      setSelectLabel.style='display: block; margin-bottom:5px;';
-      setSelectLabel.innerText='出荷ロケーション';
+      var setSelectLabel = document.createElement('label');
+      setSelectLabel.htmlFor = 'setShipment';
+      setSelectLabel.style = 'display: block; margin-bottom:5px;';
+      setSelectLabel.innerText = '出荷ロケーション';
       kintone.app.record.getSpaceElement('setShipment').appendChild(setSelectLabel);
       kintone.app.record.getSpaceElement('setShipment').appendChild(createSelect);
 
@@ -233,7 +233,7 @@
       }());
 
       setFieldShown('shipment', false);
-    }else{
+    } else {
       setSpaceShown('setShipment', 'line', 'none');
     }
 
@@ -257,9 +257,14 @@
     for (var i in event.record.deviceList.value) {
       if (!String(event.record.deviceList.value[i].value.shipRemarks.value).match(/PAC/)) {
         var mCodeValue = event.record.deviceList.value[i].value.mCode.value;
-        if (mCodeValue === undefined) event.record.deviceList.value[i].value.shipRemarks.value = '';
-        else if (mCodeValue == 'KRT-DY') event.record.deviceList.value[i].value.shipRemarks.value = 'WFP\nカーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
-        else if (mCodeValue.match(/pkg_/)) event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
+        if (mCodeValue === undefined) {
+          event.record.deviceList.value[i].value.shipRemarks.value = '';
+        } else if (mCodeValue == 'KRT-DY') {
+          event.record.deviceList.value[i].value.shipRemarks.value = 'WFP\nカーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
+          krtSetting();
+        } else if (mCodeValue.match(/pkg_/)) {
+          event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
+        }
       }
     }
     return event;

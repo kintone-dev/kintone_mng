@@ -1947,3 +1947,13 @@ var mWindow=function(){
 	};
 	return returnData;
 }
+
+// カーテンレール特記事項用モーダルウィンドウ
+function krtSetting(){
+	var mw=mWindow();
+	mw.contents.innerText='test';
+	$('#mwFrame').fadeIn();
+
+
+}
+
