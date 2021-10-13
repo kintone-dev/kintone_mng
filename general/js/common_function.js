@@ -1755,7 +1755,7 @@ function setSearch(searchParms) {
 	esCloseBtn.innerHTML = '<p>X</p>';
 	var dsCloseBtn = document.createElement('div');
 	dsCloseBtn.classList.add('searchClose');
-	dsCloseBtn.innerHTML = '<p>×</p>';
+	dsCloseBtn.innerHTML = '<p>X</p>';
 
 	//bodyに追加
 	eSearchArea.appendChild(eSearchTargetArea);
