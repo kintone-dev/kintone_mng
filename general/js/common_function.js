@@ -1917,44 +1917,51 @@ function endLoad() {
 }
 
 // Modal Window
-var mWindow=function(){
-	var mwFrame=document.createElement('div');
-	mwFrame.id='mwFrame';
-	mwFrame.onclick=function(){$('#mwFrame').fadeOut();};
+var mWindow = function () {
+	var mwFrame = document.createElement('div');
+	mwFrame.id = 'mwFrame';
+	mwFrame.onclick = function () {
+		$('#mwFrame').fadeOut();
+	};
 	mwFrame.classList.add('modalwindow');
 
-	var mwArea=document.createElement('div');
+	var mwArea = document.createElement('div');
 	mwArea.classList.add('mwArea');
-	mwArea.onclick=function(e){e.stopPropagation();};
+	mwArea.onclick = function (e) {
+		e.stopPropagation();
+	};
 	mwFrame.appendChild(mwArea);
 
-	var mwContents=document.createElement('div');
+	var mwContents = document.createElement('div');
 	mwContents.classList.add('mwContents');
 	mwArea.appendChild(mwContents);
 
-	var mwCloseBtn=document.createElement('div');
+	var mwCloseBtn = document.createElement('div');
 	mwCloseBtn.classList.add('mwCloseBtn');
-	mwCloseBtn.innerHTML='<a>X</a>';
-	mwCloseBtn.onclick=function(){$('#mwFrame').fadeOut();};
+	mwCloseBtn.innerHTML = '<a>X</a>';
+	mwCloseBtn.onclick = function () {
+		$('#mwFrame').fadeOut();
+	};
 	mwArea.appendChild(mwCloseBtn);
 
 	document.body.appendChild(mwFrame);
 
-	var returnData={
-		'frame':mwFrame,
-		'area':mwArea,
-		'contents':mwContents
+	var returnData = {
+		'frame': mwFrame,
+		'area': mwArea,
+		'contents': mwContents
 	};
 	return returnData;
 }
 
 // カーテンレール特記事項用モーダルウィンドウ
-function krtSetting(){
-	var mw=mWindow();
-	mw.contents.innerHTML = '<label>カーテンレール全長(mm):<input type="text" name="length"></label>';
+function krtSetting() {
+	var mw = mWindow();
+	mw.contents.innerHTML = '<div class="krtInput"><label>カーテンレール全長(mm)：<input type="text" name="length"></label></div>' +
+		'<div class="krtInput">開き勝手：<label>(S)片開き<input type="radio" value="(S)片開き" name="openType"></label><label>(W)両開き<input type="radio" value="(W)両開き" name="openType"></label></div>' +
+		'<div class="krtInput">取り付け方法：<label>天井<input type="radio" value="天井" name="methodType"></label><label>壁付S<input type="radio" value="壁付S" name="methodType"></label><label>壁付W<input type="radio" value="壁付W" name="methodType"></label></div>';
 
 	$('#mwFrame').fadeIn();
 
 
 }
-
