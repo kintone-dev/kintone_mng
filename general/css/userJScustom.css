@@ -201,3 +201,7 @@
 .krtInput label{
 	margin: 0 10px;
 }
+
+#krtSetBtn{
+	margin: 0 auto;
+}
