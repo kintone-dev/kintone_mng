@@ -268,7 +268,7 @@ var railConf = function (spec) {
 		shipnum: 2 * spec.shipNum
 	});
 	railDetail.push({
-		mname: 'エンドスカバー',
+		mname: 'エンドカバー',
 		shipnum: 1 * spec.shipNum
 	});
 	railDetail.push({
