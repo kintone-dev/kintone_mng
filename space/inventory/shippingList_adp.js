@@ -3,16 +3,21 @@
 
   // 拠点情報取得＆繰り返し利用
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
+    startLoad();
     var nStatus = event.nextStatus.value;
     if (nStatus === "集荷待ち") {
       //送付日未記入の場合エラー
       if (event.record.sendDate.value == null) {
         event.error = '送付日を記入して下さい。'
+        endLoad();
         return event;
       }
+
       //ID更新
       var sNums = sNumRecords(event.record.deviceList.value, 'table');
       var putSnumData = [];
+      var instNameValue = event.record.instName.value;
+      if (instNameValue == undefined) instNameValue = '';
       for (var i in sNums) {
         var snRecord = {
           'updateKey': {
@@ -23,37 +28,64 @@
             'shipment': event.record.shipment,
             'sendDate': event.record.sendDate,
             'shipType': event.record.shipType,
-            'instName': event.record.instName
+            'instName': {
+              type: 'SINGLE_LINE_TEXT',
+              value: instNameValue
+            }
           }
         };
         putSnumData.push(snRecord);
       }
-      putRecords(sysid.DEV.app_id.sNum, putSnumData);
-      //ID更新 end
-
-      // if (event.record.shipment.value == '矢倉倉庫') {
-      //   var postSnumData = [];
-      //   for (var y in sNums) {
-      //     var snRecord = {
-      //       'sNum': {
-      //         'value': sNums[y]
-      //       },
-      //       'shipment': event.record.shipment,
-      //       'sendDate': event.record.sendDate,
-      //       'shipType': event.record.shipType,
-      //       'instName': event.record.instName
-      //     };
-      //     postSnumData.push(snRecord);
-      //   }
-      //   postRecords(sysid.DEV.app_id.sNum, postSnumData);
-      // } else {
-      // }
+      var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
+        .catch(async function (error) {
+          var isPOST=confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？');
+          if(isPOST){
+            var postSnumData=[];
+            for(var x in putSnumData){
+              // putSnumData[x].record.sNum={
+              //   type: 'SINGLE_LINE_TEXT',
+              //   value: sNums[x]
+              // }
+              // delete putSnumData[x].updateKey;
+              // putSnumData.records.push(putSnumData[x].record);
+              // delete putSnumData[x].record;
+              postSnumData.push({
+                'sNum': { type: 'SINGLE_LINE_TEXT', value: sNums[x] },
+                'shipment': event.record.shipment,
+                'sendDate': event.record.sendDate,
+                'shipType': event.record.shipType,
+                'instName': { type: 'SINGLE_LINE_TEXT', value: instNameValue }
+              });
+            }
+            console.log(postSnumData);
+            var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, postSnumData)
+            .catch(function(error){
+              event.error = 'シリアル番号追加でエラーが発生しました。';
+              return 'error';
+            });
+            if (postSnumResult == 'error') {
+              endLoad();
+              return event;
+            }
+          }else{
+            event.error = 'シリアル番号更新でエラーが発生しました。';
+            return 'error';
+          }
+        });
+      if (putSnumResult == 'error') {
+        endLoad();
+        return event;
+      }
 
       //在庫処理
       await stockCtrl(event, kintone.app.getId());
     } else if (nStatus === "出荷完了") {
-      // 輸送情報連携
-      setDeliveryInfo(event.record);
+      //案件IDがある場合のみ実施
+      if(event.record.prjId.value!=''){
+        // 輸送情報連携
+        await setDeliveryInfo(event.record);
+      }
+
       // レポート処理
       await reportCtrl(event, kintone.app.getId());
 
@@ -67,7 +99,7 @@
         event.error = '出荷ロケーションを選択して下さい。';
       }
     }
-
+    endLoad();
     return event;
   });
 
@@ -113,7 +145,7 @@
 
   /* ---以下関数--- */
   // 輸送情報連携
-  const setDeliveryInfo = function (pageRecod) {
+  const setDeliveryInfo = async function (pageRecod) {
     var putDeliveryData = [];
     var putDeliveryBody = {
       'id': pageRecod.prjId.value,
@@ -138,7 +170,10 @@
       'id': pageRecod.prjId.value,
       'action': '製品発送'
     };
-    putRecords(sysid.PM.app_id.project, putDeliveryData);
-    kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody);
+    var putDeliResult = await putRecords(sysid.PM.app_id.project, putDeliveryData)
+      .catch(function (error) {
+        return 'error';
+      });
+    await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody);
   }
 })();

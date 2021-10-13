@@ -12,7 +12,6 @@
   kintone.events.on(events_ced, function (event) {
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     // [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
-
     for (var i in event.record.forecastList.value) {
       event.record.forecastList.value[i].value.afterLeadTimeStock.disabled = true;
       event.record.forecastList.value[i].value.forecast_arrival.disabled = true;
@@ -23,7 +22,6 @@
       event.record.forecastList.value[i].value.mOrderingPoint.disabled = true;
       event.record.forecastList.value[i].value.remainingNum.disabled = true;
     }
-
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#概要':
@@ -70,11 +68,23 @@
           break;
       }
     }
-    tabSwitch('#概要');
     tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数']); //タブメニュー作成
+    //tab初期表示設定
+    if (sessionStorage.getItem('tabSelect')) {
+      $('.tabMenu li').removeClass("active");
+      tabSwitch(sessionStorage.getItem('tabSelect'));
+      $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
+      sessionStorage.removeItem('tabSelect');
+      sessionStorage.removeItem('actSelect');
+    } else {
+      tabSwitch('#概要');
+    }
     $('.tabMenu a').on('click', function () { //タブメニュークリック時アクション
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
       tabSwitch(idName); //tabをクリックした時の表示設定
+      var actIndex = $('.tabMenu li.active').index();
+      sessionStorage.setItem('tabSelect', idName);
+      sessionStorage.setItem('actSelect', actIndex);
       return false;
     });
     return event;
@@ -85,32 +95,49 @@
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
 
-    $('#itemSortBtn').on('click', function () {
+    $('#itemSortBtn').on('click', async function () {
+      await startLoad();
       var eRecord = kintone.app.record.get();
-      var table = eRecord.record.inventoryList.value
-      table = sortItemTable(table, 'sys_code', true);
-
-      kintone.app.record.set(eRecord);
+      var table = eRecord.record.inventoryList.value;
+      table = await sortItemTable(table, 'sys_code', true);
+      await new Promise(resolve => {
+        setTimeout(() => {
+          for (var i in eRecord.record.inventoryList.value) {
+            eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
+          }
+          kintone.app.record.set(eRecord);
+          resolve()
+        }, 1000)
+      })
+      await endLoad();
     });
 
-    $('#locationSortBtn').on('click', function () {
+    $('#locationSortBtn').on('click', async function () {
+      await startLoad();
       var eRecord = kintone.app.record.get();
-      var table = eRecord.record.inventoryList.value
-      table = sortLocTable(table, 'sys_code', true);
-
-      kintone.app.record.set(eRecord);
+      var table = eRecord.record.inventoryList.value;
+      table = await sortLocTable(table, 'sys_code', true);
+      await new Promise(resolve => {
+        setTimeout(() => {
+          for (var i in eRecord.record.inventoryList.value) {
+            eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
+          }
+          kintone.app.record.set(eRecord);
+          resolve()
+        }, 1000)
+      })
+      await endLoad();
     });
 
     for (var i in event.record.inventoryList.value) {
       event.record.inventoryList.value[i].value.mCode.lookup = true;
     }
-
     return event;
   });
 
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
-    startLoad('<span>ただいま処理中です。</span><br>処理完了まで1分ほどお待ちください。<br>※更新とページバックはしないでください。');
+    startLoad('<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。');
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
     var iListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id;
     var fListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '製品別在庫残数').id;
@@ -123,7 +150,7 @@
         'rowNum': parseInt(i) + 1,
         'deductionNum': event.record.inventoryList.value[i].value.deductionNum.value,
         'location': event.record.inventoryList.value[i].value.stockLocation.value
-      }
+      };
       inventoryData.push(inventoryBody);
     }
 
@@ -134,7 +161,7 @@
         'remainingNum': event.record.forecastList.value[i].value.remainingNum.value,
         'mOrderingPoint': event.record.forecastList.value[i].value.mOrderingPoint.value,
         'forecast_mName': event.record.forecastList.value[i].value.forecast_mName.value
-      }
+      };
       forecastData.push(forecastBody);
     }
 
@@ -148,7 +175,7 @@
           });
           $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ') td div').css({
             'color': 'white'
-          })
+          });
         }
       }
 
@@ -160,7 +187,7 @@
           });
           $('.' + fListTableClass + ' tr:nth-child(' + forecastData[i].rowNum + ') td div').css({
             'color': 'white'
-          })
+          });
           alertData.push(forecastData[i].forecast_mName);
           //差引残数が発注点の30%以下のものを赤背景に
         } else if (parseInt(forecastData[i].mOrderingPoint) * 0.3 >= parseInt(forecastData[i].remainingNum)) {
@@ -225,35 +252,39 @@
 
   //商品順ソート関数
   var sortItemTable = function (table, orderBy, isDesc) {
-    table.sort(function (a, b) {
-      var v1 = a.value[orderBy].value;
-      var v2 = b.value[orderBy].value;
-      var pos = isDesc ? -1 : 1;
-      if (v1 > v2) {
-        return pos;
-      }
-      if (v1 < v2) {
-        return pos * -1;
-      }
-    });
-    return table;
+    return new Promise(function (resolve, reject) {
+      table.sort(function (a, b) {
+        var v1 = a.value[orderBy].value;
+        var v2 = b.value[orderBy].value;
+        var pos = isDesc ? -1 : 1;
+        if (v1 > v2) {
+          return pos;
+        }
+        if (v1 < v2) {
+          return pos * -1;
+        }
+      });
+      resolve(table);
+    })
   };
 
   //拠点順ソート関数
   var sortLocTable = function (table, orderBy, isDesc) {
-    table.sort(function (a, b) {
-      var codeCutterA = a.value[orderBy].value.lastIndexOf('-');
-      var codeCutterB = b.value[orderBy].value.lastIndexOf('-');
-      var v1 = a.value[orderBy].value.slice(codeCutterA + 1) + a.value[orderBy].value.substring(0, codeCutterA);
-      var v2 = b.value[orderBy].value.slice(codeCutterB + 1) + b.value[orderBy].value.substring(0, codeCutterB);
-      var pos = isDesc ? -1 : 1;
-      if (v1 > v2) {
-        return pos;
-      }
-      if (v1 < v2) {
-        return pos * -1;
-      }
-    });
-    return table;
+    return new Promise(function (resolve, reject) {
+      table.sort(function (a, b) {
+        var codeCutterA = a.value[orderBy].value.lastIndexOf('-');
+        var codeCutterB = b.value[orderBy].value.lastIndexOf('-');
+        var v1 = a.value[orderBy].value.slice(codeCutterA + 1) + a.value[orderBy].value.substring(0, codeCutterA);
+        var v2 = b.value[orderBy].value.slice(codeCutterB + 1) + b.value[orderBy].value.substring(0, codeCutterB);
+        var pos = isDesc ? -1 : 1;
+        if (v1 > v2) {
+          return pos;
+        }
+        if (v1 < v2) {
+          return pos * -1;
+        }
+      });
+      resolve(table);
+    })
   };
 })();
