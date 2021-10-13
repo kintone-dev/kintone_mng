@@ -137,7 +137,7 @@
   kintone.events.on('app.record.index.show', function(event){
     var mw=mWindow();
     mw.contents.innerText='test';
-    $('#mwFrame, .mwArea').fadeIn();
+    $('#mwFrame').fadeIn();
 
 
   return event;

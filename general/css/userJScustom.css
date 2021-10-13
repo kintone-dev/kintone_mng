@@ -167,6 +167,8 @@
 	display: none;
 }
 #mwFrame .mwArea{
+	min-width: 300px;
+	min-height: 150px;
 	background-color: white;
 	position: absolute;
 	top: 50%;

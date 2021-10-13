@@ -1920,7 +1920,7 @@ function endLoad() {
 var mWindow=function(){
 	var mwFrame=document.createElement('div');
 	mwFrame.id='mwFrame';
-	mwFrame.onclick=function(){$('#mwFrame, .mwArea').fadeOut();};
+	mwFrame.onclick=function(){$('#mwFrame').fadeOut();};
 	mwFrame.classList.add('modalwindow');
 
 	var mwArea=document.createElement('div');
@@ -1935,7 +1935,7 @@ var mWindow=function(){
 	var mwCloseBtn=document.createElement('div');
 	mwCloseBtn.classList.add('mwCloseBtn');
 	mwCloseBtn.innerHTML='<a>X</a>';
-	mwCloseBtn.onclick=function(){$('#mwFrame, .mwArea').fadeOut();};
+	mwCloseBtn.onclick=function(){$('#mwFrame').fadeOut();};
 	mwArea.appendChild(mwCloseBtn);
 
 	document.body.appendChild(mwFrame);
