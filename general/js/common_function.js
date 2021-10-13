@@ -1939,6 +1939,7 @@ var mWindow=function(){
 	mwArea.appendChild(mwCloseBtn);
 
 	document.body.appendChild(mwFrame);
+	
 	var returnData={
 		'frame':mwFrame,
 		'area':mwArea,
