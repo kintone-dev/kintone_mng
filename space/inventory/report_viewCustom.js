@@ -99,7 +99,6 @@
 
     $('#itemSortBtn').on('click', async function () {
       startLoad();
-      console.log(1);
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
       table = await sortItemTable(table, 'sys_code', true)
@@ -111,12 +110,10 @@
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
       kintone.app.record.set(eRecord);
-      console.log(2);
     });
 
     $('#locationSortBtn').on('click', async function () {
       startLoad();
-      console.log(1);
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
       table = await sortLocTable(table, 'sys_code', true)
@@ -128,7 +125,6 @@
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
       kintone.app.record.set(eRecord);
-      console.log(2);
     });
 
     for (var i in event.record.inventoryList.value) {
