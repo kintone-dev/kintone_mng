@@ -1947,12 +1947,6 @@ var mWindow=function(){
 	return returnData;
 }
 
-
-// $(document).on("click", `#${showEasySearchBtn.id}`, function () {
-// 	$(`#${searchWrap.id}`).fadeIn();
-// 	$(`#${eSearchArea.id}`).fadeIn();
-// });
-
 // $(document).on("click", `#${showDetailSearchBtn.id}`, function () {
 // 	$(`#${searchWrap.id}`).fadeIn();
 // 	$(`#${dSearchArea.id}`).fadeIn();

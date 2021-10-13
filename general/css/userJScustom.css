@@ -175,6 +175,7 @@
 }
 #mwFrame .mwContents{
 	margin: 30px;
+	width: 100%;
 }
 #mwFrame .mwCloseBtn{
 	width: 30px;
