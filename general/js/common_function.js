@@ -243,7 +243,7 @@ var railConf = function (spec) {
 	});
 	if (spec.rMethod.match(/壁付/)) {
 		if (spec.rMethod.match(/壁付[sS]/)) railDetail.push({
-			mname: 'L字金具',
+			mname: 'L字金具S',
 			shipnum: CeilingBracket[1]
 		});
 		else if (spec.rMethod.match(/壁付[wW]/)) railDetail.push({
@@ -268,9 +268,13 @@ var railConf = function (spec) {
 		shipnum: 2 * spec.shipNum
 	});
 	railDetail.push({
+		mname: 'エンドスカバー',
+		shipnum: 1 * spec.shipNum
+	});
+	railDetail.push({
 		mname: 'バンパー',
 		shipnum: 2 * spec.shipNum
-	})
+	});
 	var railComp = [];
 	for (var i in railDetail) {
 		railComp.push({
