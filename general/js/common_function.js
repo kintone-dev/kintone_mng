@@ -1907,7 +1907,6 @@ function startLoad(msg) {
 		resolve('load start');
 	})
 }
-
 function endLoad() {
 	return new Promise(function (resolve, reject) {
 		$("#loading").remove();
