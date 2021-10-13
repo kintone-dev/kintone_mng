@@ -101,11 +101,16 @@
       startLoad();
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
-      table = await sortItemTable(table, 'sys_code', true)
-        .then(function (resp) {
-          console.log(resp);
-          endLoad();
-        });
+      table = await sortItemTable(table, 'sys_code', true);
+        // .then(function (resp) {
+        //   console.log(resp);
+        //   endLoad();
+        // });
+      new Promise((resolve, reject) => {
+        table = await sortItemTable(table, 'sys_code', true);
+      }).then(() => {
+          console.log("4: then")
+      });
       for (var i in eRecord.record.inventoryList.value) {
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
@@ -266,19 +271,21 @@
 
   //拠点順ソート関数
   var sortLocTable = function (table, orderBy, isDesc) {
-    table.sort(function (a, b) {
-      var codeCutterA = a.value[orderBy].value.lastIndexOf('-');
-      var codeCutterB = b.value[orderBy].value.lastIndexOf('-');
-      var v1 = a.value[orderBy].value.slice(codeCutterA + 1) + a.value[orderBy].value.substring(0, codeCutterA);
-      var v2 = b.value[orderBy].value.slice(codeCutterB + 1) + b.value[orderBy].value.substring(0, codeCutterB);
-      var pos = isDesc ? -1 : 1;
-      if (v1 > v2) {
-        return pos;
-      }
-      if (v1 < v2) {
-        return pos * -1;
-      }
-    });
-    return table;
+    return new Promise(function(resolve, reject){
+      table.sort(function (a, b) {
+        var codeCutterA = a.value[orderBy].value.lastIndexOf('-');
+        var codeCutterB = b.value[orderBy].value.lastIndexOf('-');
+        var v1 = a.value[orderBy].value.slice(codeCutterA + 1) + a.value[orderBy].value.substring(0, codeCutterA);
+        var v2 = b.value[orderBy].value.slice(codeCutterB + 1) + b.value[orderBy].value.substring(0, codeCutterB);
+        var pos = isDesc ? -1 : 1;
+        if (v1 > v2) {
+          return pos;
+        }
+        if (v1 < v2) {
+          return pos * -1;
+        }
+      });
+      resolve(table);
+    })
   };
 })();
