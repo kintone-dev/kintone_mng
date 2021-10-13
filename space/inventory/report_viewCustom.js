@@ -99,33 +99,36 @@
 
     $('#itemSortBtn').on('click', async function () {
       startLoad();
+      console.log(1);
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
-      table = await sortItemTable(table, 'sys_code', true);
-        // .then(function (resp) {
-        //   console.log(resp);
-        //   endLoad();
-        // });
-      for (var i in eRecord.record.inventoryList.value) {
-        eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
-      }
-      kintone.app.record.set(eRecord);
-    });
-
-    $('#locationSortBtn').on('click', async function () {
-      startLoad();
-      var eRecord = kintone.app.record.get();
-      var table = eRecord.record.inventoryList.value
-      table = await sortLocTable(table, 'sys_code', true)
+      table = await sortItemTable(table, 'sys_code', true)
         .then(function (resp) {
           console.log(resp);
-          // endLoad();
+          endLoad();
         });
       for (var i in eRecord.record.inventoryList.value) {
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
       kintone.app.record.set(eRecord);
-      endLoad();
+      console.log(2);
+    });
+
+    $('#locationSortBtn').on('click', async function () {
+      startLoad();
+      console.log(1);
+      var eRecord = kintone.app.record.get();
+      var table = eRecord.record.inventoryList.value
+      table = await sortLocTable(table, 'sys_code', true)
+        .then(function (resp) {
+          console.log(resp);
+          endLoad();
+        });
+      for (var i in eRecord.record.inventoryList.value) {
+        eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
+      }
+      kintone.app.record.set(eRecord);
+      console.log(2);
     });
 
     for (var i in event.record.inventoryList.value) {
@@ -252,23 +255,25 @@
 
   //商品順ソート関数
   var sortItemTable = function (table, orderBy, isDesc) {
-    table.sort(function (a, b) {
-      var v1 = a.value[orderBy].value;
-      var v2 = b.value[orderBy].value;
-      var pos = isDesc ? -1 : 1;
-      if (v1 > v2) {
-        return pos;
-      }
-      if (v1 < v2) {
-        return pos * -1;
-      }
-    });
-    return table;
+    return new Promise(function (resolve, reject) {
+      table.sort(function (a, b) {
+        var v1 = a.value[orderBy].value;
+        var v2 = b.value[orderBy].value;
+        var pos = isDesc ? -1 : 1;
+        if (v1 > v2) {
+          return pos;
+        }
+        if (v1 < v2) {
+          return pos * -1;
+        }
+      });
+      resolve(table);
+    })
   };
 
   //拠点順ソート関数
   var sortLocTable = function (table, orderBy, isDesc) {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
       table.sort(function (a, b) {
         var codeCutterA = a.value[orderBy].value.lastIndexOf('-');
         var codeCutterB = b.value[orderBy].value.lastIndexOf('-');
