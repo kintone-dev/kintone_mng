@@ -253,7 +253,7 @@
         return pos * -1;
       }
     });
-    // endLoad();
+    endLoad();
     return table;
   };
 
@@ -273,7 +273,7 @@
         return pos * -1;
       }
     });
-    // endLoad();
+    endLoad();
     return table;
   };
 })();
