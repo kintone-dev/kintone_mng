@@ -1896,10 +1896,12 @@ function startLoad(msg) {
 	}
 	var dispMsg = "<div class='loadingMsg'><p>" + msg + "</p></div>";
 	if ($("#loading").length == 0) {
+		console.log('load start');
 		$("body").append("<div id='loading'>" + dispMsg + "</div>");
 	}
 }
 
 function endLoad() {
 	$("#loading").remove();
+	console.log('load end');
 }
