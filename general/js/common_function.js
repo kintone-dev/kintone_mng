@@ -1940,8 +1940,8 @@ var mWindow = function () {
 	mwCloseBtn.classList.add('mwCloseBtn');
 	mwCloseBtn.innerHTML = '<a>X</a>';
 	mwCloseBtn.onclick = function () {
-		$('#mwFrame').fadeOut();
-		$('#mwFrame').remove();
+		$('#mwFrame').fadeOut(1000,function(){$('#mwFrame').remove();});
+
 	};
 	mwArea.appendChild(mwCloseBtn);
 
