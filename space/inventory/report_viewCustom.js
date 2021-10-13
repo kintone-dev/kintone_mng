@@ -12,7 +12,6 @@
   kintone.events.on(events_ced, function (event) {
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     // [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
-
     for (var i in event.record.forecastList.value) {
       event.record.forecastList.value[i].value.afterLeadTimeStock.disabled = true;
       event.record.forecastList.value[i].value.forecast_arrival.disabled = true;
@@ -23,7 +22,6 @@
       event.record.forecastList.value[i].value.mOrderingPoint.disabled = true;
       event.record.forecastList.value[i].value.remainingNum.disabled = true;
     }
-
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#概要':
