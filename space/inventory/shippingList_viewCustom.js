@@ -102,7 +102,7 @@
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
-          setFieldShown('shipment', true);
+          setFieldShown('shipment', false);
           setFieldShown('shipType', true);
           setFieldShown('tarDate', true);
           setFieldShown('instFile', true);
@@ -315,8 +315,7 @@
       event.record.Contractor.disabled = true;
     } else if (event.record.shipType.value == '返品') {
       event.record.dstSelection.value = '施工業者/拠点へ納品';
-      event.record.shipment.value = 'ベンダー';
-      event.record.shipment.lookup = true;
+      event.record.shipment.disabled = true;
       event.record.Contractor.value = 'ベンダー';
       event.record.Contractor.lookup = true;
       event.record.receiver.disabled = true;
