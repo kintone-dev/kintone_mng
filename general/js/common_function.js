@@ -1947,8 +1947,3 @@ var mWindow=function(){
 	};
 	return returnData;
 }
-
-// $(document).on("click", `#${showDetailSearchBtn.id}`, function () {
-// 	$(`#${searchWrap.id}`).fadeIn();
-// 	$(`#${dSearchArea.id}`).fadeIn();
-// });
