@@ -98,7 +98,7 @@
     $('#itemSortBtn').on('click', async function () {
       await startLoad();
       var eRecord = kintone.app.record.get();
-      var table = eRecord.record.inventoryList.value
+      var table = eRecord.record.inventoryList.value;
       table = await sortItemTable(table, 'sys_code', true);
       await new Promise(resolve => {
         setTimeout(() => {
@@ -115,7 +115,7 @@
     $('#locationSortBtn').on('click', async function () {
       await startLoad();
       var eRecord = kintone.app.record.get();
-      var table = eRecord.record.inventoryList.value
+      var table = eRecord.record.inventoryList.value;
       table = await sortLocTable(table, 'sys_code', true);
       await new Promise(resolve => {
         setTimeout(() => {
@@ -150,7 +150,7 @@
         'rowNum': parseInt(i) + 1,
         'deductionNum': event.record.inventoryList.value[i].value.deductionNum.value,
         'location': event.record.inventoryList.value[i].value.stockLocation.value
-      }
+      };
       inventoryData.push(inventoryBody);
     }
 
@@ -161,7 +161,7 @@
         'remainingNum': event.record.forecastList.value[i].value.remainingNum.value,
         'mOrderingPoint': event.record.forecastList.value[i].value.mOrderingPoint.value,
         'forecast_mName': event.record.forecastList.value[i].value.forecast_mName.value
-      }
+      };
       forecastData.push(forecastBody);
     }
 
@@ -175,7 +175,7 @@
           });
           $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ') td div').css({
             'color': 'white'
-          })
+          });
         }
       }
 
@@ -187,7 +187,7 @@
           });
           $('.' + fListTableClass + ' tr:nth-child(' + forecastData[i].rowNum + ') td div').css({
             'color': 'white'
-          })
+          });
           alertData.push(forecastData[i].forecast_mName);
           //差引残数が発注点の30%以下のものを赤背景に
         } else if (parseInt(forecastData[i].mOrderingPoint) * 0.3 >= parseInt(forecastData[i].remainingNum)) {
