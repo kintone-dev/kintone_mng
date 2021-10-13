@@ -106,11 +106,6 @@
         //   console.log(resp);
         //   endLoad();
         // });
-      new Promise((resolve, reject) => {
-        table = await sortItemTable(table, 'sys_code', true);
-      }).then(() => {
-          console.log("4: then")
-      });
       for (var i in eRecord.record.inventoryList.value) {
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
