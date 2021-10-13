@@ -209,8 +209,8 @@ var railConf = function (spec) {
 	if (spec.rType.match(/[wW]/)) Carriers[1] = Math.ceil(Carriers[1] / 2) * 2 * spec.shipNum;
 	else Carriers[1] = Carriers[1] * spec.shipNum;
 	var CeilingBracket = ['', Math.round(spec.rLength / 500 + 1) * spec.shipNum];
-	if (spec.rMethod == '天井') CeilingBracket[0] = '取付金具(D)';
-	else if (spec.rMethod.match(/壁付/)) CeilingBracket[0] = '取付金具(N)';
+	if (spec.rMethod == '天井') CeilingBracket[0] = '取付金具D';
+	else if (spec.rMethod.match(/壁付/)) CeilingBracket[0] = '取付金具N';
 	var MasterCarrier = ['マスタキャリアW', 1 * spec.shipNum];
 	if (ConnectingKit[1] > 0) MasterCarrier[0] = 'マスタキャリアG';
 	var BeltClip = ['ベルトクリップ', 2 * spec.shipNum];
