@@ -1938,7 +1938,7 @@ var mWindow=function(){
 	mwCloseBtn.onclick=function(){$('#mwFrame, .mwArea').fadeOut();};
 	mwArea.appendChild(mwCloseBtn);
 
-	document.getElementsByTagName('body').appendChild(mWindow);
+	getElementByTagName('body').appendChild(mWindow);
 	var returnData={
 		'frame':mwFrame,
 		'area':mwArea,
