@@ -267,7 +267,8 @@
             var krtLength = $('.length').val();
             var krtOpenType = $('input[name=openType]:checked').val();
             var krtMethodType = $('input[name=methodType]:checked').val();
-            event.record.deviceList.value[i].value.shipRemarks.value = `WFP\nカーテンレール全長(mm)：${krtLength}\n開き勝手：${krtOpenType}\n取り付け方法：${krtMethodType}`;
+            eRecord.record.deviceList.value[i].value.shipRemarks.value = `WFP\nカーテンレール全長(mm)：${krtLength}\n開き勝手：${krtOpenType}\n取り付け方法：${krtMethodType}`;
+            kintone.app.record.set(eRecord);
             $('#mwFrame').fadeOut(1000,function(){$('#mwFrame').remove();});
           });
         } else if (mCodeValue.match(/pkg_/)) {
