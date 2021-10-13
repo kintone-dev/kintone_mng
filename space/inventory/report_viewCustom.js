@@ -119,7 +119,6 @@
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
       table = await sortLocTable(table, 'sys_code', true);
-
       await new Promise(resolve => {
         setTimeout(() => {
           for (var i in eRecord.record.inventoryList.value) {
@@ -129,7 +128,6 @@
           resolve()
         }, 1000)
       })
-
       await endLoad();
     });
 
