@@ -1941,6 +1941,7 @@ var mWindow = function () {
 	mwCloseBtn.innerHTML = '<a>X</a>';
 	mwCloseBtn.onclick = function () {
 		$('#mwFrame').fadeOut();
+		$('#mwFrame').remove();
 	};
 	mwArea.appendChild(mwCloseBtn);
 
