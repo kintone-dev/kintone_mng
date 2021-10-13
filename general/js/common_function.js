@@ -1951,7 +1951,19 @@ var mWindow=function(){
 // カーテンレール特記事項用モーダルウィンドウ
 function krtSetting(){
 	var mw=mWindow();
+	var lengthLavel = document.createElement('label');
+	lengthLavel.htmlFor = 'lengthLabel';
+	lengthLavel.innerText = 'カーテンレール全長(mm)';
+	mw.contents.appendChild(lengthLavel);
+
 	mw.contents.innerText='test';
+	var lengthInput = document.createElement('input');
+	lengthInput.id = 'lengthLabel';
+	lengthInput.name = 'lengthLabel';
+	lengthInput.type = 'text';
+	mw.contents.appendChild(lengthInput);
+
+
 	$('#mwFrame').fadeIn();
 
 
