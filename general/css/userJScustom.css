@@ -198,10 +198,11 @@
 	margin: 10px 0;
 }
 
-.krtInput label{
-	margin: 0 10px;
+.krtInput .radioLabel{
+	margin: 0 5px;
 }
 
 #krtSetBtn{
+	display: block;
 	margin: 0 auto;
 }
