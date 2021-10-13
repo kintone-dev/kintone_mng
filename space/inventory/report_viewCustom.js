@@ -108,10 +108,7 @@
       for (var i in eRecord.record.inventoryList.value) {
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
-      kintone.app.record.set(eRecord)
-        .then(function (resp) {
-          console.log(resp);
-        });
+      kintone.app.record.set(eRecord);
       endLoad();
       console.log('end');
     });
