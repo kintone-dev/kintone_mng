@@ -113,17 +113,19 @@
     });
 
     $('#locationSortBtn').on('click', async function () {
+      startLoad();
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value
       table = await sortLocTable(table, 'sys_code', true)
         .then(function (resp) {
           console.log(resp);
-          endLoad();
+          // endLoad();
         });
       for (var i in eRecord.record.inventoryList.value) {
         eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
       }
       kintone.app.record.set(eRecord);
+      endLoad();
     });
 
     for (var i in event.record.inventoryList.value) {
