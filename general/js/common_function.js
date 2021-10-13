@@ -1752,7 +1752,7 @@ function setSearch(searchParms) {
 	//閉じるボタン作成
 	var esCloseBtn = document.createElement('div');
 	esCloseBtn.classList.add('searchClose');
-	esCloseBtn.innerHTML = '<p>×</p>';
+	esCloseBtn.innerHTML = '<p>X</p>';
 	var dsCloseBtn = document.createElement('div');
 	dsCloseBtn.classList.add('searchClose');
 	dsCloseBtn.innerHTML = '<p>×</p>';
