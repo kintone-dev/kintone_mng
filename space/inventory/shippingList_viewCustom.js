@@ -21,7 +21,7 @@
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
     //tabメニューの選択肢による表示設定
-    function tabSwitch(onSelect,event) {
+    function tabSwitch(onSelect, event) {
       switch (onSelect) {
         case '#宛先情報':
           disableSet(event);
@@ -128,20 +128,20 @@
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
       $('.tabMenu li').removeClass("active");
-      tabSwitch(sessionStorage.getItem('tabSelect'));
+      tabSwitch(sessionStorage.getItem('tabSelect'), event);
       $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
       sessionStorage.removeItem('tabSelect');
       sessionStorage.removeItem('actSelect');
       sessionStorage.removeItem('shipType');
     } else {
-      tabSwitch('#出荷情報', '');
+      tabSwitch('#出荷情報', event);
     }
 
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function () {
       var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
-      tabSwitch(idName,eRecord); //tabをクリックした時の表示設定
+      tabSwitch(idName, eRecord); //tabをクリックした時の表示設定
       var actIndex = $('.tabMenu li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
@@ -232,7 +232,9 @@
             var krtMethodType = $('input[name=methodType]:checked').val();
             eRecord.record.deviceList.value[i].value.shipRemarks.value = `WFP\nカーテンレール全長(mm)：${krtLength}\n開き勝手：${krtOpenType}\n取り付け方法：${krtMethodType}`;
             kintone.app.record.set(eRecord);
-            $('#mwFrame').fadeOut(1000,function(){$('#mwFrame').remove();});
+            $('#mwFrame').fadeOut(1000, function () {
+              $('#mwFrame').remove();
+            });
           });
         } else if (mCodeValue.match(/pkg_/)) {
           event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
