@@ -41,14 +41,8 @@
           disableSet(event);
           doSelection(event);
           kintone.app.record.setFieldShown('dstSelection', true);
-          setFieldShown('zipcode', true);
-          setFieldShown('phoneNum', true);
-          setFieldShown('address', true);
-          setFieldShown('buildingName', true);
-          setFieldShown('corpName', true);
           setFieldShown('receiver', true);
-          setFieldShown('prefectures', true);
-          setFieldShown('city', true);
+          setFieldShown('phoneNum', true);
           setFieldShown('deviceList', false);
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
@@ -67,12 +61,12 @@
           setFieldShown('dstSelection', false);
           setFieldShown('Contractor', false);
           setFieldShown('instName', false);
-          setFieldShown('zipcode', false);
           setFieldShown('phoneNum', false);
           setFieldShown('address', false);
           setFieldShown('buildingName', false);
           setFieldShown('corpName', false);
           setFieldShown('receiver', false);
+          setFieldShown('zipcode', false);
           setFieldShown('prefectures', false);
           setFieldShown('city', false);
           setFieldShown('deviceList', true);
@@ -159,9 +153,8 @@
 
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function () {
-      var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
-      tabSwitch(idName, eRecord.record.shipType.value); //tabをクリックした時の表示設定
+      tabSwitch(idName); //tabをクリックした時の表示設定
       var actIndex = $('.tabMenu li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
