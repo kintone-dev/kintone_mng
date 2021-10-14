@@ -161,8 +161,6 @@
           return error;
         });
 
-
-
     }
     endLoad();
     return event;
