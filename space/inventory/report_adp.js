@@ -9,7 +9,7 @@
      */
     return api_getRecords(sysid.INV.app_id.device)
       .then(function (resp) {
-        for (var i in resp.records) {
+        for(let i in resp.records) {
           if (!forecastList.some(item => item.value.forecast_mCode.value === resp.records[i].mCode.value)) {
             var newForecastListBody = {
               'value': {
@@ -54,7 +54,7 @@
             forecastList.push(newForecastListBody);
           }
         }
-        for (var i in forecastList) {
+        for(let i in forecastList) {
           forecastList[i].value.forecast_mCode.lookup = true;
         }
         endLoad();
@@ -251,10 +251,10 @@
         };
         var nowMonthSyscode = [];
         var nextMonthSyscode = [];
-        for (var i in putNewReportData.record.inventoryList.value) {
+        for(let i in putNewReportData.record.inventoryList.value) {
           nextMonthSyscode.push(putNewReportData.record.inventoryList.value[i].value.sys_code.value);
         }
-        for (var i in event.record.inventoryList.value) {
+        for(let i in event.record.inventoryList.value) {
           var nowMonthData = {
             'sysCode': event.record.inventoryList.value[i].value.sys_code.value,
             'location': event.record.inventoryList.value[i].value.stockLocation.value,
