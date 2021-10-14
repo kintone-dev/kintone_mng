@@ -205,7 +205,7 @@
     return event;
   });
 
-  kintone.events.on('app.record.edit.show', function (event) {
+  kintone.events.on('app.record.detail.show', function (event) {
     if(kintone.app.getId() == sysid.PM.app_id.project){
       var deployBtn = setBtn_header('device_deply_btn', '案件情報強制更新');
       $('#' + deployBtn.id).on('click', async function () {
