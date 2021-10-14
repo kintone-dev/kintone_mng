@@ -27,7 +27,7 @@
       var putSnumData = [];
       var instNameValue = event.record.instName.value;
       if (instNameValue == undefined) instNameValue = '';
-      for (var i in sNums.SNs) {
+      for (let i in sNums.SNs) {
         var snRecord = {
           'updateKey': {
             'field': 'sNum',
@@ -50,7 +50,7 @@
           var isPOST=confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？');
           if(isPOST){
             var postSnumData=[];
-            for(var x in putSnumData){
+            for(let x in putSnumData){
               postSnumData.push({
                 'sNum': { type: 'SINGLE_LINE_TEXT', value: sNums.SNs[x] },
                 'shipment': event.record.shipment,
@@ -128,7 +128,7 @@
         'app': sysid.INV.app_id.shipment,
         'records': []
       };
-      for (var i in prjIdRecord.records) {
+      for(let i in prjIdRecord.records) {
         if (prjIdRecord.records[i].ステータス.value == '納品情報未確定') {
           var putStatusBody = {
             'id': prjIdRecord.records[i].$id.value,
