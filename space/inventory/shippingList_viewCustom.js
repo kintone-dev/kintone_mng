@@ -20,6 +20,7 @@
     } else if (event.record.shipType.value == '返品') {
       setFieldShown('Contractor', true);
       setFieldShown('instName', false);
+    } else {
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
     }
