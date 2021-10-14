@@ -7,6 +7,10 @@
 
   kintone.events.on(['app.record.create.change.shipType', 'app.record.edit.change.shipType'], function (event) {
     disableSet(event);
+    return event;
+  });
+
+  kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection'], function (event) {
     if (event.record.dstSelection.value == '担当手渡し') {
       setFieldShown('zipcode', false);
       setFieldShown('prefectures', false);
