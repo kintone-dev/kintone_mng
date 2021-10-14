@@ -16,15 +16,20 @@
       let deviceListValue=event.record.deviceList.value;
       let sNums = sNumRecords(deviceListValue, 'table');
       for(let i in deviceListValue){
-        let deviceListValue_mCode=deviceListValue[i].mCode;
-        let deviceListValue_shipNum=deviceListValue[i].shipNum;
+        let deviceListValue_mCode=deviceListValue[i].mCode.value;
+        let deviceListValue_shipNum=deviceListValue[i].shipNum.value;
         // if(deviceListValue_shipNum!=sNums[deviceListValue_mCode].length){
         //   event.error='製品の依頼数と出荷数が一致しません。';
         //   endLoad();
         //   return event;
         // }
+        console.log(deviceListValue_mCode)
         console.log(sNums[deviceListValue_mCode]);
+        console.log(sNums.deviceListValue_mCode);
       }
+      endLoad();
+      event.error='製品の依頼数と出荷数が一致しません。';
+      return event;
       var putSnumData = [];
       var instNameValue = event.record.instName.value;
       if (instNameValue == undefined) instNameValue = '';
