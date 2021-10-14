@@ -27,6 +27,7 @@
 
     disableSet(event);
     doSelection(event);
+
     // システム用フィールド非表示
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
@@ -57,7 +58,6 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn', 'line', 'none');
-          setSpaceShown('setShipment', 'line', 'none');
           break;
         case '#品目情報':
           setFieldShown('dstSelection', false);
@@ -173,24 +173,6 @@
     setFieldShown('trckNum', false);
     setFieldShown('sendDate', false);
     setFieldShown('expArrivalDate', false);
-    return event;
-  });
-
-  kintone.events.on(['app.record.create.change.shipType','app.record.edit.change.shipType'], function (event) {
-    if (event.record.shipType.value == '移動-拠点間') {
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-    } else if (event.record.shipType.value == '移動-ベンダー') {
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-    } else if (event.record.shipType.value == '返品') {
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-    } else {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
-    }
-
     return event;
   });
 
