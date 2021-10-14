@@ -37,7 +37,7 @@
     event.record.instID.disabled = true;
 
     //tabメニューの選択肢による表示設定
-    function tabSwitch(onSelect) {
+    function tabSwitch(onSelect, event) {
       switch (onSelect) {
         case '#出荷情報':
           setFieldShown('dstSelection', false);
@@ -68,12 +68,6 @@
           setFieldShown('dstSelection', true);
           setFieldShown('receiver', true);
           setFieldShown('phoneNum', true);
-          setFieldShown('zipcode', true);
-          setFieldShown('prefectures', true);
-          setFieldShown('city', true);
-          setFieldShown('address', true);
-          setFieldShown('buildingName', true);
-          setFieldShown('corpName', true);
           setFieldShown('deviceList', false);
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
@@ -86,6 +80,21 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn', 'line', 'none');
+          if (event.record.dstSelection.value == '担当手渡し') {
+            setFieldShown('zipcode', false);
+            setFieldShown('prefectures', false);
+            setFieldShown('city', false);
+            setFieldShown('address', false);
+            setFieldShown('buildingName', false);
+            setFieldShown('corpName', false);
+          } else {
+            setFieldShown('zipcode', true);
+            setFieldShown('prefectures', true);
+            setFieldShown('city', true);
+            setFieldShown('address', true);
+            setFieldShown('buildingName', true);
+            setFieldShown('corpName', true);
+          }
           break;
         case '#品目情報':
           setFieldShown('dstSelection', false);
@@ -144,8 +153,9 @@
     tabMenu('tab_ship', ['出荷情報', '宛先情報', '品目情報', '輸送情報']);
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function () {
+      var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
-      tabSwitch(idName); //tabをクリックした時の表示設定
+      tabSwitch(idName, eRecord); //tabをクリックした時の表示設定
       var actIndex = $('.tabMenu li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
@@ -155,13 +165,13 @@
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
       $('.tabMenu li').removeClass("active");
-      tabSwitch(sessionStorage.getItem('tabSelect'));
+      tabSwitch(sessionStorage.getItem('tabSelect'), event);
       $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
       sessionStorage.removeItem('tabSelect');
       sessionStorage.removeItem('actSelect');
       sessionStorage.removeItem('shipType');
     } else {
-      tabSwitch('#出荷情報');
+      tabSwitch('#出荷情報', event);
     }
 
     return event;
