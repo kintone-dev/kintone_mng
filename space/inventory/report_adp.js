@@ -127,8 +127,8 @@
         console.log(project);
 
         var totalShipNum = 0;
-        for (var j in project.records) {
-          for (var k in project.records[j].deviceList.value) {
+        for(let j in project.records) {
+          for(let k in project.records[j].deviceList.value) {
             if (forecast_mCode == project.records[j].deviceList.value[k].value.mCode.value) {
               totalShipNum = parseInt(totalShipNum) + parseInt(project.records[j].deviceList.value[k].value.shipNum.value);
             }
@@ -200,25 +200,25 @@
             'value': postNewReport_listArray
           }
         };
-        for (var pil in event.record.inventoryList.value) {
+        for(let i in event.record.inventoryList.value) {
           //差引数量が0以下のものは次月に載せない
-          if (parseInt(event.record.inventoryList.value[pil].value.deductionNum.value) > 0) {
+          if (parseInt(event.record.inventoryList.value[i].value.deductionNum.value) > 0) {
             var postNewReport_listArray_body = {
               'value': {
                 'sys_code': {
-                  'value': event.record.inventoryList.value[pil].value.sys_code.value
+                  'value': event.record.inventoryList.value[i].value.sys_code.value
                 },
                 'mCode': {
-                  'value': event.record.inventoryList.value[pil].value.mCode.value
+                  'value': event.record.inventoryList.value[i].value.mCode.value
                 },
                 'stockLocation': {
-                  'value': event.record.inventoryList.value[pil].value.stockLocation.value
+                  'value': event.record.inventoryList.value[i].value.stockLocation.value
                 },
                 'memo': {
-                  'value': event.record.inventoryList.value[pil].value.memo.value
+                  'value': event.record.inventoryList.value[i].value.memo.value
                 },
                 'mLastStock': {
-                  'value': event.record.inventoryList.value[pil].value.deductionNum.value
+                  'value': event.record.inventoryList.value[i].value.deductionNum.value
                 }
               }
             };
@@ -265,26 +265,26 @@
           nowMonthSyscode.push(nowMonthData);
         }
 
-        for (var ril in event.record.inventoryList.value) {
-          if (nextMonthSyscode.includes(nowMonthSyscode[ril].sysCode)) {
-            for (var nil in putNewReportData.record.inventoryList.value) {
-              if (putNewReportData.record.inventoryList.value[nil].value.sys_code.value == event.record.inventoryList.value[ril].value.sys_code.value) {
-                putNewReportData.record.inventoryList.value[nil].value.mLastStock.value = event.record.inventoryList.value[ril].value.deductionNum.value;
-                putNewReportData.record.inventoryList.value[nil].value.mCode.value = event.record.inventoryList.value[ril].value.mCode.value;
-                putNewReportData.record.inventoryList.value[nil].value.stockLocation.value = event.record.inventoryList.value[ril].value.stockLocation.value;
-                putNewReportData.record.inventoryList.value[nil].value.memo.value = event.record.inventoryList.value[ril].value.memo.value;
+        for(let i in event.record.inventoryList.value) {
+          if (nextMonthSyscode.includes(nowMonthSyscode[i].sysCode)) {
+            for(let y in putNewReportData.record.inventoryList.value) {
+              if (putNewReportData.record.inventoryList.value[y].value.sys_code.value == event.record.inventoryList.value[i].value.sys_code.value) {
+                putNewReportData.record.inventoryList.value[y].value.mLastStock.value = event.record.inventoryList.value[i].value.deductionNum.value;
+                putNewReportData.record.inventoryList.value[y].value.mCode.value = event.record.inventoryList.value[i].value.mCode.value;
+                putNewReportData.record.inventoryList.value[y].value.stockLocation.value = event.record.inventoryList.value[i].value.stockLocation.value;
+                putNewReportData.record.inventoryList.value[y].value.memo.value = event.record.inventoryList.value[i].value.memo.value;
               }
             }
           } else {
             //差引数量が0以下のものは次月に載せない
-            if (parseInt(event.record.inventoryList.value[ril].value.deductionNum.value) > 0) {
+            if (parseInt(event.record.inventoryList.value[i].value.deductionNum.value) > 0) {
               var putNewInventoryBody = {
                 'value': {
-                  'sys_code': nowMonthSyscode[ril].sysCode,
-                  'stockLocation': nowMonthSyscode[ril].location,
-                  'memo': nowMonthSyscode[ril].memo,
-                  'mCode': nowMonthSyscode[ril].mCode,
-                  'mLastStock': nowMonthSyscode[ril].deductionNum,
+                  'sys_code': nowMonthSyscode[i].sysCode,
+                  'stockLocation': nowMonthSyscode[i].location,
+                  'memo': nowMonthSyscode[i].memo,
+                  'mCode': nowMonthSyscode[i].mCode,
+                  'mLastStock': nowMonthSyscode[i].deductionNum,
                 }
               };
               putNewReportData.record.inventoryList.value.push(putNewInventoryBody);
