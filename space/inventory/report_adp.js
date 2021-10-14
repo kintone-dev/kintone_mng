@@ -62,90 +62,110 @@
       });
   });
 
-  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
+  kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], async function (event) {
+    startLoad();
     if (event.record.EoMcheck.value == '一時確認') {
       /**
        * 製品別在庫残数処理
        */
-      return (async function forecastListFunc() {
-        startLoad();
-        for (var i in event.record.forecastList.value) {
-          var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
-          var reportDate_current = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
-          var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
-          reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime) - 1);
+      for (var i in event.record.forecastList.value) {
+        var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
+        var reportDate_current = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
+        var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
+        reportDate.setMonth(reportDate.getMonth() + parseInt(mLeadTime) - 1);
 
-          var queryYears = String(reportDate.getFullYear());
-          var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
-          reportDate.setMonth(reportDate.getMonth() + 1);
-          reportDate.setDate(0);
-          var queryDay = String(("0" + (reportDate.getDate())).slice(-2));
+        var queryYears = String(reportDate.getFullYear());
+        var queryMonth = String(("0" + (reportDate.getMonth() + 1)).slice(-2));
+        reportDate.setMonth(reportDate.getMonth() + 1);
+        reportDate.setDate(0);
+        var queryDay = String(("0" + (reportDate.getDate())).slice(-2));
 
-          var queryYears_current = String(reportDate_current.getFullYear());
-          var queryMonth_current = String(("0" + (reportDate_current.getMonth() + 1)).slice(-2));
-          reportDate_current.setDate(1);
-          var queryDay_current = String(("0" + (reportDate_current.getDate())).slice(-2));
+        var queryYears_current = String(reportDate_current.getFullYear());
+        var queryMonth_current = String(("0" + (reportDate_current.getMonth() + 1)).slice(-2));
+        reportDate_current.setDate(1);
+        var queryDay_current = String(("0" + (reportDate_current.getDate())).slice(-2));
 
-          var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
-          var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
-          // 仕入管理情報取得
-          var getPurchasingBody = {
-            'app': sysid.INV.app_id.purchasing,
-            'query': 'ステータス not in ("仕入完了") and arrivalDate >= "' + queryDate_current + '" and arrivalDate <= "' + queryDate + '"'
-          };
-          var purchasing = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
-            .then(function (resp) {
-              return resp;
-            }).catch(function (error) {
-              return error;
-            });
-          console.log(purchasing);
+        var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
+        var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
+        // 仕入管理情報取得
+        var getPurchasingBody = {
+          'app': sysid.INV.app_id.purchasing,
+          'query': 'ステータス not in ("仕入完了") and arrivalDate >= "' + queryDate_current + '" and arrivalDate <= "' + queryDate + '"'
+        };
+        var purchasing = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            return error;
+          });
+        console.log(purchasing);
 
-          var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
-          var totalArrivalNum = 0;
+        var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
+        var totalArrivalNum = 0;
 
-          for (var j in purchasing.records) {
-            for (var k in purchasing.records[j].arrivalList.value) {
-              if (forecast_mCode == purchasing.records[j].arrivalList.value[k].value.mCode.value) {
-                totalArrivalNum = parseInt(totalArrivalNum) + parseInt(purchasing.records[j].arrivalList.value[k].value.arrivalNum.value);
-              }
+        for (var j in purchasing.records) {
+          for (var k in purchasing.records[j].arrivalList.value) {
+            if (forecast_mCode == purchasing.records[j].arrivalList.value[k].value.mCode.value) {
+              totalArrivalNum = parseInt(totalArrivalNum) + parseInt(purchasing.records[j].arrivalList.value[k].value.arrivalNum.value);
             }
           }
-          // 仕入予定数挿入
-          event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
-
-          // 案件導入管理取得
-          var getProjectBody = {
-            'app': sysid.PM.app_id.project,
-            'query': 'predictDate >= "' + queryDate_current + '" and predictDate <= "' + queryDate + '"'
-          };
-          var project = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getProjectBody)
-            .then(function (resp) {
-              return resp;
-            }).catch(function (error) {
-              return error;
-            });
-          console.log(project);
-
-          var totalShipNum = 0;
-          for (var j in project.records) {
-            for (var k in project.records[j].deviceList.value) {
-              if (forecast_mCode == project.records[j].deviceList.value[k].value.mCode.value) {
-                totalShipNum = parseInt(totalShipNum) + parseInt(project.records[j].deviceList.value[k].value.shipNum.value);
-              }
-            }
-          }
-          // 出荷予定数挿入
-          event.record.forecastList.value[i].value.forecast_shipNum.value = totalShipNum;
-          //リードタイム後残数
-          event.record.forecastList.value[i].value.afterLeadTimeStock.value = (parseInt(event.record.forecastList.value[i].value.forecast_mStock.value) || 0) - (parseInt(totalArrivalNum) || 0) + (parseInt(totalShipNum) || 0);
-          //差引残数
-          event.record.forecastList.value[i].value.remainingNum.value = (parseInt(event.record.forecastList.value[i].value.afterLeadTimeStock.value) || 0) - (parseInt(event.record.forecastList.value[i].value.mOrderingPoint.value) || 0);
         }
-        endLoad();
-        return event;
-      }());
+        // 仕入予定数挿入
+        event.record.forecastList.value[i].value.forecast_arrival.value = totalArrivalNum;
+
+        // 案件導入管理取得
+        var getProjectBody = {
+          'app': sysid.PM.app_id.project,
+          'query': 'predictDate >= "' + queryDate_current + '" and predictDate <= "' + queryDate + '"'
+        };
+        var project = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getProjectBody)
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            return error;
+          });
+        console.log(project);
+
+        var totalShipNum = 0;
+        for (var j in project.records) {
+          for (var k in project.records[j].deviceList.value) {
+            if (forecast_mCode == project.records[j].deviceList.value[k].value.mCode.value) {
+              totalShipNum = parseInt(totalShipNum) + parseInt(project.records[j].deviceList.value[k].value.shipNum.value);
+            }
+          }
+        }
+        // 出荷予定数挿入
+        event.record.forecastList.value[i].value.forecast_shipNum.value = totalShipNum;
+        //リードタイム後残数
+        event.record.forecastList.value[i].value.afterLeadTimeStock.value = (parseInt(event.record.forecastList.value[i].value.forecast_mStock.value) || 0) - (parseInt(totalArrivalNum) || 0) + (parseInt(totalShipNum) || 0);
+        //差引残数
+        event.record.forecastList.value[i].value.remainingNum.value = (parseInt(event.record.forecastList.value[i].value.afterLeadTimeStock.value) || 0) - (parseInt(event.record.forecastList.value[i].value.mOrderingPoint.value) || 0);
+      }
+      /**
+       * ASS在庫残数処理
+       */
+      for (var i in event.record.AssStockList.value) {
+        var reportDate_start = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value, 1);
+        var reportDate_end = new Date(event.record.invoiceYears.value, parseInt(event.record.invoiceMonth.value) + 1, 0);
+        reportDate_start = reportDate_start.toISOString();
+        reportDate_end = reportDate_end.toISOString();
+
+        // 仕入管理情報取得
+        var getAssShipBody = {
+          'app': sysid.ASS.app_id.shipment,
+          'query': 'shipping_datetime >= "' + reportDate_start + '" and shipping_datetime <= "' + reportDate_end + '"'
+        };
+        var assShipList = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getAssShipBody)
+        .then(function (resp) {
+          return resp;
+        }).catch(function (error) {
+          return error;
+        });
+        console.log(assShipList);
+      }
     }
+    endLoad();
+    return event;
   });
 
   kintone.events.on(['app.record.edit.submit.success', 'app.record.create.submit.success'], async function (event) {
@@ -207,9 +227,9 @@
             postNewReport_listArray.push(postNewReport_listArray_body);
           }
         }
-        var postNewReportData ={
-          'app':sysid.INV.app_id.report,
-          'record':postNewReport_body
+        var postNewReportData = {
+          'app': sysid.INV.app_id.report,
+          'record': postNewReport_body
         }
         var postNewReport = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postNewReportData)
           .then(function (resp) {
@@ -223,7 +243,7 @@
       } else {
         //次月のレポートがある場合
         var putNewReportData = {
-          'app':sysid.INV.app_id.report,
+          'app': sysid.INV.app_id.report,
           'id': NEXTREPORT_RECORD.$id.value,
           'record': {
             'inventoryList': {
@@ -275,14 +295,15 @@
         }
         //次月のレポートを更新
         var putNewReport = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', putNewReportData)
-        .then(function (resp) {
-          console.log(resp);
-          return resp;
-        }).catch(function (error) {
-          console.log(error);
-          return error;
-        });
+          .then(function (resp) {
+            console.log(resp);
+            return resp;
+          }).catch(function (error) {
+            console.log(error);
+            return error;
+          });
       }
+
       endLoad();
       return event;
     } else {
