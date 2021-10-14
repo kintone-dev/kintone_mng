@@ -12,7 +12,7 @@
   kintone.events.on(events_ced, function (event) {
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     // [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
-    for (var i in event.record.forecastList.value) {
+    for(let i in event.record.forecastList.value) {
       event.record.forecastList.value[i].value.afterLeadTimeStock.disabled = true;
       event.record.forecastList.value[i].value.forecast_arrival.disabled = true;
       event.record.forecastList.value[i].value.forecast_mName.disabled = true;
@@ -119,7 +119,7 @@
       table = await sortItemTable(table, 'sys_code', true);
       await new Promise(resolve => {
         setTimeout(() => {
-          for (var i in eRecord.record.inventoryList.value) {
+          for(let i in eRecord.record.inventoryList.value) {
             eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
           }
           kintone.app.record.set(eRecord);
@@ -135,7 +135,7 @@
       table = await sortLocTable(table, 'sys_code', true);
       await new Promise(resolve => {
         setTimeout(() => {
-          for (var i in eRecord.record.inventoryList.value) {
+          for(let i in eRecord.record.inventoryList.value) {
             eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
           }
           kintone.app.record.set(eRecord);
@@ -144,7 +144,7 @@
       })
       await endLoad();
     });
-    for (var i in event.record.inventoryList.value) {
+    for(let i in event.record.inventoryList.value) {
       event.record.inventoryList.value[i].value.mCode.lookup = true;
     }
     return event;
@@ -160,7 +160,7 @@
     var forecastData = [];
     var alertData = [];
     //在庫一覧テーブルデータ取得
-    for (var i in event.record.inventoryList.value) {
+    for(let i in event.record.inventoryList.value) {
       var inventoryBody = {
         'rowNum': parseInt(i) + 1,
         'deductionNum': event.record.inventoryList.value[i].value.deductionNum.value,
@@ -170,7 +170,7 @@
     }
 
     //製品別在庫残数テーブルデータ取得
-    for (var i in event.record.forecastList.value) {
+    for(let i in event.record.forecastList.value) {
       var forecastBody = {
         'rowNum': parseInt(i) + 1,
         'remainingNum': event.record.forecastList.value[i].value.remainingNum.value,
@@ -182,7 +182,7 @@
 
     //データ表示後動かす
     setTimeout(function () {
-      for (var i in inventoryData) {
+      for(let i in inventoryData) {
         //差引数量マイナスのものを赤背景に
         if (parseInt(inventoryData[i].deductionNum) < 0) {
           $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ')').css({
@@ -193,7 +193,7 @@
           });
         }
       }
-      for (var i in forecastData) {
+      for(let i in forecastData) {
         //差引残数が発注点の10%以下のものを赤背景に
         if (parseInt(forecastData[i].mOrderingPoint) * 0.1 >= parseInt(forecastData[i].remainingNum)) {
           $('.' + fListTableClass + ' tr:nth-child(' + forecastData[i].rowNum + ')').css({
@@ -212,7 +212,7 @@
       }
       if (alertData != 0) {
         var alertTxt = '以下の商品は、差引残数が発注点の10%以下です。\n'
-        for (var i in alertData) {
+        for(let i in alertData) {
           alertTxt = alertTxt + alertData[i] + '\n';
         }
         alert(alertTxt);
@@ -222,7 +222,7 @@
 
     if (event.record.EoMcheck.value == '締切' || event.record.EoMcheck.value == '一時締切') {
       setTimeout(function () {
-        for (var i in inventoryData) {
+        for(let i in inventoryData) {
           //差引数量0の文字色を青色に
           if (parseInt(inventoryData[i].deductionNum) == 0) {
             $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ') td div').css({
@@ -251,7 +251,7 @@
       var ignoreUnitArray = ['ns-', '-oo', '-xx', '-zz', '-aa'];
       var ignoreUnit = new RegExp(ignoreUnitArray.join('|'));
       //特定の拠点以外を抜き出して再度格納
-      for (var i in inventoryList) {
+      for(let i in inventoryList) {
         if (!inventoryList[i].value.sys_code.value.match(ignoreUnit)) {
           newList.push(inventoryList[i]);
         }
