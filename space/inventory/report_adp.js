@@ -144,26 +144,25 @@
       /**
        * ASS在庫残数処理
        */
-      for (let i in event.record.AssStockList.value) {
-        var reportDate_start = new Date(event.record.invoiceYears.value, parseInt(event.record.invoiceMonth.value) - 1, 2);
-        var reportDate_end = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
-        reportDate_start = reportDate_start.toISOString();
-        reportDate_end = reportDate_end.toISOString();
+      var reportDate_start = new Date(event.record.invoiceYears.value, parseInt(event.record.invoiceMonth.value) - 1, 2);
+      var reportDate_end = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
+      reportDate_start = reportDate_start.toISOString();
+      reportDate_end = reportDate_end.toISOString();
+      // レポート月のASS情報取得
+      var getAssShipBody = {
+        'app': sysid.ASS.app_id.shipment,
+        'query': 'shipping_datetime >= "' + reportDate_start + '" and shipping_datetime <= "' + reportDate_end + '"'
+      };
+      console.log(getAssShipBody);
+      var assShipList = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getAssShipBody)
+        .then(function (resp) {
+          return resp;
+        }).catch(function (error) {
+          return error;
+        });
 
-        // 仕入管理情報取得
-        var getAssShipBody = {
-          'app': sysid.ASS.app_id.shipment,
-          'query': 'shipping_datetime >= "' + reportDate_start + '" and shipping_datetime <= "' + reportDate_end + '"'
-        };
-        console.log(getAssShipBody);
-        var assShipList = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getAssShipBody)
-          .then(function (resp) {
-            return resp;
-          }).catch(function (error) {
-            return error;
-          });
-        console.log(assShipList);
-      }
+
+
     }
     endLoad();
     return event;
