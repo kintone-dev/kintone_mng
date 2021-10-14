@@ -288,7 +288,7 @@
               putShipBody.record.deviceList.value.push(devListBody);
             }
           }
-          await kintone.api(kintone.api.url('/k/v1/record', true), "PUT", putShipData)
+          await kintone.api(kintone.api.url('/k/v1/record', true), "PUT", putShipBody)
             .then(function (resp) {
               console.log(resp);
             }).catch(function (error) {
