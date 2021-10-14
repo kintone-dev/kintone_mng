@@ -168,7 +168,7 @@
           return resp;
         });
       const NEXTREPORT_RECORD = nextMonthReportData.records[0];
-      if (resp.records.length == 0) {
+      if (nextMonthReportData.records.length == 0) {
         //次月のレポートがない場合
         var postNewReportData = [];
         var postNewReport_listArray = [];
