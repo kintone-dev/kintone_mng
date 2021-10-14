@@ -1578,7 +1578,6 @@ function setSearch(searchParms) {
 		}
 	}
 
-
 	//簡易検索ボタン作成
 	var eSearchBtn = document.createElement('button');
 	eSearchBtn.type = 'button';
