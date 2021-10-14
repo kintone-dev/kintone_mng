@@ -23,8 +23,12 @@
         //   endLoad();
         //   return event;
         // }
+        console.log(deviceListValue_mCode)
         console.log(sNums[deviceListValue_mCode]);
+        console.log(sNums.deviceListValue_mCode);
       }
+      endLoad();
+      return event;
       var putSnumData = [];
       var instNameValue = event.record.instName.value;
       if (instNameValue == undefined) instNameValue = '';
