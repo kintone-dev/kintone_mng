@@ -155,6 +155,7 @@
           'app': sysid.ASS.app_id.shipment,
           'query': 'shipping_datetime >= "' + reportDate_start + '" and shipping_datetime <= "' + reportDate_end + '"'
         };
+        console.log(getAssShipBody);
         var assShipList = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getAssShipBody)
         .then(function (resp) {
           return resp;
