@@ -175,27 +175,6 @@
     return event;
   });
 
-  // 納品依頼に進めた場合、作業者から組織情報を取得し、「出荷ロケーション」に格納
-  kintone.events.on('app.record.detail.process.proceed', function (event) {
-    var nStatus = event.nextStatus.value;
-    //var loginUserCode = event.record.作業者.value[0].code;
-    /*
-    if(nStatus === "受領待ち"){
-      //作業者取得
-      console.log(event.record.作業者)
-      var loginUserCode = event.record.作業者.value[0].code;//kintone.getLoginUser()['code'];
-      var getORGname= new kintone.api('/v1/user/organizations', 'GET', {code: loginUserCode});
-      return getORGname.then(function(resp){
-        event.record.shipment.value=resp.organizationTitles[0].organization.name;
-        return event;
-      }).catch(function(error){
-        console.log('所属組織取得時にエラーが発生しました。'+'\n'+error.message);
-      });
-    }else{
-    }
-    */
-  });
-
   // ドロップダウン作成
   kintone.events.on('app.record.detail.show', function (event) {
     var cStatus = event.record.ステータス.value;

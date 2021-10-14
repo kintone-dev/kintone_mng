@@ -62,7 +62,8 @@
             'sys_instAddress': { 'value': event.record.sys_instAddress.value },
             'sys_unitAddress': { 'value': event.record.sys_unitAddress.value },
             'deviceList': { 'value': [] },
-            'prjId': { 'value': event.record.$id.value }
+            'prjId': { 'value': event.record.$id.value },
+            'prjNum': { 'value': event.record.prjNum.value }
           };
         } else{
           // 入出荷管理post内容
@@ -83,7 +84,8 @@
             'sys_instAddress': { 'value': event.record.sys_instAddress.value },
             'sys_unitAddress': { 'value': event.record.sys_unitAddress.value },
             'deviceList': { 'value': [] },
-            'prjId': { 'value': event.record.$id.value }
+            'prjId': { 'value': event.record.$id.value },
+            'prjNum': { 'value': event.record.prjNum.value }
           };
         }
         for (var i in event.record.deviceList.value) {
@@ -117,7 +119,8 @@
           'sys_instAddress': { 'value': event.record.sys_instAddress.value },
           'sys_unitAddress': { 'value': event.record.sys_unitAddress.value },
           'deviceList': { 'value': [] },
-          'prjId': { 'value': event.record.$id.value + '-sub' }
+          'prjId': { 'value': event.record.$id.value + '-sub' },
+          'prjNum': { 'value': event.record.prjNum.value }
         };
         for (var i in event.record.deviceList.value) {
           if (event.record.deviceList.value[i].value.subBtn.value == '予備') {
