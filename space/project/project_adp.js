@@ -106,7 +106,7 @@
           'aboutDelivery': { 'value': event.record.aboutDelivery.value },
           'tarDate': { 'value': event.record.tarDate.value },
           'dstSelection': { 'value': event.record.dstSelection.value },
-          'Contractor': { 'value': '社内・社員予備機' },
+          'Contractor': { 'value': '社員予備' },
           'instName': { 'value': event.record.instName.value },
           'receiver': { 'value': event.record.receiver.value },
           'phoneNum': { 'value': event.record.phoneNum.value },
