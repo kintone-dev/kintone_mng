@@ -38,7 +38,7 @@
       }).then(function (resp) {
         if (event.record.purchaseOrder.value.length < 1) {
           var inGroup = false;
-          for (var i in resp.groups) {
+          for(let i in resp.groups) {
             if (resp.groups[i].name == '営業責任者' || resp.groups[i].name == 'sysAdmin') {
               inGroup = true;
               break;
@@ -55,7 +55,7 @@
         }
 
         var confTxt = '';
-        for (var i in confirmSetting) {
+        for(let i in confirmSetting) {
           confTxt = confTxt + confirmSetting[i].fName + '：' + event.record[confirmSetting[i].fCode].value + '\n';
         }
         if (confirm(confTxt)) {
@@ -77,7 +77,7 @@
           event.record[fcode].disabled = true;
         }
       });
-      for (var i in event.record.deviceList.value) {
+      for(let i in event.record.deviceList.value) {
         event.record.deviceList.value[i].value.mNickname.disabled = true;
         event.record.deviceList.value[i].value.shipNum.disabled = true;
         event.record.deviceList.value[i].value.subBtn.disabled = true;
