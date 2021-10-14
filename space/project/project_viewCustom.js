@@ -536,7 +536,12 @@
         'id': event.record.$id.value,
         'action': '納品手配'
       };
-      await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", statusBody);
+      await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", statusBody)
+        .then(function (resp) {
+          console.log(resp);
+        }).catch(function (error) {
+          console.log(error);
+        });
     });
   });
 
