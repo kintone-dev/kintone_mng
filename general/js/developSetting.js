@@ -211,6 +211,7 @@
       $('#' + deployBtn.id).on('click', async function () {
         if (confirm('入出荷管理に案件情報を強制的に更新します。\nよろしいですか？')) {
           var putShipBody = {
+            'app': sysid.INV.app_id.shipment,
             'updateKey': {
               'field': 'prjId',
               'value': event.record.$id.value
@@ -287,7 +288,7 @@
               putShipBody.record.deviceList.value.push(devListBody);
             }
           }
-          await kintone.api(kintone.api.url('/k/v1/record', true), "PUT", putShipBody)
+          await kintone.api(kintone.api.url('/k/v1/record', true), "PUT", putShipData)
             .then(function (resp) {
               console.log(resp);
             }).catch(function (error) {
