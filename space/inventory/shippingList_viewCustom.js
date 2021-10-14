@@ -11,20 +11,6 @@
   });
 
   kintone.events.on(['app.record.create.show', 'app.record.edit.show', 'app.record.detail.show'], function (event) {
-    if (event.record.shipType.value == '移動-拠点間') {
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-    } else if (event.record.shipType.value == '移動-ベンダー') {
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-    } else if (event.record.shipType.value == '返品') {
-      setFieldShown('Contractor', true);
-      setFieldShown('instName', false);
-    } else {
-      setFieldShown('Contractor', false);
-      setFieldShown('instName', false);
-    }
-
     disableSet(event);
     doSelection(event);
 
