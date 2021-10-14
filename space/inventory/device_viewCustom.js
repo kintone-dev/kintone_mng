@@ -11,7 +11,7 @@
   ];
   kintone.events.on(events_ced, function (event) {
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
-    for (var i in event.record.uStockList.value) {
+    for(let i in event.record.uStockList.value) {
       event.record.uStockList.value[i].value.uCode.disabled = true;
       event.record.uStockList.value[i].value.uName.disabled = true;
       event.record.uStockList.value[i].value.uStock.disabled = true;
@@ -19,7 +19,7 @@
     //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display = 'none'; });
     $('.subtable-5524711').find('.subtable-operation-gaia').css('display','none');
     function subtableControl(params) {
-      for (var i in event.record.uStockList.value) {
+      for(let i in event.record.uStockList.value) {
         event.record.uStockList.value[i].value.uCode.disabled = true;
         event.record.uStockList.value[i].value.uName.disabled = true;
         event.record.uStockList.value[i].value.uStock.disabled = true;
