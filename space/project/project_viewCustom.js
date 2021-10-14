@@ -528,7 +528,7 @@
     return event;
   });
 
-  kintone.events.on('app.record.detail.show', async function (event) {
+  kintone.events.on('app.record.detail.show', function (event) {
     var deployBtn = setBtn_header('device_deply_btn', 'プロセス更新');
     $('#' + deployBtn.id).on('click', async function () {
       console.log(1);
