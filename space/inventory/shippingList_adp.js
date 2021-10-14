@@ -18,11 +18,12 @@
       for(let i in deviceListValue){
         let deviceListValue_mCode=deviceListValue[i].mCode;
         let deviceListValue_shipNum=deviceListValue[i].shipNum;
-        if(deviceListValue_shipNum!=sNums[deviceListValue_mCode].length){
-          event.error='製品の依頼数と出荷数が一致しません。';
-          endLoad();
-          return event;
-        }
+        // if(deviceListValue_shipNum!=sNums[deviceListValue_mCode].length){
+        //   event.error='製品の依頼数と出荷数が一致しません。';
+        //   endLoad();
+        //   return event;
+        // }
+        console.log(sNums);
       }
       var putSnumData = [];
       var instNameValue = event.record.instName.value;
