@@ -28,7 +28,10 @@
     disableSet(event);
     doSelection(event);
 
-    // システム用フィールド非表示
+    // システム用フィールド非表示,編集不可
+    event.record.prjNum.disabled = false;
+    event.record.prjId.disabled = false;
+    event.record.instID.disabled = false;
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
     //tabメニューの選択肢による表示設定
@@ -344,6 +347,12 @@
       setFieldShown('instName', false);
       event.record.receiver.disabled = true;
       event.record.phoneNum.disabled = true;
+      setFieldShown('zipcode', true);
+      setFieldShown('prefectures', true);
+      setFieldShown('city', true);
+      setFieldShown('address', true);
+      setFieldShown('buildingName', true);
+      setFieldShown('corpName', true);
       event.record.zipcode.disabled = true;
       event.record.prefectures.disabled = true;
       event.record.city.disabled = true;
@@ -366,6 +375,12 @@
       setFieldShown('instName', true);
       event.record.receiver.disabled = false;
       event.record.phoneNum.disabled = false;
+      setFieldShown('zipcode', true);
+      setFieldShown('prefectures', true);
+      setFieldShown('city', true);
+      setFieldShown('address', true);
+      setFieldShown('buildingName', true);
+      setFieldShown('corpName', true);
       event.record.zipcode.disabled = false;
       event.record.prefectures.disabled = false;
       event.record.city.disabled = false;
@@ -407,6 +422,12 @@
       setFieldShown('instName', false);
       event.record.receiver.disabled = false;
       event.record.phoneNum.disabled = false;
+      setFieldShown('zipcode', true);
+      setFieldShown('prefectures', true);
+      setFieldShown('city', true);
+      setFieldShown('address', true);
+      setFieldShown('buildingName', true);
+      setFieldShown('corpName', true);
       event.record.zipcode.disabled = false;
       event.record.prefectures.disabled = false;
       event.record.city.disabled = false;
