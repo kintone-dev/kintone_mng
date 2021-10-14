@@ -260,19 +260,19 @@
       //故障交換ステータスデータ作成
       var putNotDefData = [];
       var notDefList = notDefData.records;
-      for (var ndl in notDefList) {
-        let sNums = sNumRecords(notDefList[ndl].deviceList.value, 'table');
-        for (var snl in sNums.SNs) {
-          var dateCutter1 = notDefList[ndl].shipping_datetime.value.indexOf('T');
-          var dateCutter2 = notDefList[ndl].application_datetime.value.indexOf('T');
+      for(let i in notDefList) {
+        let sNums = sNumRecords(notDefList[i].deviceList.value, 'table');
+        for(let y in sNums.SNs) {
+          var dateCutter1 = notDefList[i].shipping_datetime.value.indexOf('T');
+          var dateCutter2 = notDefList[i].application_datetime.value.indexOf('T');
           var putSnumBody = {
             'updateKey': {
               'field': 'sNum',
-              'value': sNums.SNs[snl]
+              'value': sNums.SNs[y]
             },
             'record': {
               'sendDate': {
-                'value': notDefList[ndl].shipping_datetime.value.substring(0, dateCutter1)
+                'value': notDefList[i].shipping_datetime.value.substring(0, dateCutter1)
               },
               'sendType': {
                 'value': '検証待ち'
@@ -284,15 +284,15 @@
                 'value': '高井戸西2丁目'
               },
               'pkgid': {
-                'value': notDefList[ndl].member_id.value
+                'value': notDefList[i].member_id.value
               },
               'startDate': {
-                'value': notDefList[ndl].application_datetime.value.substring(0, dateCutter2)
+                'value': notDefList[i].application_datetime.value.substring(0, dateCutter2)
               },
             }
           };
-          for (var psdl in putNotDefData) {
-            if (putNotDefData[psdl].updateKey.value == putSnumBody.updateKey.value) {
+          for(let x in putNotDefData) {
+            if (putNotDefData[x].updateKey.value == putSnumBody.updateKey.value) {
               putNotDefData.splice(psdl, 1);
             }
           }
