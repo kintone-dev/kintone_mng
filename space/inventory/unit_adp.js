@@ -113,11 +113,11 @@
       'records': []
     };
     //sud: set unit data
-    for (var sud in tarRecords) {
+    for(let i in tarRecords) {
       var records_set = {
-        'id': tarRecords[sud].$id.value,
+        'id': tarRecords[i].$id.value,
         'record': {
-          'uStockList': tarRecords[sud].uStockList
+          'uStockList': tarRecords[i].uStockList
         }
       };
       NewPrdInfo.records.push(records_set);
