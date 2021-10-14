@@ -68,7 +68,7 @@
       /**
        * 製品別在庫残数処理
        */
-      for (var i in event.record.forecastList.value) {
+      for (let i in event.record.forecastList.value) {
         var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
         var reportDate_current = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
         var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
@@ -103,8 +103,8 @@
         var forecast_mCode = event.record.forecastList.value[i].value.forecast_mCode.value;
         var totalArrivalNum = 0;
 
-        for (var j in purchasing.records) {
-          for (var k in purchasing.records[j].arrivalList.value) {
+        for (let j in purchasing.records) {
+          for (let k in purchasing.records[j].arrivalList.value) {
             if (forecast_mCode == purchasing.records[j].arrivalList.value[k].value.mCode.value) {
               totalArrivalNum = parseInt(totalArrivalNum) + parseInt(purchasing.records[j].arrivalList.value[k].value.arrivalNum.value);
             }
@@ -144,7 +144,7 @@
       /**
        * ASS在庫残数処理
        */
-      for (var i in event.record.AssStockList.value) {
+      for (let i in event.record.AssStockList.value) {
         var reportDate_start = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value, 1);
         var reportDate_end = new Date(event.record.invoiceYears.value, parseInt(event.record.invoiceMonth.value) + 1, 0);
         reportDate_start = reportDate_start.toISOString();
