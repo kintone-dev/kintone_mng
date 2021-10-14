@@ -89,7 +89,7 @@
         //except Boolean
         var sNums = get_sNums.filter(Boolean);
 
-        for (var y in sNums) {
+        for(let y in sNums) {
           var snRecord = {
             'updateKey': {
               'field': 'sNum',
