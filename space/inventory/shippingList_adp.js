@@ -23,7 +23,7 @@
         //   endLoad();
         //   return event;
         // }
-        console.log(sNums);
+        console.log(sNums[deviceListValue_mCode]);
       }
       var putSnumData = [];
       var instNameValue = event.record.instName.value;
