@@ -36,31 +36,31 @@
         // 平均レート計算
         var remittanceListValue=eRecord.record.remittanceList.value;
         var rateTotal=0;
-        for(var x in remittanceListValue){
-          rateTotal=Number(rateTotal)+Number(remittanceListValue[x].value.late.value)
+        for(let i in remittanceListValue){
+          rateTotal=Number(rateTotal)+Number(remittanceListValue[i].value.late.value)
         }
         eRecord.record.averageRate.value=orgRound(rateTotal/remittanceListValue.length,100);
       }
       // 外貨から単価割り出し＆単価計の合計
       var unitpricetotal=0;
-      for(var y in arrivalListValue){
+      for(let i in arrivalListValue){
         // 単価（￥）外貨から換算した場合
         if(!eRecord.record.currencyType.value.match('日本円')){
           if(eRecord.record.averageRate.value=='NaN'){
             eRecord.record.devCost_foreign.error='レートを入れてください。';
           }else{
-            var unitprice=arrivalListValue[y].value.unitPrice_foreign.value*eRecord.record.averageRate.value
-            arrivalListValue[y].value.unitPrice.value=unitprice;
+            var unitprice=arrivalListValue[i].value.unitPrice_foreign.value*eRecord.record.averageRate.value
+            arrivalListValue[i].value.unitPrice.value=unitprice;
           }
         }
         // 単価計（￥）
-        var unitpricesubtotal=arrivalListValue[y].value.unitPrice.value*arrivalListValue[y].value.arrivalNum.value
-        arrivalListValue[y].value.unitPriceSubtotal.value=unitpricesubtotal;
+        var unitpricesubtotal=arrivalListValue[i].value.unitPrice.value*arrivalListValue[i].value.arrivalNum.value
+        arrivalListValue[i].value.unitPriceSubtotal.value=unitpricesubtotal;
         // 単価計（￥）の合計（sys_unitPricetotal）
         unitpricetotal=Number(unitpricetotal)+Number(unitpricesubtotal);
       }
       eRecord.record.sys_unitPricetotal.value=unitpricetotal;
-      for(var i in arrivalListValue){
+      for(let i in arrivalListValue){
         // 単価計（￥）取得
         var unitpricesubtotal=arrivalListValue[i].value.unitPriceSubtotal.value;
         // 入荷数取得
@@ -111,7 +111,7 @@
   });
   kintone.events.on(['app.record.create.show','app.record.edit.show','app.record.create.change.mCode','app.record.edit.change.mCode','app.record.create.change.currencyType','app.record.edit.change.currencyType'], function(event){
     var arrivalListValue=event.record.arrivalList.value;
-    for(var i in arrivalListValue){
+    for(let i in arrivalListValue){
       arrivalListValue[i].value.unitPriceSubtotal_foreign.disabled=true;
       arrivalListValue[i].value.unitPriceSubtotal.disabled=true;
       arrivalListValue[i].value.addiCost_foreign.disabled=true;
