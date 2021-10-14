@@ -15,6 +15,25 @@
     return event;
   });
 
+  kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection'], function (event) {
+    if (event.record.dstSelection.value == '担当手渡し') {
+      setFieldShown('zipcode', false);
+      setFieldShown('prefectures', false);
+      setFieldShown('city', false);
+      setFieldShown('address', false);
+      setFieldShown('buildingName', false);
+      setFieldShown('corpName', false);
+    } else {
+      setFieldShown('zipcode', true);
+      setFieldShown('prefectures', true);
+      setFieldShown('city', true);
+      setFieldShown('address', true);
+      setFieldShown('buildingName', true);
+      setFieldShown('corpName', true);
+    }
+    return event;
+  });
+
   kintone.events.on('app.record.edit.change.invoiceNum', function (event) {
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
