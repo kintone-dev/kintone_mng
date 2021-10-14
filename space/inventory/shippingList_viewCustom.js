@@ -58,6 +58,7 @@
           setFieldShown('shipNote', false);
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn', 'line', 'none');
+          setSpaceShown('setShipment', 'line', 'none');
           break;
         case '#品目情報':
           setFieldShown('dstSelection', false);
