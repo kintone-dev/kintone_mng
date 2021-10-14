@@ -21,9 +21,11 @@
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
     //tabメニューの選択肢による表示設定
-    function tabSwitch(onSelect) {
+    function tabSwitch(onSelect,event) {
       switch (onSelect) {
         case '#宛先情報':
+          disableSet(event);
+          doSelection(event);
           setFieldShown('dstSelection', true);
           setFieldShown('receiver', true);
           setFieldShown('phoneNum', true);
@@ -139,9 +141,7 @@
     $('.tabMenu a').on('click', function () {
       var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
-      tabSwitch(idName); //tabをクリックした時の表示設定
-      disableSet(eRecord);
-      doSelection(eRecord);
+      tabSwitch(idName,eRecord); //tabをクリックした時の表示設定
       var actIndex = $('.tabMenu li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
