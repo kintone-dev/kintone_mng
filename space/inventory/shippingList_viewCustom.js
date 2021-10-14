@@ -403,14 +403,15 @@
     } else if (selection == '担当手渡し') {
       setFieldShown('Contractor', false);
       setFieldShown('instName', false);
+
       event.record.receiver.disabled = false;
       event.record.phoneNum.disabled = false;
-      event.record.zipcode.disabled = true;
-      event.record.prefectures.disabled = true;
-      event.record.city.disabled = true;
-      event.record.address.disabled = true;
-      event.record.buildingName.disabled = true;
-      event.record.corpName.disabled = true;
+      setFieldShown('zipcode', false);
+      setFieldShown('prefectures', false);
+      setFieldShown('city', false);
+      setFieldShown('address', false);
+      setFieldShown('buildingName', false);
+      setFieldShown('corpName', false);
 
       event.record.zipcode.value = '';
       event.record.prefectures.value = '';
