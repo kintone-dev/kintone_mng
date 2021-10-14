@@ -100,7 +100,6 @@
     return event;
   });
 
-
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     setFieldShown('mVendor', false);
     setFieldShown('mName', false);
@@ -359,62 +358,6 @@
     return event;
   });
 
-  /*
-    kintone.events.on('app.record.detail.process.proceed', function (event) {
-      var nStatus = event.nextStatus.value;
-      if (nStatus == '納品手配済') {
-        var queryBody = {
-          'app': sysID.DIPM.app.ship,
-          'query': 'prjNum="' + event.record.prjNum.value + '" and ステータス in ("納品情報未確定")',
-          'fields': ['prjNum', '$id', 'ステータス', 'shipType']
-        };
-
-        kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (getResp) {
-          //「確認中」の「用途」がある場合、「用途」を更新するBody作成
-          var update_shipType = {
-            'app': sysID.DIPM.app.ship,
-            'records': []
-          };
-          //Statusの更新用Body作成
-          var update_Status = {
-            'app': sysID.DIPM.app.ship,
-            'records': []
-          };
-
-          for (var i in getResp.records) {
-            //「確認中」の「用途」がある場合、update_shipTypeのrecordsに追加
-            if (getResp.records[i].shipType.value == '確認中') {
-              update_shipType.records.push({
-                'id': getResp.records[i].$id.value,
-                'record': {
-                  'shipType': {
-                    'value': event.record.shipType.value
-                  }
-                }
-              });
-            }
-            update_Status.records.push({
-              'id': getResp.records[i].$id.value,
-              'action': '処理開始',
-              //'assignee': 'kintone_mng@accel-lab.com'
-            });
-          }
-          if (update_shipType.records.length > 0) kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', update_shipType); //.then(function(resp){console.log(resp)}).catch(function(error){console.log(error)});
-          kintone.api(kintone.api.url('/k/v1/records/status', true), 'PUT', update_Status); //.then(function(resp){console.log(resp)}).catch(function(error){console.log(error)});
-
-        }).catch(function (error) {
-          console.log(error);
-          console.log(error.message);
-        });
-
-        var putBody = {
-
-        };
-      }
-      return event;
-    });
-  */
-
   function do_dstSelection(eRecords) {
     var selection = eRecords.dstSelection.value;
     if (selection == '施工業者/拠点へ納品') {
@@ -584,5 +527,13 @@
 
     return event;
   });
+
+  kintone.events.on('app.record.detail.show', async function (event) {
+    var deployBtn = setBtn_index('device_deply_btn', 'プロセス更新');
+    $('#' + deployBtn.id).on('click', async function () {
+
+    });
+  });
+
 
 })();
