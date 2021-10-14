@@ -170,7 +170,6 @@
       const NEXTREPORT_RECORD = nextMonthReportData.records[0];
       if (nextMonthReportData.records.length == 0) {
         //次月のレポートがない場合
-        var postNewReportData = [];
         var postNewReport_listArray = [];
         var postNewReport_body = {
           'invoiceYears': {
@@ -208,16 +207,23 @@
             postNewReport_listArray.push(postNewReport_listArray_body);
           }
         }
-        postNewReportData.push(postNewReport_body);
-        //次月のレポートを作成
-        postRecords(sysid.INV.app_id.report, postNewReportData)
-          .catch(function (error) {
-            console.log('error');
+        var postNewReportData ={
+          'app':sysid.INV.app_id.report,
+          'record':postNewReport_body
+        }
+        var postNewReport = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', postNewReportData)
+          .then(function (resp) {
+            console.log(resp);
+            return resp;
+          }).catch(function (error) {
+            console.log(error);
+            return error;
           });
+
       } else {
         //次月のレポートがある場合
-        var putNewReportData = [];
-        var putNewReport_body = {
+        var putNewReportData = {
+          'app':sysid.INV.app_id.report,
           'id': NEXTREPORT_RECORD.$id.value,
           'record': {
             'inventoryList': {
@@ -227,8 +233,8 @@
         };
         var nowMonthSyscode = [];
         var nextMonthSyscode = [];
-        for (var i in putNewReport_body.record.inventoryList.value) {
-          nextMonthSyscode.push(putNewReport_body.record.inventoryList.value[i].value.sys_code.value);
+        for (var i in putNewReportData.record.inventoryList.value) {
+          nextMonthSyscode.push(putNewReportData.record.inventoryList.value[i].value.sys_code.value);
         }
         for (var i in event.record.inventoryList.value) {
           var nowMonthData = {
@@ -243,12 +249,12 @@
 
         for (var ril in event.record.inventoryList.value) {
           if (nextMonthSyscode.includes(nowMonthSyscode[ril].sysCode)) {
-            for (var nil in putNewReport_body.record.inventoryList.value) {
-              if (putNewReport_body.record.inventoryList.value[nil].value.sys_code.value == event.record.inventoryList.value[ril].value.sys_code.value) {
-                putNewReport_body.record.inventoryList.value[nil].value.mLastStock.value = event.record.inventoryList.value[ril].value.deductionNum.value;
-                putNewReport_body.record.inventoryList.value[nil].value.mCode.value = event.record.inventoryList.value[ril].value.mCode.value;
-                putNewReport_body.record.inventoryList.value[nil].value.stockLocation.value = event.record.inventoryList.value[ril].value.stockLocation.value;
-                putNewReport_body.record.inventoryList.value[nil].value.memo.value = event.record.inventoryList.value[ril].value.memo.value;
+            for (var nil in putNewReportData.record.inventoryList.value) {
+              if (putNewReportData.record.inventoryList.value[nil].value.sys_code.value == event.record.inventoryList.value[ril].value.sys_code.value) {
+                putNewReportData.record.inventoryList.value[nil].value.mLastStock.value = event.record.inventoryList.value[ril].value.deductionNum.value;
+                putNewReportData.record.inventoryList.value[nil].value.mCode.value = event.record.inventoryList.value[ril].value.mCode.value;
+                putNewReportData.record.inventoryList.value[nil].value.stockLocation.value = event.record.inventoryList.value[ril].value.stockLocation.value;
+                putNewReportData.record.inventoryList.value[nil].value.memo.value = event.record.inventoryList.value[ril].value.memo.value;
               }
             }
           } else {
@@ -263,16 +269,19 @@
                   'mLastStock': nowMonthSyscode[ril].deductionNum,
                 }
               };
-              putNewReport_body.record.inventoryList.value.push(putNewInventoryBody);
+              putNewReportData.record.inventoryList.value.push(putNewInventoryBody);
             }
           }
         }
-        putNewReportData.push(putNewReport_body);
         //次月のレポートを更新
-        putRecords(sysid.INV.app_id.report, putNewReportData)
-          .catch(function (error) {
-            console.log('error');
-          });
+        var putNewReport = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', putNewReportData)
+        .then(function (resp) {
+          console.log(resp);
+          return resp;
+        }).catch(function (error) {
+          console.log(error);
+          return error;
+        });
       }
       endLoad();
       return event;

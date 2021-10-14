@@ -357,7 +357,7 @@ const postRecords = async (sendApp, records) => {
 				return 'error';
 			});
 		if (postResult == 'error') {
-			throw new Error('error');
+			throw new Error('post error');
 		}
 		POST_RECORDS.splice(0, 100);
 	}
@@ -380,7 +380,7 @@ const putRecords = async (sendApp, records) => {
 				return 'error';
 			});
 		if (putResult == 'error') {
-			throw new Error('error');
+			throw new Error('put error');
 		}
 		PUT_RECORDS.splice(0, 100);
 	}
@@ -403,7 +403,7 @@ const deleteRecords = async (sendApp, records) => {
 				return 'error';
 			});
 		if (deleteResult == 'error') {
-			throw new Error('error');
+			throw new Error('delete error');
 		}
 		DELETE_RECORDS.splice(0, 100);
 	}
