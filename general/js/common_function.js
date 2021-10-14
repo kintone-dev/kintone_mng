@@ -631,13 +631,13 @@ function createStockJson(event, appId) {
 				// var dateComp = currentDate.getTime() - arrDate.getTime();
 				// // 着荷日から7日以上立っている場合
 				// if (dateComp > 604800 * 1000) {
-				// 	for (var j in event.deviceList.value) { //出荷情報をセット
+				// 	for(let i in event.deviceList.value) { //出荷情報をセット
 				// 		//出荷情報は積送ASSから
 				// 		var stockShipBody = {
 				// 			'arrOrShip': 'ship',
-				// 			'devCode': event.deviceList.value[j].value.mCode.value,
+				// 			'devCode': event.deviceList.value[i].value.mCode.value,
 				// 			'uniCode': 'distribute-ASS',
-				// 			'stockNum': event.deviceList.value[j].value.shipNum.value
+				// 			'stockNum': event.deviceList.value[i].value.shipNum.value
 				// 		};
 				// 		stockData.ship.push(stockShipBody);
 				// 	}
@@ -739,8 +739,8 @@ async function stockCtrl(event, appId) {
 
 	// 商品管理、入荷情報挿入 (指定数分＋する)
 	for(let i in deviceStockData) {
-		for (var j in deviceStockData[i].record.uStockList.value) {
-			for (var k in stockData.arr) {
+		for(let j in deviceStockData[i].record.uStockList.value) {
+			for(let k in stockData.arr) {
 				if (stockData.arr[k].devCode == deviceStockData[i].updateKey.value && stockData.arr[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value) {
 					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
 				}
@@ -750,8 +750,8 @@ async function stockCtrl(event, appId) {
 
 	// 商品管理、出荷情報挿入 (指定数分-する)
 	for(let i in deviceStockData) {
-		for (var j in deviceStockData[i].record.uStockList.value) {
-			for (var k in stockData.ship) {
+		for(let j in deviceStockData[i].record.uStockList.value) {
+			for(let k in stockData.ship) {
 				if (stockData.ship[k].devCode == deviceStockData[i].updateKey.value && stockData.ship[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value) {
 					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
 				}
@@ -762,7 +762,7 @@ async function stockCtrl(event, appId) {
 	// 仕入管理の場合のみ商品管理jsonに在庫情報を入れる
 	if (stockData.appId == sysid.INV.app_id.purchasing) {
 		for(let i in deviceStockData) {
-			for (var j in stockData.arr) {
+			for(let j in stockData.arr) {
 				if (stockData.arr[j].devCode == deviceStockData[i].updateKey.value) {
 					deviceStockData[i].record.mCost = {
 						'value': stockData.arr[j].costInfo.mCost
@@ -803,8 +803,8 @@ async function stockCtrl(event, appId) {
 	}
 	// 拠点管理、入荷情報挿入 (指定数分＋する)
 	for(let i in unitStockData) {
-		for (var j in unitStockData[i].record.mStockList.value) {
-			for (var k in stockData.arr) {
+		for(let j in unitStockData[i].record.mStockList.value) {
+			for(let k in stockData.arr) {
 				if (stockData.arr[k].uniCode == unitStockData[i].updateKey.value && stockData.arr[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value) {
 					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
 				}
@@ -813,8 +813,8 @@ async function stockCtrl(event, appId) {
 	}
 	// 拠点管理、出荷情報挿入 (指定数分-する)
 	for(let i in unitStockData) {
-		for (var j in unitStockData[i].record.mStockList.value) {
-			for (var k in stockData.ship) {
+		for(let j in unitStockData[i].record.mStockList.value) {
+			for(let k in stockData.ship) {
 				if (stockData.ship[k].uniCode == unitStockData[i].updateKey.value && stockData.ship[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value) {
 					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
 				}
@@ -919,7 +919,7 @@ async function reportCtrl(event, appId) {
 			return error;
 		});
 	for(let i in reportUpdateData) {
-		for (var j in unitRecords.records) {
+		for(let j in unitRecords.records) {
 			if (reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value) {
 				reportUpdateData[i].uName = unitRecords.records[j].uName.value;
 			}
@@ -941,7 +941,7 @@ async function reportCtrl(event, appId) {
 		};
 		for(let i in reportUpdateData) {
 			if (putReportBody.record.inventoryList.value.some(item => item.value.sys_code.value === reportUpdateData[i].sysCode)) {
-				for (var j in putReportBody.record.inventoryList.value) {
+				for(let j in putReportBody.record.inventoryList.value) {
 					if (putReportBody.record.inventoryList.value[j].value.sys_code.value == reportUpdateData[i].sysCode) {
 						if (reportUpdateData[i].arrOrShip == 'ship') {
 							putReportBody.record.inventoryList.value[j].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
@@ -1157,7 +1157,7 @@ async function calBtnFunc(eRecord, appId) {
 					railSpecs[1] = '';
 				}
 				railSpecs.pop();
-				for (var j in railSpecs) {
+				for(let j in railSpecs) {
 					if (numRegExp.test(railSpecs[j])) {
 						if (parseInt(railSpecs[j]) >= 580) {
 							lengthStr = railSpecs[j];
@@ -1204,7 +1204,7 @@ async function calBtnFunc(eRecord, appId) {
 					shipNum: shipTable[i].value.shipNum.value
 				}
 				var railItems = railConf(spec);
-				for (var j in railItems) {
+				for(let j in railItems) {
 					if (appId == sysid.PM.app_id.project) {
 						var railItemBody = {
 							value: {
@@ -1285,9 +1285,9 @@ async function calBtnFunc(eRecord, appId) {
 			} else if (String(shipTable[i].value.mCode.value).match(/pkg_/)) {
 				shipTable[i].value.shipRemarks.value = shipTable[i].value.shipRemarks.value.replace(/WFP/g, 'PAC')
 				newShipTable.push(shipTable[i]);
-				for (var j in calDevice.records) {
+				for(let j in calDevice.records) {
 					if (shipTable[i].value.mCode.value == calDevice.records[j].mCode.value) {
-						for (var k in calDevice.records[j].packageComp.value) {
+						for(let k in calDevice.records[j].packageComp.value) {
 							if (appId == sysid.PM.app_id.project) {
 								var pkgBody = {
 									value: {
