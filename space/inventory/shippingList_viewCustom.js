@@ -20,8 +20,9 @@
     event.record.prjNum.disabled = true;
     event.record.prjId.disabled = true;
     event.record.instID.disabled = true;
+
     //tabメニューの選択肢による表示設定
-    function tabSwitch(onSelect, event) {
+    function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#出荷情報':
           setFieldShown('dstSelection', false);
@@ -49,11 +50,15 @@
           setSpaceShown('calBtn', 'line', 'none');
           break;
         case '#宛先情報':
-          disableSet(event);
-          doSelection(event);
           setFieldShown('dstSelection', true);
           setFieldShown('receiver', true);
           setFieldShown('phoneNum', true);
+          setFieldShown('zipcode', true);
+          setFieldShown('prefectures', true);
+          setFieldShown('city', true);
+          setFieldShown('address', true);
+          setFieldShown('buildingName', true);
+          setFieldShown('corpName', true);
           setFieldShown('deviceList', false);
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
@@ -119,29 +124,31 @@
           break;
       }
     }
+
     //タブメニュー作成
     tabMenu('tab_ship', ['出荷情報', '宛先情報', '品目情報', '輸送情報']);
-    //tab初期表示設定
-    if (sessionStorage.getItem('tabSelect')) {
-      $('.tabMenu li').removeClass("active");
-      tabSwitch(sessionStorage.getItem('tabSelect'), event);
-      $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
-      sessionStorage.removeItem('tabSelect');
-      sessionStorage.removeItem('actSelect');
-      sessionStorage.removeItem('shipType');
-    } else {
-      tabSwitch('#出荷情報', event);
-    }
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function () {
-      var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
-      tabSwitch(idName, eRecord); //tabをクリックした時の表示設定
+      tabSwitch(idName); //tabをクリックした時の表示設定
       var actIndex = $('.tabMenu li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
       return false; //aタグを無効にする
     });
+
+    //tab初期表示設定
+    if (sessionStorage.getItem('tabSelect')) {
+      $('.tabMenu li').removeClass("active");
+      tabSwitch(sessionStorage.getItem('tabSelect'));
+      $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
+      sessionStorage.removeItem('tabSelect');
+      sessionStorage.removeItem('actSelect');
+      sessionStorage.removeItem('shipType');
+    } else {
+      tabSwitch('#出荷情報');
+    }
+
     return event;
   });
 
@@ -257,7 +264,7 @@
     return event;
   });
 
-  const disableSet = function (event) {
+  function disableSet(event) {
     if (event.record.shipType.value == '移動-拠点間') {
       event.record.dstSelection.value = '施工業者/拠点へ納品';
       event.record.receiver.disabled = true;
@@ -332,12 +339,6 @@
       setFieldShown('instName', false);
       event.record.receiver.disabled = true;
       event.record.phoneNum.disabled = true;
-      setFieldShown('zipcode', true);
-      setFieldShown('prefectures', true);
-      setFieldShown('city', true);
-      setFieldShown('address', true);
-      setFieldShown('buildingName', true);
-      setFieldShown('corpName', true);
       event.record.zipcode.disabled = true;
       event.record.prefectures.disabled = true;
       event.record.city.disabled = true;
@@ -360,12 +361,6 @@
       setFieldShown('instName', true);
       event.record.receiver.disabled = false;
       event.record.phoneNum.disabled = false;
-      setFieldShown('zipcode', true);
-      setFieldShown('prefectures', true);
-      setFieldShown('city', true);
-      setFieldShown('address', true);
-      setFieldShown('buildingName', true);
-      setFieldShown('corpName', true);
       event.record.zipcode.disabled = false;
       event.record.prefectures.disabled = false;
       event.record.city.disabled = false;
@@ -407,12 +402,6 @@
       setFieldShown('instName', false);
       event.record.receiver.disabled = false;
       event.record.phoneNum.disabled = false;
-      setFieldShown('zipcode', true);
-      setFieldShown('prefectures', true);
-      setFieldShown('city', true);
-      setFieldShown('address', true);
-      setFieldShown('buildingName', true);
-      setFieldShown('corpName', true);
       event.record.zipcode.disabled = false;
       event.record.prefectures.disabled = false;
       event.record.city.disabled = false;
