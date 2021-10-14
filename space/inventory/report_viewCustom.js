@@ -112,7 +112,6 @@
   kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
-
     $('#itemSortBtn').on('click', async function () {
       await startLoad();
       var eRecord = kintone.app.record.get();
@@ -129,7 +128,6 @@
       })
       await endLoad();
     });
-
     $('#locationSortBtn').on('click', async function () {
       await startLoad();
       var eRecord = kintone.app.record.get();
@@ -146,7 +144,6 @@
       })
       await endLoad();
     });
-
     for (var i in event.record.inventoryList.value) {
       event.record.inventoryList.value[i].value.mCode.lookup = true;
     }
@@ -196,7 +193,6 @@
           });
         }
       }
-
       for (var i in forecastData) {
         //差引残数が発注点の10%以下のものを赤背景に
         if (parseInt(forecastData[i].mOrderingPoint) * 0.1 >= parseInt(forecastData[i].remainingNum)) {
@@ -214,7 +210,6 @@
           });
         }
       }
-
       if (alertData != 0) {
         var alertTxt = '以下の商品は、差引残数が発注点の10%以下です。\n'
         for (var i in alertData) {
@@ -235,7 +230,6 @@
               'font-weight': 'bold'
             });
           }
-
           //特定拠点の文字色を緑に
           if (inventoryData[i].location == '〇〇〇〇') {
             $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ') td div').css({
@@ -246,7 +240,6 @@
         }
       }, 60000);
     }
-
     return event;
   });
 
