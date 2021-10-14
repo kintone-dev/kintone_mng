@@ -28,6 +28,7 @@
         console.log(sNums.deviceListValue_mCode);
       }
       endLoad();
+      event.error='製品の依頼数と出荷数が一致しません。';
       return event;
       var putSnumData = [];
       var instNameValue = event.record.instName.value;
