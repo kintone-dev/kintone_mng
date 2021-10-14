@@ -158,7 +158,7 @@
     }
     //編集した品目名を反映
     for(let i in NewPrdInfo.records) {
-      for (var j in NewPrdInfo.records[i].record.mStockList.value) {
+      for(let j in NewPrdInfo.records[i].record.mStockList.value) {
         if (NewPrdInfo.records[i].record.mStockList.value[j].value.mCode.value == event.record.mCode.value) {
           NewPrdInfo.records[i].record.mStockList.value[j].value.mName.value = event.record.mName.value;
         }
@@ -226,7 +226,7 @@
         var eRecord = kintone.app.record.get();
 
         for(let i in eRecord.record.packageComp.value) {
-          for (var j in resp.records) {
+          for(let j in resp.records) {
             if (eRecord.record.packageComp.value[i].value.pc_mCode.value == resp.records[j].mCode.value) {
               eRecord.record.packageComp.value[i].value.pc_mVendor.value = resp.records[j].mVendor.value;
               eRecord.record.packageComp.value[i].value.pc_mType.value = resp.records[j].mType.value;
