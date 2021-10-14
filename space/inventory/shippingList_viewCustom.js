@@ -11,14 +11,26 @@
   });
 
   kintone.events.on(['app.record.create.show', 'app.record.edit.show', 'app.record.detail.show'], function (event) {
-    //$('.gaia-app-statusbar').css('display', 'none');
+    if (event.record.shipType.value == '移動-拠点間') {
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+    } else if (event.record.shipType.value == '移動-ベンダー') {
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+    } else if (event.record.shipType.value == '返品') {
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', false);
+    }
+
     disableSet(event);
     doSelection(event);
     // システム用フィールド非表示
     setFieldShown('sys_unitAddress', false);
     setFieldShown('sys_instAddress', false);
     //tabメニューの選択肢による表示設定
-    function tabSwitch(onSelect, shipType) {
+    function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#宛先情報':
           disableSet(event);
@@ -45,19 +57,6 @@
           setFieldShown('aboutDelivery', false);
           setSpaceShown('calBtn', 'line', 'none');
           setSpaceShown('setShipment', 'line', 'none');
-          if (shipType == '移動-拠点間') {
-            setFieldShown('Contractor', true);
-            setFieldShown('instName', false);
-          } else if (shipType == '移動-ベンダー') {
-            setFieldShown('Contractor', true);
-            setFieldShown('instName', false);
-          } else if (shipType == '返品') {
-            setFieldShown('Contractor', true);
-            setFieldShown('instName', false);
-          } else {
-            setFieldShown('Contractor', false);
-            setFieldShown('instName', false);
-          }
           break;
         case '#品目情報':
           setFieldShown('dstSelection', false);
@@ -144,7 +143,7 @@
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
       $('.tabMenu li').removeClass("active");
-      tabSwitch(sessionStorage.getItem('tabSelect'), sessionStorage.getItem('shipType'));
+      tabSwitch(sessionStorage.getItem('tabSelect'));
       $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
       sessionStorage.removeItem('tabSelect');
       sessionStorage.removeItem('actSelect');
@@ -152,6 +151,7 @@
     } else {
       tabSwitch('#出荷情報', '');
     }
+
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function () {
       var eRecord = kintone.app.record.get();
@@ -160,9 +160,9 @@
       var actIndex = $('.tabMenu li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
-      sessionStorage.setItem('shipType', eRecord.record.shipType.value);
       return false; //aタグを無効にする
     });
+
     return event;
   });
 
@@ -172,6 +172,24 @@
     setFieldShown('trckNum', false);
     setFieldShown('sendDate', false);
     setFieldShown('expArrivalDate', false);
+    return event;
+  });
+
+  kintone.events.on(['app.record.create.change.shipType','app.record.edit.change.shipType'], function (event) {
+    if (event.record.shipType.value == '移動-拠点間') {
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+    } else if (event.record.shipType.value == '移動-ベンダー') {
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+    } else if (event.record.shipType.value == '返品') {
+      setFieldShown('Contractor', true);
+      setFieldShown('instName', false);
+    } else {
+      setFieldShown('Contractor', false);
+      setFieldShown('instName', false);
+    }
+
     return event;
   });
 
