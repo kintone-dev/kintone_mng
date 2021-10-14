@@ -16,26 +16,10 @@
   });
 
   kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection'], function (event) {
-    let dstselection=event.record.dstSelection.value;
-    switch(dstselection){
-      case '担当手渡し':
-        setFieldShown('zipcode', false);
-        setFieldShown('prefectures', false);
-        setFieldShown('city', false);
-        setFieldShown('address', false);
-        setFieldShown('buildingName', false);
-        setFieldShown('corpName', false);
-        event.record.receiver.value=event.record.cSales.value;
-        break;
-      default:
-        setFieldShown('zipcode', true);
-        setFieldShown('prefectures', true);
-        setFieldShown('city', true);
-        setFieldShown('address', true);
-        setFieldShown('buildingName', true);
-        setFieldShown('corpName', true);
-        event.record.receiver.value='';
-        break;
+    if (event.record.dstSelection.value == '担当手渡し') {
+      event.record.receiver.value=event.record.cSales.value;
+    } else {
+      event.record.receiver.value='';
     }
     return event;
   });
@@ -196,26 +180,12 @@
           setFieldShown('dstSelection', true);
           setFieldShown('receiver', true);
           setFieldShown('phoneNum', true);
-          switch(event.record.dstSelection.value){
-            case '担当手渡し':
-              setFieldShown('zipcode', false);
-              setFieldShown('prefectures', false);
-              setFieldShown('city', false);
-              setFieldShown('address', false);
-              setFieldShown('buildingName', false);
-              setFieldShown('corpName', false);
-              event.record.receiver.value=event.record.cSales.value;
-              break;
-            default:
-              setFieldShown('zipcode', true);
-              setFieldShown('prefectures', true);
-              setFieldShown('city', true);
-              setFieldShown('address', true);
-              setFieldShown('buildingName', true);
-              setFieldShown('corpName', true);
-              event.record.receiver.value='';
-              break;
-          }
+          setFieldShown('zipcode', true);
+          setFieldShown('prefectures', true);
+          setFieldShown('city', true);
+          setFieldShown('address', true);
+          setFieldShown('buildingName', true);
+          setFieldShown('corpName', true);
 
           setFieldShown('deliveryCorp', false);
           setFieldShown('trckNum', false);
