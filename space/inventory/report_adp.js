@@ -145,9 +145,8 @@
        * ASS在庫残数処理
        */
       for (let i in event.record.AssStockList.value) {
-        var reportDate_start = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
+        var reportDate_start = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value, 1);
         var reportDate_end = new Date(event.record.invoiceYears.value, parseInt(event.record.invoiceMonth.value) + 1);
-        reportDate_start.setDate(1);
         reportDate_start = reportDate_start.toISOString();
         reportDate_end = reportDate_end.toISOString();
 
@@ -158,11 +157,11 @@
         };
         console.log(getAssShipBody);
         var assShipList = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getAssShipBody)
-        .then(function (resp) {
-          return resp;
-        }).catch(function (error) {
-          return error;
-        });
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            return error;
+          });
         console.log(assShipList);
       }
     }
