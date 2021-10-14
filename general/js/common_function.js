@@ -142,25 +142,28 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 
 // シリアル番号取得
 var sNumRecords = function (Value, fType) {
-	var sNs = [];
+	let snum = {
+		SNs:[]
+	};
 	switch (fType) {
 		case 'table':
-			for (var ti in Value) {
-				var sn = Value[ti].value.sNum.value; //シリアル番号データを取り出す
-				var snArray = sn.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
-				var sns = snArray.filter(Boolean); //配列順番を反転
-				for (var sni in sns) {
-					sNs.push(sns[sni]);
+			for (let i in Value) {
+				let sn = Value[i].value.sNum.value; //シリアル番号データを取り出す
+				let mcode = Value[i].value.mCode.value;
+				let snArray = sn.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
+				let sns = snArray.filter(Boolean); //配列順番を反転(書いた順番と同じ順番にするため)
+				snum[mcode]=sns;
+				for (let y in sns) {
+					snum.SNs.push(sns[y]);
 				}
 			}
 			break;
 		case 'text':
-			//var sn=Value[ti].value.sNum.value; //シリアル番号データを取り出す
-			var snArray = Value.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
-			sNs = snArray.filter(Boolean);
+			let snArray = Value.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
+			snum.SNs = snArray.filter(Boolean);
 			break;
 	}
-	return sNs;
+	return snum;
 };
 
 // パスワードジェネレーター
