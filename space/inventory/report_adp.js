@@ -172,6 +172,7 @@
           } else {
             var assItemBody = {
               'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
+              'mName': assShipList.records[i].deviceList.value[j].value.mName.value,
               'shipNum': assShipList.records[i].deviceList.value[j].value.shipNum.value
             }
             assItems.push(assItemBody);
@@ -184,15 +185,11 @@
           'value': {
             'ASS_mCode': {
               'type': "SINGLE_LINE_TEXT",
-              'value': "assItems[i].mCode"
+              'value': assItems[i].mCode
             },
             'ASS_mName': {
               'type': "SINGLE_LINE_TEXT",
-              'value': 'aaa'
-            },
-            'text': {
-              'type': "SINGLE_LINE_TEXT",
-              'value': 'aaa'
+              'value': assItems[i].mName
             },
             'ASS_shipNum': {
               'type': "NUMBER",
