@@ -2027,6 +2027,8 @@ function setProcessCD(app_id){
 					}
 				}
 			}
+			console.log(processInfo);
+			console.log(JSON.stringify(processInfo))
 			sessionStorage.setItem(sessionName+'JSON', JSON.stringify(processInfo));
 			sessionStorage.setItem(sessionName, processInfo);
 		});
