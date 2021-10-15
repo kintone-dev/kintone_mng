@@ -208,6 +208,9 @@
       }
       console.log(newAssShipList);
       event.record.AssStockList.value = newAssShipList;
+      for (let i in event.record.AssStockList.value) {
+        event.record.AssStockList.value[i].value.ASS_mCode.lookup = true;
+      }
     }
     endLoad();
     return event;
