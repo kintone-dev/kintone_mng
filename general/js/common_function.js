@@ -1982,7 +1982,6 @@ function setProcessCD(app_id){
 				enable: resp.enable,
 				processCD:{}
 			};
-			console.log(processInfo);
 			for (let i in resp.actions){
 				// resp.actions[i].filterCond
 				processInfo.processCD[resp.actions[i].from]={};
@@ -2007,9 +2006,7 @@ function setProcessCD(app_id){
 								break;
 							}
 						}
-						console.log(processInfo);
 					}
-					console.log(processInfo);
 				}else if(resp.actions[i].filterCond.match(' or ')){
 					processInfo.processCD[resp.actions[i].from].cdt='or';
 					// processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('or');
@@ -2027,9 +2024,7 @@ function setProcessCD(app_id){
 								break;
 							}
 						}
-						console.log(processInfo);
 					}
-					console.log(processInfo);
 				}
 			}
 			console.log(processInfo);
