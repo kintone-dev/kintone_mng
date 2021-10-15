@@ -2036,24 +2036,10 @@ function setProcessCD(app_id){
 	}else{
 		console.log('already have data in sessionStorage');
 		console.log(sessionStorage.getItem(sessionName));
+		let getJSON=JSON.stringify(sessionStorage.getItem(sessionName))
+		console.log(getJSON.enable);
+		let getJSONj=JSON.stringify(sessionStorage.getItem(sessionName+'JSON'))
+		console.log(getJSONj.enable);
 	}
 	return sessionName;
 }
-sessionStorage.removeItem('processCD_133');
-sessionStorage.removeItem('processCD_133JSON');
-let testssn=setProcessCD(133);
-let testssnV=sessionStorage.getItem(testssn);
-let testssnVS=JSON.stringify(sessionStorage.getItem(testssn));
-console.log(testssnV);
-console.log(testssnVS);
-console.log(JSON.stringify(testssnV));
-console.log(JSON.parse(testssnV));
-
-
-let testssnV1=sessionStorage.getItem(testssn+'JSON');
-let testssnVS1=JSON.stringify(sessionStorage.getItem(testssn+'JSON'));
-console.log(testssnV1);
-console.log(testssnVS1);
-console.log(JSON.stringify(testssnV1));
-console.log(JSON.parse(testssnV1));
-
