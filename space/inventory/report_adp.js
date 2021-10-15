@@ -161,6 +161,10 @@
         });
       console.log(assShipList);
 
+    for(let i in assShipList.records){
+      console.log(assShipList.records[i].deviceList.value);
+    }
+
     }
     endLoad();
     return event;
