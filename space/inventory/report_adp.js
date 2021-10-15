@@ -201,7 +201,7 @@
             },
             'ASS_remainingNum': {
               'type': "NUMBER",
-              'value': ''
+              'value': '2'
             }
           }
         };
