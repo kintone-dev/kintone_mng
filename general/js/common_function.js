@@ -2039,8 +2039,8 @@ function setProcessCD(app_id){
 	}
 	return sessionName;
 }
-sessionStorage.removeItem(testssn);
-sessionStorage.removeItem(testssn+'JSON');
+sessionStorage.removeItem('processCD_133');
+sessionStorage.removeItem('processCD_133JSON');
 let testssn=setProcessCD(133);
 let testssnV=sessionStorage.setItem(testssn);
 let testssnVS=JSON.stringify(sessionStorage.setItem(testssn));
