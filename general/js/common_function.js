@@ -1993,7 +1993,7 @@ function setProcessCD(app_id){
 				// processInfo.processCD[resp.actions[i].from].to=resp.actions[i].to;
 				// processInfo.processCD[resp.actions[i].from].name=resp.actions[i].name;
 				// processInfo.processCD[resp.actions[i].from].conditions=[];
-				processInfo.processCD[resp.actions[i].from]=JSON.stringify({});
+				processInfo.processCD[resp.actions[i].from]=JSON.stringify();
 				processInfo.processCD[resp.actions[i].from].from=JSON.stringify(resp.actions[i].from);
 				processInfo.processCD[resp.actions[i].from].to=JSON.stringify(resp.actions[i].to);
 				processInfo.processCD[resp.actions[i].from].name=JSON.stringify(resp.actions[i].name);
