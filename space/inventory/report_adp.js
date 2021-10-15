@@ -178,7 +178,7 @@
           }
         }
       }
-      var newAssShipList = [];
+      event.record.AssStockList.value = [];
       for (let i in assItems) {
         var newAssShipListBody = {
           'value': {
@@ -204,10 +204,8 @@
             }
           }
         };
-        newAssShipList.push(newAssShipListBody);
+        event.record.AssStockList.value.push(newAssShipListBody);
       }
-      event.record.AssStockList.value = [];
-      // event.record.AssStockList.value = newAssShipList;
       for (let i in event.record.AssStockList.value) {
         event.record.AssStockList.value[i].value.ASS_mCode.lookup = true;
       }
