@@ -141,6 +141,7 @@
         //差引残数
         event.record.forecastList.value[i].value.remainingNum.value = (parseInt(event.record.forecastList.value[i].value.afterLeadTimeStock.value) || 0) - (parseInt(event.record.forecastList.value[i].value.mOrderingPoint.value) || 0);
       }
+
       /**
        * ASS在庫残数処理
        */
@@ -163,6 +164,7 @@
       var assItems = [];
     for(let i in assShipList.records){
       for(let j in assItems){
+        console.log('assItems');
         if(assShipList.records[i].deviceList.value.some(_ => _.value.mCode.value === assItems[j].mCode)){
           for(let k in assShipList.records[i].deviceList.value){
             if(assItems[j].mCode==assShipList.records[i].deviceList.value[k].value.mCode.value){
@@ -172,8 +174,8 @@
         } else{
           for(let k in assShipList.records[i].deviceList.value){
             assItemBody = {
-              'mCode':assShipList.records[i].deviceList.value[k].mCode.value,
-              'shipNum':assShipList.records[i].deviceList.value[k].shipNum.value
+              'mCode':assShipList.records[i].deviceList.value[k].value.mCode.value,
+              'shipNum':assShipList.records[i].deviceList.value[k].value.shipNum.value
             }
             assItems.push(assItemBody);
           }
