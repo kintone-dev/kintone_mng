@@ -2027,6 +2027,11 @@ function setProcessCD(app_id){
 			}
 			sessionStorage.setItem(sessionName, JSON.stringify(processInfo));
 		});
+		console.log('no have data in sessionStorage');
+		console.log(sessionStorage.getItem(sessionName));
+	}else{
+		console.log('already have data in sessionStorage');
+		console.log(sessionStorage.getItem(sessionName));
 	}
 	return sessionName;
 }
