@@ -1978,14 +1978,10 @@ function setProcessCD(app_id){
 		kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {'app': app_id}).then(function(resp){
 			// const sActions=resp.actions;
 			// const sStates=resp.states;
-			// let processInfo={
-			// 	enable: resp.enable,
-			// 	processCD:{}
-			// };
-			let processInfo=JSON.stringify({
+			let processInfo={
 				enable: resp.enable,
 				processCD:{}
-			});
+			};
 			console.log(processInfo);
 			for (let i in resp.actions){
 				// resp.actions[i].filterCond
