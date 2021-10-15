@@ -190,6 +190,10 @@
               'type': "SINGLE_LINE_TEXT",
               'value': 'aaa'
             },
+            'text': {
+              'type': "SINGLE_LINE_TEXT",
+              'value': 'aaa'
+            },
             'ASS_shipNum': {
               'type': "NUMBER",
               'value': assItems[i].shipNum
