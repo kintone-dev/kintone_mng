@@ -1986,18 +1986,20 @@ function setProcessCD(app_id){
 				enable: resp.enable,
 				processCD:{}
 			});
+			console.log(processInfo);
 			for (let i in resp.actions){
 				// resp.actions[i].filterCond
-				processInfo.processCD[resp.actions[i].from]={};
+				// processInfo.processCD[resp.actions[i].from]={};
 				// processInfo.processCD[resp.actions[i].from].from=resp.actions[i].from;
 				// processInfo.processCD[resp.actions[i].from].to=resp.actions[i].to;
 				// processInfo.processCD[resp.actions[i].from].name=resp.actions[i].name;
 				// processInfo.processCD[resp.actions[i].from].conditions=[];
-				// processInfo.processCD[resp.actions[i].from]=JSON.stringify();
+				processInfo.processCD[resp.actions[i].from]=JSON.stringify();
 				processInfo.processCD[resp.actions[i].from].from=JSON.stringify(resp.actions[i].from);
 				processInfo.processCD[resp.actions[i].from].to=JSON.stringify(resp.actions[i].to);
 				processInfo.processCD[resp.actions[i].from].name=JSON.stringify(resp.actions[i].name);
 				processInfo.processCD[resp.actions[i].from].conditions=JSON.stringify([]);
+				console.log(processInfo);
 				if(resp.actions[i].filterCond.match(' and ')){
 					// processInfo.processCD[resp.actions[i].from].cdt='and';
 					processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('and');
@@ -2019,8 +2021,9 @@ function setProcessCD(app_id){
 								break;
 							}
 						}
-
+						console.log(processInfo);
 					}
+					console.log(processInfo);
 				}else if(resp.actions[i].filterCond.match(' or ')){
 					// processInfo.processCD[resp.actions[i].from].cdt='or';
 					processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('or');
@@ -2042,8 +2045,9 @@ function setProcessCD(app_id){
 								break;
 							}
 						}
-
+						console.log(processInfo);
 					}
+					console.log(processInfo);
 				}
 			}
 			console.log(processInfo);
