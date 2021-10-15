@@ -168,8 +168,8 @@
             console.log('no');
           } else {
             assItemBody = {
-              'mCode': assShipList.records[i].deviceList.value[k].value.mCode.value,
-              'shipNum': assShipList.records[i].deviceList.value[k].value.shipNum.value
+              'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
+              'shipNum': assShipList.records[i].deviceList.value[j].value.shipNum.value
             }
             assItems.push(assItemBody);
           }
