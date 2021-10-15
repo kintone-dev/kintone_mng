@@ -518,23 +518,4 @@
     return event;
   });
 
-  kintone.events.on('app.record.detail.show', function (event) {
-    var deployBtn = setBtn_header('device_deply_btn', 'プロセス更新');
-    $('#' + deployBtn.id).on('click', async function () {
-      console.log(1);
-      var statusBody = {
-        'app': kintone.app.getId(),
-        'id': event.record.$id.value,
-        'action': '納品手配'
-      };
-      await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", statusBody)
-        .then(function (resp) {
-          console.log(resp);
-        }).catch(function (error) {
-          console.log(error);
-        });
-    });
-  });
-
-
 })();
