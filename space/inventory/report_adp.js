@@ -170,11 +170,13 @@
             }
           }
         } else{
-          assItemBody = {
-            'mCode':assShipList.records[i].deviceList.value[j].mCode.value,
-            'shipNum':assShipList.records[i].deviceList.value[j].shipNum.value
+          for(let k in assShipList.records[i].deviceList.value){
+            assItemBody = {
+              'mCode':assShipList.records[i].deviceList.value[k].mCode.value,
+              'shipNum':assShipList.records[i].deviceList.value[k].shipNum.value
+            }
+            assItems.push(assItemBody);
           }
-          assItems.push(assItemBody);
         }
       }
     }
