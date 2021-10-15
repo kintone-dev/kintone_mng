@@ -2028,7 +2028,6 @@ function setProcessCD(app_id){
 				}
 			}
 			console.log(processInfo);
-			console.log(JSON.stringify(processInfo))
 			sessionStorage.setItem(sessionName+'JSON', JSON.stringify(processInfo));
 			sessionStorage.setItem(sessionName, processInfo);
 		});
@@ -2040,3 +2039,23 @@ function setProcessCD(app_id){
 	}
 	return sessionName;
 }
+let testssn=setProcessCD(133);
+let testssnV=sessionStorage.getItem(testssn);
+let testssnVS=JSON.stringify(sessionStorage.getItem(testssn));
+let testssnVP=JSON.parse(sessionStorage.getItem(testssn));
+console.log(testssnV);
+console.log(testssnVS);
+console.log(testssnVP);
+console.log(JSON.stringify(testssnV));
+console.log(JSON.parse(testssnV));
+
+
+let testssnV1=sessionStorage.getItem(testssn+'JSON');
+let testssnVS1=JSON.stringify(sessionStorage.getItem(testssn+'JSON'));
+let testssnVP1=JSON.parse(sessionStorage.getItem(testssn+'JSON'));
+console.log(testssnV1);
+console.log(testssnVS1);
+console.log(testssnVP1);
+console.log(JSON.stringify(testssnV1));
+console.log(JSON.parse(testssnV1));
+
