@@ -2033,12 +2033,15 @@ function setProcessCD(app_id){
 		});
 		console.log('no have data in sessionStorage');
 		console.log(sessionStorage.getItem(sessionName));
+		console.log(sessionStorage.getItem(sessionName+'JSON'));
 	}else{
 		console.log('already have data in sessionStorage');
 		console.log(sessionStorage.getItem(sessionName));
+		console.log(sessionStorage.getItem(sessionName+'JSON'));
+
 		let getJSON=JSON.stringify(sessionStorage.getItem(sessionName))
 		console.log(getJSON.enable);
-		let getJSONj=JSON.stringify(sessionStorage.getItem(sessionName+'JSON'))
+		let getJSONj=JSON.parse(sessionStorage.getItem(sessionName+'JSON'))
 		console.log(getJSONj.enable);
 	}
 	return sessionName;
