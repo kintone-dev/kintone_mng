@@ -196,11 +196,11 @@
             },
             'ASS_returnNum': {
               'type': "NUMBER",
-              'value': ''
+              'value': '0'
             },
             'ASS_remainingNum': {
               'type': "NUMBER",
-              'value': '2'
+              'value': '0'
             }
           }
         };
