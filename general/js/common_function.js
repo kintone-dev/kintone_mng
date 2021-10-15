@@ -56,7 +56,7 @@ function setSelect_header(selectID, selectValue) {
 	var headerSelect = document.createElement('select');
 	headerSelect.id = selectID;
 	headerSelect.classList.add('jsselect_header');
-	for(let i in selectValue) {
+	for (let i in selectValue) {
 		var sOption = document.createElement('option');
 		sOption.innerText = selectValue[i];
 		headerSelect.appendChild(sOption);
@@ -121,7 +121,7 @@ function setSpaceShown(Element, option, parm) {
 //sessionStorageにデータ格納
 function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 	if (Array.isArray(copy_fCode)) { //配列の場合のアクション
-		for(let i in copy_fCode) { //ループさせデータ格納
+		for (let i in copy_fCode) { //ループさせデータ格納
 			sessionStorage.removeItem(copy_fCode[i]); //同じ名称のSessionStorageを削除
 			sessionStorage.setItem(copy_fCode[i], copy_value[i]); //値をSessionStorageに格納する
 		}
@@ -133,7 +133,7 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 	window.open('https://accel-lab.cybozu.com/k/' + tarAPP_id + '/edit', Math.random() + '-newWindow', 'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=1000,height=600,left=300,top=200'); //該当アプリの新規レコード作成画面を開く
 
 	if (Array.isArray(copy_fCode)) { //配列の場合のアクション
-		for(let i in copy_fCode) {
+		for (let i in copy_fCode) {
 			sessionStorage.removeItem(copy_fCode[i]);
 		} //同じ名称のSessionStorageを削除
 	} else {
@@ -144,7 +144,7 @@ function createNewREC(tarAPP_id, copy_fCode, copy_value) {
 // シリアル番号取得
 var sNumRecords = function (Value, fType) {
 	let snum = {
-		SNs:[]
+		SNs: []
 	};
 	switch (fType) {
 		case 'table':
@@ -153,7 +153,7 @@ var sNumRecords = function (Value, fType) {
 				let mcode = Value[i].value.mCode.value;
 				let snArray = sn.split(/\r\n|\n/); //シリアル番号を改行を持って、区切り、配列にする
 				let sns = snArray.filter(Boolean); //配列順番を反転(書いた順番と同じ順番にするため)
-				snum[mcode]=sns;
+				snum[mcode] = sns;
 				for (let y in sns) {
 					snum.SNs.push(sns[y]);
 				}
@@ -179,7 +179,7 @@ var pw_generator = function (len) {
 	var pw;
 	while (true) { //条件を果たすまでパスワードを繰り返し作成
 		pw = ''; //パスワードをクリア
-		for(let i = 0; i < len; i++) {
+		for (let i = 0; i < len; i++) {
 			pw += string.charAt(Math.floor(Math.random() * string.length));
 		} //パスワード生成
 		var ck_pw_req = pw_req.exec(pw); //生成したパスワードが条件を満たすか確認
@@ -280,7 +280,7 @@ var railConf = function (spec) {
 		shipnum: 2 * spec.shipNum
 	});
 	var railComp = [];
-	for(let i in railDetail) {
+	for (let i in railDetail) {
 		railComp.push({
 			value: {
 				mVendor: {
@@ -431,7 +431,7 @@ async function checkEoMReport(reportDate) {
 			return error;
 		});
 	if (reportData.records.length != 0) {
-		for(let i in reportData.records[0].EoMcheck.value) {
+		for (let i in reportData.records[0].EoMcheck.value) {
 			if (reportData.records[0].EoMcheck.value[i] == '締切') {
 				return false;
 			}
@@ -469,7 +469,7 @@ function createStockJson(event, appId) {
 		if (event.nextStatus) {
 			if (event.nextStatus.value == '集荷待ち') {
 				var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
-				for(let i in event.record.deviceList.value) {
+				for (let i in event.record.deviceList.value) {
 					/**
 					 * 出荷用json作成
 					 * arrOrShip 入荷か出荷かの識別子
@@ -505,7 +505,7 @@ function createStockJson(event, appId) {
 			} else if (event.nextStatus.value == '出荷完了') {
 				var arrivalShipType_dist = ['移動-販売', '移動-サブスク', '販売', 'サブスク'];
 				var arrivalShipType_arr = ['移動-拠点間', '移動-ベンダー'];
-				for(let i in event.record.deviceList.value) {
+				for (let i in event.record.deviceList.value) {
 					// 出荷情報を作成
 					var stockShipBody = {
 						'arrOrShip': 'ship',
@@ -543,7 +543,7 @@ function createStockJson(event, appId) {
 		stockData.date = event.record.sys_invoiceDate.value;
 		var distributeSalesType = ['販売', 'サブスク'];
 		if (distributeSalesType.includes(event.record.salesType.value)) {
-			for(let i in event.record.deviceList.value) {
+			for (let i in event.record.deviceList.value) {
 				if (event.record.deviceList.value[i].value.subBtn.value == '通常') { // 予備機が通常のもののみ
 					//出荷情報は積送からのみ
 					var stockShipBody = {
@@ -572,7 +572,7 @@ function createStockJson(event, appId) {
 			var foreignCurrency = '';
 		}
 		// 入荷情報作成
-		for(let i in event.record.arrivalList.value) {
+		for (let i in event.record.arrivalList.value) {
 			var stockArrBody = {
 				'arrOrShip': 'arr',
 				'devCode': event.record.arrivalList.value[i].value.mCode.value,
@@ -598,7 +598,7 @@ function createStockJson(event, appId) {
 		stockData.date = reportDate;
 		var arrCompAddType = ['デバイス追加', '故障交換（保証期間外）'];
 		if (event.working_status.value == '出荷完了') {
-			for(let i in event.deviceList.value) { //出荷、入荷情報をセット
+			for (let i in event.deviceList.value) { //出荷、入荷情報をセット
 				//出荷情報はForNeedsから
 				var stockShipBody = {
 					'arrOrShip': 'ship',
@@ -643,7 +643,7 @@ function createStockJson(event, appId) {
 				// 	}
 				// }
 			} else if (arrCompAddType.includes(event.application_type.value)) {
-				for(let i in event.deviceList.value) { //出荷情報をセット
+				for (let i in event.deviceList.value) { //出荷情報をセット
 					//出荷情報は積送ASSから
 					var stockShipBody = {
 						'arrOrShip': 'ship',
@@ -672,10 +672,10 @@ async function stockCtrl(event, appId) {
 	/* 商品管理情報取得 */
 	//商品管理クエリ作成
 	var devQuery = [];
-	for(let i in stockData.arr) {
+	for (let i in stockData.arr) {
 		devQuery.push('"' + stockData.arr[i].devCode + '"');
 	}
-	for(let i in stockData.ship) {
+	for (let i in stockData.ship) {
 		devQuery.push('"' + stockData.ship[i].devCode + '"');
 	}
 	// 配列内の重複した要素の削除
@@ -696,10 +696,10 @@ async function stockCtrl(event, appId) {
 	/* 拠点管理情報取得 */
 	//拠点管理クエリ作成
 	var uniQuery = [];
-	for(let i in stockData.arr) {
+	for (let i in stockData.arr) {
 		uniQuery.push('"' + stockData.arr[i].uniCode + '"');
 	}
-	for(let i in stockData.ship) {
+	for (let i in stockData.ship) {
 		uniQuery.push('"' + stockData.ship[i].uniCode + '"');
 	}
 	// 配列内の重複した要素の削除
@@ -722,7 +722,7 @@ async function stockCtrl(event, appId) {
 	var unitStockData = [];
 
 	// 商品管理情報作成
-	for(let i in deviceRecords.records) {
+	for (let i in deviceRecords.records) {
 		var putDevBody = {
 			'updateKey': {
 				'field': 'mCode',
@@ -738,9 +738,9 @@ async function stockCtrl(event, appId) {
 	}
 
 	// 商品管理、入荷情報挿入 (指定数分＋する)
-	for(let i in deviceStockData) {
-		for(let j in deviceStockData[i].record.uStockList.value) {
-			for(let k in stockData.arr) {
+	for (let i in deviceStockData) {
+		for (let j in deviceStockData[i].record.uStockList.value) {
+			for (let k in stockData.arr) {
 				if (stockData.arr[k].devCode == deviceStockData[i].updateKey.value && stockData.arr[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value) {
 					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
 				}
@@ -749,9 +749,9 @@ async function stockCtrl(event, appId) {
 	}
 
 	// 商品管理、出荷情報挿入 (指定数分-する)
-	for(let i in deviceStockData) {
-		for(let j in deviceStockData[i].record.uStockList.value) {
-			for(let k in stockData.ship) {
+	for (let i in deviceStockData) {
+		for (let j in deviceStockData[i].record.uStockList.value) {
+			for (let k in stockData.ship) {
 				if (stockData.ship[k].devCode == deviceStockData[i].updateKey.value && stockData.ship[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value) {
 					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
 				}
@@ -761,8 +761,8 @@ async function stockCtrl(event, appId) {
 
 	// 仕入管理の場合のみ商品管理jsonに在庫情報を入れる
 	if (stockData.appId == sysid.INV.app_id.purchasing) {
-		for(let i in deviceStockData) {
-			for(let j in stockData.arr) {
+		for (let i in deviceStockData) {
+			for (let j in stockData.arr) {
 				if (stockData.arr[j].devCode == deviceStockData[i].updateKey.value) {
 					deviceStockData[i].record.mCost = {
 						'value': stockData.arr[j].costInfo.mCost
@@ -787,7 +787,7 @@ async function stockCtrl(event, appId) {
 		}
 	}
 	// 拠点管理情報作成
-	for(let i in unitRecords.records) {
+	for (let i in unitRecords.records) {
 		var putUniBody = {
 			'updateKey': {
 				'field': 'uCode',
@@ -802,9 +802,9 @@ async function stockCtrl(event, appId) {
 		unitStockData.push(putUniBody);
 	}
 	// 拠点管理、入荷情報挿入 (指定数分＋する)
-	for(let i in unitStockData) {
-		for(let j in unitStockData[i].record.mStockList.value) {
-			for(let k in stockData.arr) {
+	for (let i in unitStockData) {
+		for (let j in unitStockData[i].record.mStockList.value) {
+			for (let k in stockData.arr) {
 				if (stockData.arr[k].uniCode == unitStockData[i].updateKey.value && stockData.arr[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value) {
 					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
 				}
@@ -812,9 +812,9 @@ async function stockCtrl(event, appId) {
 		}
 	}
 	// 拠点管理、出荷情報挿入 (指定数分-する)
-	for(let i in unitStockData) {
-		for(let j in unitStockData[i].record.mStockList.value) {
-			for(let k in stockData.ship) {
+	for (let i in unitStockData) {
+		for (let j in unitStockData[i].record.mStockList.value) {
+			for (let k in stockData.ship) {
 				if (stockData.ship[k].uniCode == unitStockData[i].updateKey.value && stockData.ship[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value) {
 					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
 				}
@@ -882,7 +882,7 @@ async function reportCtrl(event, appId) {
 	/* レポート更新用情報作成 */
 	var reportUpdateData = [];
 	var getUniNameArray = [];
-	for(let i in stockData.arr) {
+	for (let i in stockData.arr) {
 		var reportUpdateBody = {
 			'arrOrShip': stockData.arr[i].arrOrShip,
 			'sysCode': stockData.arr[i].devCode + '-' + stockData.arr[i].uniCode,
@@ -893,7 +893,7 @@ async function reportCtrl(event, appId) {
 		getUniNameArray.push('"' + stockData.arr[i].uniCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
-	for(let i in stockData.ship) {
+	for (let i in stockData.ship) {
 		var reportUpdateBody = {
 			'arrOrShip': stockData.ship[i].arrOrShip,
 			'sysCode': stockData.ship[i].devCode + '-' + stockData.ship[i].uniCode,
@@ -918,8 +918,8 @@ async function reportCtrl(event, appId) {
 			console.log(error);
 			return error;
 		});
-	for(let i in reportUpdateData) {
-		for(let j in unitRecords.records) {
+	for (let i in reportUpdateData) {
+		for (let j in unitRecords.records) {
 			if (reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value) {
 				reportUpdateData[i].uName = unitRecords.records[j].uName.value;
 			}
@@ -939,9 +939,9 @@ async function reportCtrl(event, appId) {
 				}
 			}
 		};
-		for(let i in reportUpdateData) {
+		for (let i in reportUpdateData) {
 			if (putReportBody.record.inventoryList.value.some(item => item.value.sys_code.value === reportUpdateData[i].sysCode)) {
-				for(let j in putReportBody.record.inventoryList.value) {
+				for (let j in putReportBody.record.inventoryList.value) {
 					if (putReportBody.record.inventoryList.value[j].value.sys_code.value == reportUpdateData[i].sysCode) {
 						if (reportUpdateData[i].arrOrShip == 'ship') {
 							putReportBody.record.inventoryList.value[j].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
@@ -1018,7 +1018,7 @@ async function reportCtrl(event, appId) {
 		};
 
 		// レポート更新情報をリストに格納
-		for(let i in reportUpdateData) {
+		for (let i in reportUpdateData) {
 			if (reportUpdateData[i].arrOrShip == 'ship') {
 				var newReportListBody = {
 					'value': {
@@ -1098,7 +1098,7 @@ async function calBtnFunc(eRecord, appId) {
 	var newShipTable = [];
 
 	// 依頼数空欄時エラー
-	for(let i in shipTable) {
+	for (let i in shipTable) {
 		if (numRegExp.test(shipTable[i].value.shipNum.value)) {
 			shipNum = shipTable[i].value.shipNum.value;
 			shipTable[i].value.shipNum.error = null;
@@ -1109,7 +1109,7 @@ async function calBtnFunc(eRecord, appId) {
 
 	// 対応商品取得
 	var calDeviceQuery = [];
-	for(let i in shipTable) {
+	for (let i in shipTable) {
 		if (String(shipTable[i].value.shipRemarks.value).match(/WFP/)) {
 			if (String(shipTable[i].value.mCode.value).match(/pkg_/)) {
 				calDeviceQuery.push('"' + shipTable[i].value.mCode.value + '"');
@@ -1136,7 +1136,7 @@ async function calBtnFunc(eRecord, appId) {
 			return error;
 		});
 
-	for(let i in shipTable) {
+	for (let i in shipTable) {
 		if (String(shipTable[i].value.shipRemarks.value).match(/WFP/)) {
 			if (shipTable[i].value.mCode.value == 'KRT-DY') {
 				shipTable[i].value.shipRemarks.value = shipTable[i].value.shipRemarks.value.replace(/WFP/g, 'PAC')
@@ -1157,7 +1157,7 @@ async function calBtnFunc(eRecord, appId) {
 					railSpecs[1] = '';
 				}
 				railSpecs.pop();
-				for(let j in railSpecs) {
+				for (let j in railSpecs) {
 					if (numRegExp.test(railSpecs[j])) {
 						if (parseInt(railSpecs[j]) >= 580) {
 							lengthStr = railSpecs[j];
@@ -1204,7 +1204,7 @@ async function calBtnFunc(eRecord, appId) {
 					shipNum: shipTable[i].value.shipNum.value
 				}
 				var railItems = railConf(spec);
-				for(let j in railItems) {
+				for (let j in railItems) {
 					if (appId == sysid.PM.app_id.project) {
 						var railItemBody = {
 							value: {
@@ -1285,9 +1285,9 @@ async function calBtnFunc(eRecord, appId) {
 			} else if (String(shipTable[i].value.mCode.value).match(/pkg_/)) {
 				shipTable[i].value.shipRemarks.value = shipTable[i].value.shipRemarks.value.replace(/WFP/g, 'PAC')
 				newShipTable.push(shipTable[i]);
-				for(let j in calDevice.records) {
+				for (let j in calDevice.records) {
 					if (shipTable[i].value.mCode.value == calDevice.records[j].mCode.value) {
-						for(let k in calDevice.records[j].packageComp.value) {
+						for (let k in calDevice.records[j].packageComp.value) {
 							if (appId == sysid.PM.app_id.project) {
 								var pkgBody = {
 									value: {
@@ -1452,7 +1452,7 @@ async function calBtnFunc(eRecord, appId) {
 		}
 	}
 	eRecord.record.deviceList.value = newShipTable;
-	for(let i in eRecord.record.deviceList.value) {
+	for (let i in eRecord.record.deviceList.value) {
 		eRecord.record.deviceList.value[i].value.mNickname.lookup = true;
 	}
 	return kintone.app.record.set(eRecord);
@@ -1792,7 +1792,7 @@ function setSearch(searchParms) {
 	//簡易検索
 	$(`#${eSearchBtn_id}`).on('click', function () {
 		sessionStorage.setItem('searched', 'true');
-		for(let i in searchParms.sConditions) {
+		for (let i in searchParms.sConditions) {
 			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
 		}
 		//作成したテキストボックスから値を格納
@@ -1819,7 +1819,7 @@ function setSearch(searchParms) {
 		}).get();
 		if (inputText.length > 1) {
 			var queryArray = [];
-			for(let i in inputText) {
+			for (let i in inputText) {
 				var queryBody = inputText[i].name + ` ${inputText[i].matchType} ` + '"' + inputText[i].value + '"';
 				queryArray.push(queryBody);
 			}
@@ -1837,7 +1837,7 @@ function setSearch(searchParms) {
 	// 詳細検索
 	$(`#${dSearchBtn_id}`).on('click', function () {
 		sessionStorage.setItem('searched', 'true');
-		for(let i in searchParms.sConditions) {
+		for (let i in searchParms.sConditions) {
 			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
 		}
 		//作成したテキストボックスから値を格納
@@ -1865,7 +1865,7 @@ function setSearch(searchParms) {
 		console.log(inputText.length);
 		if (inputText.length > 1) {
 			var queryArray = [];
-			for(let i in inputText) {
+			for (let i in inputText) {
 				var queryBody = inputText[i].name + ` ${inputText[i].matchType} ` + '"' + inputText[i].value + '"';
 				queryArray.push(queryBody);
 			}
@@ -1883,7 +1883,7 @@ function setSearch(searchParms) {
 	//検索リセット
 	$('.searchReset').on('click', function () {
 		sessionStorage.removeItem('searched');
-		for(let i in searchParms.sConditions) {
+		for (let i in searchParms.sConditions) {
 			sessionStorage.removeItem(searchParms.sConditions[i].fCode);
 		}
 		document.location = location.origin + location.pathname;
@@ -1910,6 +1910,7 @@ function startLoad(msg) {
 		resolve('load start');
 	})
 }
+
 function endLoad() {
 	return new Promise(function (resolve, reject) {
 		$("#loading").remove();
@@ -1942,7 +1943,9 @@ var mWindow = function () {
 	mwCloseBtn.classList.add('mwCloseBtn');
 	mwCloseBtn.innerHTML = '<a>X</a>';
 	mwCloseBtn.onclick = function () {
-		$('#mwFrame').fadeOut(1000,function(){$('#mwFrame').remove();});
+		$('#mwFrame').fadeOut(1000, function () {
+			$('#mwFrame').remove();
+		});
 	};
 	mwArea.appendChild(mwCloseBtn);
 
@@ -1962,7 +1965,7 @@ function krtSetting() {
 	mw.contents.innerHTML = '<p>カーテンレール設定</p>' +
 		'<div class="krtInput"><label>カーテンレール全長(mm)：<input type="text" class="length"></label></div>' +
 		'<div class="krtInput">開き勝手：<label class="radioLabel">(S)片開き<input type="radio" value="(S)片開き" name="openType" checked></label><label class="radioLabel">(W)両開き<input type="radio" value="(W)両開き" name="openType"></label></div>' +
-		'<div class="krtInput">取り付け方法：<label class="radioLabel">天井<input type="radio" value="天井" name="methodType" checked></label><label class="radioLabel">壁付S<input type="radio" value="壁付S" name="methodType"></label><label class="radioLabel">壁付W<input type="radio" value="壁付W" name="methodType"></label></div>'+
+		'<div class="krtInput">取り付け方法：<label class="radioLabel">天井<input type="radio" value="天井" name="methodType" checked></label><label class="radioLabel">壁付S<input type="radio" value="壁付S" name="methodType"></label><label class="radioLabel">壁付W<input type="radio" value="壁付W" name="methodType"></label></div>' +
 		'<button id="krtSetBtn">登録</button>';
 	$('#mwFrame').fadeIn();
 }
