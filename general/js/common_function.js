@@ -2044,20 +2044,16 @@ sessionStorage.removeItem(testssn+'JSON');
 let testssn=setProcessCD(133);
 let testssnV=sessionStorage.setItem(testssn);
 let testssnVS=JSON.stringify(sessionStorage.setItem(testssn));
-let testssnVP=JSON.parse(sessionStorage.setItem(testssn));
 console.log(testssnV);
 console.log(testssnVS);
-console.log(testssnVP);
 console.log(JSON.stringify(testssnV));
 console.log(JSON.parse(testssnV));
 
 
 let testssnV1=sessionStorage.setItem(testssn+'JSON');
 let testssnVS1=JSON.stringify(sessionStorage.setItem(testssn+'JSON'));
-let testssnVP1=JSON.parse(sessionStorage.setItem(testssn+'JSON'));
 console.log(testssnV1);
 console.log(testssnVS1);
-console.log(testssnVP1);
 console.log(JSON.stringify(testssnV1));
 console.log(JSON.parse(testssnV1));
 
