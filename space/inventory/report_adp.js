@@ -300,6 +300,9 @@
           'record': {
             'inventoryList': {
               'value': NEXTREPORT_RECORD.inventoryList.value
+            },
+            'AssStockList':{
+              'value':NEXTREPORT_RECORD.AssStockList.value
             }
           }
         };
