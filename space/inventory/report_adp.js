@@ -165,8 +165,8 @@
       for (let i in assShipList.records) {
         for (let j in assShipList.records[i].deviceList.value) {
           if (assItems.some(_ => _.mCode === assShipList.records[i].deviceList.value[j].value.mCode.value)) {
-            for(var k in assItems){
-              if(assItems[k].mCode==assShipList.records[i].deviceList.value[j].value.mCode.value){
+            for (var k in assItems) {
+              if (assItems[k].mCode == assShipList.records[i].deviceList.value[j].value.mCode.value) {
                 assItems[k].shipNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
               }
             }
@@ -179,9 +179,27 @@
           }
         }
       }
-
-      console.log(assItems);
-
+      var newAssShipList = [];
+      for (let i in assItems) {
+        var newAssShipListBody = {
+          'value': {
+            'ASS_mCode': {
+              'type': "SINGLE_LINE_TEXT",
+              'value': assItems[i].mCode
+            },
+            'ASS_shipNum': {
+              'type': "NUMBER",
+              'value': assItems[i].shipNum
+            },
+            'ASS_returnNum': {
+              'type': "NUMBER",
+              'value': ''
+            }
+          }
+        };
+        newAssShipList.push(newAssShipListBody);
+      }
+      event.record.AssStockList.value = newAssShipList;
     }
     endLoad();
     return event;
