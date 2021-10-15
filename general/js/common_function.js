@@ -1979,8 +1979,8 @@ function setProcessCD(app_id){
 			// const sActions=resp.actions;
 			// const sStates=resp.states;
 			let processInfo={
-				'enable': resp.enable,
-				'processCD':{}
+				enable: resp.enable,
+				processCD:{}
 			};
 			for (let i in resp.actions){
 				// resp.actions[i].filterCond
@@ -1997,10 +1997,10 @@ function setProcessCD(app_id){
 							if(cdQuery[y].match(operator[z])){
 								let cds=cdQuery[y].split(operator[z]);
 								processInfo.processCD[resp.actions[i].from].conditions.push({
-									'name': fields.find((v) => v.var == cds[0]).label,
-									'code': cds[0],
-									'operator': operator[z].trim(),
-									'value': cds[1].replace(/\(|\)|\"|\s/g,'').split(',')
+									name: fields.find((v) => v.var == cds[0]).label,
+									code: cds[0],
+									operator: operator[z].trim(),
+									value: cds[1].replace(/\(|\)|\"|\s/g,'').split(',')
 								});
 								break;
 							}
@@ -2015,10 +2015,10 @@ function setProcessCD(app_id){
 							if(cdQuery[y].match(operator[z])){
 								let cds=cdQuery[y].split(operator[z]);
 								processInfo.processCD[resp.actions[i].from].conditions.push({
-									'name': fields.find((v) => v.var == cds[0]).label,
-									'code': cds[0],
-									'operator': operator[z].trim(),
-									'value': cds[1].replace(/\(|\)|\"|\s/g,'').split(',')
+									name: fields.find((v) => v.var == cds[0]).label,
+									code: cds[0],
+									operator: operator[z].trim(),
+									value: cds[1].replace(/\(|\)|\"|\s/g,'').split(',')
 								});
 								break;
 							}
