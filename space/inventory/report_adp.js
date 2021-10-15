@@ -249,6 +249,9 @@
           },
           'inventoryList': {
             'value': postNewReport_listArray
+          },
+          'AssStockList':{
+            'value':event.record.AssStockList.value
           }
         };
         for (let i in event.record.inventoryList.value) {
