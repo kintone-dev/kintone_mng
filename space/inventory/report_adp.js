@@ -160,7 +160,6 @@
         }).catch(function (error) {
           return error;
         });
-      console.log(assShipList);
       var assItems = [];
       for (let i in assShipList.records) {
         for (let j in assShipList.records[i].deviceList.value) {
@@ -207,6 +206,7 @@
         };
         newAssShipList.push(newAssShipListBody);
       }
+      console.log(newAssShipList);
       event.record.AssStockList.value = newAssShipList;
     }
     endLoad();
