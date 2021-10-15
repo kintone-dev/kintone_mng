@@ -9,7 +9,7 @@
      */
     return api_getRecords(sysid.INV.app_id.device)
       .then(function (resp) {
-        for(let i in resp.records) {
+        for (let i in resp.records) {
           if (!forecastList.some(item => item.value.forecast_mCode.value === resp.records[i].mCode.value)) {
             var newForecastListBody = {
               'value': {
@@ -54,7 +54,7 @@
             forecastList.push(newForecastListBody);
           }
         }
-        for(let i in forecastList) {
+        for (let i in forecastList) {
           forecastList[i].value.forecast_mCode.lookup = true;
         }
         endLoad();
@@ -127,8 +127,8 @@
         console.log(project);
 
         var totalShipNum = 0;
-        for(let j in project.records) {
-          for(let k in project.records[j].deviceList.value) {
+        for (let j in project.records) {
+          for (let k in project.records[j].deviceList.value) {
             if (forecast_mCode == project.records[j].deviceList.value[k].value.mCode.value) {
               totalShipNum = parseInt(totalShipNum) + parseInt(project.records[j].deviceList.value[k].value.shipNum.value);
             }
@@ -162,28 +162,40 @@
         });
       console.log(assShipList);
       var assItems = [];
-    for(let i in assShipList.records){
-      for(let j in assItems){
-        console.log('assItems');
-        if(assShipList.records[i].deviceList.value.some(_ => _.value.mCode.value === assItems[j].mCode)){
-          for(let k in assShipList.records[i].deviceList.value){
-            if(assItems[j].mCode==assShipList.records[i].deviceList.value[k].value.mCode.value){
-              assItems[j].shipNum = parseInt(assItems[j].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[k].value.shipNum.value || 0);
-            }
-          }
-        } else{
-          for(let k in assShipList.records[i].deviceList.value){
+      for (let i in assShipList.records) {
+        for (let j in assShipList.records[i].deviceList.value) {
+          if (assItems.some(_ => _.mCode === assShipList.records[i].deviceList.value[j].value.mCode.value)) {
+            console.log('no');
+          } else {
             assItemBody = {
-              'mCode':assShipList.records[i].deviceList.value[k].value.mCode.value,
-              'shipNum':assShipList.records[i].deviceList.value[k].value.shipNum.value
+              'mCode': assShipList.records[i].deviceList.value[k].value.mCode.value,
+              'shipNum': assShipList.records[i].deviceList.value[k].value.shipNum.value
             }
             assItems.push(assItemBody);
           }
         }
-      }
-    }
 
-    console.log(assItems);
+        // for(let j in assItems){
+        //   console.log('assItems');
+        //   if(assShipList.records[i].deviceList.value.some(_ => _.value.mCode.value === assItems[j].mCode)){
+        //     for(let k in assShipList.records[i].deviceList.value){
+        //       if(assItems[j].mCode==assShipList.records[i].deviceList.value[k].value.mCode.value){
+        //         assItems[j].shipNum = parseInt(assItems[j].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[k].value.shipNum.value || 0);
+        //       }
+        //     }
+        //   } else{
+        //     for(let k in assShipList.records[i].deviceList.value){
+        //       assItemBody = {
+        //         'mCode':assShipList.records[i].deviceList.value[k].value.mCode.value,
+        //         'shipNum':assShipList.records[i].deviceList.value[k].value.shipNum.value
+        //       }
+        //       assItems.push(assItemBody);
+        //     }
+        //   }
+        // }
+      }
+
+      console.log(assItems);
 
     }
     endLoad();
@@ -224,7 +236,7 @@
             'value': postNewReport_listArray
           }
         };
-        for(let i in event.record.inventoryList.value) {
+        for (let i in event.record.inventoryList.value) {
           //差引数量が0以下のものは次月に載せない
           if (parseInt(event.record.inventoryList.value[i].value.deductionNum.value) > 0) {
             var postNewReport_listArray_body = {
@@ -275,10 +287,10 @@
         };
         var nowMonthSyscode = [];
         var nextMonthSyscode = [];
-        for(let i in putNewReportData.record.inventoryList.value) {
+        for (let i in putNewReportData.record.inventoryList.value) {
           nextMonthSyscode.push(putNewReportData.record.inventoryList.value[i].value.sys_code.value);
         }
-        for(let i in event.record.inventoryList.value) {
+        for (let i in event.record.inventoryList.value) {
           var nowMonthData = {
             'sysCode': event.record.inventoryList.value[i].value.sys_code.value,
             'location': event.record.inventoryList.value[i].value.stockLocation.value,
@@ -289,9 +301,9 @@
           nowMonthSyscode.push(nowMonthData);
         }
 
-        for(let i in event.record.inventoryList.value) {
+        for (let i in event.record.inventoryList.value) {
           if (nextMonthSyscode.includes(nowMonthSyscode[i].sysCode)) {
-            for(let y in putNewReportData.record.inventoryList.value) {
+            for (let y in putNewReportData.record.inventoryList.value) {
               if (putNewReportData.record.inventoryList.value[y].value.sys_code.value == event.record.inventoryList.value[i].value.sys_code.value) {
                 putNewReportData.record.inventoryList.value[y].value.mLastStock.value = event.record.inventoryList.value[i].value.deductionNum.value;
                 putNewReportData.record.inventoryList.value[y].value.mCode.value = event.record.inventoryList.value[i].value.mCode.value;
