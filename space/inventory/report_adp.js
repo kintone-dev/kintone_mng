@@ -187,11 +187,19 @@
               'type': "SINGLE_LINE_TEXT",
               'value': assItems[i].mCode
             },
+            'ASS_mName': {
+              'type': "SINGLE_LINE_TEXT",
+              'value': ''
+            },
             'ASS_shipNum': {
               'type': "NUMBER",
               'value': assItems[i].shipNum
             },
             'ASS_returnNum': {
+              'type': "NUMBER",
+              'value': ''
+            },
+            'ASS_remainingNum': {
               'type': "NUMBER",
               'value': ''
             }
