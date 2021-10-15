@@ -2032,3 +2032,5 @@ function setProcessCD(app_id){
 	}
 	return sessionName;
 }
+
+console.log(JSON.parse(sessionStorage.getItem(setProcessCD(133))))
