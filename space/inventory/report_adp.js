@@ -165,7 +165,11 @@
       for (let i in assShipList.records) {
         for (let j in assShipList.records[i].deviceList.value) {
           if (assItems.some(_ => _.mCode === assShipList.records[i].deviceList.value[j].value.mCode.value)) {
-            console.log('no');
+            for(var k in assItems){
+              if(assItems[k].mCode==assShipList.records[i].deviceList.value[j].value.mCode.value){
+                assItems[k].shipNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
+              }
+            }
           } else {
             var assItemBody = {
               'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
@@ -174,25 +178,6 @@
             assItems.push(assItemBody);
           }
         }
-
-        // for(let j in assItems){
-        //   console.log('assItems');
-        //   if(assShipList.records[i].deviceList.value.some(_ => _.value.mCode.value === assItems[j].mCode)){
-        //     for(let k in assShipList.records[i].deviceList.value){
-        //       if(assItems[j].mCode==assShipList.records[i].deviceList.value[k].value.mCode.value){
-        //         assItems[j].shipNum = parseInt(assItems[j].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[k].value.shipNum.value || 0);
-        //       }
-        //     }
-        //   } else{
-        //     for(let k in assShipList.records[i].deviceList.value){
-        //       assItemBody = {
-        //         'mCode':assShipList.records[i].deviceList.value[k].value.mCode.value,
-        //         'shipNum':assShipList.records[i].deviceList.value[k].value.shipNum.value
-        //       }
-        //       assItems.push(assItemBody);
-        //     }
-        //   }
-        // }
       }
 
       console.log(assItems);
