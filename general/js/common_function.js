@@ -1983,6 +1983,7 @@ function setProcessCD(app_id){
 			};
 			for (let i in resp.actions){
 				// resp.actions[i].filterCond
+				processInfo.processCD[resp.actions[i].from]={};
 				processInfo.processCD[resp.actions[i].from].from=resp.actions[i].from;
 				processInfo.processCD[resp.actions[i].from].to=resp.actions[i].to;
 				processInfo.processCD[resp.actions[i].from].name=resp.actions[i].name;
