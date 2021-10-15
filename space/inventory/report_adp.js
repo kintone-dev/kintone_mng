@@ -249,9 +249,6 @@
           },
           'inventoryList': {
             'value': postNewReport_listArray
-          },
-          'AssStockList':{
-            'value':event.record.AssStockList.value
           }
         };
         for (let i in event.record.inventoryList.value) {
@@ -300,9 +297,6 @@
           'record': {
             'inventoryList': {
               'value': NEXTREPORT_RECORD.inventoryList.value
-            },
-            'AssStockList':{
-              'value':NEXTREPORT_RECORD.AssStockList.value
             }
           }
         };
