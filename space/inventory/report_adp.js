@@ -167,7 +167,7 @@
           if (assItems.some(_ => _.mCode === assShipList.records[i].deviceList.value[j].value.mCode.value)) {
             console.log('no');
           } else {
-            assItemBody = {
+            var assItemBody = {
               'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
               'shipNum': assShipList.records[i].deviceList.value[j].value.shipNum.value
             }
