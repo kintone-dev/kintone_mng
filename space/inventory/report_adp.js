@@ -207,7 +207,7 @@
         newAssShipList.push(newAssShipListBody);
       }
       console.log(newAssShipList);
-      event.record.AssStockList.value = newAssShipList;
+      // event.record.AssStockList.value = newAssShipList;
     }
     endLoad();
     return event;
