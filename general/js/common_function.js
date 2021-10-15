@@ -1980,6 +1980,7 @@ function setProcessCD(app_id){
 			// const sStates=resp.states;
 			let processInfo={
 				'enable': resp.enable,
+				'processCD':{}
 			};
 			for (let i in resp.actions){
 				// resp.actions[i].filterCond
