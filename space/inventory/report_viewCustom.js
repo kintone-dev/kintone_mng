@@ -22,6 +22,12 @@
       event.record.forecastList.value[i].value.mOrderingPoint.disabled = true;
       event.record.forecastList.value[i].value.remainingNum.disabled = true;
     }
+    for(let i in event.record.AssStockList.value) {
+      event.record.AssStockList.value[i].value.ASS_mCode.disabled = true;
+      event.record.AssStockList.value[i].value.ASS_mName.disabled = true;
+      event.record.AssStockList.value[i].value.ASS_returnNum.disabled = true;
+      event.record.AssStockList.value[i].value.ASS_shipNum.disabled = true;
+    }
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#概要':
