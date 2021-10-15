@@ -184,7 +184,7 @@
           'value': {
             'ASS_mCode': {
               'type': "SINGLE_LINE_TEXT",
-              'value': assItems[i].mCode
+              'value': "assItems[i].mCode"
             },
             'ASS_mName': {
               'type': "SINGLE_LINE_TEXT",
