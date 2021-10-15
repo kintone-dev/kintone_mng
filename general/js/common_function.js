@@ -1978,29 +1978,43 @@ function setProcessCD(app_id){
 		kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {'app': app_id}).then(function(resp){
 			// const sActions=resp.actions;
 			// const sStates=resp.states;
-			let processInfo={
+			// let processInfo={
+			// 	enable: resp.enable,
+			// 	processCD:{}
+			// };
+			let processInfo=JSON.stringify({
 				enable: resp.enable,
 				processCD:{}
-			};
+			});
 			for (let i in resp.actions){
 				// resp.actions[i].filterCond
-				processInfo.processCD[resp.actions[i].from]={};
-				processInfo.processCD[resp.actions[i].from].from=resp.actions[i].from;
-				processInfo.processCD[resp.actions[i].from].to=resp.actions[i].to;
-				processInfo.processCD[resp.actions[i].from].name=resp.actions[i].name;
-				processInfo.processCD[resp.actions[i].from].conditions=[];
+				// processInfo.processCD[resp.actions[i].from]={};
+				// processInfo.processCD[resp.actions[i].from].from=resp.actions[i].from;
+				// processInfo.processCD[resp.actions[i].from].to=resp.actions[i].to;
+				// processInfo.processCD[resp.actions[i].from].name=resp.actions[i].name;
+				// processInfo.processCD[resp.actions[i].from].conditions=[];
+				processInfo.processCD[resp.actions[i].from]=JSON.stringify({});
+				processInfo.processCD[resp.actions[i].from].from=JSON.stringify(resp.actions[i].from);
+				processInfo.processCD[resp.actions[i].from].to=JSON.stringify(resp.actions[i].to);
+				processInfo.processCD[resp.actions[i].from].name=JSON.stringify(resp.actions[i].name);
+				processInfo.processCD[resp.actions[i].from].conditions=JSON.stringify([]);
 				if(resp.actions[i].filterCond.match(' and ')){
-					processInfo.processCD[resp.actions[i].from].cdt='and';
+					// processInfo.processCD[resp.actions[i].from].cdt='and';
+					processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('and');
 					let cdQuery=resp.actions[i].filterCond.split(' and ');
 					for(let y in cdQuery){
 						for(let z in operator){
 							if(cdQuery[y].match(operator[z])){
 								let cds=cdQuery[y].split(operator[z]);
 								processInfo.processCD[resp.actions[i].from].conditions.push({
-									name: fields.find((v) => v.var == cds[0]).label,
-									code: cds[0],
-									operator: operator[z].trim(),
-									value: cds[1].replace(/\(|\)|\"|\s/g,'').split(',')
+									// name: fields.find((v) => v.var == cds[0]).label,
+									// code: cds[0],
+									// operator: operator[z].trim(),
+									// value: cds[1].replace(/\(|\)|\"|\s/g,'').split(',')
+									name: JSON.stringify(fields.find((v) => v.var == cds[0]).label),
+									code: JSON.stringify(cds[0]),
+									operator: JSON.stringify(operator[z].trim()),
+									value: JSON.stringify(cds[1].replace(/\(|\)|\"|\s/g,'').split(','))
 								});
 								break;
 							}
@@ -2008,17 +2022,22 @@ function setProcessCD(app_id){
 
 					}
 				}else if(resp.actions[i].filterCond.match(' or ')){
-					processInfo.processCD[resp.actions[i].from].cdt='or';
+					// processInfo.processCD[resp.actions[i].from].cdt='or';
+					processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('or');
 					let cdQuery=resp.actions[i].filterCond.split(' or ');
 					for(let y in cdQuery){
 						for(let z in operator){
 							if(cdQuery[y].match(operator[z])){
 								let cds=cdQuery[y].split(operator[z]);
 								processInfo.processCD[resp.actions[i].from].conditions.push({
-									name: fields.find((v) => v.var == cds[0]).label,
-									code: cds[0],
-									operator: operator[z].trim(),
-									value: cds[1].replace(/\(|\)|\"|\s/g,'').split(',')
+									// name: fields.find((v) => v.var == cds[0]).label,
+									// code: cds[0],
+									// operator: operator[z].trim(),
+									// value: cds[1].replace(/\(|\)|\"|\s/g,'').split(',')
+									name: JSON.stringify(fields.find((v) => v.var == cds[0]).label),
+									code: JSON.stringify(cds[0]),
+									operator: JSON.stringify(operator[z].trim()),
+									value: JSON.stringify(cds[1].replace(/\(|\)|\"|\s/g,'').split(','))
 								});
 								break;
 							}
