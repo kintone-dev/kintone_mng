@@ -188,7 +188,7 @@
             },
             'ASS_mName': {
               'type': "SINGLE_LINE_TEXT",
-              'value': ''
+              'value': 'aaa'
             },
             'ASS_shipNum': {
               'type': "NUMBER",
