@@ -2032,6 +2032,3 @@ function setProcessCD(app_id){
 	}
 	return sessionName;
 }
-let testss=setProcessCD(133);
-let jsondd=JSON.parse(sessionStorage.getItem(testss));
-console.log(jsondd.enable);
