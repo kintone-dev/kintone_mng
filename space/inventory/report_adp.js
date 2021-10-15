@@ -160,10 +160,26 @@
           return error;
         });
       console.log(assShipList);
-
+      var assItems = [];
     for(let i in assShipList.records){
-      console.log(assShipList.records[i].deviceList.value);
+      for(let j in assItems){
+        if(assShipList.records[i].deviceList.value.some(_ => _.value.mCode.value === assItems[j].mCode)){
+          for(let k in assShipList.records[i].deviceList.value){
+            if(assItems[j].mCode==assShipList.records[i].deviceList.value[k].value.mCode.value){
+              assItems[j].shipNum = parseInt(assItems[j].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[k].value.shipNum.value || 0);
+            }
+          }
+        } else{
+          assItemBody = {
+            'mCode':assShipList.records[i].deviceList.value[j].mCode.value,
+            'shipNum':assShipList.records[i].deviceList.value[j].shipNum.value
+          }
+          assItems.push(assItemBody);
+        }
+      }
     }
+
+    console.log(assItems);
 
     }
     endLoad();
