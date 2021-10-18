@@ -1984,12 +1984,10 @@ function setProcessCD(app_id) {
 					enable: resp.enable,
 					processCD: {}
 				};
-				console.log(JSON.parse(resp.states));
-				for(let i in JSON.parse(resp.states)){
-					console.log(i);
-					// processInfo.processCD[resp.actions[i]]
-				}
 				for (let i in resp.actions) {
+					if(resp.actions[i].from != processInfo.processCD){
+						processInfo.processCD[resp.actions[i].from] = [];
+					}
 					var processCDBody = {};
 					processCDBody.from = resp.actions[i].from;
 					processCDBody.to = resp.actions[i].to;
@@ -2035,7 +2033,7 @@ function setProcessCD(app_id) {
 				sessionStorage.setItem(sessionName, JSON.stringify(processInfo));
 			});
 		}
-		console.log();
+		console.log(processInfo);
 		resolve(JSON.parse(sessionStorage.getItem(sessionName)));
 	})
 
