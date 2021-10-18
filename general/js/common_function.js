@@ -1985,7 +1985,7 @@ function setProcessCD(app_id) {
 					processCD: {}
 				};
 				for (let i in resp.actions) {
-					if(resp.actions[i].from != processInfo.processCD){
+					if(resp.actions[i].from != processInfo.processCD[resp.actions[i].from]){
 						processInfo.processCD[resp.actions[i].from] = [];
 					}
 					var processCDBody = {};
