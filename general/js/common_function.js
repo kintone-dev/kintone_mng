@@ -2284,9 +2284,6 @@ async function processError(event) {
 		}
 	}
 
-	console.log(totalErrorCheck);
-	console.log(errorText);
-
 	if (totalErrorCheck.includes('false')) {
 		return ['error', errorText.join('\n')];
 	} else {
