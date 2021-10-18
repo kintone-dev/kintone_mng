@@ -2106,6 +2106,7 @@ async function processError(event) {
 							errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
 						}
 					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
+						console.log(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value);
 						if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
 							errorCheck.push('true');
 						} else {
