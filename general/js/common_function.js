@@ -2055,28 +2055,28 @@ async function processError(event) {
 			if (sessionData.processCD[cStatus].cdt == 'and') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
 					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
-						if (event.record[sessionData.processCD[cStatus].conditions[j].code.value].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+						if (event.record[sessionData.processCD[cStatus].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
 							errorCheck.push('true');
 						} else {
 							errorCheck.push('false');
 							errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
 						}
 					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
 							errorCheck.push('true');
 						} else {
 							errorCheck.push('false');
 							errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
 						}
 					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
-						if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value)) {
+						if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
 							errorCheck.push('true');
 						} else {
 							errorCheck.push('false');
 							errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
 						}
 					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
-						if (!sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value)) {
+						if (!sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
 							errorCheck.push('true');
 						} else {
 							errorCheck.push('false');
@@ -2092,28 +2092,28 @@ async function processError(event) {
 			} else if (sessionData.processCD[cStatus][i].cdt == 'or') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
 					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
-						if (event.record[sessionData.processCD[cStatus].conditions[j].code.value].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+						if (event.record[sessionData.processCD[cStatus].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
 							errorCheck.push('true');
 						} else {
 							errorCheck.push('false');
 							errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
 						}
 					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
 							errorCheck.push('true');
 						} else {
 							errorCheck.push('false');
 							errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
 						}
 					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
-						if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value)) {
+						if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
 							errorCheck.push('true');
 						} else {
 							errorCheck.push('false');
 							errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
 						}
 					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
-						if (!sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value)) {
+						if (!sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
 							errorCheck.push('true');
 						} else {
 							errorCheck.push('false');
@@ -2129,28 +2129,28 @@ async function processError(event) {
 			}
 		} else if (sessionData.processCD[cStatus][i].conditions.length == 1) {
 			if (sessionData.processCD[cStatus][i].conditions[0].operator == '=') {
-				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code.value].value == sessionData.processCD[cStatus][i].conditions[0].value[0]) {
+				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code].value == sessionData.processCD[cStatus][i].conditions[0].value[0]) {
 					errorCheck.push('true');
 				} else {
 					errorCheck.push('false');
 					errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
 				}
 			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == '!=') {
-				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code.value].value != sessionData.processCD[cStatus][i].conditions[0].value[0]) {
+				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code].value != sessionData.processCD[cStatus][i].conditions[0].value[0]) {
 					errorCheck.push('true');
 				} else {
 					errorCheck.push('false');
 					errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
 				}
 			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == 'in') {
-				if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code.value].value)) {
+				if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
 					errorCheck.push('true');
 				} else {
 					errorCheck.push('false');
 					errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
 				}
 			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == 'not in') {
-				if (!sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code.value].value)) {
+				if (!sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
 					errorCheck.push('true');
 				} else {
 					errorCheck.push('false');
