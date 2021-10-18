@@ -2039,6 +2039,7 @@ function setProcessCD(app_id) {
 function processError(event) {
 	//プロセスエラー表示
 	var sessionName = setProcessCD(kintone.app.getId());
+	console.log(sessionName);
 	var sessionData = sessionStorage.getItem(sessionName);
 	console.log(sessionData);
 	var cStatus = event.record.ステータス.value;
