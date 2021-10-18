@@ -2004,6 +2004,7 @@ function setProcessCD(app_id) {
 										operator: JSON.stringify(operator[z].trim()).replace(/\"/g, ''),
 										value: JSON.stringify(cds[1]).replace(/\(|\)|\"|\\|\s/g, '').split(',')
 									});
+									break;
 								}
 							}
 						}
@@ -2020,6 +2021,7 @@ function setProcessCD(app_id) {
 										operator: JSON.stringify(operator[z].trim()).replace(/\"/g, ''),
 										value: JSON.stringify(cds[1]).replace(/\(|\)|\"|\\|\s/g, '').split(',')
 									});
+									break;
 								}
 							}
 						}
