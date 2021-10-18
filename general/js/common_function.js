@@ -2049,11 +2049,11 @@ async function processError(event) {
 	if (sessionData.processCD[cStatus].conditions.length > 1) {
 		if (sessionData.processCD[cStatus].cdt == 'and') {
 			for (let i in sessionData.processCD[cStatus].conditions) {
-				if (event.record[sessionData.processCD[cStatus].conditions[0].code.value].value == sessionData.processCD[cStatus].conditions[0].value[0]) {
+				if (event.record[sessionData.processCD[cStatus].conditions[i].code].value == sessionData.processCD[cStatus].conditions[i].value[i]) {
 					errorCheck.push('true');
 				} else {
 					errorCheck.push('false');
-					errorCheck.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
+					errorCheck.push(`${sessionData.processCD[cStatus].conditions[i].name}が指定条件を満たしていません。`);
 				}
 
 			}
