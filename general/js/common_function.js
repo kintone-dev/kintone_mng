@@ -2083,11 +2083,11 @@ async function processError(event) {
 							errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
 						}
 					}
-					if (errorCheck.includes('false')) {
-						totalErrorCheck.push('false');
-					} else {
-						totalErrorCheck.push('true');
-					}
+				}
+				if (errorCheck.includes('false')) {
+					totalErrorCheck.push('false');
+				} else {
+					totalErrorCheck.push('true');
 				}
 			} else if (sessionData.processCD[cStatus][i].cdt == 'or') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
@@ -2120,11 +2120,11 @@ async function processError(event) {
 							errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
 						}
 					}
-					if (errorCheck.includes('true')) {
-						totalErrorCheck.push('true');
-					} else {
-						totalErrorCheck.push('false');
-					}
+				}
+				if (errorCheck.includes('true')) {
+					totalErrorCheck.push('true');
+				} else {
+					totalErrorCheck.push('false');
 				}
 			}
 		} else if (sessionData.processCD[cStatus][i].conditions.length == 1) {
