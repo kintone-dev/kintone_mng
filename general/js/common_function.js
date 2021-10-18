@@ -2271,5 +2271,7 @@ async function processError(event) {
 	console.log(totalErrorCheck);
 	console.log(errorText);
 
+	event.error = errorText.join('\n');
+
 	return event;
 }
