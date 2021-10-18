@@ -1979,7 +1979,6 @@ function setProcessCD(app_id) {
 			await kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {
 				'app': app_id
 			}).then(function (resp) {
-				console.log(resp);
 				let processInfo = {
 					enable: resp.enable,
 					processCD: {}
@@ -2031,7 +2030,7 @@ function setProcessCD(app_id) {
 				sessionStorage.setItem(sessionName, JSON.stringify(processInfo));
 			});
 		}
-
+		console.log(resp);
 		resolve(sessionName);
 	})
 
