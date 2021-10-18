@@ -2287,5 +2287,10 @@ async function processError(event) {
 	console.log(totalErrorCheck);
 	console.log(errorText);
 
-	return errorText.join('\n');
+	if (totalErrorCheck.includes('false')) {
+		return ['error', errorText.join('\n')];
+	} else {
+		return ['success', errorText.join('\n')];
+	}
+
 }
