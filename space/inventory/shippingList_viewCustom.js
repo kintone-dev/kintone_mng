@@ -203,6 +203,13 @@
   // ドロップダウン作成
   kintone.events.on('app.record.detail.show', function (event) {
     var cStatus = event.record.ステータス.value;
+    //プロセスエラー処理
+    var processECheck = await processError(event);
+    console.log(processECheck);
+    if(processECheck[0] == 'error'){
+      alert(processECheck[1]);
+    }
+
     if (cStatus === "処理中") {
       setSpaceShown('setShipment', 'line', 'block');
       var createSelect = document.createElement('select');
