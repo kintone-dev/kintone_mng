@@ -201,7 +201,7 @@
   });
 
   // ドロップダウン作成
-  kintone.events.on('app.record.detail.show', function (event) {
+  kintone.events.on('app.record.detail.show', await function (event) {
     var cStatus = event.record.ステータス.value;
     //プロセスエラー処理
     var processECheck = await processError(event);

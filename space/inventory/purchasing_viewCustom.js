@@ -25,7 +25,7 @@
     return event;
   });
 
-  kintone.events.on('app.record.detail.show', function (event) {
+  kintone.events.on('app.record.detail.show', async function (event) {
     //プロセスエラー処理
     var processECheck = await processError(event);
     console.log(processECheck);
