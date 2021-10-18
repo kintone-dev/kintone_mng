@@ -2123,7 +2123,7 @@ async function processError(event) {
 					totalErrorCheck.push('false');
 					var errorTextBody = `${sessionData.processCD[cStatus][i].name}実行には以下の条件が足りません\n`
 					for(let j in errorName){
-						errorTextBody += `${errorName[i]}は指定条件を満たしていません\n`
+						errorTextBody += `${errorName[j]}は指定条件を満たしていません\n`
 					}
 					errorText.push(errorTextBody);
 				} else {
@@ -2201,7 +2201,7 @@ async function processError(event) {
 					totalErrorCheck.push('false');
 					var errorTextBody = `${sessionData.processCD[cStatus][i].name}実行には以下の条件が足りません\n`
 					for(let j in errorName){
-						errorTextBody += `${errorName[i]}は指定条件を満たしていません\n`
+						errorTextBody += `${errorName[j]}は指定条件を満たしていません\n`
 					}
 					errorText.push(errorTextBody);
 				}
@@ -2274,7 +2274,7 @@ async function processError(event) {
 				totalErrorCheck.push('false');
 				var errorTextBody = `${sessionData.processCD[cStatus][i].name}実行には以下の条件が足りません\n`
 				for(let j in errorName){
-					errorTextBody += `${errorName[i]}は指定条件を満たしていません\n`
+					errorTextBody += `${errorName[j]}は指定条件を満たしていません\n`
 				}
 				errorText.push(errorTextBody);
 			}
