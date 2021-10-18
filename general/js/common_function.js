@@ -2014,10 +2014,10 @@ function setProcessCD(app_id) {
 								if (cdQuery[y].match(operator[z])) {
 									let cds = cdQuery[y].split(operator[z]);
 									processInfo.processCD[resp.actions[i].from].conditions.push({
-										name: JSON.stringify(fields.find((v) => v.var == cds[0]).label),
-										code: JSON.stringify(cds[0]),
-										operator: JSON.stringify(operator[z].trim()),
-										value: JSON.stringify(cds[1].replace(/\(|\)|\"|\s/g, '').split(','))
+										name: JSON.stringify(fields.find((v) => v.var == cds[0]).label).replace(/\"/g, ''),
+										code: JSON.stringify(cds[0]).replace(/\"/g, ''),
+										operator: JSON.stringify(operator[z].trim()).replace(/\"/g, ''),
+										value: JSON.stringify(cds[1]).replace(/\(|\)|\"|\\|\s/g, '').split(',')
 									});
 									break;
 								}
@@ -2048,13 +2048,25 @@ async function processError(event) {
 	if (sessionData.processCD[cStatus].conditions.length > 1) {
 		if (sessionData.processCD[cStatus].cdt == 'and') {
 			for (let i in sessionData.processCD[cStatus].conditions) {
-				if (event.record[sessionData.processCD[cStatus].conditions[i].code].value == sessionData.processCD[cStatus].conditions[i].value[i]) {
-					errorCheck.push('true');
-				} else {
-					errorCheck.push('false');
-					errorCheck.push(`${sessionData.processCD[cStatus].conditions[i].name}が指定条件を満たしていません。`);
-				}
+				if (sessionData.processCD[cStatus].conditions[i].operator == '=') {
+					if (event.record[sessionData.processCD[cStatus].conditions[i].code].value == sessionData.processCD[cStatus].conditions[i].value[i]) {
+						errorCheck.push('true');
+					} else {
+						errorCheck.push('false');
+						errorText.push(`${sessionData.processCD[cStatus].conditions[i].name}が指定条件を満たしていません。`);
+					}
+				} else if (sessionData.processCD[cStatus].conditions[i].operator == '!=') {
+					if (event.record[sessionData.processCD[cStatus].conditions[i].code].value != sessionData.processCD[cStatus].conditions[i].value[i]) {
+						errorCheck.push('true');
+					} else {
+						errorCheck.push('false');
+						errorText.push(`${sessionData.processCD[cStatus].conditions[i].name}が指定条件を満たしていません。`);
+					}
+				} else if (sessionData.processCD[cStatus].conditions[i].operator == 'in') {
 
+				} else if (sessionData.processCD[cStatus].conditions[i].operator == 'not in') {
+
+				}
 			}
 		} else if (sessionData.processCD[cStatus].cdt == 'or') {
 
@@ -2066,14 +2078,14 @@ async function processError(event) {
 				errorCheck.push('true');
 			} else {
 				errorCheck.push('false');
-				errorCheck.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
+				errorText.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
 			}
 		} else if (sessionData.processCD[cStatus].conditions[0].operator == '!=') {
 			if (event.record[sessionData.processCD[cStatus].conditions[0].code.value].value != sessionData.processCD[cStatus].conditions[0].value[0]) {
 				errorCheck.push('true');
 			} else {
 				errorCheck.push('false');
-				errorCheck.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
+				errorText.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
 			}
 		} else if (sessionData.processCD[cStatus].conditions[0].operator == 'in') {
 
@@ -2084,4 +2096,7 @@ async function processError(event) {
 		console.log('プロセス条件は指定されていません');
 		return event;
 	}
+
+	console.log(errorCheck);
+	console.log(errorText);
 }
