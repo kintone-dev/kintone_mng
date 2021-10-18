@@ -12,7 +12,7 @@
   kintone.events.on(events_ced, function (event) {
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     // [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
-    for(let i in event.record.forecastList.value) {
+    for (let i in event.record.forecastList.value) {
       event.record.forecastList.value[i].value.afterLeadTimeStock.disabled = true;
       event.record.forecastList.value[i].value.forecast_arrival.disabled = true;
       event.record.forecastList.value[i].value.forecast_mName.disabled = true;
@@ -22,12 +22,13 @@
       event.record.forecastList.value[i].value.mOrderingPoint.disabled = true;
       event.record.forecastList.value[i].value.remainingNum.disabled = true;
     }
-    for(let i in event.record.AssStockList.value) {
+    for (let i in event.record.AssStockList.value) {
       event.record.AssStockList.value[i].value.ASS_mCode.disabled = true;
       event.record.AssStockList.value[i].value.ASS_mName.disabled = true;
       event.record.AssStockList.value[i].value.ASS_returnNum.disabled = true;
       event.record.AssStockList.value[i].value.ASS_shipNum.disabled = true;
     }
+
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#概要':
@@ -92,7 +93,7 @@
           break;
       }
     }
-    tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数','ASS在庫残数']); //タブメニュー作成
+    tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数', 'ASS在庫残数']); //タブメニュー作成
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
       $('.tabMenu li').removeClass("active");
@@ -125,7 +126,7 @@
       table = await sortItemTable(table, 'sys_code', true);
       await new Promise(resolve => {
         setTimeout(() => {
-          for(let i in eRecord.record.inventoryList.value) {
+          for (let i in eRecord.record.inventoryList.value) {
             eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
           }
           kintone.app.record.set(eRecord);
@@ -141,7 +142,7 @@
       table = await sortLocTable(table, 'sys_code', true);
       await new Promise(resolve => {
         setTimeout(() => {
-          for(let i in eRecord.record.inventoryList.value) {
+          for (let i in eRecord.record.inventoryList.value) {
             eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
           }
           kintone.app.record.set(eRecord);
@@ -150,7 +151,7 @@
       })
       await endLoad();
     });
-    for(let i in event.record.inventoryList.value) {
+    for (let i in event.record.inventoryList.value) {
       event.record.inventoryList.value[i].value.mCode.lookup = true;
     }
     return event;
@@ -166,7 +167,7 @@
     var forecastData = [];
     var alertData = [];
     //在庫一覧テーブルデータ取得
-    for(let i in event.record.inventoryList.value) {
+    for (let i in event.record.inventoryList.value) {
       var inventoryBody = {
         'rowNum': parseInt(i) + 1,
         'deductionNum': event.record.inventoryList.value[i].value.deductionNum.value,
@@ -176,7 +177,7 @@
     }
 
     //製品別在庫残数テーブルデータ取得
-    for(let i in event.record.forecastList.value) {
+    for (let i in event.record.forecastList.value) {
       var forecastBody = {
         'rowNum': parseInt(i) + 1,
         'remainingNum': event.record.forecastList.value[i].value.remainingNum.value,
@@ -188,7 +189,7 @@
 
     //データ表示後動かす
     setTimeout(function () {
-      for(let i in inventoryData) {
+      for (let i in inventoryData) {
         //差引数量マイナスのものを赤背景に
         if (parseInt(inventoryData[i].deductionNum) < 0) {
           $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ')').css({
@@ -199,7 +200,7 @@
           });
         }
       }
-      for(let i in forecastData) {
+      for (let i in forecastData) {
         //差引残数が発注点の10%以下のものを赤背景に
         if (parseInt(forecastData[i].mOrderingPoint) * 0.1 >= parseInt(forecastData[i].remainingNum)) {
           $('.' + fListTableClass + ' tr:nth-child(' + forecastData[i].rowNum + ')').css({
@@ -218,7 +219,7 @@
       }
       if (alertData != 0) {
         var alertTxt = '以下の商品は、差引残数が発注点の10%以下です。\n'
-        for(let i in alertData) {
+        for (let i in alertData) {
           alertTxt = alertTxt + alertData[i] + '\n';
         }
         alert(alertTxt);
@@ -228,7 +229,7 @@
 
     if (event.record.EoMcheck.value == '締切' || event.record.EoMcheck.value == '一時締切') {
       setTimeout(function () {
-        for(let i in inventoryData) {
+        for (let i in inventoryData) {
           //差引数量0の文字色を青色に
           if (parseInt(inventoryData[i].deductionNum) == 0) {
             $('.' + iListTableClass + ' tr:nth-child(' + inventoryData[i].rowNum + ') td div').css({
@@ -246,6 +247,47 @@
         }
       }, 60000);
     }
+
+    //プロセスエラー表示
+    var sessionName = setProcessCD(kintone.app.getId());
+    console.log(sessionName);
+    var sessionData = sessionStorage.getItem(sessionName);
+    var cStatus = event.record.ステータス.value;
+    //and -> 全てtrueだったら、or -> trueが一つでも含まれていたら
+    var errorCheck = [];
+    var errorText = [];
+
+    if (sessionData.processCD[cStatus].conditions.length != 0) {
+      if (sessionData.processCD[cStatus].cdt == 'and') {
+        for(let i in sessionData.processCD[cStatus].conditions){
+
+        }
+      } else if (sessionData.processCD[cStatus].cdt == 'or') {
+
+      }
+
+    } else {
+      if (sessionData.processCD[cStatus].conditions[0].operator == '=') {
+        if(event.record[sessionData.processCD[cStatus].conditions[0].code.value].value == sessionData.processCD[cStatus].conditions[0].value[0]){
+          errorCheck.push('true');
+        } else{
+          errorCheck.push('false');
+          errorCheck.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
+        }
+      } else if (sessionData.processCD[cStatus].conditions[0].operator == '!=') {
+        if(event.record[sessionData.processCD[cStatus].conditions[0].code.value].value != sessionData.processCD[cStatus].conditions[0].value[0]){
+          errorCheck.push('true');
+        } else{
+          errorCheck.push('false');
+          errorCheck.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
+        }
+      } else if (sessionData.processCD[cStatus].conditions[0].operator == 'in') {
+
+      } else if (sessionData.processCD[cStatus].conditions[0].operator == 'not in') {
+
+      }
+    }
+
     return event;
   });
 
@@ -257,7 +299,7 @@
       var ignoreUnitArray = ['ns-', '-oo', '-xx', '-zz', '-aa'];
       var ignoreUnit = new RegExp(ignoreUnitArray.join('|'));
       //特定の拠点以外を抜き出して再度格納
-      for(let i in inventoryList) {
+      for (let i in inventoryList) {
         if (!inventoryList[i].value.sys_code.value.match(ignoreUnit)) {
           newList.push(inventoryList[i]);
         }

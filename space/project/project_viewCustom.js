@@ -509,7 +509,6 @@
       alert('過去の請求月になっています。請求月をご確認ください。');
       return event;
     }
-
     putData.push(putBody);
     putRecords(kintone.app.getId(), putData);
     sessionStorage.setItem('record_updated', '1');
@@ -517,5 +516,4 @@
 
     return event;
   });
-
 })();
