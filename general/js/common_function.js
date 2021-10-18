@@ -2052,7 +2052,7 @@ async function processError(event) {
 	for (let i in sessionData.processCD[cStatus]) {
 		var errorCheck = [];
 		if (sessionData.processCD[cStatus][i].conditions.length > 1) {
-			if (sessionData.processCD[cStatus].cdt == 'and') {
+			if (sessionData.processCD[cStatus][i].cdt == 'and') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
 					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
 						if (event.record[sessionData.processCD[cStatus].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
@@ -2166,7 +2166,7 @@ async function processError(event) {
 		}
 	}
 
-	console.log(errorCheck);
+	console.log(totalErrorCheck);
 	console.log(errorText);
 
 	return event;
