@@ -1972,73 +1972,77 @@ function krtSetting() {
 
 // プロセス実行条件取得＆格納
 function setProcessCD(app_id) {
-	const sessionName = 'processCD_' + app_id;
-	if (sessionStorage.getItem(sessionName) == null) {
-		const operator = [' not in ', ' in ', ' != ', ' = '];
-		kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {
-			'app': app_id
-		}).then(function (resp) {
-			// const sActions=resp.actions;
-			// const sStates=resp.states;
-			let processInfo = {
-				enable: resp.enable,
-				processCD: {}
-			};
-			for (let i in resp.actions) {
-				// resp.actions[i].filterCond
-				processInfo.processCD[resp.actions[i].from] = {};
-				processInfo.processCD[resp.actions[i].from].from = resp.actions[i].from;
-				processInfo.processCD[resp.actions[i].from].to = resp.actions[i].to;
-				processInfo.processCD[resp.actions[i].from].name = resp.actions[i].name;
-				processInfo.processCD[resp.actions[i].from].conditions = [];
-				if (resp.actions[i].filterCond.match(' and ')) {
-					processInfo.processCD[resp.actions[i].from].cdt = 'and';
-					// processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('and');
-					let cdQuery = resp.actions[i].filterCond.split(' and ');
-					for (let y in cdQuery) {
-						for (let z in operator) {
-							if (cdQuery[y].match(operator[z])) {
-								let cds = cdQuery[y].split(operator[z]);
-								processInfo.processCD[resp.actions[i].from].conditions.push({
-									name: JSON.stringify(fields.find((v) => v.var == cds[0]).label),
-									code: JSON.stringify(cds[0]),
-									operator: JSON.stringify(operator[z].trim()),
-									value: JSON.stringify(cds[1].replace(/\(|\)|\"|\s/g, '').split(','))
-								});
-								break;
+	return new Promise(async function (resolve, reject) {
+		const sessionName = 'processCD_' + app_id;
+		if (sessionStorage.getItem(sessionName) == null) {
+			const operator = [' not in ', ' in ', ' != ', ' = '];
+			await kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {
+				'app': app_id
+			}).then(function (resp) {
+				// const sActions=resp.actions;
+				// const sStates=resp.states;
+				let processInfo = {
+					enable: resp.enable,
+					processCD: {}
+				};
+				for (let i in resp.actions) {
+					// resp.actions[i].filterCond
+					processInfo.processCD[resp.actions[i].from] = {};
+					processInfo.processCD[resp.actions[i].from].from = resp.actions[i].from;
+					processInfo.processCD[resp.actions[i].from].to = resp.actions[i].to;
+					processInfo.processCD[resp.actions[i].from].name = resp.actions[i].name;
+					processInfo.processCD[resp.actions[i].from].conditions = [];
+					if (resp.actions[i].filterCond.match(' and ')) {
+						processInfo.processCD[resp.actions[i].from].cdt = 'and';
+						// processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('and');
+						let cdQuery = resp.actions[i].filterCond.split(' and ');
+						for (let y in cdQuery) {
+							for (let z in operator) {
+								if (cdQuery[y].match(operator[z])) {
+									let cds = cdQuery[y].split(operator[z]);
+									processInfo.processCD[resp.actions[i].from].conditions.push({
+										name: JSON.stringify(fields.find((v) => v.var == cds[0]).label),
+										code: JSON.stringify(cds[0]),
+										operator: JSON.stringify(operator[z].trim()),
+										value: JSON.stringify(cds[1].replace(/\(|\)|\"|\s/g, '').split(','))
+									});
+									break;
+								}
 							}
 						}
-					}
-				} else if (resp.actions[i].filterCond.match(' or ')) {
-					processInfo.processCD[resp.actions[i].from].cdt = 'or';
-					// processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('or');
-					let cdQuery = resp.actions[i].filterCond.split(' or ');
-					for (let y in cdQuery) {
-						for (let z in operator) {
-							if (cdQuery[y].match(operator[z])) {
-								let cds = cdQuery[y].split(operator[z]);
-								processInfo.processCD[resp.actions[i].from].conditions.push({
-									name: JSON.stringify(fields.find((v) => v.var == cds[0]).label),
-									code: JSON.stringify(cds[0]),
-									operator: JSON.stringify(operator[z].trim()),
-									value: JSON.stringify(cds[1].replace(/\(|\)|\"|\s/g, '').split(','))
-								});
-								break;
+					} else if (resp.actions[i].filterCond.match(' or ')) {
+						processInfo.processCD[resp.actions[i].from].cdt = 'or';
+						// processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('or');
+						let cdQuery = resp.actions[i].filterCond.split(' or ');
+						for (let y in cdQuery) {
+							for (let z in operator) {
+								if (cdQuery[y].match(operator[z])) {
+									let cds = cdQuery[y].split(operator[z]);
+									processInfo.processCD[resp.actions[i].from].conditions.push({
+										name: JSON.stringify(fields.find((v) => v.var == cds[0]).label),
+										code: JSON.stringify(cds[0]),
+										operator: JSON.stringify(operator[z].trim()),
+										value: JSON.stringify(cds[1].replace(/\(|\)|\"|\s/g, '').split(','))
+									});
+									break;
+								}
 							}
 						}
 					}
 				}
-			}
-			sessionStorage.setItem(sessionName, JSON.stringify(processInfo));
-		});
-	}
-	return sessionName;
+				sessionStorage.setItem(sessionName, JSON.stringify(processInfo));
+			});
+		}
+
+		resolve(sessionName);
+	})
+
 }
 
 // プロセスエラー処理
-function processError(event) {
+async function processError(event) {
 	//プロセスエラー表示
-	var sessionName = setProcessCD(kintone.app.getId());
+	var sessionName = await setProcessCD(kintone.app.getId());
 	var sessionData = JSON.parse(sessionStorage.getItem(sessionName));
 	console.log(sessionData);
 	var cStatus = event.record.ステータス.value;
