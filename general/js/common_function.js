@@ -2042,6 +2042,7 @@ function processError(event) {
 	var sessionName = setProcessCD(kintone.app.getId());
 	console.log(sessionName);
 	var sessionData = sessionStorage.getItem(sessionName);
+	sessionDate = JSON.parse(sessionData);
 	console.log(sessionData);
 	var cStatus = event.record.ステータス.value;
 	//and -> 全てtrueだったら、or -> trueが一つでも含まれていたら
