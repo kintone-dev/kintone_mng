@@ -1985,11 +1985,12 @@ function setProcessCD(app_id) {
 					processCD: {}
 				};
 				for (let i in resp.actions) {
-					processInfo.processCD[resp.actions[i].from] = {};
-					processInfo.processCD[resp.actions[i].from].from = resp.actions[i].from;
-					processInfo.processCD[resp.actions[i].from].to = resp.actions[i].to;
-					processInfo.processCD[resp.actions[i].from].name = resp.actions[i].name;
-					processInfo.processCD[resp.actions[i].from].conditions = [];
+					processInfo.processCD[resp.actions[i].from] = [];
+					var processCDBody = {};
+					processCDBody.from = resp.actions[i].from;
+					processCDBody.to = resp.actions[i].to;
+					processCDBody.name = resp.actions[i].name;
+					processCDBody.conditions = [];
 					if (resp.actions[i].filterCond.match(' and ')) {
 						processInfo.processCD[resp.actions[i].from].cdt = 'and';
 						let cdQuery = resp.actions[i].filterCond.split(' and ');
@@ -2025,6 +2026,7 @@ function setProcessCD(app_id) {
 							}
 						}
 					}
+					processInfo.processCD[resp.actions[i].from].push(processCDBody);
 				}
 				sessionStorage.setItem(sessionName, JSON.stringify(processInfo));
 			});
