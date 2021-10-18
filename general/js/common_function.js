@@ -2031,9 +2031,9 @@ function setProcessCD(app_id) {
 					processInfo.processCD[resp.actions[i].from].push(processCDBody);
 				}
 				sessionStorage.setItem(sessionName, JSON.stringify(processInfo));
+				console.log(processInfo);
 			});
 		}
-		console.log(processInfo);
 		resolve(JSON.parse(sessionStorage.getItem(sessionName)));
 	})
 
