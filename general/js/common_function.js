@@ -2039,9 +2039,8 @@ function setProcessCD(app_id) {
 function processError(event) {
 	//プロセスエラー表示
 	var sessionName = setProcessCD(kintone.app.getId());
-	var sessionData = sessionStorage.getItem(sessionName);
-	sessionDate = JSON.parse(sessionData);
-	console.log(JSON.parse(sessionData));
+	var sessionData = JSON.parse(sessionStorage.getItem(sessionName));
+	console.log(sessionData);
 	var cStatus = event.record.ステータス.value;
 	//and -> 全てtrueだったら、or -> trueが一つでも含まれていたら
 	var errorCheck = [];
