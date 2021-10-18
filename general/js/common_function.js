@@ -2080,6 +2080,7 @@ async function processError(event) {
 
 		}
 	} else {
+		console.log('プロセス条件は指定されていません');
 		return event;
 	}
 }
