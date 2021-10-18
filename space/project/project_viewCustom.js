@@ -465,6 +465,7 @@
     if (sessionStorage.getItem('record_updated') === '1') {
       //プロセスエラー処理
       var processECheck = await processError(event);
+      console.log(processECheck);
       if(processECheck[0] == 'error'){
         alert(processECheck[1]);
       }
