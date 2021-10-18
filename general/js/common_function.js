@@ -1984,8 +1984,12 @@ function setProcessCD(app_id) {
 					enable: resp.enable,
 					processCD: {}
 				};
+				console.log(JSON.parse(resp.states));
+				for(let i in JSON.parse(resp.states)){
+					console.log(i);
+					// processInfo.processCD[resp.actions[i]]
+				}
 				for (let i in resp.actions) {
-					processInfo.processCD = resp.actions[i].from;
 					var processCDBody = {};
 					processCDBody.from = resp.actions[i].from;
 					processCDBody.to = resp.actions[i].to;
