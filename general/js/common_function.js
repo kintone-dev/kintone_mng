@@ -2046,7 +2046,7 @@ function processError(event) {
 	var errorCheck = [];
 	var errorText = [];
 
-	if (sessionData.processCD[cStatus].conditions.length != 0) {
+	if (sessionData.processCD[cStatus].conditions.length > 1) {
 		if (sessionData.processCD[cStatus].cdt == 'and') {
 			for (let i in sessionData.processCD[cStatus].conditions) {
 
@@ -2055,7 +2055,7 @@ function processError(event) {
 
 		}
 
-	} else {
+	} else if (sessionData.processCD[cStatus].conditions.length == 1) {
 		if (sessionData.processCD[cStatus].conditions[0].operator == '=') {
 			if (event.record[sessionData.processCD[cStatus].conditions[0].code.value].value == sessionData.processCD[cStatus].conditions[0].value[0]) {
 				errorCheck.push('true');
@@ -2075,5 +2075,7 @@ function processError(event) {
 		} else if (sessionData.processCD[cStatus].conditions[0].operator == 'not in') {
 
 		}
+	} else {
+		return event;
 	}
 }
