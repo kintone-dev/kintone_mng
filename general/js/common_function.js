@@ -1985,10 +1985,9 @@ function setProcessCD(app_id) {
 					processCD: {}
 				};
 				for (let i in resp.actions) {
-					console.log(processInfo.processCD[resp.actions[i].from]);
-					// if(processInfo.processCD[resp.actions[i].from].length == 0){
-					// 	processInfo.processCD[resp.actions[i].from] = [];
-					// }
+					if(typeof processInfo.processCD[resp.actions[i].from] === "undefined"){
+						processInfo.processCD[resp.actions[i].from] = [];
+					}
 					var processCDBody = {};
 					processCDBody.from = resp.actions[i].from;
 					processCDBody.to = resp.actions[i].to;
