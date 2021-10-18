@@ -2164,6 +2164,7 @@ async function processError(event) {
 			console.log('プロセス条件は指定されていません');
 			totalErrorCheck.push['true'];
 		}
+		console.log(errorCheck);
 	}
 
 	console.log(totalErrorCheck);
