@@ -1979,14 +1979,11 @@ function setProcessCD(app_id) {
 			await kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {
 				'app': app_id
 			}).then(function (resp) {
-				// const sActions=resp.actions;
-				// const sStates=resp.states;
 				let processInfo = {
 					enable: resp.enable,
 					processCD: {}
 				};
 				for (let i in resp.actions) {
-					// resp.actions[i].filterCond
 					processInfo.processCD[resp.actions[i].from] = {};
 					processInfo.processCD[resp.actions[i].from].from = resp.actions[i].from;
 					processInfo.processCD[resp.actions[i].from].to = resp.actions[i].to;
@@ -1994,7 +1991,6 @@ function setProcessCD(app_id) {
 					processInfo.processCD[resp.actions[i].from].conditions = [];
 					if (resp.actions[i].filterCond.match(' and ')) {
 						processInfo.processCD[resp.actions[i].from].cdt = 'and';
-						// processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('and');
 						let cdQuery = resp.actions[i].filterCond.split(' and ');
 						for (let y in cdQuery) {
 							for (let z in operator) {
@@ -2004,7 +2000,8 @@ function setProcessCD(app_id) {
 										name: JSON.stringify(fields.find((v) => v.var == cds[0]).label),
 										code: JSON.stringify(cds[0]),
 										operator: JSON.stringify(operator[z].trim()),
-										value: JSON.stringify(cds[1].replace(/\(|\)|\"|\s/g, '').split(','))
+										// value: JSON.stringify(cds[1].replace(/\(|\)|\"|\s/g, '').split(','))
+										value: JSON.stringify(cds[1])
 									});
 									break;
 								}
@@ -2012,7 +2009,6 @@ function setProcessCD(app_id) {
 						}
 					} else if (resp.actions[i].filterCond.match(' or ')) {
 						processInfo.processCD[resp.actions[i].from].cdt = 'or';
-						// processInfo.processCD[resp.actions[i].from].cdt=JSON.stringify('or');
 						let cdQuery = resp.actions[i].filterCond.split(' or ');
 						for (let y in cdQuery) {
 							for (let z in operator) {
@@ -2053,6 +2049,12 @@ async function processError(event) {
 	if (sessionData.processCD[cStatus].conditions.length > 1) {
 		if (sessionData.processCD[cStatus].cdt == 'and') {
 			for (let i in sessionData.processCD[cStatus].conditions) {
+				if (event.record[sessionData.processCD[cStatus].conditions[0].code.value].value == sessionData.processCD[cStatus].conditions[0].value[0]) {
+					errorCheck.push('true');
+				} else {
+					errorCheck.push('false');
+					errorCheck.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
+				}
 
 			}
 		} else if (sessionData.processCD[cStatus].cdt == 'or') {
