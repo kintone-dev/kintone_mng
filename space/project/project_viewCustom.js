@@ -462,10 +462,9 @@
 
   //wfpチェック,添付書類チェック
   kintone.events.on('app.record.detail.show', async function (event) {
-    //プロセスエラー処理
-    processError(event);
-
     if (sessionStorage.getItem('record_updated') === '1') {
+      //プロセスエラー処理
+      event.error = processError(event);
       sessionStorage.setItem('record_updated', '0');
       sessionStorage.removeItem('tabSelect');
       sessionStorage.removeItem('actSelect');
