@@ -2055,7 +2055,7 @@ async function processError(event) {
 			if (sessionData.processCD[cStatus][i].cdt == 'and') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
 					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
-						if (event.record[sessionData.processCD[cStatus].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
 							errorCheck.push('true');
 						} else {
 							errorCheck.push('false');
