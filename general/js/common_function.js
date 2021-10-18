@@ -1979,6 +1979,7 @@ function setProcessCD(app_id) {
 			await kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {
 				'app': app_id
 			}).then(function (resp) {
+				console.log(resp);
 				let processInfo = {
 					enable: resp.enable,
 					processCD: {}
