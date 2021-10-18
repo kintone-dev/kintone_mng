@@ -1974,7 +1974,7 @@ function krtSetting() {
 function setProcessCD(app_id) {
 	return new Promise(async function (resolve, reject) {
 		const sessionName = 'processCD_' + app_id;
-		if (sessionStorage.getItem(sessionName) != null) {
+		if (sessionStorage.getItem(sessionName) == null) {
 			const operator = [' not in ', ' in ', ' != ', ' = '];
 			await kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {
 				'app': app_id
@@ -1985,7 +1985,7 @@ function setProcessCD(app_id) {
 					processCD: {}
 				};
 				for (let i in resp.actions) {
-					if(typeof processInfo.processCD[resp.actions[i].from] === "undefined"){
+					if (typeof processInfo.processCD[resp.actions[i].from] === "undefined") {
 						processInfo.processCD[resp.actions[i].from] = [];
 					}
 					var processCDBody = {};
@@ -2031,10 +2031,9 @@ function setProcessCD(app_id) {
 					processInfo.processCD[resp.actions[i].from].push(processCDBody);
 				}
 				sessionStorage.setItem(sessionName, JSON.stringify(processInfo));
-				console.log(processInfo);
 			});
 		}
-		resolve (sessionName);
+		resolve(sessionName);
 	})
 
 }
@@ -2047,58 +2046,123 @@ async function processError(event) {
 	console.log(sessionData);
 	var cStatus = event.record.ステータス.value;
 	//and -> 全てtrueだったら、or -> trueが一つでも含まれていたら
-	var errorCheck = [];
+	var totalErrorCheck = [];
 	var errorText = [];
 
-	if (sessionData.processCD[cStatus].conditions.length > 1) {
-		if (sessionData.processCD[cStatus].cdt == 'and') {
-			for (let i in sessionData.processCD[cStatus].conditions) {
-				if (sessionData.processCD[cStatus].conditions[i].operator == '=') {
-					if (event.record[sessionData.processCD[cStatus].conditions[i].code].value == sessionData.processCD[cStatus].conditions[i].value[i]) {
+	for (let i in sessionData.processCD[cStatus]) {
+		var errorCheck = [];
+		if (sessionData.processCD[cStatus][i].conditions.length > 1) {
+			if (sessionData.processCD[cStatus].cdt == 'and') {
+				for (let j in sessionData.processCD[cStatus][i].conditions) {
+					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
+						if (event.record[sessionData.processCD[cStatus].conditions[j].code.value].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+							errorCheck.push('true');
+						} else {
+							errorCheck.push('false');
+							errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
+						}
+					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
+						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+							errorCheck.push('true');
+						} else {
+							errorCheck.push('false');
+							errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
+						}
+					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
+						if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value)) {
+							errorCheck.push('true');
+						} else {
+							errorCheck.push('false');
+							errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
+						}
+					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
+						if (!sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value)) {
+							errorCheck.push('true');
+						} else {
+							errorCheck.push('false');
+							errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
+						}
+					}
+					if (errorCheck.includes('false')) {
+						totalErrorCheck.push('false');
+					} else {
+						totalErrorCheck.push('true');
+					}
+				}
+			} else if (sessionData.processCD[cStatus][i].cdt == 'or') {
+				if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
+					if (event.record[sessionData.processCD[cStatus].conditions[j].code.value].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
 						errorCheck.push('true');
 					} else {
 						errorCheck.push('false');
-						errorText.push(`${sessionData.processCD[cStatus].conditions[i].name}が指定条件を満たしていません。`);
+						errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
 					}
-				} else if (sessionData.processCD[cStatus].conditions[i].operator == '!=') {
-					if (event.record[sessionData.processCD[cStatus].conditions[i].code].value != sessionData.processCD[cStatus].conditions[i].value[i]) {
+				} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
+					if (event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
 						errorCheck.push('true');
 					} else {
 						errorCheck.push('false');
-						errorText.push(`${sessionData.processCD[cStatus].conditions[i].name}が指定条件を満たしていません。`);
+						errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
 					}
-				} else if (sessionData.processCD[cStatus].conditions[i].operator == 'in') {
-
-				} else if (sessionData.processCD[cStatus].conditions[i].operator == 'not in') {
-
+				} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
+					if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value)) {
+						errorCheck.push('true');
+					} else {
+						errorCheck.push('false');
+						errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
+					}
+				} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
+					if (!sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code.value].value)) {
+						errorCheck.push('true');
+					} else {
+						errorCheck.push('false');
+						errorText.push(`${sessionData.processCD[cStatus][i].conditions[j].name}が指定条件を満たしていません。`);
+					}
+				}
+				if (errorCheck.includes('true')) {
+					totalErrorCheck.push('true');
+				} else {
+					totalErrorCheck.push('false');
 				}
 			}
-		} else if (sessionData.processCD[cStatus].cdt == 'or') {
 
-		}
-
-	} else if (sessionData.processCD[cStatus].conditions.length == 1) {
-		if (sessionData.processCD[cStatus].conditions[0].operator == '=') {
-			if (event.record[sessionData.processCD[cStatus].conditions[0].code.value].value == sessionData.processCD[cStatus].conditions[0].value[0]) {
-				errorCheck.push('true');
-			} else {
-				errorCheck.push('false');
-				errorText.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
+		} else if (sessionData.processCD[cStatus][i].conditions.length == 1) {
+			if (sessionData.processCD[cStatus][i].conditions[0].operator == '=') {
+				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code.value].value == sessionData.processCD[cStatus][i].conditions[0].value[0]) {
+					errorCheck.push('true');
+				} else {
+					errorCheck.push('false');
+					errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
+				}
+			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == '!=') {
+				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code.value].value != sessionData.processCD[cStatus][i].conditions[0].value[0]) {
+					errorCheck.push('true');
+				} else {
+					errorCheck.push('false');
+					errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
+				}
+			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == 'in') {
+				if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code.value].value)) {
+					errorCheck.push('true');
+				} else {
+					errorCheck.push('false');
+					errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
+				}
+			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == 'not in') {
+				if (!sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code.value].value)) {
+					errorCheck.push('true');
+				} else {
+					errorCheck.push('false');
+					errorText.push(`${sessionData.processCD[cStatus][i].conditions[0].name}が指定条件を満たしていません。`);
+				}
 			}
-		} else if (sessionData.processCD[cStatus].conditions[0].operator == '!=') {
-			if (event.record[sessionData.processCD[cStatus].conditions[0].code.value].value != sessionData.processCD[cStatus].conditions[0].value[0]) {
-				errorCheck.push('true');
-			} else {
-				errorCheck.push('false');
-				errorText.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
+			if (errorCheck.includes('false')) {
+				totalErrorCheck.push('false');
 			}
-		} else if (sessionData.processCD[cStatus].conditions[0].operator == 'in') {
-
-		} else if (sessionData.processCD[cStatus].conditions[0].operator == 'not in') {
-
+		} else {
+			console.log('プロセス条件は指定されていません');
+			totalErrorCheck.push['true'];
 		}
-	} else {
-		console.log('プロセス条件は指定されていません');
 	}
 
 	console.log(errorCheck);
