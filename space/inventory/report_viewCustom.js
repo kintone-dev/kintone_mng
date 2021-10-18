@@ -248,46 +248,6 @@
       }, 60000);
     }
 
-    //プロセスエラー表示
-    var sessionName = setProcessCD(kintone.app.getId());
-    console.log(sessionName);
-    var sessionData = sessionStorage.getItem(sessionName);
-    var cStatus = event.record.ステータス.value;
-    //and -> 全てtrueだったら、or -> trueが一つでも含まれていたら
-    var errorCheck = [];
-    var errorText = [];
-
-    if (sessionData.processCD[cStatus].conditions.length != 0) {
-      if (sessionData.processCD[cStatus].cdt == 'and') {
-        for(let i in sessionData.processCD[cStatus].conditions){
-
-        }
-      } else if (sessionData.processCD[cStatus].cdt == 'or') {
-
-      }
-
-    } else {
-      if (sessionData.processCD[cStatus].conditions[0].operator == '=') {
-        if(event.record[sessionData.processCD[cStatus].conditions[0].code.value].value == sessionData.processCD[cStatus].conditions[0].value[0]){
-          errorCheck.push('true');
-        } else{
-          errorCheck.push('false');
-          errorCheck.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
-        }
-      } else if (sessionData.processCD[cStatus].conditions[0].operator == '!=') {
-        if(event.record[sessionData.processCD[cStatus].conditions[0].code.value].value != sessionData.processCD[cStatus].conditions[0].value[0]){
-          errorCheck.push('true');
-        } else{
-          errorCheck.push('false');
-          errorCheck.push(`${sessionData.processCD[cStatus].conditions[0].name}が指定条件を満たしていません。`);
-        }
-      } else if (sessionData.processCD[cStatus].conditions[0].operator == 'in') {
-
-      } else if (sessionData.processCD[cStatus].conditions[0].operator == 'not in') {
-
-      }
-    }
-
     return event;
   });
 
