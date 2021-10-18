@@ -2000,7 +2000,7 @@ function setProcessCD(app_id) {
 										name: JSON.stringify(fields.find((v) => v.var == cds[0]).label).replace(/\"/g, ''),
 										code: JSON.stringify(cds[0]).replace(/\"/g, ''),
 										operator: JSON.stringify(operator[z].trim()).replace(/\"/g, ''),
-										value: JSON.stringify(cds[1]).replace(/\(|\)|\"|\s/g, '').split(',')
+										value: JSON.stringify(cds[1]).replace(/\(|\)|\"|\\|\s/g, '').split(',')
 									});
 									break;
 								}
