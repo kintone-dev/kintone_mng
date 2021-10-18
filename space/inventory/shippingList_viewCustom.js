@@ -241,9 +241,6 @@
       setSpaceShown('setShipment', 'line', 'none');
     }
 
-    //プロセスエラー処理
-    processError(event);
-
     return event;
   });
 
