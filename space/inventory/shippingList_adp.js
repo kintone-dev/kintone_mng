@@ -148,34 +148,36 @@
   /* ---以下関数--- */
   // 輸送情報連携
   const setDeliveryInfo = async function (pageRecod) {
-    var putDeliveryData = [];
-    var putDeliveryBody = {
-      'id': pageRecod.prjId.value,
-      'record': {
-        'deliveryCorp': {
-          'value': pageRecod.deliveryCorp.value
-        },
-        'trckNum': {
-          'value': pageRecod.trckNum.value
-        },
-        'sendDate': {
-          'value': pageRecod.sendDate.value
-        },
-        'expArrivalDate': {
-          'value': pageRecod.expArrivalDate.value
+    return new Promise(async function (resolve, reject) {
+      var putDeliveryData = {
+        'app': sysid.PM.app_id.project,
+        'id': pageRecod.prjId.value,
+        'record': {
+          'deliveryCorp': {
+            'value': pageRecod.deliveryCorp.value
+          },
+          'trckNum': {
+            'value': pageRecod.trckNum.value
+          },
+          'sendDate': {
+            'value': pageRecod.sendDate.value
+          },
+          'expArrivalDate': {
+            'value': pageRecod.expArrivalDate.value
+          }
         }
       }
-    };
-    putDeliveryData.push(putDeliveryBody);
-    var putStatusBody = {
-      'app': sysid.PM.app_id.project,
-      'id': pageRecod.prjId.value,
-      'action': '製品発送'
-    };
-    var putDeliResult = await putRecords(sysid.PM.app_id.project, putDeliveryData)
-      .catch(function (error) {
-        return 'error';
-      });
-    await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusBody);
+      var putStatusData = {
+        'app': sysid.PM.app_id.project,
+        'id': pageRecod.prjId.value,
+        'action': '製品発送'
+      };
+      await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putDeliveryData)
+        .catch(function (error) {
+          return 'error';
+        });
+      await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusData);
+      resolve;
+    });
   }
 })();
