@@ -2094,9 +2094,10 @@ async function processError(event) {
 		}
 	} else {
 		console.log('プロセス条件は指定されていません');
-		return event;
 	}
 
 	console.log(errorCheck);
 	console.log(errorText);
+
+	return event;
 }
