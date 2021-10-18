@@ -464,7 +464,7 @@
   kintone.events.on('app.record.detail.show', async function (event) {
     if (sessionStorage.getItem('record_updated') === '1') {
       //プロセスエラー処理
-      event.error = processError(event);
+      alert(processError(event));
       sessionStorage.setItem('record_updated', '0');
       sessionStorage.removeItem('tabSelect');
       sessionStorage.removeItem('actSelect');
