@@ -1974,7 +1974,7 @@ function krtSetting() {
 function setProcessCD(app_id) {
 	return new Promise(async function (resolve, reject) {
 		const sessionName = 'processCD_' + app_id;
-		if (sessionStorage.getItem(sessionName) == null) {
+		if (sessionStorage.getItem(sessionName) != null) {
 			const operator = [' not in ', ' in ', ' != ', ' = '];
 			await kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {
 				'app': app_id
