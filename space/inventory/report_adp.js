@@ -229,7 +229,6 @@
         event.record.AssStockList.value[i].value.ASS_mCode.lookup = true;
       }
       console.log(event.record);
-
     }
     endLoad();
     return event;
