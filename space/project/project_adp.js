@@ -153,27 +153,19 @@
 
         if(postShipResult[0]=='error'){
           event.error='入出荷管理に情報連携する際にエラーが発生しました。';
-        }
-
-        //
-        var sys_shipment_id='';
-        for(let i in postShipResult.ids){
-          if(i<postShipResult.ids.length-1){
-            sys_shipment_id+=postShipResult.ids[i]+',';
-          }else{
-            sys_shipment_id+=postShipResult.ids[i];
+          endLoad();
+          return event;
+        } else{
+          var sys_shipment_id='';
+          for(let i in postShipResult.ids){
+            if(i<postShipResult.ids.length-1){
+              sys_shipment_id+=postShipResult.ids[i]+',';
+            }else{
+              sys_shipment_id+=postShipResult.ids[i];
+            }
           }
+          event.record.sys_shipment_ID.value = sys_shipment_id;
         }
-        event.record.sys_shipment_ID.value = sys_shipment_id;
-
-        // await kintone.api(kintone.api.url('/k/v1/record', true), "PUT", {
-        //   'app': kintone.app.getId(),
-        //   'id': kintone.app.record.getId(),
-        //   'record': {
-        //     'sys_shipment_ID': {'value': sys_shipment_id}
-        //   }
-        // });
-        //
       }else{
         event.error='ステータスを進めるに必要な項目が未入力です。';
       }
