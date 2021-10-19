@@ -161,8 +161,8 @@
         }).then(function(resp){
           console.log(resp);
         }).catch(function(error){
-          console.log(error)
-        })
+          console.log(error);
+        });
       }else{
         event.error='ステータスを進めるに必要な項目が未入力です。';
       }
