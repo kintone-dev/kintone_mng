@@ -343,27 +343,29 @@ function api_getRecords(appID) {
 }
 
 // 100件以上のレコード登録
-const postRecords = async (sendApp, records) => {
-	const POST_RECORDS = records;
-	while (POST_RECORDS.length) {
-		var postBody = {
-			'app': sendApp,
-			'records': POST_RECORDS.slice(0, 100),
+function postRecords(sendApp, records) {
+	return new Promise(async function (resolve, reject) {
+		const POST_RECORDS = records;
+		while (POST_RECORDS.length) {
+			var postBody = {
+				'app': sendApp,
+				'records': POST_RECORDS.slice(0, 100),
+			}
+			var postResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
+				.then(function (resp) {
+					console.log(postBody);
+					return 'success';
+				}).catch(function (error) {
+					console.log(error);
+					return 'error';
+				});
+			if (postResult == 'error') {
+				reject(new Error('post error'));
+			}
+			POST_RECORDS.splice(0, 100);
 		}
-		console.log(postBody);
-		var postResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
-			.then(function (resp) {
-				console.log(postBody);
-				return 'success';
-			}).catch(function (error) {
-				console.log(error);
-				return 'error';
-			});
-		if (postResult == 'error') {
-			throw new Error('post error');
-		}
-		POST_RECORDS.splice(0, 100);
-	}
+		resolve('success');
+	});
 }
 
 // 100件以上のレコード更新
@@ -2049,7 +2051,6 @@ function setProcessCD(app_id) {
 		}
 		resolve(sessionName);
 	})
-
 }
 
 // プロセスエラー処理
