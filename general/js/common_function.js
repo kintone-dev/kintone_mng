@@ -2143,6 +2143,7 @@ async function processError(event) {
 				} else {
 					totalErrorCheck.push('true');
 				}
+				console.log(errorCheck);
 			} else if (sessionData.processCD[cStatus][i].cdt == 'or') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
 					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
