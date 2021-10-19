@@ -146,7 +146,7 @@
           putStatusData.records.push(putStatusBody);
         }
       }
-      kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
+      await kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData);
       sessionStorage.setItem('record_updated', '1');
       location.reload();
     }
@@ -156,7 +156,7 @@
 
   /* ---以下関数--- */
   // 輸送情報連携
-  const setDeliveryInfo = async function (pageRecod) {
+  async function setDeliveryInfo(pageRecod) {
     var putDeliveryData = {
       'app': sysid.PM.app_id.project,
       'id': pageRecod.prjId.value,
