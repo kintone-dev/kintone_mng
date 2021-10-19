@@ -2077,8 +2077,6 @@ async function processError(event) {
 							errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
 						}
 					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
-						console.log(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value);
-						console.log(sessionData.processCD[cStatus][i].conditions[j].value[0]);
 						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == null) {
 							event.record[sessionData.processCD[cStatus][i].conditions[j].code].value = '';
 						}
