@@ -369,49 +369,55 @@ function postRecords(sendApp, records) {
 }
 
 // 100件以上のレコード更新
-const putRecords = async (sendApp, records) => {
-	const PUT_RECORDS = records;
-	while (PUT_RECORDS.length) {
-		var putBody = {
-			'app': sendApp,
-			'records': PUT_RECORDS.slice(0, 100),
+async function putRecords(sendApp, records) {
+	return new Promise(async function (resolve, reject) {
+		const PUT_RECORDS = records;
+		while (PUT_RECORDS.length) {
+			var putBody = {
+				'app': sendApp,
+				'records': PUT_RECORDS.slice(0, 100),
+			}
+			var putResult = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody)
+				.then(function (resp) {
+					console.log(putBody);
+					return 'success';
+				}).catch(function (error) {
+					console.log(error);
+					return 'error';
+				});
+			if (putResult == 'error') {
+				reject(new Error('put error'));
+			}
+			PUT_RECORDS.splice(0, 100);
 		}
-		var putResult = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putBody)
-			.then(function (resp) {
-				console.log(putBody);
-				return 'success';
-			}).catch(function (error) {
-				console.log(error);
-				return 'error';
-			});
-		if (putResult == 'error') {
-			throw new Error('put error');
-		}
-		PUT_RECORDS.splice(0, 100);
-	}
+		resolve('success');
+	});
 }
 
 // 100件以上のレコード削除
-const deleteRecords = async (sendApp, records) => {
-	const DELETE_RECORDS = records;
-	while (DELETE_RECORDS.length) {
-		var deleteBody = {
-			'app': sendApp,
-			'ids': DELETE_RECORDS.slice(0, 100),
+async function deleteRecords(sendApp, records) {
+	return new Promise(async function (resolve, reject) {
+		const DELETE_RECORDS = records;
+		while (DELETE_RECORDS.length) {
+			var deleteBody = {
+				'app': sendApp,
+				'ids': DELETE_RECORDS.slice(0, 100),
+			}
+			var deleteResult = await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody)
+				.then(function (resp) {
+					console.log(deleteBody);
+					return 'success';
+				}).catch(function (error) {
+					console.log(error);
+					return 'error';
+				});
+			if (deleteResult == 'error') {
+				reject(new Error('delete error'));
+			}
+			DELETE_RECORDS.splice(0, 100);
 		}
-		var deleteResult = await kintone.api(kintone.api.url('/k/v1/records', true), "DELETE", deleteBody)
-			.then(function (resp) {
-				console.log(deleteBody);
-				return 'success';
-			}).catch(function (error) {
-				console.log(error);
-				return 'error';
-			});
-		if (deleteResult == 'error') {
-			throw new Error('delete error');
-		}
-		DELETE_RECORDS.splice(0, 100);
-	}
+		resolve('success');
+	});
 }
 
 /**
