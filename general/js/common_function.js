@@ -2079,6 +2079,9 @@ async function processError(event) {
 					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
 						console.log(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value);
 						console.log(sessionData.processCD[cStatus][i].conditions[j].value[0]);
+						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == null) {
+							event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == '';
+						}
 						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
 							errorCheck.push('true');
 						} else {
