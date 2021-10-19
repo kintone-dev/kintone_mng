@@ -152,7 +152,7 @@
           });
 
         if(postShipResult[0]=='error'){
-          event.error='入出荷管理に情報連携する際にエラーが発生しました。';
+          event.error='入出荷管理に情報連携する際にエラーが発生しました';
           endLoad();
           return event;
         } else{
@@ -167,7 +167,7 @@
           event.record.sys_shipment_ID.value = sys_shipment_id;
         }
       }else{
-        event.error='ステータスを進めるに必要な項目が未入力です。';
+        event.error='ステータスを進めるに必要な項目が未入力です';
       }
     } else if (nStatus == '完了') { //ステータスが完了の場合
       if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
@@ -196,7 +196,7 @@
     var currentDate = new Date(getNowDate().getResponseHeader('Date'));
     var nowDateFormat = String(currentDate.getFullYear()) + String(("0" + (currentDate.getMonth() + 1)).slice(-2));
     if (parseInt(nowDateFormat) > parseInt(event.record.sys_invoiceDate.value)) {
-      alert('過去の請求月になっています。請求月をご確認ください。');
+      alert('過去の請求月になっています。請求月をご確認ください');
       return event;
     }
 
@@ -214,14 +214,14 @@
         return ['error',error];
       });
     if (getReportResult[0] == 'error') {
-      event.error = 'ASS情報取得を取得する際にエラーが発生しました。';
+      event.error = 'ASS情報取得を取得する際にエラーが発生しました';
       endLoad();
       return event;
     }
 
     if (getReportResult.records != 0) {
       if (getReportResult.records[0].EoMcheck.value != 0) {
-        event.error = '対応した日付のレポートは月末処理締切済みです。';
+        event.error = '対応した日付のレポートは月末処理締切済みです';
         return event;
       }
     }
