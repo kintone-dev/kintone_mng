@@ -2066,10 +2066,10 @@ async function processError(event) {
 	var sessionData = JSON.parse(sessionStorage.getItem(sessionName));
 	console.log(sessionData);
 	var cStatus = event.record.ステータス.value;
-	//and -> 全てtrueだったら、or -> trueが一つでも含まれていたら
 	var totalErrorCheck = [];
 	var errorText = [];
 
+	//現在のステータスのアクション分ループ
 	for (let i in sessionData.processCD[cStatus]) {
 		var errorCheck = [];
 		var errorName = [];
