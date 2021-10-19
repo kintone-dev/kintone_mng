@@ -151,7 +151,7 @@
             return ['error',error];
           });
 
-        if(Array.isArray(postShipResult)){
+        if(postShipResult[0]=='error'){
           event.error='入出荷管理に情報連携する際にエラーが発生しました。';
         }
 
