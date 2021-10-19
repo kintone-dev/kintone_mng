@@ -140,7 +140,8 @@
           postShipData.records.push(postShipSubBody);
         }
         // 入出荷管理に情報連携
-        console.log('postShipData:'+postShipData);
+        console.log('postShipData:');
+        console.log(postShipData);
         var postShipResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postShipData)
           .then(function(resp){
             console.log(resp);
