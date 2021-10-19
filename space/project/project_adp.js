@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  //ステータス変更時
+  //プロセス変更時
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
     startLoad();
     var nStatus = event.nextStatus.value;
