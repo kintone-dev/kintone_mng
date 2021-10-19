@@ -12,7 +12,7 @@
         return resp;
       }).catch(function (error) {
         console.log(error);
-        return ['error',error];
+        return error;
       });
 
     var eRecord = kintone.app.record.get();
