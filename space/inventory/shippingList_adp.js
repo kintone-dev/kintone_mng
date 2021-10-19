@@ -93,7 +93,7 @@
         // 輸送情報連携
         var delInfo = await setDeliveryInfo(event.record);
         if (delInfo[0] == 'error') {
-          event.error = 'ステータス変更でエラーが発生しました。\n該当の案件ページを確認してください。'
+          event.error = 'ステータス変更でエラーが発生しました。\n該当の案件管理ページを確認してください。'
         }
       }
 
