@@ -288,7 +288,6 @@
             console.log(error);
             return error;
           });
-
       } else {
         //次月のレポートがある場合
         var putNewReportData = {
