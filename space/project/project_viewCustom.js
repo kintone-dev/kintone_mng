@@ -15,6 +15,15 @@
     return event;
   });
 
+  kintone.events.on(['app.record.create.change.dstSelection', 'app.record.edit.change.dstSelection'], function (event) {
+    if (event.record.dstSelection.value == '担当手渡し') {
+      event.record.receiver.value = event.record.cSales.value;
+    } else {
+      event.record.receiver.value = '';
+    }
+    return event;
+  });
+
   kintone.events.on('app.record.edit.change.invoiceNum', function (event) {
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
@@ -29,7 +38,7 @@
       }).then(function (resp) {
         if (event.record.purchaseOrder.value.length < 1) {
           var inGroup = false;
-          for (var i in resp.groups) {
+          for (let i in resp.groups) {
             if (resp.groups[i].name == '営業責任者' || resp.groups[i].name == 'sysAdmin') {
               inGroup = true;
               break;
@@ -46,7 +55,7 @@
         }
 
         var confTxt = '';
-        for (var i in confirmSetting) {
+        for (let i in confirmSetting) {
           confTxt = confTxt + confirmSetting[i].fName + '：' + event.record[confirmSetting[i].fCode].value + '\n';
         }
         if (confirm(confTxt)) {
@@ -58,6 +67,7 @@
     }
     return event;
   });
+
   kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
 
     if (event.record.ステータス.value == '納品準備中') {
@@ -68,7 +78,7 @@
           event.record[fcode].disabled = true;
         }
       });
-      for (var i in event.record.deviceList.value) {
+      for (let i in event.record.deviceList.value) {
         event.record.deviceList.value[i].value.mNickname.disabled = true;
         event.record.deviceList.value[i].value.shipNum.disabled = true;
         event.record.deviceList.value[i].value.subBtn.disabled = true;
@@ -80,7 +90,6 @@
     }
     return event;
   });
-
 
   kintone.events.on(['app.record.create.show', 'app.record.detail.show', 'app.record.edit.show'], function (event) {
     setFieldShown('mVendor', false);
@@ -340,62 +349,6 @@
     return event;
   });
 
-  /*
-    kintone.events.on('app.record.detail.process.proceed', function (event) {
-      var nStatus = event.nextStatus.value;
-      if (nStatus == '納品手配済') {
-        var queryBody = {
-          'app': sysID.DIPM.app.ship,
-          'query': 'prjNum="' + event.record.prjNum.value + '" and ステータス in ("納品情報未確定")',
-          'fields': ['prjNum', '$id', 'ステータス', 'shipType']
-        };
-
-        kintone.api(kintone.api.url('/k/v1/records', true), 'GET', queryBody).then(function (getResp) {
-          //「確認中」の「用途」がある場合、「用途」を更新するBody作成
-          var update_shipType = {
-            'app': sysID.DIPM.app.ship,
-            'records': []
-          };
-          //Statusの更新用Body作成
-          var update_Status = {
-            'app': sysID.DIPM.app.ship,
-            'records': []
-          };
-
-          for (var i in getResp.records) {
-            //「確認中」の「用途」がある場合、update_shipTypeのrecordsに追加
-            if (getResp.records[i].shipType.value == '確認中') {
-              update_shipType.records.push({
-                'id': getResp.records[i].$id.value,
-                'record': {
-                  'shipType': {
-                    'value': event.record.shipType.value
-                  }
-                }
-              });
-            }
-            update_Status.records.push({
-              'id': getResp.records[i].$id.value,
-              'action': '処理開始',
-              //'assignee': 'kintone_mng@accel-lab.com'
-            });
-          }
-          if (update_shipType.records.length > 0) kintone.api(kintone.api.url('/k/v1/records', true), 'PUT', update_shipType); //.then(function(resp){console.log(resp)}).catch(function(error){console.log(error)});
-          kintone.api(kintone.api.url('/k/v1/records/status', true), 'PUT', update_Status); //.then(function(resp){console.log(resp)}).catch(function(error){console.log(error)});
-
-        }).catch(function (error) {
-          console.log(error);
-          console.log(error.message);
-        });
-
-        var putBody = {
-
-        };
-      }
-      return event;
-    });
-  */
-
   function do_dstSelection(eRecords) {
     var selection = eRecords.dstSelection.value;
     if (selection == '施工業者/拠点へ納品') {
@@ -482,13 +435,29 @@
 
   // カーテンレールが選択された場合、シリアル番号欄にデータを記入
   kintone.events.on(['app.record.edit.change.mCode', 'app.record.create.change.mCode'], function (event) {
-    for (var i in event.record.deviceList.value) {
+    for (let i in event.record.deviceList.value) {
       if (!String(event.record.deviceList.value[i].value.shipRemarks.value).match(/PAC/)) {
         var mCodeValue = event.record.deviceList.value[i].value.mCode.value;
-        if (mCodeValue === undefined) event.record.deviceList.value[i].value.shipRemarks.value = '';
-        else if (mCodeValue == 'KRT-DY') event.record.deviceList.value[i].value.shipRemarks.value = 'WFP\nカーテンレール全長(mm)：\n開き勝手：(S)片開き/(W)両開き\n取り付け方法：天井/壁付S/壁付W';
-        else if (mCodeValue.match(/pkg_/)) event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
-        else if (mCodeValue.match(/ZSL10/)) event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
+        if (mCodeValue === undefined) {
+          event.record.deviceList.value[i].value.shipRemarks.value = '';
+        } else if (mCodeValue == 'KRT-DY') {
+          krtSetting();
+          $('#krtSetBtn').on('click', function () {
+            var eRecord = kintone.app.record.get();
+            var krtLength = $('.length').val();
+            var krtOpenType = $('input[name=openType]:checked').val();
+            var krtMethodType = $('input[name=methodType]:checked').val();
+            eRecord.record.deviceList.value[i].value.shipRemarks.value = `WFP\nカーテンレール全長(mm)：${krtLength}\n開き勝手：${krtOpenType}\n取り付け方法：${krtMethodType}`;
+            kintone.app.record.set(eRecord);
+            $('#mwFrame').fadeOut(1000, function () {
+              $('#mwFrame').remove();
+            });
+          });
+        } else if (mCodeValue.match(/pkg_/)) {
+          event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
+        } else if (mCodeValue.match(/ZSL10/)) {
+          event.record.deviceList.value[i].value.shipRemarks.value = 'WFP';
+        }
       }
     }
     return event;
@@ -497,6 +466,12 @@
   //wfpチェック,添付書類チェック
   kintone.events.on('app.record.detail.show', async function (event) {
     if (sessionStorage.getItem('record_updated') === '1') {
+      //プロセスエラー処理
+      var processECheck = await processError(event);
+      console.log(processECheck);
+      if (processECheck[0] == 'error') {
+        alert(processECheck[1]);
+      }
       sessionStorage.setItem('record_updated', '0');
       sessionStorage.removeItem('tabSelect');
       sessionStorage.removeItem('actSelect');
@@ -543,13 +518,11 @@
       alert('過去の請求月になっています。請求月をご確認ください。');
       return event;
     }
-
     putData.push(putBody);
-    putRecords(kintone.app.getId(), putData);
+    await putRecords(kintone.app.getId(), putData);
     sessionStorage.setItem('record_updated', '1');
     location.reload();
 
     return event;
   });
-
 })();

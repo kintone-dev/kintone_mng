@@ -66,7 +66,7 @@
               });
             var newDeviceList = [];
             // 商品情報を配列に格納
-            for (var i in deviceData.records) {
+            for(let i in deviceData.records) {
               var newDeviceListBody = {
                 'value': {
                   'mCode': {
@@ -84,7 +84,7 @@
               'app': sysid.INV.app_id.unit,
               'records': []
             };
-            for (var i in unitData.records) {
+            for(let i in unitData.records) {
               var putUnitBody = {
                 'id': unitData.records[i].$id.value,
                 'record': {
@@ -119,7 +119,7 @@
               });
 
             var prjItemdeleteData = [];
-            for (var i in prjItemData.records) {
+            for(let i in prjItemData.records) {
               prjItemdeleteData.push(prjItemData.records[i].$id.value);
             }
 
@@ -136,7 +136,7 @@
               });
 
             var supItemdeleteData = [];
-            for (var i in supItemData.records) {
+            for(let i in supItemData.records) {
               supItemdeleteData.push(supItemData.records[i].$id.value);
             }
 
@@ -153,7 +153,7 @@
               });
 
             var assItemdeleteData = [];
-            for (var i in assItemData.records) {
+            for(let i in assItemData.records) {
               assItemdeleteData.push(assItemData.records[i].$id.value);
             }
             await deleteRecords(sysid.PM.app_id.item, prjItemdeleteData)
@@ -174,7 +174,7 @@
               'app': '',
               'records': []
             };
-            for (var i in deviceData.records) {
+            for(let i in deviceData.records) {
               var postItemBody = {
                 'mName': deviceData.records[i].mName,
                 'mCode': deviceData.records[i].mCode,
@@ -193,7 +193,7 @@
               sysid.ASS.app_id.item
             ];
             // 品目マスターに転送実行
-            for (var i in tarAPP) {
+            for(let i in tarAPP) {
               postItemData.app = tarAPP[i];
               await kintone.api(kintone.api.url('/k/v1/records', true), 'POST', postItemData);
             }
@@ -201,6 +201,101 @@
           }
         });
       }
+    }
+    return event;
+  });
+
+  kintone.events.on('app.record.detail.show', function (event) {
+    if (kintone.app.getId() == sysid.PM.app_id.project) {
+      var deployBtn = setBtn_header('device_deply_btn', '案件情報強制更新');
+      $('#' + deployBtn.id).on('click', async function () {
+        if (confirm('入出荷管理に案件情報を強制的に更新します。\nよろしいですか？')) {
+          var putShipBody = {
+            'app': sysid.INV.app_id.shipment,
+            'updateKey': {
+              'field': 'prjId',
+              'value': event.record.$id.value
+            },
+            'record': {
+              'shipType': {
+                'value': '社内利用'
+              },
+              'aboutDelivery': {
+                'value': event.record.aboutDelivery.value
+              },
+              'tarDate': {
+                'value': event.record.tarDate.value
+              },
+              'dstSelection': {
+                'value': event.record.dstSelection.value
+              },
+              'Contractor': {
+                'value': event.record.Contractor.value
+              },
+              'instName': {
+                'value': event.record.instName.value
+              },
+              'receiver': {
+                'value': event.record.receiver.value
+              },
+              'phoneNum': {
+                'value': event.record.phoneNum.value
+              },
+              'zipcode': {
+                'value': event.record.zipcode.value
+              },
+              'prefectures': {
+                'value': event.record.prefectures.value
+              },
+              'city': {
+                'value': event.record.city.value
+              },
+              'address': {
+                'value': event.record.address.value
+              },
+              'buildingName': {
+                'value': event.record.buildingName.value
+              },
+              'corpName': {
+                'value': event.record.corpName.value
+              },
+              'sys_instAddress': {
+                'value': event.record.sys_instAddress.value
+              },
+              'sys_unitAddress': {
+                'value': event.record.sys_unitAddress.value
+              },
+              'deviceList': {
+                'value': []
+              },
+              'prjNum': {
+                'value': event.record.prjNum.value
+              }
+            }
+          };
+          for(let i in event.record.deviceList.value) {
+            if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
+              var devListBody = {
+                'value': {
+                  'mNickname': {
+                    'value': event.record.deviceList.value[i].value.mNickname.value
+                  },
+                  'shipNum': {
+                    'value': event.record.deviceList.value[i].value.shipNum.value
+                  }
+                }
+              };
+              putShipBody.record.deviceList.value.push(devListBody);
+            }
+          }
+          await kintone.api(kintone.api.url('/k/v1/record', true), "PUT", putShipBody)
+            .then(function (resp) {
+              console.log(resp);
+            }).catch(function (error) {
+              console.log(error);
+            });
+        }
+      });
     }
     return event;
   });
