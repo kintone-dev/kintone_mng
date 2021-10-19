@@ -142,26 +142,33 @@
         // 入出荷管理に情報連携
         console.log('postShipData:');
         console.log(postShipData);
-        kintone.api(kintone.api.url('/k/v1/records', true), "POST", postShipData).then(function(resp){
-          var sys_shipment_id='';
-          for(let i in resp.ids){
-            if(i<resp.ids.length-1){
-              sys_shipment_id+=resp.ids[i]+',';
-            }else{
-              sys_shipment_id+=resp.ids[i];
-            }
-          }
-          return kintone.api(kintone.api.url('/k/v1/record', true), "PUT", {
-            'app': kintone.app.getId(),
-            'id': kintone.app.record.getId(),
-            'record': {
-              'sys_shipment_ID': {'value': sys_shipment_id}
-            }
+        var postShipResult = kintone.api(kintone.api.url('/k/v1/records', true), "POST", postShipData)
+          .then(function(resp){
+            console.log(resp);
+            return resp;
+          }).catch(function(error){
+            console.log(error);
+            return ['error',error];
           });
-        }).then(function(resp){
-          console.log(resp);
-        }).catch(function(error){
-          console.log(error);
+
+        if(Array.isArray(postShipResult)){
+          event.error='入出荷管理に情報連携する際にエラーが発生しました。';
+        }
+
+        var sys_shipment_id='';
+        for(let i in postShipResult.ids){
+          if(i<postShipResult.ids.length-1){
+            sys_shipment_id+=postShipResult.ids[i]+',';
+          }else{
+            sys_shipment_id+=postShipResult.ids[i];
+          }
+        }
+        await kintone.api(kintone.api.url('/k/v1/record', true), "PUT", {
+          'app': kintone.app.getId(),
+          'id': kintone.app.record.getId(),
+          'record': {
+            'sys_shipment_ID': {'value': sys_shipment_id}
+          }
         });
       }else{
         event.error='ステータスを進めるに必要な項目が未入力です。';
