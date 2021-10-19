@@ -67,6 +67,7 @@
     }
     return event;
   });
+
   kintone.events.on(['app.record.edit.show', 'app.record.detail.show'], function (event) {
 
     if (event.record.ステータス.value == '納品準備中') {
