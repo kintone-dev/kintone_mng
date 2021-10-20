@@ -10,7 +10,7 @@
       'app': sysid.INV.app_id.unit,
       'query': null
     };
-    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUniBody)
+    kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUniBody)
       .then(function (resp) {
         var eRecord = kintone.app.record.get();
         //反転して格納
@@ -46,6 +46,7 @@
         console.log(error);
         return error;
       });
+      return event;
   });
 
   // 新規保存時アクション
