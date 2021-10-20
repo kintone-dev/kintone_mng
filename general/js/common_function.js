@@ -2333,11 +2333,12 @@ $(function () {
 					'app': kintone.app.getId(),
 					'record': eRecord.record.$id.value
 				};
-				var putCommentBody = {
+				var postCommentBody = {
 					'app': sysid.PM.app_id.project,
 					'record': eRecord.record.prjId.value,
 					'comment': {
-						'text': ''
+						'text': '',
+						'mentions':[]
 					}
 				};
 				await new Promise(resolve => {
@@ -2353,19 +2354,18 @@ $(function () {
 							alert('コメント同期の際にエラーが発生しました。');
 							resolve();
 						}
-						putCommentBody.comment.text = getCommentResult.comments[0].text;
-						if(getCommentResult.comments[0].mentions.length > 0){
-							putCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
-						}
+						postCommentBody.comment.text = getCommentResult.comments[0].text;
+						postCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
+
 						console.log(putCommentBody);
-						var putCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'POST', putCommentBody)
+						var postCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comment.json', true), 'POST', postCommentBody)
 							.then(function (resp) {
 								return resp;
 							}).catch(function (error) {
 								console.log(error);
 								return ['error', error];
 							});
-						if (Array.isArray(putCommentResult)) {
+						if (Array.isArray(postCommentResult)) {
 							alert('コメント同期の際にエラーが発生しました。');
 							resolve();
 						}
