@@ -2318,8 +2318,8 @@ async function processError(event) {
 }
 /**
  * 導入案件管理と入出荷管理のコメント同期
- * ・導入案件管理が納品準備中、製品発送済み
- * ・入出荷管理が納品情報未確定と処理中
+ * ・導入案件管理が納品準備中,製品発送済み
+ * ・入出荷管理が納品情報未確定,処理中
  * ・上記のステータスの場合コメントを同期
  * ※どちらかが上のステータスでない場合同期しない
  */
@@ -2327,7 +2327,20 @@ $(function () {
 	$('.ocean-ui-comments-commentform-submit').on('click', async function () {
 		await startLoad();
 		var eRecord = kintone.app.record.get();
+		var prjStat = ['納品準備中','製品発送済み'];
+		var shipStat = ['納品情報未確定','処理中'];
 		if (kintone.app.getId() == sysid.INV.app_id.shipment && eRecord.record.prjId.value != '') {
+			var getPrjResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', {
+				'app': sysid.PM.app_id.project,
+				'query': `レコード番号 = "${eRecord.record.prjId.value}"`
+			}).then(function (resp) {
+				return resp;
+			}).catch(function (error) {
+				console.log(error);
+				return ['error', error];
+			});
+			console.log(getPrjResult);
+
 			if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
 				var getCommentBody = {
 					'app': kintone.app.getId(),
@@ -2373,6 +2386,9 @@ $(function () {
 					}, 1000)
 				})
 			}
+			// if(getPrjResult.){
+			// }
+
 		} else if (kintone.app.getId() == sysid.PM.app_id.project && eRecord.record.sys_shipment_ID.value != '') {
 
 		}
