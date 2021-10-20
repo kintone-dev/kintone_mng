@@ -2330,7 +2330,7 @@ $(function () {
 		var prjStat = ['納品準備中','製品発送済み'];
 		var shipStat = ['納品情報未確定','処理中'];
 		if (kintone.app.getId() == sysid.INV.app_id.shipment && eRecord.record.prjId.value != '') {
-			var getPrjResult = await kintone.api(kintone.api.url('/k/v1/record/record.json', true), 'GET', {
+			var getPrjResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
 				'app': sysid.PM.app_id.project,
 				'id': eRecord.record.prjId.value
 			}).then(function (resp) {
