@@ -14,6 +14,16 @@
     }
 
     if (nStatus === '仕入完了') {
+      var devArray = [];
+      for(let i in event.record.arrivalList.value){
+        devArray.push(event.record.arrivalList.value[i].value.mCode);
+      }
+      //重複チェック関数
+      function existsSameValue(a){
+        var s = new Set(a);
+        return s.size != a.length;
+      }
+      console.log(existsSameValue(devArray));
       // 在庫処理
       await stockCtrl(event, kintone.app.getId());
       // レポート処理
