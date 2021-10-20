@@ -2324,21 +2324,26 @@ async function processError(event) {
  * ※どちらかが上のステータスでない場合同期しない
  */
 $(function () {
-	$('.ocean-ui-comments-commentform-submit').on('click', function () {
+	$('.ocean-ui-comments-commentform-submit').on('click', async function () {
 		var commentArray = [sysid.INV.app_id.shipment, sysid.PM.app_id.project];
 		var eRecord = kintone.app.record.get();
-		console.log(eRecord);
 		if (commentArray.includes(kintone.app.getId())) {
 			if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
-				var body = {
+				var getCommentBody = {
 					'app': kintone.app.getId(),
 					'record': eRecord.record.$id.value
 				};
-				kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', body, function(resp) {
-					console.log(resp);
-				}, function(error) {
-					console.log(error);
-				});
+				await new Promise(resolve => {
+					setTimeout(() => {
+						kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody, function (resp) {
+							console.log(resp);
+						}, function (error) {
+							console.log(error);
+						});
+						resolve();
+					}, 1000)
+				})
+
 			}
 		}
 	});
