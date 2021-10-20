@@ -2323,7 +2323,8 @@ async function processError(event) {
  * ・上記のステータスの場合コメントを同期
  * ※どちらかが上のステータスでない場合同期しない
  */
-
-$('.ocean-ui-comments-commentform-submit').on('click',function(){
-	console.log('click');
-});
+$(function () {
+	$('.ocean-ui-comments-commentform-submit').on('click', function () {
+		console.log('click');
+	});
+})
