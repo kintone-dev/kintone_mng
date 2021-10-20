@@ -2359,6 +2359,8 @@ $(function () {
 						putCommentBody.comment.text = getCommentResult.comments[0].text;
 						putCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
 
+						console.log(putCommentBody);
+
 						var putCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'PUT', putCommentBody)
 							.then(function (resp) {
 								return resp;
