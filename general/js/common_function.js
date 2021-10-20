@@ -2328,7 +2328,7 @@ $(function () {
 		var commentArray = [sysid.INV.app_id.shipment, sysid.PM.app_id.project];
 		if (commentArray.includes(kintone.app.getId())) {
 			if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
-				console.log('click');
+				$('.ocean-ui-editor-field').html() = '@aaa\ntest'
 			}
 		}
 	});
