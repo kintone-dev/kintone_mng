@@ -2316,8 +2316,14 @@ async function processError(event) {
 	}
 
 }
+/**
+ * 導入案件管理と入出荷管理のコメント同期
+ * ・導入案件管理が納品準備中、製品発送済み
+ * ・入出荷管理が納品情報未確定と処理中
+ * ・上記のステータスの場合コメントを同期
+ * ※どちらかが上のステータスでない場合同期しない
+ */
 
-//コメント同期
 $('.ocean-ui-comments-commentform-submit').on('click',function(){
 	console.log('click');
 });
