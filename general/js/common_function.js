@@ -2325,6 +2325,7 @@ async function processError(event) {
  */
 $(function () {
 	$('.ocean-ui-comments-commentform-submit').on('click', function () {
+		console.log(kintone.app.record.get());
 		if ($('.ocean-ui-editor-field').html() != '' || $('.ocean-ui-editor-field').html() != '<br>') {
 			console.log('click');
 		}
