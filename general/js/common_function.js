@@ -2336,13 +2336,13 @@ $(function () {
 				var putCommentBody = {
 					'app': sysid.PM.app_id.project,
 					'record': eRecord.record.prjId.value,
-					'comment':{
-						'text':'',
-						'mentions':[]
+					'comment': {
+						'text': '',
+						'mentions': []
 					}
 				};
 				await new Promise(resolve => {
-					setTimeout(() => {
+					setTimeout(async function () {
 						var getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody, function (resp) {
 							console.log(resp);
 							return resp;
