@@ -142,7 +142,7 @@
           var putStatusBody = {
             'id': prjIdRecord.records[i].$id.value,
             'action': '処理開始',
-            'assignee':''
+            'assignee':'m.logi'
           };
           putStatusData.records.push(putStatusBody);
         }

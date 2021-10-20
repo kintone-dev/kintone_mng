@@ -2325,11 +2325,10 @@ async function processError(event) {
  */
 $(function () {
 	$('.ocean-ui-comments-commentform-submit').on('click', function () {
-		console.log(kintone.app.record.get());
-		console.log(kintone.app.getId());
-		var commentArray = [sysid.INV.app_id.shipment,sysid.PM.app_id.project];
-		if(commentArray.includes(kintone.app.getId())){
-			if ($('.ocean-ui-editor-field').html() != '' || $('.ocean-ui-editor-field').html() != '<br>') {
+		var commentArray = [sysid.INV.app_id.shipment, sysid.PM.app_id.project];
+		console.log(commentArray);
+		if (commentArray.includes(kintone.app.getId())) {
+			if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
 				console.log('click');
 			}
 		}
