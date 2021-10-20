@@ -6,7 +6,7 @@ function deletSB(subTable, fCode){
   kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', {app:kintone.app.getId()}).then(function(resp){
     let recordList=resp.records;
     let body={
-      app:kinotne.app.getId(),
+      app:kintone.app.getId(),
       records:[]
     }
     for(let i in recordList){
