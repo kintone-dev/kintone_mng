@@ -2327,6 +2327,7 @@ $(function () {
 	$('.ocean-ui-comments-commentform-submit').on('click', function () {
 		var commentArray = [sysid.INV.app_id.shipment, sysid.PM.app_id.project];
 		var eRecord = kintone.app.record.get();
+		console.log(eRecord);
 		if (commentArray.includes(kintone.app.getId())) {
 			if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
 				var body = {
