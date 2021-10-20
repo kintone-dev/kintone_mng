@@ -2330,7 +2330,7 @@ $(function () {
 		var prjStat = ['納品準備中', '製品発送済み'];
 		var shipStat = ['納品情報未確定', '処理中'];
 		if (kintone.app.getId() == sysid.INV.app_id.shipment && eRecord.record.prjId.value != '') {
-			var getPrjResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
+			let getPrjResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
 				'app': sysid.PM.app_id.project,
 				'id': eRecord.record.prjId.value
 			}).then(function (resp) {
@@ -2347,11 +2347,11 @@ $(function () {
 
 			if (prjStat.includes(getPrjResult.record.ステータス.value)) {
 				if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
-					var getCommentBody = {
+					let getCommentBody = {
 						'app': kintone.app.getId(),
 						'record': eRecord.record.$id.value
 					};
-					var postCommentBody = {
+					let postCommentBody = {
 						'app': sysid.PM.app_id.project,
 						'record': eRecord.record.prjId.value,
 						'comment': {
@@ -2361,7 +2361,7 @@ $(function () {
 					};
 					await new Promise(resolve => {
 						setTimeout(async function () {
-							var getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody)
+							let getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody)
 								.then(function (resp) {
 									return resp;
 								}).catch(function (error) {
@@ -2374,9 +2374,7 @@ $(function () {
 							}
 							postCommentBody.comment.text = getCommentResult.comments[0].text;
 							postCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
-
-							console.log(postCommentBody);
-							var postCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comment.json', true), 'POST', postCommentBody)
+							let postCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comment.json', true), 'POST', postCommentBody)
 								.then(function (resp) {
 									return resp;
 								}).catch(function (error) {
@@ -2395,7 +2393,68 @@ $(function () {
 				alert('対応した案件管理レコードにはコメントは同期されません');
 			}
 		} else if (kintone.app.getId() == sysid.PM.app_id.project && eRecord.record.sys_shipment_ID.value != '') {
+			let getShipResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
+				'app': sysid.PM.app_id.project,
+				'id': eRecord.record.sys_shipment_ID.value
+			}).then(function (resp) {
+				return resp;
+			}).catch(function (error) {
+				console.log(error);
+				return ['error', error];
+			});
+			if (Array.isArray(getShipResult)) {
+				alert('コメント同期の際にエラーが発生しました。');
+				await endLoad();
+				return;
+			}
 
+			if (shipStat.includes(getShipResult.record.ステータス.value)) {
+				if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
+					let getCommentBody = {
+						'app': kintone.app.getId(),
+						'record': eRecord.record.$id.value
+					};
+					let postCommentBody = {
+						'app': sysid.INV.app_id.shipment,
+						'record': eRecord.record.sys_shipment_ID.value,
+						'comment': {
+							'text': '',
+							'mentions': []
+						}
+					};
+					await new Promise(resolve => {
+						setTimeout(async function () {
+							let getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody)
+								.then(function (resp) {
+									return resp;
+								}).catch(function (error) {
+									console.log(error);
+									return ['error', error];
+								});
+							if (Array.isArray(getCommentResult)) {
+								alert('コメント同期の際にエラーが発生しました。');
+								resolve();
+							}
+							postCommentBody.comment.text = getCommentResult.comments[0].text;
+							postCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
+							let postCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comment.json', true), 'POST', postCommentBody)
+								.then(function (resp) {
+									return resp;
+								}).catch(function (error) {
+									console.log(error);
+									return ['error', error];
+								});
+							if (Array.isArray(postCommentResult)) {
+								alert('コメント同期の際にエラーが発生しました。');
+								resolve();
+							}
+							resolve();
+						}, 1000)
+					})
+				}
+			} else{
+				alert('対応した入出荷管理レコードにはコメントは同期されません');
+			}
 		}
 
 		await endLoad();
