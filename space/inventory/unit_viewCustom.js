@@ -10,6 +10,7 @@
     'app.record.create.show'
   ];
   kintone.events.on(events_ced, function (event) {
+    console.log(event.record.mStockList.value);
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     for(let i in event.record.mStockList.value) {
       event.record.mStockList.value[i].value.mCode.disabled = true;
