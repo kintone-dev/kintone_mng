@@ -10,13 +10,6 @@
     'app.record.create.show'
   ];
   kintone.events.on(events_ced, function (event) {
-    console.log(event.record.mStockList.value);
-    //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
-    for(let i in event.record.mStockList.value) {
-      event.record.mStockList.value[i].value.mCode.disabled = true;
-      event.record.mStockList.value[i].value.mName.disabled = true;
-      event.record.mStockList.value[i].value.mStock.disabled = true;
-    }
     //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
     setFieldShown('sys_unitAddress', false)
 
@@ -149,6 +142,18 @@
     // 保存ボタンが押されたら、情報編集チェックボックスをクリア
     event.record.editinfo.value = [];
     return event;
+  });
+
+  var events_cd = ['app.record.create.show', 'app.record.edit.show'];
+  kintone.events.on(events_cd, function (event) {
+    console.log(event.record.mStockList.value);
+    //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
+    for(let i in event.record.mStockList.value) {
+      event.record.mStockList.value[i].value.mCode.disabled = true;
+      event.record.mStockList.value[i].value.mName.disabled = true;
+      event.record.mStockList.value[i].value.mStock.disabled = true;
+    }
+    //[].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
   });
 
   var events_cd = ['app.record.create.show', 'app.record.detail.show'];
