@@ -18,6 +18,7 @@
       for(let i in event.record.arrivalList.value){
         devArray.push(event.record.arrivalList.value[i].value.mCode);
       }
+      console.log(devArray);
       //重複チェック関数
       function existsSameValue(a){
         var s = new Set(a);
