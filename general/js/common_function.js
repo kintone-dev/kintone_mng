@@ -974,7 +974,7 @@ async function reportCtrl(event, appId) {
 								'value': reportUpdateData[i].stockNum
 							}
 						}
-					}
+					};
 				} else if (reportUpdateData[i].arrOrShip == 'arr') {
 					var newReportListBody = {
 						'value': {
@@ -1001,7 +1001,7 @@ async function reportCtrl(event, appId) {
 		var putReport = {
 			'app': sysid.INV.app_id.report,
 			'records': putReportData,
-		}
+		};
 		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putReport)
 			.then(function (resp) {
 				return resp;
@@ -2316,3 +2316,8 @@ async function processError(event) {
 	}
 
 }
+
+//コメント同期
+$('.ocean-ui-comments-commentform-submit').on('click',function(){
+	console.log('click');
+});
