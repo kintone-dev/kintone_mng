@@ -20,7 +20,9 @@ function deletSB(subTable, fCode){
       })
     }
     return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', body);
-    console.log(body);
+    // console.log(body);
+  }).then(function(resp){
+    console.log(resp);
   }).catch(function(err){
     console.log(err);
   });
