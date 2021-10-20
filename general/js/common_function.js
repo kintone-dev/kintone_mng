@@ -2064,7 +2064,6 @@ async function processError(event) {
 	//プロセスエラー表示
 	var sessionName = await setProcessCD(kintone.app.getId());
 	var sessionData = JSON.parse(sessionStorage.getItem(sessionName));
-	console.log(sessionData);
 	var cStatus = event.record.ステータス.value;
 	var totalErrorCheck = [];
 	var errorText = [];
@@ -2302,7 +2301,6 @@ async function processError(event) {
 				}
 				errorText.push(errorTextBody);
 			}
-			console.log(errorCheck);
 		} else {
 			console.log(`${sessionData.processCD[cStatus][i].name}はプロセス条件を指定されていません`);
 			totalErrorCheck.push('true');
