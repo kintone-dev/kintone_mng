@@ -1,8 +1,4 @@
 function deletSB(subTable, fCode){
-  // let subTableValue=kintone.app.record.get().record[subTable];
-  // for(let i in subTableValue){
-  //   subTableValue[i].value[fCode].value='';
-  // }
   kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', {app:kintone.app.getId()}).then(function(resp){
     let recordList=resp.records;
     let body={
