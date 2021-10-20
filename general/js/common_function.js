@@ -2332,7 +2332,7 @@ $(function () {
 		if (kintone.app.getId() == sysid.INV.app_id.shipment && eRecord.record.prjId.value != '') {
 			var getPrjResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', {
 				'app': sysid.PM.app_id.project,
-				'query': `レコード番号 = "${eRecord.record.prjId.value}"`
+				'query': 'レコード番号 = "' + eRecord.record.prjId.value + '"'
 			}).then(function (resp) {
 				return resp;
 			}).catch(function (error) {
@@ -2340,6 +2340,12 @@ $(function () {
 				return ['error', error];
 			});
 			console.log(getPrjResult);
+			if (Array.isArray(getPrjResult)) {
+				alert('コメント同期の際にエラーが発生しました。');
+				await endLoad();
+				return;
+			}
+
 
 			if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
 				var getCommentBody = {
