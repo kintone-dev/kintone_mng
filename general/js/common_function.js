@@ -2345,7 +2345,7 @@ $(function () {
 				return;
 			}
 
-			if (prjStat.includes(getPrjResult.record.ステータス.value)) {
+			if (shipStat.includes(eRecord.record.ステータス.value) && prjStat.includes(getPrjResult.record.ステータス.value)) {
 				if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
 					let getCommentBody = {
 						'app': kintone.app.getId(),
@@ -2408,7 +2408,7 @@ $(function () {
 				return;
 			}
 
-			if (shipStat.includes(getShipResult.record.ステータス.value)) {
+			if (prjStat.includes(eRecord.record.ステータス.value) && shipStat.includes(getShipResult.record.ステータス.value)) {
 				if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
 					let getCommentBody = {
 						'app': kintone.app.getId(),
