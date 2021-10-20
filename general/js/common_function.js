@@ -2335,7 +2335,11 @@ $(function () {
 				};
 				var putCommentBody = {
 					'app': sysid.PM.app_id.project,
-					'record': eRecord.record.prjId.value
+					'record': eRecord.record.prjId.value,
+					'comment':{
+						'text':'',
+						'mentions':[]
+					}
 				};
 				await new Promise(resolve => {
 					setTimeout(() => {
@@ -2351,7 +2355,8 @@ $(function () {
 							resolve();
 						}
 
-						putCommentBody.comment = getCommentResult.comments[0]
+						putCommentBody.comment.text = getCommentResult.comments[0].text;
+						putCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
 
 						var putCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'PUT', putCommentBody, function (resp) {
 							console.log(resp);
