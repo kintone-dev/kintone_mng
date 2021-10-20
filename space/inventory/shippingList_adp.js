@@ -221,7 +221,7 @@
         return ['error', error];
       });
     if (putResult[0] == 'error') {
-      return statResult;
+      return putResult;
     }
     var statResult = await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusData)
       .then(function (resp) {
