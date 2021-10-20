@@ -2394,7 +2394,7 @@ $(function () {
 			}
 		} else if (kintone.app.getId() == sysid.PM.app_id.project && eRecord.record.sys_shipment_ID.value != '') {
 			let getShipResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
-				'app': sysid.PM.app_id.project,
+				'app': sysid.INV.app_id.shipment,
 				'id': eRecord.record.sys_shipment_ID.value
 			}).then(function (resp) {
 				return resp;
