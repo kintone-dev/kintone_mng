@@ -2349,19 +2349,14 @@ $(function () {
 								console.log(error);
 								return ['error', error];
 							});
-
 						if (Array.isArray(getCommentResult)) {
 							alert('コメント同期の際にエラーが発生しました。');
 							resolve();
 						}
-
 						putCommentBody.comment.text = getCommentResult.comments[0].text;
-						if(getCommentResult.comments[0].mentions.length > 0){
-							putCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
-						}
-
+						putCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
 						console.log(putCommentBody);
-						var putCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'PUT', putCommentBody)
+						var putCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'POST', putCommentBody)
 							.then(function (resp) {
 								return resp;
 							}).catch(function (error) {
