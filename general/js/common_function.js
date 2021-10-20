@@ -2325,26 +2325,55 @@ async function processError(event) {
  */
 $(function () {
 	$('.ocean-ui-comments-commentform-submit').on('click', async function () {
-		var commentArray = [sysid.INV.app_id.shipment, sysid.PM.app_id.project];
+		await startLoad();
 		var eRecord = kintone.app.record.get();
-		if (commentArray.includes(kintone.app.getId())) {
+		if (kintone.app.getId() == sysid.INV.app_id.shipment && eRecord.record.prjId.value != '') {
 			if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
 				var getCommentBody = {
 					'app': kintone.app.getId(),
 					'record': eRecord.record.$id.value
 				};
+				var putCommentBody = {
+					'app': sysid.PM.app_id.project,
+					'record': eRecord.record.prjId.value
+				};
 				await new Promise(resolve => {
 					setTimeout(() => {
-						kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody, function (resp) {
+						var getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody, function (resp) {
 							console.log(resp);
+							return resp;
 						}, function (error) {
 							console.log(error);
+							return ['error', error];
 						});
+						if (getCommentResult[0] == 'error') {
+							alert('コメント同期の際にエラーが発生しました。');
+							resolve();
+						}
+
+						putCommentBody.comment = getCommentResult.comments[0]
+
+						var putCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'PUT', putCommentBody, function (resp) {
+							console.log(resp);
+							return resp;
+						}, function (error) {
+							console.log(error);
+							return ['error', error];
+						});
+						if (putCommentResult[0] == 'error') {
+							alert('コメント同期の際にエラーが発生しました。');
+							resolve();
+						}
+
 						resolve();
 					}, 1000)
 				})
-
 			}
+		} else if (kintone.app.getId() == sysid.PM.app_id.project && eRecord.record.sys_shipment_ID.value != '') {
+
 		}
+
+		await endLoad();
+		return;
 	});
 })
