@@ -2332,7 +2332,7 @@ $(function () {
 			if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
 				var body = {
 					'app': kintone.app.getId(),
-					'record': eRecord.$id.value
+					'record': eRecord.record.$id.value
 				};
 				kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', body, function(resp) {
 					console.log(resp);
