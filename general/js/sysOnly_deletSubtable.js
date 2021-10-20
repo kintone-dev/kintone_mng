@@ -13,11 +13,11 @@ function deletSB(subTable, fCode){
       let subTableValue=recordList[i][subTable].value;
       for (let y in subTableValue){
         subTableValue[y].value[fCode].value='';
-        body.records.push({
-          id:recordList[i].$id,
-          record:recordList[i][subTable]
-        })
       }
+      body.records.push({
+        id:recordList[i].$id,
+        record:{[subTable]:recordList[i][subTable]}
+      })
     }
     // return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', body);
     console.log(body);
