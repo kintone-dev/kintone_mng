@@ -2357,7 +2357,7 @@ $(function () {
 						postCommentBody.comment.text = getCommentResult.comments[0].text;
 						postCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
 
-						console.log(putCommentBody);
+						console.log(postCommentBody);
 						var postCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comment.json', true), 'POST', postCommentBody)
 							.then(function (resp) {
 								return resp;
