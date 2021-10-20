@@ -109,7 +109,21 @@
         event.error = '出荷ロケーションを選択して下さい。';
       }
     } else if (cStatus === "処理中" && nStatus === "納品情報未確定") {
-      console.log('ok');
+      let putStatusData = {
+        'app': sysid.PM.app_id.project,
+        'id': event.record.prjId.value,
+        'action': '差戻'
+      };
+      var statResult = await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusData)
+        .then(function (resp) {
+          return resp;
+        }).catch(function (error) {
+          console.log(error);
+          return ['error', error];
+        });
+      if (statResult[0] == 'error') {
+        return statResult;
+      }
     }
     endLoad();
     return event;
