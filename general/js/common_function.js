@@ -2343,13 +2343,14 @@ $(function () {
 				};
 				await new Promise(resolve => {
 					setTimeout(async function () {
-						var getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody, function (resp) {
-							console.log(resp);
-							return resp;
-						}, function (error) {
-							console.log(error);
-							return ['error', error];
-						});
+						var getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody)
+							.then(function (resp) {
+								return resp;
+							}).catch(function (error) {
+								console.log(error);
+								return ['error', error];
+							});
+
 						if (Array.isArray(getCommentResult)) {
 							alert('コメント同期の際にエラーが発生しました。');
 							resolve();
@@ -2358,13 +2359,14 @@ $(function () {
 						putCommentBody.comment.text = getCommentResult.comments[0].text;
 						putCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
 
-						var putCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'PUT', putCommentBody, function (resp) {
-							console.log(resp);
-							return resp;
-						}, function (error) {
-							console.log(error);
-							return ['error', error];
-						});
+						var putCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'PUT', putCommentBody)
+							.then(function (resp) {
+								return resp;
+							}).catch(function (error) {
+								console.log(error);
+								return ['error', error];
+							});
+
 						if (Array.isArray(putCommentResult)) {
 							alert('コメント同期の際にエラーが発生しました。');
 							resolve();
