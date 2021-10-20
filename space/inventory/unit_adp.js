@@ -11,7 +11,7 @@
       .then(function (resp) {
         var eRecord = kintone.app.record.get();
         //反転して格納
-        var tarRecords = getDevresult.records.reverse();
+        var tarRecords = resp.records.reverse();
         //各拠点情報を当アプリの拠点リストに格納する
         //最初の空白の1行目を削除
         eRecord.record.mStockList.value.splice(0, 1);
