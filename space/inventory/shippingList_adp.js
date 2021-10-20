@@ -142,7 +142,7 @@
           var putStatusBody = {
             'id': prjIdRecord.records[i].$id.value,
             'action': '処理開始',
-            'assignee':'在庫管理・拠点'
+            'assignee':'IoT製品管理'
           };
           putStatusData.records.push(putStatusBody);
         }
