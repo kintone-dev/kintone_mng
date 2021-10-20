@@ -198,12 +198,21 @@
       'id': pageRecod.prjId.value,
       'action': '製品発送済'
     };
-    var putResult = await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putDeliveryData)
-      .catch(function (error) {
+    var putResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), "PUT", putDeliveryData)
+      .then(function (resp) {
+        return resp;
+      }).catch(function (error) {
+        console.log(error);
         return ['error', error];
       });
+    if (putResult[0] == 'error') {
+      return statResult;
+    }
     var statResult = await kintone.api(kintone.api.url('/k/v1/record/status.json', true), "PUT", putStatusData)
-      .catch(function (error) {
+      .then(function (resp) {
+        return resp;
+      }).catch(function (error) {
+        console.log(error);
         return ['error', error];
       });
     if (statResult[0] == 'error') {
