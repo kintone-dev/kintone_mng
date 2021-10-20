@@ -7,3 +7,6 @@ function deletSB(subTable, fCode){
   //   subTableValue[i].value[fCode].value='';
   // }
 }
+function testtt(text){
+  console.log(text)
+}
