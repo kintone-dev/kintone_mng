@@ -19,7 +19,7 @@ function deletSB(subTable, fCode){
         record:{[subTable]:recordList[i][subTable]}
       })
     }
-    // return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', body);
+    return kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', body);
     console.log(body);
   }).catch(function(err){
     console.log(err);
