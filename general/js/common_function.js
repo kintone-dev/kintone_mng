@@ -2354,7 +2354,9 @@ $(function () {
 							resolve();
 						}
 						putCommentBody.comment.text = getCommentResult.comments[0].text;
-						putCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
+						if(getCommentResult.comments[0].mentions.length > 0){
+							putCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
+						}
 						console.log(putCommentBody);
 						var putCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'POST', putCommentBody)
 							.then(function (resp) {
@@ -2363,12 +2365,10 @@ $(function () {
 								console.log(error);
 								return ['error', error];
 							});
-
 						if (Array.isArray(putCommentResult)) {
 							alert('コメント同期の際にエラーが発生しました。');
 							resolve();
 						}
-
 						resolve();
 					}, 1000)
 				})
