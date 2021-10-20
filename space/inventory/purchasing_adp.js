@@ -16,7 +16,7 @@
     if (nStatus === '仕入完了') {
       var devArray = [];
       for(let i in event.record.arrivalList.value){
-        devArray.push(event.record.arrivalList.value[i].value.mCode);
+        devArray.push(event.record.arrivalList.value[i].value.mCode.value);
       }
       console.log(devArray);
       //重複チェック関数
@@ -24,7 +24,11 @@
         var s = new Set(a);
         return s.size != a.length;
       }
-      console.log(existsSameValue(devArray));
+      if(existsSameValue(devArray)){
+        event.error = '品目が重複しています'
+        endLoad();
+        return event;
+      }
       // 在庫処理
       await stockCtrl(event, kintone.app.getId());
       // レポート処理
