@@ -2326,9 +2326,18 @@ async function processError(event) {
 $(function () {
 	$('.ocean-ui-comments-commentform-submit').on('click', function () {
 		var commentArray = [sysid.INV.app_id.shipment, sysid.PM.app_id.project];
+		var eRecord = kintone.app.record.get();
 		if (commentArray.includes(kintone.app.getId())) {
 			if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
-				$('.ocean-ui-editor-field').html() = '@aaa\ntest'
+				var body = {
+					'app': kintone.app.getId(),
+					'record': eRecord.$id.value
+				};
+				kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', body, function(resp) {
+					console.log(resp);
+				}, function(error) {
+					console.log(error);
+				});
 			}
 		}
 	});
