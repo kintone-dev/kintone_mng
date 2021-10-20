@@ -144,8 +144,8 @@
     return event;
   });
 
-  var events_cd = ['app.record.create.show', 'app.record.edit.show'];
-  kintone.events.on(events_cd, function (event) {
+  kintone.events.on(['app.record.create.show', 'app.record.edit.show'], function (event) {
+    console.log(event);
     console.log(event.record.mStockList.value);
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     for(let i in event.record.mStockList.value) {
