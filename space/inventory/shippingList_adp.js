@@ -5,6 +5,7 @@
   kintone.events.on('app.record.detail.process.proceed', async function (event) {
     startLoad();
     var nStatus = event.nextStatus.value;
+    var cStatus = event.record.ステータス.value;
     if (nStatus === "集荷待ち") {
       //送付日未記入の場合エラー
       if (event.record.sendDate.value == null) {
@@ -96,10 +97,8 @@
           event.error = 'ステータス変更でエラーが発生しました。\n該当の案件管理ページを確認してください。'
         }
       }
-
       // レポート処理
       await reportCtrl(event, kintone.app.getId());
-
     } else if (nStatus === "受領待ち") {
       var txt = $('[name=setShipment] option:selected').text();
       var val = $('[name=setShipment] option:selected').val();
@@ -109,6 +108,8 @@
       } else {
         event.error = '出荷ロケーションを選択して下さい。';
       }
+    } else if (cStatus === "処理中" && nStatus === "納品情報未確定") {
+      console.log('ok');
     }
     endLoad();
     return event;
@@ -160,10 +161,10 @@
           return ['error', error];
         });
 
-        if (putStatusResult[0] == 'error') {
-          alert('ステータス変更時にエラーが発生しました。');
-          return event;
-        }
+      if (putStatusResult[0] == 'error') {
+        alert('ステータス変更時にエラーが発生しました。');
+        return event;
+      }
 
       sessionStorage.setItem('record_updated', '1');
       location.reload();
