@@ -2325,8 +2325,7 @@ async function processError(event) {
  */
 $(function () {
 	$('.ocean-ui-comments-commentform-submit').on('click', function () {
-		console.log($('.ocean-ui-editor-field').html());
-		if($('.ocean-ui-editor-field').html()!=''){
+		if ($('.ocean-ui-editor-field').html() != '' || $('.ocean-ui-editor-field').html() != '<br>') {
 			console.log('click');
 		}
 	});
