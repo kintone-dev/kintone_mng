@@ -2350,7 +2350,7 @@ $(function () {
 							console.log(error);
 							return ['error', error];
 						});
-						if (getCommentResult[0] == 'error') {
+						if (Array.isArray(getCommentResult)) {
 							alert('コメント同期の際にエラーが発生しました。');
 							resolve();
 						}
@@ -2365,7 +2365,7 @@ $(function () {
 							console.log(error);
 							return ['error', error];
 						});
-						if (putCommentResult[0] == 'error') {
+						if (Array.isArray(putCommentResult)) {
 							alert('コメント同期の際にエラーが発生しました。');
 							resolve();
 						}
