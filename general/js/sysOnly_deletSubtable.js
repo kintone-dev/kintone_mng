@@ -13,7 +13,7 @@
           subTableValue[y].value.uStock.value='';
         }
         body.records.push({
-          id:{value:recordList[i].$id.value},
+          id:recordList[i].$id.value,
           record:{uStockList:recordList[i].uStockList}
         })
       }
