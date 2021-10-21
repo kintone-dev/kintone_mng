@@ -49,40 +49,51 @@
       }
       console.log(putSnumData);
       var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
-        .catch(async function (error) {
-          if (confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？')) {
-            var postSnumData = [];
-            for (let x in putSnumData) {
-              postSnumData.push({
-                'sNum': {
-                  type: 'SINGLE_LINE_TEXT',
-                  value: sNums.SNs[x]
-                },
-                'shipment': event.record.shipment,
-                'sendDate': event.record.sendDate,
-                'shipType': event.record.shipType,
-                'instName': {
-                  type: 'SINGLE_LINE_TEXT',
-                  value: instNameValue
-                }
-              });
-            }
-            console.log(postSnumData);
-            var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, postSnumData)
-              .catch(function (error) {
-                return 'error';
-              });
-            if (postSnumResult == 'error') {
-              return 'error';
-            }
-          } else {
-            return 'error';
-          }
+        .then(function (resp) {
+          console.log(resp);
+          return resp;
+        }).catch(function (error) {
+          console.log(error);
+          return 'error';
         });
+
       if (putSnumResult == 'error') {
-        endLoad();
-        event.error = 'シリアル番号更新でエラーが発生しました。';
-        return event;
+        if (confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？')) {
+          var postSnumData = [];
+          for (let x in putSnumData) {
+            postSnumData.push({
+              'sNum': {
+                type: 'SINGLE_LINE_TEXT',
+                value: sNums.SNs[x]
+              },
+              'shipment': event.record.shipment,
+              'sendDate': event.record.sendDate,
+              'shipType': event.record.shipType,
+              'instName': {
+                type: 'SINGLE_LINE_TEXT',
+                value: instNameValue
+              }
+            });
+          }
+          console.log(postSnumData);
+          var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, postSnumData)
+            .then(function (resp) {
+              console.log(resp);
+              return resp;
+            }).catch(function (error) {
+              console.log(error);
+              return 'error';
+            });
+          if (postSnumResult == 'error') {
+            endLoad();
+            event.error = 'シリアル番号更新でエラーが発生しました。';
+            return event;
+          }
+        } else {
+          endLoad();
+          event.error = 'シリアル番号更新でエラーが発生しました。';
+          return event;
+        }
       }
 
       //在庫処理
