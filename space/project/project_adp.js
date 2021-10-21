@@ -361,7 +361,7 @@
               'value': event.record.sys_unitAddress.value
             },
             'deviceList': {
-              'value': []
+              'value': event.record.deviceList.value
             },
             'prjNum': {
               'value': event.record.prjNum.value
@@ -422,7 +422,7 @@
               'value': event.record.sys_unitAddress.value
             },
             'deviceList': {
-              'value': []
+              'value': event.record.deviceList.value
             },
             'prjNum': {
               'value': event.record.prjNum.value
@@ -431,21 +431,21 @@
         };
       }
 
-      for (let i in event.record.deviceList.value) {
-        if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
-          var devListBody = {
-            'value': {
-              'mNickname': {
-                'value': event.record.deviceList.value[i].value.mNickname.value
-              },
-              'shipNum': {
-                'value': event.record.deviceList.value[i].value.shipNum.value
-              }
-            }
-          };
-          putShipBody.record.deviceList.value.push(devListBody);
-        }
-      }
+      // for (let i in event.record.deviceList.value) {
+      //   if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
+      //     var devListBody = {
+      //       'value': {
+      //         'mNickname': {
+      //           'value': event.record.deviceList.value[i].value.mNickname.value
+      //         },
+      //         'shipNum': {
+      //           'value': event.record.deviceList.value[i].value.shipNum.value
+      //         }
+      //       }
+      //     };
+      //     putShipBody.record.deviceList.value.push(devListBody);
+      //   }
+      // }
 
       // 社内・社員予備機用put用サブデータ
       var putShipSubBody = {

@@ -14,7 +14,7 @@
         endLoad();
         return event;
       } else if(reportData[0] == 'true'){
-        if(!confirm('対応した日付のレポートは' + reportData[1] + '済みです。\n作業を続けますか？')){
+        if(confirm('対応した日付のレポートは' + reportData[1] + '済みです。\n作業を続けますか？')){
           endLoad();
           return event;
         }
@@ -126,7 +126,7 @@
         }
       }
       // レポート処理
-      await reportCtrl(event, kintone.app.getId());
+      reportCtrl(event, kintone.app.getId());
     } else if (cStatus === "処理中" && nStatus === "受領待ち") {
       var txt = $('[name=setShipment] option:selected').text();
       var val = $('[name=setShipment] option:selected').val();
