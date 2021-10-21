@@ -72,16 +72,15 @@
                 return 'error';
               });
             if (postSnumResult == 'error') {
-              event.error = 'シリアル番号追加でエラーが発生しました。';
               return 'error';
             }
           } else {
-            event.error = 'シリアル番号更新でエラーが発生しました。';
             return 'error';
           }
         });
       if (putSnumResult == 'error') {
         endLoad();
+        event.error = 'シリアル番号更新でエラーが発生しました。';
         return event;
       }
 
