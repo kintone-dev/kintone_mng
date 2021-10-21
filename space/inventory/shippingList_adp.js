@@ -47,6 +47,7 @@
         };
         putSnumData.push(snRecord);
       }
+      console.log(putSnumData);
       var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .catch(async function (error) {
           if (confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？')) {
