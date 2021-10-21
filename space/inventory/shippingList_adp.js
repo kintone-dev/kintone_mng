@@ -26,6 +26,7 @@
           return event;
         }
       }
+      //シリアル番号情報を更新
       var putSnumData = [];
       var instNameValue = event.record.instName.value;
       if (instNameValue == undefined) instNameValue = '';
@@ -45,6 +46,7 @@
             }
           }
         };
+        console.log(snRecord);
         putSnumData.push(snRecord);
       }
       console.log(putSnumData);
@@ -56,7 +58,7 @@
           console.log(error);
           return 'error';
         });
-
+      //シリアル番号更新失敗の際に、新規シリアル番号としてpost
       if (putSnumResult == 'error') {
         if (confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？')) {
           var postSnumData = [];
