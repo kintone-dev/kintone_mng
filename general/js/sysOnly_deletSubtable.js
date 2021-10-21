@@ -17,6 +17,7 @@
           record:{[subTable]:recordList[i][subTable]}
         })
       }
+      console.log(body);
       kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', body).then(function(resp){
         console.log(resp);
       }).catch(function(err){
