@@ -164,7 +164,8 @@
     startLoad('<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。');
     var EoMcheck = event.record.EoMcheck.value;
     var user = kintone.getLoginUser();
-    if(EoMcheck=='締切' || user.name != 'kintone Admin'){
+    var developUser = ['システム設計','kintone Admin'];
+    if(EoMcheck=='締切' || !developUser.includes(user.name)){
       alert('このレポートは締切です')
       $('.gaia-argoui-app-menu-edit').remove();
     }
