@@ -46,7 +46,6 @@
             }
           }
         };
-        console.log(snRecord);
         putSnumData.push(snRecord);
       }
       console.log(putSnumData);
@@ -62,11 +61,11 @@
       if (putSnumResult == 'error') {
         if (confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？')) {
           var postSnumData = [];
-          for (let x in putSnumData) {
-            postSnumData.push({
+          for (let i in putSnumData) {
+            var postSnBody = {
               'sNum': {
                 type: 'SINGLE_LINE_TEXT',
-                value: sNums.SNs[x]
+                value: sNums.SNs[i]
               },
               'shipment': event.record.shipment,
               'sendDate': event.record.sendDate,
@@ -75,7 +74,8 @@
                 type: 'SINGLE_LINE_TEXT',
                 value: instNameValue
               }
-            });
+            };
+            postSnumData.push(postSnBody);
           }
           console.log(postSnumData);
           var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, postSnumData)
