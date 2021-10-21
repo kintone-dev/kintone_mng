@@ -69,7 +69,6 @@
       console.log(postSnumData);
       var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .then(function (resp) {
-          console.log(resp);
           return resp;
         }).catch(function (error) {
           console.log(error);
@@ -80,7 +79,6 @@
         if (confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？')) {
           var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, postSnumData)
             .then(function (resp) {
-              console.log(resp);
               return resp;
             }).catch(function (error) {
               console.log(error);
