@@ -8,13 +8,13 @@
         records:[]
       }
       for(let i in recordList){
-        let subTableValue=recordList[i].uStockList.value;
+        let subTableValue=recordList[i].mStockList.value;
         for (let y in subTableValue){
-          subTableValue[y].value.uStock.value='';
+          subTableValue[y].value.mStock.value='';
         }
         body.records.push({
           id:recordList[i].$id.value,
-          record:{uStockList:recordList[i].uStockList}
+          record:{mStockList:recordList[i].mStockList}
         })
       }
       console.log(body);
