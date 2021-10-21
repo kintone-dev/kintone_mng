@@ -1,3 +1,4 @@
+const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
 /* ボタン、タブメニュー */
 // スペースフィールドにボタンを設置
 function setBtn(btnID, btnValue) {
@@ -2005,8 +2006,6 @@ function krtSetting() {
 /**
  * プロセス実行条件取得＆jsonに格納
  */
-const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
-
 function setProcessCD(app_id) {
 	return new Promise(async function (resolve, reject) {
 		const sessionName = 'processCD_' + app_id;
