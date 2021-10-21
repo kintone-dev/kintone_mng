@@ -6,7 +6,7 @@
     startLoad();
     var nStatus = event.nextStatus.value;
     var cStatus = event.record.ステータス.value;
-    if (nStatus === "集荷待ち") {
+    if (nStatus === "集荷待ち" && cStatus === "出荷準備中") {
       //送付日未記入の場合エラー
       if (event.record.sendDate.value == null) {
         event.error = '送付日を記入して下さい。'
@@ -88,7 +88,7 @@
 
       //在庫処理
       await stockCtrl(event, kintone.app.getId());
-    } else if (nStatus === "出荷完了") {
+    } else if (nStatus === "出荷完了" && cStatus === "集荷待ち") {
       //案件IDがある場合のみ実施
       if (event.record.prjId.value != '') {
         // 輸送情報連携
@@ -101,7 +101,7 @@
       }
       // レポート処理
       await reportCtrl(event, kintone.app.getId());
-    } else if (nStatus === "受領待ち") {
+    } else if (nStatus === "受領待ち" && cStatus === "処理中") {
       var txt = $('[name=setShipment] option:selected').text();
       var val = $('[name=setShipment] option:selected').val();
       if (val != 'noSelect') {
@@ -110,7 +110,7 @@
       } else {
         event.error = '出荷ロケーションを選択して下さい。';
       }
-    } else if (cStatus === "処理中" && nStatus === "納品情報未確定") {
+    } else if (nStatus === "納品情報未確定" && cStatus === "処理中") {
       let putStatusData = {
         'app': sysid.PM.app_id.project,
         'id': event.record.prjId.value,
