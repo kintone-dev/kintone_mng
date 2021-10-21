@@ -1968,7 +1968,10 @@ var mWindow = function () {
 	return returnData;
 }
 
-// カーテンレール特記事項用モーダルウィンドウ
+/**
+ * カーテンレール特記事項用モーダルウィンドウ
+ * ・該当ページのルックアップ取得ボタンを押した際に品目がKRT-DYの際にモーダルウィンドウ表示
+ */
 function krtSetting() {
 	var mw = mWindow();
 	mw.contents.innerHTML = '<p>カーテンレール設定</p>' +
@@ -1979,8 +1982,10 @@ function krtSetting() {
 	$('#mwFrame').fadeIn();
 }
 
+/**
+ * プロセス実行条件取得＆jsonに格納
+ */
 const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
-// プロセス実行条件取得＆格納
 function setProcessCD(app_id) {
 	return new Promise(async function (resolve, reject) {
 		const sessionName = 'processCD_' + app_id;
@@ -2061,7 +2066,10 @@ function setProcessCD(app_id) {
 	})
 }
 
-// プロセスエラー処理
+/**
+ * プロセスエラー処理
+ * ・プロセスに設定がされている場合、それが満たされていない時アラートで条件を表示
+ */
 async function processError(event) {
 	var sessionName = await setProcessCD(kintone.app.getId());
 	var sessionData = JSON.parse(sessionStorage.getItem(sessionName));
@@ -2206,8 +2214,6 @@ async function processError(event) {
 		return ['success', errorText.join('\n')];
 	}
 }
-
-//
 
 /**
  * 導入案件管理と入出荷管理のコメント同期
