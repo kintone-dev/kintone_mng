@@ -2246,7 +2246,7 @@ $(function () {
 	$('.ocean-ui-comments-commentform-submit').on('click', async function () {
 		await startLoad();
 		var eRecord = kintone.app.record.get();
-		var prjStat = ['納品準備中', '製品発送済み'];
+		var prjStat = ['納品準備中', '入力内容確認中'];
 		var shipStat = ['納品情報未確定', '処理中'];
 		if (kintone.app.getId() == sysid.INV.app_id.shipment && eRecord.record.prjId.value != '') {
 			let getPrjResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
