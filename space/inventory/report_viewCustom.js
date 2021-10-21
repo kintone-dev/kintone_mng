@@ -164,7 +164,7 @@
     var user = kintone.getLoginUser();
     if(EoMcheck=='締切' || user.name != 'kintone Admin'){
       alert('このレポートは締切です')
-      document.location = location.origin + location.pathname;
+
     }
     return event;
   });
@@ -173,6 +173,12 @@
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
     startLoad('<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。');
+    var EoMcheck = event.record.EoMcheck.value;
+    var user = kintone.getLoginUser();
+    if(EoMcheck=='締切' || user.name != 'kintone Admin'){
+      alert('このレポートは締切です')
+      $('.gaia-argoui-app-menu-edit').remove();
+    }
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
     var iListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id;
     var fListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '製品別在庫残数').id;
