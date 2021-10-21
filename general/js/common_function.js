@@ -2063,7 +2063,6 @@ function setProcessCD(app_id) {
 
 // プロセスエラー処理
 async function processError(event) {
-	//プロセスエラー表示
 	var sessionName = await setProcessCD(kintone.app.getId());
 	var sessionData = JSON.parse(sessionStorage.getItem(sessionName));
 	var cStatus = event.record.ステータス.value;
@@ -2314,6 +2313,7 @@ async function processError(event) {
 		return ['success', errorText.join('\n')];
 	}
 }
+
 /**
  * 導入案件管理と入出荷管理のコメント同期
  * ・導入案件管理が納品準備中,製品発送済み
