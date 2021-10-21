@@ -49,35 +49,35 @@
         putSnumData.push(snRecord);
       }
       console.log(putSnumData);
-      // var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
-      //   .then(function (resp) {
-      //     console.log(resp);
-      //     return resp;
-      //   }).catch(function (error) {
-      //     console.log(error);
-      //     return 'error';
-      //   });
+      var postSnumData = [];
+      for (let i in putSnumData) {
+        var postSnBody = {
+          'sNum': {
+            type: 'SINGLE_LINE_TEXT',
+            value: sNums.SNs[i]
+          },
+          'shipment': event.record.shipment,
+          'sendDate': event.record.sendDate,
+          'shipType': event.record.shipType,
+          'instName': {
+            type: 'SINGLE_LINE_TEXT',
+            value: instNameValue
+          }
+        };
+        postSnumData.push(postSnBody);
+      }
+      console.log(postSnumData);
+      var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
+        .then(function (resp) {
+          console.log(resp);
+          return resp;
+        }).catch(function (error) {
+          console.log(error);
+          return 'error';
+        });
       //シリアル番号更新失敗の際に、新規シリアル番号としてpost
       if (putSnumResult == 'error') {
         if (confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？')) {
-          var postSnumData = [];
-          for (let i in putSnumData) {
-            var postSnBody = {
-              'sNum': {
-                type: 'SINGLE_LINE_TEXT',
-                value: sNums.SNs[i]
-              },
-              'shipment': event.record.shipment,
-              'sendDate': event.record.sendDate,
-              'shipType': event.record.shipType,
-              'instName': {
-                type: 'SINGLE_LINE_TEXT',
-                value: instNameValue
-              }
-            };
-            postSnumData.push(postSnBody);
-          }
-          console.log(postSnumData);
           var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, postSnumData)
             .then(function (resp) {
               console.log(resp);
