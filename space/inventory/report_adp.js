@@ -174,7 +174,7 @@
           return ['error', error];
         });
       if (Array.isArray(assShipList)) {
-        event.error = 'ASS情報取得を取得する際にエラーが発生しました。';
+        event.error = 'ASS情報を取得する際にエラーが発生しました。';
         endLoad();
         return event;
       }
@@ -192,7 +192,7 @@
               'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
               'mName': assShipList.records[i].deviceList.value[j].value.mName.value,
               'shipNum': assShipList.records[i].deviceList.value[j].value.shipNum.value
-            }
+            };
             assItems.push(assItemBody);
           }
         }
