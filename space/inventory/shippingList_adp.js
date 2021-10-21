@@ -6,7 +6,7 @@
     startLoad();
     var nStatus = event.nextStatus.value;
     var cStatus = event.record.ステータス.value;
-    if (nStatus === "集荷待ち") {
+    if (cStatus === "出荷準備中" && nStatus === "集荷待ち") {
       //送付日未記入の場合エラー
       if (event.record.sendDate.value == null) {
         event.error = '送付日を記入して下さい。'
@@ -19,6 +19,7 @@
       for (let i in deviceListValue) {
         let deviceListValue_mCode = deviceListValue[i].value.mCode.value;
         let deviceListValue_shipNum = deviceListValue[i].value.shipNum.value;
+        // 依頼数よりシリアル番号が多い時エラー
         if (deviceListValue_shipNum != sNums[deviceListValue_mCode].length) {
           event.error = `製品名「${deviceListValue[i].value.mNickname.value}」の依頼数と出荷数が一致しません。`;
           endLoad();
@@ -48,8 +49,7 @@
       }
       var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .catch(async function (error) {
-          var isPOST = confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？');
-          if (isPOST) {
+          if (confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？')) {
             var postSnumData = [];
             for (let x in putSnumData) {
               postSnumData.push({
@@ -69,12 +69,11 @@
             console.log(postSnumData);
             var postSnumResult = await postRecords(sysid.DEV.app_id.sNum, postSnumData)
               .catch(function (error) {
-                event.error = 'シリアル番号追加でエラーが発生しました。';
                 return 'error';
               });
             if (postSnumResult == 'error') {
-              endLoad();
-              return event;
+              event.error = 'シリアル番号追加でエラーが発生しました。';
+              return 'error';
             }
           } else {
             event.error = 'シリアル番号更新でエラーが発生しました。';
@@ -88,7 +87,7 @@
 
       //在庫処理
       await stockCtrl(event, kintone.app.getId());
-    } else if (nStatus === "出荷完了") {
+    } else if (cStatus === "集荷待ち" && nStatus === "出荷完了") {
       //案件IDがある場合のみ実施
       if (event.record.prjId.value != '') {
         // 輸送情報連携
@@ -101,7 +100,7 @@
       }
       // レポート処理
       await reportCtrl(event, kintone.app.getId());
-    } else if (nStatus === "受領待ち") {
+    } else if (cStatus === "処理中" && nStatus === "受領待ち") {
       var txt = $('[name=setShipment] option:selected').text();
       var val = $('[name=setShipment] option:selected').val();
       if (val != 'noSelect') {
