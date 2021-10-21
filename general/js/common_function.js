@@ -2069,78 +2069,83 @@ async function processError(event) {
 	var totalErrorCheck = [];
 	var errorText = [];
 
-	//現在のステータスのアクション分ループ
+	// アクション判別関数
+	function actionCheck(event,sessionData,cStatus,i,j){
+		if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
+			if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+				return ['true'];
+			} else {
+				return ['false',sessionData.processCD[cStatus][i].conditions[j].name];
+			}
+		} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
+			if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == null) {
+				event.record[sessionData.processCD[cStatus][i].conditions[j].code].value = '';
+			}
+			if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+				return ['true'];
+			} else {
+				return ['false',sessionData.processCD[cStatus][i].conditions[j].name];
+			}
+		} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
+			if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
+				var arrayInCheck = [];
+				for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
+					if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
+						arrayInCheck.push('true');
+					} else {
+						arrayInCheck.push('false');
+					}
+				}
+				if (arrayInCheck.includes('true')) {
+					return ['true'];
+				} else {
+					return ['false',sessionData.processCD[cStatus][i].conditions[j].name];
+				}
+			} else {
+				if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
+					return ['true'];
+				} else {
+					return ['false',sessionData.processCD[cStatus][i].conditions[j].name];
+				}
+			}
+		} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
+			if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
+				var arrayNotInCheck = [];
+				for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
+					if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
+						arrayNotInCheck.push('false');
+					} else {
+						arrayNotInCheck.push('true');
+					}
+				}
+				if (arrayNotInCheck.includes('false')) {
+					return ['false',sessionData.processCD[cStatus][i].conditions[j].name];
+				} else {
+					return ['true'];
+				}
+			} else {
+				if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
+					return ['false',sessionData.processCD[cStatus][i].conditions[j].name];
+				} else {
+					return ['true'];
+				}
+			}
+		}
+	}
+
+	// 現在のステータスのアクション分ループ
 	for (let i in sessionData.processCD[cStatus]) {
 		var errorCheck = [];
 		var errorName = [];
 		if (sessionData.processCD[cStatus][i].conditions.length > 1) {
 			if (sessionData.processCD[cStatus][i].cdt == 'and') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
-					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
-							errorCheck.push('true');
-						} else {
-							errorCheck.push('false');
-							errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == null) {
-							event.record[sessionData.processCD[cStatus][i].conditions[j].code].value = '';
-						}
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
-							errorCheck.push('true');
-						} else {
-							errorCheck.push('false');
-							errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
-						if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-							var arrayInCheck = [];
-							for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
-								if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
-									arrayInCheck.push('true');
-								} else {
-									arrayInCheck.push('false');
-								}
-							}
-							if (arrayInCheck.includes('true')) {
-								errorCheck.push('true');
-							} else {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							}
-						} else {
-							if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-								errorCheck.push('true');
-							} else {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							}
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
-						if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-							var arrayNotInCheck = [];
-							for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
-								if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
-									arrayNotInCheck.push('false');
-								} else {
-									arrayNotInCheck.push('true');
-								}
-							}
-							if (arrayNotInCheck.includes('false')) {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							} else {
-								errorCheck.push('true');
-							}
-						} else {
-							if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							} else {
-								errorCheck.push('true');
-							}
-						}
+					let actionReturn = actionCheck(event,sessionData,cStatus,i,j);
+					if(actionReturn[0] == 'true'){
+						errorCheck.push(actionReturn[0]);
+					} else {
+						errorCheck.push(actionReturn[0]);
+						errorName.push(actionReturn[1]);
 					}
 				}
 				if (errorCheck.includes('false')) {
@@ -2155,68 +2160,12 @@ async function processError(event) {
 				}
 			} else if (sessionData.processCD[cStatus][i].cdt == 'or') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
-					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
-						if (event.record[sessionData.processCD[cStatus].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
-							errorCheck.push('true');
-						} else {
-							errorCheck.push('false');
-							errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
-							errorCheck.push('true');
-						} else {
-							errorCheck.push('false');
-							errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
-						if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-							var arrayInCheck = [];
-							for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
-								if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
-									arrayInCheck.push('true');
-								} else {
-									arrayInCheck.push('false');
-								}
-							}
-							if (arrayInCheck.includes('true')) {
-								errorCheck.push('true');
-							} else {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							}
-						} else {
-							if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-								errorCheck.push('true');
-							} else {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							}
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
-						if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-							var arrayNotInCheck = [];
-							for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
-								if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
-									arrayNotInCheck.push('false');
-								} else {
-									arrayNotInCheck.push('true');
-								}
-							}
-							if (arrayNotInCheck.includes('false')) {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							} else {
-								errorCheck.push('true');
-							}
-						} else {
-							if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							} else {
-								errorCheck.push('true');
-							}
-						}
+					let actionReturn = actionCheck(event,sessionData,cStatus,i,j);
+					if(actionReturn[0] == 'true'){
+						errorCheck.push(actionReturn[0]);
+					} else {
+						errorCheck.push(actionReturn[0]);
+						errorName.push(actionReturn[1]);
 					}
 				}
 				if (errorCheck.includes('true')) {
@@ -2231,68 +2180,12 @@ async function processError(event) {
 				}
 			}
 		} else if (sessionData.processCD[cStatus][i].conditions.length == 1) {
-			if (sessionData.processCD[cStatus][i].conditions[0].operator == '=') {
-				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code].value == sessionData.processCD[cStatus][i].conditions[0].value[0]) {
-					errorCheck.push('true');
-				} else {
-					errorCheck.push('false');
-					errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-				}
-			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == '!=') {
-				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code].value != sessionData.processCD[cStatus][i].conditions[0].value[0]) {
-					errorCheck.push('true');
-				} else {
-					errorCheck.push('false');
-					errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-				}
-			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == 'in') {
-				if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
-					var arrayInCheck = [];
-					for (let k in event.record[sessionData.processCD[cStatus][i].conditions[0].code].value) {
-						if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value[k])) {
-							arrayInCheck.push('true');
-						} else {
-							arrayInCheck.push('false');
-						}
-					}
-					if (arrayInCheck.includes('true')) {
-						errorCheck.push('true');
-					} else {
-						errorCheck.push('false');
-						errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-					}
-				} else {
-					if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
-						errorCheck.push('true');
-					} else {
-						errorCheck.push('false');
-						errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-					}
-				}
-			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == 'not in') {
-				if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
-					var arrayNotInCheck = [];
-					for (let k in event.record[sessionData.processCD[cStatus][i].conditions[0].code].value) {
-						if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value[k])) {
-							arrayNotInCheck.push('false');
-						} else {
-							arrayNotInCheck.push('true');
-						}
-					}
-					if (arrayNotInCheck.includes('false')) {
-						errorCheck.push('false');
-						errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-					} else {
-						errorCheck.push('true');
-					}
-				} else {
-					if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
-						errorCheck.push('false');
-						errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-					} else {
-						errorCheck.push('true');
-					}
-				}
+			let actionReturn = actionCheck(event,sessionData,cStatus,i,0);
+			if(actionReturn[0] == 'true'){
+				errorCheck.push(actionReturn[0]);
+			} else {
+				errorCheck.push(actionReturn[0]);
+				errorName.push(actionReturn[1]);
 			}
 			if (errorCheck.includes('false')) {
 				totalErrorCheck.push('false');
@@ -2313,6 +2206,8 @@ async function processError(event) {
 		return ['success', errorText.join('\n')];
 	}
 }
+
+//
 
 /**
  * 導入案件管理と入出荷管理のコメント同期
