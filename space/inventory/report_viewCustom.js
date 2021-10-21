@@ -165,7 +165,7 @@
     var EoMcheck = event.record.EoMcheck.value;
     var user = kintone.getLoginUser();
     var developUser = ['システム設計','kintone Admin'];
-    if(EoMcheck=='締切' || !developUser.includes(user.name)){
+    if(EoMcheck=='締切' && !developUser.includes(user.name)){
       alert('このレポートは締切です')
       $('.gaia-argoui-app-menu-edit').remove();
     }
