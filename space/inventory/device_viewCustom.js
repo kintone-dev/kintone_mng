@@ -255,8 +255,4 @@
     }
     return event;
   });
-  kintone.events.on('app.record.index.show', function(event){
-    deletSB('uStockList','uStock');
-    return event;
-  })
 })();
