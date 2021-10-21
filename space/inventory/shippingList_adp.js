@@ -48,6 +48,7 @@
         };
         putSnumData.push(snRecord);
       }
+      putSnumData.push(1);
       console.log(putSnumData);
       var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
         .then(function (resp) {
