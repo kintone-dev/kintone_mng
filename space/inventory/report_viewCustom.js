@@ -159,17 +159,6 @@
     return event;
   });
 
-  kintone.events.on('app.record.edit.show', function (event) {
-    var EoMcheck = event.record.EoMcheck.value;
-    var user = kintone.getLoginUser();
-    if(EoMcheck=='締切' || user.name != 'kintone Admin'){
-      alert('このレポートは締切です')
-
-    }
-    return event;
-  });
-
-
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
     startLoad('<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。');
