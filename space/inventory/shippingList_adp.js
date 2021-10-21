@@ -48,16 +48,15 @@
         };
         putSnumData.push(snRecord);
       }
-      putSnumData.push(1);
       console.log(putSnumData);
-      var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
-        .then(function (resp) {
-          console.log(resp);
-          return resp;
-        }).catch(function (error) {
-          console.log(error);
-          return 'error';
-        });
+      // var putSnumResult = await putRecords(sysid.DEV.app_id.sNum, putSnumData)
+      //   .then(function (resp) {
+      //     console.log(resp);
+      //     return resp;
+      //   }).catch(function (error) {
+      //     console.log(error);
+      //     return 'error';
+      //   });
       //シリアル番号更新失敗の際に、新規シリアル番号としてpost
       if (putSnumResult == 'error') {
         if (confirm('シリアル番号が登録されていません。\nシリアル番号を新規登録しますか？')) {
