@@ -28,6 +28,8 @@
       event.record.AssStockList.value[i].value.ASS_mName.disabled = true;
       event.record.AssStockList.value[i].value.ASS_returnNum.disabled = true;
       event.record.AssStockList.value[i].value.ASS_shipNum.disabled = true;
+      event.record.AssStockList.value[i].value.ASS_outWarrantNum.disabled = true;
+      event.record.AssStockList.value[i].value.ASS_inWarrantNum.disabled = true;
     }
     function tabSwitch(onSelect) {
       switch (onSelect) {
