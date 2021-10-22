@@ -398,6 +398,10 @@
         .then(function (resp) {
           return resp;
         });
+        if(nextMonthReportData.records.length == 0){
+          endLoad();
+          return event;
+        }
       const NEXTREPORT_RECORD = nextMonthReportData.records[0];
       //次月のレポートがある場合
       var putNewReportData = {
