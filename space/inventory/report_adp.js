@@ -381,7 +381,6 @@
           };
           nowMonthSyscode.push(nowMonthData);
         }
-
         for (let i in event.record.inventoryList.value) {
           if (nextMonthSyscode.includes(nowMonthSyscode[i].sysCode)) {
             for (let y in putNewReportData.record.inventoryList.value) {
