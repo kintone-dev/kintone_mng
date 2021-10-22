@@ -180,17 +180,19 @@
       }
       var assItems = [];
       for (let i in assShipList.records) {
-
         for (let j in assShipList.records[i].deviceList.value) {
           if (assItems.some(_ => _.mCode === assShipList.records[i].deviceList.value[j].value.mCode.value)) {
             for (var k in assItems) {
               if (assItems[k].mCode == assShipList.records[i].deviceList.value[j].value.mCode.value) {
                 if(assShipList.records[i].application_type.value == '新規申込' || assShipList.records[i].application_type.value == 'デバイス追加'){
+                  console.log('新規申込');
                   assItems[k].shipNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
                 } else if(assShipList.records[i].application_type.value == '故障交換（保証期間内）'){
-                  assItems[k].inWarrantNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
+                  console.log('故障交換（保証期間内）');
+                  assItems[k].inWarrantNum = parseInt(assItems[k].inWarrantNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
                 } else if(assShipList.records[i].application_type.value == '故障交換（保証期間外）'){
-                  assItems[k].outWarrantNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
+                  console.log('故障交換（保証期間外）');
+                  assItems[k].outWarrantNum = parseInt(assItems[k].outWarrantNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
                 }
               }
             }
