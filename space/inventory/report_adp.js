@@ -188,9 +188,9 @@
                 if(assShipList.records[i].application_type.value == '新規申込' || assShipList.records[i].application_type.value == 'デバイス追加'){
                   assItems[k].shipNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
                 } else if(assShipList.records[i].application_type.value == '故障交換（保証期間内）'){
-                  assItems[k].ASS_inWarrantNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
+                  assItems[k].inWarrantNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
                 } else if(assShipList.records[i].application_type.value == '故障交換（保証期間外）'){
-                  assItems[k].ASS_outWarrantNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
+                  assItems[k].outWarrantNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
                 }
               }
             }
@@ -200,24 +200,24 @@
                 'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
                 'mName': assShipList.records[i].deviceList.value[j].value.mName.value,
                 'shipNum': assShipList.records[i].deviceList.value[j].value.shipNum.value,
-                'ASS_inWarrantNum':0,
-                'ASS_outWarrantNum':0
+                'inWarrantNum':0,
+                'outWarrantNum':0
               };
             } else if(assShipList.records[i].application_type.value == '故障交換（保証期間内）'){
               var assItemBody = {
                 'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
                 'mName': assShipList.records[i].deviceList.value[j].value.mName.value,
                 'shipNum':0,
-                'ASS_inWarrantNum': assShipList.records[i].deviceList.value[j].value.shipNum.value,
-                'ASS_outWarrantNum':0
+                'inWarrantNum': assShipList.records[i].deviceList.value[j].value.shipNum.value,
+                'outWarrantNum':0
               };
             } else if(assShipList.records[i].application_type.value == '故障交換（保証期間外）'){
               var assItemBody = {
                 'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
                 'mName': assShipList.records[i].deviceList.value[j].value.mName.value,
                 'shipNum':0,
-                'ASS_inWarrantNum':0,
-                'ASS_outWarrantNum': assShipList.records[i].deviceList.value[j].value.shipNum.value
+                'inWarrantNum':0,
+                'outWarrantNum': assShipList.records[i].deviceList.value[j].value.shipNum.value
               };
             }
             assItems.push(assItemBody);
@@ -246,11 +246,11 @@
             },
             'ASS_outWarrantNum': {
               'type': "NUMBER",
-              'value': ''
+              'value': assItems[i].outWarrantNum
             },
             'ASS_inWarrantNum': {
               'type': "NUMBER",
-              'value': ''
+              'value': assItems[i].inWarrantNum
             },
             'adjustNum': {
               'type': "NUMBER",
