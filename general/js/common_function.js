@@ -937,7 +937,7 @@ async function reportCtrl(event, appId) {
 			'uniCode': stockData.ship[i].uniCode,
 			'stockNum': stockData.ship[i].stockNum
 		};
-		if(!typeof stockData.shipType === "undefined"){
+		if(typeof stockData.shipType !== "undefined"){
 			console.log('set sysSTCode');
 			reportUpdateBody.sysSTCode = stockData.ship[i].devCode + '-' + stockData.shipType
 		}
