@@ -494,8 +494,7 @@ function createStockJson(event, appId) {
 		sendDate = sendDate.slice(0, -2);
 		stockData.date = sendDate;
 		//レポート用日付作成 end
-		console.log(!event.record.shipType.value.match(/移動/));
-		if(!event.record.shipType.value.match(/移動/) || event.record.shipType.value != '確認中'){
+		if(!event.record.shipType.value.match(/移動|確認中/)){
 			stockData.shipType = event.record.shipType.value;
 		}
 		if (event.nextStatus) {
