@@ -943,7 +943,7 @@ async function reportCtrl(event, appId) {
 			reportUpdateBody.sysSTCode = stockData.ship[i].devCode + '-' + stockData.shipType
 		}
 		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
-		getDevNameArray.push('"' + stockData.arr[i].devCode + '"');
+		getDevNameArray.push('"' + stockData.ship[i].devCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
 	getUniNameArray = Array.from(new Set(getUniNameArray));
