@@ -307,10 +307,14 @@
         return costArray;
       }
       var costArray = stockCostFunc(mTypeArray);
-      var totalInventoryAmount = 0;
       for(let i in costArray){
         event.record[costArray[i].fc].value = costArray[i].cost;
-        totalInventoryAmount = parseInt(totalInventoryAmount) + parseInt(costArray[i].cost);
+      }
+      var totalInventoryAmount = 0;
+      for(let i in event.record.inventoryList.value){
+        if(!inventoryList[i].value.sys_code.value.match(ignoreUnit)){
+          totalInventoryAmount = parseInt(totalInventoryAmount) + parseInt(event.record.inventoryList.value[i].value.stockCost.value);
+        }
       }
       event.record.totalInventoryAmount.value = totalInventoryAmount;
 

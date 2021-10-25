@@ -295,7 +295,6 @@
     if (event.record.EoMcheck.value == '二時確認') {
       var inventoryList = event.record.inventoryList.value;
       var newList = [];
-      var ignoreUnitArray = ['ns-', '-oo', '-xx', '-zz', '-aa'];
       var ignoreUnit = new RegExp(ignoreUnitArray.join('|'));
       //特定の拠点以外を抜き出して再度格納
       for (let i in inventoryList) {
