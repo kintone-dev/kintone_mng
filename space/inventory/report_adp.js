@@ -312,7 +312,7 @@
       }
       var totalInventoryAmount = 0;
       for(let i in event.record.inventoryList.value){
-        if(!inventoryList[i].value.sys_code.value.match(ignoreUnit)){
+        if(!event.record.inventoryList.value[i].value.sys_code.value.match(ignoreUnit)){
           totalInventoryAmount = parseInt(totalInventoryAmount) + parseInt(event.record.inventoryList.value[i].value.stockCost.value);
         }
       }
