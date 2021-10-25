@@ -1050,6 +1050,9 @@ async function reportCtrl(event, appId) {
 			},
 			'inventoryList': {
 				'value': []
+			},
+			'shipTypeList': {
+				'value': []
 			}
 		};
 
