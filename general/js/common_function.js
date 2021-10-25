@@ -1141,6 +1141,7 @@ async function reportCtrl(event, appId) {
 							}
 						}
 					};
+					postReportBody.shipTypeList.value.push(newSTListBody);
 				}
 			} else if (reportUpdateData[i].arrOrShip == 'arr') {
 				var newReportListBody = {
@@ -1161,7 +1162,6 @@ async function reportCtrl(event, appId) {
 				};
 			}
 			postReportBody.inventoryList.value.push(newReportListBody);
-			postReportBody.shipTypeList.value.push(newSTListBody);
 		}
 
 		//レポート情報ポスト
