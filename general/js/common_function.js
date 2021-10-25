@@ -494,7 +494,9 @@ function createStockJson(event, appId) {
 		sendDate = sendDate.slice(0, -2);
 		stockData.date = sendDate;
 		//レポート用日付作成 end
-		stockData.shipType = event.record.shipType.value;
+		if(!event.record.shipType.value.match(/移動/) || event.record.shipType.value != '確認中'){
+			stockData.shipType = event.record.shipType.value;
+		}
 		if (event.nextStatus) {
 			if (event.nextStatus.value == '集荷待ち') {
 				var arrivalShipType = ['移動-販売', '移動-サブスク', '移動-拠点間', '移動-ベンダー'];
@@ -569,9 +571,10 @@ function createStockJson(event, appId) {
 			return false;
 		}
 	} else if (appId == sysid.PM.app_id.project) { //案件管理
-		stockData.date = event.record.sys_invoiceDate.value;
 		var distributeSalesType = ['販売', 'サブスク'];
+		stockData.date = event.record.sys_invoiceDate.value;
 		if (distributeSalesType.includes(event.record.salesType.value)) {
+			stockData.shipType = event.record.salesType.value;
 			for (let i in event.record.deviceList.value) {
 				if (event.record.deviceList.value[i].value.subBtn.value == '通常') { // 予備機が通常のもののみ
 					//出荷情報は積送からのみ
@@ -895,7 +898,7 @@ async function stockCtrl(event, appId) {
  */
 async function reportCtrl(event, appId) {
 	var stockData = createStockJson(event, appId);
-	console.log(stockData.abc.match(/移動/));
+	console.log(stockData);
 
 	/* 月次レポート情報取得 */
 	// 月次レポートクエリ作成
@@ -934,6 +937,9 @@ async function reportCtrl(event, appId) {
 			'uniCode': stockData.ship[i].uniCode,
 			'stockNum': stockData.ship[i].stockNum
 		};
+		if(!typeof stockData.shipType === "undefined"){
+			reportUpdateBody.sysSTCode = stockData.ship[i].devCode + '-' + stockData.shipType
+		}
 		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
@@ -1024,6 +1030,34 @@ async function reportCtrl(event, appId) {
 				}
 				putReportBody.record.inventoryList.value.push(newReportListBody);
 			}
+			// 出荷区分別一覧リスト設定
+			if(!typeof reportUpdateData[i].sysSTCode === "undefined"){
+				if(putReportBody.record.shipTypeList.value.some(item => item.value.sys_shiptypeCode.value === reportUpdateData[i].sysSTCode)){
+					for (let j in putReportBody.record.shipTypeList.value) {
+						if (putReportBody.record.shipTypeList.value[j].value.sys_code.value == reportUpdateData[i].sysSTCode) {
+							putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.ST_shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
+						}
+					}
+				} else {
+					var newSTListBody = {
+						'value': {
+							'sys_shiptypeCode': {
+								'value': reportUpdateData[i].sysSTCode,
+							},
+							'shipType': {
+								'value': stockData.shipType
+							},
+							'ST_mCode': {
+								'value': reportUpdateData[i].devCode
+							},
+							'ST_shipNum': {
+								'value': reportUpdateData[i].stockNum
+							}
+						}
+					};
+					putReportBody.record.shipTypeList.value.push(newSTListBody);
+				}
+			}
 		}
 		putReportData.push(putReportBody);
 		//レポート更新
@@ -1075,6 +1109,24 @@ async function reportCtrl(event, appId) {
 						}
 					}
 				};
+				if(!typeof reportUpdateData[i].sysSTCode === "undefined"){
+					var newSTListBody = {
+						'value': {
+							'sys_shiptypeCode': {
+								'value': reportUpdateData[i].sysSTCode,
+							},
+							'shipType': {
+								'value': stockData.shipType
+							},
+							'ST_mCode': {
+								'value': reportUpdateData[i].devCode
+							},
+							'ST_shipNum': {
+								'value': reportUpdateData[i].stockNum
+							}
+						}
+					};
+				}
 			} else if (reportUpdateData[i].arrOrShip == 'arr') {
 				var newReportListBody = {
 					'value': {
@@ -1093,10 +1145,8 @@ async function reportCtrl(event, appId) {
 					}
 				};
 			}
-			if(!stockData.shipType.match(/移動/)){
-
-			}
 			postReportBody.inventoryList.value.push(newReportListBody);
+			postReportBody.shipTypeList.value.push(newSTListBody);
 		}
 
 		//レポート情報ポスト
