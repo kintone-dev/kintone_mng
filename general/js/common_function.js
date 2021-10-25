@@ -1032,11 +1032,10 @@ async function reportCtrl(event, appId) {
 
 			// 出荷区分別一覧リスト設定
 			if(typeof reportUpdateData[i].sysSTCode !== "undefined"){
-
 				if(putReportBody.record.shipTypeList.value.some(item => item.value.sys_shiptypeCode.value === reportUpdateData[i].sysSTCode)){
 					for (let j in putReportBody.record.shipTypeList.value) {
 						if (putReportBody.record.shipTypeList.value[j].value.sys_shiptypeCode.value == reportUpdateData[i].sysSTCode) {
-							putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.ST_shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
+							putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value = parseInt(putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
 						}
 					}
 				} else {
