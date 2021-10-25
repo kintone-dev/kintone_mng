@@ -895,7 +895,7 @@ async function stockCtrl(event, appId) {
  */
 async function reportCtrl(event, appId) {
 	var stockData = createStockJson(event, appId);
-	console.log(stockData.abc);
+	console.log(stockData.abc.match(/移動/));
 
 	/* 月次レポート情報取得 */
 	// 月次レポートクエリ作成
