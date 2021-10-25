@@ -494,6 +494,7 @@ function createStockJson(event, appId) {
 		sendDate = sendDate.slice(0, -2);
 		stockData.date = sendDate;
 		//レポート用日付作成 end
+		stockData.shipType = event.record.shipType.value;
 		if (event.nextStatus) {
 			if (event.nextStatus.value == '集荷待ち') {
 				var arrivalShipType = ['移動-販売', '移動-サブスク', '移動-拠点間', '移動-ベンダー'];
