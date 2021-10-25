@@ -293,9 +293,9 @@
         var costArray = [];
         for(let i in mTypeArray){
           var totalSum = 0;
-          for(let i in event.record.inventoryList.value){
-            if(event.record.inventoryList.value[i].value.mType.value == mTypeArray[i].mType){
-              totalSum = parseInt(totalSum) + (parseInt(event.record.inventoryList.value[i].value.stockCost.value) || 0);
+          for(let j in event.record.inventoryList.value){
+            if(event.record.inventoryList.value[j].value.mType.value == mTypeArray[i].mType){
+              totalSum = parseInt(totalSum) + (parseInt(event.record.inventoryList.value[j].value.stockCost.value) || 0);
             }
           }
           var costArrayBody = {
