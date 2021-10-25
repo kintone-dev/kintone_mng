@@ -895,7 +895,7 @@ async function stockCtrl(event, appId) {
  */
 async function reportCtrl(event, appId) {
 	var stockData = createStockJson(event, appId);
-	console.log(stockData);
+	console.log(stockData.abc);
 
 	/* 月次レポート情報取得 */
 	// 月次レポートクエリ作成
@@ -969,6 +969,9 @@ async function reportCtrl(event, appId) {
 			'record': {
 				'inventoryList': {
 					'value': reportRecords.records[0].inventoryList.value
+				},
+				'shipTypeList': {
+					'value': reportRecords.records[0].shipTypeList.value
 				}
 			}
 		};
@@ -1086,6 +1089,9 @@ async function reportCtrl(event, appId) {
 						}
 					}
 				};
+			}
+			if(!stockData.shipType.match(/移動/)){
+
 			}
 			postReportBody.inventoryList.value.push(newReportListBody);
 		}
