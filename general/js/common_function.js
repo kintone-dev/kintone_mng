@@ -1030,6 +1030,7 @@ async function reportCtrl(event, appId) {
 				}
 				putReportBody.record.inventoryList.value.push(newReportListBody);
 			}
+
 			// 出荷区分別一覧リスト設定
 			if(!typeof reportUpdateData[i].sysSTCode === "undefined"){
 				if(putReportBody.record.shipTypeList.value.some(item => item.value.sys_shiptypeCode.value === reportUpdateData[i].sysSTCode)){
