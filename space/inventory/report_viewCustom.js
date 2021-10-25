@@ -97,7 +97,7 @@
           setSpaceShown('itemSortBtn', 'line', 'none');
           setSpaceShown('locationSortBtn', 'line', 'none');
           break;
-        case '#tmp':
+        case '#出荷区分別一覧':
           setFieldShown('totalInventoryAmount', false);
           setFieldShown('finishProduct', false);
           setFieldShown('inProcess', false);
@@ -115,7 +115,7 @@
           break;
       }
     }
-    tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数', 'ASS在庫残数','tmp']); //タブメニュー作成
+    tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数', 'ASS在庫残数','出荷区分別一覧']); //タブメニュー作成
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
       $('.tabMenu li').removeClass("active");

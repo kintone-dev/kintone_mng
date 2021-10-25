@@ -496,7 +496,7 @@ function createStockJson(event, appId) {
 		//レポート用日付作成 end
 		if (event.nextStatus) {
 			if (event.nextStatus.value == '集荷待ち') {
-				var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
+				var arrivalShipType = ['移動-販売', '移動-サブスク', '移動-拠点間', '移動-ベンダー'];
 				for (let i in event.record.deviceList.value) {
 					/**
 					 * 出荷用json作成
@@ -531,7 +531,7 @@ function createStockJson(event, appId) {
 				}
 				return stockData;
 			} else if (event.nextStatus.value == '出荷完了') {
-				var arrivalShipType_dist = ['移動-販売', '移動-サブスク', '販売', 'サブスク'];
+				var arrivalShipType_dist = ['移動-販売', '移動-サブスク'];
 				var arrivalShipType_arr = ['移動-拠点間', '移動-ベンダー'];
 				for (let i in event.record.deviceList.value) {
 					// 出荷情報を作成
