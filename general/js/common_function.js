@@ -938,6 +938,7 @@ async function reportCtrl(event, appId) {
 			'stockNum': stockData.ship[i].stockNum
 		};
 		if(!typeof stockData.shipType === "undefined"){
+			console.log('set sysSTCode');
 			reportUpdateBody.sysSTCode = stockData.ship[i].devCode + '-' + stockData.shipType
 		}
 		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
@@ -965,7 +966,7 @@ async function reportCtrl(event, appId) {
 		}
 	}
 	/* レポート更新用情報作成 end */
-
+	console.log(reportUpdateData);
 	if (reportRecords.records.length != 0) { //対応したレポートがある場合
 		// 情報更新用配列
 		var putReportData = [];
@@ -1033,6 +1034,7 @@ async function reportCtrl(event, appId) {
 
 			// 出荷区分別一覧リスト設定
 			if(!typeof reportUpdateData[i].sysSTCode === "undefined"){
+
 				if(putReportBody.record.shipTypeList.value.some(item => item.value.sys_shiptypeCode.value === reportUpdateData[i].sysSTCode)){
 					for (let j in putReportBody.record.shipTypeList.value) {
 						if (putReportBody.record.shipTypeList.value[j].value.sys_code.value == reportUpdateData[i].sysSTCode) {
