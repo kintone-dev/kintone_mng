@@ -1076,20 +1076,34 @@ async function reportCtrl(event, appId) {
 	} else { //対応したレポートがない場合
 		//レポート新規作成
 		var postReportData = [];
-		var postReportBody = {
-			'invoiceYears': {
-				'value': stockData.date.slice(0, -2)
-			},
-			'invoiceMonth': {
-				'value': stockData.date.slice(4)
-			},
-			'inventoryList': {
-				'value': []
-			},
-			'shipTypeList': {
-				'value': []
-			}
-		};
+		if(typeof stockData.shipType === "undefined"){
+			var postReportBody = {
+				'invoiceYears': {
+					'value': stockData.date.slice(0, -2)
+				},
+				'invoiceMonth': {
+					'value': stockData.date.slice(4)
+				},
+				'inventoryList': {
+					'value': []
+				}
+			};
+		} else{
+			var postReportBody = {
+				'invoiceYears': {
+					'value': stockData.date.slice(0, -2)
+				},
+				'invoiceMonth': {
+					'value': stockData.date.slice(4)
+				},
+				'inventoryList': {
+					'value': []
+				},
+				'shipTypeList': {
+					'value': []
+				}
+			};
+		}
 
 		// レポート更新情報をリストに格納
 		for (let i in reportUpdateData) {
