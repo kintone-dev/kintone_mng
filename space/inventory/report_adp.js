@@ -85,14 +85,15 @@
         reportDate_current.setDate(1);
         var queryDay_current = String(("0" + (reportDate_current.getDate())).slice(-2));
 
+        // 次月の始まりにリードタイムを足した値
         var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
+        // 次月の始まり
         var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
         // 仕入管理情報取得
         var getPurchasingBody = {
           'app': sysid.INV.app_id.purchasing,
           'query': 'ステータス not in ("仕入完了") and arrivalDate >= "' + queryDate_current + '" and arrivalDate <= "' + queryDate + '"'
         };
-        console.log(getPurchasingBody);
         var purchasing = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getPurchasingBody)
           .then(function (resp) {
             return resp;
@@ -185,41 +186,41 @@
           if (assItems.some(_ => _.mCode === assShipList.records[i].deviceList.value[j].value.mCode.value)) {
             for (var k in assItems) {
               if (assItems[k].mCode == assShipList.records[i].deviceList.value[j].value.mCode.value) {
-                if(assShipList.records[i].application_type.value == '新規申込' || assShipList.records[i].application_type.value == 'デバイス追加'){
+                if (assShipList.records[i].application_type.value == '新規申込' || assShipList.records[i].application_type.value == 'デバイス追加') {
                   console.log('新規申込');
                   assItems[k].shipNum = parseInt(assItems[k].shipNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
-                } else if(assShipList.records[i].application_type.value == '故障交換（保証期間内）'){
+                } else if (assShipList.records[i].application_type.value == '故障交換（保証期間内）') {
                   console.log('故障交換（保証期間内）');
                   assItems[k].inWarrantNum = parseInt(assItems[k].inWarrantNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
-                } else if(assShipList.records[i].application_type.value == '故障交換（保証期間外）'){
+                } else if (assShipList.records[i].application_type.value == '故障交換（保証期間外）') {
                   console.log('故障交換（保証期間外）');
                   assItems[k].outWarrantNum = parseInt(assItems[k].outWarrantNum || 0) + parseInt(assShipList.records[i].deviceList.value[j].value.shipNum.value || 0);
                 }
               }
             }
           } else {
-            if(assShipList.records[i].application_type.value == '新規申込' || assShipList.records[i].application_type.value == 'デバイス追加'){
+            if (assShipList.records[i].application_type.value == '新規申込' || assShipList.records[i].application_type.value == 'デバイス追加') {
               var assItemBody = {
                 'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
                 'mName': assShipList.records[i].deviceList.value[j].value.mName.value,
                 'shipNum': assShipList.records[i].deviceList.value[j].value.shipNum.value,
-                'inWarrantNum':0,
-                'outWarrantNum':0
+                'inWarrantNum': 0,
+                'outWarrantNum': 0
               };
-            } else if(assShipList.records[i].application_type.value == '故障交換（保証期間内）'){
+            } else if (assShipList.records[i].application_type.value == '故障交換（保証期間内）') {
               var assItemBody = {
                 'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
                 'mName': assShipList.records[i].deviceList.value[j].value.mName.value,
-                'shipNum':0,
+                'shipNum': 0,
                 'inWarrantNum': assShipList.records[i].deviceList.value[j].value.shipNum.value,
-                'outWarrantNum':0
+                'outWarrantNum': 0
               };
-            } else if(assShipList.records[i].application_type.value == '故障交換（保証期間外）'){
+            } else if (assShipList.records[i].application_type.value == '故障交換（保証期間外）') {
               var assItemBody = {
                 'mCode': assShipList.records[i].deviceList.value[j].value.mCode.value,
                 'mName': assShipList.records[i].deviceList.value[j].value.mName.value,
-                'shipNum':0,
-                'inWarrantNum':0,
+                'shipNum': 0,
+                'inWarrantNum': 0,
                 'outWarrantNum': assShipList.records[i].deviceList.value[j].value.shipNum.value
               };
             }
@@ -275,11 +276,11 @@
         event.record.AssStockList.value[i].value.ASS_mCode.lookup = true;
       }
       console.log(event.record);
-    } else if(event.record.EoMcheck.value == '二時確認' || event.record.EoMcheck.value == '締切'){
+    } else if (event.record.EoMcheck.value == '二時確認' || event.record.EoMcheck.value == '締切') {
       /**
        * 製品別在庫残数更新
        */
-       for (let i in event.record.forecastList.value) {
+      for (let i in event.record.forecastList.value) {
         var reportDate = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
         var reportDate_current = new Date(event.record.invoiceYears.value, event.record.invoiceMonth.value);
         var mLeadTime = event.record.forecastList.value[i].value.mLeadTime.value;
@@ -296,7 +297,9 @@
         reportDate_current.setDate(1);
         var queryDay_current = String(("0" + (reportDate_current.getDate())).slice(-2));
 
+        // 次月の始まりにリードタイムを足した値
         var queryDate = queryYears + '-' + queryMonth + '-' + queryDay;
+        // 次月の始まり
         var queryDate_current = queryYears_current + '-' + queryMonth_current + '-' + queryDay_current;
         // 仕入管理情報取得
         var getPurchasingBody = {
@@ -360,8 +363,10 @@
         // 出荷予定数挿入
         event.record.forecastList.value[i].value.forecast_shipNum.value = totalShipNum;
         //リードタイム後残数
+        event.record.forecastList.value[i].value.afterLeadTimeStock.value = 0;
         event.record.forecastList.value[i].value.afterLeadTimeStock.value = (parseInt(event.record.forecastList.value[i].value.forecast_mStock.value) || 0) - (parseInt(totalArrivalNum) || 0) + (parseInt(totalShipNum) || 0);
         //差引残数
+        event.record.forecastList.value[i].value.remainingNum.value = 0;
         event.record.forecastList.value[i].value.remainingNum.value = (parseInt(event.record.forecastList.value[i].value.afterLeadTimeStock.value) || 0) - (parseInt(event.record.forecastList.value[i].value.mOrderingPoint.value) || 0);
       }
 
@@ -533,10 +538,10 @@
         .then(function (resp) {
           return resp;
         });
-        if(nextMonthReportData.records.length == 0){
-          endLoad();
-          return event;
-        }
+      if (nextMonthReportData.records.length == 0) {
+        endLoad();
+        return event;
+      }
       const NEXTREPORT_RECORD = nextMonthReportData.records[0];
       //次月のレポートがある場合
       var putNewReportData = {
