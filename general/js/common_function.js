@@ -918,6 +918,7 @@ async function reportCtrl(event, appId) {
 	/* レポート更新用情報作成 */
 	var reportUpdateData = [];
 	var getUniNameArray = [];
+	var getDevNameArray = [];
 	for (let i in stockData.arr) {
 		var reportUpdateBody = {
 			'arrOrShip': stockData.arr[i].arrOrShip,
@@ -927,6 +928,7 @@ async function reportCtrl(event, appId) {
 			'stockNum': stockData.arr[i].stockNum
 		};
 		getUniNameArray.push('"' + stockData.arr[i].uniCode + '"');
+		getDevNameArray.push('"' + stockData.arr[i].devCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
 	for (let i in stockData.ship) {
@@ -941,9 +943,11 @@ async function reportCtrl(event, appId) {
 			reportUpdateBody.sysSTCode = stockData.ship[i].devCode + '-' + stockData.shipType
 		}
 		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
+		getDevNameArray.push('"' + stockData.arr[i].devCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
 	getUniNameArray = Array.from(new Set(getUniNameArray));
+	getDevNameArray = Array.from(new Set(getDevNameArray));
 
 	//拠点名取得
 	var getUnitBody = {
@@ -964,6 +968,32 @@ async function reportCtrl(event, appId) {
 			}
 		}
 	}
+
+	//製品名取得
+	var getDeviceBody = {
+		'app': sysid.INV.app_id.device,
+		'query': 'mCode in (' + getDevNameArray.join() + ')'
+	};
+	var deviceRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	for (let i in reportUpdateData) {
+		for (let j in deviceRecords.records) {
+			if (reportUpdateData[i].devCode == deviceRecords.records[j].mCode.value) {
+				reportUpdateData[i].mClassification = deviceRecords.records[j].mClassification.value;
+				reportUpdateData[i].mType = deviceRecords.records[j].mType.value;
+				reportUpdateData[i].mVendor = deviceRecords.records[j].mVendor.value;
+				reportUpdateData[i].mName = deviceRecords.records[j].mName.value;
+				reportUpdateData[i].mCost = deviceRecords.records[j].mCost.value;
+			}
+		}
+	}
+
+
 	/* レポート更新用情報作成 end */
 	if (reportRecords.records.length != 0) { //対応したレポートがある場合
 		// 情報更新用配列
@@ -998,14 +1028,29 @@ async function reportCtrl(event, appId) {
 							'sys_code': {
 								'value': reportUpdateData[i].sysCode
 							},
+							'mClassification':{
+								'value': reportUpdateData[i].mClassification
+							},
+							'mType':{
+								'value': reportUpdateData[i].mType
+							},
+							'mVendor':{
+								'value': reportUpdateData[i].mVendor
+							},
 							'mCode': {
 								'value': reportUpdateData[i].devCode
+							},
+							'mName':{
+								'value': reportUpdateData[i].mName
 							},
 							'stockLocation': {
 								'value': reportUpdateData[i].uName
 							},
 							'shipNum': {
 								'value': reportUpdateData[i].stockNum
+							},
+							'mCost': {
+								'value': reportUpdateData[i].mCost
 							}
 						}
 					};
@@ -1015,14 +1060,29 @@ async function reportCtrl(event, appId) {
 							'sys_code': {
 								'value': reportUpdateData[i].sysCode
 							},
+							'mClassification':{
+								'value': reportUpdateData[i].mClassification
+							},
+							'mType':{
+								'value': reportUpdateData[i].mType
+							},
+							'mVendor':{
+								'value': reportUpdateData[i].mVendor
+							},
 							'mCode': {
 								'value': reportUpdateData[i].devCode
+							},
+							'mName':{
+								'value': reportUpdateData[i].mName
 							},
 							'stockLocation': {
 								'value': reportUpdateData[i].uName
 							},
 							'arrivalNum': {
 								'value': reportUpdateData[i].stockNum
+							},
+							'mCost': {
+								'value': reportUpdateData[i].mCost
 							}
 						}
 					};
@@ -1047,11 +1107,23 @@ async function reportCtrl(event, appId) {
 							'shipType': {
 								'value': stockData.shipType
 							},
+							'ST_mType': {
+								'value': reportUpdateData[i].mType
+							},
+							'ST_mVendor': {
+								'value': reportUpdateData[i].mVendor
+							},
 							'ST_mCode': {
 								'value': reportUpdateData[i].devCode
 							},
+							'ST_mName': {
+								'value': reportUpdateData[i].mName
+							},
 							'ST_shipNum': {
 								'value': reportUpdateData[i].stockNum
+							},
+							'ST_mCost': {
+								'value': reportUpdateData[i].mCost
 							}
 						}
 					};
@@ -1112,17 +1184,32 @@ async function reportCtrl(event, appId) {
 						'sys_code': {
 							'value': reportUpdateData[i].sysCode
 						},
+						'mClassification':{
+							'value': reportUpdateData[i].mClassification
+						},
+						'mType':{
+							'value': reportUpdateData[i].mType
+						},
+						'mVendor':{
+							'value': reportUpdateData[i].mVendor
+						},
 						'mCode': {
 							'value': reportUpdateData[i].devCode
+						},
+						'mName':{
+							'value': reportUpdateData[i].mName
 						},
 						'stockLocation': {
 							'value': reportUpdateData[i].uName
 						},
 						'shipNum': {
 							'value': reportUpdateData[i].stockNum
+						},
+						'mCost': {
+							'value': reportUpdateData[i].mCost
 						}
 					}
-				};
+			};
 				if(typeof reportUpdateData[i].sysSTCode !== "undefined"){
 					var newSTListBody = {
 						'value': {
@@ -1132,11 +1219,23 @@ async function reportCtrl(event, appId) {
 							'shipType': {
 								'value': stockData.shipType
 							},
+							'ST_mType': {
+								'value': reportUpdateData[i].mType
+							},
+							'ST_mVendor': {
+								'value': reportUpdateData[i].mVendor
+							},
 							'ST_mCode': {
 								'value': reportUpdateData[i].devCode
 							},
+							'ST_mName': {
+								'value': reportUpdateData[i].mName
+							},
 							'ST_shipNum': {
 								'value': reportUpdateData[i].stockNum
+							},
+							'ST_mCost': {
+								'value': reportUpdateData[i].mCost
 							}
 						}
 					};
@@ -1148,14 +1247,29 @@ async function reportCtrl(event, appId) {
 						'sys_code': {
 							'value': reportUpdateData[i].sysCode
 						},
+						'mClassification':{
+							'value': reportUpdateData[i].mClassification
+						},
+						'mType':{
+							'value': reportUpdateData[i].mType
+						},
+						'mVendor':{
+							'value': reportUpdateData[i].mVendor
+						},
 						'mCode': {
 							'value': reportUpdateData[i].devCode
+						},
+						'mName':{
+							'value': reportUpdateData[i].mName
 						},
 						'stockLocation': {
 							'value': reportUpdateData[i].uName
 						},
 						'arrivalNum': {
 							'value': reportUpdateData[i].stockNum
+						},
+						'mCost': {
+							'value': reportUpdateData[i].mCost
 						}
 					}
 				};

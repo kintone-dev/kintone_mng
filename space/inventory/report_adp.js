@@ -19,7 +19,7 @@
                 },
                 'forecast_mName': {
                   'type': "SINGLE_LINE_TEXT",
-                  'value': ''
+                  'value': resp.records[i].mName.value
                 },
                 'forecast_mStock': {
                   'type': "NUMBER",
@@ -27,11 +27,11 @@
                 },
                 'mOrderingPoint': {
                   'type': "NUMBER",
-                  'value': ''
+                  'value': resp.records[i].mOrderingPoint.value
                 },
                 'mLeadTime': {
                   'type': "NUMBER",
-                  'value': ''
+                  'value': resp.records[i].mLeadTime.value
                 },
                 'forecast_shipNum': {
                   'type': "NUMBER",
@@ -419,7 +419,7 @@
         event.record.forecastList.value[i].value.remainingNum.value = (parseInt(event.record.forecastList.value[i].value.afterLeadTimeStock.value) || 0) - (parseInt(event.record.forecastList.value[i].value.mOrderingPoint.value) || 0);
       }
 
-            /**
+      /**
        * 概要処理
        */
       // 品目区分と概要でのフィールドコード
@@ -516,8 +516,20 @@
                 'sys_code': {
                   'value': event.record.inventoryList.value[i].value.sys_code.value
                 },
+                'mClassification':{
+                  'value': event.record.inventoryList.value[i].value.mClassification.value
+                },
+                'mType':{
+                  'value': event.record.inventoryList.value[i].value.mType.value
+                },
+                'mVendor':{
+                  'value': event.record.inventoryList.value[i].value.mVendor.value
+                },
                 'mCode': {
                   'value': event.record.inventoryList.value[i].value.mCode.value
+                },
+                'mName':{
+                  'value': event.record.inventoryList.value[i].value.mName.value
                 },
                 'stockLocation': {
                   'value': event.record.inventoryList.value[i].value.stockLocation.value
@@ -527,6 +539,9 @@
                 },
                 'mLastStock': {
                   'value': event.record.inventoryList.value[i].value.deductionNum.value
+                },
+                'mCost': {
+                  'value': event.record.inventoryList.value[i].value.mCost.value
                 }
               }
             };
@@ -572,6 +587,11 @@
             'location': event.record.inventoryList.value[i].value.stockLocation.value,
             'memo': event.record.inventoryList.value[i].value.memo.value,
             'mCode': event.record.inventoryList.value[i].value.mCode.value,
+            'mClassification':event.record.inventoryList.value[i].value.mClassification.value,
+            'mType':event.record.inventoryList.value[i].value.mType.value,
+            'mVendor':event.record.inventoryList.value[i].value.mVendor.value,
+            'mName':event.record.inventoryList.value[i].value.mName.value,
+            'mCost':event.record.inventoryList.value[i].value.mCost.value,
             'deductionNum': event.record.inventoryList.value[i].value.deductionNum.value,
           };
           nowMonthSyscode.push(nowMonthData);
@@ -582,6 +602,11 @@
               if (putNewReportData.record.inventoryList.value[y].value.sys_code.value == event.record.inventoryList.value[i].value.sys_code.value) {
                 putNewReportData.record.inventoryList.value[y].value.mLastStock.value = event.record.inventoryList.value[i].value.deductionNum.value;
                 putNewReportData.record.inventoryList.value[y].value.mCode.value = event.record.inventoryList.value[i].value.mCode.value;
+                putNewReportData.record.inventoryList.value[y].value.mClassification.value = event.record.inventoryList.value[i].value.mClassification.value;
+                putNewReportData.record.inventoryList.value[y].value.mType.value = event.record.inventoryList.value[i].value.mType.value;
+                putNewReportData.record.inventoryList.value[y].value.mVendor.value = event.record.inventoryList.value[i].value.mVendor.value;
+                putNewReportData.record.inventoryList.value[y].value.mName.value = event.record.inventoryList.value[i].value.mName.value;
+                putNewReportData.record.inventoryList.value[y].value.mCost.value = event.record.inventoryList.value[i].value.mCost.value;
                 putNewReportData.record.inventoryList.value[y].value.stockLocation.value = event.record.inventoryList.value[i].value.stockLocation.value;
                 putNewReportData.record.inventoryList.value[y].value.memo.value = event.record.inventoryList.value[i].value.memo.value;
               }
@@ -595,6 +620,11 @@
                   'stockLocation': nowMonthSyscode[i].location,
                   'memo': nowMonthSyscode[i].memo,
                   'mCode': nowMonthSyscode[i].mCode,
+                  'mClassification': nowMonthSyscode[i].mClassification,
+                  'mType': nowMonthSyscode[i].mType,
+                  'mVendor': nowMonthSyscode[i].mVendor,
+                  'mName': nowMonthSyscode[i].mName,
+                  'mCost': nowMonthSyscode[i].mCost,
                   'mLastStock': nowMonthSyscode[i].deductionNum,
                 }
               };
