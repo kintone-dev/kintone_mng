@@ -274,6 +274,56 @@
       for (let i in event.record.AssStockList.value) {
         event.record.AssStockList.value[i].value.ASS_mCode.lookup = true;
       }
+
+      /**
+       * 概要処理
+       */
+      // 品目区分と概要でのフィールドコード
+      var mTypeArray = [
+        {
+          'mType':'完成品',
+          'fc':'finishProduct'
+        },
+        {
+          'mType':'仕掛品',
+          'fc':'inProcess'
+        }
+      ]
+      function stockCostFunc(mTypeArray){
+        var costArray = [];
+        for(let i in mTypeArray){
+          var totalSum = 0;
+          for(let i in event.record.inventoryList.value){
+            if(event.record.inventoryList.value[i].value.mType.value == mTypeArray[i].mType){
+              totalSum = parseInt(totalSum) + (parseInt(event.record.inventoryList.value[i].value.stockCost.value) || 0);
+            }
+          }
+          var costArrayBody = {
+            'fc':mTypeArray[i].fc,
+            'cost':totalSum
+          }
+          costArray.push(costArrayBody);
+        }
+        return costArray;
+      }
+      var costArray = stockCostFunc(mTypeArray);
+      var totalInventoryAmount = 0;
+      for(let i in costArray){
+        event.record[costArray[i].fc].value = costArray[i].cost;
+        totalInventoryAmount = parseInt(totalInventoryAmount) + parseInt(costArray[i].cost);
+      }
+      event.record.totalInventoryAmount.value = totalInventoryAmount;
+
+      event.record.subscription.value = 0;
+      event.record.nonSalesAmount.value = 0;
+      for(let i in event.record.shipTypeList.value){
+        if(event.record.shipTypeList.value[i].value.shipType.value == 'サブスク'){
+          event.record.subscription.value = parseInt(event.record.subscription.value) + (parseInt(event.record.shipTypeList.value[i].value.ST_mCost.value) || 0);
+        } else if(event.record.shipTypeList.value[i].value.shipType.value == '社内利用' || event.record.shipTypeList.value[i].value.shipType.value == '修理'|| event.record.shipTypeList.value[i].value.shipType.value == '貸与'){
+          event.record.nonSalesAmount.value = parseInt(event.record.nonSalesAmount.value) + (parseInt(event.record.shipTypeList.value[i].value.ST_mCost.value) || 0);
+        }
+      }
+
       console.log(event.record);
     } else if (event.record.EoMcheck.value == '二時確認' || event.record.EoMcheck.value == '締切') {
       /**
@@ -369,6 +419,56 @@
         event.record.forecastList.value[i].value.remainingNum.value = (parseInt(event.record.forecastList.value[i].value.afterLeadTimeStock.value) || 0) - (parseInt(event.record.forecastList.value[i].value.mOrderingPoint.value) || 0);
       }
 
+            /**
+       * 概要処理
+       */
+      // 品目区分と概要でのフィールドコード
+      var mTypeArray = [
+        {
+          'mType':'完成品',
+          'fc':'finishProduct'
+        },
+        {
+          'mType':'仕掛品',
+          'fc':'inProcess'
+        }
+      ]
+      function stockCostFunc(mTypeArray){
+        var costArray = [];
+        for(let i in mTypeArray){
+          var totalSum = 0;
+          for(let i in event.record.inventoryList.value){
+            if(event.record.inventoryList.value[i].value.mType.value == mTypeArray[i].mType){
+              totalSum = parseInt(totalSum) + (parseInt(event.record.inventoryList.value[i].value.stockCost.value) || 0);
+            }
+          }
+          var costArrayBody = {
+            'fc':mTypeArray[i].fc,
+            'cost':totalSum
+          }
+          costArray.push(costArrayBody);
+        }
+        return costArray;
+      }
+      var costArray = stockCostFunc(mTypeArray);
+      var totalInventoryAmount = 0;
+      for(let i in costArray){
+        event.record[costArray[i].fc].value = costArray[i].cost;
+        totalInventoryAmount = parseInt(totalInventoryAmount) + parseInt(costArray[i].cost);
+      }
+      event.record.totalInventoryAmount.value = totalInventoryAmount;
+
+      event.record.subscription.value = 0;
+      event.record.nonSalesAmount.value = 0;
+      for(let i in event.record.shipTypeList.value){
+        if(event.record.shipTypeList.value[i].value.shipType.value == 'サブスク'){
+          event.record.subscription.value = parseInt(event.record.subscription.value) + (parseInt(event.record.shipTypeList.value[i].value.ST_mCost.value) || 0);
+        } else if(event.record.shipTypeList.value[i].value.shipType.value == '社内利用' || event.record.shipTypeList.value[i].value.shipType.value == '修理'|| event.record.shipTypeList.value[i].value.shipType.value == '貸与'){
+          event.record.nonSalesAmount.value = parseInt(event.record.nonSalesAmount.value) + (parseInt(event.record.shipTypeList.value[i].value.ST_mCost.value) || 0);
+        }
+      }
+
+      console.log(event.record);
     }
     endLoad();
     return event;
