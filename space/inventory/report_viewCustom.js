@@ -13,6 +13,15 @@
     startLoad();
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     // [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
+    event.record.totalInventoryAmount.disabled = true;
+    event.record.finishProduct.disabled = true;
+    event.record.inProcess.disabled = true;
+    event.record.totalAmountArrival.disabled = true;
+    event.record.acquisitionCost.disabled = true;
+    event.record.developmentCost.disabled = true;
+    event.record.subscription.disabled = true;
+    event.record.nonSalesAmount.disabled = true;
+
     for (let i in event.record.forecastList.value) {
       event.record.forecastList.value[i].value.afterLeadTimeStock.disabled = true;
       event.record.forecastList.value[i].value.forecast_arrival.disabled = true;
