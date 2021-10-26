@@ -1,6 +1,6 @@
 // アクセスグループコントロール
 var agc={
-	[sysid.PM.app_id.project]:{
+	133:{
 		app:[sysid.PM.app_id.project],
 		permission:'accept/reject',
 		subject:['group1','group2']
