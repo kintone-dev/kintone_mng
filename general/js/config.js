@@ -1,7 +1,8 @@
 // アクセスグループコントロール
+// console.log(sysid.PM.app_id.project);
 var agc={
 	133:{
-		app:[sysid.PM.app_id.project],
+		app:133,
 		permission:'accept/reject',
 		subject:['group1','group2']
 	}
