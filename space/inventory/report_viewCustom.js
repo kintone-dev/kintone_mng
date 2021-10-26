@@ -152,6 +152,7 @@
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
     event.record.inventoryList.value = await sortItemTable(event.record.inventoryList.value, 'sys_code', true);
+    event.record.shipTypeList.value = await sortItemTable(event.record.shipTypeList.value, 'sys_shiptypeCode', true);
     $('#itemSortBtn').on('click', async function () {
       await startLoad();
       var eRecord = kintone.app.record.get();
