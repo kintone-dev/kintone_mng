@@ -1,3 +1,11 @@
+// アクセスグループコントロール
+var agc={
+	[sysid.PM.app_id.project]:{
+		app:[sysid.PM.app_id.project],
+		permission:'accept/reject',
+		subject:['group1','group2']
+	}
+};
 function set_sysid(env) {
 	//スペース＆アプリ情報
 	switch (env) {
@@ -136,7 +144,7 @@ var confirmSetting = [
 	}
 ]
 
-//検索窓設定
+// 検索窓設定
 var prjSerchJson = {
 	sID: 'eSearch',
 	sPlaceholder: '総合検索',
@@ -159,5 +167,6 @@ var prjSerchJson = {
 	]
 };
 
-//レポート除外設定
+// レポート除外設定
 var ignoreUnitArray = ['ns-', '-oo', '-xx', '-zz', '-aa'];
+
