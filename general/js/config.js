@@ -1,5 +1,5 @@
 // アクセスグループコントロール
-console.log(sysid.PM.app_id.project);
+// console.log(sysid.PM.app_id.project);
 var agc={
 	133:{
 		app:133,
