@@ -1,12 +1,16 @@
 // アクセスグループコントロール
-// console.log(sysid.PM.app_id.project);
-var agc={
-	133:{
-		app:133,
-		permission:'accept/reject',
-		subject:['group1','group2']
-	}
-};
+function agc(){ 
+	let sysid = set_sysid();
+	// console.log(sysid.PM.app_id.project);
+	var agcl={
+		[sysid.PM.app_id.project]:{
+			app:[sysid.PM.app_id.project],
+			permission:'accept/reject',
+			subject:['group1','group2']
+		}
+	};
+	console.log(agcl);
+}
 function set_sysid(env) {
 	//スペース＆アプリ情報
 	switch (env) {
