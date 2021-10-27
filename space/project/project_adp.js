@@ -564,6 +564,7 @@
           console.log(error);
           return ['error', error];
         });
+      console.log(prjIdRecord);
       var putStatusData = [];
       for (let i in prjIdRecord) {
         if (prjIdRecord[i].record.ステータス.value == '納品情報未確定') {
