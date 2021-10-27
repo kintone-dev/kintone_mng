@@ -13,6 +13,15 @@
     startLoad();
     //サプテーブル編集不可＆行の「追加、削除」ボタン非表示
     // [].forEach.call(document.getElementsByClassName("subtable-operation-gaia"), function(button){ button.style.display='none'; });
+    event.record.totalInventoryAmount.disabled = true;
+    event.record.finishProduct.disabled = true;
+    event.record.inProcess.disabled = true;
+    event.record.totalAmountArrival.disabled = true;
+    event.record.acquisitionCost.disabled = true;
+    event.record.developmentCost.disabled = true;
+    event.record.subscription.disabled = true;
+    event.record.nonSalesAmount.disabled = true;
+
     for (let i in event.record.forecastList.value) {
       event.record.forecastList.value[i].value.afterLeadTimeStock.disabled = true;
       event.record.forecastList.value[i].value.forecast_arrival.disabled = true;
@@ -28,8 +37,9 @@
       event.record.AssStockList.value[i].value.ASS_mName.disabled = true;
       event.record.AssStockList.value[i].value.ASS_returnNum.disabled = true;
       event.record.AssStockList.value[i].value.ASS_shipNum.disabled = true;
+      event.record.AssStockList.value[i].value.ASS_outWarrantNum.disabled = true;
+      event.record.AssStockList.value[i].value.ASS_inWarrantNum.disabled = true;
     }
-
     function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#概要':
@@ -44,6 +54,7 @@
           setFieldShown('inventoryList', false);
           setFieldShown('forecastList', false);
           setFieldShown('AssStockList', false);
+          setFieldShown('shipTypeList', false);
           setSpaceShown('itemSortBtn', 'line', 'none');
           setSpaceShown('locationSortBtn', 'line', 'none');
           break;
@@ -59,6 +70,7 @@
           setFieldShown('inventoryList', true);
           setFieldShown('forecastList', false);
           setFieldShown('AssStockList', false);
+          setFieldShown('shipTypeList', false);
           setSpaceShown('itemSortBtn', 'line', 'block');
           setSpaceShown('locationSortBtn', 'line', 'block');
           break;
@@ -74,6 +86,7 @@
           setFieldShown('inventoryList', false);
           setFieldShown('forecastList', true);
           setFieldShown('AssStockList', false);
+          setFieldShown('shipTypeList', false);
           setSpaceShown('itemSortBtn', 'line', 'none');
           setSpaceShown('locationSortBtn', 'line', 'none');
           break;
@@ -89,12 +102,29 @@
           setFieldShown('inventoryList', false);
           setFieldShown('forecastList', false);
           setFieldShown('AssStockList', true);
+          setFieldShown('shipTypeList', false);
+          setSpaceShown('itemSortBtn', 'line', 'none');
+          setSpaceShown('locationSortBtn', 'line', 'none');
+          break;
+        case '#出荷区分別一覧':
+          setFieldShown('totalInventoryAmount', false);
+          setFieldShown('finishProduct', false);
+          setFieldShown('inProcess', false);
+          setFieldShown('totalAmountArrival', false);
+          setFieldShown('acquisitionCost', false);
+          setFieldShown('developmentCost', false);
+          setFieldShown('subscription', false);
+          setFieldShown('nonSalesAmount', false);
+          setFieldShown('inventoryList', false);
+          setFieldShown('forecastList', false);
+          setFieldShown('AssStockList', false);
+          setFieldShown('shipTypeList', true);
           setSpaceShown('itemSortBtn', 'line', 'none');
           setSpaceShown('locationSortBtn', 'line', 'none');
           break;
       }
     }
-    tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数', 'ASS在庫残数']); //タブメニュー作成
+    tabMenu('tab_report', ['概要', '在庫リスト', '製品別在庫残数', 'ASS在庫残数','出荷区分別一覧']); //タブメニュー作成
     //tab初期表示設定
     if (sessionStorage.getItem('tabSelect')) {
       $('.tabMenu li').removeClass("active");
@@ -118,23 +148,17 @@
   });
 
   //ソートボタン表示、処理
-  kintone.events.on(['app.record.edit.show', 'app.record.create.show'], function (event) {
+  kintone.events.on(['app.record.edit.show', 'app.record.create.show'], async function (event) {
     setBtn('itemSortBtn', '商品順');
     setBtn('locationSortBtn', '拠点順');
+    event.record.inventoryList.value = await sortItemTable(event.record.inventoryList.value, 'sys_code', true);
+    event.record.shipTypeList.value = await sortItemTable(event.record.shipTypeList.value, 'sys_shiptypeCode', true);
     $('#itemSortBtn').on('click', async function () {
       await startLoad();
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value;
       table = await sortItemTable(table, 'sys_code', true);
-      await new Promise(resolve => {
-        setTimeout(() => {
-          for (let i in eRecord.record.inventoryList.value) {
-            eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
-          }
-          kintone.app.record.set(eRecord);
-          resolve()
-        }, 1000)
-      })
+      kintone.app.record.set(eRecord);
       await endLoad();
     });
     $('#locationSortBtn').on('click', async function () {
@@ -142,15 +166,7 @@
       var eRecord = kintone.app.record.get();
       var table = eRecord.record.inventoryList.value;
       table = await sortLocTable(table, 'sys_code', true);
-      await new Promise(resolve => {
-        setTimeout(() => {
-          for (let i in eRecord.record.inventoryList.value) {
-            eRecord.record.inventoryList.value[i].value.mCode.lookup = true;
-          }
-          kintone.app.record.set(eRecord);
-          resolve()
-        }, 1000)
-      })
+      kintone.app.record.set(eRecord);
       await endLoad();
     });
     for (let i in event.record.inventoryList.value) {
@@ -162,6 +178,13 @@
   //差引数量０以下の時行を赤背景に
   kintone.events.on('app.record.detail.show', function (event) {
     startLoad('<span>ただいま処理中です。</span><br />処理完了まで1分ほどお待ちください。<br />※更新とページバックはしないでください。');
+    var EoMcheck = event.record.EoMcheck.value;
+    var user = kintone.getLoginUser();
+    var developUser = ['システム設計','kintone Admin'];
+    if(EoMcheck=='締切' && !developUser.includes(user.name)){
+      alert('このレポートは締切です');
+      $('.gaia-argoui-app-menu-edit').remove();
+    }
     const GET_FIELD_CODE = Object.values(cybozu.data.page.SCHEMA_DATA.subTable);
     var iListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '在庫一覧').id;
     var fListTableClass = 'subtable-' + GET_FIELD_CODE.find(_ => _.label === '製品別在庫残数').id;
@@ -255,10 +278,9 @@
 
   // 締切保存時 特定の拠点を削除
   kintone.events.on(['app.record.edit.submit', 'app.record.create.submit'], function (event) {
-    if (event.record.EoMcheck.value == '締切') {
+    if (event.record.EoMcheck.value == '二時確認') {
       var inventoryList = event.record.inventoryList.value;
       var newList = [];
-      var ignoreUnitArray = ['ns-', '-oo', '-xx', '-zz', '-aa'];
       var ignoreUnit = new RegExp(ignoreUnitArray.join('|'));
       //特定の拠点以外を抜き出して再度格納
       for (let i in inventoryList) {

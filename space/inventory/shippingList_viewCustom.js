@@ -60,7 +60,7 @@
           setFieldShown('trckNum', false);
           setFieldShown('sendDate', false);
           setFieldShown('expArrivalDate', false);
-          setFieldShown('shipment', false);
+          setFieldShown('shipment', true);
           setFieldShown('shipType', true);
           setFieldShown('tarDate', true);
           setFieldShown('instFile', true);
@@ -194,9 +194,7 @@
   });
 
   kintone.events.on('app.record.edit.show', function (event) {
-
     setSpaceShown('setShipment', 'line', 'none');
-
     return event;
   });
 
@@ -228,21 +226,17 @@
           'app': sysid.INV.app_id.unit,
           'query': ''
         };
-
         var allUnit = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getUnitBody)
           .then(function (resp) {
             return resp;
           }).catch(function (error) {
             return error;
           });
-
         $('#setShipment').append('<option value="noSelect">選択して下さい</option>');
-
         for(let i in allUnit.records) {
           $('#setShipment').append('<option value="' + allUnit.records[i].uCode.value + '">' + allUnit.records[i].uName.value + '</option>');
         }
       }());
-
       setFieldShown('shipment', false);
     } else {
       setSpaceShown('setShipment', 'line', 'none');

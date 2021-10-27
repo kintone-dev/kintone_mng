@@ -1,7 +1,5 @@
 (function () {
   'use strict';
-  //拠点情報取得＆繰り返し利用
-  var getUNITdata = api_getRecords(sysid.INV.app_id.unit);
 
   //新規品目作成時アクション
   kintone.events.on('app.record.create.show', function (event) {
@@ -46,7 +44,7 @@
         console.log(error);
         return error;
       });
-    return event;
+      return event;
   });
 
   // 新規保存時アクション
@@ -94,7 +92,7 @@
         console.log(error);
         return ['error', error];
       });
-    if(purNewPrdResult[0]=='error'){
+    if(Array.isArray(purNewPrdResult)){
       event.error='拠点管理に新規商品を追加する際にエラーが発生しました';
       endLoad();
       return event;
@@ -259,5 +257,4 @@
         return event;
       });
   });
-
 })();

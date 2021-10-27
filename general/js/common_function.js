@@ -1,3 +1,4 @@
+const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
 /* ボタン、タブメニュー */
 // スペースフィールドにボタンを設置
 function setBtn(btnID, btnValue) {
@@ -425,7 +426,7 @@ async function deleteRecords(sendApp, records) {
  * @param {*} reportDate 判別したいレポートの月 例)202109
  * @returns
  */
-async function checkEoMReport(reportDate) {
+async function checkEoMReport(reportDate,loginUserData) {
 	var getReportBody = {
 		'app': sysid.INV.app_id.report,
 		'query': 'sys_invoiceDate = "' + reportDate + '"'
@@ -437,10 +438,30 @@ async function checkEoMReport(reportDate) {
 			console.log(error);
 			return error;
 		});
+	//一時確認例外アカウント
+	var firstCheck = ['システム設計','kintone Admin','在庫管理拠点'];
+	//二時確認例外アカウント
+	var secondCheck = ['システム設計','kintone Admin'];
+	//締切例外アカウント
+	var lastCheck = ['kintone Admin'];
 	if (reportData.records.length != 0) {
-		for (let i in reportData.records[0].EoMcheck.value) {
-			if (reportData.records[0].EoMcheck.value[i] == '締切') {
-				return false;
+		if (reportData.records[0].EoMcheck.value == '一時確認') {
+			if(firstCheck.includes(loginUserData.name)){
+				return ['true','一時確認'];
+			} else{
+				return ['false','一時確認'];
+			}
+		} else if (reportData.records[0].EoMcheck.value == '二時確認') {
+			if(secondCheck.includes(loginUserData.name)){
+				return ['true','二時確認'];
+			} else{
+				return ['false','二時確認'];
+			}
+		} else if (reportData.records[0].EoMcheck.value == '締切') {
+			if(lastCheck.includes(loginUserData.name)){
+				return ['true','締切'];
+			} else{
+				return ['false','締切'];
 			}
 		}
 	}
@@ -473,9 +494,12 @@ function createStockJson(event, appId) {
 		sendDate = sendDate.slice(0, -2);
 		stockData.date = sendDate;
 		//レポート用日付作成 end
+		if(!event.record.shipType.value.match(/移動|確認中/)){
+			stockData.shipType = event.record.shipType.value;
+		}
 		if (event.nextStatus) {
 			if (event.nextStatus.value == '集荷待ち') {
-				var arrivalShipType = ['移動-販売', '移動-サブスク', '販売', 'サブスク', '移動-拠点間', '移動-ベンダー'];
+				var arrivalShipType = ['移動-販売', '移動-サブスク', '移動-拠点間', '移動-ベンダー'];
 				for (let i in event.record.deviceList.value) {
 					/**
 					 * 出荷用json作成
@@ -510,7 +534,7 @@ function createStockJson(event, appId) {
 				}
 				return stockData;
 			} else if (event.nextStatus.value == '出荷完了') {
-				var arrivalShipType_dist = ['移動-販売', '移動-サブスク', '販売', 'サブスク'];
+				var arrivalShipType_dist = ['移動-販売', '移動-サブスク'];
 				var arrivalShipType_arr = ['移動-拠点間', '移動-ベンダー'];
 				for (let i in event.record.deviceList.value) {
 					// 出荷情報を作成
@@ -547,9 +571,10 @@ function createStockJson(event, appId) {
 			return false;
 		}
 	} else if (appId == sysid.PM.app_id.project) { //案件管理
-		stockData.date = event.record.sys_invoiceDate.value;
 		var distributeSalesType = ['販売', 'サブスク'];
+		stockData.date = event.record.sys_invoiceDate.value;
 		if (distributeSalesType.includes(event.record.salesType.value)) {
+			stockData.shipType = event.record.salesType.value;
 			for (let i in event.record.deviceList.value) {
 				if (event.record.deviceList.value[i].value.subBtn.value == '通常') { // 予備機が通常のもののみ
 					//出荷情報は積送からのみ
@@ -835,6 +860,8 @@ async function stockCtrl(event, appId) {
 	};
 	await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putDeviceBody)
 		.then(function (resp) {
+			console.log('商品在庫数変更');
+			console.log(putDeviceBody);
 			return resp;
 		}).catch(function (error) {
 			console.log(error);
@@ -846,6 +873,8 @@ async function stockCtrl(event, appId) {
 	};
 	await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putUnitBody)
 		.then(function (resp) {
+			console.log('拠点在庫数変更');
+			console.log(putUnitBody);
 			return resp;
 		}).catch(function (error) {
 			console.log(error);
@@ -889,6 +918,7 @@ async function reportCtrl(event, appId) {
 	/* レポート更新用情報作成 */
 	var reportUpdateData = [];
 	var getUniNameArray = [];
+	var getDevNameArray = [];
 	for (let i in stockData.arr) {
 		var reportUpdateBody = {
 			'arrOrShip': stockData.arr[i].arrOrShip,
@@ -898,6 +928,7 @@ async function reportCtrl(event, appId) {
 			'stockNum': stockData.arr[i].stockNum
 		};
 		getUniNameArray.push('"' + stockData.arr[i].uniCode + '"');
+		getDevNameArray.push('"' + stockData.arr[i].devCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
 	for (let i in stockData.ship) {
@@ -908,10 +939,15 @@ async function reportCtrl(event, appId) {
 			'uniCode': stockData.ship[i].uniCode,
 			'stockNum': stockData.ship[i].stockNum
 		};
+		if(typeof stockData.shipType !== "undefined"){
+			reportUpdateBody.sysSTCode = stockData.ship[i].devCode + '-' + stockData.shipType
+		}
 		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
+		getDevNameArray.push('"' + stockData.ship[i].devCode + '"');
 		reportUpdateData.push(reportUpdateBody);
 	}
 	getUniNameArray = Array.from(new Set(getUniNameArray));
+	getDevNameArray = Array.from(new Set(getDevNameArray));
 
 	//拠点名取得
 	var getUnitBody = {
@@ -932,8 +968,33 @@ async function reportCtrl(event, appId) {
 			}
 		}
 	}
-	/* レポート更新用情報作成 end */
 
+	//製品名取得
+	var getDeviceBody = {
+		'app': sysid.INV.app_id.device,
+		'query': 'mCode in (' + getDevNameArray.join() + ')'
+	};
+	var deviceRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	for (let i in reportUpdateData) {
+		for (let j in deviceRecords.records) {
+			if (reportUpdateData[i].devCode == deviceRecords.records[j].mCode.value) {
+				reportUpdateData[i].mClassification = deviceRecords.records[j].mClassification.value;
+				reportUpdateData[i].mType = deviceRecords.records[j].mType.value;
+				reportUpdateData[i].mVendor = deviceRecords.records[j].mVendor.value;
+				reportUpdateData[i].mName = deviceRecords.records[j].mName.value;
+				reportUpdateData[i].mCost = deviceRecords.records[j].mCost.value;
+			}
+		}
+	}
+
+
+	/* レポート更新用情報作成 end */
 	if (reportRecords.records.length != 0) { //対応したレポートがある場合
 		// 情報更新用配列
 		var putReportData = [];
@@ -943,6 +1004,9 @@ async function reportCtrl(event, appId) {
 			'record': {
 				'inventoryList': {
 					'value': reportRecords.records[0].inventoryList.value
+				},
+				'shipTypeList': {
+					'value': reportRecords.records[0].shipTypeList.value
 				}
 			}
 		};
@@ -964,36 +1028,107 @@ async function reportCtrl(event, appId) {
 							'sys_code': {
 								'value': reportUpdateData[i].sysCode
 							},
+							'mClassification':{
+								'value': reportUpdateData[i].mClassification
+							},
+							'mType':{
+								'value': reportUpdateData[i].mType
+							},
+							'mVendor':{
+								'value': reportUpdateData[i].mVendor
+							},
 							'mCode': {
 								'value': reportUpdateData[i].devCode
+							},
+							'mName':{
+								'value': reportUpdateData[i].mName
 							},
 							'stockLocation': {
 								'value': reportUpdateData[i].uName
 							},
 							'shipNum': {
 								'value': reportUpdateData[i].stockNum
+							},
+							'mCost': {
+								'value': reportUpdateData[i].mCost
 							}
 						}
-					}
+					};
 				} else if (reportUpdateData[i].arrOrShip == 'arr') {
 					var newReportListBody = {
 						'value': {
 							'sys_code': {
 								'value': reportUpdateData[i].sysCode
 							},
+							'mClassification':{
+								'value': reportUpdateData[i].mClassification
+							},
+							'mType':{
+								'value': reportUpdateData[i].mType
+							},
+							'mVendor':{
+								'value': reportUpdateData[i].mVendor
+							},
 							'mCode': {
 								'value': reportUpdateData[i].devCode
+							},
+							'mName':{
+								'value': reportUpdateData[i].mName
 							},
 							'stockLocation': {
 								'value': reportUpdateData[i].uName
 							},
 							'arrivalNum': {
 								'value': reportUpdateData[i].stockNum
+							},
+							'mCost': {
+								'value': reportUpdateData[i].mCost
 							}
 						}
 					};
 				}
 				putReportBody.record.inventoryList.value.push(newReportListBody);
+			}
+
+			// 出荷区分別一覧リスト設定
+			if(typeof reportUpdateData[i].sysSTCode !== "undefined"){
+				if(putReportBody.record.shipTypeList.value.some(item => item.value.sys_shiptypeCode.value === reportUpdateData[i].sysSTCode)){
+					for (let j in putReportBody.record.shipTypeList.value) {
+						if (putReportBody.record.shipTypeList.value[j].value.sys_shiptypeCode.value == reportUpdateData[i].sysSTCode) {
+							putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value = parseInt(putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
+						}
+					}
+				} else {
+					var newSTListBody = {
+						'value': {
+							'sys_shiptypeCode': {
+								'value': reportUpdateData[i].sysSTCode,
+							},
+							'shipType': {
+								'value': stockData.shipType
+							},
+							'ST_mType': {
+								'value': reportUpdateData[i].mType
+							},
+							'ST_mVendor': {
+								'value': reportUpdateData[i].mVendor
+							},
+							'ST_mCode': {
+								'value': reportUpdateData[i].devCode
+							},
+							'ST_mName': {
+								'value': reportUpdateData[i].mName
+							},
+							'ST_shipNum': {
+								'value': reportUpdateData[i].stockNum
+							},
+							'ST_mCost': {
+								'value': reportUpdateData[i].mCost
+							}
+						}
+					};
+					putReportBody.record.shipTypeList.value.push(newSTListBody);
+				}
 			}
 		}
 		putReportData.push(putReportBody);
@@ -1001,7 +1136,7 @@ async function reportCtrl(event, appId) {
 		var putReport = {
 			'app': sysid.INV.app_id.report,
 			'records': putReportData,
-		}
+		};
 		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putReport)
 			.then(function (resp) {
 				return resp;
@@ -1012,17 +1147,34 @@ async function reportCtrl(event, appId) {
 	} else { //対応したレポートがない場合
 		//レポート新規作成
 		var postReportData = [];
-		var postReportBody = {
-			'invoiceYears': {
-				'value': stockData.date.slice(0, -2)
-			},
-			'invoiceMonth': {
-				'value': stockData.date.slice(4)
-			},
-			'inventoryList': {
-				'value': []
-			}
-		};
+		if(typeof stockData.shipType === "undefined"){
+			var postReportBody = {
+				'invoiceYears': {
+					'value': stockData.date.slice(0, -2)
+				},
+				'invoiceMonth': {
+					'value': stockData.date.slice(4)
+				},
+				'inventoryList': {
+					'value': []
+				}
+			};
+		} else{
+			var postReportBody = {
+				'invoiceYears': {
+					'value': stockData.date.slice(0, -2)
+				},
+				'invoiceMonth': {
+					'value': stockData.date.slice(4)
+				},
+				'inventoryList': {
+					'value': []
+				},
+				'shipTypeList': {
+					'value': []
+				}
+			};
+		}
 
 		// レポート更新情報をリストに格納
 		for (let i in reportUpdateData) {
@@ -1032,31 +1184,92 @@ async function reportCtrl(event, appId) {
 						'sys_code': {
 							'value': reportUpdateData[i].sysCode
 						},
+						'mClassification':{
+							'value': reportUpdateData[i].mClassification
+						},
+						'mType':{
+							'value': reportUpdateData[i].mType
+						},
+						'mVendor':{
+							'value': reportUpdateData[i].mVendor
+						},
 						'mCode': {
 							'value': reportUpdateData[i].devCode
+						},
+						'mName':{
+							'value': reportUpdateData[i].mName
 						},
 						'stockLocation': {
 							'value': reportUpdateData[i].uName
 						},
 						'shipNum': {
 							'value': reportUpdateData[i].stockNum
+						},
+						'mCost': {
+							'value': reportUpdateData[i].mCost
 						}
 					}
-				};
+			};
+				if(typeof reportUpdateData[i].sysSTCode !== "undefined"){
+					var newSTListBody = {
+						'value': {
+							'sys_shiptypeCode': {
+								'value': reportUpdateData[i].sysSTCode,
+							},
+							'shipType': {
+								'value': stockData.shipType
+							},
+							'ST_mType': {
+								'value': reportUpdateData[i].mType
+							},
+							'ST_mVendor': {
+								'value': reportUpdateData[i].mVendor
+							},
+							'ST_mCode': {
+								'value': reportUpdateData[i].devCode
+							},
+							'ST_mName': {
+								'value': reportUpdateData[i].mName
+							},
+							'ST_shipNum': {
+								'value': reportUpdateData[i].stockNum
+							},
+							'ST_mCost': {
+								'value': reportUpdateData[i].mCost
+							}
+						}
+					};
+					postReportBody.shipTypeList.value.push(newSTListBody);
+				}
 			} else if (reportUpdateData[i].arrOrShip == 'arr') {
 				var newReportListBody = {
 					'value': {
 						'sys_code': {
 							'value': reportUpdateData[i].sysCode
 						},
+						'mClassification':{
+							'value': reportUpdateData[i].mClassification
+						},
+						'mType':{
+							'value': reportUpdateData[i].mType
+						},
+						'mVendor':{
+							'value': reportUpdateData[i].mVendor
+						},
 						'mCode': {
 							'value': reportUpdateData[i].devCode
+						},
+						'mName':{
+							'value': reportUpdateData[i].mName
 						},
 						'stockLocation': {
 							'value': reportUpdateData[i].uName
 						},
 						'arrivalNum': {
 							'value': reportUpdateData[i].stockNum
+						},
+						'mCost': {
+							'value': reportUpdateData[i].mCost
 						}
 					}
 				};
@@ -1913,7 +2126,6 @@ function startLoad(msg) {
 		if ($("#loading").length == 0) {
 			$("body").append("<div id='loading'>" + dispMsg + "</div>");
 		}
-		console.log('load start');
 		resolve('load start');
 	})
 }
@@ -1921,7 +2133,6 @@ function startLoad(msg) {
 function endLoad() {
 	return new Promise(function (resolve, reject) {
 		$("#loading").remove();
-		console.log('load end');
 		resolve('load end');
 	})
 }
@@ -1966,7 +2177,10 @@ var mWindow = function () {
 	return returnData;
 }
 
-// カーテンレール特記事項用モーダルウィンドウ
+/**
+ * カーテンレール特記事項用モーダルウィンドウ
+ * ・該当ページのルックアップ取得ボタンを押した際に品目がKRT-DYの際にモーダルウィンドウ表示
+ */
 function krtSetting() {
 	var mw = mWindow();
 	mw.contents.innerHTML = '<p>カーテンレール設定</p>' +
@@ -1977,8 +2191,9 @@ function krtSetting() {
 	$('#mwFrame').fadeIn();
 }
 
-const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
-// プロセス実行条件取得＆格納
+/**
+ * プロセス実行条件取得＆jsonに格納
+ */
 function setProcessCD(app_id) {
 	return new Promise(async function (resolve, reject) {
 		const sessionName = 'processCD_' + app_id;
@@ -2059,88 +2274,94 @@ function setProcessCD(app_id) {
 	})
 }
 
-// プロセスエラー処理
+/**
+ * プロセスエラー処理
+ * ・プロセスに設定がされている場合、それが満たされていない時アラートで条件を表示
+ */
 async function processError(event) {
-	//プロセスエラー表示
 	var sessionName = await setProcessCD(kintone.app.getId());
 	var sessionData = JSON.parse(sessionStorage.getItem(sessionName));
-	console.log(sessionData);
 	var cStatus = event.record.ステータス.value;
 	var totalErrorCheck = [];
 	var errorText = [];
 
-	//現在のステータスのアクション分ループ
+	// アクション判別関数
+	function actionCheck(event, sessionData, cStatus, i, j) {
+		if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
+			if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+				return ['true'];
+			} else {
+				return ['false', sessionData.processCD[cStatus][i].conditions[j].name];
+			}
+		} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
+			if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == null) {
+				event.record[sessionData.processCD[cStatus][i].conditions[j].code].value = '';
+			}
+			if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
+				return ['true'];
+			} else {
+				return ['false', sessionData.processCD[cStatus][i].conditions[j].name];
+			}
+		} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
+			if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
+				var arrayInCheck = [];
+				for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
+					if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
+						arrayInCheck.push('true');
+					} else {
+						arrayInCheck.push('false');
+					}
+				}
+				if (arrayInCheck.includes('true')) {
+					return ['true'];
+				} else {
+					return ['false', sessionData.processCD[cStatus][i].conditions[j].name];
+				}
+			} else {
+				if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
+					return ['true'];
+				} else {
+					return ['false', sessionData.processCD[cStatus][i].conditions[j].name];
+				}
+			}
+		} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
+			if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
+				var arrayNotInCheck = [];
+				for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
+					if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
+						arrayNotInCheck.push('false');
+					} else {
+						arrayNotInCheck.push('true');
+					}
+				}
+				if (arrayNotInCheck.includes('false')) {
+					return ['false', sessionData.processCD[cStatus][i].conditions[j].name];
+				} else {
+					return ['true'];
+				}
+			} else {
+				if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
+					return ['false', sessionData.processCD[cStatus][i].conditions[j].name];
+				} else {
+					return ['true'];
+				}
+			}
+		}
+	}
+
+	// 現在のステータスのアクション分ループ
 	for (let i in sessionData.processCD[cStatus]) {
 		var errorCheck = [];
 		var errorName = [];
 		if (sessionData.processCD[cStatus][i].conditions.length > 1) {
 			if (sessionData.processCD[cStatus][i].cdt == 'and') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
-					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
-							errorCheck.push('true');
-						} else {
-							errorCheck.push('false');
-							errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value == null) {
-							event.record[sessionData.processCD[cStatus][i].conditions[j].code].value = '';
-						}
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
-							errorCheck.push('true');
-						} else {
-							errorCheck.push('false');
-							errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
-						if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-							var arrayInCheck = [];
-							for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
-								if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
-									arrayInCheck.push('true');
-								} else {
-									arrayInCheck.push('false');
-								}
-							}
-							if (arrayInCheck.includes('true')) {
-								errorCheck.push('true');
-							} else {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							}
-						} else {
-							if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-								errorCheck.push('true');
-							} else {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							}
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
-						if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-							var arrayNotInCheck = [];
-							for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
-								if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
-									arrayNotInCheck.push('false');
-								} else {
-									arrayNotInCheck.push('true');
-								}
-							}
-							if (arrayNotInCheck.includes('false')) {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							} else {
-								errorCheck.push('true');
-							}
-						} else {
-							if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							} else {
-								errorCheck.push('true');
-							}
-						}
+					let actionReturn = actionCheck(event, sessionData, cStatus, i, j);
+					if (actionReturn[0] == 'true') {
+						errorCheck.push(actionReturn[0]);
+					} else {
+						errorCheck.push(actionReturn[0]);
+						errorName.push(actionReturn[1]);
 					}
 				}
 				if (errorCheck.includes('false')) {
@@ -2155,68 +2376,12 @@ async function processError(event) {
 				}
 			} else if (sessionData.processCD[cStatus][i].cdt == 'or') {
 				for (let j in sessionData.processCD[cStatus][i].conditions) {
-					if (sessionData.processCD[cStatus][i].conditions[j].operator == '=') {
-						if (event.record[sessionData.processCD[cStatus].conditions[j].code].value == sessionData.processCD[cStatus][i].conditions[j].value[0]) {
-							errorCheck.push('true');
-						} else {
-							errorCheck.push('false');
-							errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == '!=') {
-						if (event.record[sessionData.processCD[cStatus][i].conditions[j].code].value != sessionData.processCD[cStatus][i].conditions[j].value[0]) {
-							errorCheck.push('true');
-						} else {
-							errorCheck.push('false');
-							errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'in') {
-						if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-							var arrayInCheck = [];
-							for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
-								if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
-									arrayInCheck.push('true');
-								} else {
-									arrayInCheck.push('false');
-								}
-							}
-							if (arrayInCheck.includes('true')) {
-								errorCheck.push('true');
-							} else {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							}
-						} else {
-							if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-								errorCheck.push('true');
-							} else {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							}
-						}
-					} else if (sessionData.processCD[cStatus][i].conditions[j].operator == 'not in') {
-						if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-							var arrayNotInCheck = [];
-							for (let k in event.record[sessionData.processCD[cStatus][i].conditions[j].code].value) {
-								if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value[k])) {
-									arrayNotInCheck.push('false');
-								} else {
-									arrayNotInCheck.push('true');
-								}
-							}
-							if (arrayNotInCheck.includes('false')) {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							} else {
-								errorCheck.push('true');
-							}
-						} else {
-							if (sessionData.processCD[cStatus][i].conditions[j].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[j].code].value)) {
-								errorCheck.push('false');
-								errorName.push(sessionData.processCD[cStatus][i].conditions[j].name);
-							} else {
-								errorCheck.push('true');
-							}
-						}
+					let actionReturn = actionCheck(event, sessionData, cStatus, i, j);
+					if (actionReturn[0] == 'true') {
+						errorCheck.push(actionReturn[0]);
+					} else {
+						errorCheck.push(actionReturn[0]);
+						errorName.push(actionReturn[1]);
 					}
 				}
 				if (errorCheck.includes('true')) {
@@ -2231,68 +2396,12 @@ async function processError(event) {
 				}
 			}
 		} else if (sessionData.processCD[cStatus][i].conditions.length == 1) {
-			if (sessionData.processCD[cStatus][i].conditions[0].operator == '=') {
-				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code].value == sessionData.processCD[cStatus][i].conditions[0].value[0]) {
-					errorCheck.push('true');
-				} else {
-					errorCheck.push('false');
-					errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-				}
-			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == '!=') {
-				if (event.record[sessionData.processCD[cStatus][i].conditions[0].code].value != sessionData.processCD[cStatus][i].conditions[0].value[0]) {
-					errorCheck.push('true');
-				} else {
-					errorCheck.push('false');
-					errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-				}
-			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == 'in') {
-				if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
-					var arrayInCheck = [];
-					for (let k in event.record[sessionData.processCD[cStatus][i].conditions[0].code].value) {
-						if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value[k])) {
-							arrayInCheck.push('true');
-						} else {
-							arrayInCheck.push('false');
-						}
-					}
-					if (arrayInCheck.includes('true')) {
-						errorCheck.push('true');
-					} else {
-						errorCheck.push('false');
-						errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-					}
-				} else {
-					if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
-						errorCheck.push('true');
-					} else {
-						errorCheck.push('false');
-						errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-					}
-				}
-			} else if (sessionData.processCD[cStatus][i].conditions[0].operator == 'not in') {
-				if (Array.isArray(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
-					var arrayNotInCheck = [];
-					for (let k in event.record[sessionData.processCD[cStatus][i].conditions[0].code].value) {
-						if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value[k])) {
-							arrayNotInCheck.push('false');
-						} else {
-							arrayNotInCheck.push('true');
-						}
-					}
-					if (arrayNotInCheck.includes('false')) {
-						errorCheck.push('false');
-						errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-					} else {
-						errorCheck.push('true');
-					}
-				} else {
-					if (sessionData.processCD[cStatus][i].conditions[0].value.includes(event.record[sessionData.processCD[cStatus][i].conditions[0].code].value)) {
-						errorCheck.push('false');
-						errorName.push(sessionData.processCD[cStatus][i].conditions[0].name);
-					} else {
-						errorCheck.push('true');
-					}
-				}
+			let actionReturn = actionCheck(event, sessionData, cStatus, i, 0);
+			if (actionReturn[0] == 'true') {
+				errorCheck.push(actionReturn[0]);
+			} else {
+				errorCheck.push(actionReturn[0]);
+				errorName.push(actionReturn[1]);
 			}
 			if (errorCheck.includes('false')) {
 				totalErrorCheck.push('false');
@@ -2302,17 +2411,160 @@ async function processError(event) {
 				}
 				errorText.push(errorTextBody);
 			}
-			console.log(errorCheck);
 		} else {
 			console.log(`${sessionData.processCD[cStatus][i].name}はプロセス条件を指定されていません`);
 			totalErrorCheck.push('true');
 		}
 	}
-
 	if (totalErrorCheck.includes('false')) {
 		return ['error', errorText.join('\n')];
 	} else {
 		return ['success', errorText.join('\n')];
 	}
-
 }
+
+/**
+ * 導入案件管理と入出荷管理のコメント同期
+ * ・導入案件管理が納品準備中,製品発送済み
+ * ・入出荷管理が納品情報未確定,処理中
+ * ・上記のステータスの場合コメントを同期
+ * ※どちらかが上のステータスでない場合同期しない
+ */
+$(function () {
+	$('.ocean-ui-comments-commentform-submit').on('click', async function () {
+		await startLoad();
+		var eRecord = kintone.app.record.get();
+		var prjStat = ['納品準備中', '入力内容確認中'];
+		var shipStat = ['納品情報未確定', '処理中'];
+		if (kintone.app.getId() == sysid.INV.app_id.shipment && eRecord.record.prjId.value != '') {
+			let getPrjResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
+				'app': sysid.PM.app_id.project,
+				'id': eRecord.record.prjId.value
+			}).then(function (resp) {
+				return resp;
+			}).catch(function (error) {
+				console.log(error);
+				return ['error', error];
+			});
+			if (Array.isArray(getPrjResult)) {
+				alert('コメント同期の際にエラーが発生しました。');
+				await endLoad();
+				return;
+			}
+
+			if (shipStat.includes(eRecord.record.ステータス.value) && prjStat.includes(getPrjResult.record.ステータス.value)) {
+				if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
+					let getCommentBody = {
+						'app': kintone.app.getId(),
+						'record': eRecord.record.$id.value
+					};
+					let postCommentBody = {
+						'app': sysid.PM.app_id.project,
+						'record': eRecord.record.prjId.value,
+						'comment': {
+							'text': '',
+							'mentions': []
+						}
+					};
+					await new Promise(resolve => {
+						setTimeout(async function () {
+							let getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody)
+								.then(function (resp) {
+									return resp;
+								}).catch(function (error) {
+									console.log(error);
+									return ['error', error];
+								});
+							if (Array.isArray(getCommentResult)) {
+								alert('コメント同期の際にエラーが発生しました。');
+								resolve();
+							}
+							postCommentBody.comment.text = getCommentResult.comments[0].text;
+							postCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
+							let postCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comment.json', true), 'POST', postCommentBody)
+								.then(function (resp) {
+									return resp;
+								}).catch(function (error) {
+									console.log(error);
+									return ['error', error];
+								});
+							if (Array.isArray(postCommentResult)) {
+								alert('コメント同期の際にエラーが発生しました。');
+								resolve();
+							}
+							resolve();
+						}, 1000)
+					})
+				}
+			} else {
+				alert('対応した案件管理レコードにはコメントは同期されません');
+			}
+		} else if (kintone.app.getId() == sysid.PM.app_id.project && eRecord.record.sys_shipment_ID.value != '') {
+			let getShipResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
+				'app': sysid.INV.app_id.shipment,
+				'id': eRecord.record.sys_shipment_ID.value
+			}).then(function (resp) {
+				return resp;
+			}).catch(function (error) {
+				console.log(error);
+				return ['error', error];
+			});
+			if (Array.isArray(getShipResult)) {
+				alert('コメント同期の際にエラーが発生しました。');
+				await endLoad();
+				return;
+			}
+
+			if (prjStat.includes(eRecord.record.ステータス.value) && shipStat.includes(getShipResult.record.ステータス.value)) {
+				if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
+					let getCommentBody = {
+						'app': kintone.app.getId(),
+						'record': eRecord.record.$id.value
+					};
+					let postCommentBody = {
+						'app': sysid.INV.app_id.shipment,
+						'record': eRecord.record.sys_shipment_ID.value,
+						'comment': {
+							'text': '',
+							'mentions': []
+						}
+					};
+					await new Promise(resolve => {
+						setTimeout(async function () {
+							let getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody)
+								.then(function (resp) {
+									return resp;
+								}).catch(function (error) {
+									console.log(error);
+									return ['error', error];
+								});
+							if (Array.isArray(getCommentResult)) {
+								alert('コメント同期の際にエラーが発生しました。');
+								resolve();
+							}
+							postCommentBody.comment.text = getCommentResult.comments[0].text;
+							postCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
+							let postCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comment.json', true), 'POST', postCommentBody)
+								.then(function (resp) {
+									return resp;
+								}).catch(function (error) {
+									console.log(error);
+									return ['error', error];
+								});
+							if (Array.isArray(postCommentResult)) {
+								alert('コメント同期の際にエラーが発生しました。');
+								resolve();
+							}
+							resolve();
+						}, 1000)
+					})
+				}
+			} else {
+				alert('対応した入出荷管理レコードにはコメントは同期されません');
+			}
+		}
+
+		await endLoad();
+		return;
+	});
+})
