@@ -575,8 +575,8 @@
             'action': '処理開始',
             'assignee': 'm.logi'
           }
+          putStatusData.records.push(putStatusBody);
         }
-        putStatusData.records.push(putStatusBody);
       }
       console.log(putStatusData.records.length);
       if(putStatusData.records.length > 0){
