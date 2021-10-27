@@ -5,13 +5,13 @@
     startLoad();
     var nStatus = event.nextStatus.value;
     var reportData = await checkEoMReport(event.record.sys_invoiceDate.value, kintone.getLoginUser());
-    if(Array.isArray(reportData)){
+    if (Array.isArray(reportData)) {
       if (reportData[0] == 'false') {
         event.error = '対応した日付のレポートは' + reportData[1] + '済みです。';
         endLoad();
         return event;
-      } else if(reportData[0] == 'true'){
-        if(!confirm('対応した日付のレポートは' + reportData[1] + '済みです。\n作業を続けますか？')){
+      } else if (reportData[0] == 'true') {
+        if (!confirm('対応した日付のレポートは' + reportData[1] + '済みです。\n作業を続けますか？')) {
           endLoad();
           return event;
         }
@@ -19,7 +19,7 @@
     }
 
     if (nStatus == '入力内容確認中') { //ステータスが納品準備中の場合
-      if(typeof event.record.sys_shipment_ID.value === "undefined" || event.record.sys_shipment_ID.value == ''){
+      if (typeof event.record.sys_shipment_ID.value === "undefined" || event.record.sys_shipment_ID.value == '') {
         // ステータスを進めるための条件を満たしたが確認
         var sResult = false;
         // var deliveryArrangements=['aboutDelivery','tarDate','deviceList'];//dstSelection  担当手渡し
@@ -551,6 +551,42 @@
         return event;
       }
 
+      // ステータス更新
+      var prjIdArray = [event.record.$id.value, event.record.$id.value + '-sub'];
+      var getShipBody = {
+        'app': sysid.INV.app_id.shipment,
+        'query': 'prjId in (' + prjIdArray.join() + ')'
+      };
+      var prjIdRecord = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipBody)
+        .then(function (resp) {
+          return resp;
+        }).catch(function (error) {
+          console.log(error);
+          return ['error', error];
+        });
+      var putStatusData = [];
+      for (let i in prjIdRecord) {
+        if(prjIdRecord[i].record.ステータス.value == '納品情報未確定'){
+          var putStatusBody = {
+            'id': prjIdRecord.records[i].$id.value,
+            'action': '処理開始',
+            'assignee': 'm.logi'
+          }
+        }
+        putStatusData.push(putStatusBody);
+      }
+
+      var putStatusResult = await kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData)
+        .then(function (resp) {
+          return resp;
+        }).catch(function (error) {
+          console.log(error);
+          return ['error', error];
+        });
+      if (Array.isArray(putStatusResult)) {
+        event.error = 'ステータス変更時にエラーが発生しました';
+        return event;
+      }
     } else if (nStatus == '完了') { //ステータスが完了の場合
       if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
         // 在庫処理
