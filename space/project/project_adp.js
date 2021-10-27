@@ -564,8 +564,11 @@
           console.log(error);
           return ['error', error];
         });
-      var putStatusData = [];
-      for (let i in prjIdRecord.records) {
+        var putStatusData = {
+          'app': sysid.INV.app_id.shipment,
+          'records': []
+        };
+        for (let i in prjIdRecord.records) {
         if (prjIdRecord.records[i].ステータス.value == '納品情報未確定') {
           var putStatusBody = {
             'id': prjIdRecord.records[i].$id.value,
@@ -573,7 +576,7 @@
             'assignee': 'm.logi'
           }
         }
-        putStatusData.push(putStatusBody);
+        putStatusData.records.push(putStatusBody);
       }
 
       var putStatusResult = await kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData)
@@ -585,6 +588,7 @@
         });
       if (Array.isArray(putStatusResult)) {
         event.error = 'ステータス変更時にエラーが発生しました';
+        endLoad();
         return event;
       }
     } else if (nStatus == '完了') { //ステータスが完了の場合
