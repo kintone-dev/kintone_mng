@@ -578,14 +578,15 @@
         }
         putStatusData.records.push(putStatusBody);
       }
-
-      var putStatusResult = await kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData)
-        .then(function (resp) {
-          return resp;
-        }).catch(function (error) {
-          console.log(error);
-          return ['error', error];
-        });
+      if(putStatusData.records.length > 0){
+        var putStatusResult = await kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData)
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            console.log(error);
+            return ['error', error];
+          });
+      }
       if (Array.isArray(putStatusResult)) {
         event.error = 'ステータス変更時にエラーが発生しました';
         endLoad();
