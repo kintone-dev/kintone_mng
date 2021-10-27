@@ -638,7 +638,7 @@
     }
 
     if (getReportResult.records != 0) {
-      if (getReportResult.records[0].EoMcheck.value != 0) {
+      if (getReportResult.records[0].EoMcheck.value == '締切') {
         event.error = '対応した日付のレポートは月末処理締切済みです';
         return event;
       }
