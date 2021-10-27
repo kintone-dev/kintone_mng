@@ -564,12 +564,11 @@
           console.log(error);
           return ['error', error];
         });
-      console.log(prjIdRecord);
       var putStatusData = [];
-      for (let i in prjIdRecord) {
-        if (prjIdRecord[i].ステータス.value == '納品情報未確定') {
+      for (let i in prjIdRecord.records) {
+        if (prjIdRecord.records[i].ステータス.value == '納品情報未確定') {
           var putStatusBody = {
-            'id': prjIdRecord[i].$id.value,
+            'id': prjIdRecord.records[i].$id.value,
             'action': '処理開始',
             'assignee': 'm.logi'
           }
