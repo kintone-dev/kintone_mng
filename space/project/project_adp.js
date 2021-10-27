@@ -578,6 +578,7 @@
         }
         putStatusData.records.push(putStatusBody);
       }
+      console.log(putStatusData.records.length);
       if(putStatusData.records.length > 0){
         var putStatusResult = await kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData)
           .then(function (resp) {
