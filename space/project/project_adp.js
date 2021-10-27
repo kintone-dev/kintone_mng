@@ -552,7 +552,7 @@
       }
 
       // ステータス更新
-      var prjIdArray = [event.record.$id.value, event.record.$id.value + '-sub'];
+      var prjIdArray = ['"' + event.record.$id.value + '"', '"' + event.record.$id.value + '-sub"'];
       var getShipBody = {
         'app': sysid.INV.app_id.shipment,
         'query': 'prjId in (' + prjIdArray.join() + ')'
@@ -566,7 +566,7 @@
         });
       var putStatusData = [];
       for (let i in prjIdRecord) {
-        if(prjIdRecord[i].record.ステータス.value == '納品情報未確定'){
+        if (prjIdRecord[i].record.ステータス.value == '納品情報未確定') {
           var putStatusBody = {
             'id': prjIdRecord.records[i].$id.value,
             'action': '処理開始',
