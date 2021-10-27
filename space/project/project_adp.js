@@ -18,7 +18,7 @@
       }
     }
 
-    if (nStatus == '入力確認中') { //ステータスが納品準備中の場合
+    if (nStatus == '入力内容確認中') { //ステータスが納品準備中の場合
       // ステータスを進めるための条件を満たしたが確認
       var sResult = false;
       // var deliveryArrangements=['aboutDelivery','tarDate','deviceList'];//dstSelection  担当手渡し
