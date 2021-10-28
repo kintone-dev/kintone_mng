@@ -774,6 +774,11 @@
           console.log(error);
           return ['error', error];
         });
+      if (Array.isArray(distASS)) {
+        event.error = '積送ASSの情報取得の際にエラーが発生しました';
+        endLoad();
+        return event;
+      }
       var shipDistAssData = {
         'app': sysid.INV.app_id.unit,
         'updateKey': {
