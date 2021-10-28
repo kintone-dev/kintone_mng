@@ -278,7 +278,6 @@
               console.log(error);
               return ['error', error];
             });
-
           if (Array.isArray(postShipResult)) {
             event.error = '入出荷管理に情報連携する際にエラーが発生しました';
             endLoad();
