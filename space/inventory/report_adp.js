@@ -652,7 +652,7 @@
 
       endLoad();
       return event;
-    } else if (event.record.EoMcheck.value == '二時確認' || event.record.EoMcheck.value == '締切') {
+    } else if (event.record.EoMcheck.value == '二時確認') {
       /**
        * 次月のレポートの先月残数更新
        */
@@ -708,6 +708,60 @@
         return event;
       }
     } else if (event.record.EoMcheck.value == '締切') {
+      /**
+       * 次月のレポートの先月残数更新
+       */
+      const REPORT_KEY_YEAR = event.record.invoiceYears.value;
+      const REPORT_KEY_MONTH = event.record.invoiceMonth.value;
+      var reportDate = new Date(REPORT_KEY_YEAR, REPORT_KEY_MONTH);
+      const NEXT_DATE = String(reportDate.getFullYear()) + String(("0" + (reportDate.getMonth() + 1)).slice(-2));
+      // 次月のレポートを取得
+      var getNextMonthReportBody = {
+        'app': sysid.INV.app_id.report,
+        'query': 'sys_invoiceDate = "' + NEXT_DATE + '"'
+      };
+      var nextMonthReportData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getNextMonthReportBody)
+        .then(function (resp) {
+          return resp;
+        });
+      if (nextMonthReportData.records.length == 0) {
+        endLoad();
+        return event;
+      }
+      const NEXTREPORT_RECORD = nextMonthReportData.records[0];
+      //次月のレポートがある場合
+      var putNewReportData = {
+        'app': sysid.INV.app_id.report,
+        'id': NEXTREPORT_RECORD.$id.value,
+        'record': {
+          'inventoryList': {
+            'value': NEXTREPORT_RECORD.inventoryList.value
+          }
+        }
+      };
+
+      for (let i in event.record.inventoryList.value) {
+        for (let j in putNewReportData.record.inventoryList.value) {
+          if (event.record.inventoryList.value[i].value.sys_code.value == putNewReportData.record.inventoryList.value[j].value.sys_code.value) {
+            putNewReportData.record.inventoryList.value[j].value.mLastStock.value = event.record.inventoryList.value[i].value.deductionNum.value;
+          }
+        }
+      }
+
+      //次月のレポートを更新
+      var putNewReport = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', putNewReportData)
+        .then(function (resp) {
+          console.log(resp);
+          return resp;
+        }).catch(function (error) {
+          console.log(error);
+          return ['error', error];
+        });
+      if (Array.isArray(putNewReport)) {
+        event.error = '次月レポート更新の際にエラーが発生しました。';
+        endLoad();
+        return event;
+      }
       //積送(ASS)からASS在庫残数リストの請求対象出荷数分製品を減らす
       var getDistASSBody = {
         'app': sysid.PM.app_id.unit,
@@ -726,15 +780,15 @@
           'field': 'uCode',
           'value': 'distribute-ASS'
         },
-        'record':{
-          'mStockList':{
-            'value':distASS.records[0].mStockList.value
+        'record': {
+          'mStockList': {
+            'value': distASS.records[0].mStockList.value
           }
         }
       };
-      for(let i in event.record.AssStockList.value){
-        for(let j in shipDistAssData.record.mStockList.value){
-          if(event.record.AssStockList.value[i].value.ASS_mCode.value == shipDistAssData.record.mStockList.value[j].value.mCode.value){
+      for (let i in event.record.AssStockList.value) {
+        for (let j in shipDistAssData.record.mStockList.value) {
+          if (event.record.AssStockList.value[i].value.ASS_mCode.value == shipDistAssData.record.mStockList.value[j].value.mCode.value) {
             shipDistAssData.record.mStockList.value[j].value.mStock.value = parseInt(shipDistAssData.record.mStockList.value[j].value.mStock.value || 0) - parseInt(event.record.AssStockList.value[i].value.ASS_invoiceShipNum.value || 0);
           }
         }
