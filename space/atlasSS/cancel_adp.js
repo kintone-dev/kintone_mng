@@ -28,9 +28,35 @@
         return event;
       }
       console.log(compData);
-
-
-
+      var putStatData = {
+        'app': sysid.DEV.app_id.sNum,
+        'records': []
+      };
+      for(let i in compData.records){
+        var putStatBody = {
+          'updateKey': {
+            'field': 'pkgid',
+            'value': compData.records[i].member_id.value
+          },
+          'record': {
+            'churn_type': compData.records[i].churn_type.value,
+            'endDate': compData.records[i].churn_datetime.value
+          }
+        }
+        putStatData.records.push(putStatBody);
+      }
+      var putStatResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', putStatData)
+      .then(function (resp) {
+        return resp;
+      }).catch(function (error) {
+        console.log(error);
+        return ['error', error];
+      });
+      if (Array.isArray(putStatResult)) {
+        event.error = 'シリアル管理連携の際にエラーが発生しました';
+        endLoad();
+        return event;
+      }
 
       endLoad();
     });
