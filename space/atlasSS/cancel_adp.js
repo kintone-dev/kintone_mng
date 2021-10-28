@@ -55,7 +55,7 @@
         for (let j in compData.records) {
           if (sNumData.records[i].pkgid.value == compData.records[j].member_id.value) {
             var date = new Date(compData.records[j].churn_datetime.value);
-            console.log(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate());
+            console.log(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
             var putStatBody = {
               'id': sNumData.records[i].$id.value,
               'record': {
@@ -63,7 +63,7 @@
                   'value': compData.records[j].churn_type.value
                 },
                 'endDate': {
-                  'value': date.getFullYear + '-' + date.getMonth + '-' + date.getDate
+                  'value': date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
                 }
               }
             }
