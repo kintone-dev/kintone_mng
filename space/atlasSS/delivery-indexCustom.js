@@ -46,7 +46,6 @@
     //内部連携ボタンクリック時
     $('#' + sync_kintone.id).on('click', async function () {
       startLoad();
-
       /*①
         作業ステータス：準備中
         担当者：--------
