@@ -239,10 +239,6 @@
               'type': "SINGLE_LINE_TEXT",
               'value': assItems[i].mName
             },
-            'ASS_returnNum': {
-              'type': "NUMBER",
-              'value': '0'
-            },
             'ASS_shipNum': {
               'type': "NUMBER",
               'value': assItems[i].shipNum
@@ -254,10 +250,6 @@
             'ASS_inWarrantNum': {
               'type': "NUMBER",
               'value': assItems[i].inWarrantNum
-            },
-            'adjustNum': {
-              'type': "NUMBER",
-              'value': ''
             },
             'ASS_invoiceShipNum': {
               'type': "CALC",
