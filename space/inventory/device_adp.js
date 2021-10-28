@@ -128,7 +128,6 @@
           console.log('品目マスターに転送成功');
         });
     }
-
     endLoad();
     return event;
   });
