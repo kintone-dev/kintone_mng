@@ -764,8 +764,8 @@
       }
       //積送(ASS)からASS在庫残数リストの請求対象出荷数分製品を減らす
       var getDistASSBody = {
-        'app': sysid.PM.app_id.unit,
-        'query': 'uCode = distribute-ASS'
+        'app': sysid.INV.app_id.unit,
+        'query': 'uCode = "distribute-ASS"'
       };
       var distASS = await kintone.api(kintone.api.url('/k/v1/records.json', true), "GET", getDistASSBody)
         .then(function (resp) {
