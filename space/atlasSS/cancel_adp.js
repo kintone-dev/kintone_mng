@@ -32,7 +32,7 @@
         memIdArray.push('"' + compData.records[i].member_id.value + '"');
       }
       var getSnumBody = {
-        'app': kintone.app.getId(),
+        'app': sysid.DEV.app_id.sNum,
         'query': 'pkgid in (' + memIdArray.join() + ')'
       };
       var sNumData = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getSnumBody)
