@@ -45,7 +45,7 @@
         }
         putStatData.records.push(putStatBody);
       }
-      var putStatResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', putStatData)
+      var putStatResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putStatData)
       .then(function (resp) {
         console.log('success');
         console.log(resp);
