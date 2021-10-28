@@ -51,9 +51,11 @@
         'app': sysid.DEV.app_id.sNum,
         'records': []
       };
-      for(let i in sNumData.records){
-        for(let j in compData.records){
-          if(sNumData.records[i].pkgid.value == compData.records[j].member_id.value){
+      for (let i in sNumData.records) {
+        for (let j in compData.records) {
+          if (sNumData.records[i].pkgid.value == compData.records[j].member_id.value) {
+            var date = new Date(compData.records[j].churn_datetime.value);
+            console.log(date.getFullYear + '-' + date.getMonth + '-' + date.getDate);
             var putStatBody = {
               'id': sNumData.records[i].$id.value,
               'record': {
@@ -61,7 +63,7 @@
                   'value': compData.records[j].churn_type.value
                 },
                 'endDate': {
-                  'value': compData.records[j].churn_datetime.value
+                  'value': date.getFullYear + '-' + date.getMonth + '-' + date.getDate
                 }
               }
             }
