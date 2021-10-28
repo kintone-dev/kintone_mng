@@ -32,29 +32,33 @@
         'app': sysid.DEV.app_id.sNum,
         'records': []
       };
-      for(let i in compData.records){
+      for (let i in compData.records) {
         var putStatBody = {
           'updateKey': {
             'field': 'pkgid',
             'value': compData.records[i].member_id.value
           },
           'record': {
-            'churn_type': compData.records[i].churn_type.value,
-            'endDate': compData.records[i].churn_datetime.value
+            'churn_type': {
+              'value': compData.records[i].churn_type.value
+            },
+            'endDate': {
+              'value': compData.records[i].churn_datetime.value
+            }
           }
         }
         putStatData.records.push(putStatBody);
       }
       console.log(putStatData);
       var putStatResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putStatData)
-      .then(function (resp) {
-        console.log('success');
-        console.log(resp);
-        return resp;
-      }).catch(function (error) {
-        console.log(error);
-        return ['error', error];
-      });
+        .then(function (resp) {
+          console.log('success');
+          console.log(resp);
+          return resp;
+        }).catch(function (error) {
+          console.log(error);
+          return ['error', error];
+        });
       if (Array.isArray(putStatResult)) {
         alert('シリアル管理連携の際にエラーが発生しました');
         endLoad();
