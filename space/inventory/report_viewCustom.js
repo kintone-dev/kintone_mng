@@ -219,7 +219,7 @@
     for (let i in event.record.AssStockList.value) {
       var assStockBody = {
         'rowNum': parseInt(i) + 1,
-        'ASS_mCode': event.record.AssStockList.value[i].value.remainingNum.value,
+        'ASS_mCode': event.record.AssStockList.value[i].value.ASS_mCode.value,
         'ASS_invoiceShipNum': event.record.AssStockList.value[i].value.ASS_invoiceShipNum.value
       };
       assStockData.push(assStockBody);
