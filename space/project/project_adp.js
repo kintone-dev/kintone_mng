@@ -573,7 +573,7 @@
             'id': prjIdRecord.records[i].$id.value,
             'action': '処理開始',
             'assignee': 'm.logi'
-          }
+          };
           putStatusData.records.push(putStatusBody);
         }
       }
