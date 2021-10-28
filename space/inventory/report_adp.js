@@ -799,7 +799,7 @@
         }
       }
       console.log(shipDistAssData);
-      var putDistASS = await kintone.api(kintone.api.url('/k/v1/records.json', true), "PUT", shipDistAssData)
+      var putDistASS = await kintone.api(kintone.api.url('/k/v1/record.json', true), "PUT", shipDistAssData)
         .then(function (resp) {
           return resp;
         }).catch(function (error) {
