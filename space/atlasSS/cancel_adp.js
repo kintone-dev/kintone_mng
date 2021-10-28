@@ -23,7 +23,7 @@
           return ['error', error];
         });
       if (Array.isArray(compData)) {
-        event.error = 'シリアル管理連携の際にエラーが発生しました';
+        alert('シリアル管理連携の際にエラーが発生しました');
         endLoad();
         return event;
       }
@@ -45,6 +45,7 @@
         }
         putStatData.records.push(putStatBody);
       }
+      console.log(putStatData);
       var putStatResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putStatData)
       .then(function (resp) {
         console.log('success');
@@ -55,7 +56,7 @@
         return ['error', error];
       });
       if (Array.isArray(putStatResult)) {
-        event.error = 'シリアル管理連携の際にエラーが発生しました';
+        alert('シリアル管理連携の際にエラーが発生しました');
         endLoad();
         return event;
       }
