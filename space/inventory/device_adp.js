@@ -177,7 +177,6 @@
         console.log('拠点管理に新規商品を追加');
       });
 
-
     // api実行先指定
     var tarAPP = [
       sysid.PM.app_id.item,
@@ -202,7 +201,6 @@
         'endService': event.record.endService
       }
     };
-
     // api実行
     for (let i in tarAPP) {
       putItemBody.app = tarAPP[i];
@@ -212,7 +210,6 @@
           console.log('品目マスターに転送成功');
         });
     }
-
     endLoad();
     return event;
   });
@@ -231,7 +228,6 @@
     kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getPacBody)
       .then(function (resp) {
         var eRecord = kintone.app.record.get();
-
         for (let i in eRecord.record.packageComp.value) {
           for (let j in resp.records) {
             if (eRecord.record.packageComp.value[i].value.pc_mCode.value == resp.records[j].mCode.value) {
@@ -242,7 +238,6 @@
             }
           }
         }
-
         for (let i in eRecord.record.packageComp.value) {
           eRecord.record.packageComp.value[i].value.pc_mVendor.disabled = true;
           eRecord.record.packageComp.value[i].value.pc_mType.disabled = true;
@@ -251,7 +246,6 @@
           eRecord.record.packageComp.value[i].value.pc_Num.disabled = false;
           eRecord.record.packageComp.value[i].value.pc_mCode.disabled = false;
         }
-
         kintone.app.record.set(eRecord);
         endLoad();
         return event;
