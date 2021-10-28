@@ -284,7 +284,7 @@
           }
         }
         for(let i in inventoryData){
-          if(inventoryData[i].location == 'distribute-ASS'){
+          if(inventoryData[i].location == '積送（ASS）'){
             for(let j in assStockData){
               if(assStockData[j].ASS_mCode == inventoryData[i].mCode && assStockData[j].ASS_invoiceShipNum != inventoryData[i].shipNum){
                 $('.' + aListTableClass + ' tr:nth-child(' + assStockData[i].rowNum + ') td:nth-child(6)').css({
