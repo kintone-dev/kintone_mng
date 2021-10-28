@@ -64,7 +64,6 @@
         endLoad();
         return event;
       }
-
       endLoad();
     });
 
