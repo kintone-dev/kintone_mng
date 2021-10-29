@@ -10,7 +10,7 @@
 
   kintone.events.on(['app.record.create.show', 'app.record.edit.show', 'app.record.detail.show'], function (event) {
     //tabメニューの選択肢による表示設定
-    function tabSwitch(onSelect, event) {
+    function tabSwitch(onSelect) {
       switch (onSelect) {
         case '#出荷情報':
           setFieldShown('tmp_backlogID', true);
@@ -128,12 +128,11 @@
     }
 
     //タブメニュー作成
-    tabMenu('tab_ship', ['出荷情報', '宛先情報', '品目情報', '輸送情報']);
+    tabMenu('tab_rent', ['出荷情報', '宛先情報', '品目情報', '輸送情報']);
     //タブ切り替え表示設定
     $('.tabMenu a').on('click', function () {
-      var eRecord = kintone.app.record.get();
       var idName = $(this).attr('href'); //タブ内のリンク名を取得
-      tabSwitch(idName, eRecord); //tabをクリックした時の表示設定
+      tabSwitch(idName); //tabをクリックした時の表示設定
       var actIndex = $('.tabMenu li.active').index();
       sessionStorage.setItem('tabSelect', idName);
       sessionStorage.setItem('actSelect', actIndex);
@@ -147,7 +146,6 @@
       $('.tabMenu li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
       sessionStorage.removeItem('tabSelect');
       sessionStorage.removeItem('actSelect');
-      sessionStorage.removeItem('shipType');
     } else {
       tabSwitch('#出荷情報', event);
     }
