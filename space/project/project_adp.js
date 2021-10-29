@@ -228,6 +228,9 @@
             }
             // 社内・社員予備機用post用サブデータ
             var postShipSubBody = {
+              'tmp_backlogID': {
+                'value': event.record.tmp_backlogID.value
+              },
               'shipType': {
                 'value': '移動-拠点間'
               },
@@ -574,6 +577,9 @@
             'value': event.record.$id.value + '-sub'
           },
           'record': {
+            'tmp_backlogID': {
+              'value': event.record.tmp_backlogID.value
+            },
             'shipType': {
               'value': '移動-拠点間'
             },
