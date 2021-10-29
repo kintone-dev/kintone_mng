@@ -200,4 +200,10 @@ var prjSerchJson = {
 };
 
 // レポート除外設定
-var ignoreUnitArray = ['ns-', '-oo', '-xx', '-zz', '-aa'];
+var ignoreUnitArray = ['ns-', 'KRT-DY', 'siyb'];
+
+// 出荷数チェック対象外
+var ship_uncheckList={
+	mcode:/^(KRT-DY)$/,
+	mtype:/^(仕掛品|付属品)$/
+};
