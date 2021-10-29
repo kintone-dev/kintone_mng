@@ -206,4 +206,3 @@ var ship_uncheckList={
 	mcode:/^(KRT-DY)$/,
 	mtype:/^(仕掛品|付属品)$/
 };
-
