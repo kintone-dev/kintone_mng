@@ -24,6 +24,19 @@
     return event;
   });
 
+  kintone.events.on(['app.record.create.change.salesType', 'app.record.edit.change.salesType'], function (event) {
+    if (event.record.salesType.value == '貸与') {
+      setFieldShown('deviceInputOrg', true);
+      setFieldShown('returnDate', true);
+      setFieldShown('returnCompDate', true);
+    } else{
+      setFieldShown('deviceInputOrg', false);
+      setFieldShown('returnDate', false);
+      setFieldShown('returnCompDate', false);
+    }
+    return event;
+  });
+
   kintone.events.on('app.record.edit.change.invoiceNum', function (event) {
     if (event.record.invoiceNum.value === '' || event.record.invoiceNum.value === undefined) setFieldShown('invoiceStatus', false);
     else setFieldShown('invoiceStatus', true);
@@ -127,6 +140,16 @@
             setSpaceShown('btn_unknowINST', 'individual', 'none');
           }
 
+          if (event.record.salesType.value == '貸与') {
+            setFieldShown('deviceInputOrg', true);
+            setFieldShown('returnDate', true);
+            setFieldShown('returnCompDate', true);
+          } else{
+            setFieldShown('deviceInputOrg', false);
+            setFieldShown('returnDate', false);
+            setFieldShown('returnCompDate', false);
+          }
+
           setFieldShown('cSales', true);
           setFieldShown('instStatus', true);
           setFieldShown('instDate', true);
@@ -161,6 +184,9 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
+          setFieldShown('deviceInputOrg', false);
+          setFieldShown('returnDate', false);
+          setFieldShown('returnCompDate', false);
 
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
@@ -202,6 +228,9 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
+          setFieldShown('deviceInputOrg', false);
+          setFieldShown('returnDate', false);
+          setFieldShown('returnCompDate', false);
 
           setFieldShown('cName', false);
           setFieldShown('orgName', false);
@@ -243,6 +272,9 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
+          setFieldShown('deviceInputOrg', false);
+          setFieldShown('returnDate', false);
+          setFieldShown('returnCompDate', false);
 
           setFieldShown('cName', false);
           setFieldShown('orgName', false);

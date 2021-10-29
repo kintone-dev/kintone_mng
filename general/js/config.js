@@ -1,6 +1,6 @@
 /*
 // アクセスグループコントロール
-function agc(){ 
+function agc(){
 	let sysid = set_sysid();
 	var agcl={
 		[sysid.PM.app_id.project]:{
@@ -49,7 +49,8 @@ function set_sysid(env) {
 						item: 165,
 						project: 133,
 						installation: 76,
-						organization: 75
+						organization: 75,
+						rental: 000
 					}
 				},
 				// Inventory Management
@@ -106,7 +107,8 @@ function set_sysid(env) {
 						item: 213,
 						project: 217,
 						installation: 208,
-						organization: 209
+						organization: 209,
+						rental: 253
 					}
 				},
 				// Inventory Management (DEV)
@@ -160,18 +162,17 @@ function set_sysid(env) {
 
 //案件管理
 //納品依頼実行時confirm表示
-var confirmSetting = [
-	{
-		'fCode':'prjTitle',
-		'fName':'タイトル',
+var confirmSetting = [{
+		'fCode': 'prjTitle',
+		'fName': 'タイトル',
 	},
 	{
-		'fCode':'salesType',
-		'fName':'提供形態',
+		'fCode': 'salesType',
+		'fName': '提供形態',
 	},
 	{
-		'fCode':'prjNum',
-		'fName':'案件管理番号',
+		'fCode': 'prjNum',
+		'fName': '案件管理番号',
 	}
 ]
 
@@ -183,21 +184,20 @@ var prjSerchJson = {
 	sConditions: [{
 			fCode: 'prjTitle',
 			fName: 'タイトル',
-			matchType:'like'
+			matchType: 'like'
 		},
 		{
 			fCode: 'invoiceNum',
 			fName: '請求書番号',
-			matchType:'='
+			matchType: '='
 		},
 		{
 			fCode: 'prjNum',
 			fName: '案件管理番号',
-			matchType:'='
+			matchType: '='
 		}
 	]
 };
 
 // レポート除外設定
 var ignoreUnitArray = ['ns-', '-oo', '-xx', '-zz', '-aa'];
-

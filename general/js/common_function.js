@@ -708,6 +708,8 @@ function createStockJson(event, appId) {
 			// }
 		}
 		return stockData;
+	} else if(appId == sysid.PM.app_id.rental){
+
 	}
 	return false;
 };
