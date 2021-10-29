@@ -131,15 +131,6 @@
       }
       // レポート処理
       reportCtrl(event, kintone.app.getId());
-    } else if (cStatus === "処理中" && nStatus === "受領待ち") {
-      // var txt = $('[name=setShipment] option:selected').text();
-      // var val = $('[name=setShipment] option:selected').val();
-      // if (val != 'noSelect') {
-      //   event.record.shipment.value = txt;
-      //   event.record.sys_shipmentCode.value = val;
-      // } else {
-      //   event.error = '出荷ロケーションを選択して下さい。';
-      // }
     } else if (cStatus === "処理中" && nStatus === "納品情報未確定") {
       //案件IDがある場合のみ実施
       if (event.record.sys_prjId.value != '') {
