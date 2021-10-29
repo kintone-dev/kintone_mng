@@ -26,11 +26,9 @@
 
   kintone.events.on(['app.record.create.change.salesType', 'app.record.edit.change.salesType'], function (event) {
     if (event.record.salesType.value == '貸与') {
-      setFieldShown('deviceInputOrg', true);
       setFieldShown('returnDate', true);
       setFieldShown('returnCompDate', true);
     } else{
-      setFieldShown('deviceInputOrg', false);
       setFieldShown('returnDate', false);
       setFieldShown('returnCompDate', false);
     }
@@ -141,11 +139,9 @@
           }
 
           if (event.record.salesType.value == '貸与') {
-            setFieldShown('deviceInputOrg', true);
             setFieldShown('returnDate', true);
             setFieldShown('returnCompDate', true);
           } else{
-            setFieldShown('deviceInputOrg', false);
             setFieldShown('returnDate', false);
             setFieldShown('returnCompDate', false);
           }
@@ -184,7 +180,6 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          setFieldShown('deviceInputOrg', false);
           setFieldShown('returnDate', false);
           setFieldShown('returnCompDate', false);
 
@@ -228,7 +223,6 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          setFieldShown('deviceInputOrg', false);
           setFieldShown('returnDate', false);
           setFieldShown('returnCompDate', false);
 
@@ -272,7 +266,6 @@
           setFieldShown('purchaseOrder_status', false);
           setFieldShown('prjMemo', false);
           setFieldShown('samePRJ', false);
-          setFieldShown('deviceInputOrg', false);
           setFieldShown('returnDate', false);
           setFieldShown('returnCompDate', false);
 
