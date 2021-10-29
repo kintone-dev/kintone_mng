@@ -199,5 +199,5 @@ var prjSerchJson = {
 };
 
 // レポート除外設定
-var ignoreUnitArray = ['ns-', '-oo', '-xx', '-zz', '-aa'];
+var ignoreUnitArray = ['ns-', 'KRT-DY', 'siyb'];
 
