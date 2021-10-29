@@ -59,8 +59,7 @@
           },
           'record': {
             'shipment': event.record.shipment,
-            'sendDate': event.record.sendDate,
-            'shipType': event.record.shipType
+            'sendDate': event.record.sendDate
           }
         };
         putSnumData.push(snRecord);
@@ -74,8 +73,7 @@
             value: sNums.SNs[i]
           },
           'shipment': event.record.shipment,
-          'sendDate': event.record.sendDate,
-          'shipType': event.record.shipType
+          'sendDate': event.record.sendDate
         };
         postSnumData.push(postSnBody);
       }
