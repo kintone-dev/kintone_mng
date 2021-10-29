@@ -67,9 +67,6 @@
               'tarDate': {
                 'value': event.record.tarDate.value
               },
-              'deviceInputOrg': {
-                'value': event.record.instName.value
-              },
               'returnDate': {
                 'value': event.record.returnDate.value
               },
@@ -372,9 +369,6 @@
             },
             'tarDate': {
               'value': event.record.tarDate.value
-            },
-            'deviceInputOrg': {
-              'value': event.record.instName.value
             },
             'returnDate': {
               'value': event.record.returnDate.value
