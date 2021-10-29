@@ -33,17 +33,20 @@
         endLoad();
         return event;
       }
-      //ID更新
+      // 依頼数とシリアル番号数チェック
       let deviceListValue = event.record.deviceList.value;
       let sNums = sNumRecords(deviceListValue, 'table');
       for (let i in deviceListValue) {
         let deviceListValue_mCode = deviceListValue[i].value.mCode.value;
+        let deviceListValue_mType = deviceListValue[i].value.mType.value;
         let deviceListValue_shipNum = deviceListValue[i].value.shipNum.value;
-        // 依頼数よりシリアル番号が多い時エラー
-        if (deviceListValue_shipNum != sNums[deviceListValue_mCode].length) {
-          event.error = `製品名「${deviceListValue[i].value.mNickname.value}」の依頼数と出荷数が一致しません。`;
-          endLoad();
-          return event;
+        if(!deviceListValue_mCode.match(ship_uncheckList.mcode) || !deviceListValue_mType.match(ship_uncheckList.mtype)){
+          // 依頼数とシリアル番号数が一致しない場合
+          if (deviceListValue_shipNum != sNums[deviceListValue_mCode].length) {
+            event.error = `製品名「${deviceListValue[i].value.mNickname.value}」の依頼数と出荷数が一致しません。`;
+            endLoad();
+            return event;
+          }
         }
       }
       //シリアル番号情報を更新

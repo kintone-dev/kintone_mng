@@ -205,5 +205,5 @@ var ignoreUnitArray = ['ns-', 'KRT-DY', 'siyb'];
 // 出荷数チェック対象外
 var ship_uncheckList={
 	mcode:/^(KRT-DY)$/,
-	mtype:/^(仕掛品|付属品)$/
+	mtype:/^(仕掛品|付属品|パッケージ品)$/
 };
