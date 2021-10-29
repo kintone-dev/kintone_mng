@@ -49,8 +49,7 @@ function set_sysid(env) {
 						item: 165,
 						project: 133,
 						installation: 76,
-						organization: 75,
-						rental: 000
+						organization: 75
 					}
 				},
 				// Inventory Management
@@ -71,7 +70,8 @@ function set_sysid(env) {
 						swap: 161,
 						account_tc: 160,
 						sNum: 159,
-						reuse: 174
+						reuse: 174,
+						rental: 000
 					}
 				},
 				// Support
@@ -107,8 +107,7 @@ function set_sysid(env) {
 						item: 213,
 						project: 217,
 						installation: 208,
-						organization: 209,
-						rental: 253
+						organization: 209
 					}
 				},
 				// Inventory Management (DEV)
@@ -129,7 +128,8 @@ function set_sysid(env) {
 						swap: 214,
 						account_tc: 216,
 						sNum: 215,
-						reuse: 211
+						reuse: 211,
+						rental: 253
 					}
 				},
 				// Support (DEV)
