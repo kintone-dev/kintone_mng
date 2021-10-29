@@ -166,7 +166,7 @@
     return new Promise(async function (resolve, reject) {
       var putDeliveryData = {
         'app': sysid.PM.app_id.project,
-        'id': pageRecod.prjId.value,
+        'id': pageRecod.sys_prjId.value,
         'record': {
           'deliveryCorp': {
             'value': pageRecod.deliveryCorp.value
@@ -184,7 +184,7 @@
       }
       var putStatusData = {
         'app': sysid.PM.app_id.project,
-        'id': pageRecod.prjId.value,
+        'id': pageRecod.sys_prjId.value,
         'action': '製品発送済',
         // 'assignee': pageRecod.作業者.value[0].code
       };
