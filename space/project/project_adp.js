@@ -49,7 +49,7 @@
             'records': []
           };
           var postRentData = {
-            'app': sysid.INV.app_id.shipment,
+            'app': sysid.DEV.app_id.rental,
             'records': []
           };
           if (event.record.salesType.value == '無償提供' || event.record.salesType.value == '貸与') {
@@ -72,12 +72,6 @@
               },
               'returnCompDate': {
                 'value': event.record.returnCompDate.value
-              },
-              'Contractor': {
-                'value': event.record.Contractor.value
-              },
-              'instName': {
-                'value': event.record.instName.value
               },
               'receiver': {
                 'value': event.record.receiver.value
@@ -127,7 +121,32 @@
               postRentBody.deviceList.value.push(devListBody);
             }
             postRentData.records.push(postRentBody);
-
+            // 貸与管理に情報連携
+            console.log('postRentData:');
+            console.log(postRentData);
+            var postRentResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postRentData)
+              .then(function (resp) {
+                console.log(resp);
+                return resp;
+              }).catch(function (error) {
+                console.log(error);
+                return ['error', error];
+              });
+            if (Array.isArray(postRentResult)) {
+              event.error = '貸与管理に情報連携する際にエラーが発生しました';
+              endLoad();
+              return event;
+            } else {
+              var sys_rent_ID = '';
+              for (let i in postRentResult.ids) {
+                if (i < postRentResult.ids.length - 1) {
+                  sys_rent_ID += postRentResult.ids[i] + ',';
+                } else {
+                  sys_rent_ID += postRentResult.ids[i];
+                }
+              }
+              event.record.sys_rent_ID.value = sys_rent_ID;
+            }
           } else {
             // 入出荷管理post内容
             var postShipBody = {
@@ -320,17 +339,21 @@
       var putShipData = {
         'app': sysid.INV.app_id.shipment,
         'records': []
-      }
-      if (event.record.salesType.value == '無償提供') {
-        // 入出荷管理put用配列
-        var putShipBody = {
+      };
+      var putRentData = {
+        'app': sysid.DEV.app_id.rental,
+        'records': []
+      };
+      if (event.record.salesType.value == '無償提供' || event.record.salesType.value == '貸与') {
+        // 貸与管理put用配列
+        var putRentBody = {
           'updateKey': {
-            'field': 'prjId',
+            'field': 'sys_prjId',
             'value': event.record.$id.value
           },
           'record': {
-            'shipType': {
-              'value': '社内利用'
+            'pocType': {
+              'value': event.record.salesType.value
             },
             'aboutDelivery': {
               'value': event.record.aboutDelivery.value
@@ -338,14 +361,14 @@
             'tarDate': {
               'value': event.record.tarDate.value
             },
-            'dstSelection': {
-              'value': event.record.dstSelection.value
-            },
-            'Contractor': {
-              'value': event.record.Contractor.value
-            },
-            'instName': {
+            'deviceInputOrg': {
               'value': event.record.instName.value
+            },
+            'returnDate': {
+              'value': event.record.returnDate.value
+            },
+            'returnCompDate': {
+              'value': event.record.returnCompDate.value
             },
             'receiver': {
               'value': event.record.receiver.value
@@ -371,20 +394,91 @@
             'corpName': {
               'value': event.record.corpName.value
             },
-            'sys_instAddress': {
-              'value': event.record.sys_instAddress.value
-            },
-            'sys_unitAddress': {
-              'value': event.record.sys_unitAddress.value
-            },
             'deviceList': {
               'value': []
             },
-            'prjNum': {
+            'sys_prjNum': {
               'value': event.record.prjNum.value
             }
           }
         };
+        for (let i in event.record.deviceList.value) {
+          var devListBody = {
+            'value': {
+              'mNickname': {
+                'value': event.record.deviceList.value[i].value.mNickname.value
+              },
+              'shipNum': {
+                'value': event.record.deviceList.value[i].value.shipNum.value
+              }
+            }
+          };
+          putRentBody.record.deviceList.value.push(devListBody);
+        }
+        putRentData.records.push(putRentBody);
+        // 貸与管理に情報連携
+        console.log('putRentData:');
+        console.log(putRentData);
+        var putRentResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", putRentData)
+          .then(function (resp) {
+            console.log(resp);
+            return resp;
+          }).catch(function (error) {
+            console.log(error);
+            return ['error', error];
+          });
+        if (Array.isArray(putRentResult)) {
+          event.error = '貸与管理に情報連携する際にエラーが発生しました';
+          endLoad();
+          return event;
+        }
+
+        // ステータス更新
+        var getRentBody = {
+          'app': sysid.DEV.app_id.rental,
+          'query': 'sys_prjId in ("' + event.record.$id.value + '")'
+        };
+        var rentRecord = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getRentBody)
+          .then(function (resp) {
+            return resp;
+          }).catch(function (error) {
+            console.log(error);
+            return ['error', error];
+          });
+        if (Array.isArray(rentRecord)) {
+          event.error = 'ステータス変更時にエラーが発生しました';
+          endLoad();
+          return event;
+        }
+        var putStatusData = {
+          'app': sysid.DEV.app_id.rental,
+          'records': []
+        };
+        for (let i in rentRecord.records) {
+          if (rentRecord.records[i].ステータス.value == '納品情報未確定') {
+            var putStatusBody = {
+              'id': rentRecord.records[i].$id.value,
+              'action': '処理開始',
+              'assignee': 'm.logi'
+            };
+            putStatusData.records.push(putStatusBody);
+          }
+        }
+        console.log(putStatusData.records.length);
+        if (putStatusData.records.length > 0) {
+          var putStatusResult = await kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData)
+            .then(function (resp) {
+              return resp;
+            }).catch(function (error) {
+              console.log(error);
+              return ['error', error];
+            });
+        }
+        if (Array.isArray(putStatusResult)) {
+          event.error = 'ステータス変更時にエラーが発生しました';
+          endLoad();
+          return event;
+        }
       } else {
         // 入出荷管理put用配列
         var putShipBody = {
@@ -446,169 +540,166 @@
             }
           }
         };
-      }
-
-      for (let i in event.record.deviceList.value) {
-        if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
-          var devListBody = {
-            'value': {
-              'mNickname': {
-                'value': event.record.deviceList.value[i].value.mNickname.value
-              },
-              'shipNum': {
-                'value': event.record.deviceList.value[i].value.shipNum.value
+        for (let i in event.record.deviceList.value) {
+          if (event.record.deviceList.value[i].value.subBtn.value == '通常') {
+            var devListBody = {
+              'value': {
+                'mNickname': {
+                  'value': event.record.deviceList.value[i].value.mNickname.value
+                },
+                'shipNum': {
+                  'value': event.record.deviceList.value[i].value.shipNum.value
+                }
               }
-            }
-          };
-          putShipBody.record.deviceList.value.push(devListBody);
-        }
-      }
-
-      // 社内・社員予備機用put用サブデータ
-      var putShipSubBody = {
-        'updateKey': {
-          'field': 'prjId',
-          'value': event.record.$id.value + '-sub'
-        },
-        'record': {
-          'shipType': {
-            'value': '移動-拠点間'
-          },
-          'aboutDelivery': {
-            'value': event.record.aboutDelivery.value
-          },
-          'tarDate': {
-            'value': event.record.tarDate.value
-          },
-          'dstSelection': {
-            'value': event.record.dstSelection.value
-          },
-          'Contractor': {
-            'value': '社員予備'
-          },
-          'instName': {
-            'value': event.record.instName.value
-          },
-          'receiver': {
-            'value': event.record.receiver.value
-          },
-          'phoneNum': {
-            'value': event.record.phoneNum.value
-          },
-          'zipcode': {
-            'value': event.record.zipcode.value
-          },
-          'prefectures': {
-            'value': event.record.prefectures.value
-          },
-          'city': {
-            'value': event.record.city.value
-          },
-          'address': {
-            'value': event.record.address.value
-          },
-          'buildingName': {
-            'value': event.record.buildingName.value
-          },
-          'corpName': {
-            'value': event.record.corpName.value
-          },
-          'sys_instAddress': {
-            'value': event.record.sys_instAddress.value
-          },
-          'sys_unitAddress': {
-            'value': event.record.sys_unitAddress.value
-          },
-          'deviceList': {
-            'value': []
-          },
-          'prjNum': {
-            'value': event.record.prjNum.value
+            };
+            putShipBody.record.deviceList.value.push(devListBody);
           }
         }
-      };
-      for (let i in event.record.deviceList.value) {
-        if (event.record.deviceList.value[i].value.subBtn.value == '予備') {
-          var devListBody = {
-            'value': {
-              'mNickname': {
-                'value': event.record.deviceList.value[i].value.mNickname.value
-              },
-              'shipNum': {
-                'value': event.record.deviceList.value[i].value.shipNum.value
-              },
-              'shipRemarks': {
-                'value': '社員予備'
-              }
+        // 社内・社員予備機用put用サブデータ
+        var putShipSubBody = {
+          'updateKey': {
+            'field': 'prjId',
+            'value': event.record.$id.value + '-sub'
+          },
+          'record': {
+            'shipType': {
+              'value': '移動-拠点間'
+            },
+            'aboutDelivery': {
+              'value': event.record.aboutDelivery.value
+            },
+            'tarDate': {
+              'value': event.record.tarDate.value
+            },
+            'dstSelection': {
+              'value': event.record.dstSelection.value
+            },
+            'Contractor': {
+              'value': '社員予備'
+            },
+            'instName': {
+              'value': event.record.instName.value
+            },
+            'receiver': {
+              'value': event.record.receiver.value
+            },
+            'phoneNum': {
+              'value': event.record.phoneNum.value
+            },
+            'zipcode': {
+              'value': event.record.zipcode.value
+            },
+            'prefectures': {
+              'value': event.record.prefectures.value
+            },
+            'city': {
+              'value': event.record.city.value
+            },
+            'address': {
+              'value': event.record.address.value
+            },
+            'buildingName': {
+              'value': event.record.buildingName.value
+            },
+            'corpName': {
+              'value': event.record.corpName.value
+            },
+            'sys_instAddress': {
+              'value': event.record.sys_instAddress.value
+            },
+            'sys_unitAddress': {
+              'value': event.record.sys_unitAddress.value
+            },
+            'deviceList': {
+              'value': []
+            },
+            'prjNum': {
+              'value': event.record.prjNum.value
             }
-          };
-          putShipSubBody.record.deviceList.value.push(devListBody);
-        }
-      }
-      //put用データを格納（予備機がある場合は予備データも）
-      putShipData.records.push(putShipBody);
-      if (putShipSubBody.record.deviceList.value.length != 0) {
-        putShipData.records.push(putShipSubBody);
-      }
-
-      // 入出荷管理に情報連携
-      console.log('putShipData:');
-      console.log(postShipData);
-      var putShipResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), "PUT", putShipData)
-        .then(function (resp) {
-          console.log(resp);
-          return resp;
-        }).catch(function (error) {
-          console.log(error);
-          return ['error', error];
-        });
-      if (Array.isArray(putShipResult)) {
-        event.error = '入出荷管理に情報連携する際にエラーが発生しました';
-        endLoad();
-        return event;
-      }
-
-      // ステータス更新
-      var prjIdArray = ['"' + event.record.$id.value + '"', '"' + event.record.$id.value + '-sub"'];
-      var getShipBody = {
-        'app': sysid.INV.app_id.shipment,
-        'query': 'prjId in (' + prjIdArray.join() + ')'
-      };
-      var prjIdRecord = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipBody)
-        .then(function (resp) {
-          return resp;
-        }).catch(function (error) {
-          console.log(error);
-          return ['error', error];
-        });
-        var putStatusData = {
-          'app': sysid.INV.app_id.shipment,
-          'records': []
+          }
         };
-        for (let i in prjIdRecord.records) {
-        if (prjIdRecord.records[i].ステータス.value == '納品情報未確定') {
-          var putStatusBody = {
-            'id': prjIdRecord.records[i].$id.value,
-            'action': '処理開始',
-            'assignee': 'm.logi'
-          };
-          putStatusData.records.push(putStatusBody);
+        for (let i in event.record.deviceList.value) {
+          if (event.record.deviceList.value[i].value.subBtn.value == '予備') {
+            var devListBody = {
+              'value': {
+                'mNickname': {
+                  'value': event.record.deviceList.value[i].value.mNickname.value
+                },
+                'shipNum': {
+                  'value': event.record.deviceList.value[i].value.shipNum.value
+                },
+                'shipRemarks': {
+                  'value': '社員予備'
+                }
+              }
+            };
+            putShipSubBody.record.deviceList.value.push(devListBody);
+          }
         }
-      }
-      console.log(putStatusData.records.length);
-      if(putStatusData.records.length > 0){
-        var putStatusResult = await kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData)
+        //put用データを格納（予備機がある場合は予備データも）
+        putShipData.records.push(putShipBody);
+        if (putShipSubBody.record.deviceList.value.length != 0) {
+          putShipData.records.push(putShipSubBody);
+        }
+        // 入出荷管理に情報連携
+        console.log('putShipData:');
+        console.log(postShipData);
+        var putShipResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), "PUT", putShipData)
+          .then(function (resp) {
+            console.log(resp);
+            return resp;
+          }).catch(function (error) {
+            console.log(error);
+            return ['error', error];
+          });
+        if (Array.isArray(putShipResult)) {
+          event.error = '入出荷管理に情報連携する際にエラーが発生しました';
+          endLoad();
+          return event;
+        }
+
+        // ステータス更新
+        var prjIdArray = ['"' + event.record.$id.value + '"', '"' + event.record.$id.value + '-sub"'];
+        var getShipBody = {
+          'app': sysid.INV.app_id.shipment,
+          'query': 'prjId in (' + prjIdArray.join() + ')'
+        };
+        var prjIdRecord = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getShipBody)
           .then(function (resp) {
             return resp;
           }).catch(function (error) {
             console.log(error);
             return ['error', error];
           });
-      }
-      if (Array.isArray(putStatusResult)) {
-        event.error = 'ステータス変更時にエラーが発生しました';
-        endLoad();
-        return event;
+        var putStatusData = {
+          'app': sysid.INV.app_id.shipment,
+          'records': []
+        };
+        for (let i in prjIdRecord.records) {
+          if (prjIdRecord.records[i].ステータス.value == '納品情報未確定') {
+            var putStatusBody = {
+              'id': prjIdRecord.records[i].$id.value,
+              'action': '処理開始',
+              'assignee': 'm.logi'
+            };
+            putStatusData.records.push(putStatusBody);
+          }
+        }
+        console.log(putStatusData.records.length);
+        if (putStatusData.records.length > 0) {
+          var putStatusResult = await kintone.api(kintone.api.url('/k/v1/records/status.json', true), "PUT", putStatusData)
+            .then(function (resp) {
+              return resp;
+            }).catch(function (error) {
+              console.log(error);
+              return ['error', error];
+            });
+        }
+        if (Array.isArray(putStatusResult)) {
+          event.error = 'ステータス変更時にエラーが発生しました';
+          endLoad();
+          return event;
+        }
       }
     } else if (nStatus == '完了') { //ステータスが完了の場合
       if (event.record.salesType.value == '販売' || event.record.salesType.value == 'サブスク') {
@@ -618,7 +709,6 @@
         await reportCtrl(event, kintone.app.getId());
       }
     }
-
     endLoad();
     return event;
   });

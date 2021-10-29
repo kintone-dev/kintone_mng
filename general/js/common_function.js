@@ -708,8 +708,50 @@ function createStockJson(event, appId) {
 			// }
 		}
 		return stockData;
-	} else if(appId == sysid.PM.app_id.rental){
-
+	} else if(appId == sysid.DEV.app_id.rental){
+		//レポート用日付作成
+		var sendDate = event.record.sendDate.value;
+		sendDate = sendDate.replace(/-/g, '');
+		sendDate = sendDate.slice(0, -2);
+		stockData.date = sendDate;
+		//レポート用日付作成 end
+		if (event.nextStatus) {
+			if (event.nextStatus.value == '集荷待ち') {
+				for (let i in event.record.deviceList.value) {
+					/**
+					 * 出荷用json作成
+					 * arrOrShip 入荷か出荷かの識別子
+					 * devCode 商品コード
+					 * uniCode 拠点コード
+					 * stockNum 依頼数
+					 */
+					var stockRentBody = {
+						'arrOrShip': 'ship',
+						'devCode': event.record.deviceList.value[i].value.mCode.value,
+						'uniCode': event.record.sys_shipmentCode.value,
+						'stockNum': event.record.deviceList.value[i].value.shipNum.value
+					};
+					stockData.ship.push(stockRentBody);
+				}
+				return stockData;
+			} else if (event.nextStatus.value == '出荷完了') {
+				for (let i in event.record.deviceList.value) {
+					// 出荷情報を作成
+					var stockRentBody = {
+						'arrOrShip': 'ship',
+						'devCode': event.record.deviceList.value[i].value.mCode.value,
+						'uniCode': event.record.sys_shipmentCode.value,
+						'stockNum': event.record.deviceList.value[i].value.shipNum.value
+					};
+					stockData.ship.push(stockRentBody);
+				}
+				return stockData;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 	return false;
 };
