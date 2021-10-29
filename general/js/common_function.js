@@ -2563,31 +2563,31 @@ $(function () {
 			} else {
 				alert('対応した案件管理レコードにはコメントは同期されません');
 			}
-		} else if (kintone.app.getId() == sysid.PM.app_id.project && eRecord.record.sys_shipment_ID.value != '') {
-			let getShipResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
-				'app': sysid.INV.app_id.shipment,
-				'id': eRecord.record.sys_shipment_ID.value
+		} else if(kintone.app.getId() == sysid.DEV.app_id.rental && eRecord.record.sys_prjId.value != ''){
+			let getPrjResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
+				'app': sysid.PM.app_id.project,
+				'id': eRecord.record.sys_prjId.value
 			}).then(function (resp) {
 				return resp;
 			}).catch(function (error) {
 				console.log(error);
 				return ['error', error];
 			});
-			if (Array.isArray(getShipResult)) {
+			if (Array.isArray(getPrjResult)) {
 				alert('コメント同期の際にエラーが発生しました。');
 				await endLoad();
 				return;
 			}
 
-			if (prjStat.includes(eRecord.record.ステータス.value) && shipStat.includes(getShipResult.record.ステータス.value)) {
+			if (shipStat.includes(eRecord.record.ステータス.value) && prjStat.includes(getPrjResult.record.ステータス.value)) {
 				if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
 					let getCommentBody = {
 						'app': kintone.app.getId(),
 						'record': eRecord.record.$id.value
 					};
 					let postCommentBody = {
-						'app': sysid.INV.app_id.shipment,
-						'record': eRecord.record.sys_shipment_ID.value,
+						'app': sysid.PM.app_id.project,
+						'record': eRecord.record.sys_prjId.value,
 						'comment': {
 							'text': '',
 							'mentions': []
@@ -2624,7 +2624,135 @@ $(function () {
 					})
 				}
 			} else {
-				alert('対応した入出荷管理レコードにはコメントは同期されません');
+				alert('対応した案件管理レコードにはコメントは同期されません');
+			}
+		}	else if (kintone.app.getId() == sysid.PM.app_id.project) {
+			if(eRecord.record.sys_shipment_ID.value != ''){
+				let getShipResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
+					'app': sysid.INV.app_id.shipment,
+					'id': eRecord.record.sys_shipment_ID.value
+				}).then(function (resp) {
+					return resp;
+				}).catch(function (error) {
+					console.log(error);
+					return ['error', error];
+				});
+				if (Array.isArray(getShipResult)) {
+					alert('コメント同期の際にエラーが発生しました。');
+					await endLoad();
+					return;
+				}
+
+				if (prjStat.includes(eRecord.record.ステータス.value) && shipStat.includes(getShipResult.record.ステータス.value)) {
+					if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
+						let getCommentBody = {
+							'app': kintone.app.getId(),
+							'record': eRecord.record.$id.value
+						};
+						let postCommentBody = {
+							'app': sysid.INV.app_id.shipment,
+							'record': eRecord.record.sys_shipment_ID.value,
+							'comment': {
+								'text': '',
+								'mentions': []
+							}
+						};
+						await new Promise(resolve => {
+							setTimeout(async function () {
+								let getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody)
+									.then(function (resp) {
+										return resp;
+									}).catch(function (error) {
+										console.log(error);
+										return ['error', error];
+									});
+								if (Array.isArray(getCommentResult)) {
+									alert('コメント同期の際にエラーが発生しました。');
+									resolve();
+								}
+								postCommentBody.comment.text = getCommentResult.comments[0].text;
+								postCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
+								let postCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comment.json', true), 'POST', postCommentBody)
+									.then(function (resp) {
+										return resp;
+									}).catch(function (error) {
+										console.log(error);
+										return ['error', error];
+									});
+								if (Array.isArray(postCommentResult)) {
+									alert('コメント同期の際にエラーが発生しました。');
+									resolve();
+								}
+								resolve();
+							}, 1000)
+						})
+					}
+				} else {
+					alert('対応した入出荷管理レコードにはコメントは同期されません');
+				}
+			}else if(eRecord.record.sys_rent_ID.value != '' ){
+				let getShipResult = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {
+					'app': sysid.DEV.app_id.rental,
+					'id': eRecord.record.sys_rent_ID.value
+				}).then(function (resp) {
+					return resp;
+				}).catch(function (error) {
+					console.log(error);
+					return ['error', error];
+				});
+				if (Array.isArray(getShipResult)) {
+					alert('コメント同期の際にエラーが発生しました。');
+					await endLoad();
+					return;
+				}
+
+				if (prjStat.includes(eRecord.record.ステータス.value) && shipStat.includes(getShipResult.record.ステータス.value)) {
+					if ($('.ocean-ui-editor-field').html() != '' && $('.ocean-ui-editor-field').html() != '<br>') {
+						let getCommentBody = {
+							'app': kintone.app.getId(),
+							'record': eRecord.record.$id.value
+						};
+						let postCommentBody = {
+							'app': sysid.DEV.app_id.rental,
+							'record': eRecord.record.sys_rent_ID.value,
+							'comment': {
+								'text': '',
+								'mentions': []
+							}
+						};
+						await new Promise(resolve => {
+							setTimeout(async function () {
+								let getCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comments.json', true), 'GET', getCommentBody)
+									.then(function (resp) {
+										return resp;
+									}).catch(function (error) {
+										console.log(error);
+										return ['error', error];
+									});
+								if (Array.isArray(getCommentResult)) {
+									alert('コメント同期の際にエラーが発生しました。');
+									resolve();
+								}
+								postCommentBody.comment.text = getCommentResult.comments[0].text;
+								postCommentBody.comment.mentions = getCommentResult.comments[0].mentions;
+								let postCommentResult = await kintone.api(kintone.api.url('/k/v1/record/comment.json', true), 'POST', postCommentBody)
+									.then(function (resp) {
+										return resp;
+									}).catch(function (error) {
+										console.log(error);
+										return ['error', error];
+									});
+								if (Array.isArray(postCommentResult)) {
+									alert('コメント同期の際にエラーが発生しました。');
+									resolve();
+								}
+								resolve();
+							}, 1000)
+						})
+					}
+				} else {
+					alert('対応した貸与管理レコードにはコメントは同期されません');
+				}
 			}
 		}
 
