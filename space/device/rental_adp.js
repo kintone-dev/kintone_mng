@@ -51,8 +51,6 @@
       }
       //シリアル番号情報を更新
       var putSnumData = [];
-      var instNameValue = event.record.instName.value;
-      if (instNameValue == undefined) instNameValue = '';
       for (let i in sNums.SNs) {
         var snRecord = {
           'updateKey': {
@@ -62,11 +60,7 @@
           'record': {
             'shipment': event.record.shipment,
             'sendDate': event.record.sendDate,
-            'shipType': event.record.shipType,
-            'instName': {
-              type: 'SINGLE_LINE_TEXT',
-              value: instNameValue
-            }
+            'shipType': event.record.shipType
           }
         };
         putSnumData.push(snRecord);
@@ -81,11 +75,7 @@
           },
           'shipment': event.record.shipment,
           'sendDate': event.record.sendDate,
-          'shipType': event.record.shipType,
-          'instName': {
-            type: 'SINGLE_LINE_TEXT',
-            value: instNameValue
-          }
+          'shipType': event.record.shipType
         };
         postSnumData.push(postSnBody);
       }
