@@ -425,7 +425,7 @@
         // 貸与管理に情報連携
         console.log('putRentData:');
         console.log(putRentData);
-        var putRentResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", putRentData)
+        var putRentResult = await kintone.api(kintone.api.url('/k/v1/records', true), "PUT", putRentData)
           .then(function (resp) {
             console.log(resp);
             return resp;
