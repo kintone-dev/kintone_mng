@@ -55,6 +55,9 @@
           if (event.record.salesType.value == '無償提供' || event.record.salesType.value == '貸与') {
             // 貸与管理post内容
             var postRentBody = {
+              'tmp_backlogID': {
+                'value': event.record.tmp_backlogID.value
+              },
               'pocType': {
                 'value': event.record.salesType.value
               },
@@ -150,6 +153,9 @@
           } else {
             // 入出荷管理post内容
             var postShipBody = {
+              'tmp_backlogID': {
+                'value': event.record.tmp_backlogID.value
+              },
               'aboutDelivery': {
                 'value': event.record.aboutDelivery.value
               },
@@ -352,6 +358,9 @@
             'value': event.record.$id.value
           },
           'record': {
+            'tmp_backlogID': {
+              'value': event.record.tmp_backlogID.value
+            },
             'pocType': {
               'value': event.record.salesType.value
             },
@@ -487,6 +496,9 @@
             'value': event.record.$id.value
           },
           'record': {
+            'tmp_backlogID': {
+              'value': event.record.tmp_backlogID.value
+            },
             'aboutDelivery': {
               'value': event.record.aboutDelivery.value
             },
