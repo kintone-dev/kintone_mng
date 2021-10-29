@@ -142,7 +142,7 @@
       // }
     } else if (cStatus === "処理中" && nStatus === "納品情報未確定") {
       //案件IDがある場合のみ実施
-      if (event.record.prjId.value != '') {
+      if (event.record.sys_prjId.value != '') {
         let putStatusData = {
           'app': sysid.PM.app_id.project,
           'id': event.record.sys_prjId.value,
