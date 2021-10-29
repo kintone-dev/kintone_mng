@@ -39,6 +39,7 @@
       for (let i in deviceListValue) {
         let deviceListValue_mCode = deviceListValue[i].value.mCode.value;
         let deviceListValue_shipNum = deviceListValue[i].value.shipNum.value;
+        
         // 依頼数よりシリアル番号が多い時エラー
         if (deviceListValue_shipNum != sNums[deviceListValue_mCode].length) {
           event.error = `製品名「${deviceListValue[i].value.mNickname.value}」の依頼数と出荷数が一致しません。`;
