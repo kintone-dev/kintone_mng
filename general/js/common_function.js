@@ -489,7 +489,11 @@ function createStockJson(event, appId) {
 	stockData.appId = appId;
 	if (appId == sysid.INV.app_id.shipment) { //入出荷管理
 		//レポート用日付作成
-		var sendDate = event.record.sendDate.value;
+		if(appId==104){
+			var sendDate = event.record.shipping_datetime.value;
+		}else{
+			var sendDate = event.record.sendDate.value;
+		}
 		sendDate = sendDate.replace(/-/g, '');
 		sendDate = sendDate.slice(0, -2);
 		stockData.date = sendDate;
