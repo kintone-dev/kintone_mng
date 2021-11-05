@@ -789,6 +789,7 @@ async function stockCtrl(event, appId) {
 		'app': sysid.INV.app_id.device,
 		'query': 'mCode in (' + devQuery.join() + ')'
 	};
+	console.log(getDeviceBody);
 	var deviceRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
 		.then(function (resp) {
 			return resp;
@@ -813,6 +814,7 @@ async function stockCtrl(event, appId) {
 		'app': sysid.INV.app_id.unit,
 		'query': 'uCode in (' + uniQuery.join() + ')'
 	};
+	console.log(getUnitBody);
 	var unitRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
 		.then(function (resp) {
 			return resp;
