@@ -2499,8 +2499,10 @@ async function processError(event) {
 		}
 	}
 	if (totalErrorCheck.includes('false')) {
+		await sessionStorage.removeItem(sessionName);
 		return ['error', errorText.join('\n')];
 	} else {
+		await sessionStorage.removeItem(sessionName);
 		return ['success', errorText.join('\n')];
 	}
 }
