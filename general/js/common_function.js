@@ -539,7 +539,7 @@ function createStockJson(event, appId) {
 				return stockData;
 			} else if (event.nextStatus.value == '出荷完了') {
 				var arrivalShipType_dist1 = ['移動-販売', '移動-サブスク'];
-				// var arrivalShipType_dist2 = ['社内利用', '貸与', '修理・交換'];
+				var arrivalShipType_dist2 = ['社内利用', '貸与', '修理・交換'];
 				var arrivalShipType_arr = ['移動-拠点間', '移動-ベンダー', '社内利用', '貸与', '修理・交換'];
 				for (let i in event.record.deviceList.value) {
 					// 出荷情報を作成
@@ -558,14 +558,14 @@ function createStockJson(event, appId) {
 							'stockNum': event.record.deviceList.value[i].value.shipNum.value
 						};
 						stockData.arr.push(stockArrBody)
-					// } else if (arrivalShipType_dist2.includes(event.record.shipType.value)) { // 出荷区分がarrivalShipType_dist2に含まれる場合のみ入荷情報を作成
-					// 	var stockArrBody = {
-					// 		'arrOrShip': 'arr',
-					// 		'devCode': event.record.deviceList.value[i].value.mCode.value,
-					// 		'uniCode': 'reuse(incomp)',
-					// 		'stockNum': event.record.deviceList.value[i].value.shipNum.value
-					// 	};
-					// 	stockData.arr.push(stockArrBody)
+					} else if (arrivalShipType_dist2.includes(event.record.shipType.value)) { // 出荷区分がarrivalShipType_dist2に含まれる場合のみ入荷情報を作成
+						var stockArrBody = {
+							'arrOrShip': 'arr',
+							'devCode': event.record.deviceList.value[i].value.mCode.value,
+							'uniCode': 'reuse(incomp)',
+							'stockNum': event.record.deviceList.value[i].value.shipNum.value
+						};
+						stockData.arr.push(stockArrBody)
 					} else if (arrivalShipType_arr.includes(event.record.shipType.value)) { // 出荷区分がarrivalShipType_arrに含まれる場合のみ入荷情報を作成
 						var stockArrBody = {
 							'arrOrShip': 'arr',
