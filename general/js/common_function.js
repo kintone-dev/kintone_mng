@@ -1,17 +1,16 @@
 // NEW
-const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
-//サーバー時間取得
-function getNowDate1() {
-  
-  var currentDate = new Date($.ajax({
-    type: 'GET',
-    async: false
-  }).done(function (data, status, xhr) {
-    return xhr;
-  }).getResponseHeader('Date'));
-  return currentDate;
+/**
+ * フィールド所得
+ * @returns 
+ */
+function getFields(){
+	return Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
 }
-function getNowDate2() {
+/**
+ * サーバー時間取得
+ * @returns 
+ */
+function getNowDate() {
   let serverDate = $.ajax({
     type: 'GET',
     async: false
@@ -128,6 +127,7 @@ function tabMenu_new(tabID, tabList) {
 }
 
 // OLD
+const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
 /* ボタン、タブメニュー */
 // スペースフィールドにボタンを設置
 function setBtn(btnID, btnValue) {
