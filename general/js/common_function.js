@@ -18,7 +18,7 @@ function getNowDate2() {
   }).done(function (data, status, xhr) {
     return xhr;
   });
-  return new Date(serverDate().getResponseHeader('Date'));
+  return new Date(serverDate.getResponseHeader('Date'));
 }
 
 /**
