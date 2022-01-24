@@ -1,4 +1,133 @@
+// NEW
 const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
+//サーバー時間取得
+function getNowDate1() {
+  
+  var currentDate = new Date($.ajax({
+    type: 'GET',
+    async: false
+  }).done(function (data, status, xhr) {
+    return xhr;
+  }).getResponseHeader('Date'));
+  return currentDate;
+}
+function getNowDate2() {
+  let serverDate = $.ajax({
+    type: 'GET',
+    async: false
+  }).done(function (data, status, xhr) {
+    return xhr;
+  });
+  return new Date(serverDate().getResponseHeader('Date'));
+}
+
+/**
+ * サブテーブルの指定項目を編集不可にする
+ * @param {*} event (json)
+ * @param {*} tfCode (string) 編集不可対象サブテーブルのフィールドコード
+ * @param {*} fCodes (array) 編集不可にするフィールドコード
+ */
+function disable_subtable_field(event, tfCode, fCodes){
+	for(let i in event.record[tfCode].value) {
+		fCodes.forEach(function(fCode){
+			event.record[tfCode].value[i].value[fCode].disabled = true;
+		});
+	}
+}
+
+/**
+ * システムフィールドとサブテーブル以外、全フィールド編集不可
+ * @param {*} event (json)
+ * @param {*} eBoolean (boolean) 編集不可にする場合は「true」
+ */
+function disableAllField(event, eBoolean){
+	let types = ['SINGLE_LINE_TEXT', 'MULTI_LINE_TEXT', 'RICH_TEXT', 'NUMBER', 'DATE', 'DATETIME', 'TIME', 'DROP_DOWN', 'RADIO_BUTTON', 'CHECK_BOX', 'MULTI_SELECT', 'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'LINK', 'FILE'];
+	let arr = Object.keys(event.record);
+	arr.forEach(function (fcode) {
+		if (types.indexOf(event.record[fcode].type) >= 0) {
+			event.record[fcode].disabled = eBoolean;
+		}
+	});
+}
+
+/**
+ * タブメニュー
+ * @param {*} tabID (string) スペースフィールドID、タブメニューのIDになる
+ * @param {*} tabList (array) タブメニュー項目
+ * 
+ * 使用例
+// タブメニュー作成
+function setTabmenu(){
+	let tab_menu=[
+      {id:'prjInfo', name:'案件情報'},
+      {id:'destInfo', name:'宛先情報'},
+      {id:'deliveryDetail', name:'納品明細'},
+      {id:'shipInfo', name:'輸送情報'}
+    ];
+  let setTab = tabMenu('tab_project', tab_menu);
+	if (sessionStorage.getItem('tabSelect')) {
+		$('#'+setTab.ID+' li').removeClass("active");
+		switch_tab(sessionStorage.getItem('tabSelect'));
+		$('#'+setTab.ID+' li:nth-child(' + (parseInt(sessionStorage.getItem('actSelect')) + 1) + ')').addClass('active');
+	} else {
+		switch_tab('#案件情報');
+	}
+	$('#'+setTab.ID+' a').on('click', function () {
+		let idName = $(this).attr('href'); //タブ内のリンク名を取得
+		switch_tab(idName); //tabをクリックした時の表示設定
+		let actIndex = $('#'+setTab.ID+' li.active').index();
+		sessionStorage.setItem('tabSelect', idName);
+		sessionStorage.setItem('actSelect', actIndex);
+		return false; //aタグを無効にする
+	});
+}
+// タブ表示切り替え
+function switch_tab(onSelect) {
+  switch (onSelect) {
+    case '#案件情報':
+			setFieldShown('prjNum', true);
+			setSpaceShown('btn_newINST', 'individual', 'inline-block');
+			break;
+		case '宛先情報':
+			setFieldShown('prjNum', true);
+			setSpaceShown('btn_newINST', 'individual', 'inline-block');
+			break;
+	}
+}
+// 選択済みタブをクリア
+if(sessionStorage.getItem('record_updated') === '1'){
+  sessionStorage.setItem('record_updated', '0');
+  sessionStorage.removeItem('tabSelect');
+  sessionStorage.removeItem('actSelect');
+}
+ */
+function tabMenu_new(tabID, tabList) {
+	// タブメニュー作成
+	let tMenu = document.createElement('ul');
+	tMenu.id = tabID;
+	tMenu.classList.add(tabID);
+	tMenu.classList.add('tabMenu');
+	tabList.forEach(function(tablist){
+		let tList = document.createElement('li');
+		let aLink = document.createElement('a');
+		aLink.setAttribute('href', '#' + tablist.id);
+		aLink.innerText = tablist.name;
+		tList.appendChild(aLink);
+		tMenu.appendChild(tList);
+	});
+	kintone.app.record.getSpaceElement(tabID).appendChild(tMenu);
+	// ハイライト初期設定
+	$('.' + tabID + ' li:first-of-type').addClass("active");
+	$('.' + tabID + ' a').on('click', function () {
+		let parentElm = $(this).parent();
+		$('.' + tabID + ' li').removeClass("active");
+		$(parentElm).addClass("active");
+		return false; // aタグを無効にする
+	});
+	return tMenu;
+}
+
+// OLD
 /* ボタン、タブメニュー */
 // スペースフィールドにボタンを設置
 function setBtn(btnID, btnValue) {
@@ -65,7 +194,7 @@ function setSelect_header(selectID, selectValue) {
 	return headerSelect;
 }
 
-// tabメニューをULで作成
+// tabメニューをULで作成 done
 function tabMenu(tabID, tabList) {
 	var tMenu = document.createElement('ul'); //ul要素作成
 	tMenu.id = tabID; //リストにID追加
