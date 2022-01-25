@@ -126,6 +126,47 @@ function tabMenu_new(tabID, tabList) {
 	return tMenu;
 }
 
+/**
+ * レポート締切確認
+ * @param {*} invoiceDate (date) 「sys_invoiceDate」の値
+ */
+ async function check_reportDeadline(invoiceDate){
+	let result={'EoMcheckValue': null, 'isRestrictedUserGroup': true};
+	let getReportStatus = {
+		app: sysid.INV.app_id.report,
+		query: 'sys_invoiceDate = "' + invoiceDate + '"',
+		fields: ['EoMcheck']
+	};
+	let resultReportStatus = await kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getReportStatus);
+	if(resultReportStatus.records.length>0 && resultReportStatus.records[0].EoMcheck.value){
+		// 設定済み制限除外グループを呼び込む
+		let deadlineExceptionGroup = deadlineException('project');
+		// ログインユーザの所属グループ取得
+		let getLoginUserGroup = await kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code: kintone.getLoginUser().code});
+		// 設定したフィールドの値を取得
+		let getAppSetting = await kintone.api(kintone.api.url('/k/v1/app/form/fields.json', true), 'GET', {app:sysid.INV.app_id.report});
+		let getEoMcheckOptions = Object.values(getAppSetting.properties.EoMcheck.options);
+		// 設定したオプションに該当する処理
+		for(let i in getEoMcheckOptions){
+			if(getEoMcheckOptions[i].label==resultReportStatus.records[0].EoMcheck.value){
+  			for(let y in getLoginUserGroup.groups){
+  				if(deadlineExceptionGroup[getEoMcheckOptions[i].index].groupName.includes(getLoginUserGroup.groups[y].code)){
+  					result= {'EoMcheckValue': getEoMcheckOptions[i].label, 'isRestrictedUserGroup': false};
+  					break;
+  				}else{
+  					result= {'EoMcheckValue': getEoMcheckOptions[i].label, 'isRestrictedUserGroup': true};
+  				}
+  			}
+			  break;
+			}
+		}
+	}
+	return result
+}
+
+
+
+
 // OLD
 const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
 /* ボタン、タブメニュー */
