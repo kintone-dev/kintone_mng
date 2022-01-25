@@ -107,8 +107,6 @@ function tabMenu_new(tabID, tabList) {
 	tMenu.classList.add(tabID);
 	tMenu.classList.add('tabMenu');
 	tabList.forEach(function(tablist){
-		console.log(tablist.id);
-		console.log(tablist.name);
 		let tList = document.createElement('li');
 		let aLink = document.createElement('a');
 		aLink.setAttribute('href', '#' + tablist.id);
