@@ -10,7 +10,7 @@ function getFields(){
  * サーバー時間取得
  * @returns 
  */
-function getNowDate() {
+function getServerDate() {
   let serverDate = $.ajax({
     type: 'GET',
     async: false
