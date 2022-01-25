@@ -128,9 +128,10 @@ function tabMenu_new(tabID, tabList) {
 
 /**
  * レポート締切確認
- * @param {*} invoiceDate (date) 「sys_invoiceDate」の値
+ * @param {*} invoiceDate  (date) 「sys_invoiceDate」の値
+ * @returns 
  */
- async function check_reportDeadline(invoiceDate){
+ async function check_reportDeadline(checkApp, invoiceDate){
 	let result={'EoMcheckValue': null, 'isRestrictedUserGroup': true};
 	let getReportStatus = {
 		app: sysid.INV.app_id.report,
@@ -140,7 +141,7 @@ function tabMenu_new(tabID, tabList) {
 	let resultReportStatus = await kintone.api(kintone.api.url('/k/v1/records', true), 'GET', getReportStatus);
 	if(resultReportStatus.records.length>0 && resultReportStatus.records[0].EoMcheck.value){
 		// 設定済み制限除外グループを呼び込む
-		let deadlineExceptionGroup = deadlineException('project');
+		let deadlineExceptionGroup = deadlineException(checkApp);
 		// ログインユーザの所属グループ取得
 		let getLoginUserGroup = await kintone.api(kintone.api.url('/v1/user/groups', true), 'GET', {code: kintone.getLoginUser().code});
 		// 設定したフィールドの値を取得
