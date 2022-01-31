@@ -1,14 +1,16 @@
 // NEW
 /**
  * フィールド所得
- * @returns 
+ * @returns (json)
+ * @author Jay
  */
 function getFields(){
 	return Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
 }
 /**
  * サーバー時間取得
- * @returns 
+ * @returns (date)
+ * @author Jay
  */
 function getServerDate() {
   let serverDate = $.ajax({
@@ -25,6 +27,7 @@ function getServerDate() {
  * @param {*} event (json)
  * @param {*} tfCode (string) 編集不可対象サブテーブルのフィールドコード
  * @param {*} fCodes (array) 編集不可にするフィールドコード
+ * @author Jay
  */
 function disable_subtable_field(event, tfCode, fCodes){
 	for(let i in event.record[tfCode].value) {
@@ -38,6 +41,7 @@ function disable_subtable_field(event, tfCode, fCodes){
  * システムフィールドとサブテーブル以外、全フィールド編集不可
  * @param {*} event (json)
  * @param {*} eBoolean (boolean) 編集不可にする場合は「true」
+ * @author Jay
  */
 function disableAllField(event, eBoolean){
 	let types = ['SINGLE_LINE_TEXT', 'MULTI_LINE_TEXT', 'RICH_TEXT', 'NUMBER', 'DATE', 'DATETIME', 'TIME', 'DROP_DOWN', 'RADIO_BUTTON', 'CHECK_BOX', 'MULTI_SELECT', 'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'LINK', 'FILE'];
@@ -53,6 +57,7 @@ function disableAllField(event, eBoolean){
  * タブメニュー
  * @param {*} tabID (string) スペースフィールドID、タブメニューのIDになる
  * @param {*} tabList (array) タブメニュー項目
+ * @author Jay
  * 
  * 使用例
 // タブメニュー作成
@@ -102,19 +107,19 @@ if(sessionStorage.getItem('record_updated') === '1'){
  */
 function tabMenu_new(tabID, tabList) {
 	// タブメニュー作成
-	let tMenu = document.createElement('ul');
-	tMenu.id = tabID;
-	tMenu.classList.add(tabID);
-	tMenu.classList.add('tabMenu');
+	let result_tabMenu = document.createElement('ul');
+	result_tabMenu.id = tabID;
+	result_tabMenu.classList.add(tabID);
+	result_tabMenu.classList.add('tabMenu');
 	tabList.forEach(function(tablist){
 		let tList = document.createElement('li');
 		let aLink = document.createElement('a');
 		aLink.setAttribute('href', '#' + tablist.id);
 		aLink.innerText = tablist.name;
 		tList.appendChild(aLink);
-		tMenu.appendChild(tList);
+		result_tabMenu.appendChild(tList);
 	});
-	kintone.app.record.getSpaceElement(tabID).appendChild(tMenu);
+	kintone.app.record.getSpaceElement(tabID).appendChild(result_tabMenu);
 	// ハイライト初期設定
 	$('.' + tabID + ' li:first-of-type').addClass("active");
 	$('.' + tabID + ' a').on('click', function () {
@@ -123,16 +128,17 @@ function tabMenu_new(tabID, tabList) {
 		$(parentElm).addClass("active");
 		return false; // aタグを無効にする
 	});
-	return tMenu;
+	return result_tabMenu;
 }
 
 /**
  * レポート締切確認
  * @param {*} invoiceDate  (date) 「sys_invoiceDate」の値
- * @returns 
+ * @returns (json)
+ * @author Jay
  */
  async function check_reportDeadline(checkApp, invoiceDate){
-	let result={'EoMcheckValue': null, 'isRestrictedUserGroup': true};
+	let result_reportDeadline={'EoMcheckValue': null, 'isRestrictedUserGroup': true};
 	let getReportStatus = {
 		app: sysid.INV.app_id.report,
 		query: 'sys_invoiceDate = "' + invoiceDate + '"',
@@ -152,21 +158,509 @@ function tabMenu_new(tabID, tabList) {
 			if(getEoMcheckOptions[i].label==resultReportStatus.records[0].EoMcheck.value){
   			for(let y in getLoginUserGroup.groups){
   				if(deadlineExceptionGroup[getEoMcheckOptions[i].index].groupName.includes(getLoginUserGroup.groups[y].code)){
-  					result= {'EoMcheckValue': getEoMcheckOptions[i].label, 'isRestrictedUserGroup': false};
+  					result_reportDeadline= {'EoMcheckValue': getEoMcheckOptions[i].label, 'isRestrictedUserGroup': false};
   					break;
   				}else{
-  					result= {'EoMcheckValue': getEoMcheckOptions[i].label, 'isRestrictedUserGroup': true};
+  					result_reportDeadline= {'EoMcheckValue': getEoMcheckOptions[i].label, 'isRestrictedUserGroup': true};
   				}
   			}
 			  break;
 			}
 		}
 	}
-	return result
+	return result_reportDeadline;
 }
 
 
+function api_kintone_POST(event, appid, fCodes){
+	let body={
+		app: appid,
+		records: []
+	};
+	return body;
+}
+function api_kintone_PUT(event, appid, fCodes){
+	let body={};
+	return body;
+}
+function api_kintone_GET(event, appid, fCodes){
+	let body={};
+	return body;
+}
+function api_kintone_UpdateByOne(){
+	let body={};
+	return body;
+}
+function api_kintone_UpdateAtOnce(){
+	let body={};
+	return body;
+}
 
+/**
+ * レポート処理
+ * @param {*} event (json)
+ * @param {*} appId (string) 変更データ取得するアプリID
+ * @returns (json)
+ * @author Keiichi Maeda
+ * @author Jay(refactoring)
+ */
+async function reportCtrl(event, appId) {
+	var stockData = createStockJson(event, appId);
+	console.log(stockData);
+
+	// ＞＞＞月次レポート情報取得＜＜＜
+	// 月次レポートクエリ作成
+	var getReportBody = {
+		'app': sysid.INV.app_id.report,
+		'query': 'sys_invoiceDate = "' + stockData.date + '" order by 更新日時 asc'
+	};
+	var reportRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	// 月次レポート情報取得 end＜＜＜
+
+	// ＞＞＞レポート更新用情報作成＜＜＜
+	var reportUpdateData = [];
+	var getUniNameArray = [];
+	var getDevNameArray = [];
+	for (let i in stockData.arr) {
+		var reportUpdateBody = {
+			'arrOrShip': stockData.arr[i].arrOrShip,
+			'sysCode': stockData.arr[i].devCode + '-' + stockData.arr[i].uniCode,
+			'devCode': stockData.arr[i].devCode,
+			'uniCode': stockData.arr[i].uniCode,
+			'stockNum': stockData.arr[i].stockNum
+		};
+		getUniNameArray.push('"' + stockData.arr[i].uniCode + '"');
+		getDevNameArray.push('"' + stockData.arr[i].devCode + '"');
+		reportUpdateData.push(reportUpdateBody);
+	}
+	for (let i in stockData.ship) {
+		var reportUpdateBody = {
+			'arrOrShip': stockData.ship[i].arrOrShip,
+			'sysCode': stockData.ship[i].devCode + '-' + stockData.ship[i].uniCode,
+			'devCode': stockData.ship[i].devCode,
+			'uniCode': stockData.ship[i].uniCode,
+			'stockNum': stockData.ship[i].stockNum
+		};
+		if(typeof stockData.shipType !== "undefined"){
+			reportUpdateBody.sysSTCode = stockData.ship[i].devCode + '-' + stockData.shipType
+		}
+		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
+		getDevNameArray.push('"' + stockData.ship[i].devCode + '"');
+		reportUpdateData.push(reportUpdateBody);
+	}
+	getUniNameArray = Array.from(new Set(getUniNameArray));
+	getDevNameArray = Array.from(new Set(getDevNameArray));
+
+	//拠点名取得
+	var getUnitBody = {
+		'app': sysid.INV.app_id.unit,
+		'query': 'uCode in (' + getUniNameArray.join() + ')'
+	};
+	var unitRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	for (let i in reportUpdateData) {
+		for (let j in unitRecords.records) {
+			if (reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value) {
+				reportUpdateData[i].uName = unitRecords.records[j].uName.value;
+			}
+		}
+	}
+
+	//製品名取得
+	var getDeviceBody = {
+		'app': sysid.INV.app_id.device,
+		'query': 'mCode in (' + getDevNameArray.join() + ')'
+	};
+	var deviceRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	for (let i in reportUpdateData) {
+		for (let j in deviceRecords.records) {
+			if (reportUpdateData[i].devCode == deviceRecords.records[j].mCode.value) {
+				reportUpdateData[i].mClassification = deviceRecords.records[j].mClassification.value;
+				reportUpdateData[i].mType = deviceRecords.records[j].mType.value;
+				reportUpdateData[i].mVendor = deviceRecords.records[j].mVendor.value;
+				reportUpdateData[i].mName = deviceRecords.records[j].mName.value;
+				reportUpdateData[i].mCost = deviceRecords.records[j].mCost.value;
+			}
+		}
+	}
+	// ＞＞＞レポート更新用情報作成 end＜＜＜
+
+	if (reportRecords.records.length != 0) { //対応したレポートがある場合
+		// 情報更新用配列
+		var putReportData = [];
+		//更新レポート情報作成
+		var putReportBody = {
+			'id': reportRecords.records[0].$id.value,
+			'record': {
+				'inventoryList': {'value': reportRecords.records[0].inventoryList.value},
+				'shipTypeList': {'value': reportRecords.records[0].shipTypeList.value}
+			}
+		};
+		for (let i in reportUpdateData) {
+			if (putReportBody.record.inventoryList.value.some(item => item.value.sys_code.value === reportUpdateData[i].sysCode)) {
+				for (let j in putReportBody.record.inventoryList.value) {
+					if (putReportBody.record.inventoryList.value[j].value.sys_code.value == reportUpdateData[i].sysCode) {
+						if (reportUpdateData[i].arrOrShip == 'ship') {
+							putReportBody.record.inventoryList.value[j].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
+						} else if (reportUpdateData[i].arrOrShip == 'arr') {
+							putReportBody.record.inventoryList.value[j].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.arrivalNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
+						}
+					}
+				}
+			} else {
+				if (reportUpdateData[i].arrOrShip == 'ship') {
+					var newReportListBody = {
+						'value': {
+							'sys_code': {'value': reportUpdateData[i].sysCode},
+							'mClassification':{'value': reportUpdateData[i].mClassification},
+							'mType':{'value': reportUpdateData[i].mType},
+							'mVendor':{'value': reportUpdateData[i].mVendor},
+							'mCode': {'value': reportUpdateData[i].devCode},
+							'mName':{'value': reportUpdateData[i].mName},
+							'stockLocation': {'value': reportUpdateData[i].uName},
+							'shipNum': {'value': reportUpdateData[i].stockNum},
+							'mCost': {'value': reportUpdateData[i].mCost}
+						}
+					};
+				} else if (reportUpdateData[i].arrOrShip == 'arr') {
+					var newReportListBody = {
+						'value': {
+							'sys_code': {'value': reportUpdateData[i].sysCode},
+							'mClassification':{'value': reportUpdateData[i].mClassification},
+							'mType':{'value': reportUpdateData[i].mType},
+							'mVendor':{'value': reportUpdateData[i].mVendor},
+							'mCode': {'value': reportUpdateData[i].devCode},
+							'mName':{'value': reportUpdateData[i].mName},
+							'stockLocation': {'value': reportUpdateData[i].uName},
+							'arrivalNum': {'value': reportUpdateData[i].stockNum},
+							'mCost': {'value': reportUpdateData[i].mCost}
+						}
+					};
+				}
+				putReportBody.record.inventoryList.value.push(newReportListBody);
+			}
+
+			// 出荷区分別一覧リスト設定
+			if(typeof reportUpdateData[i].sysSTCode !== "undefined"){
+				if(putReportBody.record.shipTypeList.value.some(item => item.value.sys_shiptypeCode.value === reportUpdateData[i].sysSTCode)){
+					for (let j in putReportBody.record.shipTypeList.value) {
+						if (putReportBody.record.shipTypeList.value[j].value.sys_shiptypeCode.value == reportUpdateData[i].sysSTCode) {
+							putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value = parseInt(putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
+						}
+					}
+				} else {
+					var newSTListBody = {
+						'value': {
+							'sys_shiptypeCode': {'value': reportUpdateData[i].sysSTCode,},
+							'shipType': {'value': stockData.shipType},
+							'ST_mType': {'value': reportUpdateData[i].mType},
+							'ST_mVendor': {'value': reportUpdateData[i].mVendor},
+							'ST_mCode': {'value': reportUpdateData[i].devCode},
+							'ST_mName': {'value': reportUpdateData[i].mName},
+							'ST_shipNum': {'value': reportUpdateData[i].stockNum},
+							'ST_mCost': {'value': reportUpdateData[i].mCost}
+						}
+					};
+					putReportBody.record.shipTypeList.value.push(newSTListBody);
+				}
+			}
+		}
+		putReportData.push(putReportBody);
+		//レポート更新
+		var putReport = {
+			'app': sysid.INV.app_id.report,
+			'records': putReportData,
+		};
+		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putReport)
+			.then(function (resp) {
+				return resp;
+			}).catch(function (error) {
+				console.log(error);
+				return error;
+			});
+	}else{ //対応したレポートがない場合
+		//レポート新規作成
+		var postReportData = [];
+		if(typeof stockData.shipType === "undefined"){
+			var postReportBody = {
+				'invoiceYears': {'value': stockData.date.slice(0, -2)},
+				'invoiceMonth': {'value': stockData.date.slice(4)},
+				'inventoryList': {'value': []}
+			};
+		} else{
+			var postReportBody = {
+				'invoiceYears': {'value': stockData.date.slice(0, -2)},
+				'invoiceMonth': {'value': stockData.date.slice(4)},
+				'inventoryList': {'value': []},
+				'shipTypeList': {'value': []}
+			};
+		}
+		// レポート更新情報をリストに格納
+		for (let i in reportUpdateData) {
+			if (reportUpdateData[i].arrOrShip == 'ship') {
+				var newReportListBody = {
+					'value': {
+						'sys_code': {'value': reportUpdateData[i].sysCode},
+						'mClassification':{'value': reportUpdateData[i].mClassification},
+						'mType':{'value': reportUpdateData[i].mType},
+						'mVendor':{'value': reportUpdateData[i].mVendor},
+						'mCode': {'value': reportUpdateData[i].devCode},
+						'mName':{'value': reportUpdateData[i].mName},
+						'stockLocation': {'value': reportUpdateData[i].uName},
+						'shipNum': {'value': reportUpdateData[i].stockNum},
+						'mCost': {'value': reportUpdateData[i].mCost}
+					}
+			};
+				if(typeof reportUpdateData[i].sysSTCode !== "undefined"){
+					var newSTListBody = {
+						'value': {
+							'sys_shiptypeCode': {'value': reportUpdateData[i].sysSTCode},
+							'shipType': {'value': stockData.shipType},
+							'ST_mType': {'value': reportUpdateData[i].mType},
+							'ST_mVendor': {'value': reportUpdateData[i].mVendor},
+							'ST_mCode': {'value': reportUpdateData[i].devCode},
+							'ST_mName': {'value': reportUpdateData[i].mName},
+							'ST_shipNum': {'value': reportUpdateData[i].stockNum},
+							'ST_mCost': {'value': reportUpdateData[i].mCost}
+						}
+					};
+					postReportBody.shipTypeList.value.push(newSTListBody);
+				}
+			} else if (reportUpdateData[i].arrOrShip == 'arr') {
+				var newReportListBody = {
+					'value': {
+						'sys_code': {'value': reportUpdateData[i].sysCode},
+						'mClassification':{'value': reportUpdateData[i].mClassification},
+						'mType':{'value': reportUpdateData[i].mType},
+						'mVendor':{'value': reportUpdateData[i].mVendor},
+						'mCode': {'value': reportUpdateData[i].devCode},
+						'mName':{'value': reportUpdateData[i].mName},
+						'stockLocation': {'value': reportUpdateData[i].uName},
+						'arrivalNum': {'value': reportUpdateData[i].stockNum},
+						'mCost': {'value': reportUpdateData[i].mCost}
+					}
+				};
+			}
+			postReportBody.inventoryList.value.push(newReportListBody);
+		}
+		//レポート情報ポスト
+		postReportData.push(postReportBody);
+		var postReport = {
+			'app': sysid.INV.app_id.report,
+			'records': postReportData,
+		};
+		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postReport)
+			.then(function (resp) {
+				return resp;
+			}).catch(function (error) {
+				console.log(error);
+				return error;
+			});
+	}
+	return reportUpdateData;
+};
+
+/**
+ * 在庫処理
+ * @param {*} event (json)
+ * @param {*} appId (string) 変更データ取得するアプリID
+ * @returns (json)
+ * @author Keiichi Maeda
+ * @author Jay(refactoring)
+ */
+async function stockCtrl(event, appId) {
+	var stockData = createStockJson(event, appId);
+	// console.log(stockData);
+	// ＞＞＞商品管理情報取得＜＜＜
+	//商品管理クエリ作成
+	var devQuery = [];
+	for (let i in stockData.arr) {
+		devQuery.push('"' + stockData.arr[i].devCode + '"');
+	}
+	for (let i in stockData.ship) {
+		devQuery.push('"' + stockData.ship[i].devCode + '"');
+	}
+	// 配列内の重複した要素の削除
+	devQuery = Array.from(new Set(devQuery));
+	var getDeviceBody = {
+		'app': sysid.INV.app_id.device,
+		'query': 'mCode in (' + devQuery.join() + ')'
+	};
+	console.log(getDeviceBody);
+	var deviceRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	// ＞＞＞商品管理情報取得 end＜＜＜
+
+	// ＞＞＞拠点管理情報取得＜＜＜
+	//拠点管理クエリ作成
+	var uniQuery = [];
+	for (let i in stockData.arr) {
+		uniQuery.push('"' + stockData.arr[i].uniCode + '"');
+	}
+	for (let i in stockData.ship) {
+		uniQuery.push('"' + stockData.ship[i].uniCode + '"');
+	}
+	// 配列内の重複した要素の削除
+	uniQuery = Array.from(new Set(uniQuery));
+	var getUnitBody = {
+		'app': sysid.INV.app_id.unit,
+		'query': 'uCode in (' + uniQuery.join() + ')'
+	};
+	console.log(getUnitBody);
+	var unitRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
+		.then(function (resp) {
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	// ＞＞＞拠点管理情報取得 end＜＜＜
+
+	// 情報更新用配列
+	var deviceStockData = [];
+	var unitStockData = [];
+
+	// 商品管理情報作成
+	for (let i in deviceRecords.records) {
+		var putDevBody = {
+			'updateKey': {
+				'field': 'mCode',
+				'value': deviceRecords.records[i].mCode.value
+			},
+			'record': {
+				'uStockList': {'value': deviceRecords.records[i].uStockList.value}
+			}
+		};
+		deviceStockData.push(putDevBody);
+	}
+
+	// 商品管理、入荷情報挿入 (指定数分＋する)
+	for (let i in deviceStockData) {
+		for (let j in deviceStockData[i].record.uStockList.value) {
+			for (let k in stockData.arr) {
+				if (stockData.arr[k].devCode == deviceStockData[i].updateKey.value && stockData.arr[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value) {
+					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
+				}
+			}
+		}
+	}
+
+	// 商品管理、出荷情報挿入 (指定数分-する)
+	for (let i in deviceStockData) {
+		for (let j in deviceStockData[i].record.uStockList.value) {
+			for (let k in stockData.ship) {
+				if (stockData.ship[k].devCode == deviceStockData[i].updateKey.value && stockData.ship[k].uniCode == deviceStockData[i].record.uStockList.value[j].value.uCode.value) {
+					deviceStockData[i].record.uStockList.value[j].value.uStock.value = parseInt(deviceStockData[i].record.uStockList.value[j].value.uStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
+				}
+			}
+		}
+	}
+
+	// 仕入管理の場合のみ商品管理jsonに在庫情報を入れる
+	if (stockData.appId == sysid.INV.app_id.purchasing) {
+		for (let i in deviceStockData) {
+			for (let j in stockData.arr) {
+				if (stockData.arr[j].devCode == deviceStockData[i].updateKey.value) {
+					deviceStockData[i].record.mCost = {'value': stockData.arr[j].costInfo.mCost};
+					deviceStockData[i].record.mCostUpdate = {'value': stockData.arr[j].costInfo.mCostUpdate};
+					deviceStockData[i].record.deviceCost = {'value': stockData.arr[j].costInfo.deviceCost};
+					deviceStockData[i].record.deviceCost_foreign = {'value': stockData.arr[j].costInfo.deviceCost_foreign};
+					deviceStockData[i].record.importExpenses = {'value': stockData.arr[j].costInfo.importExpenses};
+					deviceStockData[i].record.developCost = {'value': stockData.arr[j].costInfo.developCost};
+				}
+			}
+		}
+	}
+	// 拠点管理情報作成
+	for (let i in unitRecords.records) {
+		var putUniBody = {
+			'updateKey': {
+				'field': 'uCode',
+				'value': unitRecords.records[i].uCode.value
+			},
+			'record': {
+				'mStockList': {'value': unitRecords.records[i].mStockList.value}
+			}
+		};
+		unitStockData.push(putUniBody);
+	}
+	// 拠点管理、入荷情報挿入 (指定数分＋する)
+	for (let i in unitStockData) {
+		for (let j in unitStockData[i].record.mStockList.value) {
+			for (let k in stockData.arr) {
+				if (stockData.arr[k].uniCode == unitStockData[i].updateKey.value && stockData.arr[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value) {
+					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) + parseInt(stockData.arr[k].stockNum || 0);
+				}
+			}
+		}
+	}
+	// 拠点管理、出荷情報挿入 (指定数分-する)
+	for (let i in unitStockData) {
+		for (let j in unitStockData[i].record.mStockList.value) {
+			for (let k in stockData.ship) {
+				if (stockData.ship[k].uniCode == unitStockData[i].updateKey.value && stockData.ship[k].devCode == unitStockData[i].record.mStockList.value[j].value.mCode.value) {
+					unitStockData[i].record.mStockList.value[j].value.mStock.value = parseInt(unitStockData[i].record.mStockList.value[j].value.mStock.value || 0) - parseInt(stockData.ship[k].stockNum || 0);
+				}
+			}
+		}
+	}
+	//商品管理、拠点管理を更新
+	var putDeviceBody = {
+		'app': sysid.INV.app_id.device,
+		'records': deviceStockData,
+	};
+	await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putDeviceBody)
+		.then(function (resp) {
+			console.log('商品在庫数変更');
+			console.log(putDeviceBody);
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+	var putUnitBody = {
+		'app': sysid.INV.app_id.unit,
+		'records': unitStockData,
+	};
+	await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putUnitBody)
+		.then(function (resp) {
+			console.log('拠点在庫数変更');
+			console.log(putUnitBody);
+			return resp;
+		}).catch(function (error) {
+			console.log(error);
+			return error;
+		});
+
+	// 作成したjsonを配列に格納
+	var totalStockdata = {
+		'device': deviceStockData,
+		'unit': unitStockData
+	};
+	return totalStockdata;
+};
 
 // OLD
 const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
@@ -1139,414 +1633,7 @@ async function stockCtrl(event, appId) {
 	return totalStockdata;
 };
 
-/* レポート処理 */
-/**
- * createStockJsonから月次レポートに情報を挿入
- * @param {*} event kintone event
- * @param {*} appId 関数を使ったアプリのID
- * @returns json
- */
-async function reportCtrl(event, appId) {
-	var stockData = createStockJson(event, appId);
-	console.log(stockData);
 
-	/* 月次レポート情報取得 */
-	// 月次レポートクエリ作成
-	var getReportBody = {
-		'app': sysid.INV.app_id.report,
-		'query': 'sys_invoiceDate = "' + stockData.date + '" order by 更新日時 asc'
-	};
-	var reportRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportBody)
-		.then(function (resp) {
-			return resp;
-		}).catch(function (error) {
-			console.log(error);
-			return error;
-		});
-	/* 月次レポート情報取得 end */
-
-	/* レポート更新用情報作成 */
-	var reportUpdateData = [];
-	var getUniNameArray = [];
-	var getDevNameArray = [];
-	for (let i in stockData.arr) {
-		var reportUpdateBody = {
-			'arrOrShip': stockData.arr[i].arrOrShip,
-			'sysCode': stockData.arr[i].devCode + '-' + stockData.arr[i].uniCode,
-			'devCode': stockData.arr[i].devCode,
-			'uniCode': stockData.arr[i].uniCode,
-			'stockNum': stockData.arr[i].stockNum
-		};
-		getUniNameArray.push('"' + stockData.arr[i].uniCode + '"');
-		getDevNameArray.push('"' + stockData.arr[i].devCode + '"');
-		reportUpdateData.push(reportUpdateBody);
-	}
-	for (let i in stockData.ship) {
-		var reportUpdateBody = {
-			'arrOrShip': stockData.ship[i].arrOrShip,
-			'sysCode': stockData.ship[i].devCode + '-' + stockData.ship[i].uniCode,
-			'devCode': stockData.ship[i].devCode,
-			'uniCode': stockData.ship[i].uniCode,
-			'stockNum': stockData.ship[i].stockNum
-		};
-		if(typeof stockData.shipType !== "undefined"){
-			reportUpdateBody.sysSTCode = stockData.ship[i].devCode + '-' + stockData.shipType
-		}
-		getUniNameArray.push('"' + stockData.ship[i].uniCode + '"');
-		getDevNameArray.push('"' + stockData.ship[i].devCode + '"');
-		reportUpdateData.push(reportUpdateBody);
-	}
-	getUniNameArray = Array.from(new Set(getUniNameArray));
-	getDevNameArray = Array.from(new Set(getDevNameArray));
-
-	//拠点名取得
-	var getUnitBody = {
-		'app': sysid.INV.app_id.unit,
-		'query': 'uCode in (' + getUniNameArray.join() + ')'
-	};
-	var unitRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getUnitBody)
-		.then(function (resp) {
-			return resp;
-		}).catch(function (error) {
-			console.log(error);
-			return error;
-		});
-	for (let i in reportUpdateData) {
-		for (let j in unitRecords.records) {
-			if (reportUpdateData[i].uniCode == unitRecords.records[j].uCode.value) {
-				reportUpdateData[i].uName = unitRecords.records[j].uName.value;
-			}
-		}
-	}
-
-	//製品名取得
-	var getDeviceBody = {
-		'app': sysid.INV.app_id.device,
-		'query': 'mCode in (' + getDevNameArray.join() + ')'
-	};
-	var deviceRecords = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getDeviceBody)
-		.then(function (resp) {
-			return resp;
-		}).catch(function (error) {
-			console.log(error);
-			return error;
-		});
-	for (let i in reportUpdateData) {
-		for (let j in deviceRecords.records) {
-			if (reportUpdateData[i].devCode == deviceRecords.records[j].mCode.value) {
-				reportUpdateData[i].mClassification = deviceRecords.records[j].mClassification.value;
-				reportUpdateData[i].mType = deviceRecords.records[j].mType.value;
-				reportUpdateData[i].mVendor = deviceRecords.records[j].mVendor.value;
-				reportUpdateData[i].mName = deviceRecords.records[j].mName.value;
-				reportUpdateData[i].mCost = deviceRecords.records[j].mCost.value;
-			}
-		}
-	}
-
-
-	/* レポート更新用情報作成 end */
-	if (reportRecords.records.length != 0) { //対応したレポートがある場合
-		// 情報更新用配列
-		var putReportData = [];
-		//更新レポート情報作成
-		var putReportBody = {
-			'id': reportRecords.records[0].$id.value,
-			'record': {
-				'inventoryList': {
-					'value': reportRecords.records[0].inventoryList.value
-				},
-				'shipTypeList': {
-					'value': reportRecords.records[0].shipTypeList.value
-				}
-			}
-		};
-		for (let i in reportUpdateData) {
-			if (putReportBody.record.inventoryList.value.some(item => item.value.sys_code.value === reportUpdateData[i].sysCode)) {
-				for (let j in putReportBody.record.inventoryList.value) {
-					if (putReportBody.record.inventoryList.value[j].value.sys_code.value == reportUpdateData[i].sysCode) {
-						if (reportUpdateData[i].arrOrShip == 'ship') {
-							putReportBody.record.inventoryList.value[j].value.shipNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
-						} else if (reportUpdateData[i].arrOrShip == 'arr') {
-							putReportBody.record.inventoryList.value[j].value.arrivalNum.value = parseInt(putReportBody.record.inventoryList.value[j].value.arrivalNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
-						}
-					}
-				}
-			} else {
-				if (reportUpdateData[i].arrOrShip == 'ship') {
-					var newReportListBody = {
-						'value': {
-							'sys_code': {
-								'value': reportUpdateData[i].sysCode
-							},
-							'mClassification':{
-								'value': reportUpdateData[i].mClassification
-							},
-							'mType':{
-								'value': reportUpdateData[i].mType
-							},
-							'mVendor':{
-								'value': reportUpdateData[i].mVendor
-							},
-							'mCode': {
-								'value': reportUpdateData[i].devCode
-							},
-							'mName':{
-								'value': reportUpdateData[i].mName
-							},
-							'stockLocation': {
-								'value': reportUpdateData[i].uName
-							},
-							'shipNum': {
-								'value': reportUpdateData[i].stockNum
-							},
-							'mCost': {
-								'value': reportUpdateData[i].mCost
-							}
-						}
-					};
-				} else if (reportUpdateData[i].arrOrShip == 'arr') {
-					var newReportListBody = {
-						'value': {
-							'sys_code': {
-								'value': reportUpdateData[i].sysCode
-							},
-							'mClassification':{
-								'value': reportUpdateData[i].mClassification
-							},
-							'mType':{
-								'value': reportUpdateData[i].mType
-							},
-							'mVendor':{
-								'value': reportUpdateData[i].mVendor
-							},
-							'mCode': {
-								'value': reportUpdateData[i].devCode
-							},
-							'mName':{
-								'value': reportUpdateData[i].mName
-							},
-							'stockLocation': {
-								'value': reportUpdateData[i].uName
-							},
-							'arrivalNum': {
-								'value': reportUpdateData[i].stockNum
-							},
-							'mCost': {
-								'value': reportUpdateData[i].mCost
-							}
-						}
-					};
-				}
-				putReportBody.record.inventoryList.value.push(newReportListBody);
-			}
-
-			// 出荷区分別一覧リスト設定
-			if(typeof reportUpdateData[i].sysSTCode !== "undefined"){
-				if(putReportBody.record.shipTypeList.value.some(item => item.value.sys_shiptypeCode.value === reportUpdateData[i].sysSTCode)){
-					for (let j in putReportBody.record.shipTypeList.value) {
-						if (putReportBody.record.shipTypeList.value[j].value.sys_shiptypeCode.value == reportUpdateData[i].sysSTCode) {
-							putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value = parseInt(putReportBody.record.shipTypeList.value[j].value.ST_shipNum.value || 0) + parseInt(reportUpdateData[i].stockNum || 0);
-						}
-					}
-				} else {
-					var newSTListBody = {
-						'value': {
-							'sys_shiptypeCode': {
-								'value': reportUpdateData[i].sysSTCode,
-							},
-							'shipType': {
-								'value': stockData.shipType
-							},
-							'ST_mType': {
-								'value': reportUpdateData[i].mType
-							},
-							'ST_mVendor': {
-								'value': reportUpdateData[i].mVendor
-							},
-							'ST_mCode': {
-								'value': reportUpdateData[i].devCode
-							},
-							'ST_mName': {
-								'value': reportUpdateData[i].mName
-							},
-							'ST_shipNum': {
-								'value': reportUpdateData[i].stockNum
-							},
-							'ST_mCost': {
-								'value': reportUpdateData[i].mCost
-							}
-						}
-					};
-					putReportBody.record.shipTypeList.value.push(newSTListBody);
-				}
-			}
-		}
-		putReportData.push(putReportBody);
-		//レポート更新
-		var putReport = {
-			'app': sysid.INV.app_id.report,
-			'records': putReportData,
-		};
-		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', putReport)
-			.then(function (resp) {
-				return resp;
-			}).catch(function (error) {
-				console.log(error);
-				return error;
-			});
-	} else { //対応したレポートがない場合
-		//レポート新規作成
-		var postReportData = [];
-		if(typeof stockData.shipType === "undefined"){
-			var postReportBody = {
-				'invoiceYears': {
-					'value': stockData.date.slice(0, -2)
-				},
-				'invoiceMonth': {
-					'value': stockData.date.slice(4)
-				},
-				'inventoryList': {
-					'value': []
-				}
-			};
-		} else{
-			var postReportBody = {
-				'invoiceYears': {
-					'value': stockData.date.slice(0, -2)
-				},
-				'invoiceMonth': {
-					'value': stockData.date.slice(4)
-				},
-				'inventoryList': {
-					'value': []
-				},
-				'shipTypeList': {
-					'value': []
-				}
-			};
-		}
-
-		// レポート更新情報をリストに格納
-		for (let i in reportUpdateData) {
-			if (reportUpdateData[i].arrOrShip == 'ship') {
-				var newReportListBody = {
-					'value': {
-						'sys_code': {
-							'value': reportUpdateData[i].sysCode
-						},
-						'mClassification':{
-							'value': reportUpdateData[i].mClassification
-						},
-						'mType':{
-							'value': reportUpdateData[i].mType
-						},
-						'mVendor':{
-							'value': reportUpdateData[i].mVendor
-						},
-						'mCode': {
-							'value': reportUpdateData[i].devCode
-						},
-						'mName':{
-							'value': reportUpdateData[i].mName
-						},
-						'stockLocation': {
-							'value': reportUpdateData[i].uName
-						},
-						'shipNum': {
-							'value': reportUpdateData[i].stockNum
-						},
-						'mCost': {
-							'value': reportUpdateData[i].mCost
-						}
-					}
-			};
-				if(typeof reportUpdateData[i].sysSTCode !== "undefined"){
-					var newSTListBody = {
-						'value': {
-							'sys_shiptypeCode': {
-								'value': reportUpdateData[i].sysSTCode,
-							},
-							'shipType': {
-								'value': stockData.shipType
-							},
-							'ST_mType': {
-								'value': reportUpdateData[i].mType
-							},
-							'ST_mVendor': {
-								'value': reportUpdateData[i].mVendor
-							},
-							'ST_mCode': {
-								'value': reportUpdateData[i].devCode
-							},
-							'ST_mName': {
-								'value': reportUpdateData[i].mName
-							},
-							'ST_shipNum': {
-								'value': reportUpdateData[i].stockNum
-							},
-							'ST_mCost': {
-								'value': reportUpdateData[i].mCost
-							}
-						}
-					};
-					postReportBody.shipTypeList.value.push(newSTListBody);
-				}
-			} else if (reportUpdateData[i].arrOrShip == 'arr') {
-				var newReportListBody = {
-					'value': {
-						'sys_code': {
-							'value': reportUpdateData[i].sysCode
-						},
-						'mClassification':{
-							'value': reportUpdateData[i].mClassification
-						},
-						'mType':{
-							'value': reportUpdateData[i].mType
-						},
-						'mVendor':{
-							'value': reportUpdateData[i].mVendor
-						},
-						'mCode': {
-							'value': reportUpdateData[i].devCode
-						},
-						'mName':{
-							'value': reportUpdateData[i].mName
-						},
-						'stockLocation': {
-							'value': reportUpdateData[i].uName
-						},
-						'arrivalNum': {
-							'value': reportUpdateData[i].stockNum
-						},
-						'mCost': {
-							'value': reportUpdateData[i].mCost
-						}
-					}
-				};
-			}
-			postReportBody.inventoryList.value.push(newReportListBody);
-		}
-
-		//レポート情報ポスト
-		postReportData.push(postReportBody);
-		var postReport = {
-			'app': sysid.INV.app_id.report,
-			'records': postReportData,
-		};
-		await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', postReport)
-			.then(function (resp) {
-				return resp;
-			}).catch(function (error) {
-				console.log(error);
-				return error;
-			});
-	}
-
-	console.log(putReportData);
-	console.log(postReportData);
-
-	return reportUpdateData;
-};
 
 /* 計算ボタン処理 */
 /**
