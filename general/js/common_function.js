@@ -171,6 +171,24 @@ function tabMenu_new(tabID, tabList) {
 	return result_reportDeadline;
 }
 
+async function ctl_report(){
+	let result={};
+	return result;
+}
+async function ctl_stock(){
+	let result={};
+	return result;
+}
+async function check_sNum(sNums, shipType, shipInfo){
+	let result={};
+	let records=await getRecords({
+		app: sysid.DEV.app_id.sNum,
+		filterCond: 'sNum in ("'+sNums.join('","')+'")'
+	});
+	return result;
+}
+
+
 
 function api_kintone_POST(event, appid, fCodes){
 	let body={
@@ -661,6 +679,68 @@ async function stockCtrl(event, appId) {
 	};
 	return totalStockdata;
 };
+
+/**
+ * レコード一括取得、レコードID
+ * @param {Object} _params
+ *   - app {String}: アプリID（省略時は表示中アプリ）
+ *   - filterCond {String}: 絞り込み条件
+ *   - sortConds {Array}: ソート条件の配列
+ *   - fields {Array}: 取得対象フィールドの配列
+ * @returns {Object} response
+ *   - records {Array}: 取得レコードの配列
+ * @author MIT
+ * @author Jay(refactoring)
+ */
+function getRecords(_params){let params=_params||{};let app=params.app||kintone.app.getId();let filterCond=params.filterCond;let sortConds=params.sortConds||['$id asc'];let fields=params.fields;let data=params.data;if(!data)data={records:[],lastRecordId:0};let conditions=[];let limit=500;if(filterCond)conditions.push(filterCond);conditions.push('$id > '+data.lastRecordId);let sortCondsAndLimit=' order by '+sortConds.join(', ')+' limit '+limit;let query=conditions.join(' and ')+sortCondsAndLimit;let body={app:app,query:query};if(fields && fields.length>0){if(fields.indexOf('$id')<=-1)fields.push('$id');body.fields = fields;}return kintone.api(kintone.api.url('/k/v1/records',true),'GET',body).then(function(r){data.records=data.records.concat(r.records);if(r.records.length===limit){data.lastRecordId=r.records[r.records.length-1].$id.value;return getRecords({app:app,filterCond:filterCond,sortConds:sortConds,fields:fields,data:data});}delete data.lastRecordId;return data;});};
+/*
+var getRecords = function(_params) {
+  let MAX_READ_LIMIT = 500;
+
+  let params = _params || {};
+  let app = params.app || kintone.app.getId();
+  let filterCond = params.filterCond;
+  let sortConds = params.sortConds || ['$id asc'];
+  let fields = params.fields;
+  let data = params.data;
+  if (!data) {
+    data = {
+      records: [],
+      lastRecordId: 0
+    };
+  }
+  let conditions = [];
+  let limit = MAX_READ_LIMIT;
+  if (filterCond) {
+    conditions.push(filterCond);
+  }
+  conditions.push('$id > ' + data.lastRecordId);
+  let sortCondsAndLimit =
+    ' order by ' + sortConds.join(', ') + ' limit ' + limit;
+  let query = conditions.join(' and ') + sortCondsAndLimit;
+  let body = {
+    app: app,
+    query: query
+  };
+  if (fields && fields.length > 0) {
+    // $id で並び替えを行うため、取得フィールドに「$id」フィールドが含まれていなければ追加します
+    if (fields.indexOf('$id') <= -1) {
+      fields.push('$id')
+    }
+    body.fields = fields;
+  }
+  return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', body).then(function(r) {
+    data.records = data.records.concat(r.records);
+    if (r.records.length === limit) {
+      // 取得レコードの件数が limit と同じ場合は、未取得のレコードが残っている場合があるので、getRecords を再帰呼び出して、残りのレコードを取得します
+      data.lastRecordId = r.records[r.records.length - 1].$id.value;
+      return getRecords({ app:app, filterCond:filterCond, sortConds: sortConds, fields:fields, data:data });
+    }
+    delete data.lastRecordId;
+    return data;
+  });
+};
+*/
 
 // OLD
 const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
