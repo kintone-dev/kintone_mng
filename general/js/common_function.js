@@ -208,7 +208,7 @@ async function ctl_stock(){
   // シリアル番号Jsonを配列に変更
   let sNumsSerial = Object.values(sNums.serial);
 	// 返却データ初期化
-	let result = {};
+	let callback = {};
 	// パラメータエラー確認
 	if(sNumsSerial.length==0){
 		console.log('stop Serial control');
@@ -356,7 +356,7 @@ async function ctl_stock(){
 			if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
 			if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
 			// 返却データ作成
-			result = {
+			callback = {
 				result: true,
 				apiData:{
 					create: {requestBody: createBody, response: response_POST},
@@ -370,7 +370,7 @@ async function ctl_stock(){
     return {result: false, error:  {target: '', code: 'sn_overlapping'}}
   }
 	console.log('end Serial control');
-	return result;
+	return callback;
 }
 
 
