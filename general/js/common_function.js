@@ -875,55 +875,75 @@ async function stockCtrl(event, appId) {
  * @author MIT
  * @author Jay(refactoring)
  */
-function getRecords(_params){let params=_params||{};let app=params.app||kintone.app.getId();let filterCond=params.filterCond;let sortConds=params.sortConds||['$id asc'];let fields=params.fields;let data=params.data;if(!data)data={records:[],lastRecordId:0};let conditions=[];let limit=500;if(filterCond)conditions.push(filterCond);conditions.push('$id > '+data.lastRecordId);let sortCondsAndLimit=' order by '+sortConds.join(', ')+' limit '+limit;let query=conditions.join(' and ')+sortCondsAndLimit;let body={app:app,query:query};if(fields && fields.length>0){if(fields.indexOf('$id')<=-1)fields.push('$id');body.fields = fields;}return kintone.api(kintone.api.url('/k/v1/records',true),'GET',body).then(function(r){data.records=data.records.concat(r.records);if(r.records.length===limit){data.lastRecordId=r.records[r.records.length-1].$id.value;return getRecords({app:app,filterCond:filterCond,sortConds:sortConds,fields:fields,data:data});}delete data.lastRecordId;return data;});};
-/*
-var getRecords = function(_params) {
-  let MAX_READ_LIMIT = 500;
+//function getRecords(_params){let params=_params||{};let app=params.app||kintone.app.getId();let filterCond=params.filterCond;let sortConds=params.sortConds||['$id asc'];let fields=params.fields;let data=params.data;if(!data)data={records:[],lastRecordId:0};let conditions=[];let limit=500;if(filterCond)conditions.push(filterCond);conditions.push('$id > '+data.lastRecordId);let sortCondsAndLimit=' order by '+sortConds.join(', ')+' limit '+limit;let query=conditions.join(' and ')+sortCondsAndLimit;let body={app:app,query:query};if(fields && fields.length>0){if(fields.indexOf('$id')<=-1)fields.push('$id');body.fields = fields;}return kintone.api(kintone.api.url('/k/v1/records',true),'GET',body).then(function(r){data.records=data.records.concat(r.records);if(r.records.length===limit){data.lastRecordId=r.records[r.records.length-1].$id.value;return getRecords({app:app,filterCond:filterCond,sortConds:sortConds,fields:fields,data:data});}delete data.lastRecordId;return data;});};
 
-  let params = _params || {};
-  let app = params.app || kintone.app.getId();
-  let filterCond = params.filterCond;
-  let sortConds = params.sortConds || ['$id asc'];
-  let fields = params.fields;
-  let data = params.data;
+var getRecords = function(_params) {
+	var MAX_READ_LIMIT = 500;
+
+  var params = _params || {};
+  var app = params.app || kintone.app.getId();
+  var filterCond = params.filterCond;
+  var sortConds = params.sortConds;
+  var limit = params.limit || -1;
+  var offset = params.offset || 0;
+  var fields = params.fields;
+  var data = params.data;
+
   if (!data) {
     data = {
-      records: [],
-      lastRecordId: 0
+      records: []
     };
   }
-  let conditions = [];
-  let limit = MAX_READ_LIMIT;
+
+  var willBeDone = false;
+  var thisLimit = MAX_READ_LIMIT;
+  // getRecords 関数の呼び出し側で、レコードの取得件数を指定された場合は
+  // 取得件数を満たせば終了するように willBeDone を true にする
+  if (limit > 0) {
+    if (thisLimit > limit) {
+      thisLimit = limit;
+      willBeDone = true;
+    }
+  }
+
+  var conditions = [];
   if (filterCond) {
     conditions.push(filterCond);
   }
-  conditions.push('$id > ' + data.lastRecordId);
-  let sortCondsAndLimit =
-    ' order by ' + sortConds.join(', ') + ' limit ' + limit;
-  let query = conditions.join(' and ') + sortCondsAndLimit;
-  let body = {
+
+  var sortCondsAndLimit = (sortConds && sortConds.length > 0 ? ' order by ' + sortConds.join(', ') : '')
+    + ' limit ' + thisLimit;
+  var query = conditions.join(' and ') + sortCondsAndLimit + ' offset ' + offset;
+  var body = {
     app: app,
     query: query
   };
   if (fields && fields.length > 0) {
-    // $id で並び替えを行うため、取得フィールドに「$id」フィールドが含まれていなければ追加します
-    if (fields.indexOf('$id') <= -1) {
-      fields.push('$id')
-    }
     body.fields = fields;
   }
-  return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', body).then(function(r) {
-    data.records = data.records.concat(r.records);
-    if (r.records.length === limit) {
-      // 取得レコードの件数が limit と同じ場合は、未取得のレコードが残っている場合があるので、getRecords を再帰呼び出して、残りのレコードを取得します
-      data.lastRecordId = r.records[r.records.length - 1].$id.value;
-      return getRecords({ app:app, filterCond:filterCond, sortConds: sortConds, fields:fields, data:data });
-    }
-    delete data.lastRecordId;
-    return data;
-  });
+  return kintone.api(kintone.api.url('/k/v1/records', true), 'GET', body).then(function(resp) {
+      data.records = data.records.concat(resp.records);
+      var _offset = resp.records.length;
+      if (limit > 0 && limit < _offset) {
+        willBeDone = true;
+      }
+      // 取得すべきレコードを取得したら終了する
+      if (_offset < thisLimit || willBeDone) {
+        return data;
+      }
+      // 取得すべきレコードが残っている場合は、再帰呼び出しで残りのレコードを取得する
+      return getRecords({
+        app: app,
+        filterCond: filterCond,
+        sortConds: sortConds,
+        limit: limit - _offset,
+        offset: offset + _offset,
+        fields: fields,
+        data: data
+      });
+    });
 };
-*/
+
 
 // OLD
 const fields = Object.values(cybozu.data.page.FORM_DATA.schema.table.fieldList);
