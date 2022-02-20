@@ -261,7 +261,7 @@ async function ctl_stock(){
 			else if(checkType == 'auto' && snRecord.sState.value == '再生品') checkSNstatus={booblean: true, shipStatus: 'recycle'};
 			else{
 				console.log('end Serial control');
-				return {result: false,  error: {target: snRecords.sNum.value, code: 'sn_cannotuse'}};
+				return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_cannotuse'}};
 				// break;
 			}
 			// 出荷ロケチェック
