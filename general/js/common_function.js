@@ -349,10 +349,10 @@ async function ctl_stock(){
 		checkSNfinal = result.result != false && sNumsSerial.length == processedNum;
 		if(checkSNfinal){
 			// 処理結果書き込み
-			// let response_PUT={};
-			// let response_POST={};
-			if(updateBody.records.length>0) let response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
-			if(createBody.records.length>0) let response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
+			let response_PUT={};
+			let response_POST={};
+			if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
+			if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
 			// 返却データ作成
 			result = {
 				result: true,
