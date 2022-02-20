@@ -211,15 +211,15 @@ async function ctl_stock(){
 	let result = {};
 	// パラメータエラー確認
 	if(sNumsSerial.length==0){
-		console.log('end Serial control');
+		console.log('stop Serial control');
 		return {result: false, error:  {target: '', code: 'sn_nosnum'}};
 	}
 	if(!checkType.match(/newship|recycle|auto/)){
-		console.log('end Serial control');
+		console.log('stop Serial control');
 		return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
 	}
 	if(!sNums.shipInfo){
-		console.log('end Serial control');
+		console.log('stop Serial control');
 		return {result: false, error:  {target: '', code: 'sn_noshininfo'}};
 	}
 	// シリアル重複チェック
@@ -235,7 +235,6 @@ async function ctl_stock(){
     }
 		// 入力シリアル番号のレコード情報取得
     let snRecords = (await getRecords({app: sysid.DEV.app_id.sNum, filterCond: 'sNum in (' + sNum_queryText + ')'})).records;
-		console.log(snRecords);
 		// シリアル番号更新データ作成
 		let updateBody={
 			app:sysid.DEV.app_id.sNum,
@@ -254,7 +253,6 @@ async function ctl_stock(){
 		// 既存のシリアル番号で出荷可能可否を確認し、更新用bodyを作成する
 		for(let i in snRecords){
 			let snRecord=snRecords[i];
-			console.log(snRecord);
 			// 製品状態が出荷可能かチェック
 			let checkSNstatus = {booblean: new Boolean(), checkType: null};
 			if(checkType == 'newship' && snRecord.sState.value == '正常品') checkSNstatus={booblean: true, shipStatus: 'newship'};
@@ -262,21 +260,20 @@ async function ctl_stock(){
 			else if(checkType == 'auto' && snRecord.sState.value == '正常品') checkSNstatus={booblean: true, shipStatus: 'newship'};
 			else if(checkType == 'auto' && snRecord.sState.value == '再生品') checkSNstatus={booblean: true, shipStatus: 'recycle'};
 			else{
-				console.log('end Serial control');
+				console.log('stop Serial control');
 				return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_cannotuse'}};
-				// break;
 			}
 			// 出荷ロケチェック
 			let checkSNshipment = new Boolean();
 			if(snRecord.shipment.value == sNums.shipInfo.shipment.value) checkSNshipment = true;
 			else{
-				console.log('end Serial control');
+				console.log('stop Serial control');
 				return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_wrongshipment'}};
 			}
 			// 実行可能か総合チェック
 			let executable = new Boolean();
 			executable = checkSNstatus.booblean  && checkSNshipment;
-			if(executable){
+			if(executable){//これ必要？
 				// putBodyにレコードデータを格納
 				updateBody.records.push({
 					id: snRecord.$id.value,
@@ -309,7 +306,7 @@ async function ctl_stock(){
     let sNumsSerial_remaining = Object.values(sNums.serial);
 		if(sNumsSerial_remaining.length>0){
 			if(checkType == 'recycle'){
-				console.log('end Serial control');
+				console.log('stop Serial control');
 				return {result: false,  error: {target: sNumsSerial_remaining[0].sNum, code: 'sn_cannotuse'}};
 			}else{
 				for(let i in sNumsSerial_remaining){
@@ -356,8 +353,6 @@ async function ctl_stock(){
 			// 処理結果書き込み
 			let response_PUT={};
 			let response_POST={};
-			console.log(updateBody);
-			console.log(createBody);
 			if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
 			if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
 			// 返却データ作成
@@ -371,7 +366,7 @@ async function ctl_stock(){
 			}
 		}
   }else{
-		console.log('end Serial control');
+		console.log('stop Serial control');
     return {result: false, error:  {target: '', code: 'sn_overlapping'}}
   }
 	console.log('end Serial control');
