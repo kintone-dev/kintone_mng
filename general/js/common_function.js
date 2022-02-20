@@ -235,6 +235,7 @@ async function ctl_stock(){
     }
 		// 入力シリアル番号のレコード情報取得
     let snRecords = (await getRecords({app: sysid.DEV.app_id.sNum, filterCond: 'sNum in (' + sNum_queryText + ')'})).records;
+		console.log(snRecords);
 		// シリアル番号更新データ作成
 		let updateBody={
 			app:sysid.DEV.app_id.sNum,
