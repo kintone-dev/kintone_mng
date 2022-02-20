@@ -309,11 +309,7 @@ async function ctl_stock(){
 			}else{
 				for(let i in sNumsSerial_remaining){
 					let sinfo = sNums.serial[sNumsSerial_remaining[i].sNum].sInfo;
-					console.log('sinfo');
-					console.log(sinfo);
 					let sNum_mCode = sNums.shipInfo.deviceInfo[sinfo].mCode;
-					console.log('sNum_mCode');
-					console.log(sNum_mCode);
 					// postBodyにレコードデータを格納
 					createBody.records.push({
 						sNum: {value: sNumsSerial[i].sNum},
@@ -345,21 +341,23 @@ async function ctl_stock(){
 					// 新規＆リサイクル分類し品目コード別出荷数を計算
 					if(!shipData.newship[sNum_mCode.value]) shipData.newship[sNum_mCode.value] = {mCode: sNum_mCode.value, num: 0};
 					shipData.newship[sNum_mCode.value].num += 1;
-					console.log('shipData');
-					console.log(shipData);
 					// 処理済みシリアル数をカウント
 					processedNum += 1;
 				}
 			}
 		}
-		console.log(Object.values(shipData.newship).length);
-		console.log(Object.values(shipData.recycle).length);
 		let checkSNfinal = new Boolean();
 		checkSNfinal = result.result != false && sNumsSerial.length == processedNum;
 		if(checkSNfinal){
 			// 処理結果書き込み
 			let response_PUT={};
 			let response_POST={};
+			console.log('updateBody');
+			console.log(updateBody);
+			if(createBody.records.length>0){
+				console.log('createBody');
+				console.log(createBody);
+			}
 			// response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
 			// if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
 			// 返却データ作成
