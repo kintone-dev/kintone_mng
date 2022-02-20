@@ -212,7 +212,7 @@ async function ctl_stock(){
 	// パラメータエラー確認
 	if(sNumsSerial.length==0) return {result: false, error:  {target: '', code: 'sn_nosnum'}};
 	// if(!checkType.match(/newship|recycle|auto/) || checkType) return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
-	if(!checkType.match(/newship|recycle|auto/) || checkType) return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
+	if(!checkType.match(/newship|recycle|auto/)) return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
 	if(sNums.shipInfo) return {result: false, error:  {target: '', code: 'sn_noshininfo'}};
 	// シリアル重複チェック
 	let dc = new Set(sNumsSerial);
