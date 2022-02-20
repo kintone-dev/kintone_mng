@@ -309,6 +309,7 @@ async function ctl_stock(){
 			}else{
 				for(let i in sNumsSerial_remaining){
 					let sinfo = sNums.serial[sNumsSerial_remaining[0].sNum].sInfo;
+					let sNum_mCode = sNums.shipInfo.deviceInfo[sinfo].mCode;
 					// postBodyにレコードデータを格納
 					createBody.records.push({
 						sNum: {value: sNumsSerial[i].sNum},
@@ -324,7 +325,7 @@ async function ctl_stock(){
 						// accessorieSerial: {value: ''},
 						// sState: {value: ''},
 						// macaddress: {value: ''},
-						// mCode: sNums.shipInfo.deviceInfo[sinfo].mCode,
+						// mCode: sNum_mCode,
 						// sendDate: {value: ''},
 						// shipType: {value: ''},
 						// shipment: {value: ''},
@@ -338,9 +339,8 @@ async function ctl_stock(){
 						sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: 'newship', lastState: 'none'}
 					});
 					// 新規＆リサイクル分類し品目コード別出荷数を計算
-					let snCode=snRecord.mCode.value;
-					if(!shipData[checkSNstatus.shipStatus][snCode]) shipData[checkSNstatus.shipStatus][snCode] = {mCode: snCode, num: 0};
-					shipData[checkSNstatus.shipStatus][snCode].num += 1;
+					if(!shipData.newship[sNum_mCode.value]) shipData.newship[sNum_mCode.value] = {mCode: sNum_mCode.value, num: 0};
+					shipData.newship[sNum_mCode.value].num += 1;
 					// 処理済みシリアル数をカウント
 					processedNum += 1;
 				}
