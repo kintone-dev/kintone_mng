@@ -179,12 +179,185 @@ async function ctl_stock(){
 	let result={};
 	return result;
 }
-async function check_sNum(sNums, shipType, shipInfo){
-	let result={};
-	let records=await getRecords({
-		app: sysid.DEV.app_id.sNum,
-		filterCond: 'sNum in ("'+sNums.join('","')+'")'
-	});
+
+/**
+ * シリアル番号状態に基づく情報記録
+ * @param {string} checkType
+ *   - newship, recycle, auto
+ * @param {object} sNums
+ *  - let sNums={
+ *  -   serial:{
+ *  -     tests01: {sNum: 'tests01', sInfo: 0},
+ *  -     tests02: {sNum: 'tests02', sInfo: 0},
+ *  -     tests04: {sNum: 'tests04', sInfo: 1},
+ *  -     tests05: {sNum: 'tests05', sInfo: 1}
+ *  -   },
+ *  -   shipInfo: {
+ *  -     fCode: {value: ''},
+ *  -     deviceInfo:[
+ *  -       {mCode: {value: 'code1'}, memo:{ value: 'text'}},
+ *  -       {mCode: {value: 'code2'}, memo:{ value: 'texttt'}}
+ *  -       ]
+ *  -   }
+ *  - };
+ * @returns response
+ * @author Jay
+ */
+ async function ctl_sNum(checkType, sNums){
+	console.log('start Serial control');
+  // シリアル番号Jsonを配列に変更
+  let sNumsSerial = Object.values(sNums.serial);
+	// パラメータエラー確認
+	if(sNumsSerial.length==0) return {result: false, error:  {target: '', code: 'sn_nosnum'}};
+	if(!checkType.match(/newship|recycle|auto/) || checkType) return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
+	if(sNums.shipInfo) return {result: false, error:  {target: '', code: 'sn_noshininfo'}};
+	let result = {};
+	// シリアル重複チェック
+	let dc = new Set(sNumsSerial);
+  if(dc.size == sNumsSerial.length){
+		// リクエストしたシリアル数と処理ずみシリアル数を比較するためのパラメータ
+		let processedNum=0;
+    // シリアル配列からquery用テキスト作成
+    let sNum_queryText=null;
+    for(let i in sNumsSerial){
+      if(sNum_queryText==null) sNum_queryText = '"'+sNumsSerial[i].sNum+'"';
+      else sNum_queryText += ',"' + sNumsSerial[i].sNum + '"';
+    }
+		// 入力シリアル番号のレコード情報取得
+    let snRecords = (await getRecords({app: sysid.DEV.app_id.sNum, filterCond: 'sNum in (' + sNum_queryText + ')'})).records;
+		// シリアル番号更新データ作成
+		let updateBody={
+			app:sysid.DEV.app_id.sNum,
+			records:[]
+		}
+		// シリアル番号新規データ作成
+		let createBody={
+			app:sysid.DEV.app_id.sNum,
+			records:[]
+		}
+		// 出荷数初期化
+		let shipData={
+			newship:{},
+			recycle:{}
+		};
+		// 既存のシリアル番号で出荷可能可否を確認し、更新用bodyを作成する
+		for(let i in snRecords){
+			let snRecord=snRecords[i];
+			// 製品状態が出荷可能かチェック
+			let checkSNstatus = {booblean: new Boolean(), checkType: null};
+			if(checkType == 'newship' && snRecord.sState.value == '正常品') checkSNstatus={booblean: true, shipStatus: 'newship'};
+			else if(checkType == 'recycle' && snRecord.sState.value == '再生品') checkSNstatus={booblean: true, shipStatus: 'recycle'};
+			else if(checkType == 'auto' && snRecord.sState.value == '正常品') checkSNstatus={booblean: true, shipStatus: 'newship'};
+			else if(checkType == 'auto' && snRecord.sState.value == '再生品') checkSNstatus={booblean: true, shipStatus: 'recycle'};
+			else{
+				result = {result: false,  error: {target: snRecords.sNum.value, code: 'sn_cannotuse'}};
+				break;
+			}
+			// 出荷ロケチェック
+			let checkSNshipment = new Boolean();
+			// if(snRecord.shipment.value == shipInfo.shipment.value) checkSNshipment = true;
+			checkSNshipment = snRecord.shipment.value == sNums.shipInfo.shipment.value
+			// 実行可能か総合チェック
+			let executable = new Boolean();
+			executable = checkSNstatus.booblean  && checkSNshipment;
+			if(executable){
+				// putBodyにレコードデータを格納
+				updateBody.records.push({
+					id: snRecord.$id.value,
+					record: {
+						sState: {value: '使用中'},
+						shipinfo: 'Ship Information Data',//tmp
+						// sendDate: sNums.shipInfo.sendDate
+						// shipType: sNums.shipInfo.shipType,
+						// instName: sNums.shipInfo.instName,
+						// pkgid: sNums.shipInfo.pkgid,
+						// receiver: sNums.shipInfo.receiver,
+						// warranty_startDate: sNums.shipInfo.warranty_startDate,
+						// sys_obj_sn: {fromAppId: sNums.shipInfo.sendAppId.value, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: snRecord.sState.value}
+						sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: '正常品'}
+					}
+				});
+				// 新規＆リサイクル分類し品目コード別出荷数を計算
+				let snCode=snRecord.mCode.value;
+				if(!shipData[checkSNstatus.shipStatus][snCode]) shipData[checkSNstatus.shipStatus][snCode] = {mCode: snCode, num: 0};
+				shipData[checkSNstatus.shipStatus][snCode].num += 1;
+				// sNumsから既存シリアル削除
+				// sNums.splice(sNums.indexOf(snRecord.sNum.value), 1);
+        delete sNums.serial[snRecord.sNum.value]
+
+				// 処理済みシリアル数をカウント
+				processedNum += 1;
+			}
+		}
+		// sNumsに未処理データがある場合か
+    let sNumsSerial_remaining = Object.values(sNums.serial);
+		if(sNumsSerial_remaining.length>0){
+			if(checkType == 'recycle'){
+				result = {result: false,  error: {target: sNumsSerial_remaining[0].sNum, code: 'sn_cannotuse'}};
+			}else{
+				for(let i in sNumsSerial_remaining){
+					let sinfo = sNums.serial[sNumsSerial_remaining[0].sNum].sInfo;
+					// postBodyにレコードデータを格納
+					createBody.records.push({
+						sNum: {value: sNumsSerial[i].sNum},
+						sState: {value: '使用中'},
+						shipinfo: 'Ship Information Data',//tmp
+						// sendDate: sNums.shipInfo.sendDate,
+						// shipType: sNums.shipInfo.shipType,
+						// instName: sNums.shipInfo.instName,
+						// pkgid: sNums.shipInfo.pkgid,
+						// receiver: sNums.shipInfo.receiver,
+						// warranty_startDate: sNums.shipInfo.warranty_startDate,
+
+						// accessorieSerial: {value: ''},
+						// sState: {value: ''},
+						// macaddress: {value: ''},
+						// mCode: sNums.shipInfo.deviceInfo[sinfo].mCode,
+						// sendDate: {value: ''},
+						// shipType: {value: ''},
+						// shipment: {value: ''},
+						// instName: {value: ''},
+						// pkgid: {value: ''},
+						// receiver: {value: ''},
+						// warranty_startDate: {value: ''},
+						// use_stopDate: {value: ''},
+						// use_endDate: {value: ''},
+						// sys_obj_sn: {fromAppId: sNums.shipInfo.sendApp.value, checkType: checkType, shipStatus: 'newship', lastState: 'none'}
+						sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: 'newship', lastState: 'none'}
+					});
+					// 新規＆リサイクル分類し品目コード別出荷数を計算
+					let snCode=snRecord.mCode.value;
+					if(!shipData[checkSNstatus.shipStatus][snCode]) shipData[checkSNstatus.shipStatus][snCode] = {mCode: snCode, num: 0};
+					shipData[checkSNstatus.shipStatus][snCode].num += 1;
+					// 処理済みシリアル数をカウント
+					processedNum += 1;
+				}
+			}
+		}
+		console.log(Object.values(shipData.newship).length);
+		console.log(Object.values(shipData.recycle).length);
+		let checkSNfinal = new Boolean();
+		checkSNfinal = result.result != false && sNumsSerial.length == processedNum;
+		if(checkSNfinal){
+			// 処理結果書き込み
+			let response_PUT={};
+			let response_POST={};
+			// response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
+			// if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
+			// 返却データ作成
+			result = {
+				result: true,
+				apiData:{
+					create: {requestBody: createBody, response: response_POST},
+					update: {requestBody: updateBody, response: response_PUT}
+				},
+				shipData: shipData
+			}
+		}
+  }else{
+    result = {result: false, error:  {target: '', code: 'sn_overlapping'}}
+  }
+	console.log('end Serial control');
 	return result;
 }
 
@@ -2602,7 +2775,7 @@ function krtSetting() {
 	var mw = mWindow();
 	mw.contents.innerHTML = '<p>カーテンレール設定</p>' +
 		'<div class="krtInput"><label>カーテンレール全長(mm)：<input type="text" class="length"></label></div>' +
-		'<div class="krtInput">開き勝手：<label class="radioLabel">(S)片開き<input type="radio" value="(S)片開き" name="openType" checked></label><label class="radioLabel">(W)両開き<input type="radio" value="(W)両開き" name="openType"></label><select name="openDetail"><option>開く方向を選択してください。</option><option>左に開ける</option><option>右に開ける</option></select></div>' +
+		'<div class="krtInput">開き勝手：<label class="radioLabel">(W)両開き<input type="radio" value="(W)両開き" name="openType"></label><label class="radioLabel">(S)片開き<input type="radio" value="(S)片開き" name="openType" checked></label><select name="openDetail"><option>開く方向を選択してください。</option><option>左に開ける</option><option>右に開ける</option></select></div>' +
 		'<div class="krtInput">取り付け方法：<label class="radioLabel">天井<input type="radio" value="天井" name="methodType" checked></label><label class="radioLabel">壁付S<input type="radio" value="壁付S" name="methodType"></label><label class="radioLabel">壁付W<input type="radio" value="壁付W" name="methodType"></label></div>' +
 		'<button id="krtSetBtn">登録</button>';
 	$('#mwFrame').fadeIn();
