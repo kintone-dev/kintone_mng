@@ -268,8 +268,11 @@ async function ctl_stock(){
 			}
 			// 出荷ロケチェック
 			let checkSNshipment = new Boolean();
-			// if(snRecord.shipment.value == shipInfo.shipment.value) checkSNshipment = true;
-			checkSNshipment = snRecord.shipment.value == sNums.shipInfo.shipment.value
+			if(snRecord.shipment.value == sNums.shipInfo.shipment.value) checkSNshipment = true;
+			else{
+				console.log('end Serial control');
+				return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_wrongshipment'}};
+			}
 			// 実行可能か総合チェック
 			let executable = new Boolean();
 			executable = checkSNstatus.booblean  && checkSNshipment;
