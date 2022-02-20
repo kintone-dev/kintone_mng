@@ -308,7 +308,7 @@ async function ctl_stock(){
 				return {result: false,  error: {target: sNumsSerial_remaining[0].sNum, code: 'sn_cannotuse'}};
 			}else{
 				for(let i in sNumsSerial_remaining){
-					let sinfo = sNums.serial[sNumsSerial_remaining[0].sNum].sInfo;
+					let sinfo = sNums.serial[sNumsSerial_remaining[i].sNum].sInfo;
 					console.log('sinfo');
 					console.log(sinfo);
 					let sNum_mCode = sNums.shipInfo.deviceInfo[sinfo].mCode;
@@ -345,6 +345,7 @@ async function ctl_stock(){
 					// 新規＆リサイクル分類し品目コード別出荷数を計算
 					if(!shipData.newship[sNum_mCode.value]) shipData.newship[sNum_mCode.value] = {mCode: sNum_mCode.value, num: 0};
 					shipData.newship[sNum_mCode.value].num += 1;
+					console.log('shipData');
 					console.log(shipData);
 					// 処理済みシリアル数をカウント
 					processedNum += 1;
