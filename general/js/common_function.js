@@ -210,10 +210,18 @@ async function ctl_stock(){
 	// 返却データ初期化
 	let result = {};
 	// パラメータエラー確認
-	if(sNumsSerial.length==0) return {result: false, error:  {target: '', code: 'sn_nosnum'}};
-	// if(!checkType.match(/newship|recycle|auto/) || checkType) return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
-	if(!checkType.match(/newship|recycle|auto/)) return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
-	if(sNums.shipInfo) return {result: false, error:  {target: '', code: 'sn_noshininfo'}};
+	if(sNumsSerial.length==0){
+		console.log('end Serial control');
+		return {result: false, error:  {target: '', code: 'sn_nosnum'}};
+	}
+	if(!checkType.match(/newship|recycle|auto/)){
+		console.log('end Serial control');
+		return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
+	}
+	if(!sNums.shipInfo){
+		console.log('end Serial control');
+		return {result: false, error:  {target: '', code: 'sn_noshininfo'}};
+	}
 	// シリアル重複チェック
 	let dc = new Set(sNumsSerial);
   if(dc.size == sNumsSerial.length){
@@ -252,6 +260,7 @@ async function ctl_stock(){
 			else if(checkType == 'auto' && snRecord.sState.value == '正常品') checkSNstatus={booblean: true, shipStatus: 'newship'};
 			else if(checkType == 'auto' && snRecord.sState.value == '再生品') checkSNstatus={booblean: true, shipStatus: 'recycle'};
 			else{
+				console.log('end Serial control');
 				return {result: false,  error: {target: snRecords.sNum.value, code: 'sn_cannotuse'}};
 				// break;
 			}
@@ -295,6 +304,7 @@ async function ctl_stock(){
     let sNumsSerial_remaining = Object.values(sNums.serial);
 		if(sNumsSerial_remaining.length>0){
 			if(checkType == 'recycle'){
+				console.log('end Serial control');
 				return {result: false,  error: {target: sNumsSerial_remaining[0].sNum, code: 'sn_cannotuse'}};
 			}else{
 				for(let i in sNumsSerial_remaining){
@@ -357,6 +367,7 @@ async function ctl_stock(){
 			}
 		}
   }else{
+		console.log('end Serial control');
     return {result: false, error:  {target: '', code: 'sn_overlapping'}}
   }
 	console.log('end Serial control');
