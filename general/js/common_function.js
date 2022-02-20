@@ -254,6 +254,7 @@ async function ctl_stock(){
 		// 既存のシリアル番号で出荷可能可否を確認し、更新用bodyを作成する
 		for(let i in snRecords){
 			let snRecord=snRecords[i];
+			console.log(snRecord);
 			// 製品状態が出荷可能かチェック
 			let checkSNstatus = {booblean: new Boolean(), checkType: null};
 			if(checkType == 'newship' && snRecord.sState.value == '正常品') checkSNstatus={booblean: true, shipStatus: 'newship'};
