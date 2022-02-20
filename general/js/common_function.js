@@ -277,15 +277,15 @@ async function ctl_stock(){
 					id: snRecord.$id.value,
 					record: {
 						sState: {value: '使用中'},
-						shipinfo: 'Ship Information Data',//tmp
-						// sendDate: sNums.shipInfo.sendDate
-						// shipType: sNums.shipInfo.shipType,
-						// instName: sNums.shipInfo.instName,
-						// pkgid: sNums.shipInfo.pkgid,
-						// receiver: sNums.shipInfo.receiver,
-						// warranty_startDate: sNums.shipInfo.warranty_startDate,
-						// sys_obj_sn: {fromAppId: sNums.shipInfo.sendAppId.value, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: snRecord.sState.value}
-						sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: '正常品'}
+						// shipinfo: 'Ship Information Data',//tmp
+						sendDate: {value: ''},
+						shipType: {value: ''},
+						instName: {value: ''},
+						pkgid: sNums.shipInfo.pkgid,
+						receiver: {value: ''},
+						warranty_startDate: {value: ''},
+						sys_obj_sn: {fromApp: sNums.shipInfo.sendAppId.value, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: snRecord.sState.value}
+						// sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: '正常品'}
 					}
 				});
 				// 新規＆リサイクル分類し品目コード別出荷数を計算
@@ -314,7 +314,7 @@ async function ctl_stock(){
 					createBody.records.push({
 						sNum: {value: sNumsSerial[i].sNum},
 						sState: {value: '使用中'},
-						shipinfo: 'Ship Information Data',//tmp
+						// shipinfo: 'Ship Information Data',//tmp
 						// sendDate: sNums.shipInfo.sendDate,
 						// shipType: sNums.shipInfo.shipType,
 						// instName: sNums.shipInfo.instName,
@@ -322,21 +322,20 @@ async function ctl_stock(){
 						// receiver: sNums.shipInfo.receiver,
 						// warranty_startDate: sNums.shipInfo.warranty_startDate,
 
-						// accessorieSerial: {value: ''},
-						// sState: {value: ''},
-						// macaddress: {value: ''},
-						// mCode: sNum_mCode,
-						// sendDate: {value: ''},
-						// shipType: {value: ''},
-						// shipment: {value: ''},
-						// instName: {value: ''},
-						// pkgid: {value: ''},
-						// receiver: {value: ''},
-						// warranty_startDate: {value: ''},
-						// use_stopDate: {value: ''},
-						// use_endDate: {value: ''},
-						// sys_obj_sn: {fromAppId: sNums.shipInfo.sendApp.value, checkType: checkType, shipStatus: 'newship', lastState: 'none'}
-						sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: 'newship', lastState: 'none'}
+						accessorieSerial: {value: ''},
+						macaddress: {value: ''},
+						mCode: sNum_mCode,
+						sendDate: {value: ''},
+						shipType: {value: ''},
+						shipment: sNums.shipInfo.shipment,
+						instName: {value: ''},
+						pkgid: sNums.shipInfo.pkgid,
+						receiver: {value: ''},
+						warranty_startDate: {value: ''},
+						use_stopDate: {value: ''},
+						use_endDate: {value: ''},
+						sys_obj_sn: {fromApp: sNums.shipInfo.sendApp.value, checkType: checkType, shipStatus: 'newship', lastState: 'none'}
+						// sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: 'newship', lastState: 'none'}
 					});
 					// 新規＆リサイクル分類し品目コード別出荷数を計算
 					if(!shipData.newship[sNum_mCode.value]) shipData.newship[sNum_mCode.value] = {mCode: sNum_mCode.value, num: 0};
