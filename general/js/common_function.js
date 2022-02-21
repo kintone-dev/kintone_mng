@@ -263,7 +263,7 @@ async function ctl_stock(){
 				console.log('stop Serial control');
 				return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_cannotuse'}};
 			}
-			// 出荷ロケチェック
+			// 出荷ロケーションチェック
 			let checkSNshipment = new Boolean();
 			if(snRecord.shipment.value == sNums.shipInfo.shipment.value) checkSNshipment = true;
 			else{
@@ -280,12 +280,12 @@ async function ctl_stock(){
 					record: {
 						sState: {value: '使用中'},
 						// shipinfo: 'Ship Information Data',//tmp
-						sendDate: {value: ''},
-						shipType: {value: ''},
-						instName: {value: ''},
+						sendDate: sNums.shipInfo.sendDate,
+						shipType: sNums.shipInfo.shipType,
+						instName: sNums.shipInfo.instName,
 						pkgid: sNums.shipInfo.pkgid,
-						receiver: {value: ''},
-						warranty_startDate: {value: ''},
+						receiver: sNums.shipInfo.receiver,
+						warranty_startDate: sNums.shipInfo.warranty_startDate,
 						sys_obj_sn: {fromAppId: sNums.shipInfo.sendApp, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: snRecord.sState.value}
 						// sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: '正常品'}
 					}
@@ -348,7 +348,7 @@ async function ctl_stock(){
 			}
 		}
 		let checkSNfinal = new Boolean();
-		checkSNfinal = result.result != false && sNumsSerial.length == processedNum;
+		checkSNfinal = sNumsSerial.length == processedNum;
 		if(checkSNfinal){
 			// 処理結果書き込み
 			let response_PUT={};
