@@ -204,6 +204,8 @@ function create_sNumsInfo_ship(shipRecord, snTableName){
   let snumsInfo = {
     serial: {},
     shipInfo: {
+			sendApp: kintone.app.getId(),
+			sendRecordId: kintone.app.record.getId(),
       sendDate: {value: shipRecord.sendDate.value},
       shipType: {value: shipRecord.shipType.value},
       shipment: {value: shipRecord.shipment.value},
@@ -324,7 +326,7 @@ function create_sNumsInfo_ship(){}
 			return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_wrongshipment'}};
 		}
 		// putBodyにレコードデータを格納
-		updateBody.records.push({
+		let set_updateRecord={
 			id: snRecord.$id.value,
 			record: {
 				sState: {value: '使用中'},
@@ -335,10 +337,18 @@ function create_sNumsInfo_ship(){}
 				pkgid: sNums.shipInfo.pkgid,
 				receiver: sNums.shipInfo.receiver,
 				warranty_startDate: sNums.shipInfo.warranty_startDate,
-				sys_obj_sn: {fromAppId: sNums.shipInfo.sendApp, checkType: checkType, checkSNstatus: checkSNstatus, lastState: snRecord.sState.value}
-				// sys_obj_sn: {fromApp: 9999, checkType: checkType, checkSNstatus: checkSNstatus, lastState: '新品'}
+				sys_history: snRecord.sys_history.value
+			}
+		};
+		set_updateRecord.record.sys_history.value.push({
+			value:{
+				sys_history_obj: {
+					value: JSON.stringify({fromAppId: sNums.shipInfo.sendApp, checkType: checkType, checkSNstatus: checkSNstatus, lastState: snRecord.sState.value})
+				}
 			}
 		});
+
+		updateBody.records.push();
 		// 新規＆リサイクル分類し品目コード別出荷数を計算
 		let snCode=snRecord.mCode.value;
 		if(!shipData[checkSNstatus][snCode]) shipData[checkSNstatus][snCode] = {mCode: snCode, num: 0};
@@ -363,26 +373,23 @@ function create_sNumsInfo_ship(){}
 			createBody.records.push({
 				sNum: {value: sNumsSerial[i].sNum},
 				sState: {value: '使用中'},
-				// shipinfo: 'Ship Information Data',//tmp
-				// sendDate: sNums.shipInfo.sendDate,
-				// shipType: sNums.shipInfo.shipType,
-				// instName: sNums.shipInfo.instName,
-				// pkgid: sNums.shipInfo.pkgid,
-				// receiver: sNums.shipInfo.receiver,
-				// warranty_startDate: sNums.shipInfo.warranty_startDate,
 				accessorieSerial: {value: ''},
 				macaddress: {value: ''},
 				mCode: sNum_mCode,
-				sendDate: {value: ''},
-				shipType: {value: ''},
+				sendDate: sNums.shipInfo.sendDate,
+				shipType: sNums.shipInfo.shipType,
 				shipment: sNums.shipInfo.shipment,
-				instName: {value: ''},
+				instName: sNums.shipInfo.instName,
 				pkgid: sNums.shipInfo.pkgid,
-				receiver: {value: ''},
-				warranty_startDate: {value: ''},
+				receiver: sNums.shipInfo.receiver,
+				warranty_startDate: sNums.shipInfo.warranty_startDate,
 				use_stopDate: {value: ''},
 				use_endDate: {value: ''},
-				sys_obj_sn: {fromAppId: sNums.shipInfo.sendApp, checkType: checkType, checkSNstatus: 'newship', lastState: 'none'}
+				sys_history: {
+					value: [
+						{value: {sys_history_obj: {value: JSON.stringify({fromAppId: sNums.shipInfo.sendApp, checkType: checkType, checkSNstatus: 'newship', lastState: 'none'})}}}
+					]
+				}
 				// sys_obj_sn: {fromApp: 9999, checkType: checkType, checkSNstatus: 'newship', lastState: 'none'}
 			});
 			// 新規＆リサイクル分類し品目コード別出荷数を計算
@@ -398,8 +405,8 @@ function create_sNumsInfo_ship(){}
 		// 処理結果書き込み
 		let response_PUT={};
 		let response_POST={};
-		// if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
-		// if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
+		if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
+		if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
 		// 処理終了
 		console.log('end Serial control');
 		return {
