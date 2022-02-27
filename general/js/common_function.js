@@ -200,47 +200,47 @@ async function ctl_stock(){
 
 function create_sNumsInfo_ship(shipRecord, snTableName){
 	console.log('start construction Serial Number Data');
-	// 出荷情報を取得
-	let snumsInfo = {
-		serial: {},
-		shipInfo: {
-			sendDate: {value: shipRecord.sendDate.value},
-			shipType: {value: shipRecord.shipType.value},
-			shipment: {value: shipRecord.shipment.value},
-			// orgName: {value: ''},
-			instName: {value: shipRecord.instName.value},
-			receiver: {value: shipRecord.instName.value},
-			warranty_startDate: {value: shipRecord.sendDate.value},
-			// warranty_period: {value: ''},
-			// warranty_endDate: {value: ''},
-			// toastcam_bizUserId: {value: ''},
-			// churn_type: {value: ''},
-			// use_stopDate: {value: ''},
-			// use_endDate: {value: ''},
-			pkgid: {value: kintone.app.getId()-kintone.app.record.getId()},
-			deviceInfo: []
-		}
-	};
-	// シリアル情報取得＆再作成
-	let snTableValue = shipRecord[snTableName].value;
-	for(let i in snTableValue){
-		// 製品情報処理
-		snumsInfo.shipInfo.deviceInfo.push({
-			mCode: {value: snTableValue[i].value.mCode.value},
-			shipNum: {value: snTableValue[i].value.shipNum.value},
-			shipRemarks: {value: snTableValue[i].value.shipRemarks.value},
-		});
-		// シリアル情報処理
-		let snArray = (snTableValue[i].value.sNum.value).split(/\r\n|\n/);
-		snArray.forEach(function(snum){
-			snumsInfo.serial[snum]={sNum: snum, sInfo: i};
-		});
-		for(let y in snArray){
-			snumsInfo.serial[snArray[y]]={sNum: snArray[y], sInfo: i};
-		}
-	}
-	console.log(snumsInfo);
-	console.log('end construction Serial Number Data');
+  // 出荷情報を取得
+  let snumsInfo = {
+    serial: {},
+    shipInfo: {
+      sendDate: {value: shipRecord.sendDate.value},
+      shipType: {value: shipRecord.shipType.value},
+      shipment: {value: shipRecord.shipment.value},
+      // orgName: {value: ''},
+      instName: {value: shipRecord.instName.value},
+      receiver: {value: shipRecord.instName.value},
+      warranty_startDate: {value: shipRecord.sendDate.value},
+      // warranty_period: {value: ''},
+      // warranty_endDate: {value: ''},
+      // toastcam_bizUserId: {value: ''},
+      // churn_type: {value: ''},
+      // use_stopDate: {value: ''},
+      // use_endDate: {value: ''},
+      pkgid: {value: kintone.app.getId()+'-'+kintone.app.record.getId()},
+      deviceInfo: []
+    }
+  };
+  // シリアル情報取得＆再作成
+  let snTableValue = shipRecord[snTableName].value;
+  for(let i in snTableValue){
+    // 製品情報処理
+    snumsInfo.shipInfo.deviceInfo.push({
+      mCode: {value: snTableValue[i].value.mCode.value},
+      shipNum: {value: snTableValue[i].value.shipNum.value},
+      shipRemarks: {value: snTableValue[i].value.shipRemarks.value},
+    });
+    // シリアル情報処理
+    let snArray = (snTableValue[i].value.sNum.value).split(/\r\n|\n/);
+    snArray.forEach(function(snum){
+      snumsInfo.serial[snum]={sNum: snum, sInfo: i};
+    });
+    for(let y in snArray){
+      snumsInfo.serial[snArray[y]]={sNum: snArray[y], sInfo: i};
+    }
+  }
+  console.log(snumsInfo);
+  console.log('end construction Serial Number Data');
 	return snumsInfo;
 }
 
