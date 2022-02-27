@@ -241,7 +241,7 @@ function create_sNumsInfo_ship(shipRecord, snTableName){
 	}
 	console.log(snumsInfo);
 	console.log('end construction Serial Number Data');
-	return snumsInfo
+	return snumsInfo;
 }
 
 
