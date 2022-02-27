@@ -23,6 +23,23 @@ function getServerDate() {
 }
 
 /**
+ * formatDate
+ * @param {*} date 
+ * @param {*} format 
+ * @returns 
+ */
+function formatDate(date, format){
+  format = format.replace(/yyyy/g, date.getFullYear());
+  format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
+  format = format.replace(/dd/g, ('0' + date.getDate()).slice(-2));
+  format = format.replace(/HH/g, ('0' + date.getHours()).slice(-2));
+  format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
+  format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
+  format = format.replace(/SSS/g, ('00' + date.getMilliseconds()).slice(-3));
+  return format;
+};
+
+/**
  * サブテーブルの指定項目を編集不可にする
  * @param {*} event (json)
  * @param {*} tfCode (string) 編集不可対象サブテーブルのフィールドコード
@@ -180,6 +197,48 @@ async function ctl_stock(){
 	return result;
 }
 
+function create_sNumsInfo_ship(){
+	/*
+	let snumsInfo = {
+		serial:{
+			// 'BC34003210E8': {sNum: 'BC34003210E8', sInfo: 1},
+			// '20214007C0': {sNum: '20214007C0', sInfo: 1},
+			tests201: {sNum: 'tests201', sInfo: 0},
+			tests202: {sNum: 'tests202', sInfo: 0},
+			tests203: {sNum: 'tests203', sInfo: 0},
+			tests204: {sNum: 'tests204', sInfo: 1},
+			tests205: {sNum: 'tests205', sInfo: 1},
+			tests206: {sNum: 'tests206', sInfo: 1},
+			tests106: {sNum: 'tests106', sInfo: 1}
+		},
+		shipInfo: {
+			sendDate: {value: ''},
+			shipType: {value: ''},
+			shipment: {value: ''},
+			orgName: {value: ''},
+			instName: {value: ''},
+			receiver: {value: ''},
+			warranty_startDate: {value: ''},
+			warranty_period: {value: ''},
+			warranty_endDate: {value: ''},
+			toastcam_bizUserId: {value: ''},
+			churn_type: {value: ''},
+			use_stopDate: {value: ''},
+			use_endDate: {value: ''},
+			pkgid: {value: 'test_fieldcode'},
+			deviceInfo:[
+				{mCode: {value: 'LS151WH'}, memo:{ value: 'text'}},
+				{mCode: {value: 'LS090WH'}, memo:{ value: 'texttt'}},
+				]
+		}	
+	};
+	*/
+	return snumsInfo
+}
+
+
+function create_sNumsInfo_ship(){}
+
 /**
  * シリアル番号状態に基づく情報記録
  * @param {string} checkType
@@ -207,14 +266,12 @@ async function ctl_stock(){
 	console.log('start Serial control');
   // シリアル番号Jsonを配列に変更
   let sNumsSerial = Object.values(sNums.serial);
-	// 返却データ初期化
-	let callback = {};
 	// パラメータエラー確認
 	if(sNumsSerial.length==0){
 		console.log('stop Serial control');
 		return {result: false, error:  {target: '', code: 'sn_nosnum'}};
 	}
-	if(!checkType.match(/newship|recycle|auto/)){
+	if(!checkType.match(/newship|recycle|auto|internal|all/)){
 		console.log('stop Serial control');
 		return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
 	}
@@ -222,155 +279,132 @@ async function ctl_stock(){
 		console.log('stop Serial control');
 		return {result: false, error:  {target: '', code: 'sn_noshininfo'}};
 	}
-	// シリアル重複チェック
-	let dc = new Set(sNumsSerial);
-  if(dc.size == sNumsSerial.length){
-		// リクエストしたシリアル数と処理ずみシリアル数を比較するためのパラメータ
-		let processedNum=0;
-    // シリアル配列からquery用テキスト作成
-    let sNum_queryText=null;
-    for(let i in sNumsSerial){
-      if(sNum_queryText==null) sNum_queryText = '"'+sNumsSerial[i].sNum+'"';
-      else sNum_queryText += ',"' + sNumsSerial[i].sNum + '"';
-    }
-		// 入力シリアル番号のレコード情報取得
-    let snRecords = (await getRecords({app: sysid.DEV.app_id.sNum, filterCond: 'sNum in (' + sNum_queryText + ')'})).records;
-		// シリアル番号更新データ作成
-		let updateBody={
-			app:sysid.DEV.app_id.sNum,
-			records:[]
-		}
-		// シリアル番号新規データ作成
-		let createBody={
-			app:sysid.DEV.app_id.sNum,
-			records:[]
-		}
-		// 出荷数初期化
-		let shipData={
-			newship:{},
-			recycle:{}
-		};
-		// 既存のシリアル番号で出荷可能可否を確認し、更新用bodyを作成する
-		for(let i in snRecords){
-			let snRecord=snRecords[i];
-			// 製品状態が出荷可能かチェック
-			let checkSNstatus = {booblean: new Boolean(), checkType: null};
-			if(checkType == 'newship' && snRecord.sState.value == '正常品') checkSNstatus={booblean: true, shipStatus: 'newship'};
-			else if(checkType == 'recycle' && snRecord.sState.value == '再生品') checkSNstatus={booblean: true, shipStatus: 'recycle'};
-			else if(checkType == 'auto' && snRecord.sState.value == '正常品') checkSNstatus={booblean: true, shipStatus: 'newship'};
-			else if(checkType == 'auto' && snRecord.sState.value == '再生品') checkSNstatus={booblean: true, shipStatus: 'recycle'};
-			else{
-				console.log('stop Serial control');
-				return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_cannotuse'}};
-			}
-			// 出荷ロケーションチェック
-			let checkSNshipment = new Boolean();
-			if(snRecord.shipment.value == sNums.shipInfo.shipment.value) checkSNshipment = true;
-			else{
-				console.log('stop Serial control');
-				return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_wrongshipment'}};
-			}
-			// 実行可能か総合チェック
-			let executable = new Boolean();
-			executable = checkSNstatus.booblean  && checkSNshipment;
-			if(executable){//これ必要？
-				// putBodyにレコードデータを格納
-				updateBody.records.push({
-					id: snRecord.$id.value,
-					record: {
-						sState: {value: '使用中'},
-						// shipinfo: 'Ship Information Data',//tmp
-						sendDate: sNums.shipInfo.sendDate,
-						shipType: sNums.shipInfo.shipType,
-						instName: sNums.shipInfo.instName,
-						pkgid: sNums.shipInfo.pkgid,
-						receiver: sNums.shipInfo.receiver,
-						warranty_startDate: sNums.shipInfo.warranty_startDate,
-						sys_obj_sn: {fromAppId: sNums.shipInfo.sendApp, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: snRecord.sState.value}
-						// sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: checkSNstatus.shipStatus, lastState: '正常品'}
-					}
-				});
-				// 新規＆リサイクル分類し品目コード別出荷数を計算
-				let snCode=snRecord.mCode.value;
-				if(!shipData[checkSNstatus.shipStatus][snCode]) shipData[checkSNstatus.shipStatus][snCode] = {mCode: snCode, num: 0};
-				shipData[checkSNstatus.shipStatus][snCode].num += 1;
-				// sNumsから既存シリアル削除
-				// sNums.splice(sNums.indexOf(snRecord.sNum.value), 1);
-        delete sNums.serial[snRecord.sNum.value]
-
-				// 処理済みシリアル数をカウント
-				processedNum += 1;
-			}
-		}
-		// sNumsに未処理データがあるか否か
-    let sNumsSerial_remaining = Object.values(sNums.serial);
-		if(sNumsSerial_remaining.length>0){
-			if(checkType == 'recycle'){
-				console.log('stop Serial control');
-				return {result: false,  error: {target: sNumsSerial_remaining[0].sNum, code: 'sn_cannotuse'}};
-			}else{
-				for(let i in sNumsSerial_remaining){
-					let sinfo = sNums.serial[sNumsSerial_remaining[i].sNum].sInfo;
-					let sNum_mCode = sNums.shipInfo.deviceInfo[sinfo].mCode;
-					// postBodyにレコードデータを格納
-					createBody.records.push({
-						sNum: {value: sNumsSerial[i].sNum},
-						sState: {value: '使用中'},
-						// shipinfo: 'Ship Information Data',//tmp
-						// sendDate: sNums.shipInfo.sendDate,
-						// shipType: sNums.shipInfo.shipType,
-						// instName: sNums.shipInfo.instName,
-						// pkgid: sNums.shipInfo.pkgid,
-						// receiver: sNums.shipInfo.receiver,
-						// warranty_startDate: sNums.shipInfo.warranty_startDate,
-
-						accessorieSerial: {value: ''},
-						macaddress: {value: ''},
-						mCode: sNum_mCode,
-						sendDate: {value: ''},
-						shipType: {value: ''},
-						shipment: sNums.shipInfo.shipment,
-						instName: {value: ''},
-						pkgid: sNums.shipInfo.pkgid,
-						receiver: {value: ''},
-						warranty_startDate: {value: ''},
-						use_stopDate: {value: ''},
-						use_endDate: {value: ''},
-						sys_obj_sn: {fromAppId: sNums.shipInfo.sendApp, checkType: checkType, shipStatus: 'newship', lastState: 'none'}
-						// sys_obj_sn: {fromApp: 9999, checkType: checkType, shipStatus: 'newship', lastState: 'none'}
-					});
-					// 新規＆リサイクル分類し品目コード別出荷数を計算
-					if(!shipData.newship[sNum_mCode.value]) shipData.newship[sNum_mCode.value] = {mCode: sNum_mCode.value, num: 0};
-					shipData.newship[sNum_mCode.value].num += 1;
-					// 処理済みシリアル数をカウント
-					processedNum += 1;
-				}
-			}
-		}
-		let checkSNfinal = new Boolean();
-		checkSNfinal = sNumsSerial.length == processedNum;
-		if(checkSNfinal){
-			// 処理結果書き込み
-			let response_PUT={};
-			let response_POST={};
-			if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
-			if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
-			// 返却データ作成
-			callback = {
-				result: true,
-				apiData:{
-					create: {requestBody: createBody, response: response_POST},
-					update: {requestBody: updateBody, response: response_PUT}
-				},
-				shipData: shipData
-			}
-		}
-  }else{
-		console.log('stop Serial control');
-    return {result: false, error:  {target: '', code: 'sn_overlapping'}}
+	// リクエストしたシリアル数と処理ずみシリアル数を比較するためのパラメータ
+	let processedNum=0;
+  // シリアル配列からquery用テキスト作成
+  let sNum_queryText=null;
+  for(let i in sNumsSerial){
+    if(sNum_queryText==null) sNum_queryText = '"'+sNumsSerial[i].sNum+'"';
+    else sNum_queryText += ',"' + sNumsSerial[i].sNum + '"';
   }
-	console.log('end Serial control');
-	return callback;
+	// 入力シリアル番号のレコード情報取得
+  let snRecords = (await getRecords({app: sysid.DEV.app_id.sNum, filterCond: 'sNum in (' + sNum_queryText + ')'})).records;
+	// シリアル管理更新データ、シリアル管理新規データ、製品状態別各品目の出荷数
+	let updateBody={app:sysid.DEV.app_id.sNum, records:[]}
+	let createBody={app:sysid.DEV.app_id.sNum, records:[]}
+	let shipData={newship:{}, recycle:{}};
+	// 既存のシリアル番号で出荷可能可否を確認し、更新用bodyを作成する
+	for(let i in snRecords){
+		let snRecord=snRecords[i];
+		// 製品状態が出荷可能かチェック
+		// let checkSNstatus = {booblean: new Boolean(), checkType: null};
+		let checkSNstatus = null;
+		if(checkType == 'newship' && snRecord.sState.value == '新品') checkSNstatus = 'newship';
+		else if(checkType == 'recycle' && snRecord.sState.value == '再生品') checkSNstatus = 'recycle';
+		else if(checkType == 'auto' && snRecord.sState.value == '新品') checkSNstatus = 'newship';
+		else if(checkType == 'auto' && snRecord.sState.value == '再生品') checkSNstatus = 'recycle';
+		else if(checkType == 'internal' && snRecord.sState.value == '再生品'){}
+		else{
+			console.log('stop Serial control');
+			return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_cannotuse'}};
+		}
+		// 出荷ロケーションチェック
+		let checkSNshipment = new Boolean();
+		if(snRecord.shipment.value == sNums.shipInfo.shipment.value) checkSNshipment = true;
+		else{
+			console.log('stop Serial control');
+			return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_wrongshipment'}};
+		}
+		// putBodyにレコードデータを格納
+		updateBody.records.push({
+			id: snRecord.$id.value,
+			record: {
+				sState: {value: '使用中'},
+				// shipinfo: 'Ship Information Data',//tmp
+				sendDate: sNums.shipInfo.sendDate,
+				shipType: sNums.shipInfo.shipType,
+				instName: sNums.shipInfo.instName,
+				pkgid: sNums.shipInfo.pkgid,
+				receiver: sNums.shipInfo.receiver,
+				warranty_startDate: sNums.shipInfo.warranty_startDate,
+				sys_obj_sn: {fromAppId: sNums.shipInfo.sendApp, checkType: checkType, checkSNstatus: checkSNstatus, lastState: snRecord.sState.value}
+				// sys_obj_sn: {fromApp: 9999, checkType: checkType, checkSNstatus: checkSNstatus, lastState: '新品'}
+			}
+		});
+		// 新規＆リサイクル分類し品目コード別出荷数を計算
+		let snCode=snRecord.mCode.value;
+		if(!shipData[checkSNstatus][snCode]) shipData[checkSNstatus][snCode] = {mCode: snCode, num: 0};
+		shipData[checkSNstatus][snCode].num += 1;
+		// sNumsから既存シリアル削除
+		// sNums.splice(sNums.indexOf(snRecord.sNum.value), 1);
+    delete sNums.serial[snRecord.sNum.value]
+		// 処理済みシリアル数をカウント
+		processedNum += 1;
+	}
+	// sNumsに未処理データがあるか否か
+  let sNumsSerial_remaining = Object.values(sNums.serial);
+	if(sNumsSerial_remaining.length>0){
+		if(checkType == 'recycle'){
+			console.log('stop Serial control');
+			return {result: false,  error: {target: sNumsSerial_remaining[0].sNum, code: 'sn_cannotuse'}};
+		}
+		for(let i in sNumsSerial_remaining){
+			let sinfo = sNums.serial[sNumsSerial_remaining[i].sNum].sInfo;
+			let sNum_mCode = sNums.shipInfo.deviceInfo[sinfo].mCode;
+			// postBodyにレコードデータを格納
+			createBody.records.push({
+				sNum: {value: sNumsSerial[i].sNum},
+				sState: {value: '使用中'},
+				// shipinfo: 'Ship Information Data',//tmp
+				// sendDate: sNums.shipInfo.sendDate,
+				// shipType: sNums.shipInfo.shipType,
+				// instName: sNums.shipInfo.instName,
+				// pkgid: sNums.shipInfo.pkgid,
+				// receiver: sNums.shipInfo.receiver,
+				// warranty_startDate: sNums.shipInfo.warranty_startDate,
+				accessorieSerial: {value: ''},
+				macaddress: {value: ''},
+				mCode: sNum_mCode,
+				sendDate: {value: ''},
+				shipType: {value: ''},
+				shipment: sNums.shipInfo.shipment,
+				instName: {value: ''},
+				pkgid: sNums.shipInfo.pkgid,
+				receiver: {value: ''},
+				warranty_startDate: {value: ''},
+				use_stopDate: {value: ''},
+				use_endDate: {value: ''},
+				sys_obj_sn: {fromAppId: sNums.shipInfo.sendApp, checkType: checkType, checkSNstatus: 'newship', lastState: 'none'}
+				// sys_obj_sn: {fromApp: 9999, checkType: checkType, checkSNstatus: 'newship', lastState: 'none'}
+			});
+			// 新規＆リサイクル分類し品目コード別出荷数を計算
+			if(!shipData.newship[sNum_mCode.value]) shipData.newship[sNum_mCode.value] = {mCode: sNum_mCode.value, num: 0};
+			shipData.newship[sNum_mCode.value].num += 1;
+			// 処理済みシリアル数をカウント
+			processedNum += 1;
+		}
+	}
+	let checkSNfinal = new Boolean();
+	checkSNfinal = sNumsSerial.length == processedNum;
+	if(checkSNfinal){
+		// 処理結果書き込み
+		let response_PUT={};
+		let response_POST={};
+		if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
+		if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
+		// 処理終了
+		console.log('end Serial control');
+		return {
+			result: true,
+			apiData:{
+				create: {requestBody: createBody, response: response_POST},
+				update: {requestBody: updateBody, response: response_PUT}
+			},
+			shipData: shipData
+		};
+	}
+	console.log('unknow error, Serial control');
+	return {result: false, error:  {target: '', code: 'sn_unknow'}};
 }
 
 
