@@ -24,9 +24,10 @@ function getServerDate() {
 
 /**
  * formatDate
- * @param {*} date 
- * @param {*} format 
- * @returns 
+ * @param {*} date
+ * @param {*} format
+ * @returns response
+ * @author TMI?
  */
 function formatDate(date, format){
   format = format.replace(/yyyy/g, date.getFullYear());
@@ -197,42 +198,49 @@ async function ctl_stock(){
 	return result;
 }
 
-function create_sNumsInfo_ship(){
-	/*
+function create_sNumsInfo_ship(shipRecord, snTableName){
+	console.log('start construction Serial Number Data');
+	// 出荷情報を取得
 	let snumsInfo = {
-		serial:{
-			// 'BC34003210E8': {sNum: 'BC34003210E8', sInfo: 1},
-			// '20214007C0': {sNum: '20214007C0', sInfo: 1},
-			tests201: {sNum: 'tests201', sInfo: 0},
-			tests202: {sNum: 'tests202', sInfo: 0},
-			tests203: {sNum: 'tests203', sInfo: 0},
-			tests204: {sNum: 'tests204', sInfo: 1},
-			tests205: {sNum: 'tests205', sInfo: 1},
-			tests206: {sNum: 'tests206', sInfo: 1},
-			tests106: {sNum: 'tests106', sInfo: 1}
-		},
+		serial: {},
 		shipInfo: {
-			sendDate: {value: ''},
-			shipType: {value: ''},
-			shipment: {value: ''},
-			orgName: {value: ''},
-			instName: {value: ''},
-			receiver: {value: ''},
-			warranty_startDate: {value: ''},
-			warranty_period: {value: ''},
-			warranty_endDate: {value: ''},
-			toastcam_bizUserId: {value: ''},
-			churn_type: {value: ''},
-			use_stopDate: {value: ''},
-			use_endDate: {value: ''},
-			pkgid: {value: 'test_fieldcode'},
-			deviceInfo:[
-				{mCode: {value: 'LS151WH'}, memo:{ value: 'text'}},
-				{mCode: {value: 'LS090WH'}, memo:{ value: 'texttt'}},
-				]
-		}	
+			sendDate: {value: shipRecord.sendDate.value},
+			shipType: {value: shipRecord.shipType.value},
+			shipment: {value: shipRecord.shipment.value},
+			// orgName: {value: ''},
+			instName: {value: shipRecord.instName.value},
+			receiver: {value: shipRecord.instName.value},
+			warranty_startDate: {value: shipRecord.sendDate.value},
+			// warranty_period: {value: ''},
+			// warranty_endDate: {value: ''},
+			// toastcam_bizUserId: {value: ''},
+			// churn_type: {value: ''},
+			// use_stopDate: {value: ''},
+			// use_endDate: {value: ''},
+			pkgid: {value: kintone.app.getId()-kintone.app.record.getId()},
+			deviceInfo: []
+		}
 	};
-	*/
+	// シリアル情報取得＆再作成
+	let snTableValue = shipRecord[snTableName].value;
+	for(let i in snTableValue){
+		// 製品情報処理
+		snumsInfo.shipInfo.deviceInfo.push({
+			mCode: {value: snTableValue[i].value.mCode.value},
+			shipNum: {value: snTableValue[i].value.shipNum.value},
+			shipRemarks: {value: snTableValue[i].value.shipRemarks.value},
+		});
+		// シリアル情報処理
+		let snArray = (snTableValue[i].value.sNum.value).split(/\r\n|\n/);
+		snArray.forEach(function(snum){
+			snumsInfo.serial[snum]={sNum: snum, sInfo: i};
+		});
+		for(let y in snArray){
+			snumsInfo.serial[snArray[y]]={sNum: snArray[y], sInfo: i};
+		}
+	}
+	console.log(snumsInfo);
+	console.log('end construction Serial Number Data');
 	return snumsInfo
 }
 
