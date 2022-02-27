@@ -337,7 +337,7 @@ function create_sNumsInfo_ship(){}
 				pkgid: sNums.shipInfo.pkgid,
 				receiver: sNums.shipInfo.receiver,
 				warranty_startDate: sNums.shipInfo.warranty_startDate,
-				sys_history: snRecord.sys_history.value
+				sys_history: snRecord.sys_history
 			}
 		};
 		set_updateRecord.record.sys_history.value.push({
@@ -348,7 +348,7 @@ function create_sNumsInfo_ship(){}
 			}
 		});
 
-		updateBody.records.push();
+		updateBody.records.push(set_updateRecord);
 		// 新規＆リサイクル分類し品目コード別出荷数を計算
 		let snCode=snRecord.mCode.value;
 		if(!shipData[checkSNstatus][snCode]) shipData[checkSNstatus][snCode] = {mCode: snCode, num: 0};
