@@ -456,9 +456,7 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 }
 
 
-async function ctl_stock(params){
-	// 拠点管理処理
-	// 商品管理処理
+async function ctl_stock(params, type){
 }
 
 async function ctl_report(params){
@@ -572,7 +570,7 @@ async function reportCtrl(event, appId) {
 		}
 	}
 
-	//製品名取得
+	// 製品名取得
 	var getDeviceBody = {
 		'app': sysid.INV.app_id.device,
 		'query': 'mCode in (' + getDevNameArray.join() + ')'
