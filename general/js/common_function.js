@@ -438,8 +438,8 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 		// 処理結果書き込み
 		let response_PUT={};
 		let response_POST={};
-		if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
-		if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
+		// if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
+		// if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
 		// 処理終了
 		console.log('end Serial control');
 		return {
@@ -455,13 +455,16 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 	return {result: false, error:  {target: '', code: 'sn_unknow'}};
 }
 
-async function ctl_stock(){
+
+async function ctl_stock(params){
+	// 拠点管理処理
+	// 商品管理処理
 }
 
-async function ctl_report(){
+async function ctl_report(params){
 }
 
-async function ctl_report_op_ass(){
+async function ctl_report_op_ass(params){
 }
 
 function api_kintone_POST(event, appid, fCodes){
