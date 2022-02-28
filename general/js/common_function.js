@@ -27,7 +27,7 @@ function getServerDate() {
  * @param {*} date
  * @param {*} format
  * @returns response
- * @author TMI?
+ * @author 
  */
 function formatDate(date, format){
   format = format.replace(/yyyy/g, date.getFullYear());
@@ -36,7 +36,6 @@ function formatDate(date, format){
   format = format.replace(/HH/g, ('0' + date.getHours()).slice(-2));
   format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
   format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
-  format = format.replace(/SSS/g, ('00' + date.getMilliseconds()).slice(-3));
   return format;
 };
 
@@ -198,9 +197,32 @@ async function ctl_stock(){
 	return result;
 }
 
-function create_sNumsInfo_ship(shipRecord, snTableName){
+/**
+ * レコードから出荷するシリアル番号とその詳細をjsonで再作成
+ * @param {*} shipRecord [event.record]
+ * @param {*} snTableName 
+ * @returns response
+ * @author Jay
+ * レスポンス例
+ *  - {
+ *  -   serial:{
+ *  -     tests01: {sNum: 'tests01', sInfo: 0},
+ *  -     tests02: {sNum: 'tests02', sInfo: 0},
+ *  -     tests04: {sNum: 'tests04', sInfo: 1},
+ *  -     tests05: {sNum: 'tests05', sInfo: 1}
+ *  -   },
+ *  -   shipInfo: {
+ *  -     fCode: {value: ''},
+ *  -     deviceInfo:[
+ *  -       {mCode: {value: 'code1'}, memo:{ value: 'text'}},
+ *  -       {mCode: {value: 'code2'}, memo:{ value: 'texttt'}}
+ *  -       ]
+ *  -   }
+ *  - }
+ */
+function renew_sNumsInfo_alship(shipRecord, snTableName){
 	console.log('start construction Serial Number Data');
-  // 出荷情報を取得
+  // 共通出荷情報を取得
   let snumsInfo = {
     serial: {},
     shipInfo: {
@@ -246,15 +268,19 @@ function create_sNumsInfo_ship(shipRecord, snTableName){
 	return snumsInfo;
 }
 
-
-function create_sNumsInfo_ship(){}
-
 /**
  * シリアル番号状態に基づく情報記録
  * @param {string} checkType
- *   - newship, recycle, auto
+ *  - newship			新品のみ出荷可能
+ *  - recycle			再生品のみ出荷可能
+ *  - auto				新品＆再生品出荷可能
+ *  - internal		「auto」＋社内用出荷可能
+ *  - all					全部出荷可能
  * @param {object} sNums
- *  - let sNums={
+ * @returns response
+ * @author Jay
+ * 入力例
+ *  - {
  *  -   serial:{
  *  -     tests01: {sNum: 'tests01', sInfo: 0},
  *  -     tests02: {sNum: 'tests02', sInfo: 0},
@@ -268,9 +294,16 @@ function create_sNumsInfo_ship(){}
  *  -       {mCode: {value: 'code2'}, memo:{ value: 'texttt'}}
  *  -       ]
  *  -   }
- *  - };
- * @returns response
- * @author Jay
+ *  - }
+ * レスポンス例
+ *  - {
+ *  - 	result: true,
+ *  - 	apiData:{
+ *  - 		create: {requestBody: createBody, response: response_POST},
+ *  - 		update: {requestBody: updateBody, response: response_PUT}
+ *  - 	},
+ *  - 	shipData: 
+ *  - }
  */
  async function ctl_sNum(checkType, sNums){
 	console.log('start Serial control');
@@ -422,7 +455,14 @@ function create_sNumsInfo_ship(){}
 	return {result: false, error:  {target: '', code: 'sn_unknow'}};
 }
 
+async function ctl_stock(){
+}
 
+async function ctl_report(){
+}
+
+async function ctl_report_op_ass(){
+}
 
 function api_kintone_POST(event, appid, fCodes){
 	let body={
