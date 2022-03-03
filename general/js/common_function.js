@@ -440,7 +440,6 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 		let response_POST={};
 		// if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
 		// if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
-		// 処理終了
 		console.log('end Serial control');
 		return {
 			result: true,
@@ -455,8 +454,161 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 	return {result: false, error:  {target: '', code: 'sn_unknow'}};
 }
 
+/**
+ * 在庫処理
+ * @param {*} params ctl_sNum(returns).shipData
+ * @returns 
+ */
+async function ctl_stock(params){
+	const getRecord=kintone.app.record.get().record;
+	const shiptype=getRecord.shipType.value;
+	// エラー処理
+	if(shiptype.match(/確認中/)) return {result: false, error:  {target: 'shipType', code: 'ship_unknowtype'}};
+	if(getRecord.shipment.value=='') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
 
-async function ctl_stock(params, type){
+	// 販売、サブスク
+	if(shiptype.match(/販売|サブスク/)) doAcction(getRecord.shipment.value, 'distribute', 'move');//積送に移動、全体在庫変更なし
+	// 拠点間移動
+	else if(shiptype.match(/拠点間|ベンダー/)) doAcction(getRecord.shipment.value, getRecord.sys_arrivalCode.value, 'move');//指定拠点へ移動、全体在校変更なし
+	// 社内利用
+	else if(shiptype.match(/社内利用|貸与|修理|交換/)) doAcction(getRecord.shipment.value, getRecord.sys_arrivalCode.value, 'internal');//指定拠点へ移動(回収など)、出荷ロケからマイナス
+	// 貸与、修理
+	else if(shiptype.match(/修理|交換/)) doAcction(getRecord.shipment.value, getRecord.sys_arrivalCode.value, 'internal');//指定拠点へ移動、出荷ロケからマイナス
+	// 返品
+	else if(shiptype.match(/返品/)) doAcction(getRecord.shipment.value, '', 'out');//拠点移動なし、出荷ロケからマイナス
+	/*
+	// 新規申込、デバイス追加（ASS）
+	else if(shiptype.match(/ass_新規申込|ass_デバイス追加/)) doAcction('', '', 'move');//積送に移動、全体在庫変更なし
+	// 故障交換（保証対象）（ASS）
+	else if(shiptype.match(/ass_故障交換（保証対象）/)) doAcction('', '', 'move');//指定拠点へ移動(回収)、出荷ロケからマイナス
+	// 故障交換（保証対象外）（ASS）
+	else if(shiptype.match(/ass_故障交換（保証対象外）/)) doAcction('', '', 'out');//拠点移動なし、出荷ロケからマイナス
+	*/
+
+	// 在庫処理
+	async function doAcction(shipLoction, destLoction, type){
+		// ＞＞＞ 拠点在庫処理 start ＜＜＜
+		// 拠点レコード取得
+		let getUnitQuery_uCode = null;
+		if(shipLoction) getUnitQuery_uCode = '"'+shipLoction+'"';
+		if(destLoction) getUnitQuery_uCode += ', "'+destLoction+'"';
+		/** */
+		console.log('getUnitQuery_uCode: ');
+		console.log(getUnitQuery_uCode);
+		console.log('uCode in (' + getUnitQuery_uCode + ')');
+
+		const unitRecords = (await getRecords({
+			app: sysid.INV.app_id.unit,
+			filterCond: 'uCode in (' + getUnitQuery_uCode + ')'
+		})).records;
+		/** */
+		console.log('unitRecords: ');
+		console.log(unitRecords);
+
+		// 出荷拠点と入荷拠点のレコード情報を取得する
+		const uRecord_ship = unitRecords.filter(r => r.uCode.value == shipLoction)[0];
+		const uRecord_dest = unitRecords.filter(r => r.uCode.value == destLoction)[0];
+		/** */
+		console.log('uRecord_ship: ');
+		console.log(uRecord_ship);
+		console.log('uRecord_dest: ');
+		console.log(uRecord_dest);
+
+		// 出荷情報再作成
+		let shipdata_newship = Object.values(params.newhhip);
+		let shipdata_recycle = Object.values(params.recycle);
+		let unitStock_shipInfo = shipdata_newship.concat(shipdata_recycle);
+		
+		/** */
+		console.log('shipdata_newship: ');
+		console.log(shipdata_newship);
+		console.log('shipdata_recycle: ');
+		console.log(shipdata_recycle);
+		console.log('unitStock_shipInfo: ');
+		console.log(unitStock_shipInfo);
+		
+		// 拠点アップデート用Body初期化
+		let unitBody = {app: sysid.INV.app_id.unit, records: []};
+		// 出荷拠点処理
+		if(uRecord_ship){
+			let unitBody_ship = {
+				id: uRecord_ship.$id.value,
+				record: {
+					mStockList: {
+						value: []
+					}
+				}
+			}
+			// サブテーブル内品目情報取得
+			// 取得した品目情報から処理用データ作成
+			const mStocklist=getRecord.mStockList.value;
+			for(let i in unitStock_shipInfo){
+				let getTablelist_mCode = mStocklist.filter(tableList => tableList.value.mCode.value == unitStock_shipInfo[i].mCode)[0];
+				console.log('getTablelist_mCode: ');
+				console.log(getTablelist_mCode);
+				if(getTablelist_mCode){
+					unitBody_ship.record.mStockList.value.push({
+						id: getTablelist_mCode.id,
+						value: {
+							mStock: {
+								value: tableList.value.mStock.value - unitStock_shipInfo[i].num
+							}
+						}
+					});
+				}else{
+					return {result: false, error:  {target: 'unitStock', code: 'unit_unkonwmCode'}};
+				}
+			}
+
+			unitBody.records.push(unitBody_ship);
+		}else{
+			return {result: false, error:  {target: 'unitStock', code: 'unit_filegetshipunit'}};
+		}
+		// 入荷拠点処理
+		if(uRecord_dest){
+			let unitBody_dest = {
+				id: uRecord_dest.$id.value,
+				record: {
+					mStockList: {
+						value: []
+					}
+				}
+			}
+			// サブテーブル内品目情報取得
+			// 取得した品目情報から処理用データ作成
+			const mStocklist=getRecord.mStockList.value;
+			for(let i in unitStock_shipInfo){
+				let getTablelist_mCode = mStocklist.filter(tableList => tableList.value.mCode.value == unitStock_shipInfo[i].mCode)[0];
+				console.log('getTablelist_mCode: ');
+				console.log(getTablelist_mCode);
+				if(getTablelist_mCode){
+					unitBody_dest.record.mStockList.value.push({
+						id: getTablelist_mCode.id,
+						value: {
+							mStock: {
+								value: tableList.value.mStock.value + unitStock_shipInfo[i].num
+							}
+						}
+					});
+				}else{
+					return {result: false, error:  {target: 'unitStock', code: 'unit_unkonwmCode'}};
+				}
+			}
+
+			unitBody.records.push(unitBody_dest);
+		}else if(type=='out' && !uRecord_dest){
+			return {result: false, error:  {target: 'unitStock', code: 'unit_filegetdestunit'}};
+		}
+
+		/** */
+		console.log('unitBody: ');
+		console.log(unitBody);
+
+		// let unitResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', unitBody);
+		// ＞＞＞ 拠点在庫処理 end ＜＜＜
+		// ＞＞＞ 製品在庫処理 start ＜＜＜
+		// ＞＞＞ 製品在庫処理 endt ＜＜＜
+	}
 }
 
 async function ctl_report(params){
@@ -969,7 +1121,7 @@ async function stockCtrl(event, appId) {
  */
 //function getRecords(_params){let params=_params||{};let app=params.app||kintone.app.getId();let filterCond=params.filterCond;let sortConds=params.sortConds||['$id asc'];let fields=params.fields;let data=params.data;if(!data)data={records:[],lastRecordId:0};let conditions=[];let limit=500;if(filterCond)conditions.push(filterCond);conditions.push('$id > '+data.lastRecordId);let sortCondsAndLimit=' order by '+sortConds.join(', ')+' limit '+limit;let query=conditions.join(' and ')+sortCondsAndLimit;let body={app:app,query:query};if(fields && fields.length>0){if(fields.indexOf('$id')<=-1)fields.push('$id');body.fields = fields;}return kintone.api(kintone.api.url('/k/v1/records',true),'GET',body).then(function(r){data.records=data.records.concat(r.records);if(r.records.length===limit){data.lastRecordId=r.records[r.records.length-1].$id.value;return getRecords({app:app,filterCond:filterCond,sortConds:sortConds,fields:fields,data:data});}delete data.lastRecordId;return data;});};
 
-var getRecords = function(_params) {
+function getRecords(_params) {
 	var MAX_READ_LIMIT = 500;
 
   var params = _params || {};
