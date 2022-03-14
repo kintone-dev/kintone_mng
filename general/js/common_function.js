@@ -30,10 +30,10 @@ function getServerDate() {
  * @author 
  */
 function formatDate(date, format){
-  format = format.replace(/yyyy/g, date.getFullYear());
+  format = format.replace(/YYYY/g, date.getFullYear());
   format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
-  format = format.replace(/dd/g, ('0' + date.getDate()).slice(-2));
-  format = format.replace(/HH/g, ('0' + date.getHours()).slice(-2));
+  format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
+  format = format.replace(/hh/g, ('0' + date.getHours()).slice(-2));
   format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
   format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
   return format;
@@ -460,159 +460,328 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
  * @returns 
  */
 async function ctl_stock(params){
-	const getRecord=kintone.app.record.get().record;
-	const shiptype=getRecord.shipType.value;
+	const shipmentInfo = doAcction_stockMGR(kintone.app.record.get().record);
 	// エラー処理
-	if(shiptype.match(/確認中/)) return {result: false, error:  {target: 'shipType', code: 'ship_unknowtype'}};
-	if(getRecord.shipment.value=='') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
-
-	// 販売、サブスク
-	if(shiptype.match(/販売|サブスク/)) doAcction(getRecord.shipment.value, 'distribute', 'move');//積送に移動、全体在庫変更なし
-	// 拠点間移動
-	else if(shiptype.match(/拠点間|ベンダー/)) doAcction(getRecord.shipment.value, getRecord.sys_arrivalCode.value, 'move');//指定拠点へ移動、全体在校変更なし
-	// 社内利用
-	else if(shiptype.match(/社内利用|貸与|修理|交換/)) doAcction(getRecord.shipment.value, getRecord.sys_arrivalCode.value, 'internal');//指定拠点へ移動(回収など)、出荷ロケからマイナス
-	// 貸与、修理
-	else if(shiptype.match(/修理|交換/)) doAcction(getRecord.shipment.value, getRecord.sys_arrivalCode.value, 'internal');//指定拠点へ移動、出荷ロケからマイナス
-	// 返品
-	else if(shiptype.match(/返品/)) doAcction(getRecord.shipment.value, '', 'out');//拠点移動なし、出荷ロケからマイナス
-	/*
-	// 新規申込、デバイス追加（ASS）
-	else if(shiptype.match(/ass_新規申込|ass_デバイス追加/)) doAcction('', '', 'move');//積送に移動、全体在庫変更なし
-	// 故障交換（保証対象）（ASS）
-	else if(shiptype.match(/ass_故障交換（保証対象）/)) doAcction('', '', 'move');//指定拠点へ移動(回収)、出荷ロケからマイナス
-	// 故障交換（保証対象外）（ASS）
-	else if(shiptype.match(/ass_故障交換（保証対象外）/)) doAcction('', '', 'out');//拠点移動なし、出荷ロケからマイナス
-	*/
-
+	if(!shipmentInfo.result) return shipmentInfo;
+	// 返却値代入
+	const shipLoction = shipmentInfo.value.ship;
+	const destLoction = shipmentInfo.value.dest;
+	const type = shipmentInfo.value.type;
 	// 在庫処理
-	async function doAcction(shipLoction, destLoction, type){
-		// ＞＞＞ 拠点在庫処理 start ＜＜＜
-		// 拠点レコード取得
-		let getUnitQuery_uCode = null;
-		if(shipLoction) getUnitQuery_uCode = '"'+shipLoction+'"';
-		if(destLoction) getUnitQuery_uCode += ', "'+destLoction+'"';
-		/** */
-		console.log('getUnitQuery_uCode: ');
-		console.log(getUnitQuery_uCode);
-		console.log('uCode in (' + getUnitQuery_uCode + ')');
+	// 出荷情報再作成
+	const shipdata_newship = Object.values(params.newship);
+	const shipdata_recycle = Object.values(params.recycle);
+	const unitStock_shipInfo = shipdata_newship.concat(shipdata_recycle);
+	const allship = Object.assign(params.newhhip,params.recycle);
 
-		const unitRecords = (await getRecords({
-			app: sysid.INV.app_id.unit,
-			filterCond: 'uCode in (' + getUnitQuery_uCode + ')'
-		})).records;
-		/** */
-		console.log('unitRecords: ');
-		console.log(unitRecords);
+	/** */
+	console.log('shipdata_newship: ');
+	console.log(shipdata_newship);
+	console.log('shipdata_recycle: ');
+	console.log(shipdata_recycle);
+	console.log('unitStock_shipInfo: ');
+	console.log(unitStock_shipInfo);
+	console.log('allship: ');
+	console.log(allship);
 
-		// 出荷拠点と入荷拠点のレコード情報を取得する
-		const uRecord_ship = unitRecords.filter(r => r.uCode.value == shipLoction)[0];
-		const uRecord_dest = unitRecords.filter(r => r.uCode.value == destLoction)[0];
-		/** */
-		console.log('uRecord_ship: ');
-		console.log(uRecord_ship);
-		console.log('uRecord_dest: ');
-		console.log(uRecord_dest);
+	// 拠点レコード取得
+	let getUnitQuery_uCode = null;
+	if(shipLoction) getUnitQuery_uCode = '"'+shipLoction+'"';
+	if(destLoction) getUnitQuery_uCode += ', "'+destLoction+'"';
+	/** */
+	console.log('getUnitQuery_uCode: ');
+	console.log(getUnitQuery_uCode);
+	console.log('uCode in (' + getUnitQuery_uCode + ')');
 
-		// 出荷情報再作成
-		let shipdata_newship = Object.values(params.newhhip);
-		let shipdata_recycle = Object.values(params.recycle);
-		let unitStock_shipInfo = shipdata_newship.concat(shipdata_recycle);
+	const unitRecords = (await getRecords({
+		app: sysid.INV.app_id.unit,
+		filterCond: 'uCode in (' + getUnitQuery_uCode + ')'
+	})).records;
+	/** */
+	console.log('unitRecords: ');
+	console.log(unitRecords);
+
+	// 出荷拠点と入荷拠点のレコード情報を取得する
+	const uRecord_ship = (unitRecords.filter(r => r.uCode.value == shipLoction))[0];
+	const uRecord_dest = (unitRecords.filter(r => r.uCode.value == destLoction))[0];
+
+	/** */
+	console.log('uRecord_ship: ');
+	console.log(uRecord_ship);
+	console.log('uRecord_dest: ');
+	console.log(uRecord_dest);
+
+	// エラー処理
+	if(!uRecord_ship) return {result: false, error:  {target: 'unitStock', code: 'unit_filegetshipunit'}};
+	if(type == 'out' && !uRecord_dest) return {result: false, error:  {target: 'unitStock', code: 'unit_filegetdestunit'}};
+
 		
-		/** */
-		console.log('shipdata_newship: ');
-		console.log(shipdata_newship);
-		console.log('shipdata_recycle: ');
-		console.log(shipdata_recycle);
-		console.log('unitStock_shipInfo: ');
-		console.log(unitStock_shipInfo);
-		
-		// 拠点アップデート用Body初期化
-		let unitBody = {app: sysid.INV.app_id.unit, records: []};
-		// 出荷拠点処理
-		if(uRecord_ship){
-			let unitBody_ship = {
-				id: uRecord_ship.$id.value,
-				record: {
-					mStockList: {
-						value: []
-					}
-				}
-			}
-			// サブテーブル内品目情報取得
-			// 取得した品目情報から処理用データ作成
-			const mStocklist=getRecord.mStockList.value;
-			for(let i in unitStock_shipInfo){
-				let getTablelist_mCode = mStocklist.filter(tableList => tableList.value.mCode.value == unitStock_shipInfo[i].mCode)[0];
-				console.log('getTablelist_mCode: ');
-				console.log(getTablelist_mCode);
-				if(getTablelist_mCode){
-					unitBody_ship.record.mStockList.value.push({
-						id: getTablelist_mCode.id,
-						value: {
-							mStock: {
-								value: tableList.value.mStock.value - unitStock_shipInfo[i].num
-							}
-						}
-					});
-				}else{
-					return {result: false, error:  {target: 'unitStock', code: 'unit_unkonwmCode'}};
-				}
-			}
+	// 拠点アップデート用Body初期化
+	let unitBody = {app: sysid.INV.app_id.unit, records: []};
+	// 拠点サブテーブル内検索query作成
+	let query_unitStock = null;
+	unitStock_shipInfo.forEach(function(list){
+		if(!query_unitStock) query_unitStock = list.mCode;
+		else query_unitStock += '|' + list.mCode;
+	});
 
-			unitBody.records.push(unitBody_ship);
-		}else{
-			return {result: false, error:  {target: 'unitStock', code: 'unit_filegetshipunit'}};
+	// 拠点出荷処理
+	let unitBody_ship = {
+		id: uRecord_ship.$id.value,
+		record: {
+			mStockList: {
+				value: []
+			}
 		}
-		// 入荷拠点処理
-		if(uRecord_dest){
-			let unitBody_dest = {
-				id: uRecord_dest.$id.value,
-				record: {
-					mStockList: {
-						value: []
-					}
-				}
-			}
-			// サブテーブル内品目情報取得
-			// 取得した品目情報から処理用データ作成
-			const mStocklist=getRecord.mStockList.value;
-			for(let i in unitStock_shipInfo){
-				let getTablelist_mCode = mStocklist.filter(tableList => tableList.value.mCode.value == unitStock_shipInfo[i].mCode)[0];
-				console.log('getTablelist_mCode: ');
-				console.log(getTablelist_mCode);
-				if(getTablelist_mCode){
-					unitBody_dest.record.mStockList.value.push({
-						id: getTablelist_mCode.id,
-						value: {
-							mStock: {
-								value: tableList.value.mStock.value + unitStock_shipInfo[i].num
-							}
-						}
-					});
-				}else{
-					return {result: false, error:  {target: 'unitStock', code: 'unit_unkonwmCode'}};
-				}
-			}
-
-			unitBody.records.push(unitBody_dest);
-		}else if(type=='out' && !uRecord_dest){
-			return {result: false, error:  {target: 'unitStock', code: 'unit_filegetdestunit'}};
-		}
-
-		/** */
-		console.log('unitBody: ');
-		console.log(unitBody);
-
-		// let unitResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', unitBody);
-		// ＞＞＞ 拠点在庫処理 end ＜＜＜
-		// ＞＞＞ 製品在庫処理 start ＜＜＜
-		// ＞＞＞ 製品在庫処理 endt ＜＜＜
 	}
+	// サブテーブル内品目情報取得
+	// 取得した品目情報から処理用データ作成
+	let mstocklist_ship=uRecord_ship.mStockList.value;
+	// テーブル行を比較しマッチするものがあれば更新処理用データを作成
+	mstocklist_ship.forEach(function(list){
+		let mcode = list.value.mCode.value;
+		if(mcode.match(query)){
+			unitBody_ship.record.mStockList.value.push({
+				id: list.id,
+				value: {
+					mStock: {
+						value: list.value.mStock.value - allship[mcode].num
+					}
+				}
+			});
+		}
+	});
+
+	/** */
+	console.log('unitBody_ship: ');
+	console.log(unitBody_ship);
+
+	// エラー処理　処理結果
+	if(unitBody_ship.record.mStockList.value.length != unitStock_shipInfo.length) return {result: false, error:  {target: 'unitStock', code: 'unit_unmachshipnum'}};
+	unitBody.records.push(unitBody_ship);
+
+	// 拠点入荷処理（入荷拠点がある場合のみ実行）
+	if(uRecord_dest){
+		let unitBody_dest = {
+			id: uRecord_dest.$id.value,
+			record: {
+				mStockList: {
+					value: []
+				}
+			}
+		}
+		// サブテーブル内品目情報取得
+		// 取得した品目情報から処理用データ作成
+		let mstocklist_dest=uRecord_dest.mStockList.value;
+		// テーブル行を比較しマッチするものがあれば更新処理用データを作成
+		mstocklist_dest.forEach(function(list){
+			let mcode = list.value.mCode.value;
+			if(mcode.match(query)){
+				unitBody_dest.record.mStockList.value.push({
+					id: list.id,
+					value: {
+						mStock: {
+							value: list.value.mStock.value + allship[mcode].num
+						}
+					}
+				});
+			}
+		});
+
+		/** */
+		console.log('unitBody_dest: ');
+		console.log(unitBody_dest);
+
+		// エラー処理　処理結果
+		if(unitBody_dest.record.mStockList.value.length != unitStock_shipInfo.length) return {result: false, error:  {target: 'unitStock', code: 'unit_unmachdestnum'}};
+		unitBody.records.push(unitBody_dest);
+	}
+
+	/** */
+	else console.log('入荷ロケが指定されてないため入荷処理は実行しません。');
+
+	/** */
+	console.log('unitBody: ');
+	console.log(unitBody);
+
+	// let unitResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', unitBody);
+	// return 拠点処理結果
+
 }
 
 async function ctl_report(params){
+	const shipmentInfo = doAcction_stockMGR(kintone.app.record.get().record);
+	// エラー処理
+	if(!shipmentInfo.result) return shipmentInfo;
+	// 返却値代入
+	const shipLoction = shipmentInfo.value.ship;
+	const destLoction = shipmentInfo.value.dest;
+	const type = shipmentInfo.value.type;
+
+	// 在庫処理
+	/** */
+	console.log('params: ');
+	console.log(params);
+
+		
+	// 該当月のレポート詳細を取得
+	let thisYears = formatDate(new Date(thisRecord.sendDate.value), 'YYYY');
+	let thisMonth = formatDate(new Date(thisRecord.sendDate.value), 'MM');
+	tthis
+	let getReportQuery = {
+		app: sysid.INV.app_id.report,
+		query: 'sys_invoiceDate = "' + thisYears + thisMonth + '"'
+	};
+
+	/** */
+	console.log(getReportQuery);
+
+	const get_reportRecords = (await kintone.api(kintone.api.url('/k/v1/records.json', true), 'GET', getReportQuery)).records;
+	// エラー処理、該当月のレポートが複数存在する場合
+	if(get_reportRecords.length>1) return {result: false, error: {target: 'report', code: 'report_multtiple'}};
+	let reportRecord = get_reportRecords[0];
+
+	/** */
+	console.log('reportRecord: ');
+	console.log(reportRecord);
+
+	// レポート入出荷処理
+	// 該当月のレポートが見つからない場合、レポート新規作成
+	if(!reportRecord) reportRecord = await create_report(thisYears, thisMonth);
+	let reportBody = {
+		app: sysid.INV.app_id.report,
+		id: reportRecord.$id.value,
+		record: {
+			inventoryList: {
+				value: []
+			}
+		}
+	};
+	// サブテーブル情報取得
+	let reportTable = getTableId(reportRecord.inventoryList.value);
+	// 新規出荷更新
+	params.forEach(function(list){
+		// 出荷処理
+		// 在庫一覧システムコード生成
+		let sysCode_ship = list.mCode + '-' + shipLoction;
+		// 計算処理
+		if(reportTable[sysCode_ship]){
+			let shipnum = reportTable[sysCode_ship].value.shipNum.value - list.num;
+			reportBody.record.inventoryList.value.push({
+				id: reportTable[sysCode_ship].id,
+				value: {
+					shipNum: {value: shipnum}
+				}
+			});
+		}else{
+			reportBody.record.inventoryList.value.push({
+				value: {
+					sys_code: {value: sysCode_ship},
+					shipNum: {value: list.num}
+				}
+			});
+		}
+		// 入荷処理（入荷処理が必要な場合のみ実行）
+		if(!type == 'out'){
+			// 在庫一覧システムコード生成
+			let sysCode_dest = list.mCode + '-' + destLoction;
+			// 計算処理
+			if(reportTable[sysCode_dest]){
+				let arrivalnum = reportTable[sysCode_dest].value.arrivalNum.value + list.num;
+				reportBody.record.inventoryList.value.push({
+					id: reportTable[sysCode_dest].id,
+					value: {
+						arrivalNum: {value: arrivalnum}
+					}
+				});
+			}else{
+				reportBody.record.inventoryList.value.push({
+					value: {
+						sys_code: {value: sysCode_dest},
+						arrivalNum: {value: list.num}
+					}
+				});
+			}
+		}
+	});
+
+	/** */
+	console.log('reportBody: ');
+	console.log(reportBody);
+
+	// let reportResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', reportBody);
+	// return レポート処理結果
 }
+
+/**
+ * 在庫変動時加減の判断
+ * @param {*} thisRecord 
+ * @returns 
+ * @author Jay
+ */
+function doAcction_stockMGR(thisRecord){
+	const applicationType=thisRecord.application_type.value;
+	// エラー処理
+	if(applicationType.match(/確認中/)) return {result: false, error:  {target: 'shipType', code: 'ship_unknowtype'}};
+	if(thisRecord.shipment.value=='') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
+// return {result: true, value: {ship: , dest: , type: }};
+	// 仕入
+	if(applicationType.match(/仕入｜入荷/)) return {result: true, value: {ship: '', dest: hisRecord.sys_arrivalCode.value, type: 'add'}};
+	// 積送に移動、全体在庫変更なし
+	if(applicationType.match(/販売|サブスク/)) return {result: true, value: {ship: thisRecord.shipment.value, dest: 'distribute', type: 'move'}};
+	// 指定拠点へ移動、全体在庫変更なし
+	else if(applicationType.match(/拠点間|ベンダー|社内利用|貸与/)) return {result: true, value: {ship: thisRecord.shipment.value, dest: thisRecord.sys_arrivalCode.value, type: 'move'}};
+	// 指定拠点へ移動、出荷ロケからマイナス
+	else if(applicationType.match(/修理|交換|返品/)) return {result: true, value: {ship: thisRecord.shipment.value, dest: '', type: 'out'}};
+	/*
+	// atlas
+	// 積送に移動、全体在庫変更なし
+	else if(applicationType.match(/ass_新規申込|ass_デバイス追加/)) return {result: true, value: {ship: , dest: , type: 'move'}};
+	// 故障交換（保証対象）（ASS）
+	else if(applicationType.match(/ass_故障交換（保証対象）/)) return {result: true, value: {ship: , dest: , type: }};//指定拠点へ移動(回収)、出荷ロケからマイナス
+	// 故障交換（保証対象外）（ASS）
+	else if(applicationType.match(/ass_故障交換（保証対象外）/)) return {result: true, value: {ship: , dest: , type: }};//拠点移動なし、出荷ロケからマイナス
+	*/
+}
+/**
+ * 新規レポート作成　重複チェックなし
+ * @param {*} years 
+ * @param {*} month 
+ * @returns number
+ * @author Jay
+ */
+async function create_report(years, month){
+	let newReport = {
+		app: sysid.INV.app_id.report,
+		record: {
+			invoiceYears: {value: years},
+			invoiceMonth: {value: month}
+		}
+	};
+	let newReportId = (await kintone.api(kintone.api.url('/k/v1/record.json', true), ' POST', newReport)).id;
+	return (await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {app: sysid.INV.app_id.report, id: newReportId})).record;
+}
+
+/**
+ * key情報からサブテーブルを更新するためのIDを取得
+ * @param {*} tableValue 
+ * @returns json
+ * @author Jay
+ * レスポンス例
+ *  - {
+ *  - 	{ key1:{id: num, value: {table list value} },
+ *  - 	{ key2:{id: num, value: {table list value} },
+ *  - }
+ */
+function getTableId(tableValue){
+	if(tableValue.length>0){
+		let result = {};
+		tableValue.forEach(list => result[list.value.mCode.value] = {id: list.id, value: list.value});
+		return result;
+	}
+	else return undefined;
+}
+
 
 async function ctl_report_op_ass(params){
 }
