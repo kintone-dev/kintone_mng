@@ -154,7 +154,7 @@ function tabMenu_new(tabID, tabList) {
  * @returns (json)
  * @author Jay
  */
- async function check_reportDeadline(checkApp, invoiceDate){
+async function check_reportDeadline(checkApp, invoiceDate){
 	let result_reportDeadline={'EoMcheckValue': null, 'isRestrictedUserGroup': true};
 	let getReportStatus = {
 		app: sysid.INV.app_id.report,
@@ -460,7 +460,7 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
  * @returns 
  */
 async function ctl_stock(params){
-	const shipmentInfo = doAcction_stockMGR(kintone.app.record.get().record);
+	const shipmentInfo = doAcction_stockMGR(event.record);
 	// エラー処理
 	if(!shipmentInfo.result) return shipmentInfo;
 	// 返却値代入
@@ -610,7 +610,7 @@ async function ctl_stock(params){
 }
 
 async function ctl_report(params){
-	const shipmentInfo = doAcction_stockMGR(kintone.app.record.get().record);
+	const shipmentInfo = doAcction_stockMGR(event.record);
 	// エラー処理
 	if(!shipmentInfo.result) return shipmentInfo;
 	// 返却値代入
