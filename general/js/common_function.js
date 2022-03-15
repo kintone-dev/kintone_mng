@@ -719,7 +719,8 @@ async function ctl_report(params){
  * @returns 
  * @author Jay
  */
-function doAcction_stockMGR(thisRecord){
+async function doAcction_stockMGR(thisRecord){
+	let thisR = await kintone.app.record.get();
 	console.log(thisRecord);
 	let applicationType;
 	 applicationType=thisRecord.shipType.value;
@@ -727,7 +728,6 @@ function doAcction_stockMGR(thisRecord){
 	// エラー処理
 	if(applicationType.match(/確認中/)) return {result: false, error:  {target: 'shipType', code: 'ship_unknowtype'}};
 	if(thisRecord.shipment.value=='') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
-// return {result: true, value: {ship: , dest: , type: }};
 	// 仕入
 	if(applicationType.match(/仕入｜入荷/)) return {result: true, value: {ship: '', dest: hisRecord.sys_arrivalCode.value, type: 'add'}};
 	// 積送に移動、全体在庫変更なし
@@ -737,6 +737,7 @@ function doAcction_stockMGR(thisRecord){
 	// 指定拠点へ移動、出荷ロケからマイナス
 	else if(applicationType.match(/修理|交換|返品/)) return {result: true, value: {ship: thisRecord.shipment.value, dest: '', type: 'out'}};
 	/*
+	// return {result: true, value: {ship: , dest: , type: }};
 	// atlas
 	// 積送に移動、全体在庫変更なし
 	else if(applicationType.match(/ass_新規申込|ass_デバイス追加/)) return {result: true, value: {ship: , dest: , type: 'move'}};
