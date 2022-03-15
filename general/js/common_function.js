@@ -720,6 +720,7 @@ async function ctl_report(params){
  * @author Jay
  */
 function doAcction_stockMGR(thisRecord){
+	console.log(thisRecord);
 	let applicationType;
 	if(thisRecord.shipType) applicationType=thisRecord.shipType.value;
 	else if(thisRecord.application_type) applicationType=thisRecord.application_type.value;
