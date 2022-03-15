@@ -722,11 +722,11 @@ async function ctl_report(eRecord, params){
 function doAcction_stockMGR(eRecord){
 	console.log(eRecord);
 	let applicationType;
-	 applicationType=eRecord.shipType.value;
-	// else if(eRecord.application_type) applicationType=eRecord.application_type.value;
+	if(eRecord.shipType) applicationType = eRecord.shipType.value;
+	else if(eRecord.application_type) applicationType = eRecord.application_type.value;
 	// エラー処理
 	if(applicationType.match(/確認中/)) return {result: false, error:  {target: 'shipType', code: 'ship_unknowtype'}};
-	if(eRecord.shipment.value=='') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
+	if(eRecord.shipment.value == '') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
 	// 仕入
 	if(applicationType.match(/仕入｜入荷/)) return {result: true, value: {ship: '', dest: hisRecord.sys_arrivalCode.value, type: 'add'}};
 	// 積送に移動、全体在庫変更なし
