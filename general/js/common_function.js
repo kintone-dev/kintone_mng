@@ -459,8 +459,8 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
  * @param {*} params ctl_sNum(returns).shipData
  * @returns 
  */
-async function ctl_stock(params){
-	const shipmentInfo = doAcction_stockMGR(event.record);
+async function ctl_stock(eRecord, params){
+	const shipmentInfo = doAcction_stockMGR(eRecord);
 	// エラー処理
 	if(!shipmentInfo.result) return shipmentInfo;
 	// 返却値代入
@@ -609,8 +609,8 @@ async function ctl_stock(params){
 
 }
 
-async function ctl_report(params){
-	const shipmentInfo = doAcction_stockMGR(event.record);
+async function ctl_report(eRecord, params){
+	const shipmentInfo = doAcction_stockMGR(eRecord);
 	// エラー処理
 	if(!shipmentInfo.result) return shipmentInfo;
 	// 返却値代入
@@ -625,8 +625,8 @@ async function ctl_report(params){
 
 		
 	// 該当月のレポート詳細を取得
-	let thisYears = formatDate(new Date(thisRecord.sendDate.value), 'YYYY');
-	let thisMonth = formatDate(new Date(thisRecord.sendDate.value), 'MM');
+	let thisYears = formatDate(new Date(eRecord.sendDate.value), 'YYYY');
+	let thisMonth = formatDate(new Date(eRecord.sendDate.value), 'MM');
 	tthis
 	let getReportQuery = {
 		app: sysid.INV.app_id.report,
@@ -715,27 +715,26 @@ async function ctl_report(params){
 
 /**
  * 在庫変動時加減の判断
- * @param {*} thisRecord 
+ * @param {*} eRecord 
  * @returns 
  * @author Jay
  */
-async function doAcction_stockMGR(thisRecord){
-	let thisR = await kintone.app.record.get();
-	console.log(thisRecord);
+function doAcction_stockMGR(eRecord){
+	console.log(eRecord);
 	let applicationType;
-	 applicationType=thisRecord.shipType.value;
-	// else if(thisRecord.application_type) applicationType=thisRecord.application_type.value;
+	 applicationType=eRecord.shipType.value;
+	// else if(eRecord.application_type) applicationType=eRecord.application_type.value;
 	// エラー処理
 	if(applicationType.match(/確認中/)) return {result: false, error:  {target: 'shipType', code: 'ship_unknowtype'}};
-	if(thisRecord.shipment.value=='') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
+	if(eRecord.shipment.value=='') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
 	// 仕入
 	if(applicationType.match(/仕入｜入荷/)) return {result: true, value: {ship: '', dest: hisRecord.sys_arrivalCode.value, type: 'add'}};
 	// 積送に移動、全体在庫変更なし
-	if(applicationType.match(/販売|サブスク/)) return {result: true, value: {ship: thisRecord.shipment.value, dest: 'distribute', type: 'move'}};
+	if(applicationType.match(/販売|サブスク/)) return {result: true, value: {ship: eRecord.shipment.value, dest: 'distribute', type: 'move'}};
 	// 指定拠点へ移動、全体在庫変更なし
-	else if(applicationType.match(/拠点間|ベンダー|社内利用|貸与/)) return {result: true, value: {ship: thisRecord.shipment.value, dest: thisRecord.sys_arrivalCode.value, type: 'move'}};
+	else if(applicationType.match(/拠点間|ベンダー|社内利用|貸与/)) return {result: true, value: {ship: eRecord.shipment.value, dest: eRecord.sys_arrivalCode.value, type: 'move'}};
 	// 指定拠点へ移動、出荷ロケからマイナス
-	else if(applicationType.match(/修理|交換|返品/)) return {result: true, value: {ship: thisRecord.shipment.value, dest: '', type: 'out'}};
+	else if(applicationType.match(/修理|交換|返品/)) return {result: true, value: {ship: eRecord.shipment.value, dest: '', type: 'out'}};
 	/*
 	// return {result: true, value: {ship: , dest: , type: }};
 	// atlas
