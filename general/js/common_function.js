@@ -722,8 +722,8 @@ async function ctl_report(params){
 function doAcction_stockMGR(thisRecord){
 	console.log(thisRecord);
 	let applicationType;
-	if(thisRecord.shipType) applicationType=thisRecord.shipType.value;
-	else if(thisRecord.application_type) applicationType=thisRecord.application_type.value;
+	 applicationType=thisRecord.shipType.value;
+	// else if(thisRecord.application_type) applicationType=thisRecord.application_type.value;
 	// エラー処理
 	if(applicationType.match(/確認中/)) return {result: false, error:  {target: 'shipType', code: 'ship_unknowtype'}};
 	if(thisRecord.shipment.value=='') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
