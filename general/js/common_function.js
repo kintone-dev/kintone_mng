@@ -720,7 +720,8 @@ async function ctl_report(params){
  * @author Jay
  */
 function doAcction_stockMGR(thisRecord){
-	const applicationType=thisRecord.application_type.value;
+	if(thisRecord.shipType) const applicationType=thisRecord.shipType.value;
+	else if(thisRecord.application_type) const applicationType=thisRecord.application_type.value;
 	// エラー処理
 	if(applicationType.match(/確認中/)) return {result: false, error:  {target: 'shipType', code: 'ship_unknowtype'}};
 	if(thisRecord.shipment.value=='') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
