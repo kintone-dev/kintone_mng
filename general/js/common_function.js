@@ -472,7 +472,7 @@ async function ctl_stock(eRecord, params){
 	const shipdata_newship = Object.values(params.newship);
 	const shipdata_recycle = Object.values(params.recycle);
 	const unitStock_shipInfo = shipdata_newship.concat(shipdata_recycle);
-	const allship = Object.assign(params.newhhip,params.recycle);
+	const allship = Object.assign(params.newship,params.recycle);
 
 	/** */
 	console.log('shipdata_newship: ');
@@ -627,7 +627,6 @@ async function ctl_report(eRecord, params){
 	// 該当月のレポート詳細を取得
 	let thisYears = formatDate(new Date(eRecord.sendDate.value), 'YYYY');
 	let thisMonth = formatDate(new Date(eRecord.sendDate.value), 'MM');
-	tthis
 	let getReportQuery = {
 		app: sysid.INV.app_id.report,
 		query: 'sys_invoiceDate = "' + thisYears + thisMonth + '"'
