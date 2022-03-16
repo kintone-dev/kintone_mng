@@ -438,8 +438,8 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 		// 処理結果書き込み
 		let response_PUT={};
 		let response_POST={};
-		// if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
-		// if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
+		if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
+		if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
 		console.log('end Serial control');
 		return {
 			result: true,
@@ -458,6 +458,9 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
  * 在庫処理
  * @param {*} params ctl_sNum(returns).shipData
  * @returns 
+ * @author Jay
+ * 入力例
+ * ctl_stock(event.record, snCTL_result.shipData);
  */
 async function ctl_stock(eRecord, params){
 	const shipmentInfo = doAcction_stockMGR(eRecord);
@@ -604,11 +607,17 @@ async function ctl_stock(eRecord, params){
 	console.log('unitBody: ');
 	console.log(unitBody);
 
-	// let unitResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', unitBody);
-	// return 拠点処理結果
+	let unitResult = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', unitBody);
+	return {result: true, unitResult};
 
 }
 
+/**
+ * 
+ * @param {*} eRecord 
+ * @param {*} params 
+ * @returns 
+ */
 async function ctl_report(eRecord, params){
 	const shipmentInfo = doAcction_stockMGR(eRecord);
 	// エラー処理
