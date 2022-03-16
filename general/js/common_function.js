@@ -222,6 +222,7 @@ async function ctl_stock(){
  */
 function renew_sNumsInfo_alship(shipRecord, snTableName){
 	console.log('start construction Serial Number Data');
+	if(!snTableName[snTableName].value) return {result: false, error:  {target: 'renewsn', code: 'renewsn_nodata'}};
   // 共通出荷情報を取得
   let snumsInfo = {
     serial: {},
@@ -802,33 +803,21 @@ function getTableId(tableValue){
 	else return undefined;
 }
 
-
-async function ctl_report_op_ass(params){
+async function setlog_single(params){
+	let logBody = {
+		app: params.app,
+		id: params.id,
+		record: {
+			sys_log: {
+				value: params.values
+			}
+		}
+	}
+	console.log('logBody: ');
+	console.log(logBody);
+	return await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody);
 }
 
-function api_kintone_POST(event, appid, fCodes){
-	let body={
-		app: appid,
-		records: []
-	};
-	return body;
-}
-function api_kintone_PUT(event, appid, fCodes){
-	let body={};
-	return body;
-}
-function api_kintone_GET(event, appid, fCodes){
-	let body={};
-	return body;
-}
-function api_kintone_UpdateByOne(){
-	let body={};
-	return body;
-}
-function api_kintone_UpdateAtOnce(){
-	let body={};
-	return body;
-}
 
 /**
  * レポート処理
