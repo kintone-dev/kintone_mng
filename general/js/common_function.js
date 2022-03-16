@@ -803,7 +803,12 @@ function getTableId(tableValue){
 	}
 	else return undefined;
 }
-
+function setlog_new(event){
+	let history = event.record.sys_log.value[0].value;
+	history.sys_log_acction.value = 'create record';
+	history.sys_log_value.value = JSON.stringify(event.record);
+	return event;
+}
 async function setlog_single(value){
 	let tableValue = (await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {app: kintone.app.getId(), id: kintone.app.record.getId()})).record.sys_log.value;
 	console.log('tableValue: ');
