@@ -832,7 +832,7 @@ async function setlog_single(value, setResult){
 	console.log(setResult);
 	console.log(setResult.fCode);
 	console.log(setResult.value);
-	if(setResult) logBody.record[setResult.fCode].value = setResult.value;
+	if(setResult) logBody.record[setResult.fCode].value = 'setResult.value';
 	console.log('logBody: ');
 	console.log(logBody);
 	return await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody);
