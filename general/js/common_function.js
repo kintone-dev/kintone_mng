@@ -805,7 +805,7 @@ function getTableId(tableValue){
 }
 
 async function setlog_single(value){
-	let tableValue = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {app: kintone.app.getId(), id: kintone.app.record.getId()}).record.sys_log.value;
+	let tableValue = (await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {app: kintone.app.getId(), id: kintone.app.record.getId()})).record.sys_log.value;
 	console.log('tableValue: ');
 	console.log(tableValue);
 	let logBody = {
