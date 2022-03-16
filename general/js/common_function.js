@@ -817,8 +817,8 @@ async function setlog_single(value){
 			}
 		}
 	}
-	if(tableValue.length > 1) logBody.record.sys_log.value.push(value);
-	else logBody.record.sys_log.value[0] = value;
+	if(tableValue.length < 2 && tableValue[0].sys_log_acction == '') logBody.record.sys_log.value[0] = value;
+	else logBody.record.sys_log.value.push(value);
 	console.log('logBody: ');
 	console.log(logBody);
 	return await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody);
