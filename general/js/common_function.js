@@ -803,16 +803,21 @@ function getTableId(tableValue){
 	else return undefined;
 }
 
-async function setlog_single(params){
+async function setlog_single(value){
+	let tableValue = await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {app: kintone.app.getId(), id: kintone.app.record.getId()}).record.sys_log.value;
+	console.log('tableValue: ');
+	console.log(tableValue);
 	let logBody = {
-		app: params.app,
-		id: params.id,
+		app: kintone.app.getId(),
+		id: kintone.app.record.getId(),
 		record: {
 			sys_log: {
-				value: params.values
+				value: tableValue
 			}
 		}
 	}
+	if(tableValue.length > 1) logBody.record.sys_log.value.push(value);
+	else logBody.record.sys_log.value[0] = value;
 	console.log('logBody: ');
 	console.log(logBody);
 	return await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody);
