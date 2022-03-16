@@ -348,7 +348,11 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 		else if(checkType == 'recycle' && snRecord.sState.value == '再生品') checkSNstatus = 'recycle';
 		else if(checkType == 'auto' && snRecord.sState.value == '新品') checkSNstatus = 'newship';
 		else if(checkType == 'auto' && snRecord.sState.value == '再生品') checkSNstatus = 'recycle';
-		else if(checkType == 'internal' && snRecord.sState.value == '再生品'){}
+		else if(checkType == 'internal' && snRecord.sState.value == '新品') checkSNstatus = 'newship';
+		else if(checkType == 'internal' && snRecord.sState.value == '再生品') checkSNstatus = 'recycle';
+		else if(checkType == 'internal' && snRecord.sState.value == '社内用') checkSNstatus = 'recycle';
+		else if(checkType == 'all' && snRecord.sState.value == '新品') checkSNstatus = 'newship';
+		else if(checkType == 'all' && snRecord.sState.value != '再生品') checkSNstatus = 'recycle';
 		else{
 			console.log('stop Serial control');
 			return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_cannotuse'}};
