@@ -830,7 +830,7 @@ async function setlog_single(value, setResult){
 	else logBody.record.sys_log.value.push(value);
 	console.log('setResult: ');
 	console.log(setResult);
-	console.log(setResult.fcode);
+	console.log(setResult.fCode);
 	console.log(setResult.value);
 	if(setResult) logBody.record[setResult.fCode].value = setResult.value;
 	console.log('logBody: ');
