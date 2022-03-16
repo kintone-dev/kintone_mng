@@ -760,7 +760,8 @@ async function create_report(years, month){
 			invoiceMonth: {value: month}
 		}
 	};
-	let newReportId = (await kintone.api(kintone.api.url('/k/v1/record.json', true), ' POST', newReport))//.id;
+	console.log(newReport);
+	let newReportId = (await kintone.api(kintone.api.url('/k/v1/record.json', true), 'POST', newReport))//.id;
 	console.log(newReportId);
 	return (await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {app: sysid.INV.app_id.report, id: newReportId})).record;
 }
