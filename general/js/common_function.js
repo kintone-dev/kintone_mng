@@ -533,7 +533,7 @@ async function ctl_stock(eRecord, params){
 		if(!query_unitStock) query_unitStock = list.mCode;
 		else query_unitStock += '|' + list.mCode;
 	});
-
+	console.log(query_unitStock);
 	// 拠点出荷処理
 	let unitBody_ship = {
 		id: uRecord_ship.$id.value,
