@@ -639,14 +639,15 @@ async function ctl_report(eRecord, params){
 	// エラー処理、該当月のレポートが複数存在する場合
 	if(get_reportRecords.length>1) return {result: false, error: {target: 'report', code: 'report_multtiple'}};
 	let reportRecord = get_reportRecords[0];
-
+	
+	// レポート入出荷処理
+	// 該当月のレポートが見つからない場合、レポート新規作成
+	if(!reportRecord) reportRecord = await create_report(thisYears, thisMonth);
+	
 	/** */
 	console.log('reportRecord: ');
 	console.log(reportRecord);
 
-	// レポート入出荷処理
-	// 該当月のレポートが見つからない場合、レポート新規作成
-	if(!reportRecord) reportRecord = await create_report(thisYears, thisMonth);
 	let reportBody = {
 		app: sysid.INV.app_id.report,
 		id: reportRecord.$id.value,
@@ -656,8 +657,14 @@ async function ctl_report(eRecord, params){
 			}
 		}
 	};
+
 	// サブテーブル情報取得
 	let reportTable = getTableId(reportRecord.inventoryList.value);
+
+	/** */
+	console.log('reportTable: ');
+	console.log(reportTable);
+
 	// 新規出荷更新
 	params.forEach(function(list){
 		// 出荷処理
