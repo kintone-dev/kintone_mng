@@ -550,10 +550,6 @@ async function ctl_stock(eRecord, params){
 	mstocklist_ship.forEach(function(list){
 		let mcode = list.value.mCode.value;
 		if(mcode.match(new RegExp('/^(' + query_unitStock + ')$/'))){
-			console.log('mcode: ');
-			console.log(mcode);
-			console.log('allship[mcode]: ');
-			console.log(allship[mcode]);
 			unitBody_ship.record.mStockList.value.push({
 				id: list.id,
 				value: {
@@ -803,10 +799,20 @@ async function create_report(years, month){
  *  - 	{ key2:{id: num, value: {table list value} },
  *  - }
  */
-function getTableId(tableValue){
+ function getTableId(tableValue){
 	if(tableValue.length>0){
 		let result = {};
 		tableValue.forEach(list => result[list.value.mCode.value] = {id: list.id, value: list.value});
+		return result;
+	}
+	else return undefined;
+}
+function getTableIndex(tableValue){
+	if(tableValue.length>0){
+		let result = {};
+		for(let i in tableValue){
+			result[tableValue[i].value.mCode.value] = {index: i, value: tableValue[i].value}
+		}
 		return result;
 	}
 	else return undefined;
