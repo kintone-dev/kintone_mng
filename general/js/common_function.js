@@ -314,15 +314,15 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 	// パラメータエラー確認
 	if(sNumsSerial.length==0){
 		console.log('stop Serial control');
-		return {result: false, error:  {target: '', code: 'sn_nosnum'}};
+		return {result: false, error: {target: '', code: 'sn_nosnum'}};
 	}
 	if(!checkType.match(/newship|recycle|auto|internal|all/)){
 		console.log('stop Serial control');
-		return {result: false, error:  {target: '', code: 'sn_wrongchecktype'}};
+		return {result: false, error: {target: '', code: 'sn_wrongchecktype'}};
 	}
 	if(!sNums.shipInfo){
 		console.log('stop Serial control');
-		return {result: false, error:  {target: '', code: 'sn_noshininfo'}};
+		return {result: false, error: {target: '', code: 'sn_noshininfo'}};
 	}
 	// リクエストしたシリアル数と処理ずみシリアル数を比較するためのパラメータ
 	let processedNum=0;
