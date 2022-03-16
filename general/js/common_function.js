@@ -828,13 +828,7 @@ async function setlog_single(value, setResult){
 	}
 	if(tableValue.length < 2 && tableValue[0].sys_log_acction == '') logBody.record.sys_log.value[0] = value;
 	else logBody.record.sys_log.value.push(value);
-	console.log('setResult: ');
-	console.log(setResult);
-	console.log(setResult.fCode);
-	console.log(setResult.value);
 	if(setResult) logBody.record[setResult.fCode] = {value: setResult.value};
-	console.log('logBody: ');
-	console.log(logBody);
 	return await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody);
 }
 
