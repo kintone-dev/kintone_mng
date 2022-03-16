@@ -813,7 +813,7 @@ function setlog_new(event){
 	history.sys_log_value.value = JSON.stringify(event.record);
 	return event;
 }
-async function setlog_single(value){
+async function setlog_single(value, setResult){
 	let tableValue = (await kintone.api(kintone.api.url('/k/v1/record.json', true), 'GET', {app: kintone.app.getId(), id: kintone.app.record.getId()})).record.sys_log.value;
 	console.log('tableValue: ');
 	console.log(tableValue);
@@ -828,6 +828,9 @@ async function setlog_single(value){
 	}
 	if(tableValue.length < 2 && tableValue[0].sys_log_acction == '') logBody.record.sys_log.value[0] = value;
 	else logBody.record.sys_log.value.push(value);
+	if(setResult){
+		logBody.record[setResult.fCode].value = setResult.value;
+	}
 	console.log('logBody: ');
 	console.log(logBody);
 	return await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', logBody);
