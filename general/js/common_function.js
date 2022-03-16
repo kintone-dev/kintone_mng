@@ -549,7 +549,7 @@ async function ctl_stock(eRecord, params){
 	// テーブル行を比較しマッチするものがあれば更新処理用データを作成
 	mstocklist_ship.forEach(function(list){
 		let mcode = list.value.mCode.value;
-		if(mcode.match(query)){
+		if(mcode.match(query_unitStock)){
 			unitBody_ship.record.mStockList.value.push({
 				id: list.id,
 				value: {
@@ -585,7 +585,7 @@ async function ctl_stock(eRecord, params){
 		// テーブル行を比較しマッチするものがあれば更新処理用データを作成
 		mstocklist_dest.forEach(function(list){
 			let mcode = list.value.mCode.value;
-			if(mcode.match(query)){
+			if(mcode.match(query_unitStock)){
 				unitBody_dest.record.mStockList.value.push({
 					id: list.id,
 					value: {
