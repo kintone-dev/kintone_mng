@@ -222,7 +222,8 @@ async function ctl_stock(){
  */
 function renew_sNumsInfo_alship(shipRecord, snTableName){
 	console.log('start construction Serial Number Data');
-	if(!snTableName[snTableName].value) return {result: false, error:  {target: 'renewsn', code: 'renewsn_nodata'}};
+	console.log(shipRecord[snTableName].value);
+	if(!shipRecord[snTableName].value) return {result: false, error:  {target: 'renewsn', code: 'renewsn_nodata'}};
   // 共通出荷情報を取得
   let snumsInfo = {
     serial: {},
