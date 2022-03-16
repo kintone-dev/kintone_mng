@@ -671,7 +671,7 @@ async function ctl_report(eRecord, params){
 		// 在庫一覧システムコード生成
 		let sysCode_ship = list.mCode + '-' + shipLoction;
 		// 計算処理
-		if(reportTable[sysCode_ship]){
+		if(reportTable){
 			let shipnum = reportTable[sysCode_ship].value.shipNum.value - list.num;
 			reportBody.record.inventoryList.value.push({
 				id: reportTable[sysCode_ship].id,
