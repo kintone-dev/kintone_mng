@@ -527,13 +527,13 @@ async function ctl_stock(eRecord, params){
 		
 	// 拠点アップデート用Body初期化
 	let unitBody = {app: sysid.INV.app_id.unit, records: []};
-	// 拠点サブテーブル内検索query作成
-	let query_unitStock = null;
-	unitStock_shipInfo.forEach(function(list){
-		if(!query_unitStock) query_unitStock = list.mCode;
-		else query_unitStock += '|' + list.mCode;
-	});
-	console.log(query_unitStock);
+	// // 拠点サブテーブル内検索query作成
+	// let query_unitStock = null;
+	// unitStock_shipInfo.forEach(function(list){
+	// 	if(!query_unitStock) query_unitStock = list.mCode;
+	// 	else query_unitStock += '|' + list.mCode;
+	// });
+	// console.log(query_unitStock);
 	// 拠点出荷処理
 	let unitBody_ship = {
 		id: uRecord_ship.$id.value,
@@ -545,21 +545,36 @@ async function ctl_stock(eRecord, params){
 	}
 	// サブテーブル内品目情報取得
 	// 取得した品目情報から処理用データ作成
-	let mstocklist_ship=uRecord_ship.mStockList.value;
-	// テーブル行を比較しマッチするものがあれば更新処理用データを作成
-	mstocklist_ship.forEach(function(list){
-		let mcode = list.value.mCode.value;
-		if(mcode.match(new RegExp('/^(' + query_unitStock + ')$/'))){
-			unitBody_ship.record.mStockList.value.push({
-				id: list.id,
-				value: {
-					mStock: {
-						value: list.value.mStock.value - allship[mcode].num
-					}
-				}
-			});
-		}
+	// let mstocklist_ship=uRecord_ship.mStockList.value;
+	let tableValue_ship = getTableIndex(uRecord_ship.mStockList.value);
+	// 出荷した品目数と拠点を確認し計算
+	unitStock_shipInfo.forEach(function(shipList){
+		// 出荷品目コード
+		let ship_mcode = shipList.mCode;
+		// テーブルindex
+		let tableList_index = tableValue_ship[shipList.mCode].index;
+
+		let tableList_value = tableValue_ship[shipList.mCode].value;
+		unitBody_ship.record.mStockList.value[tableList_index] = {
+			value: {
+				mStock: {value: tableList_value.mStock.value - allship[shipList.mCode].num}
+			}
+		};
 	});
+	// mstocklist_ship.forEach(function(list){
+	// 	let mcode = list.value.mCode.value;
+	// 	if(mcode.match(new RegExp('/^(' + query_unitStock + ')$/'))){
+
+	// 		unitBody_ship.record.mStockList.value.push({
+	// 			id: list.id,
+	// 			value: {
+	// 				mStock: {
+	// 					value: list.value.mStock.value - allship[mcode].num
+	// 				}
+	// 			}
+	// 		});
+	// 	}
+	// });
 
 	/** */
 	console.log('unitBody_ship: ');
@@ -580,6 +595,17 @@ async function ctl_stock(eRecord, params){
 			}
 		}
 		// サブテーブル内品目情報取得
+		let tableValue_ship = getTableIndex(uRecord_ship.mStockList.value);
+		// 出荷した品目数と拠点を確認し計算
+		// unitStock_shipInfo.forEach(function(shipList){
+		// 	let tableList_value = tableValue_ship[shipList.mCode].value;
+		// 	let tableList_index = tableValue_ship[shipList.mCode].index;
+		// 	unitBody_ship.record.mStockList.value[tableList_index] = {
+		// 		value: {
+		// 			mStock: {value: tableList_value.mStock.value - allship[shipList.mCode].num}
+		// 		}
+		// 	};
+		// });
 		// 取得した品目情報から処理用データ作成
 		let mstocklist_dest=uRecord_dest.mStockList.value;
 		// テーブル行を比較しマッチするものがあれば更新処理用データを作成
@@ -1746,6 +1772,7 @@ function postRecords(sendApp, records) {
 				'app': sendApp,
 				'records': POST_RECORDS.slice(0, 100),
 			}
+			console.log(postBody);
 			var postResult = await kintone.api(kintone.api.url('/k/v1/records', true), "POST", postBody)
 				.then(function (resp) {
 					console.log(postBody);
