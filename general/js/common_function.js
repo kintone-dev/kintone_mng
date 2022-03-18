@@ -438,12 +438,14 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 			processedNum += 1;
 		}
 	}
+	console.log(createBody);
 	let checkSNfinal = new Boolean();
 	checkSNfinal = sNumsSerial.length == processedNum;
 	if(checkSNfinal){
 		// 処理結果書き込み
 		let response_PUT={};
 		let response_POST={};
+		console.log(createBody);
 		if(updateBody.records.length>0) response_PUT = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'PUT', updateBody);
 		if(createBody.records.length>0) response_POST = await kintone.api(kintone.api.url('/k/v1/records.json', true), 'POST', createBody);
 		console.log('end Serial control');
