@@ -406,36 +406,38 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 			return {result: false,  error: {target: sNumsSerial_remaining[0].sNum, code: 'sn_cannotuse'}};
 		}
 		for(let i in sNumsSerial_remaining){
-			let sinfo = sNums.serial[sNumsSerial_remaining[i].sNum].sInfo;
-			let sNum_mCode = sNums.shipInfo.deviceInfo[sinfo].mCode;
-			// postBodyにレコードデータを格納
-			createBody.records.push({
-				sNum: {value: sNumsSerial[i].sNum},
-				sState: {value: '使用中'},
-				accessorieSerial: {value: ''},
-				macaddress: {value: ''},
-				mCode: sNum_mCode,
-				sendDate: sNums.shipInfo.sendDate,
-				shipType: sNums.shipInfo.shipType,
-				shipment: sNums.shipInfo.shipment,
-				instName: sNums.shipInfo.instName,
-				pkgid: sNums.shipInfo.pkgid,
-				receiver: sNums.shipInfo.receiver,
-				warranty_startDate: sNums.shipInfo.warranty_startDate,
-				use_stopDate: {value: ''},
-				use_endDate: {value: ''},
-				sys_history: {
-					value: [
-						{value: {sys_history_obj: {value: JSON.stringify({fromAppId: sNums.shipInfo.sendApp, checkType: checkType, checkSNstatus: 'newship', lastState: 'none'})}}}
-					]
-				}
-				// sys_obj_sn: {fromApp: 9999, checkType: checkType, checkSNstatus: 'newship', lastState: 'none'}
-			});
-			// 新規＆リサイクル分類し品目コード別出荷数を計算
-			if(!shipData.newship[sNum_mCode.value]) shipData.newship[sNum_mCode.value] = {mCode: sNum_mCode.value, num: 0};
-			shipData.newship[sNum_mCode.value].num += 1;
-			// 処理済みシリアル数をカウント
-			processedNum += 1;
+			if(sNumsSerial[i].sNum){
+				let sinfo = sNums.serial[sNumsSerial_remaining[i].sNum].sInfo;
+				let sNum_mCode = sNums.shipInfo.deviceInfo[sinfo].mCode;
+				// postBodyにレコードデータを格納
+				createBody.records.push({
+					sNum: {value: sNumsSerial[i].sNum},
+					sState: {value: '使用中'},
+					accessorieSerial: {value: ''},
+					macaddress: {value: ''},
+					mCode: sNum_mCode,
+					sendDate: sNums.shipInfo.sendDate,
+					shipType: sNums.shipInfo.shipType,
+					shipment: sNums.shipInfo.shipment,
+					instName: sNums.shipInfo.instName,
+					pkgid: sNums.shipInfo.pkgid,
+					receiver: sNums.shipInfo.receiver,
+					warranty_startDate: sNums.shipInfo.warranty_startDate,
+					use_stopDate: {value: ''},
+					use_endDate: {value: ''},
+					sys_history: {
+						value: [
+							{value: {sys_history_obj: {value: JSON.stringify({fromAppId: sNums.shipInfo.sendApp, checkType: checkType, checkSNstatus: 'newship', lastState: 'none'})}}}
+						]
+					}
+					// sys_obj_sn: {fromApp: 9999, checkType: checkType, checkSNstatus: 'newship', lastState: 'none'}
+				});
+				// 新規＆リサイクル分類し品目コード別出荷数を計算
+				if(!shipData.newship[sNum_mCode.value]) shipData.newship[sNum_mCode.value] = {mCode: sNum_mCode.value, num: 0};
+				shipData.newship[sNum_mCode.value].num += 1;
+				// 処理済みシリアル数をカウント
+				processedNum += 1;
+			}
 		}
 	}
 	console.log(createBody);
