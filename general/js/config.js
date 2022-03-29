@@ -231,10 +231,9 @@ function deadlineException(tarAppName){
 	}
 	return dxceptionGroup[tarAppName];
 }
-
 const setShiptype = {
-	'移動-販売': 'new',
-	'移動-サブスク': 'new',
+	'移動-販売': 'newship',
+	'移動-サブスク': 'newship',
 	'移動-拠点間': 'all',
 	'移動-ベンダー': 'all',
 	'社内利用': 'internal',
