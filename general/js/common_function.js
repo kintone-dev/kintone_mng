@@ -360,6 +360,8 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
 		// 出荷ロケーションチェック
 		let checkSNshipment = new Boolean();
 		if(snRecord.sys_shipment_ID.value == sNums.shipInfo.shipment.value) checkSNshipment = true;
+		// 出荷ロケーションが空の場合処理続行 一時的
+		else if(snRecord.sys_shipment_ID.value == '') checkSNshipment = true;
 		else{
 			console.log('stop Serial control');
 			return {result: false,  error: {target: snRecord.sNum.value, code: 'sn_wrongshipment'}};

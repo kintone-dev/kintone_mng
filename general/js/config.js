@@ -254,6 +254,7 @@ const errorCode={
 	sn_nosnum: 'シリアル番号が入っていません。',
 	sn_noshininfo: 'シリアル番号に入れる出荷情報が入っていません。',
 	sn_wrongchecktype: 'シリアル番号確認値に問題があります。',
+	sn_wrongshipment: 'シリアルの出荷ロケーションに問題があります。',
 	sn_param: 'シリアル番号制御パラメータに問題があります。',
 	ship_unknowtype: '出荷区分が「確認中」になっています。',
 	ship_unknowshipment: '出荷ロケーションが空欄です。',
