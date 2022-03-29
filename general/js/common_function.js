@@ -525,7 +525,7 @@ async function ctl_stock(eRecord, params){
 	console.log(uRecord_dest);
 
 	// エラー処理
-	if(!uRecord_ship) return {result: false, error:  {target: 'unitStock', code: 'unit_filegetshipunit'}};
+	if(!uRecord_ship) return {result: false, error:  {target: 'unitStock', code: 'unit_failgetshipunit'}};
 	if(type == 'out' && !uRecord_dest) return {result: false, error:  {target: 'unitStock', code: 'unit_filegetdestunit'}};
 
 		
@@ -777,15 +777,15 @@ function doAcction_stockMGR(eRecord){
 	else if(eRecord.application_type) applicationType = eRecord.application_type.value;
 	// エラー処理
 	if(applicationType.match(/確認中/)) return {result: false, error:  {target: 'shipType', code: 'ship_unknowtype'}};
-	if(eRecord.shipment.value == '') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
+	if(eRecord.sys_shipmentCode.value == '') return {result: false, error:  {target: 'shipment', code: 'ship_unknowshipment'}};
 	// 仕入
 	if(applicationType.match(/仕入｜入荷/)) return {result: true, value: {ship: '', dest: hisRecord.sys_arrivalCode.value, type: 'add'}};
 	// 積送に移動、全体在庫変更なし
-	if(applicationType.match(/販売|サブスク/)) return {result: true, value: {ship: eRecord.shipment.value, dest: 'distribute', type: 'move'}};
+	if(applicationType.match(/販売|サブスク/)) return {result: true, value: {ship: eRecord.sys_shipmentCode.value, dest: 'distribute', type: 'move'}};
 	// 指定拠点へ移動、全体在庫変更なし
-	else if(applicationType.match(/拠点間|ベンダー|社内利用|貸与/)) return {result: true, value: {ship: eRecord.shipment.value, dest: eRecord.sys_arrivalCode.value, type: 'move'}};
+	else if(applicationType.match(/拠点間|ベンダー|社内利用|貸与/)) return {result: true, value: {ship: eRecord.sys_shipmentCode.value, dest: eRecord.sys_arrivalCode.value, type: 'move'}};
 	// 指定拠点へ移動、出荷ロケからマイナス
-	else if(applicationType.match(/修理|交換|返品/)) return {result: true, value: {ship: eRecord.shipment.value, dest: '', type: 'out'}};
+	else if(applicationType.match(/修理|交換|返品/)) return {result: true, value: {ship: eRecord.sys_shipmentCode.value, dest: '', type: 'out'}};
 	/*
 	// return {result: true, value: {ship: , dest: , type: }};
 	// atlas
