@@ -259,11 +259,11 @@ function renew_sNumsInfo_alship(shipRecord, snTableName){
     // シリアル情報処理
     let snArray = (snTableValue[i].value.sNum.value).split(/\r\n|\n/);
     snArray.forEach(function(snum){
-      snumsInfo.serial[snum]={sNum: snum, sInfo: i};
+			if(snum) snumsInfo.serial[snum]={sNum: snum, sInfo: i};
     });
-    for(let y in snArray){
-      snumsInfo.serial[snArray[y]]={sNum: snArray[y], sInfo: i};
-    }
+    // for(let y in snArray){
+    //   snumsInfo.serial[snArray[y]]={sNum: snArray[y], sInfo: i};
+    // }
   }
   console.log(snumsInfo);
   console.log('end construction Serial Number Data');
