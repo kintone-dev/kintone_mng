@@ -557,15 +557,17 @@ async function ctl_stock(eRecord, params){
 	let tableValue_ship = getTableIndex(uRecord_ship.mStockList.value);
 	// 出荷した品目数と拠点を確認し計算
 	unitStock_shipInfo.forEach(function(shipList){
+		console.log(shipList);
 		// 出荷品目コード
 		let ship_mcode = shipList.mCode;
+		console.log(ship_mcode);
 		// テーブルindex
-		let tableList_index = tableValue_ship[shipList.mCode].index;
+		let tableList_index = tableValue_ship[ship_mcode].index;
 
-		let tableList_value = tableValue_ship[shipList.mCode].value;
+		let tableList_value = tableValue_ship[ship_mcode].value;
 		unitBody_ship.record.mStockList.value[tableList_index] = {
 			value: {
-				mStock: {value: tableList_value.mStock.value - allship[shipList.mCode].num}
+				mStock: {value: tableList_value.mStock.value - allship[ship_mcode].num}
 			}
 		};
 	});
